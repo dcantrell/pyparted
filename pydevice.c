@@ -205,11 +205,11 @@ py_ped_device_getattr (PyPedDevice * d, char * name)
         else if (!strcmp (name, "type"))
                 return PyInt_FromLong (d->dev->type);
         else if (!strcmp (name, "heads"))
-                return PyInt_FromLong (d->dev->heads);
+                return PyInt_FromLong (d->dev->bios_geom.heads);
         else if (!strcmp (name, "sectors"))
-                return PyInt_FromLong (d->dev->sectors);
+                return PyInt_FromLong (d->dev->bios_geom.sectors);
         else if (!strcmp (name, "cylinders"))
-                return PyInt_FromLong (d->dev->cylinders);
+                return PyInt_FromLong (d->dev->bios_geom.cylinders);
         return Py_FindMethod (PyPedDeviceMethods, (PyObject *) d, name);
 }
 

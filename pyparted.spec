@@ -1,13 +1,13 @@
 Summary: python module for parted
 Name: pyparted
-Version: 1.6.7
-Release: 3
+Version: 1.6.8
+Release: 1
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: parted >= 1.6
-BuildRequires: parted-devel >= 1.6, python-devel
+Requires: parted >= 1.6.12
+BuildRequires: parted-devel >= 1.6.12, python-devel
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -37,6 +37,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 17 2004 Jeremy Katz <katzj@redhat.com> - 1.6.8-1
+- update for new parted ABI
+  - device -> heads, sectors, cylinders now refer to the bios geometry
+- require parted >= 1.6.12
+
 * Thu Jul 22 2004 Jeremy Katz <katzj@redhat.com> - 1.6.7-3
 - build on ppc64 again
 
