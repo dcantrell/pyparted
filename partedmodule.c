@@ -328,6 +328,9 @@ void initparted(void) {
 #ifdef DEVICE_I2O
         REGISTER_ENUM(DEVICE_I2O);
 #endif
+#ifdef DEVICE_SX8
+        REGISTER_ENUM(DEVICE_SX8);
+#endif
 
 #define PED_PARTITION_PRIMARY 0
         

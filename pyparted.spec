@@ -1,6 +1,6 @@
 Summary: python module for parted
 Name: pyparted
-Version: 1.6.8
+Version: 1.6.9
 Release: 1
 License: GPL
 Group: System Environment/Libraries
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 14 2004 Jeremy Katz <katzj@redhat.com> - 1.6.9-1
+- add support for sx8 devices
+
 * Tue Aug 17 2004 Jeremy Katz <katzj@redhat.com> - 1.6.8-1
 - update for new parted ABI
   - device -> heads, sectors, cylinders now refer to the bios geometry
