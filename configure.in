@@ -1,5 +1,7 @@
 AC_INIT(configure.in)
-AM_INIT_AUTOMAKE(pyparted,1.6)
+PYPARTED_VERSION=$(awk '/^Version: / {print $2}' $srcdir/pyparted.spec)
+PYPARTED_RELEASE=$(awk '/^Release:/ {print $2}' $srcdir/pyparted.spec)
+AM_INIT_AUTOMAKE(pyparted,${PYPARTED_VERSION})
 
 AM_CONFIG_HEADER(config.h)
 
@@ -39,6 +41,8 @@ AC_C_CONST
 
 AC_SUBST(PYTHON_VERSION)
 AC_SUBST(PYTHON_INC)
+AC_SUBST(PYPARTED_VERSION)
+AC_SUBST(PYPARTED_RELEASE)
 
 AC_OUTPUT([Makefile
 ])
