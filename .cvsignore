@@ -1,0 +1,12 @@
+configure
+Makefile.in
+Makefile
+*.so
+*.o
+*~
+config.*
+libtool
+aclocal.m4
+autom*
+.*
+stamp-h1
