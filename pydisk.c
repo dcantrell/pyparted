@@ -29,7 +29,7 @@ py_ped_disk_type_obj_new (const PedDiskType *type)
         PyPedDiskTypeObj *d;
     
         d = (PyPedDiskTypeObj *) PyObject_NEW(PyObject, &PyPedDiskTypeType);
-        (const PedDiskType *) d->type = type;
+        d->type = type;
         return d;
 }
 
