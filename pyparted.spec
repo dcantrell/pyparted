@@ -6,8 +6,8 @@ License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: parted
-BuildRequires: parted-devel
+Requires: parted >= 1.6
+BuildRequires: parted-devel >= 1.6, python-devel
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -32,6 +32,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README COPYING
+%dir %{_libdir}/python?.?/site-packages/
 %{_libdir}/python?.?/site-packages/*.so
 
 
