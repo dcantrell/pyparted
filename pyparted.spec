@@ -1,13 +1,14 @@
 Summary: python module for parted
 Name: pyparted
 Version: 1.6.9
-Release: 1
+Release: 3
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: parted >= 1.6.12
 BuildRequires: parted-devel >= 1.6.12, python-devel
+Requires: python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -18,7 +19,7 @@ partition tables.
 
 %build
 export CFLAGS="-fPIC"
-%configure
+%configure --with-python-version=2.4
 make
 
 %install
@@ -37,8 +38,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Dec 14 2004 Jeremy Katz <katzj@redhat.com> - 1.6.9-1
+* Wed Mar 16 2005 Chris Lumens <clumens@redhat.com> 1.6.9-3
+- Updated for gcc4 and python2.4.  Fixed build warnings.
+
+* Tue Dec 14 2004 Jeremy Katz <katzj@redhat.com> - 1.6.9-2
 - add support for sx8 devices
+
+* Mon Nov  8 2004 Jeremy Katz <katzj@redhat.com> - 1.6.8-3
+- rebuild for python 2.4
+
+* Mon Oct 11 2004 Warren Togami <wtogami@redhat.com> - 1.6.8-2
+- #135100 req python-abi (Robert Scheck)
 
 * Tue Aug 17 2004 Jeremy Katz <katzj@redhat.com> - 1.6.8-1
 - update for new parted ABI

@@ -133,7 +133,6 @@ py_ped_geometry_new (PyPedDevice * self, PyObject * args)
 static PyObject *
 py_ped_constraint_any (PyPedDevice * self, PyObject * args)
 {
-        PyPedDisk *disk;
         PedConstraint *constraint;
         PyPedConstraint *pyconstraint;
         
@@ -153,7 +152,6 @@ static PyObject *
 py_ped_disk_new_fresh (PyPedDevice * self, PyObject * args)
 {
         PyPedDiskTypeObj *type;
-        PyPedDisk *d;
         PedDisk *disk;
 
         if (!PyArg_ParseTuple(args, "O!", &PyPedDiskTypeType, &type)) {

@@ -25,9 +25,9 @@ fi
 
 AC_CHECK_LIB(parted, ped_device_open,,AC_MSG_ERROR(*** parted lib not found))
 
-PYTHON_VERSION=2.3
+PYTHON_VERSION=2.4
 AC_ARG_WITH(python-version,
-[  --with-python-version=2.3 Version of Python to build modules for],
+[  --with-python-version=2.4 Version of Python to build modules for],
 [PYTHON_VERSION=$withval])
 
 PYTHON_INC=/usr/include/python${PYTHON_VERSION}

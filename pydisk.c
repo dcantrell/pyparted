@@ -29,7 +29,7 @@ py_ped_disk_type_obj_new (const PedDiskType *type)
         PyPedDiskTypeObj *d;
     
         d = (PyPedDiskTypeObj *) PyObject_NEW(PyObject, &PyPedDiskTypeType);
-        d->type = type;
+        d->type = (PedDiskType *) type;
         return d;
 }
 
@@ -755,7 +755,6 @@ PyTypeObject PyPedPartitionType = {
 static PyObject* PedDisk_new(PyObject *self, PyObject *args)
 {
         PyPedDevice *dev;
-        PyPedDisk *d;
         PedDisk *disk;
 
         if (!PyArg_ParseTuple(args, "O!", &PyPedDeviceType, &dev)) {

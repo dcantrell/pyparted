@@ -301,7 +301,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
 void initparted(void) {
         PyObject *m, *d, *o;
-        PyMethodDef *def;
 
         m = Py_InitModule("parted", PyPedModuleMethods);
         d = PyModule_GetDict(m);
