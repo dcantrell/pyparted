@@ -1,0 +1,44 @@
+AC_INIT(configure.in)
+AM_INIT_AUTOMAKE(pyparted,1.6)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AC_ISC_POSIX
+AC_PROG_LN_S
+AC_PATH_PROG(MAKE,make)
+AC_PROG_MAKE_SET
+AC_PROG_AWK
+
+AM_PROG_LIBTOOL
+
+AM_MAINTAINER_MODE
+if test x$GCC = xyes; then
+    if test x$MAINTAINER_MODE = xyes; then
+	CFLAGS="$CFLAGS -Wall -Wimplicit -Wcast-align -Wpointer-arith -Wimplicit-prototypes -Wmissing-prototypes"
+    else
+        CFLAGS="$CFLAGS -Wall"
+    fi
+fi
+
+AC_CHECK_LIB(parted, ped_device_open,,AC_MSG_ERROR(*** parted lib not found))
+
+PYTHON_VERSION=2.3
+AC_ARG_WITH(python-version,
+[  --with-python-version=2.3 Version of Python to build modules for],
+[PYTHON_VERSION=$withval])
+
+PYTHON_INC=/usr/include/python${PYTHON_VERSION}
+AC_ARG_WITH(python-path,
+[  --with-python-path=DIR Directory headers for your version of Python are in],
+[PYTHON_INC=$withval])
+
+AC_HEADER_STDC
+
+AC_C_CONST
+
+AC_SUBST(PYTHON_VERSION)
+AC_SUBST(PYTHON_INC)
+
+AC_OUTPUT([Makefile
+])
