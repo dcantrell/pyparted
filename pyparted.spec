@@ -1,3 +1,5 @@
+ExcludeArch: ppc64
+
 Summary: python module for parted
 Name: pyparted
 Version: 1.6.6
@@ -39,4 +41,4 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Mar 12 2004 Jeremy Katz <katzj@redhat.com>
 - Initial build split out into separate source from the parted package.
-
+- Don't build on ppc64 right now due to parted build problems (#118183)
