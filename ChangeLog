@@ -1,3 +1,7 @@
+2004-03-16  Jeremy Katz  <katzj@redhat.com>
+
+	* partedmodule.c: make sure PARTITION_PROTECTED gets defined (#118451)
+
 2004-03-12  Jeremy Katz  <katzj@redhat.com>
 
 	* Initial import from old parted package.

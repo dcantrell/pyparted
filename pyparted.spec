@@ -3,7 +3,7 @@ ExcludeArch: ppc64
 Summary: python module for parted
 Name: pyparted
 Version: 1.6.6
-Release: 1
+Release: 2
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Mar 16 2004 Jeremy Katz <katzj@redhat.com> 1.6.6-2
+- fix PARTITION_PROTECTED definition (#118451)
+
 * Fri Mar 12 2004 Jeremy Katz <katzj@redhat.com>
 - Initial build split out into separate source from the parted package.
 - Don't build on ppc64 right now due to parted build problems (#118183)
