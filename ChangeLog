@@ -1,3 +1,10 @@
+2004-03-16  Chris Lumens  <clumens@redhat.com>
+
+	* configure.in: Update for python2.4.
+	* pydisk.c, pydisk.h, pydevice.c, partedmodule.c:  Fix gcc4 compile
+	warnings.
+	* pyparted.spec: Bump version.
+
 2004-12-14  Jeremy Katz  <katzj@redhat.com>
 
 	* pyparted.spec: Bump version.
