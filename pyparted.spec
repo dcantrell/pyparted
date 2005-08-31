@@ -1,7 +1,7 @@
 Summary: python module for parted
 Name: pyparted
 Version: 1.6.9
-Release: 3
+Release: 4
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Aug 31 2005 Chris Lumens <clumens@redhat.com> 1.6.9-4
+- Rebuilt for new parted library.
+
 * Wed Mar 16 2005 Chris Lumens <clumens@redhat.com> 1.6.9-3
 - Updated for gcc4 and python2.4.  Fixed build warnings.
 
