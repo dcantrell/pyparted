@@ -208,21 +208,20 @@ py_ped_geometry_set (PyPedGeometry *g, PyObject *value, char *name)
         }
         SET_GEOM_VALUE(start);
         SET_GEOM_VALUE(end);
-        SET_GEOM_VALUE(length);
 
         return -1;
 }
 
-static struct PyGetSetDef py_ped_geometry_getseters[] = {
+static struct PyGetSetDef PyPedGeometryGetSeters[] = {
 	{"dev", (getter)py_ped_geometry_get, NULL,
 	 "PedDevice this PedGeometry is a part of", "dev"},
 	{"start", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
 	 "the first sector of this PedGeometry", "start"},
 	{"end", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
 	 "the last sector of this PedGeometry", "end"},
-	{"length", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
+	{"length", (getter)py_ped_geometry_get, NULL,
 	 "the length of this PedGeometry", "length"},
-	{NULL},
+	{NULL}
 };
 
 static char PyPedGeometryType__doc__[] = "This is the PartEd geometry object";
@@ -235,7 +234,7 @@ PyTypeObject PyPedGeometryType = {
                     Py_TPFLAGS_BASETYPE,
 	.tp_doc = PyPedGeometryType__doc__,
 	.tp_methods = PyPedGeometryMethods,
-	.tp_getset = py_ped_geometry_getseters,
+	.tp_getset = PyPedGeometryGetSeters,
         .tp_new = PyType_GenericNew,
 };
 

@@ -1,3 +1,12 @@
+2005-11-11  Peter Jones  <pjones@redhat.com>
+
+	* pygeometry.c: make PyPedGeometryType a new-style class. make it
+	use descriptors for dev, start, end, length.  make it not have a setter
+	for length.
+	* pydisk.c: make PyPedPartitionType a new-style class, and make it
+	use descriptors.
+	* partedmodule.c: initialize PyPedGeometryType and PyPedPartitionType.
+
 2004-03-16  Chris Lumens  <clumens@redhat.com>
 
 	* configure.in: Update for python2.4.

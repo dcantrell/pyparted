@@ -693,7 +693,7 @@ static struct PyMethodDef PyPedPartitionMethods[] = {
 };
 
 static PyObject *
-py_ped_partition_getattr (PyPedPartition * p, char * name)
+py_ped_partition_get (PyPedPartition * p, char * name)
 {
         if (!strcmp (name, "num"))
                 return PyInt_FromLong (p->part->num);
@@ -719,36 +719,42 @@ py_ped_partition_getattr (PyPedPartition * p, char * name)
                 Py_INCREF(Py_None);
                 return Py_None;
         }
-        return Py_FindMethod (PyPedPartitionMethods, (PyObject *) p, name);
+	return NULL;
 }
+
+static struct PyGetSetDef PyPedPartitionGetSeters[] = {
+	{"num", (getter)py_ped_partition_get, NULL,
+	 "partition number", "num"},
+	{"type", (getter)py_ped_partition_get, NULL,
+	 "partition type", "type"},
+	{"disk", (getter)py_ped_partition_get, NULL,
+	 "PedDisk object this partition belongs to", "disk"},
+        /* XXX REMOVE ME */
+	{"native_type", (getter)py_ped_partition_get, NULL,
+	 "native_type", "native_type"},
+        /*  XXX XXX XXX  */
+	{"type_name", (getter)py_ped_partition_get, NULL,
+	 "type_name", "type_name"},
+	{"geom", (getter)py_ped_partition_get, NULL,
+	 "the geometry of this partition", "geom"},
+	{"fs_type", (getter)py_ped_partition_get, NULL,
+	 "fs_type", "fs_type"},
+	{NULL}
+};
 
 static char PyPedPartitionType__doc__[] = "This is the PartEd partition object";
 PyTypeObject PyPedPartitionType = {
 	PyObject_HEAD_INIT(&PyType_Type)
-	0,				/* ob_size */
-	"PedPartition",			/* tp_name */
-	sizeof(PyPedPartition),		/* tp_size */
-	0,				/* tp_itemsize */
-	(destructor) py_ped_partition_dealloc, 	/* tp_dealloc */
-	0,				/* tp_print */
-	(getattrfunc) py_ped_partition_getattr, 	/* tp_getattr */
-	0,				/* tp_setattr */
-	0,				/* tp_compare */
-	0,				/* tp_repr */
-	0,				/* tp_as_number */
-	0,	 			/* tp_as_sequence */
-	0,				/* tp_as_mapping */
-	0,           			/* tp_hash */
-	0,                		/* tp_call */
-	0,                    		/* tp_str */
-	0,				/* tp_getattro */
-	0,				/* tp_setattro */
-	0,				/* tp_as_buffer */
-	0L,	       			/* tp_flags */
-	PyPedPartitionType__doc__,
-	PYPARTED_TYPE_PAD
+	.tp_name = "PedPartition",
+	.tp_basicsize = sizeof(PyPedPartition),
+	.tp_dealloc = (destructor) py_ped_partition_dealloc,
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+                    Py_TPFLAGS_BASETYPE,
+        .tp_doc = PyPedPartitionType__doc__,
+        .tp_methods = PyPedPartitionMethods,
+        .tp_getset = PyPedPartitionGetSeters,
+        .tp_new = PyType_GenericNew,
 };
-
 
 /* a small PedDisk type used for implementing parted.PedDisk.open(dev) */
 

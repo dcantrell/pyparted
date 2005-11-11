@@ -309,6 +309,14 @@ void initparted(void) {
         m = Py_InitModule("parted", PyPedModuleMethods);
         d = PyModule_GetDict(m);
 
+	if (PyType_Ready(&PyPedGeometryType) < 0)
+		return;
+	Py_INCREF(&PyPedGeometryType);
+
+	if (PyType_Ready(&PyPedPartitionType) < 0)
+		return;
+	Py_INCREF(&PyPedPartitionType);
+
         o = PyObject_NEW(PyObject, &PyPedDeviceConstructorType);
         PyDict_SetItemString(d, "PedDevice", o);
         Py_DECREF(o);
