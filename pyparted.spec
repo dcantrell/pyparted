@@ -1,7 +1,7 @@
 Summary: python module for parted
 Name: pyparted
-Version: 1.6.9
-Release: 7
+Version: 1.6.10
+Release: 1
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
@@ -38,8 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Nov 11 2005 Peter Jones <pjones@redhat.com> - 1.6.9-7
-- rebuild for new parted
+* Fri Nov 11 2005 Peter Jones <pjones@redhat.com> - 1.6.10-1
+- rebuild for new parted.
 - add debugging options for make so debuginfo isn't useless
 
 * Wed Nov  9 2005 Jeremy Katz <katzj@redhat.com> - 1.6.9-5
