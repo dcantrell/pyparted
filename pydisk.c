@@ -1,8 +1,9 @@
 /* -*- Mode: c; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
  *
  * Matt Wilson <msw@redhat.com>
+ * Peter Jones <pjones@redhat.com>
  *
- * Copyright 2000 Red Hat, Inc.
+ * Copyright 2000,2005 Red Hat, Inc.
  *
  * This software may be freely redistributed under the terms of the GNU
  * library public license.
@@ -58,39 +59,31 @@ static struct PyMethodDef PyPedDiskTypeMethods[] = {
 };
 
 static PyObject *
-py_ped_disk_type_getattr (PyPedDiskTypeObj * d, char * name)
+py_ped_disk_type_get (PyPedDiskTypeObj * d, char * name)
 {
         if (!strcmp (name, "name"))
                 return PyString_FromString (d->type->name);
-        return Py_FindMethod (PyPedDiskTypeMethods, (PyObject *) d, name);
+        return NULL;
 }
+
+static PyGetSetDef PyPedDiskTypeGetSeters[] = {
+	{"name", (getter)py_ped_disk_type_get, NULL, "disk name", "name"},
+	{NULL}
+};
 
 static char PyPedDiskTypeType__doc__[] = "This is the PartEd disk type object";
 
 PyTypeObject PyPedDiskTypeType = {
 	PyObject_HEAD_INIT(&PyType_Type)
-	0,				/* ob_size */
-	"PedDiskType",			/* tp_name */
-	sizeof(PyPedDiskTypeObj),	/* tp_size */
-	0,				/* tp_itemsize */
-	(destructor) py_ped_disk_type_dealloc, 	/* tp_dealloc */
-	0,				/* tp_print */
-	(getattrfunc) py_ped_disk_type_getattr, 	/* tp_getattr */
-	0,				/* tp_setattr */
-	0,				/* tp_compare */
-	0,				/* tp_repr */
-	0,				/* tp_as_number */
-	0,	 			/* tp_as_sequence */
-	0,				/* tp_as_mapping */
-	0,           			/* tp_hash */
-	0,                		/* tp_call */
-	0,                    		/* tp_str */
-	0,				/* tp_getattro */
-	0,				/* tp_setattro */
-	0,				/* tp_as_buffer */
-	0L,	       			/* tp_flags */
-	PyPedDiskTypeType__doc__,
-	PYPARTED_TYPE_PAD
+	.tp_name = "PedDiskType",
+	.tp_basicsize = sizeof(PyPedDiskTypeObj),
+	.tp_dealloc = (destructor) py_ped_disk_type_dealloc,
+	.tp_getset = PyPedDiskTypeGetSeters,
+	.tp_methods = PyPedDiskTypeMethods,
+	.tp_doc = PyPedDiskTypeType__doc__,
+	.tp_new = PyType_GenericNew,
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+                    Py_TPFLAGS_BASETYPE,
 };
 
 /* disk implementation */
@@ -375,6 +368,14 @@ py_ped_disk_commit (PyPedDisk *d, PyObject * args)
         return PyInt_FromLong (rc);
 }
 
+static void
+py_ped_disk_dealloc (PyPedDisk * d)
+{
+        if (!d->borrowed && !d->closed)
+                ped_disk_destroy (d->disk);
+        PyMem_DEL(d);
+}
+
 static struct PyMethodDef PyPedDiskMethods[] = {
 	{ "next_partition", (PyCFunction) py_ped_disk_next_partition,
           METH_VARARGS, NULL },
@@ -409,7 +410,7 @@ static struct PyMethodDef PyPedDiskMethods[] = {
 };
 
 static PyObject *
-py_ped_disk_getattr (PyPedDisk * d, char * name)
+py_ped_disk_get (PyPedDisk * d, char * name)
 {
         if (!strcmp (name, "dev"))
                 return (PyObject *) py_ped_device_new (d->disk->dev);
@@ -442,44 +443,35 @@ py_ped_disk_getattr (PyPedDisk * d, char * name)
                 Py_INCREF(Py_None);
                 return Py_None;
         }
-
-        return Py_FindMethod (PyPedDiskMethods, (PyObject *) d, name);
+	return NULL;
 }
 
-static void
-py_ped_disk_dealloc (PyPedDisk * d)
-{
-        if (!d->borrowed && !d->closed)
-                ped_disk_destroy (d->disk);
-        PyMem_DEL(d);
-}
+static PyGetSetDef PyPedDiskGetSeters[] = {
+	{"dev", (getter)py_ped_disk_get, NULL,
+	 "the PedDevice for this disk", "dev"},
+	{"type", (getter)py_ped_disk_get, NULL,
+	 "the PedDiskType for this disk", "type"},
+	{"max_primary_partition_count", (getter)py_ped_disk_get, NULL,
+	 "the maximum number of primary partitions for this disk",
+	 "max_primary_partition_count"},
+	{"extended_partition", (getter)py_ped_disk_get, NULL,
+	 "extended_partition", "extended_partition"},
+	{NULL}
+};
 
 static char PyPedDiskType__doc__[] = "This is the PartEd disk object";
 
 PyTypeObject PyPedDiskType = {
 	PyObject_HEAD_INIT(&PyType_Type)
-	0,				/* ob_size */
-	"PedDisk",			/* tp_name */
-	sizeof(PyPedDisk),		/* tp_size */
-	0,				/* tp_itemsize */
-	(destructor) py_ped_disk_dealloc, 	/* tp_dealloc */
-	0,				/* tp_print */
-	(getattrfunc) py_ped_disk_getattr, 	/* tp_getattr */
-	0,				/* tp_setattr */
-	0,				/* tp_compare */
-	0,				/* tp_repr */
-	0,				/* tp_as_number */
-	0,	 			/* tp_as_sequence */
-	0,				/* tp_as_mapping */
-	0,           			/* tp_hash */
-	0,                		/* tp_call */
-	0,                    		/* tp_str */
-	0,				/* tp_getattro */
-	0,				/* tp_setattro */
-	0,				/* tp_as_buffer */
-	0L,	       			/* tp_flags */
-	PyPedDiskType__doc__,
-	PYPARTED_TYPE_PAD
+	.tp_name = "PedDisk",
+	.tp_basicsize = sizeof(PyPedDisk),
+	.tp_dealloc = (destructor) py_ped_disk_dealloc,
+	.tp_getset = PyPedDiskGetSeters,
+	.tp_methods = PyPedDiskMethods,
+	.tp_new = PyType_GenericNew,
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+		   Py_TPFLAGS_BASETYPE,
+	.tp_doc = PyPedDiskType__doc__,
 };
 
 
@@ -743,17 +735,18 @@ static struct PyGetSetDef PyPedPartitionGetSeters[] = {
 };
 
 static char PyPedPartitionType__doc__[] = "This is the PartEd partition object";
+
 PyTypeObject PyPedPartitionType = {
 	PyObject_HEAD_INIT(&PyType_Type)
 	.tp_name = "PedPartition",
 	.tp_basicsize = sizeof(PyPedPartition),
 	.tp_dealloc = (destructor) py_ped_partition_dealloc,
 	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                    Py_TPFLAGS_BASETYPE,
-        .tp_doc = PyPedPartitionType__doc__,
-        .tp_methods = PyPedPartitionMethods,
-        .tp_getset = PyPedPartitionGetSeters,
-        .tp_new = PyType_GenericNew,
+		    Py_TPFLAGS_BASETYPE,
+	.tp_doc = PyPedPartitionType__doc__,
+	.tp_methods = PyPedPartitionMethods,
+	.tp_getset = PyPedPartitionGetSeters,
+	.tp_new = PyType_GenericNew,
 };
 
 /* a small PedDisk type used for implementing parted.PedDisk.open(dev) */
@@ -789,35 +782,15 @@ static PyMethodDef PyPedDiskConstructorMethods[] =
         { NULL, NULL, 0, NULL },
 };
 
-static PyObject *
-py_ped_disk_constructor_getattr (PyObject * s, char * name)
-{
-        return Py_FindMethod (PyPedDiskConstructorMethods, s, name);
-}
-
 static char PyPedDiskConstructor__doc__[] = "This is the PartEd PedDisk constructor";
 PyTypeObject PyPedDiskConstructorType = {
 	PyObject_HEAD_INIT(&PyType_Type)
-	0,				/* ob_size */
-	"PedDiskConstructor",	        /* tp_name */
-	sizeof(PyObject),		/* tp_size */
-	0,				/* tp_itemsize */
-	(destructor) py_ped_disk_constructor_dealloc,  /* tp_dealloc */
-	0,				/* tp_print */
-	(getattrfunc) py_ped_disk_constructor_getattr, /* tp_getattr */
-	0,				/* tp_setattr */
-	0,				/* tp_compare */
-	0,				/* tp_repr */
-	0,				/* tp_as_number */
-	0,	 			/* tp_as_sequence */
-	0,				/* tp_as_mapping */
-	0,           			/* tp_hash */
-	0,                		/* tp_call */
-	0,                    		/* tp_str */
-	0,				/* tp_getattro */
-	0,				/* tp_setattro */
-	0,				/* tp_as_buffer */
-	0L,	       			/* tp_flags */
-	PyPedDiskConstructor__doc__,
-	PYPARTED_TYPE_PAD
+	.tp_name = "PedDiskConstructor",
+	.tp_basicsize = sizeof(PyObject),
+	.tp_dealloc = (destructor) py_ped_disk_constructor_dealloc,
+	.tp_methods = PyPedDiskConstructorMethods,
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+		    Py_TPFLAGS_BASETYPE,
+	.tp_doc = PyPedDiskConstructor__doc__,
+	.tp_new = PyType_GenericNew,
 };

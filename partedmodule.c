@@ -302,10 +302,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 void initparted(void) {
         PyObject *m, *d, *o;
 
-	if (PyType_Ready(&PyPedGeometryType) < 0)
-		return;
-	Py_INCREF(&PyPedGeometryType);
-
         m = Py_InitModule("parted", PyPedModuleMethods);
         d = PyModule_GetDict(m);
 
@@ -313,9 +309,21 @@ void initparted(void) {
 		return;
 	Py_INCREF(&PyPedGeometryType);
 
+	if (PyType_Ready(&PyPedDiskTypeType) < 0)
+		return;
+	Py_INCREF(&PyPedDiskTypeType);
+
+	if (PyType_Ready(&PyPedDiskType) < 0)
+		return;
+	Py_INCREF(&PyPedDiskType);
+
 	if (PyType_Ready(&PyPedPartitionType) < 0)
 		return;
 	Py_INCREF(&PyPedPartitionType);
+
+        if (PyType_Ready(&PyPedDiskConstructorType) < 0)
+		return;
+	Py_INCREF(&PyPedDiskConstructorType);
 
         o = PyObject_NEW(PyObject, &PyPedDeviceConstructorType);
         PyDict_SetItemString(d, "PedDevice", o);

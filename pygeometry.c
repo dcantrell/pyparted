@@ -231,10 +231,10 @@ PyTypeObject PyPedGeometryType = {
 	.tp_basicsize = sizeof(PyPedGeometry),
 	.tp_dealloc = (destructor) py_ped_geometry_dealloc,
 	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                    Py_TPFLAGS_BASETYPE,
+		    Py_TPFLAGS_BASETYPE,
 	.tp_doc = PyPedGeometryType__doc__,
 	.tp_methods = PyPedGeometryMethods,
 	.tp_getset = PyPedGeometryGetSeters,
-        .tp_new = PyType_GenericNew,
+	.tp_new = PyType_GenericNew,
 };
 
