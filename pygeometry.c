@@ -178,24 +178,23 @@ py_ped_geometry_dealloc (PyPedGeometry * g)
 }
 
 static PyObject *
-py_ped_geometry_getattr (PyPedGeometry * g, char * name)
+py_ped_geometry_get (PyPedGeometry *g, char *name)
 {
         if (!strcmp (name, "dev"))
                 return (PyObject *) py_ped_device_new(g->geom->dev);
-        
+
 #define RETURN_GEOM_VALUE(var) 					\
         if (!strcmp (name, #var)) 				\
 		return PyLong_FromLongLong (g->geom->var)
-
         RETURN_GEOM_VALUE(start);
         RETURN_GEOM_VALUE(end);
         RETURN_GEOM_VALUE(length);
 
-        return Py_FindMethod (PyPedGeometryMethods, (PyObject *) g, name);
+        return NULL;
 }
 
 static int
-py_ped_geometry_setattr (PyPedGeometry * g, char * name, PyObject *value)
+py_ped_geometry_set (PyPedGeometry *g, PyObject *value, char *name)
 {
 #define SET_GEOM_VALUE(var) 					\
         if (!strcmp (name, #var)) {				\
@@ -210,35 +209,33 @@ py_ped_geometry_setattr (PyPedGeometry * g, char * name, PyObject *value)
         SET_GEOM_VALUE(start);
         SET_GEOM_VALUE(end);
         SET_GEOM_VALUE(length);
-        
-        PyErr_SetString( PyExc_AttributeError, "unknown attribute" );
+
         return -1;
 }
+
+static struct PyGetSetDef py_ped_geometry_getseters[] = {
+	{"dev", (getter)py_ped_geometry_get, NULL,
+	 "PedDevice this PedGeometry is a part of", "dev"},
+	{"start", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
+	 "the first sector of this PedGeometry", "start"},
+	{"end", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
+	 "the last sector of this PedGeometry", "end"},
+	{"length", (getter)py_ped_geometry_get, (setter)py_ped_geometry_set,
+	 "the length of this PedGeometry", "length"},
+	{NULL},
+};
 
 static char PyPedGeometryType__doc__[] = "This is the PartEd geometry object";
 PyTypeObject PyPedGeometryType = {
 	PyObject_HEAD_INIT(&PyType_Type)
-	0,				/* ob_size */
-	"PedGeometry",			/* tp_name */
-	sizeof(PyPedGeometry),		/* tp_size */
-	0,				/* tp_itemsize */
-	(destructor) py_ped_geometry_dealloc, 	/* tp_dealloc */
-	0,				/* tp_print */
-	(getattrfunc) py_ped_geometry_getattr, 	/* tp_getattr */
-	(setattrfunc) py_ped_geometry_setattr,  /* tp_setattr */
-	0,				/* tp_compare */
-	0,				/* tp_repr */
-	0,				/* tp_as_number */
-	0,	 			/* tp_as_sequence */
-	0,				/* tp_as_mapping */
-	0,           			/* tp_hash */
-	0,                		/* tp_call */
-	0,                    		/* tp_str */
-	0,				/* tp_getattro */
-	0,				/* tp_setattro */
-	0,				/* tp_as_buffer */
-	0L,	       			/* tp_flags */
-	PyPedGeometryType__doc__,
-	PYPARTED_TYPE_PAD
+	.tp_name = "PedGeometry",
+	.tp_basicsize = sizeof(PyPedGeometry),
+	.tp_dealloc = (destructor) py_ped_geometry_dealloc,
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+                    Py_TPFLAGS_BASETYPE,
+	.tp_doc = PyPedGeometryType__doc__,
+	.tp_methods = PyPedGeometryMethods,
+	.tp_getset = py_ped_geometry_getseters,
+        .tp_new = PyType_GenericNew,
 };
 
