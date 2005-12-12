@@ -1,7 +1,7 @@
 Summary: python module for parted
 Name: pyparted
 Version: 1.6.10
-Release: 1
+Release: 1.1
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
@@ -19,6 +19,9 @@ partition tables.
 
 %build
 export CFLAGS="-fPIC -O2 -g2"
+if [ ! -x configure ]; then
+	./autogen.sh --with-python-version=2.4
+fi
 %configure --with-python-version=2.4
 make
 
@@ -38,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Fri Nov 11 2005 Peter Jones <pjones@redhat.com> - 1.6.10-1
 - rebuild for new parted.
 - add debugging options for make so debuginfo isn't useless
