@@ -1,3 +1,7 @@
+2006-05-19  David Cantrell  <dcantrell@redhat.com>
+
+	* pyparted.spec: Bump version. Require parted >= 1.7.0.
+
 2005-11-11  Peter Jones  <pjones@redhat.com>
 
 	* pygeometry.c: make PyPedGeometryType a new-style type. make it
