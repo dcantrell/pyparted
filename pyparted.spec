@@ -1,13 +1,13 @@
 Summary: python module for parted
 Name: pyparted
-Version: 1.7.0
+Version: 1.7.1
 Release: 1
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: parted >= 1.7.0
-BuildRequires: parted-devel >= 1.7.0, python-devel
+BuildRequires: parted-devel >= 1.7.1, python-devel
 Requires: python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
 
 %description
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun May 28 2006 David Cantrell <dcantrell@redhat.com> - 1.7.1-1
+- Bump version to 1.7.1 and require parted >= 1.7.1
+
 * Fri May 19 2006 David Cantrell <dcantrell@redhat.com> - 1.7.0-1
 - Bump version to 1.7.0 and require parted >= 1.7.0
 
