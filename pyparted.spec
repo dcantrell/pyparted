@@ -1,7 +1,7 @@
 Summary: python module for parted
 Name: pyparted
-Version: 1.7.1
-Release: 1
+Version: 1.7.2
+Release: 1%{?dist}
 License: GPL
 Group: System Environment/Libraries
 Source0: %{name}-%{version}.tar.gz
@@ -32,15 +32,19 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
 %files
 %defattr(-,root,root,-)
 %doc README COPYING
 %dir %{_libdir}/python?.?/site-packages/
 %{_libdir}/python?.?/site-packages/*.so
 
-
 %changelog
+* Tue Jul 25 2006 David Cantrell <dcantrell@redhat.com> - 1.7.2-1
+- Add HPSERVICE, PALO, PREP, and MSFT_RESERVED to partition types list
+
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1.7.1-1.1
+- rebuild
+
 * Sun May 28 2006 David Cantrell <dcantrell@redhat.com> - 1.7.1-1
 - Bump version to 1.7.1 and require parted >= 1.7.1
 
