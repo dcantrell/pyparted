@@ -17,7 +17,8 @@
 
 #include <Python.h>
 
-#include "parted/disk.h"
+#include <parted/constraint.h>
+#include <parted/disk.h>
 
 /* disk object */
 

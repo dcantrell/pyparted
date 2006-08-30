@@ -1,12 +1,14 @@
 Summary: python module for parted
-Name: pyparted
-Version: 1.7.2
+Name:    pyparted
+Version: 1.7.3
 Release: 1%{?dist}
 License: GPL
-Group: System Environment/Libraries
+Group:   System Environment/Libraries
+
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: parted >= 1.7.0
+
+Requires: parted >= 1.7.1
 BuildRequires: parted-devel >= 1.7.1, python-devel
 Requires: python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
 
@@ -39,6 +41,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/*.so
 
 %changelog
+* Wed Aug 30 2006 David Cantrell <dcantrell@redhat.com> - 1.7.3-1
+- Include parted/constraint.h in required header files
+
+* Wed Aug 30 2006 David Cantrell <dcantrell@redhat.com> - 1.7.2-2
+- Require parted-1.7.1 or higher
+
 * Tue Jul 25 2006 David Cantrell <dcantrell@redhat.com> - 1.7.2-1
 - Add HPSERVICE, PALO, PREP, and MSFT_RESERVED to partition types list
 

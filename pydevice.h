@@ -17,7 +17,8 @@
 
 #include <Python.h>
 
-#include "parted/device.h"
+#include <parted/constraint.h>
+#include <parted/device.h>
 
 extern PyTypeObject PyPedDeviceType;
 typedef struct _PyPedDevice PyPedDevice;

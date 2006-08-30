@@ -16,7 +16,8 @@
 #define PYFILESYSTEM_H_INCLUDED
 
 #include <Python.h>
-#include "parted/disk.h"
+#include <parted/constraint.h>
+#include <parted/disk.h>
 #include "pygeometry.h"
 
 typedef struct _PyPedFileSystem PyPedFileSystem;

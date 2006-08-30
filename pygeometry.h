@@ -17,7 +17,8 @@
 
 #include <Python.h>
 
-#include "parted/geom.h"
+#include <parted/constraint.h>
+#include <parted/geom.h>
 #include "pydevice.h"
 
 typedef struct _PyPedGeometry PyPedGeometry;

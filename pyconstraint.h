@@ -17,7 +17,7 @@
 #define PYCONSTRAINT_H_INCLUDED
 
 #include <Python.h>
-#include "parted/constraint.h"
+#include <parted/constraint.h>
 #include "pydevice.h"
 
 typedef struct _PyPedConstraint PyPedConstraint;
