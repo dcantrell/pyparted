@@ -29,7 +29,7 @@ EXTRA_DIST=pyparted.spec
 
 tag:
 	echo "going to tag as $(CVSTAG)"
-	echo "cvs tag -F $(CVSTAG)"
+	cvs tag -F $(CVSTAG)
 
 srpm: tag dist-gzip
 	rpmbuild -ts $(distdir).tar.gz
