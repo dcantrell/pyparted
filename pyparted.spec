@@ -5,7 +5,7 @@ Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
 
-Source0: %{name}-%{version}.tar.gz
+Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Requires: parted >= 1.7.1
