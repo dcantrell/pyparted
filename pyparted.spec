@@ -1,6 +1,6 @@
-Summary: python module for parted
+Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.7.3
+Version: 1.8.0
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -8,9 +8,8 @@ Group:   System Environment/Libraries
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
-Requires: parted >= 1.7.1
-BuildRequires: parted-devel >= 1.7.1, python-devel
-Requires: python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
+BuildRequires: python-devel, parted-devel >= 1.8.0
+Requires: parted >= 1.8.0
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -41,6 +40,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/*.so
 
 %changelog
+* Fri Nov 17 2006 David Cantrell <dcantrell@redhat.com> - 1.8.0-1
+- Bump version to 1.8.0 and require parted >= 1.8.0
+- Remove python-abi Requires line since rpm handles that automatically
+
 * Wed Aug 30 2006 David Cantrell <dcantrell@redhat.com> - 1.7.3-1
 - Include parted/constraint.h in required header files
 

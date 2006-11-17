@@ -1,3 +1,7 @@
+2006-11-17  David Cantrell  <dcantrell@redhat.com>
+
+	* pyparted.spec: Bump version. Required parted >= 1.8.0.
+
 2006-05-19  David Cantrell  <dcantrell@redhat.com>
 
 	* pyparted.spec: Bump version. Require parted >= 1.7.0.
