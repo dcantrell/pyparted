@@ -1,6 +1,6 @@
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.0
+Version: 1.8.1
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -20,10 +20,11 @@ partition tables.
 
 %build
 export CFLAGS="-fPIC -O2 -g2"
+PYVER=$(%{__python} -c "import sys; print sys.version[:3]")
 if [ ! -x configure ]; then
-	./autogen.sh --with-python-version=2.4
+	./autogen.sh --with-python-version=$PYVER
 fi
-%configure --with-python-version=2.4
+%configure --with-python-version=$PYVER
 make
 
 %install
@@ -40,6 +41,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/*.so
 
 %changelog
+* Thu Nov 30 2006 David Cantrell <dcantrell@redhat.com> - 1.8.1-1
+- Determine Python version to use in %%build so the source RPM is more
+  easily moved between distribution releases.
+
 * Fri Nov 17 2006 David Cantrell <dcantrell@redhat.com> - 1.8.0-1
 - Bump version to 1.8.0 and require parted >= 1.8.0
 - Remove python-abi Requires line since rpm handles that automatically
