@@ -37,6 +37,13 @@ py_ped_device_dealloc (PyPedDevice * s)
         PyMem_DEL(s);
 }
 
+static void
+py_ped_device_destroy (PyPedDevice * s)
+{
+        ped_device_destroy (s);
+        PyMem_DEL(s);
+}
+
 static PyObject *
 py_ped_device_open (PyPedDevice * s, PyObject * args)
 {
@@ -170,11 +177,11 @@ py_ped_disk_new_fresh (PyPedDevice * self, PyObject * args)
 }
 
 static struct PyMethodDef PyPedDeviceMethods[] = {
-	{ "open", (PyCFunction) py_ped_device_open,
+        { "open", (PyCFunction) py_ped_device_open,
           METH_VARARGS, NULL },
-	{ "close", (PyCFunction) py_ped_device_close,
+        { "close", (PyCFunction) py_ped_device_close,
           METH_VARARGS, NULL },
-	{ "sync", (PyCFunction) py_ped_device_sync,
+        { "sync", (PyCFunction) py_ped_device_sync,
           METH_VARARGS, NULL },
         { "disk_probe", (PyCFunction) py_ped_disk_probe,
           METH_VARARGS, NULL },
@@ -186,7 +193,9 @@ static struct PyMethodDef PyPedDeviceMethods[] = {
           METH_VARARGS, NULL },
         { "disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh,
           METH_VARARGS, NULL },
-	{ NULL, NULL, 0, NULL }	
+        { "destroy", (PyCFunction) py_ped_device_destroy,
+          METH_VARARGS, NULL },
+        { NULL, NULL, 0, NULL }	
 };
 
 static PyObject *
