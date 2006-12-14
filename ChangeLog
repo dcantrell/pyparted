@@ -3,6 +3,8 @@
 	* pydevice.c: Add py_ped_device_destroy() function so we can call
 	ped_device_destroy() in libparted.
 
+	* pyparted.spec: Require parted-1.8.1.
+
 2006-11-30  David Cantrell  <dcantrell@redhat.com>
 
 	* pyparted.spec: Bump version. Determine Python version to enable in

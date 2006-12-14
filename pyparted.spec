@@ -8,8 +8,8 @@ Group:   System Environment/Libraries
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
-BuildRequires: python-devel, parted-devel >= 1.8.0
-Requires: parted >= 1.8.0
+BuildRequires: python-devel, parted-devel >= 1.8.1
+Requires: parted >= 1.8.1
 
 %description
 Python modules for the parted library.  It is used for manipulation
