@@ -40,7 +40,7 @@ py_ped_device_dealloc (PyPedDevice * s)
 static void
 py_ped_device_destroy (PyPedDevice * s)
 {
-        ped_device_destroy (s);
+        ped_device_destroy (s->dev);
         PyMem_DEL(s);
 }
 
