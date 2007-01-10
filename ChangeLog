@@ -1,3 +1,15 @@
+2007-01-10  Jeremy Katz  <katzj@redhat.com>
+
+	* pyparted.spec: Bump version.
+
+	* pygeometry.c (py_ped_geometry_dealloc): Use PyObject_DEL instead
+	of PyMem_DEL
+	* pyfilesystem.c (py_ped_file_system_type_dealloc): Likewise.
+	* pyexception.c (py_ped_exception_dealloc): Likewise.
+	* pydisk.c: Likewise.
+	* pydevice.c: Likewise.
+	* pyconstraint.c (py_ped_constraint_dealloc): Likewise.
+
 2006-12-14  David Cantrell  <dcantrell@redhat.com>
 
 	* pydevice.c: Add py_ped_device_destroy() function so we can call

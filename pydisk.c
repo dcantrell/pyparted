@@ -49,7 +49,7 @@ py_ped_disk_type_check_feature (PyPedDiskTypeObj *d, PyObject * args)
 static void
 py_ped_disk_type_dealloc (PyPedDiskTypeObj * d)
 {
-        PyMem_DEL(d);
+        PyObject_DEL(d);
 }
 
 static struct PyMethodDef PyPedDiskTypeMethods[] = {
@@ -373,7 +373,7 @@ py_ped_disk_dealloc (PyPedDisk * d)
 {
         if (!d->borrowed && !d->closed)
                 ped_disk_destroy (d->disk);
-        PyMem_DEL(d);
+        PyObject_DEL(d);
 }
 
 static struct PyMethodDef PyPedDiskMethods[] = {
@@ -660,7 +660,7 @@ py_ped_partition_dealloc (PyPedPartition * p)
         if (!p->borrowed)
                 ped_partition_destroy (p->part);
         Py_XDECREF (p->disk);
-        PyMem_DEL(p);
+        PyObject_DEL(p);
 }
 
 static struct PyMethodDef PyPedPartitionMethods[] = {
@@ -773,7 +773,7 @@ static PyObject* PedDisk_new(PyObject *self, PyObject *args)
 static void
 py_ped_disk_constructor_dealloc (PyObject * s)
 {
-        PyMem_DEL(s);
+        PyObject_DEL(s);
 }
 
 static PyMethodDef PyPedDiskConstructorMethods[] = 

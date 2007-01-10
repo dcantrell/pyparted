@@ -103,7 +103,7 @@ py_ped_file_system_dealloc (PyPedFileSystem * fs)
 {
         ped_file_system_close (fs->fs);
         Py_XDECREF (fs->geom);
-        PyMem_DEL(fs);
+        PyObject_DEL(fs);
 }
 
 static struct PyMethodDef PyPedFileSystemMethods[] = {
@@ -169,7 +169,7 @@ py_ped_file_system_type_obj_new (const PedFileSystemType *fs_type)
 static void
 py_ped_file_system_type_dealloc (PyPedFileSystemTypeObj* fst)
 {
-        PyMem_DEL(fst);
+        PyObject_DEL(fst);
 }
 
 static PyObject *

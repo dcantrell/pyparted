@@ -34,14 +34,14 @@ py_ped_device_dealloc (PyPedDevice * s)
 {
         /* s->dev will be destroyed if ped_device_free_all() is called */
         /*      ped_device_destroy (s->dev); */
-        PyMem_DEL(s);
+        PyObject_DEL(s);
 }
 
 static void
 py_ped_device_destroy (PyPedDevice * s)
 {
         ped_device_destroy (s->dev);
-        PyMem_DEL(s);
+        PyObject_DEL(s);
 }
 
 static PyObject *
@@ -274,7 +274,7 @@ PedDevice_get (PyObject * self, PyObject * args)
 static void
 py_ped_device_constructor_dealloc (PyObject * s)
 {
-        PyMem_DEL(s);
+        PyObject_DEL(s);
 }
 
 static PyMethodDef PyPedDeviceConstructorMethods[] = 

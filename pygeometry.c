@@ -174,7 +174,7 @@ py_ped_geometry_dealloc (PyPedGeometry * g)
         if (!g->borrowed)
                 ped_geometry_destroy (g->geom);
         Py_XDECREF (g->dev);
-        PyMem_DEL(g);
+        PyObject_DEL(g);
 }
 
 static PyObject *

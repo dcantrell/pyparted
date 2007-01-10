@@ -1,6 +1,6 @@
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.1
+Version: 1.8.2
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -41,6 +41,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/*.so
 
 %changelog
+* Wed Jan 10 2007 Jeremy Katz <katzj@redhat.com> - 1.8.2-1
+- use PyObject_DEL instead of PyMem_DEL
+
+* Thu Dec  7 2006 Jeremy Katz <katzj@redhat.com> - 1.8.1-3
+- rebuild for python 2.5
+
+* Tue Dec 05 2006 David Cantrell <dcantrell@redhat.com> - 1.8.1-2
+- Rebuild for GNU parted-1.8.1
+
 * Thu Nov 30 2006 David Cantrell <dcantrell@redhat.com> - 1.8.1-1
 - Determine Python version to use in %%build so the source RPM is more
   easily moved between distribution releases.

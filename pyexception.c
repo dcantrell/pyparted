@@ -29,7 +29,7 @@ py_ped_exception_obj_new (PedException *ex)
 static void
 py_ped_exception_dealloc (PyPedException * s)
 {
-        PyMem_DEL(s);
+        PyObject_DEL(s);
 }
 
 static PyObject *

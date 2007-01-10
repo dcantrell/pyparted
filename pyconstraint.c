@@ -46,7 +46,7 @@ py_ped_constraint_dealloc (PyPedConstraint * c)
         if (!c->borrowed)
                 ped_constraint_destroy (c->constraint);
         Py_XDECREF (c->dev);
-        PyMem_DEL(c);
+        PyObject_DEL(c);
 }
 
 static struct PyMethodDef PyPedConstraintMethods[] = {
