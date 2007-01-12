@@ -1,6 +1,6 @@
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.2
+Version: 1.8.3
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -8,8 +8,8 @@ Group:   System Environment/Libraries
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
-BuildRequires: python-devel, parted-devel >= 1.8.1
-Requires: parted >= 1.8.1
+BuildRequires: python-devel, parted-devel >= 1.8.2
+Requires: parted >= 1.8.2
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/*.so
 
 %changelog
+* Fri Jan 12 2007 David Cantrell <dcantrell@redhat.com> - 1.8.3-1
+- Required parted-1.8.2 or higher
+
 * Wed Jan 10 2007 Jeremy Katz <katzj@redhat.com> - 1.8.2-1
 - use PyObject_DEL instead of PyMem_DEL
 
