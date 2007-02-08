@@ -1,12 +1,14 @@
+%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.3
+Version: 1.8.4
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
 
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: python-devel, parted-devel >= 1.8.2
 Requires: parted >= 1.8.2
@@ -37,10 +39,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README COPYING
-%dir %{_libdir}/python?.?/site-packages/
-%{_libdir}/python?.?/site-packages/*.so
+%{python_sitelib}/partedmodule.so
 
 %changelog
+* Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.4-1
+- Use preferred BuildRoot (package review)
+- Define and use python_sitelib macro (package review)
+
 * Fri Jan 12 2007 David Cantrell <dcantrell@redhat.com> - 1.8.3-1
 - Required parted-1.8.2 or higher
 
