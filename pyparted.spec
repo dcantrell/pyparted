@@ -1,8 +1,8 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.4
+Version: 1.8.5
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -39,9 +39,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README COPYING
-%{python_sitelib}/partedmodule.so
+%{python_sitearch}/partedmodule.so
 
 %changelog
+* Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-1
+- Define and use python_sitearch rather than python_sitelib
+
 * Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.4-1
 - Use preferred BuildRoot (package review)
 - Define and use python_sitelib macro (package review)

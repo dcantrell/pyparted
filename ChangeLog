@@ -2,6 +2,12 @@
 
 	* pyparted.spec: Bump version
 
+	* pyparted.spec: Define and use python_sitearch rather than python_sitelib
+
+2007-02-08  David Cantrell  <dcantrell@redhat.com>
+
+	* pyparted.spec: Bump version
+
    * pyparted.spec: use preferred BuildRoot, define and use python_sitelib
    macro (package review).
 
