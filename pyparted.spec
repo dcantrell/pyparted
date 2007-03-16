@@ -3,7 +3,7 @@
 Summary: Python module for GNU parted
 Name:    pyparted
 Version: 1.8.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group:   System Environment/Libraries
 
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/partedmodule.so
 
 %changelog
+* Fri Mar 16 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-2
+- Rebuild for GNU parted-1.8.3
+
 * Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-1
 - Define and use python_sitearch rather than python_sitelib
 
