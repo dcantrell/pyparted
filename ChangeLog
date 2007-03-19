@@ -1,3 +1,10 @@
+2007-03-19  David Cantrell  <dcantrell@redhat.com>
+
+	* Makefile.am, configure.in, autogen.sh: Remove autotools stuff.
+	* Makefile: Add simple Makefile.
+	* pyparted.spec: Clean up for Fedora packaging guidelines, require
+	parted >= 1.8.4.
+
 2007-03-15  David Cantrell  <dcantrell@redhat.com>
 
 	* pyparted.spec: Bump release.
@@ -6,14 +13,15 @@
 
 	* pyparted.spec: Bump version
 
-	* pyparted.spec: Define and use python_sitearch rather than python_sitelib
+	* pyparted.spec: Define and use python_sitearch rather than
+	python_sitelib
 
 2007-02-08  David Cantrell  <dcantrell@redhat.com>
 
 	* pyparted.spec: Bump version
 
-   * pyparted.spec: use preferred BuildRoot, define and use python_sitelib
-   macro (package review).
+	* pyparted.spec: use preferred BuildRoot, define and use
+	python_sitelib macro (package review).
 
 2007-01-10  Jeremy Katz  <katzj@redhat.com>
 

@@ -2,16 +2,16 @@
 
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.5
-Release: 2%{?dist}
+Version: 1.8.6
+Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
 
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: python-devel, parted-devel >= 1.8.2
-Requires: parted >= 1.8.2
+BuildRequires: python-devel, parted-devel >= 1.8.4
+Requires: parted >= 1.8.4
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -27,14 +27,14 @@ if [ ! -x configure ]; then
 	./autogen.sh --with-python-version=$PYVER
 fi
 %configure --with-python-version=$PYVER
-make
+%{__make} %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%makeinstall
+%{__rm} -rf %{buildroot}
+%{__make} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
