@@ -272,7 +272,7 @@ py_ped_disk_type_get_next (PyObject * self, PyObject * args)
 static struct PyMethodDef PyPedModuleMethods[] = {
     	{ "device_get",
           (PyCFunction) py_ped_device_get, METH_VARARGS, NULL },
-	{ "exception_set_handler",
+        { "exception_set_handler",
           (PyCFunction) py_ped_exception_set_handler,
           METH_VARARGS, NULL },
         { "file_system_type_get",
@@ -296,117 +296,125 @@ static struct PyMethodDef PyPedModuleMethods[] = {
         { "disk_type_get_next",
           (PyCFunction) py_ped_disk_type_get_next,
           METH_VARARGS, NULL },
-	{ NULL, NULL, 0, NULL }	
+        { NULL, NULL, 0, NULL }	
 };
 
 void initparted(void) {
-        PyObject *m, *d, *o;
+    PyObject *m, *d, *o;
 
-        m = Py_InitModule("parted", PyPedModuleMethods);
-        d = PyModule_GetDict(m);
+    m = Py_InitModule("parted", PyPedModuleMethods);
+    d = PyModule_GetDict(m);
 
-	if (PyType_Ready(&PyPedGeometryType) < 0)
-		return;
-	Py_INCREF(&PyPedGeometryType);
+    if (PyType_Ready(&PyPedGeometryType) < 0)
+        return;
+    Py_INCREF(&PyPedGeometryType);
 
-	if (PyType_Ready(&PyPedDiskTypeType) < 0)
-		return;
-	Py_INCREF(&PyPedDiskTypeType);
+    if (PyType_Ready(&PyPedDiskTypeType) < 0)
+        return;
+    Py_INCREF(&PyPedDiskTypeType);
 
-	if (PyType_Ready(&PyPedDiskType) < 0)
-		return;
-	Py_INCREF(&PyPedDiskType);
+    if (PyType_Ready(&PyPedDiskType) < 0)
+        return;
+    Py_INCREF(&PyPedDiskType);
 
-	if (PyType_Ready(&PyPedPartitionType) < 0)
-		return;
-	Py_INCREF(&PyPedPartitionType);
+    if (PyType_Ready(&PyPedPartitionType) < 0)
+        return;
+    Py_INCREF(&PyPedPartitionType);
 
-        if (PyType_Ready(&PyPedDiskConstructorType) < 0)
-		return;
-	Py_INCREF(&PyPedDiskConstructorType);
+    if (PyType_Ready(&PyPedDiskConstructorType) < 0)
+        return;
+    Py_INCREF(&PyPedDiskConstructorType);
 
-        o = PyObject_NEW(PyObject, &PyPedDeviceConstructorType);
-        PyDict_SetItemString(d, "PedDevice", o);
-        Py_DECREF(o);
+    if (PyType_Ready(&PyPedConstraintConstructorType) < 0)
+        return;
+    Py_INCREF(&PyPedConstraintConstructorType);
 
-        o = PyObject_NEW(PyObject, &PyPedDiskConstructorType);
-        PyDict_SetItemString(d, "PedDisk", o);
-        Py_DECREF(o);
+    o = PyObject_NEW(PyObject, &PyPedDeviceConstructorType);
+    PyDict_SetItemString(d, "PedDevice", o);
+    Py_DECREF(o);
 
-        /* enum registration */
+    o = PyObject_NEW(PyObject, &PyPedDiskConstructorType);
+    PyDict_SetItemString(d, "PedDisk", o);
+    Py_DECREF(o);
+
+    o = PyObject_NEW(PyObject, &PyPedConstraintConstructorType);
+    PyDict_SetItemString(d, "PedConstraint", o);
+    Py_DECREF(o);
+
+    /* enum registration */
 #define REGISTER_ENUM(val) \
-        PyDict_SetItemString(d, #val, o=PyInt_FromLong(PED_ ## val)); \
-        Py_DECREF(o);
+    PyDict_SetItemString(d, #val, o=PyInt_FromLong(PED_ ## val)); \
+    Py_DECREF(o);
 
-        REGISTER_ENUM(DEVICE_UNKNOWN);
-        REGISTER_ENUM(DEVICE_SCSI);
-        REGISTER_ENUM(DEVICE_IDE);
-        REGISTER_ENUM(DEVICE_DAC960);
-        REGISTER_ENUM(DEVICE_CPQARRAY);
-        REGISTER_ENUM(DEVICE_ATARAID);
+    REGISTER_ENUM(DEVICE_UNKNOWN);
+    REGISTER_ENUM(DEVICE_SCSI);
+    REGISTER_ENUM(DEVICE_IDE);
+    REGISTER_ENUM(DEVICE_DAC960);
+    REGISTER_ENUM(DEVICE_CPQARRAY);
+    REGISTER_ENUM(DEVICE_ATARAID);
 #ifdef DEVICE_I2O
-        REGISTER_ENUM(DEVICE_I2O);
+    REGISTER_ENUM(DEVICE_I2O);
 #endif
 #ifdef DEVICE_SX8
-        REGISTER_ENUM(DEVICE_SX8);
+    REGISTER_ENUM(DEVICE_SX8);
 #endif
 
 #define PED_PARTITION_PRIMARY 0
         
-        REGISTER_ENUM(PARTITION_PRIMARY);
-        REGISTER_ENUM(PARTITION_LOGICAL);
-        REGISTER_ENUM(PARTITION_EXTENDED);
-        REGISTER_ENUM(PARTITION_FREESPACE);
-        REGISTER_ENUM(PARTITION_METADATA);
-        REGISTER_ENUM(PARTITION_PROTECTED);
+    REGISTER_ENUM(PARTITION_PRIMARY);
+    REGISTER_ENUM(PARTITION_LOGICAL);
+    REGISTER_ENUM(PARTITION_EXTENDED);
+    REGISTER_ENUM(PARTITION_FREESPACE);
+    REGISTER_ENUM(PARTITION_METADATA);
+    REGISTER_ENUM(PARTITION_PROTECTED);
 
-        REGISTER_ENUM(PARTITION_BOOT);
-        REGISTER_ENUM(PARTITION_ROOT);
-        REGISTER_ENUM(PARTITION_SWAP);
-        REGISTER_ENUM(PARTITION_HIDDEN);
-        REGISTER_ENUM(PARTITION_RAID);
-        REGISTER_ENUM(PARTITION_LVM);
-        REGISTER_ENUM(PARTITION_LBA);
-        REGISTER_ENUM(PARTITION_HPSERVICE);
-        REGISTER_ENUM(PARTITION_PALO);
-        REGISTER_ENUM(PARTITION_PREP);
-        REGISTER_ENUM(PARTITION_MSFT_RESERVED);
+    REGISTER_ENUM(PARTITION_BOOT);
+    REGISTER_ENUM(PARTITION_ROOT);
+    REGISTER_ENUM(PARTITION_SWAP);
+    REGISTER_ENUM(PARTITION_HIDDEN);
+    REGISTER_ENUM(PARTITION_RAID);
+    REGISTER_ENUM(PARTITION_LVM);
+    REGISTER_ENUM(PARTITION_LBA);
+    REGISTER_ENUM(PARTITION_HPSERVICE);
+    REGISTER_ENUM(PARTITION_PALO);
+    REGISTER_ENUM(PARTITION_PREP);
+    REGISTER_ENUM(PARTITION_MSFT_RESERVED);
 
-        REGISTER_ENUM(PARTITION_FIRST_FLAG);
-        REGISTER_ENUM(PARTITION_LAST_FLAG);
+    REGISTER_ENUM(PARTITION_FIRST_FLAG);
+    REGISTER_ENUM(PARTITION_LAST_FLAG);
 
-        REGISTER_ENUM(DISK_TYPE_EXTENDED);
-        REGISTER_ENUM(DISK_TYPE_PARTITION_NAME);
+    REGISTER_ENUM(DISK_TYPE_EXTENDED);
+    REGISTER_ENUM(DISK_TYPE_PARTITION_NAME);
 
-        REGISTER_ENUM(EXCEPTION_INFORMATION);
-        REGISTER_ENUM(EXCEPTION_WARNING);
-        REGISTER_ENUM(EXCEPTION_ERROR);
-        REGISTER_ENUM(EXCEPTION_FATAL);
-        REGISTER_ENUM(EXCEPTION_BUG);
-        REGISTER_ENUM(EXCEPTION_NO_FEATURE);
+    REGISTER_ENUM(EXCEPTION_INFORMATION);
+    REGISTER_ENUM(EXCEPTION_WARNING);
+    REGISTER_ENUM(EXCEPTION_ERROR);
+    REGISTER_ENUM(EXCEPTION_FATAL);
+    REGISTER_ENUM(EXCEPTION_BUG);
+    REGISTER_ENUM(EXCEPTION_NO_FEATURE);
     
-        REGISTER_ENUM(EXCEPTION_UNHANDLED);
-        REGISTER_ENUM(EXCEPTION_FIX);        
-        REGISTER_ENUM(EXCEPTION_YES);
-        REGISTER_ENUM(EXCEPTION_NO);
-        REGISTER_ENUM(EXCEPTION_OK);
-        REGISTER_ENUM(EXCEPTION_RETRY);
-        REGISTER_ENUM(EXCEPTION_IGNORE);
-        REGISTER_ENUM(EXCEPTION_CANCEL);
+    REGISTER_ENUM(EXCEPTION_UNHANDLED);
+    REGISTER_ENUM(EXCEPTION_FIX);        
+    REGISTER_ENUM(EXCEPTION_YES);
+    REGISTER_ENUM(EXCEPTION_NO);
+    REGISTER_ENUM(EXCEPTION_OK);
+    REGISTER_ENUM(EXCEPTION_RETRY);
+    REGISTER_ENUM(EXCEPTION_IGNORE);
+    REGISTER_ENUM(EXCEPTION_CANCEL);
 
-        REGISTER_ENUM(EXCEPTION_OK_CANCEL);
-        REGISTER_ENUM(EXCEPTION_YES_NO);
-        REGISTER_ENUM(EXCEPTION_YES_NO_CANCEL);
-        REGISTER_ENUM(EXCEPTION_IGNORE_CANCEL);
-        REGISTER_ENUM(EXCEPTION_RETRY_CANCEL);
-        REGISTER_ENUM(EXCEPTION_RETRY_IGNORE_CANCEL);
-        /* end enum registration */
+    REGISTER_ENUM(EXCEPTION_OK_CANCEL);
+    REGISTER_ENUM(EXCEPTION_YES_NO);
+    REGISTER_ENUM(EXCEPTION_YES_NO_CANCEL);
+    REGISTER_ENUM(EXCEPTION_IGNORE_CANCEL);
+    REGISTER_ENUM(EXCEPTION_RETRY_CANCEL);
+    REGISTER_ENUM(EXCEPTION_RETRY_IGNORE_CANCEL);
+    /* end enum registration */
 
-        /* register the exception handler marhaller function */
-        ped_exception_set_handler (py_exception_handler);
+    /* register the exception handler marhaller function */
+    ped_exception_set_handler (py_exception_handler);
 
-        /* set up our exception class */
-        PyPartedError = PyErr_NewException("parted.error", NULL, NULL);
-        PyDict_SetItemString(d, "error", PyPartedError);
-        Py_DECREF(PyPartedError);
+    /* set up our exception class */
+    PyPartedError = PyErr_NewException("parted.error", NULL, NULL);
+    PyDict_SetItemString(d, "error", PyPartedError);
+    Py_DECREF(PyPartedError);
 }

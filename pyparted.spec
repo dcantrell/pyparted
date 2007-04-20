@@ -6,12 +6,13 @@ Version: 1.8.6
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
+URL:     http://people.redhat.com/dcantrel/%{name}
 
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: python-devel, parted-devel >= 1.8.4
-Requires: parted >= 1.8.4
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: python-devel, parted-devel >= 1.8.6
+Requires: parted >= 1.8.6
 
 %description
 Python modules for the parted library.  It is used for manipulation
@@ -21,12 +22,6 @@ partition tables.
 %setup -q
 
 %build
-export CFLAGS="-fPIC -O2 -g2"
-PYVER=$(%{__python} -c "import sys; print sys.version[:3]")
-if [ ! -x configure ]; then
-	./autogen.sh --with-python-version=$PYVER
-fi
-%configure --with-python-version=$PYVER
 %{__make} %{?_smp_mflags}
 
 %install
@@ -38,12 +33,21 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc README COPYING
+%doc README COPYING AUTHORS ChangeLog
 %{python_sitearch}/partedmodule.so
 
 %changelog
+* Fri Apr 19 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-1
+- Merge review (#226337)
+
+* Tue Mar 20 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-4
+- Rebuild for GNU parted-1.8.6
+
+* Tue Mar 20 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-3
+- Rebuild for GNU parted-1.8.5
+
 * Fri Mar 16 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-2
-- Rebuild for GNU parted-1.8.3
+- Rebuild for GNU parted-1.8.4
 
 * Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-1
 - Define and use python_sitearch rather than python_sitelib
