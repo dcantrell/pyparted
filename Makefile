@@ -36,8 +36,7 @@ CFLAGS  += -O2 -Wall -g -I/usr/include/python$(PYVER) -I. -fPIC
 #CFLAGS  += $(shell pkg-config --cflags libparted)   # no CFLAGS needed
 LDFLAGS += $(shell pkg-config --libs libparted)
 
-prefix ?= $(DESTDIR)/usr
-libdir ?= $(shell rpm --eval "%{_libdir}")/python$(PYVER)/site-packages
+libdir ?= $(DESTDIR)$(shell rpm --eval "%{_libdir}")/python$(PYVER)/site-packages
 
 all: partedmodule.so
 
