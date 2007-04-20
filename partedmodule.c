@@ -325,20 +325,12 @@ void initparted(void) {
         return;
     Py_INCREF(&PyPedDiskConstructorType);
 
-    if (PyType_Ready(&PyPedConstraintConstructorType) < 0)
-        return;
-    Py_INCREF(&PyPedConstraintConstructorType);
-
     o = PyObject_NEW(PyObject, &PyPedDeviceConstructorType);
     PyDict_SetItemString(d, "PedDevice", o);
     Py_DECREF(o);
 
     o = PyObject_NEW(PyObject, &PyPedDiskConstructorType);
     PyDict_SetItemString(d, "PedDisk", o);
-    Py_DECREF(o);
-
-    o = PyObject_NEW(PyObject, &PyPedConstraintConstructorType);
-    PyDict_SetItemString(d, "PedConstraint", o);
     Py_DECREF(o);
 
     /* enum registration */
