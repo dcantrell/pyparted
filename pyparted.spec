@@ -46,7 +46,7 @@ partition tables.
 * Tue Mar 20 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-3
 - Rebuild for GNU parted-1.8.5
 
-* Fri Mar 16 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-2
+* Mon Mar 19 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-2
 - Rebuild for GNU parted-1.8.4
 
 * Thu Feb 08 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-1
