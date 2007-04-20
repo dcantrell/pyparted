@@ -4,7 +4,7 @@
 
 2007-04-20  David Cantrell  <dcantrell@redhat.com>
 
-	* Makefile: Add -fPIC to CFLAGS.
+	* Makefile: Add -fPIC to CFLAGS.  Use correct libdir.
 	* partedmodule.c: Whitespace cleanups.
 	* AUTHORS: Note where to file bugs.
 	* pyparted.spec: Merge review cleanups.
