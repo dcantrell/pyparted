@@ -8,7 +8,7 @@ License: GPL
 Group:   System Environment/Libraries
 URL:     http://people.redhat.com/dcantrel/%{name}
 
-Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.gz
+Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: python-devel, parted-devel >= 1.8.6
