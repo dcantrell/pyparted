@@ -29,7 +29,7 @@ VERSION  = $(shell awk '/Version:/ { print $$2 }' pyparted.spec)
 RELEASE  = $(shell awk '/Release:/ { print $$2 }' pyparted.spec | sed -e 's|%.*$$||g')
 
 CC      = gcc
-CFLAGS  += -O2 -Wall -g -I/usr/include/python$(PYVER) -I.
+CFLAGS  += -O2 -Wall -g -I/usr/include/python$(PYVER) -I. -fPIC
 #LDFLAGS += 
 
 # Build with libparted (parted-1.8.3 and higher have a pkg-config file)
