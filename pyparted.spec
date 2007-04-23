@@ -3,7 +3,7 @@
 Summary: Python module for GNU parted
 Name:    pyparted
 Version: 1.8.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group:   System Environment/Libraries
 URL:     http://people.redhat.com/dcantrel/%{name}
@@ -22,10 +22,9 @@ partition tables.
 %setup -q
 
 %build
-%{__make} %{?_smp_mflags}
+CFLAGS="%{optflags}" CC="%{__cc}" %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf %{buildroot}
 %{__make} install DESTDIR=%{buildroot}
 
 %clean
@@ -37,6 +36,9 @@ partition tables.
 %{python_sitearch}/partedmodule.so
 
 %changelog
+* Mon Apr 23 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-2
+- Ensure build env CFLAGS are included (#226337)
+
 * Fri Apr 19 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-1
 - Merge review (#226337)
 

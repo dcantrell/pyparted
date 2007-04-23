@@ -24,16 +24,14 @@ HDR = $(SRC:%.c=%.h)
 OBJ = $(SRC:%.c=%.o)
 TXT = Makefile pyparted.spec AUTHORS COPYING ChangeLog INSTALL NEWS README
 
-PYVER    = $(shell python -c "import sys; print sys.version[:3]")
-VERSION  = $(shell awk '/Version:/ { print $$2 }' pyparted.spec)
-RELEASE  = $(shell awk '/Release:/ { print $$2 }' pyparted.spec | sed -e 's|%.*$$||g')
+PYVER   = $(shell python -c "import sys; print sys.version[:3]")
+VERSION = $(shell awk '/Version:/ { print $$2 }' pyparted.spec)
+RELEASE = $(shell awk '/Release:/ { print $$2 }' pyparted.spec | sed -e 's|%.*$$||g')
 
-CC      = gcc
-CFLAGS  += -O2 -Wall -g -I/usr/include/python$(PYVER) -I. -fPIC
-#LDFLAGS += 
+CC     ?= gcc
+CFLAGS += -I/usr/include/python$(PYVER) -I. -fPIC
 
 # Build with libparted (parted-1.8.3 and higher have a pkg-config file)
-#CFLAGS  += $(shell pkg-config --cflags libparted)   # no CFLAGS needed
 LDFLAGS += $(shell pkg-config --libs libparted)
 
 libdir ?= $(DESTDIR)$(shell rpm --eval "%{_libdir}")/python$(PYVER)/site-packages
