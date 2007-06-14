@@ -2,6 +2,13 @@
 
 	* pyparted.spec: Bump version.
 
+	* pyparted.spec: Clean up wording in package description,
+	BuildRequire pkgconfig (#226337).
+
+2007-06-15  David Cantrell  <dcantrell@redhat.com>
+
+	* pyparted.spec: Bump version.
+
 	* pyparted.spec: Remove buildroot as first step in install section.
 
 2007-04-23  David Cantrell  <dcantrell@redhat.com>

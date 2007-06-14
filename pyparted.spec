@@ -2,7 +2,7 @@
 
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.7
+Version: 1.8.8
 Release: 1%{?dist}
 License: GPL
 Group:   System Environment/Libraries
@@ -11,11 +11,11 @@ URL:     http://people.redhat.com/dcantrel/%{name}
 Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: python-devel, parted-devel >= 1.8.6
+BuildRequires: python-devel, parted-devel >= 1.8.6, pkgconfig
 Requires: parted >= 1.8.6
 
 %description
-Python modules for the parted library.  It is used for manipulation
+Python module for the parted library.  It is used for manipulating
 partition tables.
 
 %prep
@@ -37,6 +37,10 @@ CFLAGS="%{optflags}" CC="%{__cc}" %{__make} %{?_smp_mflags}
 %{python_sitearch}/partedmodule.so
 
 %changelog
+* Fri Jun 15 2007 David Cantrell <dcantrell@redhat.com> - 1.8.8-1
+- Clean up wording in package description (#226337)
+- BR pkgconfig (#226337)
+
 * Fri Jun 15 2007 David Cantrell <dcantrell@redhat.com> - 1.8.7-1
 - Merge review (#226337)
 
