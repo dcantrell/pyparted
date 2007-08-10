@@ -1,5 +1,9 @@
 2007-08-10  David Cantrell  <dcantrell@redhat.com>
 
+	* Makefile: tar is no longer a target, remove from .PHONY
+
+2007-08-10  David Cantrell  <dcantrell@redhat.com>
+
 	* pyparted.spec: Bump version.
 
 2007-08-10  David Cantrell  <dcantrell@redhat.com>
