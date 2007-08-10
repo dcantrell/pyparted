@@ -53,7 +53,7 @@ install:
 	mkdir -p $(libdir)
 	install -m 0755 partedmodule.so $(libdir)/partedmodule.so
 
-TAG = pyparted-$(subst .,_,$(VERSION)-$(RELEASE))
+TAG = pyparted-$(VERSION)-$(RELEASE)
 tag:
 	@git tag $(TAG)
 	@echo "Tagged as $(TAG)"
