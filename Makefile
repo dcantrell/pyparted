@@ -53,27 +53,20 @@ install:
 	mkdir -p $(libdir)
 	install -m 0755 partedmodule.so $(libdir)/partedmodule.so
 
-CVSTAG = pyparted-$(subst .,_,$(VERSION)-$(RELEASE))
+TAG = pyparted-$(subst .,_,$(VERSION)-$(RELEASE))
 tag:
-	@cvs tag -cRF $(CVSTAG)
-	@echo "Tagged as $(CVSTAG)"
+	@git tag $(TAG)
+	@echo "Tagged as $(TAG)"
 
-archive: tar
-
-tar: tag
-	@rm -rf /tmp/pyparted
-	@rm -rf /tmp/pyparted-$(VERSION)
-	@tag=`cvs status Makefile|awk ' /Sticky Tag/ { print $$3 } '` 2>/dev/null;\
-	[ x"$$tag" = x"(none)" ] && tag=HEAD; \
-	[ x"$$TAG" != x ] && tag=$$TAG; \
-	cvsroot=`cat CVS/Root` 2>/dev/null; \
-	echo "*** Pulling off $$tag from $$cvsroot!"; \
-	cd /tmp ; cvs -z3 -Q -d $$cvsroot export -r $$tag pyparted || echo "Um... export aborted."
-	@mv /tmp/pyparted /tmp/pyparted-$(VERSION)
-	@cd /tmp ; tar --bzip2 -cSpf pyparted-$(VERSION).tar.bz2 pyparted-$(VERSION)
-	@rm -rf /tmp/pyparted-$(VERSION)
-	@cp /tmp/pyparted-$(VERSION).tar.bz2 .
-	@rm -f /tmp/pyparted-$(VERSION).tar.bz2
+archive: tag
+	@git checkout -b pyparted-$(VERSION) $(TAG)
+	@git checkout -f pyparted-$(VERSION)
+	@rm -rf pyparted-$(VERSION)
+	@mkdir -p pyparted-$(VERSION)
+	@cp -a $(SRC) $(HDR) $(TXT) pyparted-$(VERSION)
+	@tar --bzip2 -cSpf pyparted-$(VERSION).tar.bz2 pyparted-$(VERSION)
+	@rm -rf pyparted-$(VERSION)
+	@git checkout -f master
 	@echo
 	@echo "The final archive is in pyparted-$(VERSION).tar.bz2"
 
