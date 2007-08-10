@@ -1,3 +1,18 @@
+2007-08-10  David Cantrell  <dcantrell@redhat.com>
+
+	* pyparted.spec: Bump version.
+
+2007-08-10  David Cantrell  <dcantrell@redhat.com>
+
+	* *.c, *.h, Makefile: Update license boilerplates to indicate the
+	software is licensed under the GPL v2 or any later version.
+
+	* pyparted.spec: Update license tag and URLs (software is now on
+	fedorapeople.org).
+
+	* Makefile: Remove the tar target, replace with archive target.  Update
+	the tag and archive targets to work with git rather than CVS.
+
 2007-06-15  David Cantrell  <dcantrell@redhat.com>
 
 	* pyparted.spec: Bump version.

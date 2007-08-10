@@ -2,13 +2,13 @@
 
 Summary: Python module for GNU parted
 Name:    pyparted
-Version: 1.8.8
+Version: 1.8.9
 Release: 1%{?dist}
-License: GPL
+License: GPLv2+
 Group:   System Environment/Libraries
-URL:     http://people.redhat.com/dcantrel/%{name}
+URL:     http://dcantrel.fedorapeople.org/%{name}
 
-Source0: http://people.redhat.com/dcantrel/%{name}/%{name}-%{version}.tar.bz2
+Source0: http://dcantrel.fedorapeople.org/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: python-devel, parted-devel >= 1.8.6, pkgconfig
@@ -37,6 +37,10 @@ CFLAGS="%{optflags}" CC="%{__cc}" %{__make} %{?_smp_mflags}
 %{python_sitearch}/partedmodule.so
 
 %changelog
+* Fri Aug 10 2007 David Cantrell <dcantrell@redhat.com> - 1.8.9-1
+- Update license tag to indicate GPL v2 or later
+- Update URLs to point to new upstream location
+
 * Fri Jun 15 2007 David Cantrell <dcantrell@redhat.com> - 1.8.8-1
 - Clean up wording in package description (#226337)
 - BR pkgconfig (#226337)
