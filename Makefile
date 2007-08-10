@@ -70,4 +70,4 @@ archive: tag
 	@echo
 	@echo "The final archive is in pyparted-$(VERSION).tar.bz2"
 
-.PHONY: all clean install tar archive
+.PHONY: all clean install archive
