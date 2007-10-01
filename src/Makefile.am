@@ -20,7 +20,15 @@
 # Red Hat Author(s): David Cantrell
 #
 
-bin_PROGRAMS = partedmodule.so
+INCLUDES = -I$(top_srcdir)/include
 
-partedmodule_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
-                       pyexception.c pyfilesystem.c pygeometry.c
+lib_LTLIBRARIES = partedmodule.la
+#partedmodule_la_LDFLAGS =
+partedmodule_la_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
+                          pyexception.c pyfilesystem.c pygeometry.c
+
+#EXTRA_partedmodule_la_SOURCES =
+
+#partedmodule_la_LIBADD =
+
+MAINTAINERCLEANFILES = Makefile.in
