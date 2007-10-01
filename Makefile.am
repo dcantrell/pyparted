@@ -26,7 +26,7 @@ SUBDIRS = include src
 
 EXTRA_DIST = pyparted.spec mkrelease.sh
 
-MAINTAINERCLEANFILES = pyparted.spec
+MAINTAINERCLEANFILES = Makefile.in
 
 MOSTLYCLEANDIRS = m4
 
