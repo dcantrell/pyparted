@@ -20,15 +20,16 @@
 # Red Hat Author(s): David Cantrell
 #
 
-INCLUDES = -I$(top_srcdir)/include
+INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES)
 
-lib_LTLIBRARIES = partedmodule.la
-#partedmodule_la_LDFLAGS =
+common_ldflags = -module -avoid-version
+
+# libparted binding
+pkgpyexec_LTLIBRARIES = partedmodule.la
+partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
+partedmodule_la_LDFLAGS = $(common_ldflags) $(PYTHON_LDFLAGS)
+partedmodule_la_LIBADD = $(LIBPARTED_LIBS) $(PYTHON_LIBS)
 partedmodule_la_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
                           pyexception.c pyfilesystem.c pygeometry.c
-
-#EXTRA_partedmodule_la_SOURCES =
-
-#partedmodule_la_LIBADD =
 
 MAINTAINERCLEANFILES = Makefile.in

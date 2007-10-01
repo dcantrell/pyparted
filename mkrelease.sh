@@ -6,7 +6,7 @@ if [ ! -d m4 ]; then
     mkdir -p m4
 fi
 aclocal -I m4
-#libtoolize --copy --force
+libtoolize --copy --force
 autoconf
 autoheader
 touch config.h.in

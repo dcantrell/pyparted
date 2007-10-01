@@ -11,8 +11,8 @@ URL:     http://dcantrel.fedorapeople.org/%{name}
 Source0: http://dcantrel.fedorapeople.org/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: python-devel, parted-devel >= 1.8.6, pkgconfig
-Requires: parted >= 1.8.6
+BuildRequires: python-devel, parted-devel >= @LIBPARTED_VERSION@, pkgconfig
+Requires: parted >= @LIBPARTED_VERSION@
 
 %description
 Python module for the parted library.  It is used for manipulating
