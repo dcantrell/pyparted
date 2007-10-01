@@ -20,6 +20,18 @@
 # Red Hat Author(s): David Cantrell
 #
 
+ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = include src
 
 EXTRA_DIST = pyparted.spec mkrelease.sh
+
+MAINTAINERCLEANFILES = pyparted.spec
+
+MOSTLYCLEANDIRS = m4
+
+MAINTAINERCLEANFILES += ABOUT-NLS INSTALL aclocal.m4 configure
+
+pyparted.spec: pyparted.spec.in
+	sed 's/@''PACKAGE@/$(PACKAGE)/;s/@''VERSION@/$(VERSION)/' $< > $@-tmp
+	mv $@-tmp $@

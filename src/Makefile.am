@@ -20,6 +20,7 @@
 # Red Hat Author(s): David Cantrell
 #
 
+bin_PROGRAMS = partedmodule.so
+
 partedmodule_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
                        pyexception.c pyfilesystem.c pygeometry.c
-
