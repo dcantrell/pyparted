@@ -39,7 +39,7 @@ AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)
 CC="$PYTHON_CC"
 
 dnl Check for GNU parted
-PKG_CHECK_MODULES(LIBPARTED, libparted >= libparted_required_version)
+PKG_CHECK_MODULES(libparted, libparted >= libparted_required_version)
 AC_SUBST(LIBPARTED_CFLAGS)
 
 dnl Required version substitutions for use in the spec file template
