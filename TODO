@@ -1,0 +1,18 @@
+- autoconf/automake the entire tree
+      'make maintainerclean' should work
+      'make dist-bzip2' and 'make dist-gzip' should work
+      'make distclean' should work
+      'make install'
+      autogenerate the pyparted.spec example file
+
+- write new 1:1 function mapping for _parted.c
+
+- new native Python classes on top of _parted.c
+      Device
+      Disk
+      Partition
+      Filesystem
+      Constraint
+      Label
+
+... and much much more
