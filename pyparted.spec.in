@@ -1,0 +1,41 @@
+%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+
+Summary: Python module for GNU parted
+Name:    @PACKAGE@
+Version: @VERSION@
+Release: 1%{?dist}
+License: GPLv2+
+Group:   System Environment/Libraries
+URL:     http://dcantrel.fedorapeople.org/%{name}
+
+Source0: http://dcantrel.fedorapeople.org/%{name}/%{name}-%{version}.tar.bz2
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: python-devel, parted-devel >= 1.8.6, pkgconfig
+Requires: parted >= 1.8.6
+
+%description
+Python module for the parted library.  It is used for manipulating
+partition tables.
+
+%prep
+%setup -q
+
+%build
+CFLAGS="%{optflags}" CC="%{__cc}" %{__make} %{?_smp_mflags}
+
+%install
+%{__rm} -rf %{buildroot}
+%{__make} install DESTDIR=%{buildroot}
+
+%clean
+%{__rm} -rf %{buildroot}
+
+%files
+%defattr(-,root,root,-)
+%doc README COPYING AUTHORS ChangeLog
+%{python_sitearch}/partedmodule.so
+
+%changelog
+* Mon Oct 01 2007 David Cantrell <dcantrell@redhat.com> - 2.0.0-1
+- Example spec file
