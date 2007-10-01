@@ -33,5 +33,5 @@ MOSTLYCLEANDIRS = m4
 MAINTAINERCLEANFILES += ABOUT-NLS INSTALL aclocal.m4 configure
 
 pyparted.spec: pyparted.spec.in
-	sed 's/@''PACKAGE@/$(PACKAGE)/;s/@''VERSION@/$(VERSION)/' $< > $@-tmp
+	sed 's/@''PACKAGE@/$(PACKAGE)/;s/@''VERSION@/$(VERSION)/;s/@''LIBPARTED_VERSION@/$(LIBPARTED_VERSION)/;' $< > $@-tmp
 	mv $@-tmp $@
