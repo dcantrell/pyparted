@@ -1,8 +1,2 @@
-This is a python module for use with parted.  Originally written by
-Matt Wilson <msw@redhat.com>.
-
-Other authors:
-David Cantrell <dcantrell@redhat.com>
-Peter Jones <pjones@redhat.com>
-Jeremy Katz <katzj@redhat.com>
-Chris Lumens <clumens@redhat.com>
+pyparted
+Python bindings for libparted
