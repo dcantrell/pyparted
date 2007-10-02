@@ -1,6 +1,6 @@
-# This file is based on acinclude.m4 from gnome-python-2.20.0.
+dnl This file is based on acinclude.m4 from gnome-python-2.20.0.
 
-## this one is commonly used with AM_PATH_PYTHONDIR ...
+dnl this one is commonly used with AM_PATH_PYTHONDIR ...
 dnl AM_CHECK_PYMOD(MODNAME [,SYMBOL [,ACTION-IF-FOUND [,ACTION-IF-NOT-FOUND]]])
 dnl Check if a module containing a given symbol is visible to python.
 AC_DEFUN([AM_CHECK_PYMOD],

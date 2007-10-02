@@ -20,15 +20,13 @@
 # Red Hat Author(s): David Cantrell
 #
 
-INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES)
-
-common_ldflags = -module -avoid-version
+INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
 # libparted binding
 pkgpyexec_LTLIBRARIES = partedmodule.la
 partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
-partedmodule_la_LDFLAGS = $(common_ldflags) $(PYTHON_LDFLAGS)
-partedmodule_la_LIBADD = $(LIBPARTED_LIBS) $(PYTHON_LIBS)
+partedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) $(LIBPARTED_LDFLAGS)
+partedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
 partedmodule_la_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
                           pyexception.c pyfilesystem.c pygeometry.c
 
