@@ -24,7 +24,7 @@ m4_define(python_required_version, 2.5)
 AC_PREREQ(2.59)
 AC_INIT([pyparted], [2.0.0], [dcantrell@redhat.com])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/_partedmodule.c])
+AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile include/Makefile src/Makefile])
 
