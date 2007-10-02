@@ -24,13 +24,14 @@ m4_define(python_required_version, 2.5)
 AC_PREREQ(2.59)
 AC_INIT([pyparted], [2.0.0], [dcantrell@redhat.com])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/partedmodule.c])
+AC_CONFIG_SRCDIR([src/_partedmodule.c])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile include/Makefile src/Makefile])
 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
 
 AC_DISABLE_STATIC
+AC_PROG_CPP
 AC_PROG_CC
 AC_PROG_LIBTOOL
 
@@ -39,7 +40,6 @@ AC_HEADER_STDC
 dnl Check for Python
 AM_PATH_PYTHON(python_required_version)
 AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)])
-CC="$PYTHON_CC"
 
 dnl Check for GNU parted
 AM_CHECK_LIBPARTED(libparted_required_version)
