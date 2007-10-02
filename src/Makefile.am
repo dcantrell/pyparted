@@ -28,7 +28,6 @@ _partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
 _partedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) \
                            $(LIBPARTED_LDFLAGS)
 _partedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
-_partedmodule_la_SOURCES = _partedmodule.c pyconstraint.c pydevice.c pydisk.c \
-                          pyexception.c pyfilesystem.c pygeometry.c
+_partedmodule_la_SOURCES = _partedmodule.c
 
 MAINTAINERCLEANFILES = Makefile.in
