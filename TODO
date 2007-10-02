@@ -15,4 +15,9 @@
       Constraint
       Label
 
+- remove unnecessary checks from automake (f77, g++, and so on)
+
+- check for all required headers (scan source)
+- check for all called functions (scan source)
+
 ... and much much more
