@@ -25,6 +25,6 @@
 
 #include <Python.h>
 
-extern PyObject *py_ped_get_version(void);
+extern PyObject *py_ped_get_version(PyObject *s, PyObject *args);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
