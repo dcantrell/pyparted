@@ -20,7 +20,6 @@
 # Red Hat Author(s): David Cantrell
 #
 
-noinst_HEADERS = partedmodule.h pyconstraint.h pydevice.h pydisk.h \
-                 pyexception.h pyfilesystem.h pygeometry.h
+noinst_HEADERS = _partedmodule.h pyconstraint.h pygeom.h
 
 MAINTAINERCLEANFILES = Makefile.in
