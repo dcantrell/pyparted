@@ -1,7 +1,8 @@
 /*
- * partedmodule.c
+ * _partedmodule.c
  *
- * Copyright (C) 2000  Red Hat, Inc.  All rights reserved.
+ * Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007  Red Hat, Inc.
+ * All rights reserved.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
