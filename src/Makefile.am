@@ -23,11 +23,12 @@
 INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
 # libparted binding
-pkgpyexec_LTLIBRARIES = partedmodule.la
-partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
-partedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) $(LIBPARTED_LDFLAGS)
-partedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
-partedmodule_la_SOURCES = _partedmodule.c pyconstraint.c pydevice.c pydisk.c \
+pkgpyexec_LTLIBRARIES = _partedmodule.la
+_partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
+_partedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) \
+                           $(LIBPARTED_LDFLAGS)
+_partedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
+_partedmodule_la_SOURCES = _partedmodule.c pyconstraint.c pydevice.c pydisk.c \
                           pyexception.c pyfilesystem.c pygeometry.c
 
 MAINTAINERCLEANFILES = Makefile.in
