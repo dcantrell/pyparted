@@ -18,25 +18,21 @@ dnl Red Hat, Inc.
 dnl
 dnl Red Hat Author(s): David Cantrell
 
-dnl AC_SUBST(LIBPARTED_CFLAGS)
-dnl AC_SUBST(LIBPARTED_LIBS)
-dnl AC_SUBST(LIBPARTED_LDFLAGS)
-dnl AC_SUBST(LIBPARTED_INCLUDES)
-
 dnl Check for GNU parted
 dnl $1   Minimum version of libparted we require (e.g., 1.8.6)
 AC_DEFUN([AM_CHECK_LIBPARTED],
 [PKG_CHECK_MODULES(libparted, libparted >= $1)
 
-AC_SUBST(LIBPARTED_INCLUDES)
 AC_SUBST(LIBPARTED_LIBS)
-AC_SUBST(LIBPARTED_LDFLAGS)
 
 AC_CHECK_LIB([parted], [ped_get_version], [:],
              [AC_MSG_FAILURE([*** Unable to find requested library libparted])])
 
 AC_CHECK_HEADERS([parted/parted.h], [],
                  [AC_MSG_FAILURE([*** Header file $ac_header not found.])])
+
+dnl Use pkg-config to gather compile flags
+LIBPARTED_LIBS="$(pkg-config --libs libparted)"
 
 LIBPARTED_VERSION=$1
 ])

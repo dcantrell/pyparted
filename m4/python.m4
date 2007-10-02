@@ -48,7 +48,6 @@ AC_SUBST(PYTHON_INCLUDES)
 AC_SUBST(PYTHON_LIBS)
 AC_SUBST(PYTHON_EMBED_LIBS)
 AC_SUBST(PYTHON_LDFLAGS)
-AC_SUBST(PYTHON_CC)
 
 AC_MSG_CHECKING(for headers required to compile python extensions)
 dnl deduce PYTHON_INCLUDES
@@ -80,17 +79,14 @@ if egrep "^#define Py_ENABLE_SHARED" "${py_exec_prefix}/include/python${PYTHON_V
 fi
 
 dnl use distutils to get some python configuration variables..
-PYTHON_CC=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_config_var('CC')"`
 PYTHON_LIB_DEPS=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_config_var('SYSLIBS'), sysconfig.get_config_var('SHLIBS')"`
 PYTHON_LIBDIR=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_config_var('LIBDIR')"`
 PYTHON_LIBPL=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_config_var('LIBPL')"`
 
-save_CC="$CC"
 save_LIBS="$LIBS"
 
 PYTHON_EMBED_LIBS="-L${PYTHON_LIBDIR} ${PYTHON_LIB_DEPS} -lpython${PYTHON_VERSION}"
 
-CC="$PYTHON_CC"
 LIBS="$LIBS $PYTHON_EMBED_LIBS"
 AC_TRY_LINK_FUNC(Py_Initialize, dnl
          [
@@ -115,7 +111,6 @@ AC_TRY_LINK_FUNC(Py_Initialize, dnl
             $1], dnl
          AC_MSG_RESULT(not found); $2)
 ])
-CC="$save_CC"
 
 $1],dnl
 [AC_MSG_RESULT(not found)
