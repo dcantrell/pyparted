@@ -27,7 +27,7 @@ pkgpyexec_LTLIBRARIES = partedmodule.la
 partedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
 partedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) $(LIBPARTED_LDFLAGS)
 partedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
-partedmodule_la_SOURCES = partedmodule.c pyconstraint.c pydevice.c pydisk.c \
+partedmodule_la_SOURCES = _partedmodule.c pyconstraint.c pydevice.c pydisk.c \
                           pyexception.c pyfilesystem.c pygeometry.c
 
 MAINTAINERCLEANFILES = Makefile.in
