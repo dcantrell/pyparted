@@ -26,7 +26,8 @@ SUBDIRS = include src
 
 EXTRA_DIST = pyparted.spec mkrelease.sh
 
-MAINTAINERCLEANFILES = Makefile.in
+MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
+                       depcomp install-sh ltmain.sh missing
 
 MOSTLYCLEANDIRS = m4
 
