@@ -34,6 +34,8 @@ AC_DISABLE_STATIC
 AC_PROG_CC
 AC_PROG_LIBTOOL
 
+AC_HEADER_STDC
+
 dnl Check for Python
 AM_PATH_PYTHON(python_required_version)
 AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)])
