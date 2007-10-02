@@ -1,4 +1,4 @@
-dnl configure.ac for pyparted
+dnl libparted.m4 - libparted checks
 dnl
 dnl Copyright (C) 2007  Red Hat, Inc.  All rights reserved.
 dnl
@@ -18,28 +18,14 @@ dnl Red Hat, Inc.
 dnl
 dnl Red Hat Author(s): David Cantrell
 
-m4_define(libparted_required_version, 1.8.6)
-m4_define(python_required_version, 2.5)
-
-AC_PREREQ(2.59)
-AC_INIT([pyparted], [2.0.0], [dcantrell@redhat.com])
-AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/partedmodule.c])
-AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile include/Makefile src/Makefile])
-
-AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
-
-AC_DISABLE_STATIC
-AC_PROG_CC
-AC_PROG_LIBTOOL
-
-dnl Check for Python
-AM_PATH_PYTHON(python_required_version)
-AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)])
-CC="$PYTHON_CC"
+dnl AC_SUBST(LIBPARTED_CFLAGS)
+dnl AC_SUBST(LIBPARTED_LIBS)
+dnl AC_SUBST(LIBPARTED_LDFLAGS)
+dnl AC_SUBST(LIBPARTED_INCLUDES)
 
 dnl Check for GNU parted
-AM_CHECK_LIBPARTED(libparted_required_version)
-
-AC_OUTPUT
+dnl $1   Minimum version of libparted we require (e.g., 1.8.6)
+AC_DEFUN([AM_CHECK_LIBPARTED],
+[PKG_CHECK_MODULES(libparted, libparted >= $1)
+LIBPARTED_VERSION=$1
+])
