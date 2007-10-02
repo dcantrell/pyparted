@@ -27,19 +27,19 @@
 #include "_partedmodule.h"
 
 static struct PyMethodDef PyPedModuleMethods[] = {
-    {"ped_get_version", (PyCFunction) py_ped_get_version, METH_VARARGS, NULL },
+    {"get_version", (PyCFunction) py_ped_get_version, METH_VARARGS, NULL },
     { NULL, NULL, 0, NULL }
 };
 
 PyObject *py_ped_get_version(PyObject *s, PyObject *args) {
-    char *ret = ped_get_version();
+    char *ret = (char *) ped_get_version();
 
     return Py_BuildValue("s", ret);
 }
 
-void init_pyparted(void) {
+void init_ped(void) {
     PyObject *m, *d;
 
-    m = Py_InitModule("_parted", PyPedModuleMethods);
+    m = Py_InitModule("_ped", PyPedModuleMethods);
     d = PyModule_GetDict(m);
 }
