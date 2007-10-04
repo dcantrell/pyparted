@@ -1,5 +1,9 @@
 /*
- * _partedmodule.c
+ * _pedmodule.c
+ * libparted Python bindings.  This module is low-level in that it directly
+ * maps to the libparted API.  It is intended to be used by a higher level
+ * Python module that implements the libparted functionality via Python
+ * classes and other high level language features.
  *
  * Copyright (C) 2007  Red Hat, Inc.
  * All rights reserved.
@@ -24,10 +28,32 @@
 #include <Python.h>
 #include <parted/parted.h>
 
-#include "_partedmodule.h"
+#include "_pedmodule.h"
+#include "pyunit.h"
 
 static struct PyMethodDef PyPedModuleMethods[] = {
     {"get_version", (PyCFunction) py_ped_get_version, METH_VARARGS, NULL },
+
+    /* pyunit.c */
+    {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS,
+                         NULL},
+    {"unit_get_default", (PyCFunction) py_ped_unit_get_default, METH_VARARGS,
+                         NULL},
+    {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS, NULL},
+    {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS, NULL},
+    {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS,
+                         NULL},
+    {"unit_format_custom_byte", (PyCFunction) py_ped_unit_format_custom_byte,
+                                METH_VARARGS, NULL},
+    {"unit_format_byte", (PyCFunction) py_ped_unit_format_byte, METH_VARARGS,
+                         NULL},
+    {"unit_format_custom", (PyCFunction) py_ped_unit_format_custom,
+                           METH_VARARGS, NULL},
+    {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS, NULL},
+    {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS, NULL},
+    {"unit_parse_custom", (PyCFunction) py_ped_unit_parse_custom,
+                          METH_VARARGS, NULL},
+
     { NULL, NULL, 0, NULL }
 };
 
@@ -37,9 +63,36 @@ PyObject *py_ped_get_version(PyObject *s, PyObject *args) {
     return Py_BuildValue("s", ret);
 }
 
-void init_ped(void) {
-    PyObject *m, *d;
+PyMODINIT_FUNC init_ped(void) {
+    PyObject *m, *d, *o;
 
+    /* init the main Python module and add methods */
     m = Py_InitModule("_ped", PyPedModuleMethods);
     d = PyModule_GetDict(m);
+
+    /* add PedUnit type as _ped.Unit */
+    _ped_UnitType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_UnitType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Unit_methods,
+                       "Unit object describes boundary and size.");
+
+    Py_INCREF(&_ped_UnitType);
+    PyModule_AddObject(m, "Unit", (PyObject *)&_ped_UnitType);
+
+    ENUM(UNIT_SECTOR);
+    ENUM(UNIT_BYTE);
+    ENUM(UNIT_KILOBYTE);
+    ENUM(UNIT_MEGABYTE);
+    ENUM(UNIT_GIGABYTE);
+    ENUM(UNIT_TERABYTE);
+    ENUM(UNIT_COMPACT);
+    ENUM(UNIT_CYLINDER);
+    ENUM(UNIT_CHS);
+    ENUM(UNIT_PERCENT);
+    ENUM(UNIT_KIBIBYTE);
+    ENUM(UNIT_MEBIBYTE);
+    ENUM(UNIT_GIBIBYTE);
+    ENUM(UNIT_TEBIBYTE);
 }
