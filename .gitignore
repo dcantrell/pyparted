@@ -10,4 +10,12 @@ install-sh
 ltmain.sh
 missing
 src/Makefile.in
-
+Makefile
+config.h
+config.log
+config.status
+include/Makefile
+libtool
+src/.deps
+src/Makefile
+stamp-h1
