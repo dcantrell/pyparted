@@ -38,7 +38,6 @@
       py_ped_constraint_exact
 
 - device.h:
-      _ped.Device
       py_ped_device_probe_all
       py_ped_device_free_all
       py_ped_device_get
