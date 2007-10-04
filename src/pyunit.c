@@ -47,6 +47,33 @@ int _ped_Unit_init(_ped_Unit *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Unit_getval(_ped_Unit *self, void *closure) {
+    return Py_BuildValue("l", self->val);
+}
+
+int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure) {
+    long val;
+
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Cannot delete the val attribute");
+        return -1;
+    }
+
+    if (!PyLong_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "The val attribute must be a long");
+        return -1;
+    }
+
+    /* make sure the range is good */
+    if (!PyArg_ParseTuple(value, "l", &val)) {
+        /* FIXME - throw range exception */
+        return NULL;
+    }
+
+    self->val = val;
+    return 0;
+}
+
 /* 1:1 function mappings for unit.h in libparted */
 PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
     _ped_Unit *in;
@@ -85,12 +112,31 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Unit *in;
+    PedUnit out;
+
+    if (!PyArg_ParseTuple(args, "O", (_ped_Unit *) &in)) {
+        /* FIXME - throw exception */
+        return NULL;
+    }
+
+    if (in->val < PED_UNIT_FIRST || in->val > PED_UNIT_TEBIBYTE) {
+        /* FIXME - throw range exception */
+        return NULL;
+    }
+
+    out = in->val;
+    return Py_BuildValue("s", ped_unit_get_name(out));
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
+    char *name;
+
+    if (!PyArg_ParseTuple(args, "s", &name)) {
+        /* FIXME - throw missing name exception */
+        return NULL;
+    }
+
     /* FIXME */
     Py_INCREF(Py_None);
     return Py_None;

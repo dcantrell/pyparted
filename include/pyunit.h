@@ -50,6 +50,14 @@ static PyMethodDef _ped_Unit_methods[] = {
 void _ped_Unit_dealloc(_ped_Unit *self);
 PyObject *_ped_Unit_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Unit_init(_ped_Unit *self, PyObject *args, PyObject *kwds);
+PyObject *_ped_Unit_getval(_ped_Unit *self, void *closure);
+int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure);
+
+static PyGetSetDef _ped_Unit_getset[] = {
+    {"val", (getter) _ped_Unit_getval, (setter) _ped_Unit_setval,
+     "PedUnit value", NULL},
+    {NULL}  /* Sentinel */
+};
 
 static PyTypeObject _ped_UnitType = {
     PyObject_HEAD_INIT(NULL)
@@ -82,7 +90,7 @@ static PyTypeObject _ped_UnitType = {
     0,                                         /* tp_iternext */
     _ped_Unit_methods,                         /* tp_methods */
     _ped_Unit_members,                         /* tp_members */
-    0,                                         /* tp_getset */
+    _ped_Unit_getset,                          /* tp_getset */
     0,                                         /* tp_base */
     0,                                         /* tp_dict */
     0,                                         /* tp_descr_get */
