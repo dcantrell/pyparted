@@ -5,9 +5,9 @@
       'make install'
       autogenerate the pyparted.spec example file
 
-- write new 1:1 function mapping for _parted.c
+- write new 1:1 function mapping for _ped
 
-- new native Python classes on top of _parted.c
+- new native Python classes on top of _ped
       Device
       Disk
       Partition
@@ -20,64 +20,202 @@
 - check for all required headers (scan source)
 - check for all called functions (scan source)
 
-- source files to make 1:1 mappings for:
-      debug.c
-      device.c
-      disk.c
-      exception.c
-      filesys.c
-      libparted.c
-      mbr.s
-      timer.c
-      unit.c
-      arch/beos.c
-      arch/gnu.c
-      arch/linux.c
-      cs/constraint.c
-      cs/geom.c
-      cs/natmath.c
-      fs/amiga
-      fs/bfs
-      fs/ext2
-      fs/fat
-      fs/hfs
-      fs/jfs
-      fs/linux_swap
-      fs/ntfs
-      fs/reiserfs
-      fs/ufs
-      fs/xfs
-      labels/aix.c
-      labels/bsd.c
-      labels/dasd.c
-      labels/dos.c
-      labels/dvh.c
-      labels/efi_crc32.c
-      labels/fdasd.c
-      labels/gpt.c
-      labels/loop.c
-      labels/mac.c
-      labels/pc98.c
-      labels/rdb.c
-      labels/sun.c
-      labels/vtoc.c
+- constraint.h:
+      _ped.Constraint
+      py_ped_constraint_init
+      py_ped_constraint_new
+      py_ped_constraint_new_from_min_max
+      py_ped_constraint_new_from_min
+      py_ped_constraint_new_from_max
+      py_ped_constraint_duplicate
+      py_ped_constraint_done
+      py_ped_constraint_destroy
+      py_ped_constraint_intersect
+      py_ped_constraint_solve_max
+      py_ped_constraint_solve_nearest
+      py_ped_constraint_is_solution
+      py_ped_constraint_any
+      py_ped_constraint_exact
 
-- header files to make 1:1 mappings for:
-      constraint.h
-      debug.h
-      device.h
-      disk.h
-      exception.h
-      fdasd.h
-      filesys.h
-      geom.h
-      gnu.h
-      linux.h
-      natmath.h
-      parted.h
-      timer.h
-      unit.h
-      vtoc.h
+- device.h:
+      _ped.Sector
+      _ped.CHSGeometry
+      _ped.Device
+      py_ped_device_probe_all
+      py_ped_device_free_all
+      py_ped_device_get
+      py_ped_device_get_next
+      py_ped_device_is_busy
+      py_ped_device_open
+      py_ped_device_close
+      py_ped_device_destroy
+      py_ped_device_cache_remove
+      py_ped_begin_external_access
+      py_ped_end_external_access
+      py_ped_device_read
+      py_ped_device_write
+      py_ped_device_sync
+      py_ped_device_sync_fast
+      py_ped_device_check
+      py_ped_device_get_constraint
+
+- unit.h:
+      _ped.Unit
+      py_ped_unit_set_default
+      py_ped_unit_get_default
+      py_ped_unit_get_size
+      py_ped_unit_get_name
+      py_ped_unit_get_by_name
+      py_ped_unit_format_custom_byte
+      py_ped_unit_format_byte
+      py_ped_unit_format_custom
+      py_ped_unit_format
+      py_ped_unit_parse
+      py_ped_unit_parse_custom
+
+- disk.h:
+      _ped.PartitionType
+      _ped.PartitionFlag
+      _ped.DiskTypeFeature
+      _ped.Disk
+      _ped.Partition
+      _ped.DiskType
+      py_ped_disk_type_register
+      py_ped_disk_type_unregister
+      py_ped_disk_type_get_next
+      py_ped_disk_type_get
+      py_ped_disk_type_check_feature
+      py_ped_disk_probe
+      py_ped_disk_clobber
+      py_ped_disk_clobber_exclude
+      py_ped_disk_new
+      py_ped_disk_new_fresh
+      py_ped_disk_duplicate
+      py_ped_disk_destroy
+      py_ped_disk_commit
+      py_ped_disk_commit_to_dev
+      py_ped_disk_commit_to_os
+      py_ped_disk_check
+      py_ped_disk_print
+      py_ped_disk_get_primary_partition_count
+      py_ped_disk_get_last_partition_num
+      py_ped_disk_get_max_primary_partition_count
+      py_ped_partition_new
+      py_ped_partition_destroy
+      py_ped_partition_is_active
+      py_ped_partition_set_flag
+      py_ped_partition_get_flag
+      py_ped_partition_is_flag_available
+      py_ped_partition_set_system
+      py_ped_partition_set_name
+      py_ped_partition_get_name
+      py_ped_partition_is_busy
+      py_ped_partition_get_path
+      py_ped_partition_type_get_name
+      py_ped_partition_flag_get_name
+      py_ped_partition_flag_get_by_name
+      py_ped_partition_flag_next
+      py_ped_disk_add_partition
+      py_ped_disk_remove_partition
+      py_ped_disk_delete_partition
+      py_ped_disk_delete_all
+      py_ped_disk_set_partition_geom
+      py_ped_disk_maximize_partition
+      py_ped_disk_get_max_partition_geometry
+      py_ped_disk_minimize_extended_partition
+      py_ped_disk_next_partition
+      py_ped_disk_get_partition
+      py_ped_disk_get_partition_by_sector
+      py_ped_disk_extended_partition
+
+- exception.h:
+      _ped.Exception
+      _ped.ExceptionType
+      _ped.ExceptionOption
+      py_ped_exception_get_type_string
+      py_ped_exception_get_option_string
+      py_ped_exception_set_handler
+      py_ped_exception_get_handler
+      py_ped_exception_default_handler
+      py_ped_exception_throw
+      py_ped_exception_rethrow
+      py_ped_exception_catch
+      py_ped_exception_fetch_all
+      py_ped_exception_leave_all
+
+- fdasd.h
+
+- filesys.h:
+      _ped.FileSystem
+      _ped.FileSystemType
+      py_ped_file_system_type_register
+      py_ped_file_system_type_unregister
+      py_ped_file_system_type_get
+      py_ped_file_system_type_get_next
+      py_ped_file_system_probe
+      py_ped_file_system_probe_specific
+      py_ped_file_system_clobber
+      py_ped_file_system_open
+      py_ped_file_system_create
+      py_ped_file_system_close
+      py_ped_file_system_check
+      py_ped_file_system_copy
+      py_ped_file_system_resize
+      py_ped_file_system_get_create_constraint
+      py_ped_file_system_get_resize_constraint
+      py_ped_file_system_get_copy_constraint
+
+- geom.h:
+      _ped.Geometry
+      py_ped_geometry_init
+      py_ped_geometry_new
+      py_ped_geometry_duplicate
+      py_ped_geometry_intersect
+      py_ped_geometry_destroy
+      py_ped_geometry_set
+      py_ped_geometry_set_start
+      py_ped_geometry_set_end
+      py_ped_geometry_test_overlap
+      py_ped_geometry_test_inside
+      py_ped_geometry_test_equal
+      py_ped_geometry_test_sector_inside
+      py_ped_geometry_read
+      py_ped_geometry_write
+      py_ped_geometry_check
+      py_ped_geometry_sync
+      py_ped_geometry_sync_fast
+      py_ped_geometry_map
+
+- natmath.h
+      _ped.Alignment
+      py_ped_round_up_to
+      py_ped_round_down_to
+      py_ped_round_to_nearest
+      py_ped_greatest_common_divisor
+      py_ped_alignment_init
+      py_ped_alignment_new
+      py_ped_alignment_destroy
+      py_ped_alignment_duplicate
+      py_ped_alignment_intersect
+      py_ped_alignment_align_up
+      py_ped_alignment_align_down
+      py_ped_alignment_align_nearest
+      py_ped_alignment_is_aligned
+      py_ped_div_round_up
+      py_ped_div_round_to_nearest
+
+- timer.h:
+      _ped.Timer
+      py_ped_timer_new
+      py_ped_timer_destroy
+      py_ped_timer_new_nested
+      py_ped_timer_destroy_nested
+      py_ped_timer_touch
+      py_ped_timer_reset
+      py_ped_timer_update
+      py_ped_timer_set_state_name
+
+- vtoc.h:
 
 - Make sure _ped module has Python docstrings galore
 
