@@ -27,11 +27,10 @@ SUBDIRS = include src
 EXTRA_DIST = pyparted.spec mkrelease.sh
 
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
-                       depcomp install-sh ltmain.sh missing
+                       depcomp install-sh ltmain.sh missing ABOUT-NLS \
+                       INSTALL aclocal.m4 configure
 
 MOSTLYCLEANDIRS = m4
-
-MAINTAINERCLEANFILES += ABOUT-NLS INSTALL aclocal.m4 configure
 
 pyparted.spec: pyparted.spec.in
 	sed 's/@''PACKAGE@/$(PACKAGE)/;s/@''VERSION@/$(VERSION)/;s/@''LIBPARTED_VERSION@/$(LIBPARTED_VERSION)/;' $< > $@-tmp
