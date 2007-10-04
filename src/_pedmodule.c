@@ -29,6 +29,7 @@
 #include <parted/parted.h>
 
 #include "_pedmodule.h"
+#include "pydevice.h"
 #include "pyunit.h"
 
 static struct PyMethodDef PyPedModuleMethods[] = {
@@ -95,4 +96,41 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(UNIT_MEBIBYTE);
     ENUM(UNIT_GIBIBYTE);
     ENUM(UNIT_TEBIBYTE);
+
+    /* add PedSector type as _ped.Sector */
+    _ped_SectorType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_SectorType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Sector_methods,
+                       "Sector object s used to describe disk sizes.");
+
+    Py_INCREF(&_ped_SectorType);
+    PyModule_AddObject(m, "Sector", (PyObject *)&_ped_SectorType);
+
+    ENUM(DEVICE_UNKNOWN);
+    ENUM(DEVICE_SCSI);
+    ENUM(DEVICE_IDE);
+    ENUM(DEVICE_DAC960);
+    ENUM(DEVICE_CPQARRAY);
+    ENUM(DEVICE_FILE);
+    ENUM(DEVICE_ATARAID);
+    ENUM(DEVICE_I2O);
+    ENUM(DEVICE_UBD);
+    ENUM(DEVICE_DASD);
+    ENUM(DEVICE_VIODASD);
+    ENUM(DEVICE_SX8);
+    ENUM(DEVICE_DM);
+    ENUM(DEVICE_XVD);
+
+    /* add PedCHSGeometry type as _ped.CHSGeometry */
+    _ped_CHSGeometryType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_CHSGeometryType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_CHSGeometry_methods,
+                       "CHSGeometry objects used to describe disk sizes.");
+
+    Py_INCREF(&_ped_CHSGeometryType);
+    PyModule_AddObject(m, "CHSGeometry", (PyObject *)&_ped_CHSGeometryType);
 }
