@@ -108,6 +108,27 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(&_ped_SectorType);
     PyModule_AddObject(m, "Sector", (PyObject *)&_ped_SectorType);
 
+    /* add PedCHSGeometry type as _ped.CHSGeometry */
+    _ped_CHSGeometryType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_CHSGeometryType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_CHSGeometry_methods,
+                       "CHSGeometry objects used to describe disk sizes.");
+
+    Py_INCREF(&_ped_CHSGeometryType);
+    PyModule_AddObject(m, "CHSGeometry", (PyObject *)&_ped_CHSGeometryType);
+
+    /* add PedDevice type as _ped.Device */
+    _ped_DeviceType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_DeviceType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Device_methods, NULL);
+
+    Py_INCREF(&_ped_DeviceType);
+    PyModule_AddObject(m, "Device", (PyObject *)&_ped_DeviceType);
+
     ENUM(DEVICE_UNKNOWN);
     ENUM(DEVICE_SCSI);
     ENUM(DEVICE_IDE);
@@ -122,15 +143,4 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(DEVICE_SX8);
     ENUM(DEVICE_DM);
     ENUM(DEVICE_XVD);
-
-    /* add PedCHSGeometry type as _ped.CHSGeometry */
-    _ped_CHSGeometryType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_CHSGeometryType) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_CHSGeometry_methods,
-                       "CHSGeometry objects used to describe disk sizes.");
-
-    Py_INCREF(&_ped_CHSGeometryType);
-    PyModule_AddObject(m, "CHSGeometry", (PyObject *)&_ped_CHSGeometryType);
 }

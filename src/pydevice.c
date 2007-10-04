@@ -168,4 +168,21 @@ int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
     return 0;
 }
 
+/* _ped.Device functions */
+void _ped_Device_dealloc(_ped_Device *self) {
+    self->ob_type->tp_free((PyObject *) self);
+}
+
+PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
+    _ped_Device *self;
+
+    self = (_ped_Device *) type->tp_alloc(type, 0);
+    return (PyObject *) self;
+}
+
+int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
+    /* FIXME */
+    return 0;
+}
+
 /* 1:1 function mappings for device.h in libparted */
