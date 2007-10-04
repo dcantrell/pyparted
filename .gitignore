@@ -19,3 +19,6 @@ libtool
 src/.deps
 src/Makefile
 stamp-h1
+src/.libs
+src/*.la
+src/*.lo
