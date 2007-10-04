@@ -195,6 +195,106 @@ static PyTypeObject _ped_CHSGeometryType = {
     _ped_CHSGeometry_new,                      /* tp_new */
 };
 
+/* _ped.Device type is the Python equivalent of PedDevice in libparted */
+typedef struct {
+    PyObject_HEAD
+
+    /* a PedDevice is complex, we will store primitives when appropriate or
+     * just other Python objects we've created for the typedefs in libparted */
+    PyObject *next;              /* a _ped.Device */
+    char *model;
+    char *path;
+    long long type;
+    long long sector_size;
+    long long phys_sector_size;
+    PyObject *length;            /* a _ped.Sector */
+    int open_count;
+    int read_only;
+    int external_mode;
+    int dirty;
+    int boot_dirty;
+    PyObject *hw_geom;           /* a _ped.CHSGeometry */
+    PyObject *bios_geom;         /* a _ped.CHSGeometry */
+    short host;
+    short did;
+    void *arch_specific;
+} _ped_Device;
+
+static PyMemberDef _ped_Device_members[] = {
+    {"next", T_OBJECT, offsetof(_ped_Device, next), 0, NULL},
+    {"model", T_STRING_INPLACE, offsetof(_ped_Device, model), 0, NULL},
+    {"path", T_STRING_INPLACE, offsetof(_ped_Device, path), 0, NULL},
+    {"type", T_LONGLONG, offsetof(_ped_Device, type), 0, NULL},
+    {"sector_size", T_LONGLONG, offsetof(_ped_Device, sector_size), 0, NULL},
+    {"phys_sector_size", T_LONGLONG, offsetof(_ped_Device, phys_sector_size), 0,
+                         NULL},
+    {"length", T_OBJECT, offsetof(_ped_Device, length), 0, NULL},
+    {"open_count", T_INT, offsetof(_ped_Device, open_count), 0, NULL},
+    {"read_only", T_INT, offsetof(_ped_Device, read_only), 0, NULL},
+    {"external_mode", T_INT, offsetof(_ped_Device, external_mode), 0, NULL},
+    {"dirty", T_INT, offsetof(_ped_Device, dirty), 0, NULL},
+    {"boot_dirty", T_INT, offsetof(_ped_Device, boot_dirty), 0, NULL},
+    {"hw_geom", T_OBJECT, offsetof(_ped_Device, hw_geom), 0, NULL},
+    {"bios_geom", T_OBJECT, offsetof(_ped_Device, bios_geom), 0, NULL},
+    {"host", T_SHORT, offsetof(_ped_Device, host), 0, NULL},
+    {"did", T_SHORT, offsetof(_ped_Device, did), 0, NULL},
+    {NULL}
+};
+
+static PyMethodDef _ped_Device_methods[] = {
+    {NULL}
+};
+
+void _ped_Device_dealloc(_ped_Device *self);
+PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
+int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds);
+
+static PyGetSetDef _ped_Device_getset[] = {
+    {NULL}  /* Sentinel */
+};
+
+static PyTypeObject _ped_DeviceType = {
+    PyObject_HEAD_INIT(NULL)
+    0,                                         /* ob_size */
+    "_ped.Device",                             /* tp_name */
+    sizeof(_ped_Device),                       /* tp_basicsize */
+    0,                                         /* tp_itemsize */
+    (destructor) _ped_Device_dealloc,          /* tp_dealloc */
+    0,                                         /* tp_print */
+    0,                                         /* tp_getattr */
+    0,                                         /* tp_setattr */
+    0,                                         /* tp_compare */
+    0,                                         /* tp_repr */
+    0,                                         /* tp_as_number */
+    0,                                         /* tp_as_sequence */
+    0,                                         /* tp_as_mapping */
+    0,                                         /* tp_hash */
+    0,                                         /* tp_call */
+    0,                                         /* tp_str */
+    0,                                         /* tp_getattro */
+    0,                                         /* tp_setattro */
+    0,                                         /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
+    "PedDevice objects",                       /* tp_doc */
+    0,                                         /* tp_traverse */
+    0,                                         /* tp_clear */
+    0,                                         /* tp_richcompare */
+    0,                                         /* tp_weaklistoffset */
+    0,                                         /* tp_iter */
+    0,                                         /* tp_iternext */
+    _ped_Device_methods,                       /* tp_methods */
+    _ped_Device_members,                       /* tp_members */
+    _ped_Device_getset,                        /* tp_getset */
+    0,                                         /* tp_base */
+    0,                                         /* tp_dict */
+    0,                                         /* tp_descr_get */
+    0,                                         /* tp_descr_set */
+    0,                                         /* tp_dictoffset */
+    (initproc) _ped_Device_init,               /* tp_init */
+    0,                                         /* tp_alloc */
+    _ped_Device_new,                           /* tp_new */
+};
+
 /* 1:1 function mappings for device.h in libparted */
 
 #endif /* PYDEVICE_H_INCLUDED */
