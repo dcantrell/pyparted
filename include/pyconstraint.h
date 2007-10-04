@@ -25,16 +25,5 @@
 #ifndef PYCONSTRAINT_H_INCLUDED
 #define PYCONSTRAINT_H_INCLUDED
 
-/* constraint */
-typedef struct _PyPedConstraint PyPedConstraint;
-
-struct _PyPedConstraint {
-    PyPedAlignment *start_align;
-    PyPedAlignment *end_align;
-    PyPedGeometry *start_range;
-    PyPedGeometry *end_range;
-    PyPedSector *min_size;
-    PyPedSector *max_size;
-};
 
 #endif /* PYCONSTRAINT_H_INCLUDED */
