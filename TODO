@@ -38,8 +38,6 @@
       py_ped_constraint_exact
 
 - device.h:
-      _ped.Sector
-      _ped.CHSGeometry
       _ped.Device
       py_ped_device_probe_all
       py_ped_device_free_all
@@ -60,7 +58,6 @@
       py_ped_device_get_constraint
 
 - unit.h:
-      _ped.Unit
       py_ped_unit_set_default
       py_ped_unit_get_default
       py_ped_unit_get_size
