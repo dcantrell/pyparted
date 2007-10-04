@@ -20,6 +20,6 @@
 # Red Hat Author(s): David Cantrell
 #
 
-noinst_HEADERS = _pedmodule.h pyconstraint.h pygeom.h pyunit.h
+noinst_HEADERS = _pedmodule.h pyconstraint.h pydevice.h pygeom.h pyunit.h
 
 MAINTAINERCLEANFILES = Makefile.in
