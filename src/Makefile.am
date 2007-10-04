@@ -28,6 +28,6 @@ _pedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
 _pedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) \
                            $(LIBPARTED_LDFLAGS)
 _pedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
-_pedmodule_la_SOURCES = _pedmodule.c pyunit.c
+_pedmodule_la_SOURCES = _pedmodule.c pydevice.c pyunit.c
 
 MAINTAINERCLEANFILES = Makefile.in
