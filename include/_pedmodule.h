@@ -25,6 +25,11 @@
 
 #include <Python.h>
 
+/* d and o are PyObject pointers already defined */
+#define ENUM(val) \
+    PyDict_SetItemString(d, #val, o=PyInt_FromLong(PED_ ## val)); \
+    Py_DECREF(o);
+
 extern PyObject *py_ped_get_version(PyObject *s, PyObject *args);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
