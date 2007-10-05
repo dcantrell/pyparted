@@ -31,6 +31,7 @@
 #include "_pedmodule.h"
 #include "pyconstraint.h"
 #include "pydevice.h"
+#include "pydisk.h"
 #include "pygeom.h"
 #include "pynatmath.h"
 #include "pytimer.h"
@@ -187,4 +188,56 @@ PyMODINIT_FUNC init_ped(void) {
 
     Py_INCREF(&_ped_ConstraintType);
     PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_ConstraintType);
+
+    /* add PedPartition type as _ped.Partition */
+    _ped_PartitionType_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionType_obj) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Partition_methods, NULL);
+
+    Py_INCREF(&_ped_PartitionType_obj);
+    PyModule_AddObject(m, "Partition", (PyObject *)&_ped_PartitionType_obj);
+
+    /* add PedPartitionType as _ped.PartitionType */
+    _ped_PartitionTypeType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionTypeType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_PartitionType_methods, NULL);
+
+    Py_INCREF(&_ped_PartitionTypeType);
+    PyModule_AddObject(m, "PartitionType", (PyObject *)&_ped_PartitionTypeType);
+
+    /* add PedPartitionFlag as _ped.PartitionFlag */
+    _ped_PartitionFlagType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionFlagType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_PartitionFlag_methods, NULL);
+
+    Py_INCREF(&_ped_PartitionFlagType);
+    PyModule_AddObject(m, "PartitionFlag", (PyObject *)&_ped_PartitionFlagType);
+
+    ENUM(PARTITION_NORMAL);
+    ENUM(PARTITION_LOGICAL);
+    ENUM(PARTITION_EXTENDED);
+    ENUM(PARTITION_FREESPACE);
+    ENUM(PARTITION_METADATA);
+    ENUM(PARTITION_PROTECTED);
+
+    ENUM(PARTITION_BOOT);
+    ENUM(PARTITION_ROOT);
+    ENUM(PARTITION_SWAP);
+    ENUM(PARTITION_HIDDEN);
+    ENUM(PARTITION_RAID);
+    ENUM(PARTITION_LVM);
+    ENUM(PARTITION_LBA);
+    ENUM(PARTITION_HPSERVICE);
+    ENUM(PARTITION_PALO);
+    ENUM(PARTITION_PREP);
+    ENUM(PARTITION_MSFT_RESERVED);
+
+    ENUM(DISK_TYPE_EXTENDED);
+    ENUM(DISK_TYPE_PARTITION_NAME);
 }
