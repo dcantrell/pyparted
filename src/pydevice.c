@@ -61,7 +61,7 @@ int _ped_Sector_setval(_ped_Sector *self, PyObject *value, void *closure) {
 
     if (!PyArg_ParseTuple(value, "L", &val)) {
         PyErr_SetString(PyExc_TypeError, "The val attribute must be a long long");
-        return NULL;
+        return -1;
     }
 
     self->val = val;
@@ -107,7 +107,7 @@ int _ped_CHSGeometry_setcylinders(_ped_CHSGeometry *self, PyObject *value,
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
         /* FIXME - this should throw an exception probably */
-        return NULL;
+        return -1;
     }
 
     self->cylinders = val;
@@ -134,7 +134,7 @@ int _ped_CHSGeometry_setheads(_ped_CHSGeometry *self, PyObject *value,
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
         /* FIXME - this should throw an exception probably */
-        return NULL;
+        return -1;
     }
 
     self->heads = val;
@@ -161,7 +161,7 @@ int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
         /* FIXME - this should throw an exception probably */
-        return NULL;
+        return -1;
     }
 
     self->sectors = val;
