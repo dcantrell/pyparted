@@ -33,9 +33,10 @@ AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
 AC_DISABLE_STATIC
 AC_PROG_CPP
 AC_PROG_CC
-AC_PROG_LIBTOOL
 
 AC_HEADER_STDC
+
+AC_PROG_LIBTOOL
 
 dnl Check for Python
 AM_PATH_PYTHON(python_required_version)
