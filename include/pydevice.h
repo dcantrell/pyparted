@@ -60,7 +60,7 @@ static PyGetSetDef _ped_Sector_getset[] = {
 };
 
 static PyTypeObject _ped_SectorType = {
-    PyObject_HEAD_INIT(NULL)
+    PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Sector",                             /* tp_name */
     sizeof(_ped_Sector),                       /* tp_basicsize */
@@ -154,7 +154,7 @@ static PyGetSetDef _ped_CHSGeometry_getset[] = {
 };
 
 static PyTypeObject _ped_CHSGeometryType = {
-    PyObject_HEAD_INIT(NULL)
+    PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.CHSGeometry",                        /* tp_name */
     sizeof(_ped_CHSGeometry),                  /* tp_basicsize */
@@ -254,7 +254,7 @@ static PyGetSetDef _ped_Device_getset[] = {
 };
 
 static PyTypeObject _ped_DeviceType = {
-    PyObject_HEAD_INIT(NULL)
+    PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Device",                             /* tp_name */
     sizeof(_ped_Device),                       /* tp_basicsize */
