@@ -32,6 +32,7 @@
 #include "pyconstraint.h"
 #include "pydevice.h"
 #include "pydisk.h"
+#include "pyfilesys.h"
 #include "pygeom.h"
 #include "pynatmath.h"
 #include "pytimer.h"
@@ -274,4 +275,26 @@ PyMODINIT_FUNC init_ped(void) {
 
     ENUM(DISK_TYPE_EXTENDED);
     ENUM(DISK_TYPE_PARTITION_NAME);
+
+    /* add PedFileSystemType as _ped.FileSystemType */
+    _ped_FileSystemType_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_FileSystemType_methods, NULL);
+
+    Py_INCREF(&_ped_FileSystemType_Type_obj);
+    PyModule_AddObject(m, "FileSystemType",
+                       (PyObject *)&_ped_FileSystemType_Type_obj);
+
+    /* add PedFileSystem as _ped.FileSystem */
+    _ped_FileSystem_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_FileSystem_methods, NULL);
+
+    Py_INCREF(&_ped_FileSystem_Type_obj);
+    PyModule_AddObject(m, "FileSystem",
+                       (PyObject *)&_ped_FileSystem_Type_obj);
 }
