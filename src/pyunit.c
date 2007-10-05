@@ -67,7 +67,7 @@ int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure) {
     /* make sure the range is good */
     if (!PyArg_ParseTuple(value, "l", &val)) {
         /* FIXME - throw range exception */
-        return NULL;
+        return -1;
     }
 
     self->val = val;
@@ -97,11 +97,14 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
-    PedUnit in = ped_unit_get_default();
+    PedUnit in;
     _ped_Unit *out;
 
-    out = (_ped_Unit *) _ped_Unit_new(&_ped_UnitType, NULL, NULL);
-    out->val = in;
+    in = ped_unit_get_default();
+    out = PyObject_NEW(_ped_Unit, &_ped_UnitType);
+    out->val = (long) in;
+
+    Py_INCREF(out);
     return (PyObject *) out;
 }
 
