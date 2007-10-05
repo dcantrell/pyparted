@@ -30,6 +30,7 @@
 
 #include "_pedmodule.h"
 #include "pydevice.h"
+#include "pytimer.h"
 #include "pyunit.h"
 
 static struct PyMethodDef PyPedModuleMethods[] = {
@@ -143,4 +144,14 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(DEVICE_SX8);
     ENUM(DEVICE_DM);
     ENUM(DEVICE_XVD);
+
+    /* add PedTimer type as _ped.Timer */
+    _ped_TimerType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_TimerType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Timer_methods, NULL);
+
+    Py_INCREF(&_ped_TimerType);
+    PyModule_AddObject(m, "Timer", (PyObject *)&_ped_TimerType);
 }
