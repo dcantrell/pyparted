@@ -58,7 +58,7 @@ static PyGetSetDef _ped_Alignment_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_AlignmentType = {
+static PyTypeObject _ped_Alignment_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Alignment",                          /* tp_name */

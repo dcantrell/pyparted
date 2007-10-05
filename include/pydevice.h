@@ -59,7 +59,7 @@ static PyGetSetDef _ped_Sector_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_SectorType = {
+static PyTypeObject _ped_Sector_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Sector",                             /* tp_name */
@@ -153,7 +153,7 @@ static PyGetSetDef _ped_CHSGeometry_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_CHSGeometryType = {
+static PyTypeObject _ped_CHSGeometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.CHSGeometry",                        /* tp_name */
@@ -253,7 +253,7 @@ static PyGetSetDef _ped_Device_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_DeviceType = {
+static PyTypeObject _ped_Device_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Device",                             /* tp_name */

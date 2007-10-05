@@ -77,15 +77,15 @@ PyMODINIT_FUNC init_ped(void) {
     d = PyModule_GetDict(m);
 
     /* add PedUnit type as _ped.Unit */
-    _ped_UnitType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_UnitType) < 0)
+    _ped_Unit_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Unit_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Unit_methods,
                        "Unit object describes boundary and size.");
 
-    Py_INCREF(&_ped_UnitType);
-    PyModule_AddObject(m, "Unit", (PyObject *)&_ped_UnitType);
+    Py_INCREF(&_ped_Unit_Type_obj);
+    PyModule_AddObject(m, "Unit", (PyObject *)&_ped_Unit_Type_obj);
 
     ENUM(UNIT_SECTOR);
     ENUM(UNIT_BYTE);
@@ -103,36 +103,37 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(UNIT_TEBIBYTE);
 
     /* add PedSector type as _ped.Sector */
-    _ped_SectorType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_SectorType) < 0)
+    _ped_Sector_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Sector_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Sector_methods,
                        "Sector object s used to describe disk sizes.");
 
-    Py_INCREF(&_ped_SectorType);
-    PyModule_AddObject(m, "Sector", (PyObject *)&_ped_SectorType);
+    Py_INCREF(&_ped_Sector_Type_obj);
+    PyModule_AddObject(m, "Sector", (PyObject *)&_ped_Sector_Type_obj);
 
     /* add PedCHSGeometry type as _ped.CHSGeometry */
-    _ped_CHSGeometryType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_CHSGeometryType) < 0)
+    _ped_CHSGeometry_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_CHSGeometry_methods,
                        "CHSGeometry objects used to describe disk sizes.");
 
-    Py_INCREF(&_ped_CHSGeometryType);
-    PyModule_AddObject(m, "CHSGeometry", (PyObject *)&_ped_CHSGeometryType);
+    Py_INCREF(&_ped_CHSGeometry_Type_obj);
+    PyModule_AddObject(m, "CHSGeometry",
+                       (PyObject *)&_ped_CHSGeometry_Type_obj);
 
     /* add PedDevice type as _ped.Device */
-    _ped_DeviceType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_DeviceType) < 0)
+    _ped_Device_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Device_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Device_methods, NULL);
 
-    Py_INCREF(&_ped_DeviceType);
-    PyModule_AddObject(m, "Device", (PyObject *)&_ped_DeviceType);
+    Py_INCREF(&_ped_Device_Type_obj);
+    PyModule_AddObject(m, "Device", (PyObject *)&_ped_Device_Type_obj);
 
     ENUM(DEVICE_UNKNOWN);
     ENUM(DEVICE_SCSI);
@@ -150,74 +151,76 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(DEVICE_XVD);
 
     /* add PedTimer type as _ped.Timer */
-    _ped_TimerType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_TimerType) < 0)
+    _ped_Timer_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Timer_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Timer_methods, NULL);
 
-    Py_INCREF(&_ped_TimerType);
-    PyModule_AddObject(m, "Timer", (PyObject *)&_ped_TimerType);
+    Py_INCREF(&_ped_Timer_Type_obj);
+    PyModule_AddObject(m, "Timer", (PyObject *)&_ped_Timer_Type_obj);
 
     /* add PedGeometry type as _ped.Geometry */
-    _ped_GeometryType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_GeometryType) < 0)
+    _ped_Geometry_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Geometry_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Geometry_methods, NULL);
 
-    Py_INCREF(&_ped_GeometryType);
-    PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_GeometryType);
+    Py_INCREF(&_ped_Geometry_Type_obj);
+    PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_Geometry_Type_obj);
 
     /* add PedAlignment type as _ped.Alignment */
-    _ped_AlignmentType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_AlignmentType) < 0)
+    _ped_Alignment_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Alignment_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Alignment_methods, NULL);
 
-    Py_INCREF(&_ped_AlignmentType);
-    PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_AlignmentType);
+    Py_INCREF(&_ped_Alignment_Type_obj);
+    PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_Alignment_Type_obj);
 
     /* add PedConstraint type as _ped.Constraint */
-    _ped_ConstraintType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_ConstraintType) < 0)
+    _ped_Constraint_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Constraint_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Constraint_methods, NULL);
 
-    Py_INCREF(&_ped_ConstraintType);
-    PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_ConstraintType);
+    Py_INCREF(&_ped_Constraint_Type_obj);
+    PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_Constraint_Type_obj);
 
     /* add PedPartition type as _ped.Partition */
-    _ped_PartitionType_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionType_obj) < 0)
+    _ped_Partition_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_Partition_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_Partition_methods, NULL);
 
-    Py_INCREF(&_ped_PartitionType_obj);
-    PyModule_AddObject(m, "Partition", (PyObject *)&_ped_PartitionType_obj);
+    Py_INCREF(&_ped_Partition_Type_obj);
+    PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
     /* add PedPartitionType as _ped.PartitionType */
-    _ped_PartitionTypeType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionTypeType) < 0)
+    _ped_PartitionType_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionType_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_PartitionType_methods, NULL);
 
-    Py_INCREF(&_ped_PartitionTypeType);
-    PyModule_AddObject(m, "PartitionType", (PyObject *)&_ped_PartitionTypeType);
+    Py_INCREF(&_ped_PartitionType_Type_obj);
+    PyModule_AddObject(m, "PartitionType",
+                       (PyObject *)&_ped_PartitionType_Type_obj);
 
     /* add PedPartitionFlag as _ped.PartitionFlag */
-    _ped_PartitionFlagType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionFlagType) < 0)
+    _ped_PartitionFlagType_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionFlagType_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_PartitionFlag_methods, NULL);
 
-    Py_INCREF(&_ped_PartitionFlagType);
-    PyModule_AddObject(m, "PartitionFlag", (PyObject *)&_ped_PartitionFlagType);
+    Py_INCREF(&_ped_PartitionFlagType_Type_obj);
+    PyModule_AddObject(m, "PartitionFlag",
+                       (PyObject *)&_ped_PartitionFlagType_Type_obj);
 
     ENUM(PARTITION_NORMAL);
     ENUM(PARTITION_LOGICAL);

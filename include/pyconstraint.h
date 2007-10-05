@@ -66,7 +66,7 @@ static PyGetSetDef _ped_Constraint_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_ConstraintType = {
+static PyTypeObject _ped_Constraint_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Constraint",                         /* tp_name */
