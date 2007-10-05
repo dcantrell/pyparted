@@ -33,6 +33,6 @@ _pedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) \
                            $(LIBPARTED_LDFLAGS)
 _pedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
 _pedmodule_la_SOURCES = _pedmodule.c pyconstraint.c pydevice.c pydisk.c \
-                        pygeom.c pynatmath.c pytimer.c pyunit.c
+                        pyfilesys.c pygeom.c pynatmath.c pytimer.c pyunit.c
 
 MAINTAINERCLEANFILES = Makefile.in
