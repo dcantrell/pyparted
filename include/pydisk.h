@@ -254,6 +254,222 @@ static PyTypeObject _ped_Partition_Type_obj = {
     _ped_Partition_new,                        /* tp_new */
 };
 
+/* _ped.Disk type is the Python equivalent of PedDisk in libparted */
+typedef struct {
+    PyObject_HEAD
+
+    /* PedDisk members */
+    PyObject *dev;             /* _ped.Device */
+    PyObject *type;            /* _ped.DiskType */
+    int *block_sizes;
+    PyObject *part_list;       /* _ped.Partition */
+    void *disk_specific;
+} _ped_Disk;
+
+static PyMemberDef _ped_Disk_members[] = {
+    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0, NULL},
+    {"type", T_OBJECT, offsetof(_ped_Disk, type), 0, NULL},
+    {"block_sizes", T_INT, offsetof(_ped_Disk, block_sizes), 0, NULL},
+    {"part_list", T_OBJECT, offsetof(_ped_Disk, part_list), 0, NULL},
+    {NULL}
+};
+
+static PyMethodDef _ped_Disk_methods[] = {
+    {NULL}
+};
+
+void _ped_Disk_dealloc(_ped_Disk *self);
+PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
+int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);
+
+static PyGetSetDef _ped_Disk_getset[] = {
+    {NULL}  /* Sentinel */
+};
+
+static PyTypeObject _ped_Disk_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    0,                                         /* ob_size */
+    "_ped.Disk",                               /* tp_name */
+    sizeof(_ped_Disk),                         /* tp_basicsize */
+    0,                                         /* tp_itemsize */
+    (destructor) _ped_Disk_dealloc,            /* tp_dealloc */
+    0,                                         /* tp_print */
+    0,                                         /* tp_getattr */
+    0,                                         /* tp_setattr */
+    0,                                         /* tp_compare */
+    0,                                         /* tp_repr */
+    0,                                         /* tp_as_number */
+    0,                                         /* tp_as_sequence */
+    0,                                         /* tp_as_mapping */
+    0,                                         /* tp_hash */
+    0,                                         /* tp_call */
+    0,                                         /* tp_str */
+    0,                                         /* tp_getattro */
+    0,                                         /* tp_setattro */
+    0,                                         /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
+    "PedDisk objects",                         /* tp_doc */
+    0,                                         /* tp_traverse */
+    0,                                         /* tp_clear */
+    0,                                         /* tp_richcompare */
+    0,                                         /* tp_weaklistoffset */
+    0,                                         /* tp_iter */
+    0,                                         /* tp_iternext */
+    _ped_Disk_methods,                         /* tp_methods */
+    _ped_Disk_members,                         /* tp_members */
+    _ped_Disk_getset,                          /* tp_getset */
+    0,                                         /* tp_base */
+    0,                                         /* tp_dict */
+    0,                                         /* tp_descr_get */
+    0,                                         /* tp_descr_set */
+    0,                                         /* tp_dictoffset */
+    (initproc) _ped_Disk_init,                 /* tp_init */
+    0,                                         /* tp_alloc */
+    _ped_Disk_new,                             /* tp_new */
+};
+
+/* _ped.DiskType type is the Python equivalent of PedDiskType in libparted */
+typedef struct {
+    PyObject_HEAD
+
+    /* PedDiskType members */
+    PyObject *next;            /* _ped.DiskType */
+    char *name;
+    PedDiskOps *ops;
+    PyObject *features;        /* _ped.DiskTypeFeature */
+} _ped_DiskType;
+
+static PyMemberDef _ped_DiskType_members[] = {
+    {"next", T_OBJECT, offsetof(_ped_DiskType, next), 0, NULL},
+    {"name", T_STRING_INPLACE, offsetof(_ped_DiskType, name), 0, NULL},
+    {"features", T_OBJECT, offsetof(_ped_DiskType, features), 0, NULL},
+    {NULL}
+};
+
+static PyMethodDef _ped_DiskType_methods[] = {
+    {NULL}
+};
+
+void _ped_DiskType_dealloc(_ped_DiskType *self);
+PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
+int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds);
+
+static PyGetSetDef _ped_DiskType_getset[] = {
+    {NULL}  /* Sentinel */
+};
+
+static PyTypeObject _ped_DiskType_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    0,                                         /* ob_size */
+    "_ped.DiskType",                           /* tp_name */
+    sizeof(_ped_DiskType),                     /* tp_basicsize */
+    0,                                         /* tp_itemsize */
+    (destructor) _ped_DiskType_dealloc,        /* tp_dealloc */
+    0,                                         /* tp_print */
+    0,                                         /* tp_getattr */
+    0,                                         /* tp_setattr */
+    0,                                         /* tp_compare */
+    0,                                         /* tp_repr */
+    0,                                         /* tp_as_number */
+    0,                                         /* tp_as_sequence */
+    0,                                         /* tp_as_mapping */
+    0,                                         /* tp_hash */
+    0,                                         /* tp_call */
+    0,                                         /* tp_str */
+    0,                                         /* tp_getattro */
+    0,                                         /* tp_setattro */
+    0,                                         /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
+    "PedDiskType objects",                     /* tp_doc */
+    0,                                         /* tp_traverse */
+    0,                                         /* tp_clear */
+    0,                                         /* tp_richcompare */
+    0,                                         /* tp_weaklistoffset */
+    0,                                         /* tp_iter */
+    0,                                         /* tp_iternext */
+    _ped_DiskType_methods,                     /* tp_methods */
+    _ped_DiskType_members,                     /* tp_members */
+    _ped_DiskType_getset,                      /* tp_getset */
+    0,                                         /* tp_base */
+    0,                                         /* tp_dict */
+    0,                                         /* tp_descr_get */
+    0,                                         /* tp_descr_set */
+    0,                                         /* tp_dictoffset */
+    (initproc) _ped_DiskType_init,             /* tp_init */
+    0,                                         /* tp_alloc */
+    _ped_DiskType_new,                         /* tp_new */
+};
+
+/* _ped.DiskTypeFeature type is the Python equivalent of PedDiskTypeFeature
+ * in libparted */
+typedef struct {
+    PyObject_HEAD
+
+    /* a PedDiskTypeFeature is a long, so store a long here */
+    long val;
+} _ped_DiskTypeFeature;
+
+static PyMemberDef _ped_DiskTypeFeature_members[] = {
+    {"val", T_LONG, offsetof(_ped_DiskTypeFeature, val), 0, NULL},
+    {NULL}
+};
+
+static PyMethodDef _ped_DiskTypeFeature_methods[] = {
+    {NULL}
+};
+
+void _ped_DiskTypeFeature_dealloc(_ped_DiskTypeFeature *self);
+PyObject *_ped_DiskTypeFeature_new(PyTypeObject *type, PyObject *args,
+                                   PyObject *kwds);
+int _ped_DiskTypeFeature_init(_ped_DiskTypeFeature *self, PyObject *args,
+                              PyObject *kwds);
+
+static PyGetSetDef _ped_DiskTypeFeature_getset[] = {
+    {NULL}  /* Sentinel */
+};
+
+static PyTypeObject _ped_DiskTypeFeature_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    0,                                         /* ob_size */
+    "_ped.DiskTypeFeature",                    /* tp_name */
+    sizeof(_ped_DiskTypeFeature),              /* tp_basicsize */
+    0,                                         /* tp_itemsize */
+    (destructor) _ped_DiskTypeFeature_dealloc, /* tp_dealloc */
+    0,                                         /* tp_print */
+    0,                                         /* tp_getattr */
+    0,                                         /* tp_setattr */
+    0,                                         /* tp_compare */
+    0,                                         /* tp_repr */
+    0,                                         /* tp_as_number */
+    0,                                         /* tp_as_sequence */
+    0,                                         /* tp_as_mapping */
+    0,                                         /* tp_hash */
+    0,                                         /* tp_call */
+    0,                                         /* tp_str */
+    0,                                         /* tp_getattro */
+    0,                                         /* tp_setattro */
+    0,                                         /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
+    "PedDiskTypeFeature objects",              /* tp_doc */
+    0,                                         /* tp_traverse */
+    0,                                         /* tp_clear */
+    0,                                         /* tp_richcompare */
+    0,                                         /* tp_weaklistoffset */
+    0,                                         /* tp_iter */
+    0,                                         /* tp_iternext */
+    _ped_DiskTypeFeature_methods,              /* tp_methods */
+    _ped_DiskTypeFeature_members,              /* tp_members */
+    _ped_DiskTypeFeature_getset,               /* tp_getset */
+    0,                                         /* tp_base */
+    0,                                         /* tp_dict */
+    0,                                         /* tp_descr_get */
+    0,                                         /* tp_descr_set */
+    0,                                         /* tp_dictoffset */
+    (initproc) _ped_DiskTypeFeature_init,      /* tp_init */
+    0,                                         /* tp_alloc */
+    _ped_DiskTypeFeature_new,                  /* tp_new */
+};
+
 /* 1:1 function mappings for disk.h in libparted */
 
 #endif /* PYDISK_H_INCLUDED */

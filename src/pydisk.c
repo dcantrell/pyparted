@@ -81,4 +81,59 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+/* _ped.Disk functions */
+void _ped_Disk_dealloc(_ped_Disk *self) {
+    self->ob_type->tp_free((PyObject *) self);
+}
+
+PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
+                             PyObject *kwds) {
+    _ped_Disk *self;
+
+    self = (_ped_Disk *) type->tp_alloc(type, 0);
+    return (PyObject *) self;
+}
+
+int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
+    /* FIXME */
+    return 0;
+}
+
+/* _ped.DiskType functions */
+void _ped_DiskType_dealloc(_ped_DiskType *self) {
+    self->ob_type->tp_free((PyObject *) self);
+}
+
+PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
+                             PyObject *kwds) {
+    _ped_DiskType *self;
+
+    self = (_ped_DiskType *) type->tp_alloc(type, 0);
+    return (PyObject *) self;
+}
+
+int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
+    /* FIXME */
+    return 0;
+}
+
+/* _ped.DiskTypeFeature functions */
+void _ped_DiskTypeFeature_dealloc(_ped_DiskTypeFeature *self) {
+    self->ob_type->tp_free((PyObject *) self);
+}
+
+PyObject *_ped_DiskTypeFeature_new(PyTypeObject *type, PyObject *args,
+                             PyObject *kwds) {
+    _ped_DiskTypeFeature *self;
+
+    self = (_ped_DiskTypeFeature *) type->tp_alloc(type, 0);
+    return (PyObject *) self;
+}
+
+int _ped_DiskTypeFeature_init(_ped_DiskTypeFeature *self, PyObject *args,
+                              PyObject *kwds) {
+    /* FIXME */
+    return 0;
+}
+
 /* 1:1 function mappings for disk.h in libparted */
