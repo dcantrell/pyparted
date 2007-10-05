@@ -29,6 +29,7 @@
 #include <parted/parted.h>
 
 #include "_pedmodule.h"
+#include "pyconstraint.h"
 #include "pydevice.h"
 #include "pygeom.h"
 #include "pynatmath.h"
@@ -176,4 +177,14 @@ PyMODINIT_FUNC init_ped(void) {
 
     Py_INCREF(&_ped_AlignmentType);
     PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_AlignmentType);
+
+    /* add PedConstraint type as _ped.Constraint */
+    _ped_ConstraintType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_ConstraintType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Constraint_methods, NULL);
+
+    Py_INCREF(&_ped_ConstraintType);
+    PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_ConstraintType);
 }
