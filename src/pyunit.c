@@ -101,7 +101,7 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     _ped_Unit *out;
 
     in = ped_unit_get_default();
-    out = PyObject_NEW(_ped_Unit, &_ped_UnitType);
+    out = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
     out->val = (long) in;
 
     Py_INCREF(out);

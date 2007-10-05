@@ -59,7 +59,7 @@ static PyGetSetDef _ped_Unit_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_UnitType = {
+static PyTypeObject _ped_Unit_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Unit",                               /* tp_name */

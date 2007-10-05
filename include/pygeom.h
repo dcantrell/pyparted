@@ -61,7 +61,7 @@ static PyGetSetDef _ped_Geometry_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_GeometryType = {
+static PyTypeObject _ped_Geometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Geometry",                           /* tp_name */
