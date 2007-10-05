@@ -25,5 +25,89 @@
 #ifndef PYCONSTRAINT_H_INCLUDED
 #define PYCONSTRAINT_H_INCLUDED
 
+#include <Python.h>
+#include <structmember.h>
+
+#include <parted/parted.h>
+
+/* _ped.Constraint type is the Python equiv of PedConstraint in libparted */
+typedef struct {
+    PyObject_HEAD
+
+    /* PedConstraint members */
+    PyObject *start_align;              /* _ped.Alignment */
+    PyObject *end_align;                /* _ped.Alignment */
+    PyObject *start_range;              /* _ped.Alignment */
+    PyObject *end_range;                /* _ped.Alignment */
+    PyObject *min_size;                 /* _ped.Sector */
+    PyObject *max_size;                 /* _ped.Sector */
+} _ped_Constraint;
+
+static PyMemberDef _ped_Constraint_members[] = {
+    {"start_align", T_OBJECT, offsetof(_ped_Constraint, start_align), 0, NULL},
+    {"end_align", T_OBJECT, offsetof(_ped_Constraint, end_align), 0, NULL},
+    {"start_range", T_OBJECT, offsetof(_ped_Constraint, start_range), 0, NULL},
+    {"end_range", T_OBJECT, offsetof(_ped_Constraint, end_range), 0, NULL},
+    {"min_size", T_OBJECT, offsetof(_ped_Constraint, min_size), 0, NULL},
+    {"max_size", T_OBJECT, offsetof(_ped_Constraint, max_size), 0, NULL},
+    {NULL}
+};
+
+static PyMethodDef _ped_Constraint_methods[] = {
+    {NULL}
+};
+
+void _ped_Constraint_dealloc(_ped_Constraint *self);
+PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
+                              PyObject *kwds);
+int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);
+
+static PyGetSetDef _ped_Constraint_getset[] = {
+    {NULL}  /* Sentinel */
+};
+
+static PyTypeObject _ped_ConstraintType = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    0,                                         /* ob_size */
+    "_ped.Constraint",                         /* tp_name */
+    sizeof(_ped_Constraint),                   /* tp_basicsize */
+    0,                                         /* tp_itemsize */
+    (destructor) _ped_Constraint_dealloc,      /* tp_dealloc */
+    0,                                         /* tp_print */
+    0,                                         /* tp_getattr */
+    0,                                         /* tp_setattr */
+    0,                                         /* tp_compare */
+    0,                                         /* tp_repr */
+    0,                                         /* tp_as_number */
+    0,                                         /* tp_as_sequence */
+    0,                                         /* tp_as_mapping */
+    0,                                         /* tp_hash */
+    0,                                         /* tp_call */
+    0,                                         /* tp_str */
+    0,                                         /* tp_getattro */
+    0,                                         /* tp_setattro */
+    0,                                         /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
+    "PedConstraint objects",                   /* tp_doc */
+    0,                                         /* tp_traverse */
+    0,                                         /* tp_clear */
+    0,                                         /* tp_richcompare */
+    0,                                         /* tp_weaklistoffset */
+    0,                                         /* tp_iter */
+    0,                                         /* tp_iternext */
+    _ped_Constraint_methods,                   /* tp_methods */
+    _ped_Constraint_members,                   /* tp_members */
+    _ped_Constraint_getset,                    /* tp_getset */
+    0,                                         /* tp_base */
+    0,                                         /* tp_dict */
+    0,                                         /* tp_descr_get */
+    0,                                         /* tp_descr_set */
+    0,                                         /* tp_dictoffset */
+    (initproc) _ped_Constraint_init,           /* tp_init */
+    0,                                         /* tp_alloc */
+    _ped_Constraint_new,                       /* tp_new */
+};
+
+/* 1:1 function mappings for constraint.h in libparted */
 
 #endif /* PYCONSTRAINT_H_INCLUDED */
