@@ -60,7 +60,7 @@ static PyGetSetDef _ped_Unit_getset[] = {
 };
 
 static PyTypeObject _ped_UnitType = {
-    PyObject_HEAD_INIT(NULL)
+    PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.Unit",                               /* tp_name */
     sizeof(_ped_Unit),                         /* tp_basicsize */
