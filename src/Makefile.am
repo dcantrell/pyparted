@@ -22,6 +22,10 @@
 
 INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
+# install Python module code directly in to site-packages
+pkgpyexecdir = $(pyexecdir)
+pkgpythondir = $(pythondir)
+
 # libparted binding
 pkgpyexec_LTLIBRARIES = _pedmodule.la
 _pedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
