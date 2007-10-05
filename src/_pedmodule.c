@@ -30,6 +30,7 @@
 
 #include "_pedmodule.h"
 #include "pydevice.h"
+#include "pygeom.h"
 #include "pytimer.h"
 #include "pyunit.h"
 
@@ -154,4 +155,14 @@ PyMODINIT_FUNC init_ped(void) {
 
     Py_INCREF(&_ped_TimerType);
     PyModule_AddObject(m, "Timer", (PyObject *)&_ped_TimerType);
+
+    /* add PedGeometry type as _ped.Geometry */
+    _ped_GeometryType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_GeometryType) < 0)
+        return;
+
+    m = Py_InitModule3("_ped", _ped_Geometry_methods, NULL);
+
+    Py_INCREF(&_ped_GeometryType);
+    PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_GeometryType);
 }
