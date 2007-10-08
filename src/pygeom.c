@@ -44,3 +44,110 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
 }
 
 /* 1:1 function mappings for geom.h in libparted */
+PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}

@@ -44,3 +44,92 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
 }
 
 /* 1:1 function mappings for natmath.h in libparted */
+PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}

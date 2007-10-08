@@ -105,5 +105,13 @@ static PyTypeObject _ped_Timer_Type_obj = {
 };
 
 /* 1:1 function mappings for timer.h in libparted */
+PyObject *py_ped_timer_new(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_touch(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_reset(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_update(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args);
 
 #endif /* PYTIMER_H_INCLUDED */

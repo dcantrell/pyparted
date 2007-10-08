@@ -137,3 +137,287 @@ int _ped_DiskTypeFeature_init(_ped_DiskTypeFeature *self, PyObject *args,
 }
 
 /* 1:1 function mappings for disk.h in libparted */
+PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
+                                                      PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+#endif /* PYDISK_H_INCLUDED */
