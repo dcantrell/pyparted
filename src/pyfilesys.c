@@ -64,3 +64,106 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
 }
 
 /* 1:1 function mappings for filesys.h in libparted */
+PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_clobber_exclude(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
+                                                   PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
+                                                   PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}

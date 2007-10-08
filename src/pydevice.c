@@ -186,3 +186,104 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
 }
 
 /* 1:1 function mappings for device.h in libparted */
+PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)  {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_free_all(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
+    /* FIXME */
+    Py_INCREF(Py_None);
+    return Py_None;
+}
