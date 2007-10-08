@@ -32,6 +32,11 @@
  * type.  It is up to the caller to free the memory after using it.
  */
 
+/*
+ * _ped_Device2PedDevice() - Take a pointer to a _ped_Device type and return
+ *                           a pointer to a PedDevice struct that contains
+ *                           the same values as the _ped_Device.
+ */
 PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     PedDevice *ret;
 
@@ -64,6 +69,7 @@ PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     ret->sector_size = dev->sector_size;
     ret->phys_sector_size = dev->phys_sector_size;
 
+    /* dev->length is a _ped_Sector, so read the val attribute */
     ret->length = dev->length->val;
 
     ret->open_count = dev->open_count;
@@ -72,6 +78,7 @@ PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     ret->dirty = dev->dirty;
     ret->boot_dirty = dev->boot_dirty;
 
+    /* dev->hw_geom and dev->bios_geom are _ped_Geometry objects */
     ret->hw_geom.cylinders = dev->hw_geom->cylinders;
     ret->hw_geom.heads = dev->hw_geom->heads;
     ret->hw_geom.sectors = dev->hw_geom->sectors;
