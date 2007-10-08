@@ -95,7 +95,7 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if (in->val < PED_UNIT_FIRST || in->val > PED_UNIT_TEBIBYTE) {
+    if (in->val < PED_UNIT_FIRST || in->val > PED_UNIT_LAST) {
         PyErr_SetString(PyExc_IndexError, "Invalid value specified");
         return NULL;
     }
