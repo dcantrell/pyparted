@@ -23,6 +23,8 @@
 
 #include <Python.h>
 
+#include "convert.h"
+#include "pydevice.h"
 #include "pyunit.h"
 
 /* _ped.Unit functions */
@@ -40,10 +42,16 @@ PyObject *_ped_Unit_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 int _ped_Unit_init(_ped_Unit *self, PyObject *args, PyObject *kwds) {
     long val;
 
-    if (PyArg_ParseTuple(args, "l", &val)) {
-        self->val = val;
+    if (!PyArg_ParseTuple(args, "l", &val)) {
+        return -1;
     }
 
+    if (val < PED_UNIT_FIRST || val > PED_UNIT_LAST) {
+        PyErr_SetString(PyExc_IndexError, "Invalid value specified");
+        return -1;
+    }
+
+    self->val = val;
     return 0;
 }
 
@@ -64,9 +72,13 @@ int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure) {
         return -1;
     }
 
-    /* make sure the range is good */
     if (!PyArg_ParseTuple(value, "l", &val)) {
-        /* FIXME - throw range exception */
+        return -1;
+    }
+
+    /* make sure the range is good */
+    if (val < PED_UNIT_FIRST || val > PED_UNIT_LAST) {
+        PyErr_SetString(PyExc_IndexError, "Invalid value specified");
         return -1;
     }
 
@@ -80,12 +92,11 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
     PedUnit out;
 
     if (!PyArg_ParseTuple(args, "O", (_ped_Unit *) &in)) {
-        /* FIXME - throw exception */
         return NULL;
     }
 
     if (in->val < PED_UNIT_FIRST || in->val > PED_UNIT_TEBIBYTE) {
-        /* FIXME - throw range exception */
+        PyErr_SetString(PyExc_IndexError, "Invalid value specified");
         return NULL;
     }
 
@@ -109,9 +120,25 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Unit *in_unit;
+    _ped_Device *in_dev;
+    PedDevice *out_dev;
+    PedUnit out_unit;
+    long long ret = 0;
+
+    if (!PyArg_ParseTuple(args, "OO", (_ped_Unit *) &in_unit,
+                                      (_ped_Device *) &in_dev)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    out_unit = in_unit->val;
+
+    ret = ped_unit_get_size(out_dev, out_unit);
+
+    free(out_dev);
+
+    return Py_BuildValue("L", ret);
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
@@ -119,12 +146,6 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
     PedUnit out;
 
     if (!PyArg_ParseTuple(args, "O", (_ped_Unit *) &in)) {
-        /* FIXME - throw exception */
-        return NULL;
-    }
-
-    if (in->val < PED_UNIT_FIRST || in->val > PED_UNIT_TEBIBYTE) {
-        /* FIXME - throw range exception */
         return NULL;
     }
 
@@ -134,39 +155,107 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     char *name;
+    PedUnit in;
+    _ped_Unit *out;
 
     if (!PyArg_ParseTuple(args, "s", &name)) {
-        /* FIXME - throw missing name exception */
         return NULL;
     }
 
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    in = ped_unit_get_by_name(name);
+    out = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
+    out->val = (long) in;
+
+    Py_INCREF(out);
+    return (PyObject *) out;
 }
 
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Device *in_dev;
+    _ped_Sector *in_sector;
+    _ped_Unit *in_unit;
+    PedDevice *out_dev;
+    PedSector out_sector;
+    PedUnit out_unit;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OOO", (_ped_Device *) &in_dev,
+                                       (_ped_Sector *) &in_sector,
+                                       (_ped_Unit *) &in_unit)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    out_sector = in_sector->val;
+    out_unit = in_unit->val;
+
+    ret = ped_unit_format_custom_byte(out_dev, out_sector, out_unit);
+    free(out_dev);
+    return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Device *in_dev;
+    _ped_Sector *in_sector;
+    PedDevice *out_dev;
+    PedSector out_sector;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OO", (_ped_Device *) &in_dev,
+                                      (_ped_Sector *) &in_sector)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    out_sector = in_sector->val;
+
+    ret = ped_unit_format_byte(out_dev, out_sector);
+    free(out_dev);
+    return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Device *in_dev;
+    _ped_Sector *in_sector;
+    _ped_Unit *in_unit;
+    PedDevice *out_dev;
+    PedSector out_sector;
+    PedUnit out_unit;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OOO", (_ped_Device *) &in_dev,
+                                       (_ped_Sector *) &in_sector,
+                                       (_ped_Unit *) &in_unit)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    out_sector = in_sector->val;
+    out_unit = in_unit->val;
+
+    ret = ped_unit_format_custom(out_dev, out_sector, out_unit);
+    free(out_dev);
+    return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    _ped_Device *in_dev;
+    _ped_Sector *in_sector;
+    PedDevice *out_dev;
+    PedSector out_sector;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OO", (_ped_Device *) &in_dev,
+                                      (_ped_Sector *) &in_sector)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    out_sector = in_sector->val;
+
+    ret = ped_unit_format(out_dev, out_sector);
+    free(out_dev);
+    return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
