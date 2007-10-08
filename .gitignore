@@ -17,6 +17,7 @@ install-sh
 libtool
 ltmain.sh
 missing
+pyparted.spec
 src/*.la
 src/*.lo
 src/.deps
