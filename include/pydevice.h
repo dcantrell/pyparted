@@ -201,20 +201,20 @@ typedef struct {
 
     /* a PedDevice is complex, we will store primitives when appropriate or
      * just other Python objects we've created for the typedefs in libparted */
-    PyObject *next;              /* a _ped.Device */
+    PedDevice *next;              /* a _ped.Device */
     char *model;
     char *path;
     long long type;
     long long sector_size;
     long long phys_sector_size;
-    PyObject *length;            /* a _ped.Sector */
+    PyObject *length;             /* a _ped.Sector */
     int open_count;
     int read_only;
     int external_mode;
     int dirty;
     int boot_dirty;
-    PyObject *hw_geom;           /* a _ped.CHSGeometry */
-    PyObject *bios_geom;         /* a _ped.CHSGeometry */
+    PyObject *hw_geom;            /* a _ped.CHSGeometry */
+    PyObject *bios_geom;          /* a _ped.CHSGeometry */
     short host;
     short did;
     void *arch_specific;
