@@ -24,11 +24,11 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = include src
 
-EXTRA_DIST = pyparted.spec mkrelease.sh
+EXTRA_DIST = pyparted.spec
 
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        depcomp install-sh ltmain.sh missing ABOUT-NLS \
-                       INSTALL aclocal.m4 configure
+                       INSTALL aclocal.m4 configure WHY
 
 MOSTLYCLEANDIRS = m4
 
