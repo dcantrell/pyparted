@@ -419,5 +419,3 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
     Py_INCREF(Py_None);
     return Py_None;
 }
-
-#endif /* PYDISK_H_INCLUDED */
