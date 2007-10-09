@@ -27,17 +27,27 @@
 
 #include <parted/parted.h>
 
+#include "pyconstraint.h"
 #include "pydevice.h"
+#include "pygeom.h"
+#include "pynatmath.h"
 
-PedAlignment *_ped_Alignment2PedAlignment(_ped_Alignment *alignment);
+PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
+void _free_PedAlignment(PedAlignment *alignment);
 
-PedConstraint *_ped_Constraint2PedConstraint(_ped_Constraint *constraint);
+PedConstraint *_ped_Constraint2PedConstraint(PyObject *s);
+void _free_PedConstraint(PedConstraint *constraint);
 
-PedDevice *_ped_Device2PedDevice(_ped_Device *dev);
+PedDevice *_ped_Device2PedDevice(PyObject *s);
 void _free_PedDevice(PedDevice *dev);
 
-PedGeometry *_ped_Geometry2PedGeometry(_ped_Geometry *geometry);
+PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
+void _free_PedGeometry(PedGeometry *geometry);
 
-PedSector _ped_Sector2PedSector(_ped_Sector *sector);
+void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom);
+
+PedSector _ped_Sector2PedSector(PyObject *s);
+
+PedUnit _ped_Unit2PedUnit(PyObject *s);
 
 #endif /* CONVERT_H_INCLUDED */
