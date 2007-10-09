@@ -27,7 +27,7 @@
 
 /* _ped.Alignment functions */
 void _ped_Alignment_dealloc(_ped_Alignment *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,

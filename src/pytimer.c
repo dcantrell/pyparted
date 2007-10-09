@@ -27,7 +27,7 @@
 
 /* _ped.Timer functions */
 void _ped_Timer_dealloc(_ped_Timer *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {

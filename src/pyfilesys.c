@@ -27,7 +27,7 @@
 
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
@@ -46,7 +46,7 @@ int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
 
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
