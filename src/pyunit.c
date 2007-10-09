@@ -29,13 +29,13 @@
 
 /* _ped.Unit functions */
 void _ped_Unit_dealloc(_ped_Unit *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Unit_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
     _ped_Unit *self;
 
-    self = (_ped_Unit *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Unit, &_ped_Unit_Type_obj);
     return (PyObject *) self;
 }
 
@@ -68,7 +68,6 @@ int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure) {
     }
 
     if (!PyLong_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "The val attribute must be a long");
         return -1;
     }
 
@@ -112,31 +111,40 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     _ped_Unit *ret;
 
     in = ped_unit_get_default();
-    ret = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
-    ret->val = (long) in;
+    ret = PyObject_New(_ped_Unit, &_ped_Unit_Type_obj);
 
-    /* FIXME - do I need this incref? */
-    Py_INCREF(ret);
+    if (ret) {
+        ret->val = (long) in;
+    } else {
+        return NULL;
+    }
+
     return (PyObject *) ret;
 }
 
 PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
-    _ped_Unit *in_unit;
-    _ped_Device *in_dev;
+    long long ret = -1;
+    PyObject *in_unit, *in_dev;
     PedDevice *out_dev;
     PedUnit out_unit;
-    long long ret = 0;
 
-    if (!PyArg_ParseTuple(args, "OO", (_ped_Unit *) &in_unit,
-                                      (_ped_Device *) &in_dev)) {
+    if (!PyArg_ParseTuple(args, "OO", &in_unit, &in_dev)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(in_dev);
-    out_unit = in_unit->val;
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_unit = _ped_Unit2PedUnit(in_unit);
+    if (out_unit == -1) {
+        return NULL;
+    }
 
     ret = ped_unit_get_size(out_dev, out_unit);
-    free(out_dev);
+    _free_PedDevice(out_dev);
+
     return Py_BuildValue("L", ret);
 }
 
@@ -163,97 +171,126 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
 
     in = ped_unit_get_by_name(name);
     out = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
-    out->val = (long) in;
 
-    Py_INCREF(out);
+    if (out) {
+        out->val = (long) in;
+    } else {
+        return NULL;
+    }
+
     return (PyObject *) out;
 }
 
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
-    _ped_Device *in_dev;
-    _ped_Sector *in_sector;
-    _ped_Unit *in_unit;
+    char *ret = NULL;
+    PyObject *in_dev, *in_sector, *in_unit;
     PedDevice *out_dev;
     PedSector out_sector;
     PedUnit out_unit;
-    char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "OOO", (_ped_Device *) &in_dev,
-                                       (_ped_Sector *) &in_sector,
-                                       (_ped_Unit *) &in_unit)) {
+    if (!PyArg_ParseTuple(args, "OOO", &in_dev, &in_sector, &in_unit)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(in_dev);
-    out_sector = in_sector->val;
-    out_unit = in_unit->val;
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_sector = _ped_Sector2PedSector(in_sector);
+    if (out_sector == -1) {
+        return NULL;
+    }
+
+    out_unit = _ped_Unit2PedUnit(in_unit);
+    if (out_unit == -1) {
+        return NULL;
+    }
 
     ret = ped_unit_format_custom_byte(out_dev, out_sector, out_unit);
-    free(out_dev);
+    _free_PedDevice(out_dev);
+
     return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
-    _ped_Device *in_dev;
-    _ped_Sector *in_sector;
+    char *ret = NULL;
+    PyObject *in_dev, *in_sector;
     PedDevice *out_dev;
     PedSector out_sector;
-    char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "OO", (_ped_Device *) &in_dev,
-                                      (_ped_Sector *) &in_sector)) {
+    if (!PyArg_ParseTuple(args, "OO", &in_dev, &in_sector)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(in_dev);
-    out_sector = in_sector->val;
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_sector = _ped_Sector2PedSector(in_sector);
+    if (out_sector == -1) {
+        return NULL;
+    }
 
     ret = ped_unit_format_byte(out_dev, out_sector);
-    free(out_dev);
+    _free_PedDevice(out_dev);
     return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
-    _ped_Device *in_dev;
-    _ped_Sector *in_sector;
-    _ped_Unit *in_unit;
+    char *ret = NULL;
+    PyObject *in_dev, *in_sector, *in_unit;
     PedDevice *out_dev;
     PedSector out_sector;
     PedUnit out_unit;
-    char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "OOO", (_ped_Device *) &in_dev,
-                                       (_ped_Sector *) &in_sector,
-                                       (_ped_Unit *) &in_unit)) {
+    if (!PyArg_ParseTuple(args, "OOO", &in_dev, &in_sector, &in_unit)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(in_dev);
-    out_sector = in_sector->val;
-    out_unit = in_unit->val;
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_sector = _ped_Sector2PedSector(in_sector);
+    if (out_sector == -1) {
+        return NULL;
+    }
+
+    out_unit = _ped_Unit2PedUnit(in_unit);
+    if (out_unit == -1) {
+        return NULL;
+    }
 
     ret = ped_unit_format_custom(out_dev, out_sector, out_unit);
-    free(out_dev);
+    _free_PedDevice(out_dev);
     return Py_BuildValue("s", ret);
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
-    _ped_Device *in_dev;
-    _ped_Sector *in_sector;
+    char *ret = NULL;
+    PyObject *in_dev, *in_sector;
     PedDevice *out_dev;
     PedSector out_sector;
-    char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "OO", (_ped_Device *) &in_dev,
-                                      (_ped_Sector *) &in_sector)) {
+    if (!PyArg_ParseTuple(args, "OO", &in_dev, &in_sector)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(in_dev);
-    out_sector = in_sector->val;
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_sector = _ped_Sector2PedSector(in_sector);
+    if (out_sector == -1) {
+        return NULL;
+    }
 
     ret = ped_unit_format(out_dev, out_sector);
-    free(out_dev);
+    _free_PedDevice(out_dev);
     return Py_BuildValue("s", ret);
 }
 
