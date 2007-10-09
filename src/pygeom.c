@@ -34,7 +34,7 @@ PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
                             PyObject *kwds) {
     _ped_Geometry *self;
 
-    self = (_ped_Geometry *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj);
     return (PyObject *) self;
 }
 

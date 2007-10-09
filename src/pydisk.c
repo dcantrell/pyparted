@@ -34,7 +34,7 @@ PyObject *_ped_PartitionType_new(PyTypeObject *type, PyObject *args,
                                  PyObject *kwds) {
     _ped_PartitionType *self;
 
-    self = (_ped_PartitionType *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_PartitionType, &_ped_PartitionType_Type_obj);
     return (PyObject *) self;
 }
 
@@ -53,7 +53,7 @@ PyObject *_ped_PartitionFlag_new(PyTypeObject *type, PyObject *args,
                                  PyObject *kwds) {
     _ped_PartitionFlag *self;
 
-    self = (_ped_PartitionFlag *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_PartitionFlag, &_ped_PartitionFlag_Type_obj);
     return (PyObject *) self;
 }
 
@@ -72,7 +72,7 @@ PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
     _ped_Partition *self;
 
-    self = (_ped_Partition *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Partition, &_ped_Partition_Type_obj);
     return (PyObject *) self;
 }
 
