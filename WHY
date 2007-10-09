@@ -16,18 +16,21 @@ the automatic binding generators do not work as I wanted them to.  Namely:
     1) libparted makes extensive use of its own types.  I wanted these
        implemented as Python classes.  None of the above mentioned tools
        would do this to my liking.  The Python classes are implemented so
-       they store the members of the libparted types as object members in
-       Python.
+       they store the members of the libparted types as object members,
+       when appropriate and useful, in Python.
 
-    2) A lot of functions in libparted don't even make sense to have in
-       Python, so I don't want those translated to Python functions.
+    2) A lot of functions in libparted do not make sense to have in
+       Python, so I do not want those translated to Python functions.
 
     3) libparted is implemented as a standard C library and doesn't try
        to mimic objects like other C libraries (GTK+, for instance).  So
        what I really wanted to do is create a simple 1:1 function mapping,
        but extended so that the libparted types would be translated to
        Python objects.  On top of that, I would write native Python that
-       uses the 1:1 mapping layer to add additional functionality.
+       uses the 1:1 mapping layer to add additional functionality.  With
+       that idea, pyparted is a hybrid C+Python module and directly
+       converting the API via an automatic tool still left a lot of work
+       to do anyway.
 
     4) There is not good way to map an enumeration in C to module attributes
        in Python (or class attributes).  I did not like the output of the

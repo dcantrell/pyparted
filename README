@@ -10,9 +10,9 @@ applications that interact with disk partition tables and filesystems.
 
 The Python bindings are implemented in two layers.  Since libparted itself
 is written in C without any real implementation of objects, a simple 1:1
-mapping of externally accessible libparted functions was written.  This is
-provided in the _ped Python module.  You can use that module if you want to,
-but it's really just meant for the larger parted module.
+mapping of externally accessible libparted functions was written.  This
+mapping is provided in the _ped Python module.  You can use that module if
+you want to, but it's really just meant for the larger parted module.
 
     _ped       libparted Python bindings, direct 1:1: function mapping
     parted     Native Python code building on _ped, complete with classes,
@@ -25,7 +25,8 @@ sort of complex.  It's a lowlevel system tool and I found it doesn't
 translate well in the tools I tried.  This is nothing against those tools, I
 just don't think libparted is ideal to go through SWIG or Pyrex.  By writing
 my own bindings, I can also find bugs in libparted that I may have
-overlooked before.
+overlooked before.  See the WHY file for more explanation as to why I wrote
+the bindings by hand.
 
 
 HISTORY
@@ -36,7 +37,7 @@ used by RHEL and Fedora and many other distributions) interact with
 libparted.  Anaconda is written in Python, so native bindings made sense.
 
 pyparted went through many rewrites, but the end result was always the same.
-And incomplete API via Python and just enough provided for anaconda to do
+And incomplete API via Python with just enough provided for anaconda to do
 its job.
 
 The latest iteration of pyparted aims to be a complete API mapping and even
