@@ -27,7 +27,7 @@
 
 /* _ped.PartitionType functions */
 void _ped_PartitionType_dealloc(_ped_PartitionType *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_PartitionType_new(PyTypeObject *type, PyObject *args,
@@ -46,7 +46,7 @@ int _ped_PartitionType_init(_ped_PartitionType *self, PyObject *args,
 
 /* _ped.PartitionFlag functions */
 void _ped_PartitionFlag_dealloc(_ped_PartitionFlag *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_PartitionFlag_new(PyTypeObject *type, PyObject *args,
@@ -65,7 +65,7 @@ int _ped_PartitionFlag_init(_ped_PartitionFlag *self, PyObject *args,
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
@@ -83,7 +83,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
 
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
@@ -101,7 +101,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 
 /* _ped.DiskType functions */
 void _ped_DiskType_dealloc(_ped_DiskType *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
@@ -119,7 +119,7 @@ int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
 
 /* _ped.DiskTypeFeature functions */
 void _ped_DiskTypeFeature_dealloc(_ped_DiskTypeFeature *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_DiskTypeFeature_new(PyTypeObject *type, PyObject *args,

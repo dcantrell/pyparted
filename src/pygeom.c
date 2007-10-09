@@ -27,7 +27,7 @@
 
 /* _ped.Geometry functions */
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,

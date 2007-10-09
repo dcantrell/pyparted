@@ -30,14 +30,14 @@
 
 /* _ped.Constraint functions */
 void _ped_Constraint_dealloc(_ped_Constraint *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds) {
     _ped_Constraint *self;
 
-    self = (_ped_Constraint *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     return (PyObject *) self;
 }
 
@@ -49,22 +49,18 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
 
 /* 1:1 function mappings for constraint.h in libparted */
 PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
-    _ped_Constraint *in_constraint;
-    _ped_Alignment *in_start_align, *in_end_align;
-    _ped_Geometry *in_start_range, *in_end_range;
-    _ped_Sector in_min_size, in_max_size;
+    int ret = -1;
+    PyObject *in_constraint, *in_start_align, *in_end_align;
+    PyObject *in_start_range, *in_end_range, *in_min_size, *in_max_size;
     PedConstraint *out_constraint;
     PedAlignment *out_start_align, *out_end_align;
     PedGeometry *out_start_range, *out_end_range;
     PedSector out_min_size, out_max_size;
 
-    if (!PyArg_ParseTuple(args, "OOOOOOO", (_ped_Constraint *) &in_constraint,
-                                           (_ped_Alignment *) &in_start_align,
-                                           (_ped_Alignment *) &in_end_align,
-                                           (_ped_Geometry *) &in_start_range,
-                                           (_ped_Geometry *) &in_end_range,
-                                           (_ped_Sector *) &in_min_size,
-                                           (_ped_Sector *) &in_max_size)) {
+    if (!PyArg_ParseTuple(args, "OOOOOOO", &in_constraint, &in_start_align,
+                                           &in_end_align, &in_start_range,
+                                           &in_end_range, &in_min_size,
+                                           &in_max_size)) {
         return NULL;
     }
 

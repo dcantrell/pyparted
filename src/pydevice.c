@@ -27,7 +27,7 @@
 
 /* _ped.Sector functions */
 void _ped_Sector_dealloc(_ped_Sector *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Sector_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
@@ -70,7 +70,7 @@ int _ped_Sector_setval(_ped_Sector *self, PyObject *value, void *closure) {
 
 /* _ped.CHSGeometry functions */
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
@@ -170,7 +170,7 @@ int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
 
 /* _ped.Device functions */
 void _ped_Device_dealloc(_ped_Device *self) {
-    self->ob_type->tp_free((PyObject *) self);
+    PyObject_Del(self);
 }
 
 PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
