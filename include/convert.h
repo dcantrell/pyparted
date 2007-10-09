@@ -31,6 +31,7 @@
 #include "pydevice.h"
 #include "pygeom.h"
 #include "pynatmath.h"
+#include "pyunit.h"
 
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
 void _free_PedAlignment(PedAlignment *alignment);
