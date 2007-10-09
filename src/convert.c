@@ -27,6 +27,11 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "pyconstraint.h"
+#include "pydevice.h"
+#include "pygeom.h"
+#include "pynatmath.h"
+#include "pyunit.h"
 
 /* Note... all of these functions malloc for memory to create the returning
  * type.  It is up to the caller to free the memory after using it.
@@ -260,7 +265,7 @@ void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom) {
 
     if (srcgeom == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.CHSGeometry()");
-        return NULL;
+        return;
     }
 
     destgeom->cylinders = srcgeom->cylinders;
