@@ -32,6 +32,16 @@
  * type.  It is up to the caller to free the memory after using it.
  */
 
+PedAlignment *_ped_Alignment2PedAlignment(_ped_Alignment *alignment) {
+    /* FIXME */
+    return NULL;
+}
+
+PedConstraint *_ped_Constraint2PedConstraint(_ped_Constraint *constraint) {
+    /* FIXME */
+    return NULL;
+}
+
 /*
  * _ped_Device2PedDevice() - Take a pointer to a _ped_Device type and return
  *                           a pointer to a PedDevice struct that contains
@@ -89,4 +99,14 @@ PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     ret->host = dev->host;
     ret->did = dev->did;
     ret->arch_specific = dev->arch_specific;
+}
+
+PedGeometry *_ped_Geometry2PedGeometry(_ped_Geometry *geometry) {
+    /* FIXME */
+    return NULL;
+}
+
+PedSector _ped_Sector2PedSector(_ped_Sector *sector) {
+    /* FIXME */
+    return NULL;
 }

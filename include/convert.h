@@ -29,6 +29,10 @@
 
 #include "pydevice.h"
 
+PedAlignment *_ped_Alignment2PedAlignment(_ped_Alignment *alignment);
+PedConstraint *_ped_Constraint2PedConstraint(_ped_Constraint *constraint);
 PedDevice *_ped_Device2PedDevice(_ped_Device *dev);
+PedGeometry *_ped_Geometry2PedGeometry(_ped_Geometry *geometry);
+PedSector _ped_Sector2PedSector(_ped_Sector *sector);
 
 #endif /* CONVERT_H_INCLUDED */
