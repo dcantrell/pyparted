@@ -32,21 +32,23 @@
  * type.  It is up to the caller to free the memory after using it.
  */
 
+/* _ped_Alignment -> PedAlignment functions */
 PedAlignment *_ped_Alignment2PedAlignment(_ped_Alignment *alignment) {
+    PedAlignment *ret;
+
     /* FIXME */
     return NULL;
 }
 
+/* _ped_Constraint -> PedConstraint functions */
 PedConstraint *_ped_Constraint2PedConstraint(_ped_Constraint *constraint) {
+    PedConstraint *ret;
+
     /* FIXME */
     return NULL;
 }
 
-/*
- * _ped_Device2PedDevice() - Take a pointer to a _ped_Device type and return
- *                           a pointer to a PedDevice struct that contains
- *                           the same values as the _ped_Device.
- */
+/* _ped_Device -> PedDevice functions */
 PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     PedDevice *ret;
 
@@ -101,12 +103,58 @@ PedDevice *_ped_Device2PedDevice(_ped_Device *dev) {
     ret->arch_specific = dev->arch_specific;
 }
 
+void _free_PedDevice(PedDevice *dev) {
+    if (dev != NULL) {
+        if (dev->model) {
+            free(dev->model);
+            dev->model = NULL;
+        }
+
+        if (dev->path) {
+            free(dev->path);
+            dev->path = NULL;
+        }
+
+        free(dev);
+        dev = NULL;
+    }
+
+    return;
+}
+
+/* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(_ped_Geometry *geometry) {
+    PedDevice *dev;
+    PedGeometry *ret;
+
+    if (geometry == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Geometry()");
+        return NULL;
+    }
+
     /* FIXME */
+    ret = malloc(sizeof(PedGeometry));
+    if (ret == NULL) {
+        PyErr_SetString(PyExc_MemoryError, "Out of memory");
+        return NULL;
+    }
+
+
+
+
+
     return NULL;
 }
 
+/* _ped_Sector -> PedSector functions */
 PedSector _ped_Sector2PedSector(_ped_Sector *sector) {
-    /* FIXME */
-    return NULL;
+    PedSector ret;
+
+    if (sector == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Sector()");
+        return -1;
+    }
+
+    ret = sector->val;
+    return ret;
 }
