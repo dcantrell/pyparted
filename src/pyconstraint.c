@@ -75,11 +75,11 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     ret = ped_constraint_init(out_constraint, out_start_align, out_end_align,
                               out_start_range, out_end_range,
                               out_min_size, out_max_size);
-    free(out_constraint);
-    free(out_start_align);
-    free(out_end_align);
-    free(out_start_range);
-    free(out_end_range);
+    _free_PedConstraint(out_constraint);
+    _free_PedAlignment(out_start_align);
+    _free_PedAlignment(out_end_align);
+    _free_PedGeometry(out_start_range);
+    _free_PedGeometry(out_end_range);
     return Py_BuildValue("i", ret);
 }
 
