@@ -109,14 +109,15 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     PedUnit in;
-    _ped_Unit *out;
+    _ped_Unit *ret;
 
     in = ped_unit_get_default();
-    out = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
-    out->val = (long) in;
+    ret = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
+    ret->val = (long) in;
 
-    Py_INCREF(out);
-    return (PyObject *) out;
+    /* FIXME - do I need this incref? */
+    Py_INCREF(ret);
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
@@ -135,9 +136,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     out_unit = in_unit->val;
 
     ret = ped_unit_get_size(out_dev, out_unit);
-
     free(out_dev);
-
     return Py_BuildValue("L", ret);
 }
 
