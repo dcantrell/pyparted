@@ -37,8 +37,8 @@ typedef struct {
     /* PedConstraint members */
     PyObject *start_align;              /* _ped.Alignment */
     PyObject *end_align;                /* _ped.Alignment */
-    PyObject *start_range;              /* _ped.Alignment */
-    PyObject *end_range;                /* _ped.Alignment */
+    PyObject *start_range;              /* _ped.Geometry */
+    PyObject *end_range;                /* _ped.Geometry */
     PyObject *min_size;                 /* _ped.Sector */
     PyObject *max_size;                 /* _ped.Sector */
 } _ped_Constraint;
