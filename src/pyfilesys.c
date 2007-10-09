@@ -34,7 +34,7 @@ PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
                                   PyObject *kwds) {
     _ped_FileSystemType *self;
 
-    self = (_ped_FileSystemType *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
     return (PyObject *) self;
 }
 
@@ -53,7 +53,7 @@ PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds) {
     _ped_FileSystem *self;
 
-    self = (_ped_FileSystem *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
     return (PyObject *) self;
 }
 

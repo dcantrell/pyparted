@@ -33,7 +33,7 @@ void _ped_Sector_dealloc(_ped_Sector *self) {
 PyObject *_ped_Sector_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
     _ped_Sector *self;
 
-    self = (_ped_Sector *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
     return (PyObject *) self;
 }
 
@@ -77,7 +77,7 @@ PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
                                PyObject *kwds) {
     _ped_CHSGeometry *self;
 
-    self = (_ped_CHSGeometry *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj);
     return (PyObject *) self;
 }
 
@@ -176,7 +176,7 @@ void _ped_Device_dealloc(_ped_Device *self) {
 PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
     _ped_Device *self;
 
-    self = (_ped_Device *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Device, &_ped_Device_Type_obj);
     return (PyObject *) self;
 }
 

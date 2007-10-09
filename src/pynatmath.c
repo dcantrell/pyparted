@@ -34,7 +34,7 @@ PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
     _ped_Alignment *self;
 
-    self = (_ped_Alignment *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
     return (PyObject *) self;
 }
 

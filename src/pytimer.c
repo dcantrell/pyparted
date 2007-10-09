@@ -33,7 +33,7 @@ void _ped_Timer_dealloc(_ped_Timer *self) {
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
     _ped_Timer *self;
 
-    self = (_ped_Timer *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj);
     return (PyObject *) self;
 }
 
