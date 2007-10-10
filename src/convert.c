@@ -124,6 +124,11 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     return ret;
 }
 
+_ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
+    /* FIXME */
+    return NULL;
+}
+
 void _free_PedConstraint(PedConstraint *constraint) {
     if (constraint != NULL) {
         _free_PedAlignment(constraint->start_align);

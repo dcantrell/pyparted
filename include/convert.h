@@ -1,6 +1,6 @@
 /*
  * convert.h
- * Functions to convert from Python _ped types to C libparted types
+ * Functions for converting to/from Python _ped types and C libparted types
  *
  * Copyright (C) 2007  Red Hat, Inc.
  * All rights reserved.
@@ -37,6 +37,7 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
 void _free_PedAlignment(PedAlignment *alignment);
 
 PedConstraint *_ped_Constraint2PedConstraint(PyObject *s);
+_ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
 void _free_PedConstraint(PedConstraint *constraint);
 
 PedDevice *_ped_Device2PedDevice(PyObject *s);
