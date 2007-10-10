@@ -128,7 +128,7 @@ static PyGetSetDef _ped_PartitionFlag_getset[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject _ped_PartitionFlagType_Type_obj = {
+static PyTypeObject _ped_PartitionFlag_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     0,                                         /* ob_size */
     "_ped.PartitionFlag",                      /* tp_name */
