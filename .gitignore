@@ -20,6 +20,7 @@ missing
 pyparted.spec
 src/*.la
 src/*.lo
+src/*.loT
 src/.deps
 src/.libs
 src/Makefile
