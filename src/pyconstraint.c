@@ -145,7 +145,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     if (ret) {
-        constraint = ped_constraint_from_min_max(out_min, out_max);
+        constraint = ped_constraint_new_from_min_max(out_min, out_max);
         if (constraint) {
             ret = PedConstraint2_ped_Constraint(constraint);
         }
@@ -176,7 +176,7 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     if (ret) {
-        constraint = ped_constraint_from_min(out_min);
+        constraint = ped_constraint_new_from_min(out_min);
         if (constraint) {
             ret = PedConstraint2_ped_Constraint(constraint);
         }
@@ -206,7 +206,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     if (ret) {
-        constraint = ped_constraint_from_max(out_max);
+        constraint = ped_constraint_new_from_max(out_max);
         if (constraint) {
             ret = PedConstraint2_ped_Constraint(constraint);
         }
