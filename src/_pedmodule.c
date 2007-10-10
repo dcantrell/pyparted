@@ -213,15 +213,15 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_PartitionType_Type_obj);
 
     /* add PedPartitionFlag as _ped.PartitionFlag */
-    _ped_PartitionFlagType_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionFlagType_Type_obj) < 0)
+    _ped_PartitionFlag_Type_obj.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&_ped_PartitionFlag_Type_obj) < 0)
         return;
 
     m = Py_InitModule3("_ped", _ped_PartitionFlag_methods, NULL);
 
-    Py_INCREF(&_ped_PartitionFlagType_Type_obj);
+    Py_INCREF(&_ped_PartitionFlag_Type_obj);
     PyModule_AddObject(m, "PartitionFlag",
-                       (PyObject *)&_ped_PartitionFlagType_Type_obj);
+                       (PyObject *)&_ped_PartitionFlag_Type_obj);
 
     /* add PedDisk as _ped.Disk */
     _ped_Disk_Type_obj.tp_new = PyType_GenericNew;
