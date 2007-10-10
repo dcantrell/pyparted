@@ -153,7 +153,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
 
     _free_PedGeometry(out_min);
     _free_PedGeometry(out_max);
-    ped_constraint_destory(constraint);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -360,7 +360,7 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj);
     if (ret) {
-        geometry = ped_geometry(out_constraint, out_geometry);
+        geometry = ped_constraint_solve_nearest(out_constraint, out_geometry);
         if (geometry) {
             ret = PedGeometry2_ped_Geometry(geometry);
         }
