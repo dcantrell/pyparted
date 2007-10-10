@@ -75,11 +75,13 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     ret = ped_constraint_init(out_constraint, out_start_align, out_end_align,
                               out_start_range, out_end_range,
                               out_min_size, out_max_size);
+
     _free_PedConstraint(out_constraint);
     _free_PedAlignment(out_start_align);
     _free_PedAlignment(out_end_align);
     _free_PedGeometry(out_start_range);
     _free_PedGeometry(out_end_range);
+
     return Py_BuildValue("i", ret);
 }
 
@@ -119,6 +121,7 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     _free_PedAlignment(out_end_align);
     _free_PedGeometry(out_start_range);
     _free_PedGeometry(out_end_range);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -150,6 +153,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
 
     _free_PedGeometry(out_min);
     _free_PedGeometry(out_max);
+    ped_constraint_destory(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -179,6 +183,7 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
     }
 
     _free_PedGeometry(out_min);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -208,6 +213,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     }
 
     _free_PedGeometry(out_max);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -236,6 +242,7 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     }
 
     _free_PedConstraint(out_constraint);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -298,6 +305,7 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
 
     _free_PedConstraint(out_constraintA);
     _free_PedConstraint(out_constraintB);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -327,6 +335,7 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     }
 
     _free_PedConstraint(out_constraint);
+    ped_geometry_destroy(geometry);
 
     if (ret) {
         return (PyObject *) ret;
@@ -359,6 +368,7 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
 
     _free_PedConstraint(out_constraint);
     _free_PedGeometry(out_geometry);
+    ped_geometry_destroy(geometry);
 
     if (ret) {
         return (PyObject *) ret;
@@ -385,6 +395,9 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    _free_PedConstraint(out_constraint);
+    _free_PedGeometry(out_geometry);
+
     return Py_BuildValue("i", ret);
 }
 
@@ -409,6 +422,7 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
     }
 
     _free_PedDevice(out_device);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
@@ -438,6 +452,7 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
     }
 
     _free_PedGeometry(out_geometry);
+    ped_constraint_destroy(constraint);
 
     if (ret) {
         return (PyObject *) ret;
