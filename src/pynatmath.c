@@ -298,7 +298,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
     if (ret) {
-        sector = ped_alignment_align_nearest(out_align, out_geom, out_sector);
+        sector = ped_alignment_align_up(out_align, out_geom, out_sector);
         if (sector) {
             ret = PedSector2_ped_Sector(sector);
         }
@@ -331,7 +331,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
 
     ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
     if (ret) {
-        sector = ped_alignment_align_nearest(out_align, out_geom, out_sector);
+        sector = ped_alignment_align_down(out_align, out_geom, out_sector);
         if (sector) {
             ret = PedSector2_ped_Sector(sector);
         }
