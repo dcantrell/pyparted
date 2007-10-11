@@ -40,6 +40,7 @@
 /* _ped_Alignment -> PedAlignment functions */
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
     PedAlignment *ret;
+    PedSector offset, grain_size;
     _ped_Alignment *alignment = (_ped_Alignment *) s;
 
     if (alignment == NULL) {
@@ -47,37 +48,31 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedAlignment));
+    offset = _ped_Sector2PedSector(alignment->offset);
+    if (offset == -1) {
+        return NULL;
+    }
+
+    grain_size = _ped_Sector2PedSector(alignment->grain_size);
+    if (grain_size == -1) {
+        return NULL;
+    }
+
+    ret = ped_alignment_new(offset, grain_size);
     if (ret == NULL) {
         PyErr_SetString(PyExc_MemoryError, "Out of memory");
-        return NULL;
-    }
-
-    ret->offset = _ped_Sector2PedSector(alignment->offset);
-    if (ret->offset == -1) {
-        return NULL;
-    }
-
-    ret->grain_size=_ped_Sector2PedSector(alignment->grain_size);
-    if (ret->grain_size == -1) {
         return NULL;
     }
 
     return ret;
 }
 
-void _free_PedAlignment(PedAlignment *alignment) {
-    if (alignment != NULL) {
-        free(alignment);
-        alignment = NULL;
-    }
-
-    return;
-}
-
 /* _ped_Constraint -> PedConstraint functions */
 PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     PedConstraint *ret;
+    PedAlignment *start_align, *end_align;
+    PedGeometry *start_range, *end_range;
+    PedSector min_size, max_size;
     _ped_Constraint *constraint = (_ped_Constraint *) s;
 
     if (constraint == NULL) {
@@ -85,41 +80,47 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedConstraint));
+    start_align = _ped_Alignment2PedAlignment(constraint->start_align);
+    if (start_align == NULL) {
+        return NULL;
+    }
+
+    end_align = _ped_Alignment2PedAlignment(constraint->end_align);
+    if (end_align == NULL) {
+        return NULL;
+    }
+
+    start_range = _ped_Geometry2PedGeometry(constraint->start_range);
+    if (start_range == NULL) {
+        return NULL;
+    }
+
+    end_range = _ped_Geometry2PedGeometry(constraint->end_range);
+    if (end_range == NULL) {
+        return NULL;
+    }
+
+    min_size = _ped_Sector2PedSector(constraint->min_size);
+    if (min_size == -1) {
+        return NULL;
+    }
+
+    max_size = _ped_Sector2PedSector(constraint->max_size);
+    if (max_size == -1) {
+        return NULL;
+    }
+
+    ret = ped_constraint_new(start_align, end_align, start_range, end_range,
+                             min_size, max_size);
     if (ret == NULL) {
         PyErr_SetString(PyExc_MemoryError, "Out of memory");
         return NULL;
     }
 
-    ret->start_align = _ped_Alignment2PedAlignment(constraint->start_align);
-    if (ret->start_align == NULL) {
-        return NULL;
-    }
-
-    ret->end_align = _ped_Alignment2PedAlignment(constraint->end_align);
-    if (ret->end_align == NULL) {
-        return NULL;
-    }
-
-    ret->start_range = _ped_Geometry2PedGeometry(constraint->start_range);
-    if (ret->start_range == NULL) {
-        return NULL;
-    }
-
-    ret->end_range = _ped_Geometry2PedGeometry(constraint->end_range);
-    if (ret->end_range == NULL) {
-        return NULL;
-    }
-
-    ret->min_size = _ped_Sector2PedSector(constraint->min_size);
-    if (ret->min_size == -1) {
-        return NULL;
-    }
-
-    ret->max_size = _ped_Sector2PedSector(constraint->max_size);
-    if (ret->max_size == -1) {
-        return NULL;
-    }
+    ped_alignment_destroy(start_align);
+    ped_alignment_destroy(end_align);
+    ped_geometry_destroy(start_range);
+    ped_geometry_destroy(end_range);
 
     return ret;
 }
@@ -127,19 +128,6 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
 _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     /* FIXME */
     return NULL;
-}
-
-void _free_PedConstraint(PedConstraint *constraint) {
-    if (constraint != NULL) {
-        _free_PedAlignment(constraint->start_align);
-        _free_PedAlignment(constraint->end_align);
-        _free_PedGeometry(constraint->start_range);
-        _free_PedGeometry(constraint->end_range);
-        free(constraint);
-        constraint = NULL;
-    }
-
-    return;
 }
 
 /* _ped_Device -> PedDevice functions */
@@ -152,72 +140,24 @@ PedDevice *_ped_Device2PedDevice(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedDevice));
-    if (ret == NULL) {
-        PyErr_SetString(PyExc_MemoryError, "Out of memory");
-        return NULL;
-    }
-
-    ret->next = dev->next;
-
-    if (dev->model) {
-        ret->model = strdup(dev->model);
-    } else {
-        ret->model = NULL;
-    }
-
     if (dev->path) {
-        ret->path = strdup(dev->path);
+        ret = ped_device_get(dev->path);
+        if (ret == NULL) {
+            PyErr_SetString(PyExc_MemoryError, "Out of memory");
+            return NULL;
+        }
     } else {
-        ret->path = NULL;
-    }
-
-    ret->type = dev->type;
-    ret->sector_size = dev->sector_size;
-    ret->phys_sector_size = dev->phys_sector_size;
-
-    ret->length = _ped_Sector2PedSector(dev->length);
-    if (ret->length == -1) {
         return NULL;
     }
 
-    ret->open_count = dev->open_count;
-    ret->read_only = dev->read_only;
-    ret->external_mode = dev->external_mode;
-    ret->dirty = dev->dirty;
-    ret->boot_dirty = dev->boot_dirty;
-
-    _ped_CHSGeometry2PedCHSGeometry(dev->hw_geom, &ret->hw_geom);
-    _ped_CHSGeometry2PedCHSGeometry(dev->bios_geom, &ret->bios_geom);
-
-    ret->host = dev->host;
-    ret->did = dev->did;
-    ret->arch_specific = dev->arch_specific;
     return ret;
-}
-
-void _free_PedDevice(PedDevice *dev) {
-    if (dev != NULL) {
-        if (dev->model) {
-            free(dev->model);
-            dev->model = NULL;
-        }
-
-        if (dev->path) {
-            free(dev->path);
-            dev->path = NULL;
-        }
-
-        free(dev);
-        dev = NULL;
-    }
-
-    return;
 }
 
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret;
+    PedDevice *dev;
+    PedSector start, length;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
 
     if (geometry == NULL) {
@@ -225,47 +165,35 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedGeometry));
+    dev = _ped_Device2PedDevice(geometry->dev);
+    if (dev == NULL) {
+        return NULL;
+    }
+
+    start = _ped_Sector2PedSector(geometry->start);
+    if (start == -1) {
+        return NULL;
+    }
+
+    length = _ped_Sector2PedSector(geometry->length);
+    if (length == -1) {
+        return NULL;
+    }
+
+    ret = ped_geometry_new(dev, start, length);
     if (ret == NULL) {
         PyErr_SetString(PyExc_MemoryError, "Out of memory");
         return NULL;
     }
 
-    ret->dev = _ped_Device2PedDevice(geometry->dev);
-    if (ret->dev == NULL) {
-        return NULL;
-    }
-
-    ret->start = _ped_Sector2PedSector(geometry->start);
-    if (ret->start == -1) {
-        return NULL;
-    }
-
-    ret->length = _ped_Sector2PedSector(geometry->length);
-    if (ret->start == -1) {
-        return NULL;
-    }
-
-    ret->end = _ped_Sector2PedSector(geometry->end);
-    if (ret->end == -1) {
-        return NULL;
-    }
+    /* do not ped_destroy_device(dev) here because ret contains a ptr to it */
 
     return ret;
 }
 
-void _free_PedGeometry(PedGeometry *geometry) {
-    if (geometry != NULL) {
-        _free_PedDevice(geometry->dev);
-        free(geometry);
-        geometry = NULL;
-    }
-
-    return;
-}
-
 /* _ped_CHSGeometry -> PedCHSGeometry functions */
-void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom) {
+PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s) {
+    PedCHSGeometry *ret;
     _ped_CHSGeometry *srcgeom = (_ped_CHSGeometry *) s;
 
     if (srcgeom == NULL) {
@@ -273,10 +201,17 @@ void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom) {
         return;
     }
 
-    destgeom->cylinders = srcgeom->cylinders;
-    destgeom->heads = srcgeom->heads;
-    destgeom->sectors = srcgeom->sectors;
-    return;
+    ret = malloc(sizeof(PedCHSGeometry));
+    if (ret == NULL) {
+        PyErr_SetString(PyExc_MemoryError, "Out of memory");
+        return NULL;
+    }
+
+    ret->cylinders = srcgeom->cylinders;
+    ret->heads = srcgeom->heads;
+    ret->sectors = srcgeom->sectors;
+
+    return ret;
 }
 
 /* _ped_Sector -> PedSector functions */

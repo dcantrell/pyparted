@@ -42,7 +42,7 @@ PedDevice *_ped_Device2PedDevice(PyObject *s);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
 
-void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom);
+PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
 
