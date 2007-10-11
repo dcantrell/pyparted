@@ -34,17 +34,13 @@
 #include "pyunit.h"
 
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
-void _free_PedAlignment(PedAlignment *alignment);
 
 PedConstraint *_ped_Constraint2PedConstraint(PyObject *s);
 _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
-void _free_PedConstraint(PedConstraint *constraint);
 
 PedDevice *_ped_Device2PedDevice(PyObject *s);
-void _free_PedDevice(PedDevice *dev);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
-void _free_PedGeometry(PedGeometry *geometry);
 
 void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom);
 
