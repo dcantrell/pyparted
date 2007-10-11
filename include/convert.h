@@ -41,11 +41,14 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
 PedDevice *_ped_Device2PedDevice(PyObject *s);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
+_ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 
 PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
+_ped_Sector *PedSector2_pedSector(PedSector s);
 
 PedUnit _ped_Unit2PedUnit(PyObject *s);
+_ped_Unit *PedUnit2_ped_Unit(PedUnit s);
 
 #endif /* CONVERT_H_INCLUDED */
