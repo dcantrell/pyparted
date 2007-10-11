@@ -165,23 +165,6 @@
       py_ped_geometry_sync_fast
       py_ped_geometry_map
 
-- natmath.h
-      py_ped_round_up_to
-      py_ped_round_down_to
-      py_ped_round_to_nearest
-      py_ped_greatest_common_divisor
-      py_ped_alignment_init
-      py_ped_alignment_new
-      py_ped_alignment_destroy
-      py_ped_alignment_duplicate
-      py_ped_alignment_intersect
-      py_ped_alignment_align_up
-      py_ped_alignment_align_down
-      py_ped_alignment_align_nearest
-      py_ped_alignment_is_aligned
-      py_ped_div_round_up
-      py_ped_div_round_to_nearest
-
 - timer.h:
       py_ped_timer_new
       py_ped_timer_destroy
