@@ -254,6 +254,11 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     return ret;
 }
 
+_ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
+    /* FIXME */
+   return NULL;
+}
+
 void _free_PedGeometry(PedGeometry *geometry) {
     if (geometry != NULL) {
         _free_PedDevice(geometry->dev);
@@ -293,6 +298,15 @@ PedSector _ped_Sector2PedSector(PyObject *s) {
     return ret;
 }
 
+/* PedSector -> _ped_Sector functions */
+_ped_Sector *PedSector2_ped_Sector(PedSector s) {
+    _ped_Sector *ret;
+
+    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
+    ret->val = s;
+    return ret;
+}
+
 /* _ped_Unit -> PedUnit functions */
 PedUnit _ped_Unit2PedUnit(PyObject *s) {
     PedUnit ret;
@@ -304,5 +318,14 @@ PedUnit _ped_Unit2PedUnit(PyObject *s) {
     }
 
     ret = unit->val;
+    return ret;
+}
+
+/* PedUnit -> _ped_Unit function s*/
+_ped_Unit *PedUnit2_ped_Unit(PedUnit s) {
+    _ped_Unit *ret;
+
+    ret = PyObject_New(_ped_Unit, &_ped_Unit_Type_obj);
+    ret->val = s;
     return ret;
 }
