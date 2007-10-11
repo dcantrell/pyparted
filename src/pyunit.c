@@ -143,7 +143,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_get_size(out_dev, out_unit);
-    _free_PedDevice(out_dev);
+    ped_device_destroy(out_dev);
 
     return Py_BuildValue("L", ret);
 }
@@ -208,7 +208,7 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom_byte(out_dev, out_sector, out_unit);
-    _free_PedDevice(out_dev);
+    ped_device_destroy(out_dev);
 
     return Py_BuildValue("s", ret);
 }
@@ -234,7 +234,7 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_byte(out_dev, out_sector);
-    _free_PedDevice(out_dev);
+    ped_device_destroy(out_dev);
     return Py_BuildValue("s", ret);
 }
 
@@ -265,7 +265,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom(out_dev, out_sector, out_unit);
-    _free_PedDevice(out_dev);
+    ped_device_destroy(out_dev);
     return Py_BuildValue("s", ret);
 }
 
@@ -290,7 +290,7 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format(out_dev, out_sector);
-    _free_PedDevice(out_dev);
+    ped_device_destroy(out_dev);
     return Py_BuildValue("s", ret);
 }
 
