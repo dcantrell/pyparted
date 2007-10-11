@@ -44,12 +44,15 @@ PedDevice *_ped_Device2PedDevice(PyObject *s);
 void _free_PedDevice(PedDevice *dev);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
+_ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 void _free_PedGeometry(PedGeometry *geometry);
 
 void _ped_CHSGeometry2PedCHSGeometry(PyObject *s, PedCHSGeometry *destgeom);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
+_ped_Sector *PedSector2_pedSector(PedSector s);
 
 PedUnit _ped_Unit2PedUnit(PyObject *s);
+_ped_Unit *PedUnit2_ped_Unit(PedUnit s);
 
 #endif /* CONVERT_H_INCLUDED */
