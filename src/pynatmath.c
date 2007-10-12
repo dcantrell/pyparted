@@ -171,7 +171,7 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     out_grain_size = _ped_Sector2PedSector(out_grain_size);
 
     ret = ped_alignment_init(out_alignment, out_offset, out_grain_size);
-    _free_PedAlignment(out_alignment);
+    ped_alignment_destroy(out_alignment);
     return Py_BuildValue("i", ret);
 }
 
@@ -196,7 +196,7 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(align);
+    ped_alignment_destroy(align);
 
     if (ret) {
         return (PyObject *) ret;
@@ -215,7 +215,7 @@ PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
 
     out_alignment = _ped_Alignment2PedAlignment(in_alignment);
     ped_alignment_destroy(out_alignment);
-    _free_PedAlignment(out_alignment);
+    ped_alignment_destroy(out_alignment);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -240,8 +240,8 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(out_alignment);
-    _free_PedAlignment(align);
+    ped_alignment_destroy(out_alignment);
+    ped_alignment_destroy(align);
 
     if (ret) {
         return (PyObject *) ret;
@@ -270,9 +270,9 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(out_a);
-    _free_PedAlignment(out_b);
-    _free_PedAlignment(align);
+    ped_alignment_destroy(out_a);
+    ped_alignment_destroy(out_b);
+    ped_alignment_destroy(align);
 
     if (ret) {
         return (PyObject *) ret;
@@ -304,8 +304,8 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(out_align);
-    _free_PedGeometry(out_geom);
+    ped_alignment_destroy(out_align);
+    ped_geometry_destroy(out_geom);
 
     if (ret) {
         return (PyObject *) ret;
@@ -337,8 +337,8 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(out_align);
-    _free_PedGeometry(out_geom);
+    ped_alignment_destroy(out_align);
+    ped_geometry_destroy(out_geom);
 
     if (ret) {
         return (PyObject *) ret;
@@ -370,8 +370,8 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
         }
     }
 
-    _free_PedAlignment(out_align);
-    _free_PedGeometry(out_geom);
+    ped_alignment_destroy(out_align);
+    ped_geometry_destroy(out_geom);
 
     if (ret) {
         return (PyObject *) ret;
@@ -396,8 +396,8 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     out_sector = _ped_Sector2PedSector(in_sector);
 
     ret = ped_alignment_is_aligned(out_align, out_geom, out_sector);
-    _free_PedAlignment(out_align);
-    _free_PedGeometry(out_geom);
+    ped_alignment_destroy(out_align);
+    ped_geometry_destroy(out_geom);
     return Py_BuildValue("i", ret);
 }
 
