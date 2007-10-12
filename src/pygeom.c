@@ -19,6 +19,7 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell
+ *                    Chris Lumens
  */
 
 #include <Python.h>
