@@ -67,6 +67,11 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
     return ret;
 }
 
+_ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
+    /* FIXME */
+    return NULL;
+}
+
 /* _ped_Constraint -> PedConstraint functions */
 PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     PedConstraint *ret;

@@ -168,7 +168,7 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
 
     out_alignment = _ped_Alignment2PedAlignment(in_alignment);
     out_offset = _ped_Sector2PedSector(in_offset);
-    out_grain_size = _ped_Sector2PedSector(out_grain_size);
+    out_grain_size = _ped_Sector2PedSector(in_grain_size);
 
     ret = ped_alignment_init(out_alignment, out_offset, out_grain_size);
     ped_alignment_destroy(out_alignment);
