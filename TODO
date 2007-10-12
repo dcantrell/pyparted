@@ -146,24 +146,9 @@
       py_ped_file_system_get_copy_constraint
 
 - geom.h:
-      py_ped_geometry_init
-      py_ped_geometry_new
-      py_ped_geometry_duplicate
-      py_ped_geometry_intersect
-      py_ped_geometry_destroy
-      py_ped_geometry_set
-      py_ped_geometry_set_start
-      py_ped_geometry_set_end
-      py_ped_geometry_test_overlap
-      py_ped_geometry_test_inside
-      py_ped_geometry_test_equal
-      py_ped_geometry_test_sector_inside
       py_ped_geometry_read
       py_ped_geometry_write
       py_ped_geometry_check
-      py_ped_geometry_sync
-      py_ped_geometry_sync_fast
-      py_ped_geometry_map
 
 - timer.h:
       py_ped_timer_new
