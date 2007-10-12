@@ -59,12 +59,9 @@ PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
     out_sector = _ped_Sector2PedSector(in_sector);
     out_grain_size = _ped_Sector2PedSector(in_grain_size);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_round_up_to(out_sector, out_grain_size);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_round_up_to(out_sector, out_grain_size);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
@@ -86,12 +83,9 @@ PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
     out_sector = _ped_Sector2PedSector(in_sector);
     out_grain_size = _ped_Sector2PedSector(in_grain_size);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_round_down_to(out_sector, out_grain_size);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_round_down_to(out_sector, out_grain_size);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
@@ -113,12 +107,9 @@ PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
     out_sector = _ped_Sector2PedSector(in_sector);
     out_grain_size = _ped_Sector2PedSector(in_grain_size);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_round_to_nearest(out_sector, out_grain_size);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_round_to_nearest(out_sector, out_grain_size);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
@@ -140,12 +131,9 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     out_a = _ped_Sector2PedSector(in_a);
     out_b = _ped_Sector2PedSector(in_b);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_greatest_common_divisor(out_a, out_b);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_greatest_common_divisor(out_a, out_b);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
@@ -296,12 +284,9 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     out_sector = _ped_Sector2PedSector(in_sector);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_alignment_align_up(out_align, out_geom, out_sector);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_alignment_align_up(out_align, out_geom, out_sector);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     ped_alignment_destroy(out_align);
@@ -329,12 +314,9 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     out_sector = _ped_Sector2PedSector(in_sector);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_alignment_align_down(out_align, out_geom, out_sector);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_alignment_align_down(out_align, out_geom, out_sector);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     ped_alignment_destroy(out_align);
@@ -362,12 +344,9 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     out_sector = _ped_Sector2PedSector(in_sector);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_alignment_align_nearest(out_align, out_geom, out_sector);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_alignment_align_nearest(out_align, out_geom, out_sector);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     ped_alignment_destroy(out_align);
@@ -413,12 +392,9 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
     out_numerator = _ped_Sector2PedSector(in_numerator);
     out_divisor = _ped_Sector2PedSector(in_divisor);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_div_round_up(out_numerator, out_divisor);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_div_round_up(out_numerator, out_divisor);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
@@ -440,12 +416,9 @@ PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
     out_numerator = _ped_Sector2PedSector(in_numerator);
     out_divisor = _ped_Sector2PedSector(in_divisor);
 
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    if (ret) {
-        sector = ped_div_round_to_nearest(out_numerator, out_divisor);
-        if (sector) {
-            ret = PedSector2_ped_Sector(sector);
-        }
+    sector = ped_div_round_to_nearest(out_numerator, out_divisor);
+    if (sector) {
+        ret = PedSector2_ped_Sector(sector);
     }
 
     if (ret) {
