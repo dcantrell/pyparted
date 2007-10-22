@@ -28,7 +28,7 @@ EXTRA_DIST = pyparted.spec
 
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        depcomp install-sh ltmain.sh missing ABOUT-NLS \
-                       INSTALL aclocal.m4 configure WHY
+                       INSTALL aclocal.m4 configure
 
 MOSTLYCLEANDIRS = m4
 
