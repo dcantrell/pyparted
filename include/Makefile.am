@@ -17,7 +17,7 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): David Cantrell
+# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
 noinst_HEADERS = convert.h _pedmodule.h pyconstraint.h pydevice.h pydisk.h \
