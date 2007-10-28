@@ -17,21 +17,15 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): David Cantrell
+# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = include src
 
-EXTRA_DIST = pyparted.spec
-
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        depcomp install-sh ltmain.sh missing ABOUT-NLS \
                        INSTALL aclocal.m4 configure
 
 MOSTLYCLEANDIRS = m4
-
-pyparted.spec: pyparted.spec.in
-	sed 's/@''PACKAGE@/$(PACKAGE)/;s/@''VERSION@/$(VERSION)/;s/@''LIBPARTED_VERSION@/$(LIBPARTED_VERSION)/;' $< > $@-tmp
-	mv $@-tmp $@
