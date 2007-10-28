@@ -27,3 +27,5 @@ src/.libs
 src/Makefile
 src/Makefile.in
 stamp-h1
+src/*.o
+*~
