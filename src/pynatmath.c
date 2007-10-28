@@ -18,8 +18,8 @@
  * License and may only be used or replicated with the express permission of
  * Red Hat, Inc.
  *
- * Red Hat Author(s): David Cantrell
- *                    Chris Lumens
+ * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #include <Python.h>
