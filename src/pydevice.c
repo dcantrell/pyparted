@@ -192,7 +192,7 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)  {
     char *path;
 
-    if (!PyArg_ParseTuple(args, "S", &path)) {
+    if (!PyArg_ParseTuple(args, "s", &path)) {
         return NULL;
     }
 
@@ -220,7 +220,7 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     _ped_Device *ret;
     char *path;
 
-    if (!PyArg_ParseTuple(args, "S", &path)) {
+    if (!PyArg_ParseTuple(args, "s", &path)) {
         return NULL;
     }
 
@@ -278,7 +278,7 @@ PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
 
     ret = ped_device_is_busy(out_device);
     ped_device_destroy(out_device);
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
@@ -294,7 +294,7 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
 
     ret = ped_device_open(out_device);
     ped_device_destroy(out_device);
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
@@ -310,7 +310,7 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
 
     ret = ped_device_close(out_device);
     ped_device_destroy(out_device);
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
@@ -357,7 +357,7 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
     ret = ped_device_begin_external_access(out_device);
     ped_device_destroy(out_device);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
@@ -373,7 +373,7 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
     ret = ped_device_end_external_access(out_device);
     ped_device_destroy(out_device);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
@@ -401,7 +401,7 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
     ret = ped_device_sync(out_device);
     ped_device_destroy(out_device);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
@@ -417,7 +417,7 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
     ret = ped_device_sync_fast(out_device);
     ped_device_destroy(out_device);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromObject(ret);
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
