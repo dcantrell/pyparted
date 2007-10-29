@@ -138,63 +138,181 @@ int _ped_DiskTypeFeature_init(_ped_DiskTypeFeature *self, PyObject *args,
 
 /* 1:1 function mappings for disk.h in libparted */
 PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_disktype;
+    PedDiskType *out_disktype;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disktype)) {
+        return NULL;
+    }
+
+    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    ped_disk_type_register(out_disktype);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_disktype;
+    PedDiskType *out_disktype;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disktype)) {
+        return NULL;
+    }
+
+    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    ped_disk_type_unregister(out_disktype);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_type;
+    PedDiskType *out_type = NULL, *ret_type = NULL;
+    _ped_DiskType *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_type)) {
+        return NULL;
+    }
+
+    out_type = _ped_DiskType2PedDiskType(in_type);
+    if (out_type) {
+        ret_type = ped_disk_type_get_next(out_type);
+        ret = PedDiskType2_ped_DiskType(ret_type);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    char *in_name = NULL;
+    PedDiskType *out_type = NULL;
+    _ped_DiskType *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "s", &in_name)) {
+        return NULL;
+    }
+
+    if (in_name) {
+        out_type = ped_disk_type_get(in_name);
+        ret = PedDiskType2_ped_DiskType(out_type);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_disktype, *in_feature;
+    PedDiskType *out_disktype = NULL;
+    PedDiskTypeFeature *out_feature = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "OO", &in_disktype, &in_feature)) {
+        return NULL;
+    }
+
+    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    out_feature = _ped_DiskTypeFeature2PedDiskTypeFeature(in_feature);
+    if (out_disktype && out_feature) {
+        ret = ped_disk_type_check_feature(out_disktype, out_feature);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_device;
+    PedDiskType *out_type = NULL;
+    _ped_DiskType *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_device)) {
+        return NULL;
+    }
+
+    if (in_device) {
+        out_type = ped_disk_probe(in_device);
+        ret = PedDiskType2_ped_DiskType(out_type);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_device;
+    PedDevice *out_device = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_device)) {
+        return NULL;
+    }
+
+    out_device = _ped_Device2PedDevice(in_device);
+    if (out_device) {
+        ret = ped_disk_clobber(out_device);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_device, *in_disktype;
+    PedDevice *out_device = NULL;
+    PedDiskType *out_disktype = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseType(args, "OO", &in_device, &in_disktype)) {
+        return NULL;
+    }
+
+    out_device = _ped_Device2PedDevice(in_device);
+    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+
+    if (out_device && out_disktype) {
+        ret = ped_disk_clobber_exclude(out_device, out_disktype);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_device;
+    PedDevice *pass_device = NULL;
+    PedDisk *out_disk = NULL;
+    _ped_Disk *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_device)) {
+        return NULL;
+    }
+
+    pass_device = _ped_Device2PedDevice(in_device);
+    if (pass_device) {
+        out_disk = ped_disk_new(pass_device);
+        ret = PedDisk2_ped_Disk(out_disk);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_device, *in_disktype;
+    PedDevice *pass_device = NULL;
+    PedDiskType *pass_disktype = NULL;
+    PedDisk *out_disk = NULL;
+    _ped_Disk *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OO", &in_device, &in_disktype)) {
+        return NULL;
+    }
+
+    pass_device = _ped_Device2PedDevice(in_device);
+    pass_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    if (pass_device && pass_disktype) {
+        out_disk = ped_disk_new_fresh(pass_device, pass_disktype);
+        ret = PedDisk2_ped_Disk(out_disk);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
@@ -204,33 +322,88 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ped_disk_destroy(out_disk);
+    }
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_commit(out_disk);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_commit_to_dev(out_disk);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_commit_to_os(out_disk);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_check(out_disk);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
@@ -313,15 +486,37 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_part;
+    PedPartition *out_part = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_part)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part) {
+        ret = ped_partition_is_busy(out_part);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_part;
+    PedPartition *out_part = NULL;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_part)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part) {
+        ret = ped_partition_get_path(out_part);
+    }
+
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
