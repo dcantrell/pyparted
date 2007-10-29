@@ -126,6 +126,7 @@
       py_ped_exception_leave_all
 
 - fdasd.h
+      # heh...yeah, go IBM
 
 - filesys.h:
       py_ped_file_system_type_register
@@ -161,6 +162,7 @@
       py_ped_timer_set_state_name
 
 - vtoc.h:
+      # heh...yeah, go IBM
 
 - Make sure _ped module has Python docstrings galore
 
