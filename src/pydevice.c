@@ -417,7 +417,7 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
     ret = ped_device_sync_fast(out_device);
     ped_device_destroy(out_device);
 
-    return PyBool_FromObject(ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
