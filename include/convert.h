@@ -55,6 +55,7 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 
 PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
+_ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
 _ped_Sector *PedSector2_ped_Sector(PedSector s);
