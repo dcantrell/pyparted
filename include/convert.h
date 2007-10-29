@@ -40,6 +40,7 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s);
 _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
 
 PedDevice *_ped_Device2PedDevice(PyObject *s);
+_ped_Device *PedDevice2_ped_Device(PedDevice *device);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
