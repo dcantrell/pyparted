@@ -158,6 +158,11 @@ PedDevice *_ped_Device2PedDevice(PyObject *s) {
     return ret;
 }
 
+_ped_Device *PedDevice2_ped_Device(PedDevice *device) {
+    /* FIXME */
+    return NULL;
+}
+
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret;
