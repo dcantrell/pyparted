@@ -48,22 +48,7 @@
       py_ped_unit_parse_custom
 
 - disk.h:
-      py_ped_disk_type_register
-      py_ped_disk_type_unregister
-      py_ped_disk_type_get_next
-      py_ped_disk_type_get
-      py_ped_disk_type_check_feature
-      py_ped_disk_probe
-      py_ped_disk_clobber
-      py_ped_disk_clobber_exclude
-      py_ped_disk_new
-      py_ped_disk_new_fresh
       py_ped_disk_duplicate
-      py_ped_disk_destroy
-      py_ped_disk_commit
-      py_ped_disk_commit_to_dev
-      py_ped_disk_commit_to_os
-      py_ped_disk_check
       py_ped_disk_print
       py_ped_disk_get_primary_partition_count
       py_ped_disk_get_last_partition_num
@@ -77,8 +62,6 @@
       py_ped_partition_set_system
       py_ped_partition_set_name
       py_ped_partition_get_name
-      py_ped_partition_is_busy
-      py_ped_partition_get_path
       py_ped_partition_type_get_name
       py_ped_partition_flag_get_name
       py_ped_partition_flag_get_by_name
