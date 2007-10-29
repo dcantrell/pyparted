@@ -39,23 +39,9 @@
   think so for things like bounds checking and type checking.
 
 - device.h:
-      py_ped_device_probe_all
-      py_ped_device_free_all
-      py_ped_device_get
-      py_ped_device_get_next
-      py_ped_device_is_busy
-      py_ped_device_open
-      py_ped_device_close
-      py_ped_device_destroy
-      py_ped_device_cache_remove
-      py_ped_begin_external_access
-      py_ped_end_external_access
       py_ped_device_read
       py_ped_device_write
-      py_ped_device_sync
-      py_ped_device_sync_fast
       py_ped_device_check
-      py_ped_device_get_constraint
 
 - unit.h:
       py_ped_unit_parse
