@@ -176,12 +176,9 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
     out_offset = _pedSector2PedSector(in_offset);
     out_grain_size = _pedSector2PedSector(in_grain_size);
 
-    ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
-    if (ret) {
-        align = ped_alignment_new(out_offset, out_grain_size);
-        if (align) {
-            ret = PedAlignment2_ped_Alignment(align);
-        }
+    align = ped_alignment_new(out_offset, out_grain_size);
+    if (align) {
+        ret = PedAlignment2_ped_Alignment(align);
     }
 
     ped_alignment_destroy(align);
@@ -220,12 +217,9 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
 
     out_alignment = _ped_Alignment2PedAlignment(in_alignment);
 
-    ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
-    if (ret) {
-        align = ped_alignment_duplicate(out_alignment);
-        if (align) {
-            ret = PedAlignment2_ped_Alignment(align);
-        }
+    align = ped_alignment_duplicate(out_alignment);
+    if (align) {
+        ret = PedAlignment2_ped_Alignment(align);
     }
 
     ped_alignment_destroy(out_alignment);
@@ -250,12 +244,9 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
     out_a = _ped_Alignment2PedAlignment(in_a);
     out_b = _ped_Alignment2PedAlignment(in_b);
 
-    ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
-    if (ret) {
-        align = ped_alignment_intersect(out_a, out_b);
-        if (align) {
-            ret = PedAlignment2_ped_Alignment(align);
-        }
+    align = ped_alignment_intersect(out_a, out_b);
+    if (align) {
+        ret = PedAlignment2_ped_Alignment(align);
     }
 
     ped_alignment_destroy(out_a);
