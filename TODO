@@ -114,24 +114,6 @@
 - fdasd.h
       # heh...yeah, go IBM
 
-- filesys.h:
-      py_ped_file_system_type_register
-      py_ped_file_system_type_unregister
-      py_ped_file_system_type_get
-      py_ped_file_system_type_get_next
-      py_ped_file_system_probe
-      py_ped_file_system_probe_specific
-      py_ped_file_system_clobber
-      py_ped_file_system_open
-      py_ped_file_system_create
-      py_ped_file_system_close
-      py_ped_file_system_check
-      py_ped_file_system_copy
-      py_ped_file_system_resize
-      py_ped_file_system_get_create_constraint
-      py_ped_file_system_get_resize_constraint
-      py_ped_file_system_get_copy_constraint
-
 - geom.h:
       py_ped_geometry_read
       py_ped_geometry_write
