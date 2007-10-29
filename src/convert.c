@@ -12,7 +12,7 @@
  * the GNU General Public License v.2, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY expressed or implied, including the implied warranties of
- * MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.  You should have received a copy of the
  * GNU General Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -22,6 +22,7 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #include <Python.h>
@@ -69,8 +70,13 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
 }
 
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
-    /* FIXME */
-    return NULL;
+    _ped_Alignment *ret;
+
+    ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
+    ret->offset = (PyObject *) PedSector2_ped_Sector(alignment->offset);
+    ret->grain_size = (PyObject *) PedSector2_ped_Sector(alignment->grain_size);
+
+    return ret;
 }
 
 /* _ped_Constraint -> PedConstraint functions */
@@ -132,8 +138,17 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
 }
 
 _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
-    /* FIXME */
-    return NULL;
+    _ped_Constraint *ret;
+
+    ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
+    ret->start_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->start_align);
+    ret->end_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->end_align);
+    ret->start_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->start_range);
+    ret->end_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->end_range);
+    ret->min_size = (PyObject *) PedSector2_ped_Sector(constraint->min_size);
+    ret->max_size = (PyObject *) PedSector2_ped_Sector(constraint->max_size);
+
+    return ret;
 }
 
 /* _ped_Device -> PedDevice functions */
@@ -159,23 +174,81 @@ PedDevice *_ped_Device2PedDevice(PyObject *s) {
     return ret;
 }
 
+/* PedDevice -> _ped_Device functions */
 _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
-    /* FIXME */
-    return NULL;
+    _ped_Device *ret;
+
+    ret = PyObject_New(_ped_Device, &_ped_Device_Type_obj);
+    ret->model = strdup(device->model);
+    ret->path = strdup(device->path);
+    ret->type = device->type;
+    ret->sector_size = device->sector_size;
+    ret->phys_sector_size = device->phys_sector_size;
+    ret->length = (PyObject *) PedSector2_ped_Sector(device->length);
+    ret->open_count = device->open_count;
+    ret->read_only = device->read_only;
+    ret->external_mode = device->external_mode;
+    ret->dirty = device->dirty;
+    ret->boot_dirty = device->boot_dirty;
+    ret->hw_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->hw_geom);
+    ret->bios_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->bios_geom);
+    ret->host = device->host;
+    ret->did = device->did;
+
+    /* XXX: don't know what to do with these */
+    ret->next = device->next;
+    ret->arch_specific = device->arch_specific;
+
+    return ret;
 }
 
-/* _ped_FileSystem -> PedFileSystem */
+/* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
-    /* FIXME */
-    return NULL;
+    PedFileSystem *ret;
+    PedFileSystemType *fstype;
+    PedGeometry *geom;
+    _ped_FileSystem *fs = (_ped_FileSystem *) s;
+
+    if (fs == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem");
+        return NULL;
+    }
+
+    fstype = _ped_FileSystemType2PedFileSystemType(fs->type);
+    if (fstype == NULL) {
+        return NULL;
+    }
+
+    geom = _ped_Geometry2PedGeometry(fs->geom);
+    if (geom == NULL) {
+        return NULL;
+    }
+
+    ret->type = fstype;
+    ret->geom = geom;
+    ret->checked = fs->checked;
+
+    /* don't know what to do with these */
+    ret->type_specific = fs->type_specific;
+
+    return ret;
 }
 
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
-    /* FIXME */
-    return NULL;
+    _ped_FileSystem *ret;
+
+    ret = PyObject_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
+    ret->type = (PyObject *) PedFileSystemType2_ped_FileSystemType(fs->type);
+    ret->geom = (PyObject *) PedGeometry2_ped_Geometry(fs->geom);
+    ret->checked = fs->checked;
+
+    /* XXX: don't know what to do with these */
+    ret->type_specific = fs->type_specific;
+
+    return ret;
 }
 
-/* _ped_FileSystemType -> PedFileSystemType */
+/* _ped_FileSystemType -> PedFileSystemType functions */
 PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
     /* FIXME */
     return NULL;
@@ -225,8 +298,13 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
 }
 
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
-    /* FIXME */
-   return NULL;
+    _ped_Geometry *ret;
+
+    ret = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj);
+    ret->dev = (PyObject *) PedDevice2_ped_Device(geometry->dev);
+    ret->start = (PyObject *) PedSector2_ped_Sector(geometry->start);
+    ret->length = (PyObject *) PedSector2_ped_Sector(geometry->length);
+    ret->end = (PyObject *) PedSector2_ped_Sector(geometry->end);
 }
 
 /* _ped_CHSGeometry -> PedCHSGeometry functions */
@@ -248,6 +326,18 @@ PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s) {
     ret->cylinders = srcgeom->cylinders;
     ret->heads = srcgeom->heads;
     ret->sectors = srcgeom->sectors;
+
+    return ret;
+}
+
+/* PedCHSGeometry -> _ped_CHSGeometry functions */
+_ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
+    _ped_CHSGeometry *ret;
+
+    ret = PyObject_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj);
+    ret->cylinders = geom->cylinders;
+    ret->heads = geom->heads;
+    ret->sectors = geom->sectors;
 
     return ret;
 }
@@ -277,14 +367,46 @@ _ped_Sector *PedSector2_ped_Sector(PedSector s) {
 
 /* _ped_Timer -> PedTimer functions */
 PedTimer *_ped_Timer2PedTimer(PyObject *s) {
-    /* FIXME */
-    return NULL;
+    PedTimer *ret;
+    _ped_Timer *timer = (_ped_Timer *) s;
+
+    if (timer == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Timer()");
+        return NULL;
+    }
+
+    if ((ret = malloc(sizeof(PedTimer))) == NULL) {
+        PyErr_SetString(PyExc_MemoryError, "Out of memory");
+        return NULL;
+    }
+
+    ret->frac = timer->frac;
+    ret->start = timer->start;
+    ret->now = timer->now;
+    ret->predicted_end = timer->predicted_end;
+    ret->state_name = strdup(timer->state_name);
+    ret->handler = timer->handler;
+    ret->context = timer->context;
+
+    return ret;
 }
 
 /* PedTimer -> _ped_Timer functions */
 _ped_Timer *PedTimer2_ped_timer(PedTimer *timer) {
-    /* FIXME */
-    return NULL;
+    _ped_Timer *ret;
+
+    ret = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj);
+    ret->frac = timer->frac;
+    ret->start = timer->start;
+    ret->now = timer->now;
+    ret->predicted_end = timer->predicted_end;
+    ret->state_name = strdup(timer->state_name);
+
+    /* XXX: don't know what to do with these */
+    ret->handler = timer->handler;
+    ret->context = timer->context;
+
+    return ret;
 }
 
 /* _ped_Unit -> PedUnit functions */
