@@ -20,6 +20,7 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #ifndef CONVERT_H_INCLUDED
@@ -29,8 +30,10 @@
 
 #include "pyconstraint.h"
 #include "pydevice.h"
+#include "pyfilesys.h"
 #include "pygeom.h"
 #include "pynatmath.h"
+#include "pytimer.h"
 #include "pyunit.h"
 
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
@@ -42,6 +45,12 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
 PedDevice *_ped_Device2PedDevice(PyObject *s);
 _ped_Device *PedDevice2_ped_Device(PedDevice *device);
 
+PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
+_ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
+
+PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s);
+_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype);
+
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 
@@ -49,6 +58,9 @@ PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
 _ped_Sector *PedSector2_ped_Sector(PedSector s);
+
+PedTimer *_ped_Timer2PedTimer(PyObject *s);
+_ped_Timer *PedTimer2_ped_Timer(PedTimer *timer);
 
 PedUnit _ped_Unit2PedUnit(PyObject *s);
 _ped_Unit *PedUnit2_ped_Unit(PedUnit s);

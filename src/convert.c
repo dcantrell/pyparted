@@ -31,6 +31,7 @@
 #include "pydevice.h"
 #include "pygeom.h"
 #include "pynatmath.h"
+#include "pytimer.h"
 #include "pyunit.h"
 
 /* Note... all of these functions malloc for memory to create the returning
@@ -163,6 +164,28 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     return NULL;
 }
 
+/* _ped_FileSystem -> PedFileSystem */
+PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
+    /* FIXME */
+    return NULL;
+}
+
+/* _ped_FileSystemType -> PedFileSystemType */
+PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype) {
+    /* FIXME */
+    return NULL;
+}
+
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret;
@@ -250,6 +273,18 @@ _ped_Sector *PedSector2_ped_Sector(PedSector s) {
     ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
     ret->val = s;
     return ret;
+}
+
+/* _ped_Timer -> PedTimer functions */
+PedTimer *_ped_Timer2PedTimer(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+/* PedTimer -> _ped_Timer functions */
+_ped_Timer *PedTimer2_ped_timer(PedTimer *timer) {
+    /* FIXME */
+    return NULL;
 }
 
 /* _ped_Unit -> PedUnit functions */
