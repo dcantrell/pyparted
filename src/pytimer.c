@@ -9,7 +9,7 @@
  * the GNU General Public License v.2, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY expressed or implied, including the implied warranties of
- * MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.  You should have received a copy of the
  * GNU General Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -19,10 +19,12 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #include <Python.h>
 
+#include "convert.h"
 #include "pytimer.h"
 
 /* _ped.Timer functions */
@@ -50,43 +52,129 @@ PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    ped_timer_destroy(out_timer);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    PyObject *in_parent;
+    float nest_frac;
+    PedTimer *out_parent, *timer;
+    _ped_Timer *ret;
+
+    if (!PyArg_ParseTuple(args, "Of", &in_parent, &nest_frac)) {
+        return NULL;
+    }
+
+    out_parent = _ped_Timer2PedTimer(in_parent);
+
+    timer = ped_timer_new_nested(out_parent, nest_frac);
+    if (timer) {
+        ret = PedTimer2_ped_Timer(timer);
+    }
+
+    ped_timer_destroy(out_parent);
+    ped_timer_destroy(timer);
+
+    if (ret) {
+        return (PyObject *) ret;
+    } else {
+        return NULL;
+    }
 }
 
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+    ped_timer_destroy_nested(out_timer);
+    ped_timer_destroy(out_timer);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+    ped_timer_touch(out_timer);
+    ped_timer_destroy(out_timer);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+    ped_timer_reset(out_timer);
+    ped_timer_destroy(out_timer);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    float frac;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "Of", &in_timer, &frac)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+    ped_timer_update(out_timer, frac);
+    ped_timer_destroy(out_timer);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
-    /* FIXME */
+    PyObject *in_timer;
+    char *str;
+    PedTimer *out_timer;
+
+    if (!PyArg_ParseTuple(args, "Os", &in_timer, &str)) {
+        return NULL;
+    }
+
+    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    ped_timer_set_state_name(out_timer, str);
+
+    ped_timer_destroy(out_timer);
+    free(str);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
