@@ -43,7 +43,7 @@ PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
 
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
                          PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 

@@ -38,55 +38,55 @@ PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 }
 
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 
 /* 1:1 function mappings for timer.h in libparted */
 PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }

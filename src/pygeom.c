@@ -42,7 +42,7 @@ PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 
@@ -303,9 +303,9 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
@@ -341,15 +341,15 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {

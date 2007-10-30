@@ -295,13 +295,13 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
