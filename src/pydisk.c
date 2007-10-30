@@ -319,9 +319,21 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL, *pass_disk = NULL;
+    _ped_Disk *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        pass_disk = ped_disk_duplicate(out_disk);
+        ret = PedDisk2_ped_Disk(pass_disk);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
@@ -410,82 +422,252 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ped_disk_print(out_disk);
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_get_primary_partition_count(out_disk);
+    }
+
+    return PyInt_FromLong(ret);
 }
 
 PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = ped_disk_get_last_partition_num(out_disk);
+    }
+
+    return PyInt_FromLong(ret);
 }
 
 PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
                                                       PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk;
+    PedDisk *out_disk = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_disk)) {     
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    if (out_disk) {
+        ret = py_ped_disk_get_max_primary_partition_count(out_disk);
+    }
+
+    return PyInt_FromLong(ret);
 }
 
 PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_disk, *in_type, *in_fs_type, *in_start, *in_end;
+    PedDisk *out_disk = NULL;
+    PedPartitionType *out_type = NULL;
+    PedFileSystemType *out_fs_type = NULL;
+    PedSector *start = NULL;
+    PedSector *end = NULL;
+    PedPartition *pass_part = NULL;
+    _ped_Partition *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "OOOOO", &in_disk, &in_type, &in_fs_type,
+                          &in_start, &in_end)) {
+        return NULL;
+    }
+
+    out_disk = _ped_Disk2PedDisk(in_disk);
+    out_type = _ped_PartitionType2PedPartitionType(in_type);
+    out_fs_type = _ped_FileSystemType2PedFileSystemType(in_fs_type);
+    out_start = _ped_Sector2PedSector(in_start);
+    out_end = _ped_Sector2PedSector(in_end);
+
+    if (out_disk && out_type && out_fs_type && out_start && out_end) {
+        pass_part = ped_partition_new(out_disk, out_type, out_fs_type,
+                                      out_start, out_end);
+        ret = PedPartition2_ped_Partition(pass_part);
+    }
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_partition;
+    PedPartition *out_partition = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_partition)) {
+        return NULL;
+    }
+
+    out_partition = _ped_Partition2PedPartition(in_partition);
+    if (out_partition) {
+        ped_partition_destroy(out_partition);
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_partition;
+    PedPartition *out_partition = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_partition)) {
+        return NULL;
+    }
+
+    out_partition = _ped_Partition2PedPartition(in_partition);
+    if (out_partition) {
+        ret = ped_partition_is_active(out_partition);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part, *in_flag;
+    int in_state = -1;
+    PedPartition *out_part = NULL;
+    PedPartitionFlag *out_flag = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "OOi", &in_part, &in_flag, &in_state)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
+
+    if (out_part && out_flag && in_state > -1) {
+        ret = ped_partition_set_flag(out_part, out_flag, in_state);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part, *in_flag;
+    PedPartition *out_part = NULL;
+    PedPartitionFlag *out_flag = NULL;
+    int ret = -1;
+
+    if (!PyArg_ParseTuple(args, "OO", &in_part, &in_flag)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
+
+    if (out_part && out_flag) {
+        ret = ped_partition_get_flag(out_part, out_flag);
+    }
+
+    return PyInt_FromLong(ret);
 }
 
 PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part, *in_flag;
+    PedPartition *out_part = NULL;
+    PedPartitionFlag *out_flag = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "OO", &in_part, &in_flag)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
+
+    if (out_part && out_flag) {
+        ret = ped_partition_is_flag_available(out_part, out_flag);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part, *in_fstype;
+    PedPartition *out_part = NULL;
+    PedFileSystemType *out_fstype = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "OO", &in_part, &in_fstype)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+
+    if (out_part && out_fstype) {
+        ret = ped_partition_set_system(out_part, out_fstype);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part;
+    PedPartition *out_part = NULL;
+    char *in_name = NULL;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "Os", &in_part, &in_name)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part) {
+        ret = ped_partition_set_name(out_part, in_name);
+    }
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_part;
+    PedPartition *out_part = NULL;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_part)) {
+        return NULL;
+    }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part) {
+        ret = ped_partition_get_name(out_part);
+    }
+
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
@@ -523,27 +705,68 @@ PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_type;
+    PedPartitionType *out_type = NULL;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_type)) {
+        return NULL;
+    }
+
+    out_type = _ped_PartitionType2PedPartitionType(in_type);
+    if (out_type) {
+        ret = ped_partition_type_get_name(out_type);
+    }
+
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_flag;
+    PedPartitionFlag *out_flag = NULL;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_flag)) {
+        return NULL;
+    }
+
+    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
+    if (out_flag) {
+        ret = ped_partition_flag_get_name(out_flag);
+    }
+
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    char *in_name;
+    PedPartitionFlag *pass_flag = NULL;
+    _ped_PartitionFlag *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "s", &in_name)) {
+        return NULL;
+    }
+
+    pass_flag = ped_partition_flag_get_by_name(in_name);
+    ret = PedPartitionFlag2_ped_PartitionFlag(pass_flag);
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    PyObject *in_flag;
+    PedPartitionFlag *out_flag = NULL, *pass_flag = NULL;
+    _ped_PartitionFlag *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &in_flag)) {
+        return NULL;
+    }
+
+    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
+    pass_flag = ped_partition_flag_next(out_flag);
+    ret = PedPartitionFlag2_pedPartitionFlag(pass_flag);
+
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {

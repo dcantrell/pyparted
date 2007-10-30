@@ -51,14 +51,6 @@
       py_ped_unit_parse_custom
 
 - disk.h:
-      py_ped_disk_duplicate
-      py_ped_disk_print
-      py_ped_disk_get_primary_partition_count
-      py_ped_disk_get_last_partition_num
-      py_ped_disk_get_max_primary_partition_count
-      py_ped_partition_new
-      py_ped_partition_destroy
-      py_ped_partition_is_active
       py_ped_partition_set_flag
       py_ped_partition_get_flag
       py_ped_partition_is_flag_available
