@@ -51,16 +51,6 @@
       py_ped_unit_parse_custom
 
 - disk.h:
-      py_ped_partition_set_flag
-      py_ped_partition_get_flag
-      py_ped_partition_is_flag_available
-      py_ped_partition_set_system
-      py_ped_partition_set_name
-      py_ped_partition_get_name
-      py_ped_partition_type_get_name
-      py_ped_partition_flag_get_name
-      py_ped_partition_flag_get_by_name
-      py_ped_partition_flag_next
       py_ped_disk_add_partition
       py_ped_disk_remove_partition
       py_ped_disk_delete_partition
