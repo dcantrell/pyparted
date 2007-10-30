@@ -16,6 +16,9 @@
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
 
+- Remove the ENUM() macro because using cpp for that stuff is annoying.  Can't
+  grep!
+
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
       class PedDevice
