@@ -202,6 +202,36 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     return ret;
 }
 
+PedDisk *_ped_Disk2PedDisk(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
+    /* FIXME */
+    return NULL;
+}
+
+PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
+    /* FIXME */
+    return NULL;
+}
+
+PedDiskTypeFeature *_ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature *type) {
+    /* FIXME */
+    return NULL;
+}
+
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     PedFileSystem *ret;
@@ -342,6 +372,16 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
     return ret;
 }
 
+PedPartition *_ped_Partition2PedPartition(PyObject *s) {
+    /* FIXME */
+    return NULL;
+}
+
+_ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
+    /* FIXME */
+    return NULL;
+}
+
 /* _ped_Sector -> PedSector functions */
 PedSector _ped_Sector2PedSector(PyObject *s) {
     PedSector ret;
@@ -392,7 +432,7 @@ PedTimer *_ped_Timer2PedTimer(PyObject *s) {
 }
 
 /* PedTimer -> _ped_Timer functions */
-_ped_Timer *PedTimer2_ped_timer(PedTimer *timer) {
+_ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
     _ped_Timer *ret;
 
     ret = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj);
