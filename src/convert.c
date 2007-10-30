@@ -250,12 +250,12 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
 
 /* _ped_FileSystemType -> PedFileSystemType functions */
 PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
-    /* FIXME */
+    /* XXX */
     return NULL;
 }
 
 _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype) {
-    /* FIXME */
+    /* XXX */
     return NULL;
 }
 

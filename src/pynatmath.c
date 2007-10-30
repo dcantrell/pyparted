@@ -42,7 +42,7 @@ PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 

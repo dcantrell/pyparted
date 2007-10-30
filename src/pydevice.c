@@ -86,7 +86,7 @@ PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
 
 int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
                           PyObject *kwds) {
-    /* FIXME - should handle keywords (cylinders=, heads=, sectors=) */
+    /* XXX - should handle keywords (cylinders=, heads=, sectors=) */
     return 0;
 }
 
@@ -109,7 +109,7 @@ int _ped_CHSGeometry_setcylinders(_ped_CHSGeometry *self, PyObject *value,
     }
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* FIXME - this should throw an exception probably */
+        /* XXX - this should throw an exception probably */
         return -1;
     }
 
@@ -136,7 +136,7 @@ int _ped_CHSGeometry_setheads(_ped_CHSGeometry *self, PyObject *value,
     }
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* FIXME - this should throw an exception probably */
+        /* XXX - this should throw an exception probably */
         return -1;
     }
 
@@ -163,7 +163,7 @@ int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
     }
 
     if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* FIXME - this should throw an exception probably */
+        /* XXX - this should throw an exception probably */
         return -1;
     }
 
@@ -184,7 +184,7 @@ PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 }
 
 int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 
@@ -377,15 +377,15 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
@@ -421,9 +421,9 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
-    /* FIXME */
-    Py_INCREF(Py_None);
-    return Py_None;
+    /* XXX */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return NULL;
 }
 
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {

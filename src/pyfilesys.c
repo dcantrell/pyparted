@@ -44,7 +44,7 @@ PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
 
 int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
                              PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 
@@ -63,7 +63,7 @@ PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
 
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                          PyObject *kwds) {
-    /* FIXME */
+    /* XXX */
     return 0;
 }
 
