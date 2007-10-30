@@ -41,11 +41,6 @@
   where they just have the val attribute, do we need get/set methods?  I
   think so for things like bounds checking and type checking.
 
-- device.h:
-      py_ped_device_read
-      py_ped_device_write
-      py_ped_device_check
-
 - unit.h:
       py_ped_unit_parse
       py_ped_unit_parse_custom
