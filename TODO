@@ -95,11 +95,6 @@
 - fdasd.h
       # heh...yeah, go IBM
 
-- geom.h:
-      py_ped_geometry_read
-      py_ped_geometry_write
-      py_ped_geometry_check
-
 - timer.h:
       py_ped_timer_new
 
