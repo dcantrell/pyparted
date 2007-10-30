@@ -30,6 +30,7 @@
 
 #include "pyconstraint.h"
 #include "pydevice.h"
+#include "pydisk.h"
 #include "pyfilesys.h"
 #include "pygeom.h"
 #include "pynatmath.h"
@@ -45,6 +46,15 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
 PedDevice *_ped_Device2PedDevice(PyObject *s);
 _ped_Device *PedDevice2_ped_Device(PedDevice *device);
 
+PedDisk *_ped_Disk2PedDisk(PyObject *s);
+_ped_Disk *PedDisk2_ped_Disk(PedDisk *disk);
+
+PedDiskType *_ped_DiskType2PedDiskType(PyObject *s);
+_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type);
+
+PedDiskTypeFeature *_ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s);
+_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature *type);
+
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
 
@@ -56,6 +66,9 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 
 PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
 _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
+
+PedPartition *_ped_Partition2PedPartition(PyObject *s);
+_ped_Partition *PedPartition2_ped_Partition(PedPartition *part);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
 _ped_Sector *PedSector2_ped_Sector(PedSector s);
