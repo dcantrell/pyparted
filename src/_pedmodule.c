@@ -38,6 +38,10 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
+/* custom exceptions for _ped */
+static PyObject *NotNeededException;
+
+/* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
     {"get_version", (PyCFunction) py_ped_get_version, METH_VARARGS, NULL },
 
@@ -325,4 +329,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(&_ped_FileSystem_Type_obj);
     PyModule_AddObject(m, "FileSystem",
                        (PyObject *)&_ped_FileSystem_Type_obj);
+
+    /* add our custom exceptions */
+    NotNeededException = PyErr_NewException("_ped.NotNeededException",
+                                            NULL, NULL);
+    Py_INCREF(NotNeededException);
+    PyModule_AddObject(m, "NotNeededException", NotNeededException);
 }
