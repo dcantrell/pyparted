@@ -104,13 +104,6 @@
 
 - timer.h:
       py_ped_timer_new
-      py_ped_timer_destroy
-      py_ped_timer_new_nested
-      py_ped_timer_destroy_nested
-      py_ped_timer_touch
-      py_ped_timer_reset
-      py_ped_timer_update
-      py_ped_timer_set_state_name
 
 - vtoc.h:
       # heh...yeah, go IBM
