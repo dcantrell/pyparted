@@ -70,6 +70,12 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
 PedPartition *_ped_Partition2PedPartition(PyObject *s);
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part);
 
+PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s);
+_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag f);
+
+PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s);
+_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType t);
+
 PedSector _ped_Sector2PedSector(PyObject *s);
 _ped_Sector *PedSector2_ped_Sector(PedSector s);
 

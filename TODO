@@ -45,20 +45,6 @@
       py_ped_unit_parse
       py_ped_unit_parse_custom
 
-- disk.h:
-      py_ped_disk_add_partition
-      py_ped_disk_remove_partition
-      py_ped_disk_delete_partition
-      py_ped_disk_delete_all
-      py_ped_disk_set_partition_geom
-      py_ped_disk_maximize_partition
-      py_ped_disk_get_max_partition_geometry
-      py_ped_disk_minimize_extended_partition
-      py_ped_disk_next_partition
-      py_ped_disk_get_partition
-      py_ped_disk_get_partition_by_sector
-      py_ped_disk_extended_partition
-
 - exception.h:
       _ped.Exception
       _ped.ExceptionType
@@ -74,14 +60,8 @@
       py_ped_exception_fetch_all
       py_ped_exception_leave_all
 
-- fdasd.h
-      # heh...yeah, go IBM
-
 - timer.h:
       py_ped_timer_new
-
-- vtoc.h:
-      # heh...yeah, go IBM
 
 - Make sure _ped module has Python docstrings galore
 

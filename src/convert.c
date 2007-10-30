@@ -382,6 +382,26 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     return NULL;
 }
 
+PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s) {
+    /* XXX */
+    return -1;
+}
+
+_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag f) {
+    /* XXX */
+    return NULL;
+}
+
+PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s) {
+    /* XXX */
+    return -1;
+}
+
+_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType t) {
+    /* XXX */
+    return NULL;
+}
+
 /* _ped_Sector -> PedSector functions */
 PedSector _ped_Sector2PedSector(PyObject *s) {
     PedSector ret;
