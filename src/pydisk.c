@@ -23,6 +23,7 @@
 
 #include <Python.h>
 
+#include "convert.h"
 #include "pydisk.h"
 
 /* _ped.PartitionType functions */
@@ -215,7 +216,7 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     out_disktype = _ped_DiskType2PedDiskType(in_disktype);
     out_feature = _ped_DiskTypeFeature2PedDiskTypeFeature(in_feature);
     if (out_disktype && out_feature) {
-        ret = ped_disk_type_check_feature(out_disktype, out_feature);
+        ret = ped_disk_type_check_feature(out_disktype, *out_feature);
     }
 
     return PyBool_FromLong(ret);
@@ -223,6 +224,7 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
     PyObject *in_device;
+    PedDevice *out_device;
     PedDiskType *out_type = NULL;
     _ped_DiskType *ret = NULL;
 
@@ -230,8 +232,9 @@ PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    out_device = _ped_Device2PedDevice(in_device);
     if (in_device) {
-        out_type = ped_disk_probe(in_device);
+        out_type = ped_disk_probe(out_device);
         ret = PedDiskType2_ped_DiskType(out_type);
     }
 
