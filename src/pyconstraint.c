@@ -123,11 +123,7 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_end_range);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
@@ -155,11 +151,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_max);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
@@ -185,11 +177,7 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_min);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
@@ -215,11 +203,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_max);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
@@ -244,11 +228,7 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     ped_constraint_destroy(out_constraint);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_done(PyObject *s, PyObject *args) {
@@ -306,11 +286,7 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
     ped_constraint_destroy(out_constraintB);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
@@ -336,11 +312,7 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     ped_constraint_destroy(out_constraint);
     ped_geometry_destroy(geometry);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
@@ -369,11 +341,7 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geometry);
     ped_geometry_destroy(geometry);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
@@ -390,9 +358,6 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
 
     ret = ped_constraint_is_solution(out_constraint, out_geometry);
-    if (!ret) {
-        return NULL;
-    }
 
     ped_constraint_destroy(out_constraint);
     ped_geometry_destroy(out_geometry);
@@ -423,11 +388,7 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
@@ -453,9 +414,5 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geometry);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
