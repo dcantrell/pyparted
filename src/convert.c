@@ -35,8 +35,19 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
-/* Note... all of these functions malloc for memory to create the returning
- * type.  It is up to the caller to free the memory after using it.
+/*
+ * These functions convert between pyparted Python types and libparted types.
+ * Some are structures, some are simply C primitives.  Important notes:
+ *
+ * 1) When using a _ped_X2Y() function, you are converting a pyparted Python
+ *    type to a libparted type.  If the function returns a pointer, you need
+ *    to free it when you are done using it.
+ * 2) When using a PedX2_ped_Y() function, you are converting a libparted
+ *    type to a pyparted Python type.  You will get a pointer to a PyObject
+ *    back, but don't free this variable.  Python will handle clean up of
+ *    these variables through reference counts.
+ * 3) Some functions return C primitives, so no memory management needs to
+ *    be done.
  */
 
 /* _ped_Alignment -> PedAlignment functions */
@@ -203,8 +214,54 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 }
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
-    /* FIXME */
-    return NULL;
+    PedDisk *ret;
+    _ped_Disk *disk = (_ped_Disk *) s;
+
+    if (disk == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Disk()");
+        return NULL;
+    }
+
+    ret = malloc(sizeof(PedDisk *));
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    if (disk->dev) {
+        ret->dev = _ped_Device2PedDevice(disk->dev);
+        if (ret->dev == NULL) {
+            PyErr_SetString(PyExc_MemoryError, "Out of memory");
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+
+    if (disk->type) {
+        ret->type = _ped_DiskType2PedDiskType(disk->type);
+        if (ret->type == NULL) {
+            PyErr_SetString(PyExc_MemoryError, "Out of memory");
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+
+    /* XXX: copy block_sizes */
+
+    if (disk->part_list) {
+        ret->part_list = _ped_Partition2PedPartition(disk->part_list);
+        if (ret->part_list == NULL) {
+            PyErr_SetString(PyExc_MemoryError, "Out of memory");
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+
+    /* XXX: copy disk_specific */
+
+    return ret;
 }
 
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
