@@ -45,23 +45,11 @@
       py_ped_unit_parse
       py_ped_unit_parse_custom
 
-- exception.h:
-      _ped.Exception
-      _ped.ExceptionType
-      _ped.ExceptionOption
-      py_ped_exception_get_type_string
-      py_ped_exception_get_option_string
-      py_ped_exception_set_handler
-      py_ped_exception_get_handler
-      py_ped_exception_default_handler
-      py_ped_exception_throw
-      py_ped_exception_rethrow
-      py_ped_exception_catch
-      py_ped_exception_fetch_all
-      py_ped_exception_leave_all
-
 - timer.h:
       py_ped_timer_new
+
+- Handle exceptions throughout the _ped module code.  Unique exceptions as
+  much as possible.
 
 - Make sure _ped module has Python docstrings galore
 
