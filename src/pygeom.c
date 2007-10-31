@@ -119,11 +119,7 @@ PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
     ped_geometry_destroy(geom);
     ped_device_destroy(out_device);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
@@ -148,11 +144,7 @@ PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geometry);
     ped_geometry_destroy(geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
@@ -179,11 +171,7 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
         ret = PedGeometry2_ped_Geometry(geom);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
@@ -392,7 +380,8 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
     void *out_buf;
     PedSector out_offset, out_count;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_geom, &in_buf, &in_offset, &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOOO", &in_geom, &in_buf, &in_offset,
+                                        &in_count)) {
         return NULL;
     }
 
@@ -466,7 +455,8 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     void *out_buf;
     PedSector out_offset, out_count;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_geom, &in_buf, &in_offset, &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOOO", &in_geom, &in_buf, &in_offset,
+                                        &in_count)) {
         return NULL;
     }
 
@@ -552,11 +542,7 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
 
     ret = PedSector2_ped_Sector(sector);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
