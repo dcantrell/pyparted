@@ -232,11 +232,7 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     free(path);
     ped_device_destroy(device);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
@@ -261,11 +257,7 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
     ped_device_destroy(out_device);
     ped_device_destroy(device);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
@@ -414,7 +406,8 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
     PedSector out_start, out_count, sector;
     _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start, &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
+                                        &in_count)) {
         return NULL;
     }
 
@@ -443,11 +436,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
 
     ped_device_destroy(out_dev);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
@@ -457,7 +446,8 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
     PedSector out_start, out_count, sector;
     _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start, &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
+                                        &in_count)) {
         return NULL;
     }
 
@@ -486,11 +476,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
 
     ped_device_destroy(out_dev);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
@@ -542,7 +528,8 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     PedSector out_start, out_count, sector;
     _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start, &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
+                                        &in_count)) {
         return NULL;
     }
 
@@ -571,11 +558,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
 
     ped_device_destroy(out_dev);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
@@ -601,9 +584,5 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
