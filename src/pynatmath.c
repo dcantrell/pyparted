@@ -71,11 +71,7 @@ PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
@@ -102,11 +98,7 @@ PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
@@ -133,11 +125,7 @@ PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
@@ -164,11 +152,7 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
@@ -228,12 +212,7 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
     }
 
     ped_alignment_destroy(align);
-
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
@@ -277,11 +256,7 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
     ped_alignment_destroy(out_alignment);
     ped_alignment_destroy(align);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
@@ -312,11 +287,7 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
     ped_alignment_destroy(out_b);
     ped_alignment_destroy(align);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
@@ -353,11 +324,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
@@ -394,11 +361,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
@@ -435,11 +398,7 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
@@ -498,11 +457,7 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
@@ -529,9 +484,5 @@ PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
         ret = PedSector2_ped_Sector(sector);
     }
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }

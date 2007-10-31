@@ -113,11 +113,7 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     in = ped_unit_get_default();
     ret = PyObject_New(_ped_Unit, &_ped_Unit_Type_obj);
 
-    if (ret) {
-        ret->val = (long) in;
-    } else {
-        return NULL;
-    }
+    ret->val = (long) in;
 
     return (PyObject *) ret;
 }
@@ -172,11 +168,7 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     in = ped_unit_get_by_name(name);
     out = PyObject_NEW(_ped_Unit, &_ped_Unit_Type_obj);
 
-    if (out) {
-        out->val = (long) in;
-    } else {
-        return NULL;
-    }
+    out->val = (long) in;
 
     return (PyObject *) out;
 }
