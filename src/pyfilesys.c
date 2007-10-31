@@ -117,11 +117,7 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     free(name);
     ped_file_system_type_destroy(fstype);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
@@ -143,11 +139,7 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     ped_file_system_type_destroy(out_fstype);
     ped_file_system_type_destroy(fstype);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
@@ -172,11 +164,7 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geom);
     ped_geometry_destroy(geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
@@ -199,11 +187,7 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     ped_file_system_type_destroy(fstype);
     ped_geometry_destroy(out_geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
@@ -261,11 +245,7 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     ped_file_system_destroy(fs);
     ped_geometry_destroy(out_geom);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
@@ -294,11 +274,7 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     ped_file_system_type_destroy(out_fstype);
     ped_timer_destroy(out_timer);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
@@ -363,11 +339,7 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
@@ -418,11 +390,7 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
@@ -446,11 +414,7 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     ped_file_system_destroy(out_fs);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
@@ -476,9 +440,5 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
