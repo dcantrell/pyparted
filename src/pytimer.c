@@ -87,11 +87,7 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
     ped_timer_destroy(out_parent);
     ped_timer_destroy(timer);
 
-    if (ret) {
-        return (PyObject *) ret;
-    } else {
-        return NULL;
-    }
+    return (PyObject *) ret;
 }
 
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
