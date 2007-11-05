@@ -210,6 +210,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 }
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
+    int i = 0;
     PedDisk *ret;
     _ped_Disk *disk = (_ped_Disk *) s;
 
@@ -253,8 +254,7 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
 
     ret = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj);
     ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
-    /* XXX: fix line below */
-    /* ret->type = (PyObject *) PedDiskType2_ped_DiskType(disk->type); */
+    ret->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
 
     /* XXX: copy this int linked list */
     /* ret->block_sizes = disk->block_sizes; */
@@ -287,8 +287,7 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
 
     ret = PyObject_New(_ped_DiskType, &_ped_DiskType_Type_obj);
     ret->name = strdup(type->name);
-    /* XXX: fix line below */
-    /* ret->features = PedDiskTypeFeature2_ped_DiskTypeFeature(type->features); */
+    ret->features = (PyObject *) PedDiskTypeFeature2_ped_DiskTypeFeature(type->features);
 
     return ret;
 }
@@ -361,8 +360,14 @@ PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
 }
 
 _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype) {
-    /* XXX */
-    return NULL;
+    _ped_FileSystemType *ret;
+
+    ret = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
+    ret->name = strdup(fstype->name);
+    /* XXX: copy this int array correctly */
+    /* ret->block_sizes = fstype->block_sizes; */
+
+    return ret;
 }
 
 /* _ped_Geometry -> PedGeometry functions */
@@ -450,6 +455,7 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret;
+    PedGeometry *tmpgeom = NULL;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -464,18 +470,35 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     }
 
     ret->disk = _ped_Disk2PedDisk(part->disk);
-    /* XXX: fix ret->geom assignment */
-    /* ret->geom = _ped_Geometry2PedGeometry(part->geom); */
     ret->num = part->num;
     ret->type = _ped_PartitionType2PedPartitionType(part->type);
     ret->fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+
+    tmpgeom = _ped_Geometry2PedGeometry(part->geom);
+    if (tmpgeom == NULL) {
+        ret->geom.dev = NULL;
+        ret->geom.start = 0;
+        ret->geom.length = 0;
+        ret->geom.end = 0;
+    } else {
+        memcpy(&(ret->geom), tmpgeom, sizeof(PedGeometry));
+        free(tmpgeom);
+    }
 
     return ret;
 }
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
-    /* FIXME */
-    return NULL;
+    _ped_Partition *ret;
+
+    ret = PyObject_New(_ped_Partition, &_ped_Partition_Type_obj);
+    ret->disk = (PyObject *) PedDisk2_ped_Disk(part->disk);
+    ret->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
+    ret->num = part->num;
+    ret->type = (PyObject *) PedPartitionType2_ped_PartitionType(part->type);
+    ret->fs_type = (PyObject *) PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type);
+
+    return ret;
 }
 
 PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s) {
@@ -483,9 +506,13 @@ PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s) {
     return -1;
 }
 
-_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag f) {
-    /* XXX */
-    return NULL;
+_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag) {
+    _ped_PartitionFlag *ret;
+
+    ret = PyObject_New(_ped_PartitionFlag, &_ped_PartitionFlag_Type_obj);
+    ret->val = flag;
+
+    return ret;
 }
 
 PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s) {

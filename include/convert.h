@@ -71,10 +71,10 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s);
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part);
 
 PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s);
-_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag f);
+_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag);
 
 PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s);
-_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType t);
+_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType type);
 
 PedSector _ped_Sector2PedSector(PyObject *s);
 _ped_Sector *PedSector2_ped_Sector(PedSector s);
