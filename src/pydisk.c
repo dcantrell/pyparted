@@ -212,7 +212,7 @@ PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
 PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     PyObject *in_disktype, *in_feature;
     PedDiskType *out_disktype = NULL;
-    PedDiskTypeFeature *out_feature = NULL;
+    PedDiskTypeFeature out_feature = -1;
     int ret = 0;
 
     if (!PyArg_ParseTuple(args, "OO", &in_disktype, &in_feature)) {
@@ -222,9 +222,8 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     out_disktype = _ped_DiskType2PedDiskType(in_disktype);
     out_feature = _ped_DiskTypeFeature2PedDiskTypeFeature(in_feature);
     if (out_disktype && out_feature) {
-        ret = ped_disk_type_check_feature(out_disktype, *out_feature);
+        ret = ped_disk_type_check_feature(out_disktype, out_feature);
         free(out_disktype);
-        free(out_feature);
     }
 
     return PyBool_FromLong(ret);

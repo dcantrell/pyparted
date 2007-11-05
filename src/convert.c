@@ -279,14 +279,25 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
     return NULL;
 }
 
-PedDiskTypeFeature *_ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s) {
-    /* FIXME */
-    return NULL;
+PedDiskTypeFeature _ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s) {
+    PedDiskTypeFeature ret;
+    _ped_DiskTypeFeature *feature = (_ped_DiskTypeFeature *) s;
+
+    if (feature == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskTypeFeature()");
+        return -1;
+    }
+
+    ret = feature->val;
+    return ret;
 }
 
-_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature *type) {
-    /* FIXME */
-    return NULL;
+_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature feature) {
+    _ped_DiskTypeFeature *ret;
+
+    ret = PyObject_New(_ped_DiskTypeFeature, &_ped_DiskTypeFeature_Type_obj);
+    ret->val = feature;
+    return ret;
 }
 
 /* _ped_FileSystem -> PedFileSystem functions */
