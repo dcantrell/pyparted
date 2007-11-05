@@ -206,10 +206,6 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     ret->host = device->host;
     ret->did = device->did;
 
-    /* XXX: don't know what to do with these */
-    ret->next = device->next;
-    ret->arch_specific = device->arch_specific;
-
     return ret;
 }
 
@@ -249,34 +245,52 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 
     /* XXX: copy block_sizes */
 
-    if (disk->part_list) {
-        ret->part_list = _ped_Partition2PedPartition(disk->part_list);
-        if (ret->part_list == NULL) {
-            PyErr_SetString(PyExc_MemoryError, "Out of memory");
-            return NULL;
-        }
-    } else {
-        return NULL;
-    }
-
-    /* XXX: copy disk_specific */
-
     return ret;
 }
 
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
-    /* FIXME */
-    return NULL;
+    _ped_Disk *ret;
+
+    ret = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj);
+    ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
+    /* XXX: fix line below */
+    /* ret->type = (PyObject *) PedDiskType2_ped_DiskType(disk->type); */
+
+    /* XXX: copy this int linked list */
+    /* ret->block_sizes = disk->block_sizes; */
+
+    return ret;
 }
 
 PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
-    /* FIXME */
-    return NULL;
+    PedDiskType *ret;
+    _ped_DiskType *type = (_ped_DiskType *) s;
+
+    if (type == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskType()");
+        return NULL;
+    }
+
+    ret = malloc(sizeof(PedDiskType *));
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ret->name = strdup(type->name);
+    ret->features = _ped_DiskTypeFeature2PedDiskTypeFeature(type->features);
+
+    return ret;
 }
 
 _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
-    /* FIXME */
-    return NULL;
+    _ped_DiskType *ret;
+
+    ret = PyObject_New(_ped_DiskType, &_ped_DiskType_Type_obj);
+    ret->name = strdup(type->name);
+    /* XXX: fix line below */
+    /* ret->features = PedDiskTypeFeature2_ped_DiskTypeFeature(type->features); */
+
+    return ret;
 }
 
 PedDiskTypeFeature _ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s) {
@@ -326,9 +340,6 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     ret->geom = geom;
     ret->checked = fs->checked;
 
-    /* don't know what to do with these */
-    ret->type_specific = fs->type_specific;
-
     return ret;
 }
 
@@ -339,9 +350,6 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
     ret->type = (PyObject *) PedFileSystemType2_ped_FileSystemType(fs->type);
     ret->geom = (PyObject *) PedGeometry2_ped_Geometry(fs->geom);
     ret->checked = fs->checked;
-
-    /* XXX: don't know what to do with these */
-    ret->type_specific = fs->type_specific;
 
     return ret;
 }
@@ -441,8 +449,28 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 }
 
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
-    /* FIXME */
-    return NULL;
+    PedPartition *ret;
+    _ped_Partition *part = (_ped_Partition *) s;
+
+    if (part == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Partition()");
+        return;
+    }
+
+    ret = malloc(sizeof(PedPartition *));
+    if (ret == NULL) {
+        PyErr_SetString(PyExc_MemoryError, "Out of memory");
+        return NULL;
+    }
+
+    ret->disk = _ped_Disk2PedDisk(part->disk);
+    /* XXX: fix ret->geom assignment */
+    /* ret->geom = _ped_Geometry2PedGeometry(part->geom); */
+    ret->num = part->num;
+    ret->type = _ped_PartitionType2PedPartitionType(part->type);
+    ret->fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+
+    return ret;
 }
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
