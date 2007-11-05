@@ -219,7 +219,6 @@ typedef struct {
 } _ped_Device;
 
 static PyMemberDef _ped_Device_members[] = {
-    {"next", T_OBJECT, offsetof(_ped_Device, next), 0, NULL},
     {"model", T_STRING_INPLACE, offsetof(_ped_Device, model), 0, NULL},
     {"path", T_STRING_INPLACE, offsetof(_ped_Device, path), 0, NULL},
     {"type", T_LONGLONG, offsetof(_ped_Device, type), 0, NULL},
