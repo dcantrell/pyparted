@@ -52,8 +52,8 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk);
 PedDiskType *_ped_DiskType2PedDiskType(PyObject *s);
 _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type);
 
-PedDiskTypeFeature *_ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s);
-_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature *type);
+PedDiskTypeFeature _ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s);
+_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature feature);
 
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
