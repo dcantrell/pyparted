@@ -176,15 +176,11 @@ typedef struct {
     PyObject_HEAD
 
     /* PedPartition members */
-    PyObject *prev;                /* _ped.Partition */
-    PyObject *next;                /* _ped.Partition */
     PyObject *disk;                /* _ped.Disk */
     PyObject *geom;                /* _ped.Geometry */
     int num;
     PyObject *type;                /* _ped.PartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
-    PyObject *part_list;           /* _ped.Partition */
-    void *disk_specific;
 } _ped_Partition;
 
 static PyMemberDef _ped_Partition_members[] = {
@@ -262,8 +258,6 @@ typedef struct {
     PyObject *dev;             /* _ped.Device */
     PyObject *type;            /* _ped.DiskType */
     int *block_sizes;
-    PyObject *part_list;       /* _ped.Partition */
-    void *disk_specific;
 } _ped_Disk;
 
 static PyMemberDef _ped_Disk_members[] = {
@@ -333,9 +327,7 @@ typedef struct {
     PyObject_HEAD
 
     /* PedDiskType members */
-    PyObject *next;            /* _ped.DiskType */
     char *name;
-    PedDiskOps *ops;
     PyObject *features;        /* _ped.DiskTypeFeature */
 } _ped_DiskType;
 

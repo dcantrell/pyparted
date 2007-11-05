@@ -36,10 +36,8 @@ typedef struct {
     PyObject_HEAD
 
     /* PedFileSystemType members */
-    PyObject *next;                       /* _ped.FileSystemType */
     char *name;
     int *block_sizes;
-    PedFileSystemOps *ops;
 } _ped_FileSystemType;
 
 static PyMemberDef _ped_FileSystemType_members[] = {
@@ -113,7 +111,6 @@ typedef struct {
     PyObject *type;              /* _ped.FileSystemType */
     PyObject *geom;              /* _ped.Geometry */
     int checked;
-    void *type_specific;
 } _ped_FileSystem;
 
 static PyMemberDef _ped_FileSystem_members[] = {
