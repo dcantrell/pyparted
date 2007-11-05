@@ -201,7 +201,6 @@ typedef struct {
 
     /* a PedDevice is complex, we will store primitives when appropriate or
      * just other Python objects we've created for the typedefs in libparted */
-    PedDevice *next;              /* a _ped.Device */
     char *model;
     char *path;
     long long type;
@@ -217,7 +216,6 @@ typedef struct {
     PyObject *bios_geom;          /* a _ped.CHSGeometry */
     short host;
     short did;
-    void *arch_specific;
 } _ped_Device;
 
 static PyMemberDef _ped_Device_members[] = {
