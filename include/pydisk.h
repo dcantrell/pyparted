@@ -184,14 +184,11 @@ typedef struct {
 } _ped_Partition;
 
 static PyMemberDef _ped_Partition_members[] = {
-    {"prev", T_OBJECT, offsetof(_ped_Partition, prev), 0, NULL},
-    {"next", T_OBJECT, offsetof(_ped_Partition, next), 0, NULL},
     {"disk", T_OBJECT, offsetof(_ped_Partition, disk), 0, NULL},
     {"geom", T_OBJECT, offsetof(_ped_Partition, geom), 0, NULL},
     {"num", T_INT, offsetof(_ped_Partition, num), 0, NULL},
     {"type", T_OBJECT, offsetof(_ped_Partition, type), 0, NULL},
     {"fs_type", T_OBJECT, offsetof(_ped_Partition, fs_type), 0, NULL},
-    {"part_list", T_OBJECT, offsetof(_ped_Partition, part_list), 0, NULL},
     {NULL}
 };
 
@@ -264,7 +261,6 @@ static PyMemberDef _ped_Disk_members[] = {
     {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0, NULL},
     {"type", T_OBJECT, offsetof(_ped_Disk, type), 0, NULL},
     {"block_sizes", T_INT, offsetof(_ped_Disk, block_sizes), 0, NULL},
-    {"part_list", T_OBJECT, offsetof(_ped_Disk, part_list), 0, NULL},
     {NULL}
 };
 
@@ -332,7 +328,6 @@ typedef struct {
 } _ped_DiskType;
 
 static PyMemberDef _ped_DiskType_members[] = {
-    {"next", T_OBJECT, offsetof(_ped_DiskType, next), 0, NULL},
     {"name", T_STRING_INPLACE, offsetof(_ped_DiskType, name), 0, NULL},
     {"features", T_OBJECT, offsetof(_ped_DiskType, features), 0, NULL},
     {NULL}
