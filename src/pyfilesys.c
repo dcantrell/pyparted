@@ -209,25 +209,6 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
-PyObject *py_ped_file_system_clobber_exclude(PyObject *s, PyObject *args) {
-    int ret = -1;
-    PyObject *in_geom, *in_exclude;
-    PedGeometry *out_geom, *out_exclude;
-
-    if (!PyArg_ParseTuple(args, "OO", &in_geom, &in_exclude)) {
-        return NULL;
-    }
-
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
-    out_exclude = _ped_Geometry2PedGeometry(in_exclude);
-    ret = ped_file_system_clobber_exclude(out_geom, out_exclude);
-
-    ped_geometry_destroy(out_geom);
-    ped_geometry_destroy(out_exclude);
-
-    return PyBool_FromLong(ret);
-}
-
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
