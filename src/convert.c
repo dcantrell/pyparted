@@ -244,8 +244,6 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
         return NULL;
     }
 
-    /* XXX: copy block_sizes */
-
     return ret;
 }
 
@@ -255,9 +253,6 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     ret = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj);
     ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
     ret->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
-
-    /* XXX: copy this int linked list */
-    /* ret->block_sizes = disk->block_sizes; */
 
     return ret;
 }
@@ -355,8 +350,11 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
 
 /* _ped_FileSystemType -> PedFileSystemType functions */
 PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
-    /* XXX */
-    return NULL;
+    PedFileSystemType *ret;
+    _ped_FileSystemType *type = (_ped_FileSystemType *) s;
+
+    ret = ped_file_system_type_get(type->name);
+    return ret;
 }
 
 _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype) {
@@ -364,8 +362,6 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
 
     ret = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
     ret->name = strdup(fstype->name);
-    /* XXX: copy this int array correctly */
-    /* ret->block_sizes = fstype->block_sizes; */
 
     return ret;
 }
@@ -502,8 +498,11 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
 }
 
 PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s) {
-    /* XXX */
-    return -1;
+    PedPartitionFlag ret;
+    _ped_PartitionFlag *flag = (_ped_PartitionFlag *) s;
+
+    ret = flag->val;
+    return ret;
 }
 
 _ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag) {
@@ -516,13 +515,20 @@ _ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag) {
 }
 
 PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s) {
-    /* XXX */
-    return -1;
+    PedPartitionType ret;
+    _ped_PartitionType *type = (_ped_PartitionType *) s;
+
+    ret = type->val;
+    return ret;
 }
 
 _ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType t) {
-    /* XXX */
-    return NULL;
+    _ped_PartitionType *ret;
+
+    ret = PyObject_New(_ped_PartitionType, &_ped_PartitionType_Type_obj);
+    ret->val = t;
+
+    return ret;
 }
 
 /* _ped_Sector -> PedSector functions */
