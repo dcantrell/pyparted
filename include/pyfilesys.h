@@ -180,7 +180,6 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_clobber_exclude(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_close(PyObject *s, PyObject *args);

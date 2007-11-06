@@ -215,9 +215,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           NULL},
     {"file_system_clobber", (PyCFunction) py_ped_file_system_clobber,
                             METH_VARARGS, NULL},
-    {"file_system_clobber_exclude", (PyCFunction)
-                                    py_ped_file_system_clobber_exclude,
-                                    METH_VARARGS, NULL},
     {"file_system_open", (PyCFunction) py_ped_file_system_open, METH_VARARGS,
                          NULL},
     {"file_system_create", (PyCFunction) py_ped_file_system_create,
