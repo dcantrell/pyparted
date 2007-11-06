@@ -29,6 +29,9 @@
 #include "pyfilesys.h"
 #include "pygeom.h"
 
+/* This function needs to be added to libparted.  Remove when that's done. */
+#define ped_file_system_destroy(fs)
+
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_Del(self);
