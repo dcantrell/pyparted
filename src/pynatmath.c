@@ -196,12 +196,12 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_offset = _pedSector2PedSector(in_offset);
+    out_offset = _ped_Sector2PedSector(in_offset);
     if (out_offset == -1) {
         return NULL;
     }
 
-    out_grain_size = _pedSector2PedSector(in_grain_size);
+    out_grain_size = _ped_Sector2PedSector(in_grain_size);
     if (out_grain_size == -1) {
         return NULL;
     }
