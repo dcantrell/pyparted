@@ -37,12 +37,10 @@ typedef struct {
 
     /* PedFileSystemType members */
     char *name;
-    int *block_sizes;
 } _ped_FileSystemType;
 
 static PyMemberDef _ped_FileSystemType_members[] = {
     {"name", T_STRING_INPLACE, offsetof(_ped_FileSystemType, name), 0, NULL},
-    {"block_sizes", T_INT, offsetof(_ped_FileSystemType, block_sizes), 0, NULL},
     {NULL}
 };
 
