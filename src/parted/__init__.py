@@ -88,42 +88,42 @@ class PedDisk:
         warnings.warn("PedDisk class is deprecated by Disk", DeprecationWarning)
         # XXX
 
-def device_get:
+def device_get():
     warnings.warn("device_get() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def disk_type_get:
+def disk_type_get():
     warnings.warn("disk_type_get() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def disk_type_get_next:
+def disk_type_get_next():
     warnings.warn("disk_type_get_next() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def error:
+def error():
     warnings.warn("error() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def exception_set_handler:
+def exception_set_handler():
     warnings.warn("exception_set_handler() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def file_system_type_get:
+def file_system_type_get():
     warnings.warn("file_system_type_get() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def file_system_type_get_next:
+def file_system_type_get_next():
     warnings.warn("file_system_type_get_next() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def partition_flag_get_by_name:
+def partition_flag_get_by_name():
     warnings.warn("partition_flag_get_by_name() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def partition_flag_get_name:
+def partition_flag_get_name():
     warnings.warn("partition_flag_get_name() is deprecated and will be removed", DeprecationWarning)
     # XXX
 
-def partition_flag_next:
+def partition_flag_next():
     warnings.warn("partition_flag_next() is deprecated and will be removed", DeprecationWarning)
     # XXX
