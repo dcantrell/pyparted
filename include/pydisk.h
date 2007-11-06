@@ -254,13 +254,11 @@ typedef struct {
     /* PedDisk members */
     PyObject *dev;             /* _ped.Device */
     PyObject *type;            /* _ped.DiskType */
-    int *block_sizes;
 } _ped_Disk;
 
 static PyMemberDef _ped_Disk_members[] = {
     {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0, NULL},
     {"type", T_OBJECT, offsetof(_ped_Disk, type), 0, NULL},
-    {"block_sizes", T_INT, offsetof(_ped_Disk, block_sizes), 0, NULL},
     {NULL}
 };
 
