@@ -273,7 +273,7 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
     PedDiskType *out_disktype = NULL;
     int ret = 0;
 
-    if (!PyArg_ParseType(args, "OO", &in_device, &in_disktype)) {
+    if (!PyArg_ParseTuple(args, "OO", &in_device, &in_disktype)) {
         return NULL;
     }
 
