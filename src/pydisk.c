@@ -28,44 +28,6 @@
 #include "convert.h"
 #include "pydisk.h"
 
-/* _ped.PartitionType functions */
-void _ped_PartitionType_dealloc(_ped_PartitionType *self) {
-    PyObject_Del(self);
-}
-
-PyObject *_ped_PartitionType_new(PyTypeObject *type, PyObject *args,
-                                 PyObject *kwds) {
-    _ped_PartitionType *self;
-
-    self = PyObject_New(_ped_PartitionType, &_ped_PartitionType_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_PartitionType_init(_ped_PartitionType *self, PyObject *args,
-                            PyObject *kwds) {
-    /* XXX */
-    return 0;
-}
-
-/* _ped.PartitionFlag functions */
-void _ped_PartitionFlag_dealloc(_ped_PartitionFlag *self) {
-    PyObject_Del(self);
-}
-
-PyObject *_ped_PartitionFlag_new(PyTypeObject *type, PyObject *args,
-                                 PyObject *kwds) {
-    _ped_PartitionFlag *self;
-
-    self = PyObject_New(_ped_PartitionFlag, &_ped_PartitionFlag_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_PartitionFlag_init(_ped_PartitionFlag *self, PyObject *args,
-                            PyObject *kwds) {
-    /* XXX */
-    return 0;
-}
-
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_Del(self);
@@ -116,25 +78,6 @@ PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
-}
-
-/* _ped.DiskTypeFeature functions */
-void _ped_DiskTypeFeature_dealloc(_ped_DiskTypeFeature *self) {
-    PyObject_Del(self);
-}
-
-PyObject *_ped_DiskTypeFeature_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds) {
-    _ped_DiskTypeFeature *self;
-
-    self = (_ped_DiskTypeFeature *) type->tp_alloc(type, 0);
-    return (PyObject *) self;
-}
-
-int _ped_DiskTypeFeature_init(_ped_DiskTypeFeature *self, PyObject *args,
-                              PyObject *kwds) {
     /* XXX */
     return 0;
 }
@@ -781,34 +724,24 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
-    char *in_name;
-    PedPartitionFlag pass_flag;
-    _ped_PartitionFlag *ret = NULL;
+    char *name;
+    PedPartitionFlag flag;
 
-    if (!PyArg_ParseTuple(args, "s", &in_name)) {
+    if (!PyArg_ParseTuple(args, "s", &name)) {
         return NULL;
     }
 
-    pass_flag = ped_partition_flag_get_by_name(in_name);
-    ret = PedPartitionFlag2_ped_PartitionFlag(pass_flag);
-
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ped_partition_flag_get_by_name(name));
 }
 
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
-    PyObject *in_flag;
-    PedPartitionFlag out_flag, pass_flag;
-    _ped_PartitionFlag *ret = NULL;
+    PedPartitionFlag flag;
 
-    if (!PyArg_ParseTuple(args, "O", &in_flag)) {
+    if (!PyArg_ParseTuple(args, "L", &flag)) {
         return NULL;
     }
 
-    out_flag = _ped_PartitionFlag2PedPartitionFlag(in_flag);
-    pass_flag = ped_partition_flag_next(out_flag);
-    ret = PedPartitionFlag2_ped_PartitionFlag(pass_flag);
-
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ped_partition_flag_next(flag));
 }
 
 PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {

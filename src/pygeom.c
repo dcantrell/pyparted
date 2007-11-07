@@ -486,42 +486,21 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
-    PyObject *in_geom, *in_buf, *in_buffer_size, *in_offset, *in_granularity;
+    PyObject *in_geom, *in_buf;
     PyObject *in_count, *in_timer;
     PedGeometry *out_geom;
     void *out_buf;
-    PedSector out_buffer_size, out_offset, out_granularity, out_count, sector;
+    PedSector buffer_size, offset, granularity, count, ret;
     PedTimer *out_timer;
-    _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOOOOO", &in_geom, &in_buf, &in_buffer_size,
-                                           &in_offset, &in_granularity,
-                                           &in_count, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "OOLLLLO", &in_geom, &in_buf, &buffer_size,
+                                           &offset, &granularity,
+                                           &count, &in_timer)) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     if (out_geom == NULL) {
-        return NULL;
-    }
-
-    out_buffer_size = _ped_Sector2PedSector(in_buffer_size);
-    if (out_buffer_size == -1) {
-        return NULL;
-    }
-
-    out_offset = _ped_Sector2PedSector(in_offset);
-    if (out_offset == -1) {
-        return NULL;
-    }
-
-    out_granularity = _ped_Sector2PedSector(in_granularity);
-    if (out_granularity == -1) {
-        return NULL;
-    }
-
-    out_count = _ped_Sector2PedSector(in_count);
-    if (out_count == -1) {
         return NULL;
     }
 
@@ -535,14 +514,12 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    sector = ped_geometry_check(out_geom, out_buf, out_buffer_size, out_offset,
-                                out_granularity, out_count, out_timer);
+    ret = ped_geometry_check(out_geom, out_buf, buffer_size, offset,
+                             granularity, count, out_timer);
     ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
-    ret = PedSector2_ped_Sector(sector);
-
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
