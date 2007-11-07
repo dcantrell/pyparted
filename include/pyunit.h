@@ -30,76 +30,7 @@
 
 #include <parted/parted.h>
 
-/* _ped.Unit type is the Python equivalent of PedUnit in libparted */
-typedef struct {
-    PyObject_HEAD
-
-    /* a PedUnit is an enumerated type, so we'll just store a long here */
-    long val;
-} _ped_Unit;
-
-static PyMemberDef _ped_Unit_members[] = {
-    {"val", T_LONG, offsetof(_ped_Unit, val), 0, "PedUnit value"},
-    {NULL}
-};
-
-static PyMethodDef _ped_Unit_methods[] = {
-    {NULL}
-};
-
-void _ped_Unit_dealloc(_ped_Unit *self);
-PyObject *_ped_Unit_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
-int _ped_Unit_init(_ped_Unit *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Unit_getval(_ped_Unit *self, void *closure);
-int _ped_Unit_setval(_ped_Unit *self, PyObject *value, void *closure);
-
-static PyGetSetDef _ped_Unit_getset[] = {
-    {"val", (getter) _ped_Unit_getval, (setter) _ped_Unit_setval,
-     "PedUnit value", NULL},
-    {NULL}  /* Sentinel */
-};
-
-static PyTypeObject _ped_Unit_Type_obj = {
-    PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.Unit",                               /* tp_name */
-    sizeof(_ped_Unit),                         /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_Unit_dealloc,            /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedUnit objects",                         /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_Unit_methods,                         /* tp_methods */
-    _ped_Unit_members,                         /* tp_members */
-    _ped_Unit_getset,                          /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_Unit_init,                 /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_Unit_new,                             /* tp_new */
-};
+/* a PedUnit is a long int in C, so we store it that way in Python */
 
 /* 1:1 function mappings for unit.h in libparted */
 PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args);
