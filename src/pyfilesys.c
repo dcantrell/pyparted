@@ -25,6 +25,7 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pydevice.h"
 #include "pyfilesys.h"
 #include "pygeom.h"
@@ -110,9 +111,12 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     fstype = ped_file_system_type_get(name);
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
+        return (PyObject *) ret;
     }
-
-    return (PyObject *) ret;
+    else {
+        PyErr_SetString(UnknownFileSystemTypeException, name);
+        return NULL;
+    }
 }
 
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
