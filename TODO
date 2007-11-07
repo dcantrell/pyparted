@@ -22,7 +22,50 @@
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
       class PedDevice
+          get()
+          open()
+          close()
+          sync()
+          disk_probe()
+          is_busy()
+          geometry_new()
+          constraint_any()
+          disk_new_fresh()
+          destroy()
       class PedDisk
+          new()
+          check_feature()
+          next_partition()
+          deletepartition()
+          delete_all()
+          add_partition()
+          get_partition()
+          get_partition_by_sector()
+          partition_new()
+          minimize_extended_partition()
+          maximize_partition()
+          get_primary_partition_count()
+          get_last_partition_num()
+          commit()
+      class PedPartition
+          is_flag_available()
+          get_flag()
+          set_flag()
+          is_active()
+          set_system()
+          set_name()
+          get_name()
+          is_busy()
+      class PedFileSystem
+          check()
+          copy()
+          resize()
+          get_resize_constraint()
+      class PedFileSystemTypeMethods
+          probe_specific()
+      class PedConstraint
+          duplicate()
+
       device_get()
       disk_type_get()
       disk_type_get_next()
