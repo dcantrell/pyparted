@@ -51,16 +51,16 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
 PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     int ret = -1;
     PyObject *in_constraint, *in_start_align, *in_end_align;
-    PyObject *in_start_range, *in_end_range, *in_min_size, *in_max_size;
+    PyObject *in_start_range, *in_end_range;
     PedConstraint *out_constraint;
     PedAlignment *out_start_align, *out_end_align;
     PedGeometry *out_start_range, *out_end_range;
-    PedSector out_min_size, out_max_size;
+    PedSector min_size, max_size;
 
-    if (!PyArg_ParseTuple(args, "OOOOOOO", &in_constraint, &in_start_align,
+    if (!PyArg_ParseTuple(args, "OOOOOll", &in_constraint, &in_start_align,
                                            &in_end_align, &in_start_range,
-                                           &in_end_range, &in_min_size,
-                                           &in_max_size)) {
+                                           &in_end_range, &min_size,
+                                           &max_size)) {
         return NULL;
     }
 
@@ -69,12 +69,10 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     out_end_align = _ped_Alignment2PedAlignment(in_end_align);
     out_start_range = _ped_Geometry2PedGeometry(in_start_range);
     out_end_range = _ped_Geometry2PedGeometry(in_end_range);
-    out_min_size = _ped_Sector2PedSector(in_min_size);
-    out_max_size = _ped_Sector2PedSector(in_max_size);
 
     ret = ped_constraint_init(out_constraint, out_start_align, out_end_align,
                               out_start_range, out_end_range,
-                              out_min_size, out_max_size);
+                              min_size, max_size);
 
     ped_constraint_destroy(out_constraint);
     ped_alignment_destroy(out_start_align);
@@ -87,16 +85,15 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     PyObject *in_start_align, *in_end_align, *in_start_range, *in_end_range;
-    PyObject *in_min_size, *in_max_size;
     PedAlignment *out_start_align, *out_end_align;
     PedGeometry *out_start_range, *out_end_range;
-    PedSector out_min_size, out_max_size;
+    PedSector min_size, max_size;
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOOOO", &in_start_align, &in_end_align,
+    if (!PyArg_ParseTuple(args, "OOOOll", &in_start_align, &in_end_align,
                                           &in_start_range, &in_end_range,
-                                          &in_min_size, &in_max_size)) {
+                                          &min_size, &max_size)) {
         return NULL;
     }
 
@@ -104,14 +101,12 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     out_end_align = _ped_Alignment2PedAlignment(in_end_align);
     out_start_range = _ped_Geometry2PedGeometry(in_start_range);
     out_end_range = _ped_Geometry2PedGeometry(in_end_range);
-    out_min_size = _ped_Sector2PedSector(in_min_size);
-    out_max_size = _ped_Sector2PedSector(in_max_size);
 
     ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     if (ret) {
         constraint = ped_constraint_new(out_start_align, out_end_align,
                                         out_start_range, out_end_range,
-                                        out_min_size, out_max_size);
+                                        min_size, max_size);
         if (constraint) {
             ret = PedConstraint2_ped_Constraint(constraint);
         }

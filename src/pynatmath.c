@@ -50,7 +50,7 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
 PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -60,7 +60,7 @@ PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
 PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -70,7 +70,7 @@ PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
 PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -80,7 +80,7 @@ PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
 PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     PedSector a, b;
 
-    if (!PyArg_ParseTuple(args, "LL", &a, &b)) {
+    if (!PyArg_ParseTuple(args, "ll", &a, &b)) {
         return NULL;
     }
 
@@ -91,10 +91,9 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     int ret = -1;
     PyObject *in_alignment, *in_offset, *in_grain_size;
     PedAlignment *out_alignment;
-    PedSector out_offset, out_grain_size;
+    PedSector offset, grain_size;
 
-    if (!PyArg_ParseTuple(args, "OOO", &in_alignment, &in_offset,
-                                       &in_grain_size)) {
+    if (!PyArg_ParseTuple(args, "Oll", &in_alignment, &offset, &grain_size)) {
         return NULL;
     }
 
@@ -103,47 +102,28 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_offset = _ped_Sector2PedSector(in_offset);
-    if (out_offset == -1) {
-        return NULL;
-    }
-
-    out_grain_size = _ped_Sector2PedSector(in_grain_size);
-    if (out_grain_size == -1) {
-        return NULL;
-    }
-
-    ret = ped_alignment_init(out_alignment, out_offset, out_grain_size);
+    ret = ped_alignment_init(out_alignment, offset, grain_size);
     ped_alignment_destroy(out_alignment);
+
     return Py_BuildValue("i", ret);
 }
 
 PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
-    PyObject *in_offset, *in_grain_size;
-    PedSector out_offset, out_grain_size;
+    PedSector offset, grain_size;
     PedAlignment *align;
     _ped_Alignment *ret;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_offset, &in_grain_size)) {
+    if (!PyArg_ParseTuple(args, "ll", &offset, &grain_size)) {
         return NULL;
     }
 
-    out_offset = _ped_Sector2PedSector(in_offset);
-    if (out_offset == -1) {
-        return NULL;
-    }
-
-    out_grain_size = _ped_Sector2PedSector(in_grain_size);
-    if (out_grain_size == -1) {
-        return NULL;
-    }
-
-    align = ped_alignment_new(out_offset, out_grain_size);
+    align = ped_alignment_new(offset, grain_size);
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
     }
 
     ped_alignment_destroy(align);
+
     return (PyObject *) ret;
 }
 
@@ -228,7 +208,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "OOL", &in_align, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "OOl", &in_align, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -255,7 +235,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "OOL", &in_align, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "OOl", &in_align, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -282,7 +262,7 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "OOL", &in_align, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "OOl", &in_align, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -305,12 +285,12 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_align, *in_geom, *in_sector;
+    PyObject *in_align, *in_geom;
     PedAlignment *out_align;
     PedGeometry *out_geom;
-    PedSector out_sector;
+    PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "OOO", &in_align, &in_geom, &in_sector)) {
+    if (!PyArg_ParseTuple(args, "OOl", &in_align, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -324,21 +304,17 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_sector = _ped_Sector2PedSector(in_sector);
-    if (out_sector == -1) {
-        return NULL;
-    }
-
-    ret = ped_alignment_is_aligned(out_align, out_geom, out_sector);
+    ret = ped_alignment_is_aligned(out_align, out_geom, sector);
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
+
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
     PedSector numerator, divisor, ret;
 
-    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
+    if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
         return NULL;
     }
 
@@ -348,7 +324,7 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
 PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
     PedSector numerator, divisor, ret;
 
-    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
+    if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
         return NULL;
     }
 
