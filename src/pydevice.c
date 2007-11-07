@@ -28,49 +28,6 @@
 #include "pyconstraint.h"
 #include "pydevice.h"
 
-/* _ped.Sector functions */
-void _ped_Sector_dealloc(_ped_Sector *self) {
-    PyObject_Del(self);
-}
-
-PyObject *_ped_Sector_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    _ped_Sector *self;
-
-    self = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_Sector_init(_ped_Sector *self, PyObject *args, PyObject *kwds) {
-    long long val;
-
-    if (PyArg_ParseTuple(args, "L", &val)) {
-        self->val = val;
-    }
-
-    return 0;
-}
-
-PyObject *_ped_Sector_getval(_ped_Sector *self, void *closure) {
-    return Py_BuildValue("L", self->val);
-}
-
-int _ped_Sector_setval(_ped_Sector *self, PyObject *value, void *closure) {
-    long long val;
-
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the val attribute");
-        return -1;
-    }
-
-    if (!PyArg_ParseTuple(value, "L", &val)) {
-        PyErr_SetString(PyExc_TypeError, "The val attribute must be a long long");
-        return -1;
-    }
-
-    self->val = val;
-    return 0;
-}
-
 /* _ped.CHSGeometry functions */
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
     PyObject_Del(self);
@@ -400,14 +357,12 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
-    PyObject *in_dev, *in_buf, *in_start, *in_count;
+    PyObject *in_dev, *in_buf;
+    PedSector start, count, ret;
     PedDevice *out_dev;
     void *out_buf;
-    PedSector out_start, out_count, sector;
-    _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
-                                        &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -416,38 +371,24 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_start = _ped_Sector2PedSector(in_start);
-    if (out_start == -1) {
-        return NULL;
-    }
-
-    out_count = _ped_Sector2PedSector(in_count);
-    if (out_count == -1) {
-        return NULL;
-    }
-
     out_buf = PyCObject_AsVoidPtr(in_buf);
     if (out_buf == NULL) {
         return NULL;
     }
 
-    sector = ped_device_read(out_dev, out_buf, out_start, out_count);
-    ret = PedSector2_ped_Sector(sector);
-
+    ret = ped_device_read(out_dev, out_buf, start, count);
     ped_device_destroy(out_dev);
 
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
-    PyObject *in_dev, *in_buf, *in_start, *in_count;
+    PyObject *in_dev, *in_buf;
+    PedSector start, count, ret;
     PedDevice *out_dev;
     void *out_buf;
-    PedSector out_start, out_count, sector;
-    _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
-                                        &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -456,27 +397,15 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_start = _ped_Sector2PedSector(in_start);
-    if (out_start == -1) {
-        return NULL;
-    }
-
-    out_count = _ped_Sector2PedSector(in_count);
-    if (out_count == -1) {
-        return NULL;
-    }
-
     out_buf = PyCObject_AsVoidPtr(in_buf);
     if (out_buf == NULL) {
         return NULL;
     }
 
-    sector = ped_device_write(out_dev, out_buf, out_start, out_count);
-    ret = PedSector2_ped_Sector(sector);
-
+    ret = ped_device_write(out_dev, out_buf, start, count);
     ped_device_destroy(out_dev);
 
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
@@ -522,14 +451,12 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
-    PyObject *in_dev, *in_buf, *in_start, *in_count;
+    PyObject *in_dev, *in_buf;
+    PedSector start, count, ret;
     PedDevice *out_dev;
     void *out_buf;
-    PedSector out_start, out_count, sector;
-    _ped_Sector *ret;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_dev, &in_buf, &in_start,
-                                        &in_count)) {
+    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -538,27 +465,15 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_start = _ped_Sector2PedSector(in_start);
-    if (out_start == -1) {
-        return NULL;
-    }
-
-    out_count = _ped_Sector2PedSector(in_count);
-    if (out_count == -1) {
-        return NULL;
-    }
-
     out_buf = PyCObject_AsVoidPtr(in_buf);
     if (out_buf == NULL) {
         return NULL;
     }
 
-    sector = ped_device_check(out_dev, out_buf, out_start, out_count);
-    ret = PedSector2_ped_Sector(sector);
-
+    ret = ped_device_check(out_dev, out_buf, start, count);
     ped_device_destroy(out_dev);
 
-    return (PyObject *) ret;
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {

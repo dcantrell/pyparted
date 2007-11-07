@@ -360,17 +360,6 @@ PyMODINIT_FUNC init_ped(void) {
     ENUM(UNIT_GIBIBYTE);
     ENUM(UNIT_TEBIBYTE);
 
-    /* add PedSector type as _ped.Sector */
-    _ped_Sector_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_Sector_Type_obj) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_Sector_methods,
-                       "Sector object s used to describe disk sizes.");
-
-    Py_INCREF(&_ped_Sector_Type_obj);
-    PyModule_AddObject(m, "Sector", (PyObject *)&_ped_Sector_Type_obj);
-
     /* add PedCHSGeometry type as _ped.CHSGeometry */
     _ped_CHSGeometry_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
@@ -458,28 +447,6 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(&_ped_Partition_Type_obj);
     PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
-    /* add PedPartitionType as _ped.PartitionType */
-    _ped_PartitionType_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionType_Type_obj) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_PartitionType_methods, NULL);
-
-    Py_INCREF(&_ped_PartitionType_Type_obj);
-    PyModule_AddObject(m, "PartitionType",
-                       (PyObject *)&_ped_PartitionType_Type_obj);
-
-    /* add PedPartitionFlag as _ped.PartitionFlag */
-    _ped_PartitionFlag_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_PartitionFlag_Type_obj) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_PartitionFlag_methods, NULL);
-
-    Py_INCREF(&_ped_PartitionFlag_Type_obj);
-    PyModule_AddObject(m, "PartitionFlag",
-                       (PyObject *)&_ped_PartitionFlag_Type_obj);
-
     /* add PedDisk as _ped.Disk */
     _ped_Disk_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Disk_Type_obj) < 0)
@@ -500,17 +467,7 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(&_ped_DiskType_Type_obj);
     PyModule_AddObject(m, "DiskType", (PyObject *)&_ped_DiskType_Type_obj);
 
-    /* add PedDiskTypeFeature as _ped.DiskTypeFeature */
-    _ped_DiskTypeFeature_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_DiskTypeFeature_Type_obj) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_DiskTypeFeature_methods, NULL);
-
-    Py_INCREF(&_ped_DiskTypeFeature_Type_obj);
-    PyModule_AddObject(m, "DiskTypeFeature",
-                       (PyObject *)&_ped_DiskTypeFeature_Type_obj);
-
+    /* possible PedDiskTypeFeature values */
     ENUM(PARTITION_NORMAL);
     ENUM(PARTITION_LOGICAL);
     ENUM(PARTITION_EXTENDED);
