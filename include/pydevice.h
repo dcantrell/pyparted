@@ -135,7 +135,7 @@ typedef struct {
     long long type;
     long long sector_size;
     long long phys_sector_size;
-    PyObject *length;             /* a _ped.Sector */
+    long long length;             /* PedSector */
     int open_count;
     int read_only;
     int external_mode;

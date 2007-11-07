@@ -36,9 +36,9 @@ typedef struct {
 
     /* PedGeometry members */
     PyObject *dev;                /* _ped.Device */
-    PyObject *start;              /* _ped.Sector */
-    PyObject *length;             /* _ped.Sector */
-    PyObject *end;                /* _ped.Sector */
+    long long start;              /* PedSector   */
+    long long length;             /* PedSector   */
+    long long end;                /* PedSector   */
 } _ped_Geometry;
 
 static PyMemberDef _ped_Geometry_members[] = {
