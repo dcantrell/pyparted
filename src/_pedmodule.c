@@ -344,17 +344,7 @@ PyMODINIT_FUNC init_ped(void) {
     m = Py_InitModule("_ped", PyPedModuleMethods);
     d = PyModule_GetDict(m);
 
-    /* add PedUnit type as _ped.Unit */
-    _ped_Unit_Type_obj.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&_ped_Unit_Type_obj) < 0)
-        return;
-
-    m = Py_InitModule3("_ped", _ped_Unit_methods,
-                       "Unit object describes boundary and size.");
-
-    Py_INCREF(&_ped_Unit_Type_obj);
-    PyModule_AddObject(m, "Unit", (PyObject *)&_ped_Unit_Type_obj);
-
+    /* PedUnit possible values */
     ENUM(UNIT_SECTOR);
     ENUM(UNIT_BYTE);
     ENUM(UNIT_KILOBYTE);
