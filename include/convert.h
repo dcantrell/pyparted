@@ -52,9 +52,6 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk);
 PedDiskType *_ped_DiskType2PedDiskType(PyObject *s);
 _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type);
 
-PedDiskTypeFeature _ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s);
-_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature feature);
-
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
 
@@ -69,15 +66,6 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
 
 PedPartition *_ped_Partition2PedPartition(PyObject *s);
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part);
-
-PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s);
-_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag);
-
-PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s);
-_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType type);
-
-PedSector _ped_Sector2PedSector(PyObject *s);
-_ped_Sector *PedSector2_ped_Sector(PedSector s);
 
 PedTimer *_ped_Timer2PedTimer(PyObject *s);
 _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer);

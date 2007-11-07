@@ -264,27 +264,6 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
     return ret;
 }
 
-PedDiskTypeFeature _ped_DiskTypeFeature2PedDiskTypeFeature(PyObject *s) {
-    PedDiskTypeFeature ret;
-    _ped_DiskTypeFeature *feature = (_ped_DiskTypeFeature *) s;
-
-    if (feature == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskTypeFeature()");
-        return -1;
-    }
-
-    ret = feature->val;
-    return ret;
-}
-
-_ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature feature) {
-    _ped_DiskTypeFeature *ret;
-
-    ret = PyObject_New(_ped_DiskTypeFeature, &_ped_DiskTypeFeature_Type_obj);
-    ret->val = feature;
-    return ret;
-}
-
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     PedFileSystem *ret;
@@ -478,63 +457,6 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     ret->type = (PyObject *) PedPartitionType2_ped_PartitionType(part->type);
     ret->fs_type = (PyObject *) PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type);
 
-    return ret;
-}
-
-PedPartitionFlag _ped_PartitionFlag2PedPartitionFlag(PyObject *s) {
-    PedPartitionFlag ret;
-    _ped_PartitionFlag *flag = (_ped_PartitionFlag *) s;
-
-    ret = flag->val;
-    return ret;
-}
-
-_ped_PartitionFlag *PedPartitionFlag2_ped_PartitionFlag(PedPartitionFlag flag) {
-    _ped_PartitionFlag *ret;
-
-    ret = PyObject_New(_ped_PartitionFlag, &_ped_PartitionFlag_Type_obj);
-    ret->val = flag;
-
-    return ret;
-}
-
-PedPartitionType _ped_PartitionType2PedPartitionType(PyObject *s) {
-    PedPartitionType ret;
-    _ped_PartitionType *type = (_ped_PartitionType *) s;
-
-    ret = type->val;
-    return ret;
-}
-
-_ped_PartitionType *PedPartitionType2_ped_PartitionType(PedPartitionType t) {
-    _ped_PartitionType *ret;
-
-    ret = PyObject_New(_ped_PartitionType, &_ped_PartitionType_Type_obj);
-    ret->val = t;
-
-    return ret;
-}
-
-/* _ped_Sector -> PedSector functions */
-PedSector _ped_Sector2PedSector(PyObject *s) {
-    PedSector ret;
-    _ped_Sector *sector = (_ped_Sector *) s;
-
-    if (sector == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped.Sector()");
-        return -1;
-    }
-
-    ret = sector->val;
-    return ret;
-}
-
-/* PedSector -> _ped_Sector functions */
-_ped_Sector *PedSector2_ped_Sector(PedSector s) {
-    _ped_Sector *ret;
-
-    ret = PyObject_New(_ped_Sector, &_ped_Sector_Type_obj);
-    ret->val = s;
     return ret;
 }
 
