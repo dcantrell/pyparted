@@ -581,26 +581,3 @@ _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
 
     return ret;
 }
-
-/* _ped_Unit -> PedUnit functions */
-PedUnit _ped_Unit2PedUnit(PyObject *s) {
-    PedUnit ret;
-    _ped_Unit *unit = (_ped_Unit *) s;
-
-    if (unit == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped_Unit()");
-        return -1;
-    }
-
-    ret = unit->val;
-    return ret;
-}
-
-/* PedUnit -> _ped_Unit function s*/
-_ped_Unit *PedUnit2_ped_Unit(PedUnit s) {
-    _ped_Unit *ret;
-
-    ret = PyObject_New(_ped_Unit, &_ped_Unit_Type_obj);
-    ret->val = s;
-    return ret;
-}
