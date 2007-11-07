@@ -289,7 +289,16 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 
     ret = ped_disk_new(dev);
     if (ret == NULL) {
-        /* FIXME:  catch libparted exception, re-raise */
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (PyErr_ExceptionMatches(PartedException) ||
+                PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                return NULL;
+
+            PyErr_SetString(DiskException, partedExnMessage);
+            return NULL;
+        }
     }
 
     return ret;
@@ -372,7 +381,16 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
 
     ret = ped_file_system_open(geom);
     if (ret == NULL) {
-        /* FIXME:  catch libparted exception, re-raise */
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (PyErr_ExceptionMatches(PartedException) ||
+                PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                return NULL;
+
+            PyErr_SetString(FileSystemException, partedExnMessage);
+            return NULL;
+        }
     }
 
     return ret;
@@ -579,7 +597,16 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     }
 
     if ((ret = ped_partition_new(disk, type, fs_type, start, end)) == NULL) {
-        /* FIXME:  catch libparted exception and re-raise */
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (PyErr_ExceptionMatches(PartedException) ||
+                PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                return NULL;
+
+            PyErr_SetString(PartitionException, partedExnMessage);
+            return NULL;
+        }
     }
 
     return ret;
