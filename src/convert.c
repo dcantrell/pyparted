@@ -212,6 +212,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
     int i = 0;
     PedDisk *ret;
+    PedDevice *dev;
     _ped_Disk *disk = (_ped_Disk *) s;
 
     if (disk == NULL) {
@@ -219,30 +220,12 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedDisk *));
-    if (ret == NULL) {
+    dev = _ped_Device2PedDevice(disk->dev);
+    if (dev == NULL) {
         return NULL;
     }
 
-    if (disk->dev) {
-        ret->dev = _ped_Device2PedDevice(disk->dev);
-        if (ret->dev == NULL) {
-            PyErr_SetString(PyExc_MemoryError, "Out of memory");
-            return NULL;
-        }
-    } else {
-        return NULL;
-    }
-
-    if (disk->type) {
-        ret->type = _ped_DiskType2PedDiskType(disk->type);
-        if (ret->type == NULL) {
-            PyErr_SetString(PyExc_MemoryError, "Out of memory");
-            return NULL;
-        }
-    } else {
-        return NULL;
-    }
+    ret = ped_disk_new(dev);
 
     return ret;
 }
@@ -266,13 +249,7 @@ PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
         return NULL;
     }
 
-    ret = malloc(sizeof(PedDiskType *));
-    if (ret == NULL) {
-        return NULL;
-    }
-
-    ret->name = strdup(type->name);
-    ret->features = _ped_DiskTypeFeature2PedDiskTypeFeature(type->features);
+    ret = ped_disk_type_get(type->name);
 
     return ret;
 }
@@ -311,7 +288,6 @@ _ped_DiskTypeFeature *PedDiskTypeFeature2_ped_DiskTypeFeature(PedDiskTypeFeature
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     PedFileSystem *ret;
-    PedFileSystemType *fstype;
     PedGeometry *geom;
     _ped_FileSystem *fs = (_ped_FileSystem *) s;
 
@@ -320,19 +296,12 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
         return NULL;
     }
 
-    fstype = _ped_FileSystemType2PedFileSystemType(fs->type);
-    if (fstype == NULL) {
-        return NULL;
-    }
-
     geom = _ped_Geometry2PedGeometry(fs->geom);
     if (geom == NULL) {
         return NULL;
     }
 
-    ret->type = fstype;
-    ret->geom = geom;
-    ret->checked = fs->checked;
+    ret = ped_file_system_open(geom);
 
     return ret;
 }
@@ -451,7 +420,12 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret;
-    PedGeometry *tmpgeom = NULL;
+    PedDisk *disk;
+    PedPartitionType type;
+    PedFileSystemType *fs_type;
+    PedSector start;
+    PedSector end;
+    PedGeometry *tmpgeom;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -459,27 +433,37 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
         return;
     }
 
-    ret = malloc(sizeof(PedPartition *));
-    if (ret == NULL) {
-        PyErr_SetString(PyExc_MemoryError, "Out of memory");
+    disk = _ped_Disk2PedDisk(part->disk);
+    if (disk == NULL) {
         return NULL;
     }
 
-    ret->disk = _ped_Disk2PedDisk(part->disk);
-    ret->num = part->num;
-    ret->type = _ped_PartitionType2PedPartitionType(part->type);
-    ret->fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+    type = _ped_PartitionType2PedPartitionType(part->type);
+    if (type == -1) {
+        return NULL;
+    }
+
+    fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+    if (fs_type == NULL) {
+        return NULL;
+    }
 
     tmpgeom = _ped_Geometry2PedGeometry(part->geom);
     if (tmpgeom == NULL) {
-        ret->geom.dev = NULL;
-        ret->geom.start = 0;
-        ret->geom.length = 0;
-        ret->geom.end = 0;
-    } else {
-        memcpy(&(ret->geom), tmpgeom, sizeof(PedGeometry));
-        free(tmpgeom);
+        return NULL;
     }
+
+    start = _ped_Sector2PedSector(tmpgeom->start);
+    if (start == -1) {
+        return NULL;
+    }
+
+    end = _ped_Sector2PedSector(tmpgeom->end);
+    if (end == -1) {
+        return NULL;
+    }
+
+    ret = ped_partition_new(disk, type, fs_type, start, end);
 
     return ret;
 }
