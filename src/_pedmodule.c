@@ -380,6 +380,8 @@ static PedExceptionOption partedExnHandler(PedException *e) {
             PyErr_SetString (PyExc_NotImplementedError, e->message);
             return PED_EXCEPTION_CANCEL;
     }
+
+    return PED_EXCEPTION_IGNORE;
 }
 
 PyMODINIT_FUNC init_ped(void) {
