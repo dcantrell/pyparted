@@ -362,7 +362,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OOll", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -388,7 +388,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OOll", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -456,7 +456,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "OOLL", &in_dev, &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OOll", &in_dev, &in_buf, &start, &count)) {
         return NULL;
     }
 

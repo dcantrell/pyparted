@@ -69,7 +69,6 @@
 /* _ped_Alignment -> PedAlignment functions */
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
     PedAlignment *ret;
-    PedSector offset, grain_size;
     _ped_Alignment *alignment = (_ped_Alignment *) s;
 
     if (alignment == NULL) {
@@ -77,17 +76,7 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
         return NULL;
     }
 
-    offset = _ped_Sector2PedSector(alignment->offset);
-    if (offset == -1) {
-        return NULL;
-    }
-
-    grain_size = _ped_Sector2PedSector(alignment->grain_size);
-    if (grain_size == -1) {
-        return NULL;
-    }
-
-    ret = ped_alignment_new(offset, grain_size);
+    ret = ped_alignment_new(alignment->offset, alignment->grain_size);
     if (ret == NULL)
         return (PedAlignment *) PyErr_NoMemory();
 
@@ -116,7 +105,6 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     PedConstraint *ret;
     PedAlignment *start_align, *end_align;
     PedGeometry *start_range, *end_range;
-    PedSector min_size, max_size;
     _ped_Constraint *constraint = (_ped_Constraint *) s;
 
     if (constraint == NULL) {
@@ -144,18 +132,8 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
         return NULL;
     }
 
-    min_size = _ped_Sector2PedSector(constraint->min_size);
-    if (min_size == -1) {
-        return NULL;
-    }
-
-    max_size = _ped_Sector2PedSector(constraint->max_size);
-    if (max_size == -1) {
-        return NULL;
-    }
-
     ret = ped_constraint_new(start_align, end_align, start_range, end_range,
-                             min_size, max_size);
+                             constraint->min_size, constraint->max_size);
     if (ret == NULL)
         return (PedConstraint *) PyErr_NoMemory();
 
@@ -272,7 +250,6 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 }
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
-    int i = 0;
     PedDisk *ret;
     PedDevice *dev;
     _ped_Disk *disk = (_ped_Disk *) s;
@@ -460,7 +437,6 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret;
     PedDevice *dev;
-    PedSector start, length;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
 
     if (geometry == NULL) {
@@ -473,17 +449,7 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
         return NULL;
     }
 
-    start = _ped_Sector2PedSector(geometry->start);
-    if (start == -1) {
-        return NULL;
-    }
-
-    length = _ped_Sector2PedSector(geometry->length);
-    if (length == -1) {
-        return NULL;
-    }
-
-    ret = ped_geometry_new(dev, start, length);
+    ret = ped_geometry_new(dev, geometry->start, geometry->length);
     if (ret == NULL)
         return (PedGeometry *) PyErr_NoMemory();
 
@@ -519,7 +485,7 @@ PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s) {
 
     if (srcgeom == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.CHSGeometry()");
-        return;
+        return NULL;
     }
 
     if ((ret = malloc(sizeof(PedCHSGeometry))) == NULL)
@@ -554,25 +520,17 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret;
     PedDisk *disk;
-    PedPartitionType type;
     PedFileSystemType *fs_type;
-    PedSector start;
-    PedSector end;
     PedGeometry *tmpgeom;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.Partition()");
-        return;
+        return NULL;
     }
 
     disk = _ped_Disk2PedDisk(part->disk);
     if (disk == NULL) {
-        return NULL;
-    }
-
-    type = _ped_PartitionType2PedPartitionType(part->type);
-    if (type == -1) {
         return NULL;
     }
 
@@ -586,17 +544,8 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
         return NULL;
     }
 
-    start = _ped_Sector2PedSector(tmpgeom->start);
-    if (start == -1) {
-        return NULL;
-    }
-
-    end = _ped_Sector2PedSector(tmpgeom->end);
-    if (end == -1) {
-        return NULL;
-    }
-
-    if ((ret = ped_partition_new(disk, type, fs_type, start, end)) == NULL) {
+    if ((ret = ped_partition_new(disk, part->type, fs_type, tmpgeom->start,
+                                 tmpgeom->end)) == NULL) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
