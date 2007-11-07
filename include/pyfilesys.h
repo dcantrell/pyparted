@@ -32,7 +32,6 @@
 
 /* These functions need to be added to libparted.  Remove when that's done. */
 #define ped_file_system_destroy(fs)
-#define ped_file_system_type_destroy(fs)
 
 /* _ped.FileSystemType type is the Python equivalent of PedFileSystemType
  * in libparted */

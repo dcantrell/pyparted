@@ -78,7 +78,6 @@ PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
     ped_file_system_type_register(out_fstype);
-    ped_file_system_type_destroy(out_fstype);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -94,7 +93,6 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
     ped_file_system_type_register(out_fstype);
-    ped_file_system_type_destroy(out_fstype);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -114,9 +112,6 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
     }
 
-    free(name);
-    ped_file_system_type_destroy(fstype);
-
     return (PyObject *) ret;
 }
 
@@ -135,9 +130,6 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
     }
-
-    ped_file_system_type_destroy(out_fstype);
-    ped_file_system_type_destroy(fstype);
 
     return (PyObject *) ret;
 }
@@ -160,7 +152,6 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
         ret = PedGeometry2_ped_Geometry(geom);
     }
 
-    ped_file_system_type_destroy(out_fstype);
     ped_geometry_destroy(out_geom);
     ped_geometry_destroy(geom);
 
@@ -184,7 +175,6 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
     }
 
-    ped_file_system_type_destroy(fstype);
     ped_geometry_destroy(out_geom);
 
     return (PyObject *) ret;
@@ -252,7 +242,6 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
 
     ped_file_system_destroy(fs);
     ped_geometry_destroy(out_geom);
-    ped_file_system_type_destroy(out_fstype);
     ped_timer_destroy(out_timer);
 
     return (PyObject *) ret;
@@ -367,7 +356,6 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
         ret = PedConstraint2_ped_Constraint(constraint);
     }
 
-    ped_file_system_type_destroy(out_fstype);
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 

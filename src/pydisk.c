@@ -544,7 +544,6 @@ PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
         ret = PedPartition2_ped_Partition(pass_part);
 
         ped_disk_destroy(out_disk);
-        ped_file_system_type_destroy(out_fs_type);
     }
 
     return (PyObject *) ret;
@@ -669,7 +668,6 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
         ret = ped_partition_set_system(out_part, out_fstype);
 
         ped_partition_destroy(out_part);
-        ped_file_system_type_destroy(out_fstype);
     }
 
     return PyBool_FromLong(ret);
