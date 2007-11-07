@@ -35,7 +35,6 @@
 #include "pygeom.h"
 #include "pynatmath.h"
 #include "pytimer.h"
-#include "pyunit.h"
 
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment);

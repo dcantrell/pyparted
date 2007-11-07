@@ -105,13 +105,8 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
     if ((ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj)) == NULL)
         return (_ped_Alignment *) PyErr_NoMemory();
 
-    ret->offset = (PyObject *) PedSector2_ped_Sector(alignment->offset);
-    if (ret->offset == -1)
-        return NULL;
-
-    ret->grain_size = (PyObject *) PedSector2_ped_Sector(alignment->grain_size);
-    if (ret->grain_size == -1)
-        return NULL;
+    ret->offset = alignment->offset;
+    ret->grain_size = alignment->grain_size;
 
     return ret;
 }
@@ -199,13 +194,8 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     if (ret->end_range == NULL)
         return NULL;
 
-    ret->min_size = (PyObject *) PedSector2_ped_Sector(constraint->min_size);
-    if (ret->min_size == -1)
-        return NULL;
-
-    ret->max_size = (PyObject *) PedSector2_ped_Sector(constraint->max_size);
-    if (ret->max_size == -1)
-        return NULL;
+    ret->min_size = constraint->min_size;
+    ret->max_size = constraint->max_size;
 
     return ret;
 }
@@ -268,9 +258,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     ret->host = device->host;
     ret->did = device->did;
 
-    ret->length = (PyObject *) PedSector2_ped_Sector(device->length);
-    if (ret->length == -1)
-        return NULL;
+    ret->length = device->length;
 
     ret->hw_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->hw_geom);
     if (ret->hw_geom == NULL)
@@ -361,9 +349,7 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
     if ((ret->name = strdup(type->name)) == NULL)
         return (_ped_DiskType *) PyErr_NoMemory();
 
-    ret->features = (PyObject *) PedDiskTypeFeature2_ped_DiskTypeFeature(type->features);
-    if (ret->features == NULL)
-        return NULL;
+    ret->features = type->features;
 
     return ret;
 }
@@ -501,17 +487,11 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     if (ret->dev == NULL)
         return NULL;
 
-    ret->start = (PyObject *) PedSector2_ped_Sector(geometry->start);
-    if (ret->start == -1)
-        return NULL;
+    ret->start = geometry->start;
+    ret->length = geometry->length;
+    ret->end = geometry->end;
 
-    ret->length = (PyObject *) PedSector2_ped_Sector(geometry->length);
-    if (ret->length == -1)
-        return NULL;
-
-    ret->end = (PyObject *) PedSector2_ped_Sector(geometry->end);
-    if (ret->end == -1)
-        return NULL;
+    return ret;
 }
 
 /* _ped_CHSGeometry -> PedCHSGeometry functions */
@@ -625,10 +605,7 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
         return NULL;
 
     ret->num = part->num;
-
-    ret->type = (PyObject *) PedPartitionType2_ped_PartitionType(part->type);
-    if (ret->type == NULL)
-        return NULL;
+    ret->type = part->type;
 
     ret->fs_type = (PyObject *) PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type);
     if (ret->fs_type == NULL)

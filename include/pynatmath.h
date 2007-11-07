@@ -35,8 +35,8 @@ typedef struct {
     PyObject_HEAD
 
     /* PedAlignment members */
-    PyObject *offset;              /* _ped.Sector() */
-    PyObject *grain_size;          /* _ped.Sector() */
+    long long offset;              /* PedSector */
+    long long grain_size;          /* PedSector */
 } _ped_Alignment;
 
 static PyMemberDef _ped_Alignment_members[] = {

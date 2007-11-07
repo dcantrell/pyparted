@@ -39,7 +39,7 @@ typedef struct {
     PyObject *disk;                /* _ped.Disk */
     PyObject *geom;                /* _ped.Geometry */
     int num;
-    PyObject *type;                /* _ped.PartitionType */
+    long long type;                /* PedPartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
 } _ped_Partition;
 
@@ -182,7 +182,7 @@ typedef struct {
 
     /* PedDiskType members */
     char *name;
-    PyObject *features;        /* _ped.DiskTypeFeature */
+    long long features;        /* PedDiskTypeFeature */
 } _ped_DiskType;
 
 static PyMemberDef _ped_DiskType_members[] = {
