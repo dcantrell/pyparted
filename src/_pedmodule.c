@@ -337,6 +337,51 @@ PyObject *py_ped_get_version(PyObject *s, PyObject *args) {
     return Py_BuildValue("s", ret);
 }
 
+/* This function catches libparted exceptions and converts them into Python
+ * exceptions that the various methods can catch and do something with.  The
+ * main motivation for this function is that methods in our parted module need
+ * to be able to raise specific, helpful exceptions instead of something
+ * generic.
+ */
+static PedExceptionOption partedExnHandler(PedException *e) {
+    switch (e->type) {
+        /* Ignore these for now. */
+        case PED_EXCEPTION_INFORMATION:
+        case PED_EXCEPTION_WARNING:
+            return PED_EXCEPTION_IGNORE;
+
+        /* Set global flags so parted module methods can raise specific
+         * exceptions with the message.
+         */
+        case PED_EXCEPTION_ERROR:
+        case PED_EXCEPTION_FATAL:
+            partedExnRaised = 1;
+
+            /* Clear out any old error message, then copy the new one in. */
+            if (e->message != NULL)
+                free(e->message);
+
+            partedExnMessage = strdup(e->message);
+
+            if (partedExnMessage == NULL)
+                PyErr_NoMemory();
+
+            return PED_EXCEPTION_CANCEL;
+
+        /* Raise exceptions for internal parted bugs immediately. */
+        case PED_EXCEPTION_BUG:
+            partedExnRaised = 1;
+            PyErr_SetString (PartedException, e->message);
+            return PED_EXCEPTION_CANCEL;
+
+        /* Raise NotImplemented exceptions immediately too. */
+        case PED_EXCEPTION_NO_FEATURE:
+            partedExnRaised = 1;
+            PyErr_SetString (PyExc_NotImplementedError, e->message);
+            return PED_EXCEPTION_CANCEL;
+    }
+}
+
 PyMODINIT_FUNC init_ped(void) {
     PyObject *m, *d, *o;
 
@@ -513,10 +558,28 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_FileSystem_Type_obj);
 
     /* add our custom exceptions */
+    DiskException = PyErr_NewException("_ped.DiskException", NULL, NULL);
+    Py_INCREF(DiskException);
+    PyModule_AddObject(m, "DiskException", DiskException);
+
+    FileSystemException = PyErr_NewException("_ped.FileSystemException", NULL,
+                                             NULL);
+    Py_INCREF(FileSystemException);
+    PyModule_AddObject(m, "FileSystemException", FileSystemException);
+
     NotNeededException = PyErr_NewException("_ped.NotNeededException",
                                             NULL, NULL);
     Py_INCREF(NotNeededException);
     PyModule_AddObject(m, "NotNeededException", NotNeededException);
+
+    PartedException = PyErr_NewException("_ped.PartedException", NULL, NULL);
+    Py_INCREF(PartedException);
+    PyModule_AddObject(m, "PartedException", PartedException);
+
+    PartitionException = PyErr_NewException("_ped.PartitionException", NULL,
+                                             NULL);
+    Py_INCREF(PartitionException);
+    PyModule_AddObject(m, "PartitionException", PartitionException);
 
     UnknownDeviceException = PyErr_NewException("_ped.UnknownDeviceException",
                                                 NULL, NULL);
@@ -533,4 +596,7 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(UnknownFileSystemTypeException);
     PyModule_AddObject(m, "UnknownFileSystemTypeException",
                        UnknownFileSystemTypeException);
+
+    /* Set up our libparted exception handler. */
+    ped_exception_set_handler(partedExnHandler);
 }

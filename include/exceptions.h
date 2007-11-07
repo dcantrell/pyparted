@@ -26,9 +26,16 @@
 #include <Python.h>
 
 /* custom exceptions for _ped */
+PyObject *DiskException;
+PyObject *FileSystemException;
 PyObject *NotNeededException;
+PyObject *PartedException;
+PyObject *PartitionException;
 PyObject *UnknownDeviceException;
 PyObject *UnknownDiskTypeException;
 PyObject *UnknownFileSystemTypeException;
+
+static unsigned int partedExnRaised = 0;
+static char *partedExnMessage = NULL;
 
 #endif /* _EXCEPTIONS_H_INCLUDED */
