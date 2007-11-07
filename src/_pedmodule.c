@@ -518,6 +518,16 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(NotNeededException);
     PyModule_AddObject(m, "NotNeededException", NotNeededException);
 
+    UnknownDeviceException = PyErr_NewException("_ped.UnknownDeviceException",
+                                                NULL, NULL);
+    Py_INCREF(UnknownDeviceException);
+    PyModule_AddObject(m, "UnknownDeviceException", UnknownDeviceException);
+
+    UnknownDiskTypeException = PyErr_NewException("_ped.UnknownDiskTypeException",
+                                                  NULL, NULL);
+    Py_INCREF(UnknownDiskTypeException);
+    PyModule_AddObject(m, "UnknownDiskTypeException", UnknownDiskTypeException);
+
     UnknownFileSystemTypeException = PyErr_NewException("_ped.UnknownFileSystemTypeException",
                                                         NULL, NULL);
     Py_INCREF(UnknownFileSystemTypeException);
