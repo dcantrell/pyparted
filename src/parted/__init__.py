@@ -78,52 +78,71 @@ PARTITION_MSFT_RESERVED  = _ped.PARTITION_MSFT_RESERVED
 DISK_TYPE_EXTENDED       = _ped.DISK_TYPE_EXTENDED
 DISK_TYPE_PARTITION_NAME = _ped.DISK_TYPE_PARTITION_NAME
 
+__depstr = "%s is deprecated and will be removed."
+
 class PedDevice:
     def __init__(self):
-        warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning)
+        warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
         # XXX
 
 class PedDisk:
     def __init__(self):
-        warnings.warn("PedDisk class is deprecated by Disk", DeprecationWarning)
+        warnings.warn("PedDisk class is deprecated by Disk", DeprecationWarning, stacklevel=2)
         # XXX
 
-def device_get():
-    warnings.warn("device_get() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def device_get(device):
+    warnings.warn(__depstr % "device_get()", DeprecationWarning, stacklevel=2)
+    return _ped.PedDevice().get(device)
 
-def disk_type_get():
-    warnings.warn("disk_type_get() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def disk_type_get(diskType):
+    """Given the string diskType representing one of the DISK_TYPE_* constants,
+       return the matching PedDiskType obejct.
+    """
+    warnings.warn(__depstr % "disk_type_get()", DeprecationWarning, stacklevel=2)
+    return _ped.disk_type_get(diskType)
 
-def disk_type_get_next():
-    warnings.warn("disk_type_get_next() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def disk_type_get_next(diskType=None):
+    """Given the optional PedDiskType object diskType, return the next
+       PedDiskType object in parted's list.
+    """
+    warnings.warn(__depstr % "disk_type_get_next()", DeprecationWarning, stacklevel=2)
+    return _ped.disk_type_get_next(diskType)
 
 def error():
-    warnings.warn("error() is deprecated and will be removed", DeprecationWarning)
+    warnings.warn(__depstr % "error()", DeprecationWarning, stacklevel=2)
     # XXX
 
 def exception_set_handler():
-    warnings.warn("exception_set_handler() is deprecated and will be removed", DeprecationWarning)
+    warnings.warn(__depstr % "exception_set_handler()", DeprecationWarning, stacklevel=2)
     # XXX
 
-def file_system_type_get():
-    warnings.warn("file_system_type_get() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def file_system_type_get(type):
+    """Given the string type representing a file system type name, return the
+       matching PedFileSystemType object.
+    """
+    warnings.warn(__depstr % "file_system_type_get()", DeprecationWarning, stacklevel=2)
+    return _ped.file_system_type_get(type)
 
-def file_system_type_get_next():
-    warnings.warn("file_system_type_get_next() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def file_system_type_get_next(type=None):
+    """Given the optional PedFileSystemType object type, return the next
+       PedFileSystemType obejct in parted's list.
+    """
+    warnings.warn(__depstr % "file_system_type_get_next()", DeprecationWarning, stacklevel=2)
+    return _ped.file_system_type_get_next(type)
 
-def partition_flag_get_by_name():
-    warnings.warn("partition_flag_get_by_name() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def partition_flag_get_by_name(name):
+    """Given the string name representing one of the PARTITION_* constants,
+       return the matching flag.
+    """
+    warnings.warn(__depstr % "partition_flag_get_by_name()", DeprecationWarning, stacklevel=2)
+    return _ped.partition_flag_get_by_name(name)
 
-def partition_flag_get_name():
-    warnings.warn("partition_flag_get_name() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def partition_flag_get_name(flag):
+    """Given the partitioning flag, return its name as a string."""
+    warnings.warn(__depstr % "partition_flag_get_name()", DeprecationWarning, stacklevel=2)
+    return _ped.partition_flag_get_name(flag)
 
-def partition_flag_next():
-    warnings.warn("partition_flag_next() is deprecated and will be removed", DeprecationWarning)
-    # XXX
+def partition_flag_next(flag):
+    """Given the partitioning flag, return the next flag in parted's list."""
+    warnings.warn(__depstr % "partition_flag_next()", DeprecationWarning, stacklevel=2)
+    return _ped.partition_flag_next(flag)
