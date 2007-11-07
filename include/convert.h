@@ -82,7 +82,4 @@ _ped_Sector *PedSector2_ped_Sector(PedSector s);
 PedTimer *_ped_Timer2PedTimer(PyObject *s);
 _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer);
 
-PedUnit _ped_Unit2PedUnit(PyObject *s);
-_ped_Unit *PedUnit2_ped_Unit(PedUnit s);
-
 #endif /* CONVERT_H_INCLUDED */
