@@ -27,6 +27,8 @@
 
 /* custom exceptions for _ped */
 PyObject *NotNeededException;
+PyObject *UnknownDeviceException;
+PyObject *UnknownDiskTypeException;
 PyObject *UnknownFileSystemTypeException;
 
 #endif /* _EXCEPTIONS_H_INCLUDED */
