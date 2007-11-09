@@ -57,7 +57,7 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     PedGeometry *out_start_range, *out_end_range;
     PedSector min_size, max_size;
 
-    if (!PyArg_ParseTuple(args, "O&O&O&O&O&ll", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!O!O!O!ll", &_ped_Constraint_Type_obj,
                           &in_constraint, &_ped_Alignment_Type_obj,
                           &in_start_align, &_ped_Alignment_Type_obj,
                           &in_end_align, &_ped_Geometry_Type_obj,
@@ -93,7 +93,7 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&O&O&O&ll", &_ped_Alignment_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!O!O!ll", &_ped_Alignment_Type_obj,
                           &in_start_align, &_ped_Alignment_Type_obj,
                           &in_end_align, &_ped_Geometry_Type_obj,
                           &in_start_range, &_ped_Geometry_Type_obj,
@@ -131,7 +131,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Geometry_Type_obj, &in_min,
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Geometry_Type_obj, &in_min,
                           &_ped_Geometry_Type_obj, &in_max)) {
         return NULL;
     }
@@ -160,7 +160,7 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_min)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_min)) {
         return NULL;
     }
 
@@ -186,7 +186,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_max)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_max)) {
         return NULL;
     }
 
@@ -211,7 +211,7 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     PedConstraint *out_constraint, *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Constraint_Type_obj,
                           &in_constraint)) {
         return NULL;
     }
@@ -253,7 +253,7 @@ PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args) {
     PyObject *in_constraint;
     PedConstraint *out_constraint;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Constraint_Type_obj,
                           &in_constraint)) {
         return NULL;
     }
@@ -270,7 +270,7 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
     PedConstraint *out_constraintA, *out_constraintB, *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Constraint_Type_obj,
                           &in_constraintA, &_ped_Constraint_Type_obj,
                           &in_constraintB)) {
         return NULL;
@@ -300,7 +300,7 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     PedGeometry *geometry;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Constraint_Type_obj,
                           &in_constraint)) {
         return NULL;
     }
@@ -328,7 +328,7 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
     PedGeometry *geometry;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Constraint_Type_obj,
                           &in_constraint, &_ped_Geometry_Type_obj,
                           &in_geometry)) {
         return NULL;
@@ -358,7 +358,7 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     PedGeometry *out_geometry;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Constraint_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Constraint_Type_obj,
                           &in_constraint, &_ped_Geometry_Type_obj,
                           &in_geometry)) {
         return NULL;
@@ -381,7 +381,7 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -407,7 +407,7 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geometry)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geometry)) {
         return NULL;
     }
 
