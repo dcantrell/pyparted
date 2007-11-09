@@ -118,7 +118,7 @@ PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
-    PyObject *in_type;
+    PyObject *in_type = NULL;
     PedDiskType *out_type = NULL, *ret_type = NULL;
     _ped_DiskType *ret = NULL;
 
@@ -132,10 +132,14 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
        out_type = _ped_DiskType2PedDiskType(in_type);
 
     ret_type = ped_disk_type_get_next(out_type);
-    ret = PedDiskType2_ped_DiskType(ret_type);
-    if (out_type) free(out_type);
-
-    return (PyObject *) ret;
+    if (ret_type) {
+        ret = PedDiskType2_ped_DiskType(ret_type);
+        return (PyObject *) ret;
+    }
+    else {
+        PyErr_SetString(PyExc_IndexError, NULL);
+        return NULL;
+    }
 }
 
 PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
@@ -726,6 +730,12 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
 
     if (flag) {
         ret = (char *) ped_partition_flag_get_name(flag);
+
+        if (!ret) {
+            /* Re-raise the libparted exception. */
+            partedExnRaised = 0;
+            return NULL;
+        }
     }
 
     return PyString_FromString(ret);
