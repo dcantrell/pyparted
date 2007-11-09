@@ -41,12 +41,6 @@ typedef struct {
 } _ped_CHSGeometry;
 
 static PyMemberDef _ped_CHSGeometry_members[] = {
-    {"cylinders", T_INT, offsetof(_ped_CHSGeometry, cylinders), 0,
-     "PedCHSGeometry cylinders value"},
-    {"heads", T_INT, offsetof(_ped_CHSGeometry, heads), 0,
-     "PedCHSGeometry heads value"},
-    {"sectors", T_INT, offsetof(_ped_CHSGeometry, sectors), 0,
-     "PedCHSGeometry sectors value"},
     {NULL}
 };
 
@@ -59,26 +53,15 @@ PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
                                PyObject *kwds);
 int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
                           PyObject *kwds);
-PyObject *_ped_CHSGeometry_getcylinders(_ped_CHSGeometry *self, void *closure);
-int _ped_CHSGeometry_setcylinders(_ped_CHSGeometry *self, PyObject *value,
-                                  void *closure);
-PyObject *_ped_CHSGeometry_getheads(_ped_CHSGeometry *self, void *closure);
-int _ped_CHSGeometry_setheads(_ped_CHSGeometry *self, PyObject *value,
-                              void *closure);
-PyObject *_ped_CHSGeometry_getsectors(_ped_CHSGeometry *self, void *closure);
-int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
-                                void *closure);
+PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member);
 
 static PyGetSetDef _ped_CHSGeometry_getset[] = {
-    {"cylinders", (getter) _ped_CHSGeometry_getcylinders,
-                  (setter) _ped_CHSGeometry_setcylinders,
-                  "PedCHSGeometry cylinders value", NULL},
-    {"heads", (getter) _ped_CHSGeometry_getheads,
-              (setter) _ped_CHSGeometry_setheads,
-              "PedCHSGeometry heads value", NULL},
-    {"sectors", (getter) _ped_CHSGeometry_getsectors,
-                (setter) _ped_CHSGeometry_setsectors,
-                "PedCHSGeometry sectors value", NULL},
+    {"cylinders", (getter) _ped_CHSGeometry_get, NULL,
+                  "CHSGeometry cylinders", NULL},
+    {"heads", (getter) _ped_CHSGeometry_get, NULL,
+                  "CHSGeometry heads", NULL},
+    {"sectors", (getter) _ped_CHSGeometry_get, NULL,
+                  "CHSGeometry sectors", NULL},
     {NULL}  /* Sentinel */
 };
 
