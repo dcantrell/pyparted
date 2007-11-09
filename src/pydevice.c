@@ -197,7 +197,7 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
     PedDevice *out_device, *device;
     _ped_Device *ret;
 
-    if (!PyArg_ParseTuple(args, "|O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -222,7 +222,7 @@ PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -241,7 +241,7 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -260,7 +260,7 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -278,7 +278,7 @@ PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -297,7 +297,7 @@ PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -319,7 +319,7 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -340,7 +340,7 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -362,7 +362,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "O&Oll", &_ped_Device_Type_obj, &in_dev,
+    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
                           &in_buf, &start, &count)) {
         return NULL;
     }
@@ -389,7 +389,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "O&Oll", &_ped_Device_Type_obj, &in_dev,
+    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
                           &in_buf, &start, &count)) {
         return NULL;
     }
@@ -415,7 +415,7 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -436,7 +436,7 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
     PyObject *in_device;
     PedDevice *out_device;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -458,7 +458,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     void *out_buf;
 
-    if (!PyArg_ParseTuple(args, "O&Oll", &_ped_Device_Type_obj, &in_dev,
+    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
                           &in_buf, &start, &count)) {
         return NULL;
     }
@@ -485,7 +485,7 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O&", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
