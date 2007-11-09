@@ -49,6 +49,18 @@ int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
     return 0;
 }
 
+PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "name")) {
+        return PyString_FromString(self->name);
+    } else {
+        return NULL;
+    }
+}
+
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_Del(self);
@@ -66,6 +78,18 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                          PyObject *kwds) {
     /* XXX */
     return 0;
+}
+
+PyObject *_ped_FileSystem_get(_ped_FileSystem *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "checked")) {
+        return PyInt_FromLong(self->checked);
+    } else {
+        return NULL;
+    }
 }
 
 /* 1:1 function mappings for filesys.h in libparted */
@@ -95,7 +119,7 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
     }
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    ped_file_system_type_register(out_fstype);
+    ped_file_system_type_unregister(out_fstype);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -166,6 +190,18 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
     }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(FileSystemException, "Failed to probe filesystem type %s", out_fstype->name);
+
+        return NULL;
+    }
 
     ped_geometry_destroy(out_geom);
     ped_geometry_destroy(geom);
@@ -189,6 +225,18 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
     }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(FileSystemException, "Failed to probe filesystem");
+
+        return NULL;
+    }
 
     ped_geometry_destroy(out_geom);
 
@@ -206,6 +254,20 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     ret = ped_file_system_clobber(out_geom);
+
+    if (!ret) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(FileSystemException, "Failed to clobber filesystem");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -226,6 +288,19 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     fs = ped_file_system_open(out_geom);
     if (fs) {
         ret = PedFileSystem2_ped_FileSystem(fs);
+    }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
+                !PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(FileSystemException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(FileSystemException, "Failed to open filesystem");
+
+        return NULL;
     }
 
     ped_file_system_destroy(fs);
@@ -256,6 +331,19 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     if (fs) {
         ret = PedFileSystem2_ped_FileSystem(fs);
     }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
+                !PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(FileSystemException, partedExnMessage);
+        }
+        else
+            PyErr_Format(FileSystemException, "Failed to create filesystem type %s", out_fstype->name);
+
+        return NULL;
+    }
 
     ped_file_system_destroy(fs);
     ped_geometry_destroy(out_geom);
@@ -275,6 +363,12 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
     ret = ped_file_system_close(out_fs);
+
+    if (!ret) {
+        PyErr_SetString(FileSystemException, "Failed to close filesystem");
+        return NULL;
+    }
+
     ped_file_system_destroy(out_fs);
 
     return PyBool_FromLong(ret);
@@ -294,6 +388,15 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
     out_timer = _ped_Timer2PedTimer(in_timer);
     ret = ped_file_system_check(out_fs, out_timer);
+
+    /* NotImplementedError may have been raised if it's an unsupported
+     * operation for this filesystem.  Otherwise, we shouldn't get any
+     * exceptions here.
+     */
+    if (!ret && partedExnRaised) {
+        partedExnRaised = 0;
+        return NULL;
+    }
 
     ped_file_system_destroy(out_fs);
     ped_timer_destroy(out_timer);
@@ -323,6 +426,19 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     if (fs) {
         ret = PedFileSystem2_ped_FileSystem(fs);
     }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
+                !PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(FileSystemException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(FileSystemException, "Failed to copy filesystem");
+
+        return NULL;
+    }
 
     ped_file_system_destroy(fs);
     ped_file_system_destroy(out_fs);
@@ -351,6 +467,20 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
 
     ret = ped_file_system_resize(out_fs, out_geom, out_timer);
 
+    if (!ret) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
+                !PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(FileSystemException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(FileSystemException, "Failed to resize filesystem");
+
+        return NULL;
+    }
+
     ped_file_system_destroy(out_fs);
     ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
@@ -378,6 +508,10 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
+    else {
+        PyErr_SetString(ConstraintException, "Failed to create constraint");
+        return NULL;
+    }
 
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
@@ -401,6 +535,10 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     constraint = ped_file_system_get_resize_constraint(out_fs);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+    }
+    else {
+        PyErr_SetString(ConstraintException, "Failed to create resize constraint");
+        return NULL;
     }
 
     ped_file_system_destroy(out_fs);
@@ -427,6 +565,10 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     constraint = ped_file_system_get_copy_constraint(out_fs, out_device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+    }
+    else {
+        PyErr_SetString(ConstraintException, "Failed to create copy constraint");
+        return NULL;
     }
 
     ped_file_system_destroy(out_fs);
