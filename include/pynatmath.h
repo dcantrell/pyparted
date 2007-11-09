@@ -40,8 +40,6 @@ typedef struct {
 } _ped_Alignment;
 
 static PyMemberDef _ped_Alignment_members[] = {
-    {"offset", T_OBJECT, offsetof(_ped_Alignment, offset), 0, NULL},
-    {"grain_size", T_OBJECT, offsetof(_ped_Alignment, grain_size), 0, NULL},
     {NULL}
 };
 
@@ -53,8 +51,13 @@ void _ped_Alignment_dealloc(_ped_Alignment *self);
 PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds);
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
+PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member);
 
 static PyGetSetDef _ped_Alignment_getset[] = {
+    {"offset", (getter) _ped_Alignment_get, NULL,
+               "Alignment offset", NULL},
+    {"grain_size", (getter) _ped_Alignment_get, NULL,
+               "Alignment grain_size", NULL},
     {NULL}  /* Sentinel */
 };
 

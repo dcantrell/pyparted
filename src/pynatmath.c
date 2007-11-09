@@ -46,6 +46,20 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "offset")) {
+        return PyLong_FromLongLong(self->offset);
+    } else if (!strcmp(member, "grain_size")) {
+        return PyLong_FromLongLong(self->grain_size);
+    } else {
+        return NULL;
+    }
+}
+
 /* 1:1 function mappings for natmath.h in libparted */
 PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
