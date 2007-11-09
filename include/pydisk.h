@@ -199,8 +199,10 @@ int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member);
 
 static PyGetSetDef _ped_DiskType_getset[] = {
-    {"name", (getter) _ped_DiskType_get, NULL, "DiskType name", "name"},
-    {"features", (getter) _ped_DiskType_get, NULL, "DiskType features", "features"},
+    {"name", (getter) _ped_DiskType_get, NULL,
+             "DiskType name", "name"},
+    {"features", (getter) _ped_DiskType_get, NULL,
+             "DiskType features", "features"},
     {NULL}  /* Sentinel */
 };
 
