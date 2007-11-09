@@ -9,7 +9,7 @@
  * the GNU General Public License v.2, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY expressed or implied, including the implied warranties of
- * MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.  You should have received a copy of the
  * GNU General Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -73,7 +73,8 @@ PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
     PyObject *in_fstype;
     PedFileSystemType *out_fstype;
 
-    if (!PyArg_ParseTuple(args, "O", &in_fstype)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_FileSystemType_Type_obj,
+                          &in_fstype)) {
         return NULL;
     }
 
@@ -88,7 +89,8 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
     PyObject *in_fstype;
     PedFileSystemType *out_fstype;
 
-    if (!PyArg_ParseTuple(args, "O", &in_fstype)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_FileSystemType_Type_obj,
+                          &in_fstype)) {
         return NULL;
     }
 
@@ -124,11 +126,12 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     PedFileSystemType *out_fstype, *fstype;
     _ped_FileSystemType *ret;
 
-    if (!PyArg_ParseTuple(args, "|O", &in_fstype)) {
+    if (!PyArg_ParseTuple(args, "|O&", &_ped_FileSystemType_Type_obj,
+                          &in_fstype)) {
         return NULL;
     }
 
-    if (in_fstype == NULL)
+    if (in_fstype == Py_None)
         out_fstype = NULL;
     else
         out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
@@ -151,7 +154,8 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     PedGeometry *out_geom, *geom;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_fstype, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_FileSystemType_Type_obj,
+                          &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -175,7 +179,7 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     PedFileSystemType *fstype;
     _ped_FileSystemType *ret;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -196,7 +200,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -213,7 +217,7 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     PedFileSystem *fs;
     _ped_FileSystem *ret;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -238,7 +242,9 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     PedFileSystem *fs;
     _ped_FileSystem *ret;
 
-    if (!PyArg_ParseTuple(args, "OOO", &in_geom, &in_fstype, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&O&O&", &_ped_Geometry_Type_obj, &in_geom,
+                          &_ped_FileSystemType_Type_obj, &in_fstype,
+                          &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -263,7 +269,7 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     PyObject *in_fs;
     PedFileSystem *out_fs;
 
-    if (!PyArg_ParseTuple(args, "O", &in_fs)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_FileSystem_Type_obj, &in_fs)) {
         return NULL;
     }
 
@@ -280,7 +286,8 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     PedFileSystem *out_fs;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_fs, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_FileSystem_Type_obj, &in_fs,
+                          &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -302,7 +309,9 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     PedFileSystem *fs;
     _ped_FileSystem *ret;
 
-    if (!PyArg_ParseTuple(args, "OOO", &in_fs, &in_geom, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&O&O&", &_ped_FileSystem_Type_obj, &in_fs,
+                          &_ped_Geometry_Type_obj, &in_geom,
+                          &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -330,7 +339,9 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     PedTimer *out_timer;
     int ret = -1;
 
-    if (!PyArg_ParseTuple(args, "OOO", &in_fs, &in_geom, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&O&O&", &_ped_FileSystem_Type_obj, &in_fs,
+                          &_ped_Geometry_Type_obj, &in_geom,
+                          &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -355,7 +366,8 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_fstype, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_FileSystemType_Type_obj,
+                          &in_fstype, &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
@@ -380,7 +392,7 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "O", &in_fs)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_FileSystem_Type_obj, &in_fs)) {
         return NULL;
     }
 
@@ -404,7 +416,8 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     PedConstraint *constraint;
     _ped_Constraint *ret;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_fs, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_FileSystem_Type_obj, &in_fs,
+                          &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
