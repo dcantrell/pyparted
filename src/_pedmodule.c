@@ -40,9 +40,13 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
+#include "config.h"
+
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
-    {"get_version", (PyCFunction) py_ped_get_version, METH_VARARGS, NULL},
+    {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS,
+                          NULL},
+    {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS, NULL},
 
     /* pyconstraint.c */
     {"constraint_init", (PyCFunction) py_ped_constraint_init, METH_VARARGS,
@@ -331,9 +335,13 @@ static struct PyMethodDef PyPedModuleMethods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-PyObject *py_ped_get_version(PyObject *s, PyObject *args) {
+PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
     char *ret = (char *) ped_get_version();
+    return Py_BuildValue("s", ret);
+}
 
+PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
+    char *ret = VERSION;
     return Py_BuildValue("s", ret);
 }
 
