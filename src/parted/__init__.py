@@ -153,3 +153,10 @@ def partition_flag_next(flag):
     """Given the partitioning flag, return the next flag in parted's list."""
     warnings.warn(__depstr % "partition_flag_next()", DeprecationWarning, stacklevel=2)
     return _ped.partition_flag_next(flag)
+
+def version():
+    """Return a dict containing the pyparted and libparted versions."""
+    ver = {}
+    ver['libparted'] = _ped.libparted_version()
+    ver['pyparted'] = _ped.pyparted_version()
+    return ver
