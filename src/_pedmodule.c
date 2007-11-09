@@ -588,16 +588,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(UnknownDeviceException);
     PyModule_AddObject(m, "UnknownDeviceException", UnknownDeviceException);
 
-    UnknownDiskTypeException = PyErr_NewException("_ped.UnknownDiskTypeException",
-                                                  NULL, NULL);
-    Py_INCREF(UnknownDiskTypeException);
-    PyModule_AddObject(m, "UnknownDiskTypeException", UnknownDiskTypeException);
-
-    UnknownFileSystemTypeException = PyErr_NewException("_ped.UnknownFileSystemTypeException",
-                                                        NULL, NULL);
-    Py_INCREF(UnknownFileSystemTypeException);
-    PyModule_AddObject(m, "UnknownFileSystemTypeException",
-                       UnknownFileSystemTypeException);
+    UnknownTypeException = PyErr_NewException("_ped.UnknownTypeException", NULL,
+                                              NULL);
+    Py_INCREF(UnknownTypeException);
+    PyModule_AddObject(m, "UnknownTypeException", UnknownTypeException);
 
     /* Set up our libparted exception handler. */
     ped_exception_set_handler(partedExnHandler);

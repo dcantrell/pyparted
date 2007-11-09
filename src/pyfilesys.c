@@ -116,7 +116,7 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
         return (PyObject *) ret;
     }
     else {
-        PyErr_SetString(UnknownFileSystemTypeException, name);
+        PyErr_SetString(UnknownTypeException, name);
         return NULL;
     }
 }
