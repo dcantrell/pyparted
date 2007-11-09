@@ -71,7 +71,6 @@
       disk_type_get_next()
       error()
       exception_set_handler()
-      file_system_type_get()
       file_system_type_get_next()
 
 - Handle exceptions from libparted and pass to Python as necessary.  These
@@ -92,5 +91,30 @@
   much as possible.
 
 - Make sure _ped module has Python docstrings galore
+
+- Lots of functions that take timers as arguments can have them be NULL, so
+  make these optional arguments in the python bindings.
+
+- Add set methods for all the C primitives.
+
+- Error handling in the get and set methods.
+
+- More error handling and exn raising in:
+      pyconstraint.c
+      pydevice.c
+      pydisk.c
+      pyfilesys.c - check return values of conversion functions
+      pygeom.c
+      pynatmath.c
+      pytimer.c
+
+- Make sure we're not using tp_alloc anywhere.
+
+- Where integers are used as booleans, use PyBool_FromLong.
+
+- Shorten the type object structures to get rid of the empty elements and use
+  by-name initialization.
+
+- Fill in _init methods, decide about kwargs, etc.
 
 ... and much much more
