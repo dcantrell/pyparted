@@ -54,8 +54,8 @@ PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
     PedDevice *out_device;
     PedSector start, length;
 
-    if (!PyArg_ParseTuple(args, "OOll", &in_geometry, &in_device,
-                                        &start, &length)) {
+    if (!PyArg_ParseTuple(args, "O&O&ll", &_ped_Geometry_Type_obj, &in_geometry,
+                          &_ped_Device_Type_obj, &in_device, &start, &length)) {
         return NULL;
     }
 
@@ -83,7 +83,8 @@ PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
     PedSector start, length;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_device, &start, &length)) {
+    if (!PyArg_ParseTuple(args, "O&ll", &_ped_Device_Type_obj, &in_device,
+                          &start, &length)) {
         return NULL;
     }
 
@@ -108,7 +109,7 @@ PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
     PedGeometry *out_geometry, *geometry, *geom;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geometry)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geometry)) {
         return NULL;
     }
 
@@ -133,7 +134,8 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
     PedGeometry *out_a, *out_b, *geom;
     _ped_Geometry *ret;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_a, &in_b)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Geometry_Type_obj, &in_a,
+                          &_ped_Geometry_Type_obj, &in_b)) {
         return NULL;
     }
 
@@ -159,7 +161,7 @@ PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
     PyObject *in_geometry;
     PedGeometry *out_geometry;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geometry)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geometry)) {
         return NULL;
     }
 
@@ -180,7 +182,8 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector start, length;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_geom, &start, &length)) {
+    if (!PyArg_ParseTuple(args, "O&ll", &_ped_Geometry_Type_obj, &in_geom,
+                          &start, &length)) {
         return NULL;
     }
 
@@ -201,7 +204,8 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector start;
 
-    if (!PyArg_ParseTuple(args, "Ol", &in_geom, &start)) {
+    if (!PyArg_ParseTuple(args, "O&l", &_ped_Geometry_Type_obj, &in_geom,
+                          &start)) {
         return NULL;
     }
 
@@ -222,7 +226,8 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector end;
 
-    if (!PyArg_ParseTuple(args, "Ol", &in_geom, &end)) {
+    if (!PyArg_ParseTuple(args, "O&l", &_ped_Geometry_Type_obj, &in_geom,
+                          &end)) {
         return NULL;
     }
 
@@ -242,7 +247,8 @@ PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
     PyObject *in_a, *in_b;
     PedGeometry *out_a, *out_b;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_a, &in_b)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Geometry_Type_obj ,&in_a,
+                          &_ped_Geometry_Type_obj, &in_b)) {
         return NULL;
     }
 
@@ -267,7 +273,8 @@ PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
     PyObject *in_a, *in_b;
     PedGeometry *out_a, *out_b;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_a, &in_b)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Geometry_Type_obj, &in_a,
+                          &_ped_Geometry_Type_obj, &in_b)) {
         return NULL;
     }
 
@@ -292,7 +299,8 @@ PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
     PyObject *in_a, *in_b;
     PedGeometry *out_a, *out_b;
 
-    if (!PyArg_ParseTuple(args, "OO", &in_a, &in_b)) {
+    if (!PyArg_ParseTuple(args, "O&O&", &_ped_Geometry_Type_obj, &in_a,
+                          &_ped_Geometry_Type_obj, &in_b)) {
         return NULL;
     }
 
@@ -318,7 +326,8 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
     PedGeometry *out_geom;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "Ol", &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O&l", &_ped_Geometry_Type_obj, &in_geom,
+                          &sector)) {
         return NULL;
     }
 
@@ -340,7 +349,8 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
     void *out_buf;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "OOll", &in_geom, &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "O&Oll", &_ped_Geometry_Type_obj, &in_geom,
+                          &in_buf, &offset, &count)) {
         return NULL;
     }
 
@@ -365,7 +375,7 @@ PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -384,7 +394,7 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
 
-    if (!PyArg_ParseTuple(args, "O", &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -405,7 +415,8 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     void *out_buf;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "OOOO", &in_geom, &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "O&Oll", &_ped_Geometry_Type_obj, &in_geom,
+                          &in_buf, &offset, &count)) {
         return NULL;
     }
 
@@ -433,9 +444,9 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
     PedSector buffer_size, offset, granularity, count, ret;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "OOllllO", &in_geom, &in_buf, &buffer_size,
-                                           &offset, &granularity,
-                                           &count, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&OllllO&", &_ped_Geometry_Type_obj, &in_geom,
+                          &in_buf, &buffer_size, &offset, &granularity, &count,
+                          &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -468,7 +479,8 @@ PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
     PedGeometry *out_dst, *out_src;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "OOl", &in_dst, &in_src, &sector)) {
+    if (!PyArg_ParseTuple(args, "O&O&l", &_ped_Geometry_Type_obj, &in_dst,
+                          &_ped_Geometry_Type_obj, &in_src, &sector)) {
         return NULL;
     }
 

@@ -55,7 +55,7 @@ PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
     PyObject *in_timer;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -73,9 +73,9 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
     PedTimer *out_parent, *timer;
     _ped_Timer *ret;
 
-    if (!PyArg_ParseTuple(args, "Of", &in_parent, &nest_frac)) {
+    if (!PyArg_ParseTuple(args, "O&f", &_ped_Timer_Type_obj, &in_parent,
+                          &nest_frac))
         return NULL;
-    }
 
     out_parent = _ped_Timer2PedTimer(in_parent);
 
@@ -94,7 +94,7 @@ PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
     PyObject *in_timer;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -110,7 +110,7 @@ PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
     PyObject *in_timer;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -126,7 +126,7 @@ PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
     PyObject *in_timer;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O", &in_timer)) {
+    if (!PyArg_ParseTuple(args, "O&", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
@@ -143,9 +143,8 @@ PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
     float frac;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "Of", &in_timer, &frac)) {
+    if (!PyArg_ParseTuple(args, "O&f", &_ped_Timer_Type_obj, &in_timer, &frac))
         return NULL;
-    }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
     ped_timer_update(out_timer, frac);
@@ -160,7 +159,7 @@ PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
     char *str;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "Os", &in_timer, &str)) {
+    if (!PyArg_ParseTuple(args, "O&s", &_ped_Timer_Type_obj, &in_timer, &str)) {
         return NULL;
     }
 
