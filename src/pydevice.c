@@ -47,85 +47,20 @@ int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
     return 0;
 }
 
-PyObject *_ped_CHSGeometry_getcylinders(_ped_CHSGeometry *self, void *closure) {
-    return Py_BuildValue("i", self->cylinders);
-}
-
-int _ped_CHSGeometry_setcylinders(_ped_CHSGeometry *self, PyObject *value,
-                                  void *closure) {
-    int val;
-
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the cylinders attribute");
-        return -1;
+PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member) {
+    if (member == NULL) {
+        return NULL;
     }
 
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "The cylinders attribute must be an int");
-        return -1;
+    if (!strcmp(member, "cylinders")) {
+        return Py_BuildValue("i", self->cylinders);
+    } else if (!strcmp(member, "heads")) {
+        return Py_BuildValue("i", self->heads);
+    } else if (!strcmp(member, "sectors")) {
+        return Py_BuildValue("i", self->sectors);
+    } else {
+        return NULL;
     }
-
-    if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* XXX - this should throw an exception probably */
-        return -1;
-    }
-
-    self->cylinders = val;
-    return 0;
-}
-
-PyObject *_ped_CHSGeometry_getheads(_ped_CHSGeometry *self, void *closure) {
-    return Py_BuildValue("i", self->heads);
-}
-
-int _ped_CHSGeometry_setheads(_ped_CHSGeometry *self, PyObject *value,
-                                  void *closure) {
-    int val;
-
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the heads attribute");
-        return -1;
-    }
-
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "The heads attribute must be an int");
-        return -1;
-    }
-
-    if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* XXX - this should throw an exception probably */
-        return -1;
-    }
-
-    self->heads = val;
-    return 0;
-}
-
-PyObject *_ped_CHSGeometry_getsectors(_ped_CHSGeometry *self, void *closure) {
-    return Py_BuildValue("i", self->sectors);
-}
-
-int _ped_CHSGeometry_setsectors(_ped_CHSGeometry *self, PyObject *value,
-                                  void *closure) {
-    int val;
-
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the sectors attribute");
-        return -1;
-    }
-
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "The sectors attribute must be an int");
-        return -1;
-    }
-
-    if (!PyArg_ParseTuple(value, "i", &val)) {
-        /* XXX - this should throw an exception probably */
-        return -1;
-    }
-
-    self->sectors = val;
-    return 0;
 }
 
 /* _ped.Device functions */
