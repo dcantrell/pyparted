@@ -356,6 +356,7 @@ static PedExceptionOption partedExnHandler(PedException *e) {
         /* Ignore these for now. */
         case PED_EXCEPTION_INFORMATION:
         case PED_EXCEPTION_WARNING:
+            partedExnRaised = 0;
             return PED_EXCEPTION_IGNORE;
 
         /* Set global flags so parted module methods can raise specific
@@ -568,6 +569,11 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_FileSystem_Type_obj);
 
     /* add our custom exceptions */
+    ConstraintException = PyErr_NewException("_ped.ConstraintException", NULL,
+                                             NULL);
+    Py_INCREF(ConstraintException);
+    PyModule_AddObject(m, "ConstraintException", ConstraintException);
+
     DiskException = PyErr_NewException("_ped.DiskException", NULL, NULL);
     Py_INCREF(DiskException);
     PyModule_AddObject(m, "DiskException", DiskException);
@@ -576,6 +582,10 @@ PyMODINIT_FUNC init_ped(void) {
                                              NULL);
     Py_INCREF(FileSystemException);
     PyModule_AddObject(m, "FileSystemException", FileSystemException);
+
+    IOException = PyErr_NewException("_ped.IOException", NULL, NULL);
+    Py_INCREF(IOException);
+    PyModule_AddObject(m, "IOException", IOException);
 
     NotNeededException = PyErr_NewException("_ped.NotNeededException",
                                             NULL, NULL);
