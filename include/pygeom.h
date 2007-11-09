@@ -43,9 +43,6 @@ typedef struct {
 
 static PyMemberDef _ped_Geometry_members[] = {
     {"dev", T_OBJECT, offsetof(_ped_Geometry, dev), 0, NULL},
-    {"start", T_OBJECT, offsetof(_ped_Geometry, start), 0, NULL},
-    {"length", T_OBJECT, offsetof(_ped_Geometry, length), 0, NULL},
-    {"end", T_OBJECT, offsetof(_ped_Geometry, end), 0, NULL},
     {NULL}
 };
 
@@ -56,8 +53,15 @@ static PyMethodDef _ped_Geometry_methods[] = {
 void _ped_Geometry_dealloc(_ped_Geometry *self);
 PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds);
+PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member);
 
 static PyGetSetDef _ped_Geometry_getset[] = {
+    {"start", (getter) _ped_Geometry_get, NULL,
+              "Geometry start", NULL},
+    {"length", (getter) _ped_Geometry_get, NULL,
+              "Geometry length", NULL},
+    {"end", (getter) _ped_Geometry_get, NULL,
+              "Geometry end", NULL},
     {NULL}  /* Sentinel */
 };
 
