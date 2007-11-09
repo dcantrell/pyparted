@@ -46,6 +46,22 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "start")) {
+        return PyLong_FromLongLong(self->start);
+    } else if (!strcmp(member, "length")) {
+        return PyLong_FromLongLong(self->length);
+    } else if (!strcmp(member, "end")) {
+        return PyLong_FromLongLong(self->end);
+    } else {
+        return NULL;
+    }
+}
+
 /* 1:1 function mappings for geom.h in libparted */
 PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
     int ret = -1;
