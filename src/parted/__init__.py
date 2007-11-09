@@ -96,8 +96,8 @@ def device_get(device):
     return _ped.PedDevice().get(device)
 
 def disk_type_get(diskType):
-    """Given the string diskType representing one of the DISK_TYPE_* constants,
-       return the matching PedDiskType obejct.
+    """Given the name of a disk type ("sun", "msdos", "mac", ...) return the
+       matching PedDiskType object.
     """
     warnings.warn(__depstr % "disk_type_get()", DeprecationWarning, stacklevel=2)
     return _ped.disk_type_get(diskType)

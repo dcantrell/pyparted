@@ -27,6 +27,7 @@
 #include <stdlib.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pydisk.h"
 
 /* _ped.Partition functions */
@@ -138,7 +139,7 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
-    char *in_name = NULL;
+    char *in_name;
     PedDiskType *out_type = NULL;
     _ped_DiskType *ret = NULL;
 
@@ -148,8 +149,13 @@ PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
 
     if (in_name) {
         out_type = ped_disk_type_get(in_name);
+
+        if (out_type == NULL) {
+            PyErr_SetString(UnknownTypeException, in_name);
+            return NULL;
+        }
+
         ret = PedDiskType2_ped_DiskType(out_type);
-        free(out_type);
     }
 
     return (PyObject *) ret;
