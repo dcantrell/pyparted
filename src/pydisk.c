@@ -72,16 +72,30 @@ void _ped_DiskType_dealloc(_ped_DiskType *self) {
 }
 
 PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds) {
+                            PyObject *kwds) {
     _ped_DiskType *self;
 
-    self = (_ped_DiskType *) type->tp_alloc(type, 0);
+    self = (_ped_DiskType *) PyObject_New(PyObject, &_ped_DiskType_Type_obj);
     return (PyObject *) self;
 }
 
 int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
     /* XXX */
     return 0;
+}
+
+PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "name")) {
+        return PyString_FromString(self->name);
+    } else if (!strcmp(member, "features")) {
+        return PyLong_FromLongLong(self->features);
+    } else {
+        return NULL;
+    }
 }
 
 /* 1:1 function mappings for disk.h in libparted */
