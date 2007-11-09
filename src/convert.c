@@ -314,7 +314,7 @@ PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
 
     ret = ped_disk_type_get(type->name);
     if (ret == NULL) {
-        PyErr_SetString(UnknownDiskTypeException, type->name);
+        PyErr_SetString(UnknownTypeException, type->name);
         return NULL;
     }
 
@@ -408,7 +408,7 @@ PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
     }
 
     if ((ret = ped_file_system_type_get(type->name)) == NULL) {
-        PyErr_SetString(UnknownFileSystemTypeException, type->name);
+        PyErr_SetString(UnknownTypeException, type->name);
         return NULL;
     }
 
