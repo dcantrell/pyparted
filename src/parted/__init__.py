@@ -107,7 +107,10 @@ def disk_type_get_next(diskType=None):
        PedDiskType object in parted's list.
     """
     warnings.warn(__depstr % "disk_type_get_next()", DeprecationWarning, stacklevel=2)
-    return _ped.disk_type_get_next(diskType)
+    if diskType:
+        return _ped.disk_type_get_next(diskType)
+    else:
+        return _ped.disk_type_get_next()
 
 def error():
     warnings.warn(__depstr % "error()", DeprecationWarning, stacklevel=2)
@@ -129,7 +132,10 @@ def file_system_type_get_next(type=None):
        PedFileSystemType obejct in parted's list.
     """
     warnings.warn(__depstr % "file_system_type_get_next()", DeprecationWarning, stacklevel=2)
-    return _ped.file_system_type_get_next(type)
+    if type:
+        return _ped.file_system_type_get_next(type)
+    else:
+        return _ped.file_system_type_get_next()
 
 def partition_flag_get_by_name(name):
     """Given the string name representing one of the PARTITION_* constants,
