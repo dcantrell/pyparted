@@ -80,6 +80,42 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Device_get(_ped_Device *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "model")) {
+        return Py_BuildValue("s", self->model);
+    } else if (!strcmp(member, "path")) {
+        return Py_BuildValue("s", self->path);
+    } else if (!strcmp(member, "type")) {
+        return PyLong_FromLongLong(self->type);
+    } else if (!strcmp(member, "sector_size")) {
+        return PyLong_FromLongLong(self->sector_size);
+    } else if (!strcmp(member, "phys_sector_size")) {
+        return PyLong_FromLongLong(self->phys_sector_size);
+    } else if (!strcmp(member, "length")) {
+        return PyLong_FromLongLong(self->length);
+    } else if (!strcmp(member, "open_count")) {
+        return Py_BuildValue("i", self->open_count);
+    } else if (!strcmp(member, "read_only")) {
+        return Py_BuildValue("i", self->read_only);
+    } else if (!strcmp(member, "external_mode")) {
+        return Py_BuildValue("i", self->external_mode);
+    } else if (!strcmp(member, "dirty")) {
+        return Py_BuildValue("i", self->dirty);
+    } else if (!strcmp(member, "boot_dirty")) {
+        return Py_BuildValue("i", self->boot_dirty);
+    } else if (!strcmp(member, "host")) {
+        return Py_BuildValue("h", self->host);
+    } else if (!strcmp(member, "did")) {
+        return Py_BuildValue("h", self->did);
+    } else {
+        return NULL;
+    }
+}
+
 /* 1:1 function mappings for device.h in libparted */
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)  {
     char *path;
