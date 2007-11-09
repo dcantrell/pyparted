@@ -26,8 +26,10 @@
 #include <Python.h>
 
 /* custom exceptions for _ped */
+PyObject *ConstraintException;
 PyObject *DiskException;
 PyObject *FileSystemException;
+PyObject *IOException;
 PyObject *NotNeededException;
 PyObject *PartedException;
 PyObject *PartitionException;
