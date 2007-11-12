@@ -76,7 +76,7 @@ static PyTypeObject _ped_Timer_Type_obj = {
     .tp_name = "_ped.Timer",
     .tp_basicsize = sizeof(_ped_Timer),
     .tp_dealloc = (destructor) _ped_Timer_dealloc,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPE |
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedTimer objects",
     .tp_methods = _ped_Timer_methods,

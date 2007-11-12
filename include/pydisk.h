@@ -73,7 +73,7 @@ static PyTypeObject _ped_Partition_Type_obj = {
     .tp_name = "_ped.Partition",
     .tp_basicsize = sizeof(_ped_Partition),
     .tp_dealloc = (destructor) _ped_Partition_dealloc,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPE |
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedPartition objects",
     .tp_methods = _ped_Partition_methods,
