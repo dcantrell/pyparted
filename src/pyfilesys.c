@@ -163,7 +163,7 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if (in_fstype == Py_None)
+    if (!in_fstype)
         out_fstype = NULL;
     else {
         out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
