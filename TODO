@@ -97,7 +97,6 @@
 - Error handling in the get and set methods.
 
 - More error handling and exn raising in:
-      pyconstraint.c
       pydevice.c
       pydisk.c
       pyfilesys.c - check return values of conversion functions
