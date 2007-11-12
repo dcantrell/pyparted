@@ -48,6 +48,20 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Partition_get(_ped_Partition *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "num")) {
+        return Py_BuildValue("i", self->num);
+    } else if (!strcmp(member, "type")) {
+        return PyLong_FromLongLong(self->type);
+    } else {
+        return NULL;
+    }
+}
+
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_Del(self);

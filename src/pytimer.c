@@ -44,6 +44,26 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
+PyObject *_ped_Timer_get(_ped_Timer *self, char *member) {
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "frac")) {
+        return Py_BuildValue("f", self->frac);
+    } else if (!strcmp(member, "start")) {
+        return Py_BuildValue("d", self->start);
+    } else if (!strcmp(member, "now")) {
+        return Py_BuildValue("d", self->now);
+    } else if (!strcmp(member, "predicted_end")) {
+        return Py_BuildValue("d", self->predicted_end);
+    } else if (!strcmp(member, "state_name")) {
+        return Py_BuildValue("s", self->state_name);
+    } else {
+        return NULL;
+    }
+}
+
 /* 1:1 function mappings for timer.h in libparted */
 PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
     /* XXX */
