@@ -92,9 +92,6 @@
 
 - Make sure _ped module has Python docstrings galore
 
-- Lots of functions that take timers as arguments can have them be NULL, so
-  make these optional arguments in the python bindings.
-
 - Add set methods for all the C primitives.
 
 - Error handling in the get and set methods.

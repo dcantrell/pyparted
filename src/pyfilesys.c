@@ -310,14 +310,14 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
-    PyObject *in_geom, *in_fstype, *in_timer;
+    PyObject *in_geom, *in_fstype, *in_timer = NULL;
     PedGeometry *out_geom;
     PedFileSystemType *out_fstype;
     PedTimer *out_timer;
     PedFileSystem *fs;
     _ped_FileSystem *ret;
 
-    if (!PyArg_ParseTuple(args, "O!O!O!", &_ped_Geometry_Type_obj, &in_geom,
+    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_FileSystemType_Type_obj, &in_fstype,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -325,7 +325,11 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    if (in_timer)
+       out_timer = _ped_Timer2PedTimer(in_timer);
+    else
+       out_timer = NULL;
 
     fs = ped_file_system_create(out_geom, out_fstype, out_timer);
     if (fs) {
@@ -376,17 +380,22 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_fs, *in_timer;
+    PyObject *in_fs, *in_timer = NULL;
     PedFileSystem *out_fs;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystem_Type_obj, &in_fs,
+    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    if (in_timer)
+       out_timer = _ped_Timer2PedTimer(in_timer);
+    else
+       out_timer = NULL;
+
     ret = ped_file_system_check(out_fs, out_timer);
 
     /* NotImplementedError may have been raised if it's an unsupported
@@ -405,14 +414,14 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
-    PyObject *in_fs, *in_geom, *in_timer;
+    PyObject *in_fs, *in_geom, *in_timer = NULL;
     PedFileSystem *out_fs;
     PedGeometry *out_geom;
     PedTimer *out_timer;
     PedFileSystem *fs;
     _ped_FileSystem *ret;
 
-    if (!PyArg_ParseTuple(args, "O!O!O!", &_ped_FileSystem_Type_obj, &in_fs,
+    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -420,7 +429,11 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
     out_geom = _ped_Geometry2PedGeometry(in_geom);
-    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    if (in_timer)
+       out_timer = _ped_Timer2PedTimer(in_timer);
+    else
+       out_timer = NULL;
 
     fs = ped_file_system_copy(out_fs, out_geom, out_timer);
     if (fs) {
@@ -449,13 +462,13 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
-    PyObject *in_fs, *in_geom, *in_timer;
+    PyObject *in_fs, *in_geom, *in_timer = NULL;
     PedFileSystem *out_fs;
     PedGeometry *out_geom;
     PedTimer *out_timer;
     int ret = -1;
 
-    if (!PyArg_ParseTuple(args, "O!O!O!", &_ped_FileSystem_Type_obj, &in_fs,
+    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -463,7 +476,11 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
     out_geom = _ped_Geometry2PedGeometry(in_geom);
-    out_timer = _ped_Timer2PedTimer(in_timer);
+
+    if (in_timer)
+       out_timer = _ped_Timer2PedTimer(in_timer);
+    else
+       out_timer = NULL;
 
     ret = ped_file_system_resize(out_fs, out_geom, out_timer);
 
