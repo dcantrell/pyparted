@@ -454,13 +454,13 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
     PyObject *in_geom, *in_buf;
-    PyObject *in_count, *in_timer;
+    PyObject *in_count, *in_timer = NULL;
     PedGeometry *out_geom;
     void *out_buf;
     PedSector buffer_size, offset, granularity, count, ret;
     PedTimer *out_timer;
 
-    if (!PyArg_ParseTuple(args, "O!OllllO!", &_ped_Geometry_Type_obj, &in_geom,
+    if (!PyArg_ParseTuple(args, "O!Ollll|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &in_buf, &buffer_size, &offset, &granularity, &count,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -471,10 +471,10 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
-        return NULL;
-    }
+    if (in_timer)
+       out_timer = _ped_Timer2PedTimer(in_timer);
+    else
+       out_timer = NULL;
 
     out_buf = PyCObject_AsVoidPtr(in_buf);
     if (out_buf == NULL) {
