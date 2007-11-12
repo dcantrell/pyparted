@@ -172,7 +172,7 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if (in_device == Py_None)
+    if (!in_device)
        out_device = NULL;
     else
        out_device = _ped_Device2PedDevice(in_device);
