@@ -45,8 +45,6 @@ typedef struct {
 } _ped_Timer;
 
 static PyMemberDef _ped_Timer_members[] = {
-    {"frac", T_FLOAT, offsetof(_ped_Timer, frac), 0, NULL},
-    {"state_name", T_STRING_INPLACE, offsetof(_ped_Timer, state_name), 0, NULL},
     {NULL}
 };
 
@@ -57,51 +55,35 @@ static PyMethodDef _ped_Timer_methods[] = {
 void _ped_Timer_dealloc(_ped_Timer *self);
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);
+PyObject *_ped_Timer_get(_ped_Timer *self, char *member);
 
 static PyGetSetDef _ped_Timer_getset[] = {
+    {"frac", (getter) _ped_Timer_get, NULL,
+             "PedTimer frac", NULL},
+    {"start", (getter) _ped_Timer_get, NULL,
+             "PedTimer.start", NULL},
+    {"now", (getter) _ped_Timer_get, NULL,
+             "PedTimer.now", NULL},
+    {"predicted_end", (getter) _ped_Timer_get, NULL,
+             "PedTimer.predicted_end", NULL},
+    {"state_name", (getter) _ped_Timer_get, NULL,
+             "PedTimer.state_name", NULL},
     {NULL}  /* Sentinel */
 };
 
 static PyTypeObject _ped_Timer_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.Timer",                              /* tp_name */
-    sizeof(_ped_Timer),                        /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_Timer_dealloc,           /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedTimer objects",                        /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_Timer_methods,                        /* tp_methods */
-    _ped_Timer_members,                        /* tp_members */
-    _ped_Timer_getset,                         /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_Timer_init,                /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_Timer_new,                            /* tp_new */
+    .tp_name = "_ped.Timer",
+    .tp_basicsize = sizeof(_ped_Timer),
+    .tp_dealloc = (destructor) _ped_Timer_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPE |
+                Py_TPFLAGS_BASETYPE,
+    .tp_doc = "PedTimer objects",
+    .tp_methods = _ped_Timer_methods,
+    .tp_members = _ped_Timer_members,
+    .tp_getset = _ped_Timer_getset,
+    .tp_init = (initproc) _ped_Timer_init,
+    .tp_new = _ped_Timer_new,
 };
 
 /* 1:1 function mappings for timer.h in libparted */
