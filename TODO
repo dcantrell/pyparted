@@ -99,7 +99,6 @@
 - More error handling and exn raising in:
       pydevice.c
       pydisk.c
-      pyfilesys.c - check return values of conversion functions
       pygeom.c
       pynatmath.c
       pytimer.c

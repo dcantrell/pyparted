@@ -103,6 +103,10 @@ PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
     }
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_fstype) {
+        return NULL;
+    }
+
     ped_file_system_type_register(out_fstype);
 
     Py_INCREF(Py_None);
@@ -119,6 +123,10 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
     }
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_fstype) {
+        return NULL;
+    }
+
     ped_file_system_type_unregister(out_fstype);
 
     Py_INCREF(Py_None);
@@ -157,8 +165,12 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
 
     if (in_fstype == Py_None)
         out_fstype = NULL;
-    else
+    else {
         out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+        if (!out_fstype) {
+            return NULL;
+        }
+    }
 
     fstype = ped_file_system_type_get_next(out_fstype);
     if (fstype) {
@@ -184,7 +196,14 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     }
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_fstype) {
+        return NULL;
+    }
+
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
 
     geom = ped_file_system_probe_specific(out_fstype, out_geom);
     if (geom) {
@@ -220,6 +239,9 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
 
     fstype = ped_file_system_probe(out_geom);
     if (fstype) {
@@ -253,6 +275,10 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
+
     ret = ped_file_system_clobber(out_geom);
 
     if (!ret) {
@@ -284,6 +310,9 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
 
     fs = ped_file_system_open(out_geom);
     if (fs) {
@@ -324,10 +353,21 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_geom) {
+        return NULL;
+    }
 
-    if (in_timer)
-       out_timer = _ped_Timer2PedTimer(in_timer);
+    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_fstype) {
+        return NULL;
+    }
+
+    if (in_timer) {
+        out_timer = _ped_Timer2PedTimer(in_timer);
+        if (!out_timer) {
+            return NULL;
+        }
+    }
     else
        out_timer = NULL;
 
@@ -366,6 +406,10 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
+    if (!out_fs) {
+        return NULL;
+    }
+
     ret = ped_file_system_close(out_fs);
 
     if (!ret) {
@@ -390,11 +434,18 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
+    if (!out_fs) {
+        return NULL;
+    }
 
-    if (in_timer)
-       out_timer = _ped_Timer2PedTimer(in_timer);
+    if (in_timer) {
+        out_timer = _ped_Timer2PedTimer(in_timer);
+        if (!out_timer) {
+            return NULL;
+        }
+    }
     else
-       out_timer = NULL;
+        out_timer = NULL;
 
     ret = ped_file_system_check(out_fs, out_timer);
 
@@ -428,12 +479,23 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_fs) {
+        return NULL;
+    }
 
-    if (in_timer)
-       out_timer = _ped_Timer2PedTimer(in_timer);
+    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
+
+    if (in_timer) {
+        out_timer = _ped_Timer2PedTimer(in_timer);
+        if (!out_timer) {
+            return NULL;
+        }
+    }
     else
-       out_timer = NULL;
+        out_timer = NULL;
 
     fs = ped_file_system_copy(out_fs, out_geom, out_timer);
     if (fs) {
@@ -475,12 +537,23 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_fs) {
+        return NULL;
+    }
 
-    if (in_timer)
-       out_timer = _ped_Timer2PedTimer(in_timer);
+    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (!out_geom) {
+        return NULL;
+    }
+
+    if (in_timer) {
+        out_timer = _ped_Timer2PedTimer(in_timer);
+        if (!out_timer) {
+            return NULL;
+        }
+    }
     else
-       out_timer = NULL;
+        out_timer = NULL;
 
     ret = ped_file_system_resize(out_fs, out_geom, out_timer);
 
@@ -519,7 +592,14 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
     }
 
     out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!out_fstype) {
+        return NULL;
+    }
+
     out_device = _ped_Device2PedDevice(in_device);
+    if (!out_device) {
+        return NULL;
+    }
 
     constraint = ped_file_system_get_create_constraint(out_fstype, out_device);
     if (constraint) {
@@ -548,6 +628,9 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
+    if (!out_fs) {
+        return NULL;
+    }
 
     constraint = ped_file_system_get_resize_constraint(out_fs);
     if (constraint) {
@@ -577,7 +660,14 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     }
 
     out_fs = _ped_FileSystem2PedFileSystem(in_fs);
+    if (!out_fs) {
+        return NULL;
+    }
+
     out_device = _ped_Device2PedDevice(in_device);
+    if (!out_device) {
+        return NULL;
+    }
 
     constraint = ped_file_system_get_copy_constraint(out_fs, out_device);
     if (constraint) {
