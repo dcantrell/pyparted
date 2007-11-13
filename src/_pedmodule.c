@@ -707,6 +707,11 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_FileSystem_Type_obj);
 
     /* add our custom exceptions */
+    AlignmentException = PyErr_NewException("_ped.AlignmentException", NULL,
+                                             NULL);
+    Py_INCREF(AlignmentException);
+    PyModule_AddObject(m, "AlignmentException", AlignmentException);
+
     ConstraintException = PyErr_NewException("_ped.ConstraintException", NULL,
                                              NULL);
     Py_INCREF(ConstraintException);

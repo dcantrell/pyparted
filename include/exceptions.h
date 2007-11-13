@@ -26,6 +26,7 @@
 #include <Python.h>
 
 /* custom exceptions for _ped */
+PyObject *AlignmentException;
 PyObject *ConstraintException;
 PyObject *DiskException;
 PyObject *FileSystemException;
