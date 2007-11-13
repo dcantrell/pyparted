@@ -59,15 +59,15 @@ PyObject *_ped_Timer_get(_ped_Timer *self, char *member);
 
 static PyGetSetDef _ped_Timer_getset[] = {
     {"frac", (getter) _ped_Timer_get, NULL,
-             "PedTimer frac", NULL},
+             "PedTimer frac", "frac"},
     {"start", (getter) _ped_Timer_get, NULL,
-             "PedTimer.start", NULL},
+             "PedTimer.start", "start"},
     {"now", (getter) _ped_Timer_get, NULL,
-             "PedTimer.now", NULL},
+             "PedTimer.now", "now"},
     {"predicted_end", (getter) _ped_Timer_get, NULL,
-             "PedTimer.predicted_end", NULL},
+             "PedTimer.predicted_end", "predicted_end"},
     {"state_name", (getter) _ped_Timer_get, NULL,
-             "PedTimer.state_name", NULL},
+             "PedTimer.state_name", "state_name"},
     {NULL}  /* Sentinel */
 };
 
