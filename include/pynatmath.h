@@ -30,6 +30,23 @@
 
 #include <parted/parted.h>
 
+/* 1:1 function mappings for natmath.h in libparted */
+PyObject *py_ped_round_up_to(PyObject *s, PyObject *args);
+PyObject *py_ped_round_down_to(PyObject *s, PyObject *args);
+PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args);
+PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_init(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_new(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args);
+PyObject *py_ped_div_round_up(PyObject *s, PyObject *args);
+PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args);
+
 /* _ped.Alignment type is the Python equivalent of PedAlignment in libparted */
 typedef struct {
     PyObject_HEAD
@@ -44,6 +61,18 @@ static PyMemberDef _ped_Alignment_members[] = {
 };
 
 static PyMethodDef _ped_Alignment_methods[] = {
+    {"init", (PyCFunction) py_ped_alignment_init, METH_VARARGS, NULL},
+    {"new", (PyCFunction) py_ped_alignment_new, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS, NULL},
+    {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS, NULL},
+    {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS, NULL},
+    {"align_up", (PyCFunction) py_ped_alignment_align_up, METH_VARARGS, NULL},
+    {"align_down", (PyCFunction) py_ped_alignment_align_down,
+                   METH_VARARGS, NULL},
+    {"align_nearest", (PyCFunction) py_ped_alignment_align_nearest,
+                      METH_VARARGS, NULL},
+    {"is_aligned", (PyCFunction) py_ped_alignment_is_aligned,
+                   METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -77,22 +106,5 @@ static PyTypeObject _ped_Alignment_Type_obj = {
     .tp_init = (initproc) _ped_Alignment_init,
     .tp_new = _ped_Alignment_new,
 };
-
-/* 1:1 function mappings for natmath.h in libparted */
-PyObject *py_ped_round_up_to(PyObject *s, PyObject *args);
-PyObject *py_ped_round_down_to(PyObject *s, PyObject *args);
-PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_init(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_new(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args);
-PyObject *py_ped_div_round_up(PyObject *s, PyObject *args);
-PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args);
 
 #endif /* PYNATMATH_H_INCLUDED */

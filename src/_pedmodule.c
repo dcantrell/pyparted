@@ -48,229 +48,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           NULL},
     {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS, NULL},
 
-    /* pyconstraint.c */
-    {"constraint_init", (PyCFunction) py_ped_constraint_init, METH_VARARGS,
-                        NULL},
-    {"constraint_new", (PyCFunction) py_ped_constraint_new, METH_VARARGS, NULL},
-    {"constraint_new_from_min_max", (PyCFunction)
-                                    py_ped_constraint_new_from_min_max,
-                                    METH_VARARGS, NULL},
-    {"constraint_new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
-                                METH_VARARGS, NULL},
-    {"constraint_new_from_max", (PyCFunction) py_ped_constraint_new_from_max,
-                                METH_VARARGS, NULL},
-    {"constraint_duplicate", (PyCFunction) py_ped_constraint_duplicate,
-                             METH_VARARGS, NULL},
-    {"constraint_done", (PyCFunction) py_ped_constraint_done, METH_VARARGS,
-                        NULL},
-    {"constraint_destroy", (PyCFunction) py_ped_constraint_destroy,
-                           METH_VARARGS, NULL},
-    {"constraint_intersect", (PyCFunction) py_ped_constraint_intersect,
-                             METH_VARARGS, NULL},
-    {"constraint_solve_max", (PyCFunction) py_ped_constraint_solve_max,
-                             METH_VARARGS, NULL},
-    {"constraint_solve_nearest", (PyCFunction) py_ped_constraint_solve_nearest,
-                                 METH_VARARGS, NULL},
-    {"constraint_is_solution", (PyCFunction) py_ped_constraint_is_solution,
-                               METH_VARARGS, NULL},
-    {"constraint_any", (PyCFunction) py_ped_constraint_any, METH_VARARGS, NULL},
-    {"constraint_exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS,
-                         NULL},
-
-    /* pydevice.c */
-    {"device_probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
-                         NULL},
-    {"device_free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
-                        NULL},
-    {"device_get", (PyCFunction) py_ped_device_get, METH_VARARGS, NULL},
-    {"device_get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
-                        NULL},
-    {"device_is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS, NULL},
-    {"device_open", (PyCFunction) py_ped_device_open, METH_VARARGS, NULL},
-    {"device_close", (PyCFunction) py_ped_device_close, METH_VARARGS, NULL},
-    {"device_destroy", (PyCFunction) py_ped_device_destroy, METH_VARARGS, NULL},
-    {"device_cache_remove", (PyCFunction) py_ped_device_cache_remove,
-                            METH_VARARGS, NULL},
-    {"device_begin_external_access", (PyCFunction)
-                                     py_ped_device_begin_external_access,
-                                     METH_VARARGS, NULL},
-    {"device_end_external_access", (PyCFunction)
-                                   py_ped_device_end_external_access,
-                                   METH_VARARGS, NULL},
-    {"device_read", (PyCFunction) py_ped_device_read, METH_VARARGS, NULL},
-    {"device_write", (PyCFunction) py_ped_device_write, METH_VARARGS, NULL},
-    {"device_sync", (PyCFunction) py_ped_device_sync, METH_VARARGS, NULL},
-    {"device_sync_fast", (PyCFunction) py_ped_device_sync_fast, METH_VARARGS,
-                         NULL},
-    {"device_check", (PyCFunction) py_ped_device_check, METH_VARARGS, NULL},
-    {"device_get_constraint", (PyCFunction) py_ped_device_get_constraint,
-                              METH_VARARGS, NULL},
-
-    /* pydisk.c */
-    {"disk_type_register", (PyCFunction) py_ped_disk_type_register,
-                           METH_VARARGS, NULL},
-    {"disk_type_unregister", (PyCFunction) py_ped_disk_type_unregister,
-                             METH_VARARGS, NULL},
-    {"disk_type_get_next", (PyCFunction) py_ped_disk_type_get_next,
-                           METH_VARARGS, NULL},
-    {"disk_type_get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS, NULL},
-    {"disk_type_check_feature", (PyCFunction) py_ped_disk_type_check_feature,
-                                METH_VARARGS, NULL},
-    {"disk_probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS, NULL},
-    {"disk_clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS, NULL},
-    {"disk_clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
-                             METH_VARARGS, NULL},
-    {"disk_new", (PyCFunction) py_ped_disk_new, METH_VARARGS, NULL},
-    {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh, METH_VARARGS, NULL},
-    {"disk_duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS, NULL},
-    {"disk_destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS, NULL},
-    {"disk_commit", (PyCFunction) py_ped_disk_commit, METH_VARARGS, NULL},
-    {"disk_commit_to_dev", (PyCFunction) py_ped_disk_commit_to_dev,
-                           METH_VARARGS, NULL},
-    {"disk_commit_to_os", (PyCFunction) py_ped_disk_commit_to_os, METH_VARARGS,
-                          NULL},
-    {"disk_check", (PyCFunction) py_ped_disk_check, METH_VARARGS, NULL},
-    {"disk_print", (PyCFunction) py_ped_disk_print, METH_VARARGS, NULL},
-    {"disk_get_primary_partition_count", (PyCFunction)
-                                        py_ped_disk_get_primary_partition_count,
-                                        METH_VARARGS, NULL},
-    {"disk_get_last_partition_num", (PyCFunction)
-                                    py_ped_disk_get_last_partition_num,
-                                    METH_VARARGS, NULL},
-    {"disk_get_max_primary_partition_count", (PyCFunction)
-                                    py_ped_disk_get_max_primary_partition_count,
-                                    METH_VARARGS, NULL},
-    {"partition_new", (PyCFunction) py_ped_partition_new, METH_VARARGS, NULL},
-    {"partition_destroy", (PyCFunction) py_ped_partition_destroy, METH_VARARGS,
-                          NULL},
-    {"partition_is_active", (PyCFunction) py_ped_partition_is_active,
-                            METH_VARARGS, NULL},
-    {"partition_set_flag", (PyCFunction) py_ped_partition_set_flag,
-                           METH_VARARGS, NULL},
-    {"partition_get_flag", (PyCFunction) py_ped_partition_get_flag,
-                           METH_VARARGS, NULL},
-    {"partition_is_flag_available", (PyCFunction)
-                                    py_ped_partition_is_flag_available,
-                                    METH_VARARGS, NULL},
-    {"partition_set_system", (PyCFunction) py_ped_partition_set_system,
-                             METH_VARARGS, NULL},
-    {"partition_set_name", (PyCFunction) py_ped_partition_set_name,
-                           METH_VARARGS, NULL},
-    {"partition_get_name", (PyCFunction) py_ped_partition_get_name,
-                           METH_VARARGS, NULL},
-    {"partition_is_busy", (PyCFunction) py_ped_partition_is_busy, METH_VARARGS,
-                          NULL},
-    {"partition_get_path", (PyCFunction) py_ped_partition_get_path,
-                           METH_VARARGS, NULL},
-    {"partition_type_get_name", (PyCFunction) py_ped_partition_type_get_name,
-                                METH_VARARGS, NULL},
-    {"partition_flag_get_name", (PyCFunction) py_ped_partition_flag_get_name,
-                                METH_VARARGS, NULL},
-    {"partition_flag_get_by_name", (PyCFunction)
-                                   py_ped_partition_flag_get_by_name,
-                                   METH_VARARGS, NULL},
-    {"partition_flag_next", (PyCFunction) py_ped_partition_flag_next,
-                            METH_VARARGS, NULL},
-    {"disk_add_partition", (PyCFunction) py_ped_disk_add_partition,
-                           METH_VARARGS, NULL},
-    {"disk_remove_partition", (PyCFunction) py_ped_disk_remove_partition,
-                              METH_VARARGS, NULL},
-    {"disk_delete_partition", (PyCFunction) py_ped_disk_delete_partition,
-                              METH_VARARGS, NULL},
-    {"disk_delete_all", (PyCFunction) py_ped_disk_delete_all, METH_VARARGS,
-                        NULL},
-    {"disk_set_partition_geom", (PyCFunction) py_ped_disk_set_partition_geom,
-                                METH_VARARGS, NULL},
-    {"disk_maximize_partition", (PyCFunction) py_ped_disk_maximize_partition,
-                                METH_VARARGS, NULL},
-    {"disk_get_max_partition_geometry", (PyCFunction)
-                                        py_ped_disk_get_max_partition_geometry,
-                                        METH_VARARGS, NULL},
-    {"disk_minimize_extended_partition", (PyCFunction)
-                                        py_ped_disk_minimize_extended_partition,
-                                        METH_VARARGS, NULL},
-    {"disk_next_partition", (PyCFunction) py_ped_disk_next_partition,
-                            METH_VARARGS, NULL},
-    {"disk_get_partition", (PyCFunction) py_ped_disk_get_partition,
-                           METH_VARARGS, NULL},
-    {"disk_get_partition_by_sector", (PyCFunction)
-                                     py_ped_disk_get_partition_by_sector,
-                                     METH_VARARGS, NULL},
-    {"disk_extended_partition", (PyCFunction) py_ped_disk_extended_partition,
-                                METH_VARARGS, NULL},
-
-    /* pyfilesys.c */
-    {"file_system_type_register", (PyCFunction)
-                                  py_ped_file_system_type_register,
-                                  METH_VARARGS, NULL},
-    {"file_system_type_unregister", (PyCFunction)
-                                    py_ped_file_system_type_unregister,
-                                    METH_VARARGS, NULL},
-    {"file_system_type_get", (PyCFunction) py_ped_file_system_type_get,
-                             METH_VARARGS, NULL},
-    {"file_system_type_get_next", (PyCFunction)
-                                  py_ped_file_system_type_get_next,
-                                  METH_VARARGS, NULL},
-    {"file_system_probe_specific", (PyCFunction)
-                                   py_ped_file_system_probe_specific,
-                                   METH_VARARGS, NULL},
-    {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,
-                          NULL},
-    {"file_system_clobber", (PyCFunction) py_ped_file_system_clobber,
-                            METH_VARARGS, NULL},
-    {"file_system_open", (PyCFunction) py_ped_file_system_open, METH_VARARGS,
-                         NULL},
-    {"file_system_create", (PyCFunction) py_ped_file_system_create,
-                           METH_VARARGS, NULL},
-    {"file_system_close", (PyCFunction) py_ped_file_system_close, METH_VARARGS,
-                          NULL},
-    {"file_system_check", (PyCFunction) py_ped_file_system_check, METH_VARARGS,
-                          NULL},
-    {"file_system_copy", (PyCFunction) py_ped_file_system_copy, METH_VARARGS,
-                         NULL},
-    {"file_system_resize", (PyCFunction) py_ped_file_system_resize,
-                           METH_VARARGS, NULL},
-    {"file_system_get_create_constraint", (PyCFunction)
-                                       py_ped_file_system_get_create_constraint,
-                                       METH_VARARGS, NULL},
-    {"file_system_get_resize_constraint", (PyCFunction)
-                                       py_ped_file_system_get_resize_constraint,
-                                       METH_VARARGS, NULL},
-    {"file_system_get_copy_constraint", (PyCFunction)
-                                         py_ped_file_system_get_copy_constraint,
-                                         METH_VARARGS, NULL},
-
-    /* pygeom.c */
-    {"geometry_init", (PyCFunction) py_ped_geometry_init, METH_VARARGS, NULL},
-    {"geometry_new", (PyCFunction) py_ped_geometry_new, METH_VARARGS, NULL},
-    {"geometry_duplicate", (PyCFunction) py_ped_geometry_duplicate,
-                           METH_VARARGS, NULL},
-    {"geometry_intersect", (PyCFunction) py_ped_geometry_intersect,
-                           METH_VARARGS, NULL},
-    {"geometry_destroy", (PyCFunction) py_ped_geometry_destroy, METH_VARARGS,
-                         NULL},
-    {"geometry_set", (PyCFunction) py_ped_geometry_set, METH_VARARGS, NULL},
-    {"geometry_set_start", (PyCFunction) py_ped_geometry_set_start,
-                           METH_VARARGS, NULL},
-    {"geometry_set_end", (PyCFunction) py_ped_geometry_set_end, METH_VARARGS,
-                         NULL},
-    {"geometry_test_overlap", (PyCFunction) py_ped_geometry_test_overlap,
-                              METH_VARARGS, NULL},
-    {"geometry_test_inside", (PyCFunction) py_ped_geometry_test_inside,
-                             METH_VARARGS, NULL},
-    {"geometry_test_equal", (PyCFunction) py_ped_geometry_test_equal,
-                            METH_VARARGS, NULL},
-    {"geometry_test_sector_inside", (PyCFunction)
-                                    py_ped_geometry_test_sector_inside,
-                                    METH_VARARGS, NULL},
-    {"geometry_read", (PyCFunction) py_ped_geometry_read, METH_VARARGS, NULL},
-    {"geometry_sync", (PyCFunction) py_ped_geometry_sync, METH_VARARGS, NULL},
-    {"geometry_sync_fast", (PyCFunction) py_ped_geometry_sync_fast,
-                           METH_VARARGS, NULL},
-    {"geometry_write", (PyCFunction) py_ped_geometry_write, METH_VARARGS, NULL},
-    {"geometry_check", (PyCFunction) py_ped_geometry_check, METH_VARARGS, NULL},
-    {"geometry_map", (PyCFunction) py_ped_geometry_map, METH_VARARGS, NULL},
-
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS, NULL},
     {"round_down_to", (PyCFunction) py_ped_round_down_to, METH_VARARGS, NULL},
@@ -278,38 +55,8 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                          NULL},
     {"greatest_common_divisor", (PyCFunction) py_ped_greatest_common_divisor,
                                 METH_VARARGS, NULL},
-    {"alignment_init", (PyCFunction) py_ped_alignment_init, METH_VARARGS,
-                       NULL},
-    {"alignment_new", (PyCFunction) py_ped_alignment_new, METH_VARARGS, NULL},
-    {"alignment_destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS,
-                          NULL},
-    {"alignment_duplicate", (PyCFunction) py_ped_alignment_duplicate,
-                            METH_VARARGS, NULL},
-    {"alignment_intersect", (PyCFunction) py_ped_alignment_intersect,
-                            METH_VARARGS, NULL},
-    {"alignment_align_up", (PyCFunction) py_ped_alignment_align_up,
-                           METH_VARARGS, NULL},
-    {"alignment_align_down", (PyCFunction) py_ped_alignment_align_down,
-                             METH_VARARGS, NULL},
-    {"alignment_align_nearest", (PyCFunction) py_ped_alignment_align_nearest,
-                                METH_VARARGS, NULL},
-    {"alignment_is_aligned", (PyCFunction) py_ped_alignment_is_aligned,
-                             METH_VARARGS, NULL},
     {"div_round_up", (PyCFunction) py_ped_div_round_up, METH_VARARGS, NULL},
     {"div_round_to_nearest", (PyCFunction) py_ped_div_round_to_nearest,
-                             METH_VARARGS, NULL},
-
-    /* pytimer.c */
-    {"timer_new", (PyCFunction) py_ped_timer_new, METH_VARARGS, NULL},
-    {"timer_destroy", (PyCFunction) py_ped_timer_destroy, METH_VARARGS, NULL},
-    {"timer_new_nested", (PyCFunction) py_ped_timer_new_nested, METH_VARARGS,
-                         NULL},
-    {"timer_destroy_nested", (PyCFunction) py_ped_timer_destroy_nested,
-                             METH_VARARGS, NULL},
-    {"timer_touch", (PyCFunction) py_ped_timer_touch, METH_VARARGS, NULL},
-    {"timer_reset", (PyCFunction) py_ped_timer_reset, METH_VARARGS, NULL},
-    {"timer_update", (PyCFunction) py_ped_timer_update, METH_VARARGS, NULL},
-    {"timer_set_state_name", (PyCFunction) py_ped_timer_set_state_name,
                              METH_VARARGS, NULL},
 
     /* pyunit.c */
@@ -462,9 +209,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_CHSGeometry_methods,
-                       "CHSGeometry objects used to describe disk sizes.");
-
     Py_INCREF(&_ped_CHSGeometry_Type_obj);
     PyModule_AddObject(m, "CHSGeometry",
                        (PyObject *)&_ped_CHSGeometry_Type_obj);
@@ -473,8 +217,6 @@ PyMODINIT_FUNC init_ped(void) {
     _ped_Device_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Device_Type_obj) < 0)
         return;
-
-    m = Py_InitModule3("_ped", _ped_Device_methods, NULL);
 
     Py_INCREF(&_ped_Device_Type_obj);
     PyModule_AddObject(m, "Device", (PyObject *)&_ped_Device_Type_obj);
@@ -540,8 +282,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_Timer_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_Timer_methods, NULL);
-
     Py_INCREF(&_ped_Timer_Type_obj);
     PyModule_AddObject(m, "Timer", (PyObject *)&_ped_Timer_Type_obj);
 
@@ -549,8 +289,6 @@ PyMODINIT_FUNC init_ped(void) {
     _ped_Geometry_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Geometry_Type_obj) < 0)
         return;
-
-    m = Py_InitModule3("_ped", _ped_Geometry_methods, NULL);
 
     Py_INCREF(&_ped_Geometry_Type_obj);
     PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_Geometry_Type_obj);
@@ -560,8 +298,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_Alignment_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_Alignment_methods, NULL);
-
     Py_INCREF(&_ped_Alignment_Type_obj);
     PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_Alignment_Type_obj);
 
@@ -569,8 +305,6 @@ PyMODINIT_FUNC init_ped(void) {
     _ped_Constraint_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Constraint_Type_obj) < 0)
         return;
-
-    m = Py_InitModule3("_ped", _ped_Constraint_methods, NULL);
 
     Py_INCREF(&_ped_Constraint_Type_obj);
     PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_Constraint_Type_obj);
@@ -580,8 +314,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_Partition_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_Partition_methods, NULL);
-
     Py_INCREF(&_ped_Partition_Type_obj);
     PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
@@ -590,8 +322,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_Disk_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_Disk_methods, NULL);
-
     Py_INCREF(&_ped_Disk_Type_obj);
     PyModule_AddObject(m, "Disk", (PyObject *)&_ped_Disk_Type_obj);
 
@@ -599,8 +329,6 @@ PyMODINIT_FUNC init_ped(void) {
     _ped_DiskType_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_DiskType_Type_obj) < 0)
         return;
-
-    m = Py_InitModule3("_ped", _ped_DiskType_methods, NULL);
 
     Py_INCREF(&_ped_DiskType_Type_obj);
     PyModule_AddObject(m, "DiskType", (PyObject *)&_ped_DiskType_Type_obj);
@@ -689,8 +417,6 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_FileSystemType_methods, NULL);
-
     Py_INCREF(&_ped_FileSystemType_Type_obj);
     PyModule_AddObject(m, "FileSystemType",
                        (PyObject *)&_ped_FileSystemType_Type_obj);
@@ -700,11 +426,8 @@ PyMODINIT_FUNC init_ped(void) {
     if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0)
         return;
 
-    m = Py_InitModule3("_ped", _ped_FileSystem_methods, NULL);
-
     Py_INCREF(&_ped_FileSystem_Type_obj);
-    PyModule_AddObject(m, "FileSystem",
-                       (PyObject *)&_ped_FileSystem_Type_obj);
+    PyModule_AddObject(m, "FileSystem", (PyObject *)&_ped_FileSystem_Type_obj);
 
     /* add our custom exceptions */
     AlignmentException = PyErr_NewException("_ped.AlignmentException", NULL,

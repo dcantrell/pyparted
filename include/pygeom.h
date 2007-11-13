@@ -30,6 +30,26 @@
 
 #include <parted/parted.h>
 
+/* 1:1 function mappings for geom.h in libparted */
+PyObject *py_ped_geometry_init(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_new(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_set(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_read(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_write(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_check(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_map(PyObject *s, PyObject *args);
+
 /* _ped.Geometry type is the Python equivalent of PedGeometry in libparted */
 typedef struct {
     PyObject_HEAD
@@ -47,6 +67,28 @@ static PyMemberDef _ped_Geometry_members[] = {
 };
 
 static PyMethodDef _ped_Geometry_methods[] = {
+    {"init", (PyCFunction) py_ped_geometry_init, METH_VARARGS, NULL},
+    {"new", (PyCFunction) py_ped_geometry_new, METH_VARARGS, NULL},
+    {"duplicate", (PyCFunction) py_ped_geometry_duplicate, METH_VARARGS, NULL},
+    {"intersect", (PyCFunction) py_ped_geometry_intersect, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_geometry_destroy, METH_VARARGS, NULL},
+    {"set", (PyCFunction) py_ped_geometry_set, METH_VARARGS, NULL},
+    {"set_start", (PyCFunction) py_ped_geometry_set_start, METH_VARARGS, NULL},
+    {"set_end", (PyCFunction) py_ped_geometry_set_end, METH_VARARGS, NULL},
+    {"test_overlap", (PyCFunction) py_ped_geometry_test_overlap,
+                     METH_VARARGS, NULL},
+    {"test_inside", (PyCFunction) py_ped_geometry_test_inside,
+                    METH_VARARGS, NULL},
+    {"test_equal", (PyCFunction) py_ped_geometry_test_equal,
+                   METH_VARARGS, NULL},
+    {"test_sector_inside", (PyCFunction) py_ped_geometry_test_sector_inside,
+                           METH_VARARGS, NULL},
+    {"read", (PyCFunction) py_ped_geometry_read, METH_VARARGS, NULL},
+    {"sync", (PyCFunction) py_ped_geometry_sync, METH_VARARGS, NULL},
+    {"sync_fast", (PyCFunction) py_ped_geometry_sync_fast, METH_VARARGS, NULL},
+    {"write", (PyCFunction) py_ped_geometry_write, METH_VARARGS, NULL},
+    {"check", (PyCFunction) py_ped_geometry_check, METH_VARARGS, NULL},
+    {"map", (PyCFunction) py_ped_geometry_map, METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -82,25 +124,5 @@ static PyTypeObject _ped_Geometry_Type_obj = {
     .tp_init = (initproc) _ped_Geometry_init,
     .tp_new = _ped_Geometry_new,
 };
-
-/* 1:1 function mappings for geom.h in libparted */
-PyObject *py_ped_geometry_init(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_new(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_read(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_write(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_check(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_map(PyObject *s, PyObject *args);
 
 #endif /* PYGEOM_H_INCLUDED */
