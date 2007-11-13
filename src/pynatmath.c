@@ -108,7 +108,7 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_alignment, *in_offset, *in_grain_size;
+    PyObject *in_alignment;
     PedAlignment *out_alignment;
     PedSector offset, grain_size;
 
@@ -335,7 +335,7 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
-    PedSector numerator, divisor, ret;
+    PedSector numerator, divisor;
 
     if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
         return NULL;
@@ -345,7 +345,7 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
-    PedSector numerator, divisor, ret;
+    PedSector numerator, divisor;
 
     if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
         return NULL;
