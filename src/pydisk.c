@@ -76,7 +76,24 @@ PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
 int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "num")) {
+        self->num = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "type")) {
+        self->type = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -146,7 +163,24 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
 int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "name")) {
+        self->name = PyString_AsString(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "features")) {
+        self->features = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 

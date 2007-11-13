@@ -73,7 +73,29 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
 int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "start")) {
+        self->start = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "length")) {
+        self->length = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "end")) {
+        self->end = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 

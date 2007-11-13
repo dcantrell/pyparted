@@ -71,7 +71,24 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
 int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "offset")) {
+        self->offset = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "grain_size")) {
+        self->grain_size = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 
