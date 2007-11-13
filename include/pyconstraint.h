@@ -59,11 +59,16 @@ void _ped_Constraint_dealloc(_ped_Constraint *self);
 PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds);
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Constraint_get(_ped_Constraint *self, char *member);
+PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure);
+int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Constraint_getset[] = {
-    {"min_size", (getter) _ped_Constraint_get, NULL, "Constraint min_size", "min_size"},
-    {"max_size", (getter) _ped_Constraint_get, NULL, "Constraint max_size", "max_size"},
+    {"min_size", (getter) _ped_Constraint_get,
+                 (setter) _ped_Constraint_set,
+                 "Constraint min_size", "min_size"},
+    {"max_size", (getter) _ped_Constraint_get,
+                 (setter) _ped_Constraint_set,
+                 "Constraint max_size", "max_size"},
     {NULL}  /* Sentinel */
 };
 
