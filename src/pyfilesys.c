@@ -71,7 +71,19 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
                             void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "name")) {
+        self->name = PyString_AsString(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -118,7 +130,19 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
 int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "checked")) {
+        self->checked = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 

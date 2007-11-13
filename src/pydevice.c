@@ -174,7 +174,77 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
 int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        return NULL;
+    }
+
+    if (!strcmp(member, "model")) {
+        self->model = PyString_AsString(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "path")) {
+        self->path = PyString_AsString(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "type")) {
+        self->type = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "sector_size")) {
+        self->sector_size = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "phys_sector_size")) {
+        self->phys_sector_size = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "length")) {
+        self->length = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "open_count")) {
+        self->open_count = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "read_only")) {
+        self->read_only = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "external_mode")) {
+        self->external_mode = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "dirty")) {
+        self->dirty = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "boot_dirty")) {
+        self->boot_dirty = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "host")) {
+        if (!PyArg_ParseTuple(value, "h", &self->host)) {
+            return -1;
+        }
+    } else if (!strcmp(member, "did")) {
+        if (!PyArg_ParseTuple(value, "h", &self->did)) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
     return 0;
 }
 
