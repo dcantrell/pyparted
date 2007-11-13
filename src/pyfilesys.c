@@ -45,8 +45,12 @@ PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
 
 int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
                              PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"name", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &self->name))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, char *member) {
@@ -76,8 +80,15 @@ PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
 
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                          PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"type", "geom", "checked", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!l", kwlist,
+                                     &_ped_FileSystemType_Type_obj, &self->type,
+                                     &_ped_Geometry_Type_obj, &self->geom,
+                                     &self->checked))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, char *member) {
@@ -178,7 +189,7 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
         return (PyObject *) ret;
     }
     else {
-        PyErr_SetString(PyExc_IndexError, NULL);
+        PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
 

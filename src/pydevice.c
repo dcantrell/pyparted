@@ -43,8 +43,14 @@ PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
 
 int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
                           PyObject *kwds) {
-    /* XXX - should handle keywords (cylinders=, heads=, sectors=) */
-    return 0;
+    static char *kwlist[] = {"cylinders", "heads", "sectors", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|iii", kwlist,
+                                     &self->cylinders, &self->heads,
+                                     &self->sectors))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
@@ -84,8 +90,23 @@ PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 }
 
 int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"model", "path", "type", "sector_size",
+                             "phys_sector_size", "length", "open_count",
+                             "read_only", "external_mode", "dirty", "boot_dirty",
+                             "hw_geom", "bios_geom", "host", "did", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|sslllliiiiiO!O!hh", kwlist,
+                                     &self->model, &self->path, &self->type,
+                                     &self->sector_size, &self->phys_sector_size,
+                                     &self->length, &self->open_count,
+                                     &self->read_only, &self->external_mode,
+                                     &self->dirty, &self->boot_dirty,
+                                     &_ped_CHSGeometry_Type_obj, &self->hw_geom,
+                                     &_ped_CHSGeometry_Type_obj, &self->bios_geom,
+                                     &self->host, &self->did))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Device_get(_ped_Device *self, char *member) {

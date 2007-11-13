@@ -44,8 +44,17 @@ PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"disk", "geom", "num", "type", "fs_type", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!ilO!", kwlist,
+                                     &_ped_Disk_Type_obj, &self->disk,
+                                     &_ped_Geometry_Type_obj, &self->geom,
+                                     &self->num, &self->type,
+                                     &_ped_FileSystemType_Type_obj,
+                                     &self->fs_type))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Partition_get(_ped_Partition *self, char *member) {
@@ -76,8 +85,14 @@ PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"dev", "type", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!", kwlist,
+                                     &_ped_Device_Type_obj, &self->dev,
+                                     &_ped_DiskType_Type_obj, &self->type))
+        return -1;
+    else
+        return 0;
 }
 
 /* _ped.DiskType functions */
@@ -94,8 +109,13 @@ PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"name", "features", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|sl", kwlist,
+                                     &self->name, &self->features))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member) {
@@ -165,7 +185,7 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
         return (PyObject *) ret;
     }
     else {
-        PyErr_SetString(PyExc_IndexError, NULL);
+        PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
 }

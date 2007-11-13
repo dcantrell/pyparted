@@ -42,8 +42,13 @@ PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"offset", "grain_size", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ll", kwlist,
+                                     &self->offset, &self->grain_size))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member) {

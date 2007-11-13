@@ -40,8 +40,15 @@ PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 }
 
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"frac", "start", "now", "predicted_end",
+                             "state_name", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|fddds", kwlist,
+                                     &self->frac, &self->start, &self->now,
+                                     &self->predicted_end, &self->state_name))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Timer_get(_ped_Timer *self, char *member) {
