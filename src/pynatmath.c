@@ -25,6 +25,7 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pydevice.h"
 #include "pynatmath.h"
 
@@ -123,6 +124,11 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_init(out_alignment, offset, grain_size);
+    if (ret == 0) {
+        PyErr_SetString(AlignmentException, "Could not create new alignment");
+        return NULL;
+    }
+
     ped_alignment_destroy(out_alignment);
 
     return Py_BuildValue("i", ret);
@@ -140,6 +146,13 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
     align = ped_alignment_new(offset, grain_size);
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
+        if (ret == NULL) {
+            return NULL;
+        }
+    }
+    else {
+        PyErr_SetString(AlignmentException, "Could not create new alignment");
+        return NULL;
     }
 
     ped_alignment_destroy(align);
@@ -181,6 +194,13 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
     align = ped_alignment_duplicate(out_alignment);
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
+        if (ret == NULL) {
+            return NULL;
+        }
+    }
+    else {
+        PyErr_SetString(AlignmentException, "Could not duplicate alignment");
+        return NULL;
     }
 
     ped_alignment_destroy(out_alignment);
@@ -212,6 +232,13 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
     align = ped_alignment_intersect(out_a, out_b);
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
+        if (ret == NULL) {
+            return NULL;
+        }
+    }
+    else {
+        PyErr_SetString(AlignmentException, "Could not find alignment intersection");
+        return NULL;
     }
 
     ped_alignment_destroy(out_a);
@@ -243,6 +270,11 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_up(out_align, out_geom, sector);
+    if (ret == -1) {
+        PyErr_SetString(AlignmentException, "Could not align");
+        return NULL;
+    }
+
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
@@ -271,6 +303,11 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_down(out_align, out_geom, sector);
+    if (ret == -1) {
+        PyErr_SetString(AlignmentException, "Could not align");
+        return NULL;
+    }
+
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
@@ -299,6 +336,11 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_nearest(out_align, out_geom, sector);
+    if (ret == -1) {
+        PyErr_SetString(AlignmentException, "Could not align");
+        return NULL;
+    }
+
     ped_alignment_destroy(out_align);
     ped_geometry_destroy(out_geom);
 
