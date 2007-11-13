@@ -25,6 +25,7 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pytimer.h"
 
 /* _ped.Timer functions */
@@ -87,6 +88,9 @@ PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
     }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
 
     ped_timer_destroy(out_timer);
 
@@ -105,10 +109,20 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
         return NULL;
 
     out_parent = _ped_Timer2PedTimer(in_parent);
+    if (out_parent == NULL) {
+        return NULL;
+    }
 
     timer = ped_timer_new_nested(out_parent, nest_frac);
     if (timer) {
         ret = PedTimer2_ped_Timer(timer);
+        if (ret == NULL) {
+            return NULL;
+        }
+    }
+    else {
+        PyErr_SetString(TimerException, "Could not create new nested timer");
+        return NULL;
     }
 
     ped_timer_destroy(out_parent);
@@ -126,6 +140,10 @@ PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
     }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
+
     ped_timer_destroy_nested(out_timer);
     ped_timer_destroy(out_timer);
 
@@ -142,6 +160,10 @@ PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
     }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
+
     ped_timer_touch(out_timer);
     ped_timer_destroy(out_timer);
 
@@ -158,6 +180,10 @@ PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
     }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
+
     ped_timer_reset(out_timer);
     ped_timer_destroy(out_timer);
 
@@ -174,6 +200,10 @@ PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
         return NULL;
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
+
     ped_timer_update(out_timer, frac);
     ped_timer_destroy(out_timer);
 
@@ -191,6 +221,9 @@ PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
     }
 
     out_timer = _ped_Timer2PedTimer(in_timer);
+    if (out_timer == NULL) {
+        return NULL;
+    }
 
     ped_timer_set_state_name(out_timer, str);
 
