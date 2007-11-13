@@ -49,7 +49,9 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
     return 0;
 }
 
-PyObject *_ped_Constraint_get(_ped_Constraint *self, char *member) {
+PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -61,6 +63,30 @@ PyObject *_ped_Constraint_get(_ped_Constraint *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    if (member == NULL) {
+        return -1;
+    }
+
+    if (!strcmp(member, "min_size")) {
+        self->min_size = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "max_size")) {
+        self->max_size = PyLong_AsLongLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+
+    return 0;
 }
 
 /* 1:1 function mappings for constraint.h in libparted */
