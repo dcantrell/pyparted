@@ -45,8 +45,18 @@ PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
 
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
                          PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"start_align", "end_align", "start_range",
+                             "end_range", "min_size", "max_size", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!O!O!ll", kwlist,
+                                     &_ped_Alignment_Type_obj, &self->start_align,
+                                     &_ped_Alignment_Type_obj, &self->end_align,
+                                     &_ped_Geometry_Type_obj, &self->start_range,
+                                     &_ped_Geometry_Type_obj, &self->end_range,
+                                     &self->min_size, &self->max_size))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Constraint_get(_ped_Constraint *self, char *member) {
