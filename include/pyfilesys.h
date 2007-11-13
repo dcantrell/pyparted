@@ -34,6 +34,24 @@
 /* These functions need to be added to libparted.  Remove when that's done. */
 #define ped_file_system_destroy(fs)
 
+/* 1:1 function mappings for filesys.h in libparted */
+PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_open(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_create(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_close(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_check(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_get_create_constraint(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_get_resize_constraint(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args);
+
 /* _ped.FileSystemType type is the Python equivalent of PedFileSystemType
  * in libparted */
 typedef struct {
@@ -48,6 +66,13 @@ static PyMemberDef _ped_FileSystemType_members[] = {
 };
 
 static PyMethodDef _ped_FileSystemType_methods[] = {
+    {"register", (PyCFunction) py_ped_file_system_type_register,
+                 METH_VARARGS, NULL},
+    {"unregister", (PyCFunction) py_ped_file_system_type_unregister,
+                   METH_VARARGS, NULL},
+    {"get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS, NULL},
+    {"get_next", (PyCFunction) py_ped_file_system_type_get_next,
+                 METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -99,6 +124,25 @@ static PyMemberDef _ped_FileSystem_members[] = {
 };
 
 static PyMethodDef _ped_FileSystem_methods[] = {
+    {"probe_specific", (PyCFunction) py_ped_file_system_probe_specific,
+                       METH_VARARGS, NULL},
+    {"probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS, NULL},
+    {"clobber", (PyCFunction) py_ped_file_system_clobber, METH_VARARGS, NULL},
+    {"open", (PyCFunction) py_ped_file_system_open, METH_VARARGS, NULL},
+    {"create", (PyCFunction) py_ped_file_system_create, METH_VARARGS, NULL},
+    {"close", (PyCFunction) py_ped_file_system_close, METH_VARARGS, NULL},
+    {"check", (PyCFunction) py_ped_file_system_check, METH_VARARGS, NULL},
+    {"copy", (PyCFunction) py_ped_file_system_copy, METH_VARARGS, NULL},
+    {"resize", (PyCFunction) py_ped_file_system_resize, METH_VARARGS, NULL},
+    {"get_create_constraint", (PyCFunction)
+                              py_ped_file_system_get_create_constraint,
+                              METH_VARARGS, NULL},
+    {"get_resize_constraint", (PyCFunction)
+                              py_ped_file_system_get_resize_constraint,
+                              METH_VARARGS, NULL},
+    {"get_copy_constraint", (PyCFunction)
+                            py_ped_file_system_get_copy_constraint,
+                            METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -130,23 +174,5 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
     .tp_init = (initproc) _ped_FileSystem_init,
     .tp_new = _ped_FileSystem_new,
 };
-
-/* 1:1 function mappings for filesys.h in libparted */
-PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_open(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_create(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_close(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_check(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_create_constraint(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_resize_constraint(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args);
 
 #endif /* PYFILESYS_H_INCLUDED */

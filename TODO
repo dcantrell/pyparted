@@ -2,7 +2,6 @@
       'make maintainerclean' should work
       'make distclean' should work
       'make install'
-      autogenerate the pyparted.spec example file
 
 - new native Python classes on top of _ped
       Device
@@ -95,8 +94,14 @@
 
 - Where integers are used as booleans, use PyBool_FromLong.
 
-- Move each module's methods out of the main MethodDef in _pedmodule.c into
-  the _ped_Whatever_methods lists.
+- Figure out where to put the remainder of the pynatmath.c methods (get them
+  out of PyPedModuleMethods[]).
+
+- Do we want to recreate _ped_Unit again, but just to store methods and
+  get them out of PyPedModuleMethods[]?
+
+- All of the DISK_*, DEVICE_*, and PARTITION_* types...can those go under
+  the appropriate _ped_* object?
 
 - Use convenience functions (e.g., PyLong_FromLongLong) when returning
   values.

@@ -30,6 +30,16 @@
 
 #include <parted/parted.h>
 
+/* 1:1 function mappings for timer.h in libparted */
+PyObject *py_ped_timer_new(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_touch(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_reset(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_update(PyObject *s, PyObject *args);
+PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args);
+
 /* _ped.Timer type is the Python equivalent of PedTimer in libparted */
 typedef struct {
     PyObject_HEAD
@@ -49,6 +59,16 @@ static PyMemberDef _ped_Timer_members[] = {
 };
 
 static PyMethodDef _ped_Timer_methods[] = {
+    {"new", (PyCFunction) py_ped_timer_new, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_timer_destroy, METH_VARARGS, NULL},
+    {"new_nested", (PyCFunction) py_ped_timer_new_nested, METH_VARARGS, NULL},
+    {"destroy_nested", (PyCFunction) py_ped_timer_destroy_nested,
+                       METH_VARARGS, NULL},
+    {"touch", (PyCFunction) py_ped_timer_touch, METH_VARARGS, NULL},
+    {"reset", (PyCFunction) py_ped_timer_reset, METH_VARARGS, NULL},
+    {"update", (PyCFunction) py_ped_timer_update, METH_VARARGS, NULL},
+    {"set_state_name", (PyCFunction) py_ped_timer_set_state_name,
+                       METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -86,15 +106,5 @@ static PyTypeObject _ped_Timer_Type_obj = {
     .tp_init = (initproc) _ped_Timer_init,
     .tp_new = _ped_Timer_new,
 };
-
-/* 1:1 function mappings for timer.h in libparted */
-PyObject *py_ped_timer_new(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_touch(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_reset(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_update(PyObject *s, PyObject *args);
-PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args);
 
 #endif /* PYTIMER_H_INCLUDED */

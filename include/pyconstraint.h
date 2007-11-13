@@ -30,6 +30,22 @@
 
 #include <parted/parted.h>
 
+/* 1:1 function mappings for constraint.h in libparted */
+PyObject *py_ped_constraint_init(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_new(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_done(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_any(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args);
+
 /* _ped.Constraint type is the Python equiv of PedConstraint in libparted */
 typedef struct {
     PyObject_HEAD
@@ -52,6 +68,28 @@ static PyMemberDef _ped_Constraint_members[] = {
 };
 
 static PyMethodDef _ped_Constraint_methods[] = {
+    {"init", (PyCFunction) py_ped_constraint_init, METH_VARARGS, NULL},
+    {"new", (PyCFunction) py_ped_constraint_new, METH_VARARGS, NULL},
+    {"new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
+                         METH_VARARGS, NULL},
+    {"new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
+                     METH_VARARGS, NULL},
+    {"new_from_max", (PyCFunction) py_ped_constraint_new_from_max,
+                     METH_VARARGS, NULL},
+    {"duplicate", (PyCFunction) py_ped_constraint_duplicate,
+                  METH_VARARGS, NULL},
+    {"done", (PyCFunction) py_ped_constraint_done, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_constraint_destroy, METH_VARARGS, NULL},
+    {"intersect", (PyCFunction) py_ped_constraint_intersect,
+                  METH_VARARGS, NULL},
+    {"solve_max", (PyCFunction) py_ped_constraint_solve_max,
+                  METH_VARARGS, NULL},
+    {"solve_nearest", (PyCFunction) py_ped_constraint_solve_nearest,
+                      METH_VARARGS, NULL},
+    {"is_solution", (PyCFunction) py_ped_constraint_is_solution,
+                    METH_VARARGS, NULL},
+    {"any", (PyCFunction) py_ped_constraint_any, METH_VARARGS, NULL},
+    {"exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -86,21 +124,5 @@ static PyTypeObject _ped_Constraint_Type_obj = {
     .tp_init = (initproc) _ped_Constraint_init,
     .tp_new = _ped_Constraint_new,
 };
-
-/* 1:1 function mappings for constraint.h in libparted */
-PyObject *py_ped_constraint_init(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_done(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_any(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args);
 
 #endif /* PYCONSTRAINT_H_INCLUDED */

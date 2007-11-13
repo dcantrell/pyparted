@@ -30,6 +30,25 @@
 
 #include <parted/parted.h>
 
+/* 1:1 function mappings for device.h in libparted */
+PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args);
+PyObject *py_ped_device_free_all(PyObject *s, PyObject *args);
+PyObject *py_ped_device_get(PyObject *s, PyObject *args);
+PyObject *py_ped_device_get_next(PyObject *s, PyObject *args);
+PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args);
+PyObject *py_ped_device_open(PyObject *s, PyObject *args);
+PyObject *py_ped_device_close(PyObject *s, PyObject *args);
+PyObject *py_ped_device_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args);
+PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args);
+PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args);
+PyObject *py_ped_device_read(PyObject *s, PyObject *args);
+PyObject *py_ped_device_write(PyObject *s, PyObject *args);
+PyObject *py_ped_device_sync(PyObject *s, PyObject *args);
+PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args);
+PyObject *py_ped_device_check(PyObject *s, PyObject *args);
+PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args);
+
 /* _ped.CHSGeometry type is the Python equiv of PedCHSGeometry in libparted */
 typedef struct {
     PyObject_HEAD
@@ -114,6 +133,27 @@ static PyMemberDef _ped_Device_members[] = {
 };
 
 static PyMethodDef _ped_Device_methods[] = {
+    {"probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS, NULL},
+    {"free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS, NULL},
+    {"get", (PyCFunction) py_ped_device_get, METH_VARARGS, NULL},
+    {"get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS, NULL},
+    {"is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS, NULL},
+    {"open", (PyCFunction) py_ped_device_open, METH_VARARGS, NULL},
+    {"close", (PyCFunction) py_ped_device_close, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_device_destroy, METH_VARARGS, NULL},
+    {"cache_remove", (PyCFunction) py_ped_device_cache_remove,
+                     METH_VARARGS, NULL},
+    {"begin_external_access", (PyCFunction) py_ped_device_begin_external_access,
+                              METH_VARARGS, NULL},
+    {"end_external_access", (PyCFunction) py_ped_device_end_external_access,
+                            METH_VARARGS, NULL},
+    {"read", (PyCFunction) py_ped_device_read, METH_VARARGS, NULL},
+    {"write", (PyCFunction) py_ped_device_write, METH_VARARGS, NULL},
+    {"sync", (PyCFunction) py_ped_device_sync, METH_VARARGS, NULL},
+    {"sync_fast", (PyCFunction) py_ped_device_sync_fast, METH_VARARGS, NULL},
+    {"check", (PyCFunction) py_ped_device_check, METH_VARARGS, NULL},
+    {"get_constraint", (PyCFunction) py_ped_device_get_constraint,
+                       METH_VARARGS, NULL},
     {NULL}
 };
 
@@ -166,24 +206,5 @@ static PyTypeObject _ped_Device_Type_obj = {
     .tp_init = (initproc) _ped_Device_init,
     .tp_new = _ped_Device_new,
 };
-
-/* 1:1 function mappings for device.h in libparted */
-PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args);
-PyObject *py_ped_device_free_all(PyObject *s, PyObject *args);
-PyObject *py_ped_device_get(PyObject *s, PyObject *args);
-PyObject *py_ped_device_get_next(PyObject *s, PyObject *args);
-PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args);
-PyObject *py_ped_device_open(PyObject *s, PyObject *args);
-PyObject *py_ped_device_close(PyObject *s, PyObject *args);
-PyObject *py_ped_device_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args);
-PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args);
-PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args);
-PyObject *py_ped_device_read(PyObject *s, PyObject *args);
-PyObject *py_ped_device_write(PyObject *s, PyObject *args);
-PyObject *py_ped_device_sync(PyObject *s, PyObject *args);
-PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args);
-PyObject *py_ped_device_check(PyObject *s, PyObject *args);
-PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args);
 
 #endif /* PYDEVICE_H_INCLUDED */
