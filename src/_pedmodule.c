@@ -739,6 +739,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(PartitionException);
     PyModule_AddObject(m, "PartitionException", PartitionException);
 
+    TimerException = PyErr_NewException("_ped.TimerException", NULL, NULL);
+    Py_INCREF(TimerException);
+    PyModule_AddObject(m, "TimerException", TimerException);
+
     UnknownDeviceException = PyErr_NewException("_ped.UnknownDeviceException",
                                                 NULL, NULL);
     Py_INCREF(UnknownDeviceException);
