@@ -56,6 +56,7 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Alignment()");
         return NULL;
     }
 
@@ -64,6 +65,7 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
     } else if (!strcmp(member, "grain_size")) {
         return PyLong_FromLongLong(self->grain_size);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Alignment object has no attribute %s", member);
         return NULL;
     }
 }
@@ -134,7 +136,7 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
 
     ret = ped_alignment_init(out_alignment, offset, grain_size);
     if (ret == 0) {
-        PyErr_SetString(AlignmentException, "Could not create new alignment");
+        PyErr_SetString(CreateException, "Could not create new alignment: grain_size must be >= 0");
         return NULL;
     }
 
@@ -160,7 +162,7 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(AlignmentException, "Could not create new alignment");
+        PyErr_SetString(CreateException, "Could not create new alignment");
         return NULL;
     }
 
@@ -208,7 +210,7 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(AlignmentException, "Could not duplicate alignment");
+        PyErr_SetString(CreateException, "Could not duplicate alignment");
         return NULL;
     }
 
@@ -246,7 +248,7 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(AlignmentException, "Could not find alignment intersection");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not find alignment intersection");
         return NULL;
     }
 
@@ -280,7 +282,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
 
     ret = ped_alignment_align_up(out_align, out_geom, sector);
     if (ret == -1) {
-        PyErr_SetString(AlignmentException, "Could not align");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not align up to sector");
         return NULL;
     }
 
@@ -313,7 +315,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
 
     ret = ped_alignment_align_down(out_align, out_geom, sector);
     if (ret == -1) {
-        PyErr_SetString(AlignmentException, "Could not align");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not align down to sector");
         return NULL;
     }
 
@@ -346,7 +348,7 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
 
     ret = ped_alignment_align_nearest(out_align, out_geom, sector);
     if (ret == -1) {
-        PyErr_SetString(AlignmentException, "Could not align");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not align to closest sector");
         return NULL;
     }
 

@@ -110,7 +110,5 @@
 
 - Exception handling:
       - Audit error messages to make them more useful.
-      - Convert all those "Could not create *" messages into a CreateExn.
-      - Create a MathException (or use ArithmeticException).
 
 ... and much much more

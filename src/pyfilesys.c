@@ -57,12 +57,14 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystemType()");
         return NULL;
     }
 
     if (!strcmp(member, "name")) {
         return PyString_FromString(self->name);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.FileSystemType object has no attribute %s", member);
         return NULL;
     }
 }
@@ -105,12 +107,14 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem()");
         return NULL;
     }
 
     if (!strcmp(member, "checked")) {
         return PyInt_FromLong(self->checked);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.FileSystem object has no attribute %s", member);
         return NULL;
     }
 }
@@ -285,7 +289,7 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_SetString(FileSystemException, "Failed to probe filesystem");
+            PyErr_SetString(FileSystemException, "Failed to find any filesystem in given geometry");
 
         return NULL;
     }
@@ -319,7 +323,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_SetString(FileSystemException, "Failed to clobber filesystem");
+            PyErr_SetString(FileSystemException, "Failed to clobber any filesystem in given geometry");
 
         return NULL;
     }
@@ -357,7 +361,7 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_SetString(FileSystemException, "Failed to open filesystem");
+            PyErr_SetString(FileSystemException, "Failed to open any filesystem in given geometry");
 
         return NULL;
     }
@@ -443,7 +447,7 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     ret = ped_file_system_close(out_fs);
 
     if (!ret) {
-        PyErr_SetString(FileSystemException, "Failed to close filesystem");
+        PyErr_Format(FileSystemException, "Failed to close filesystem type %s", out_fs->type->name);
         return NULL;
     }
 
@@ -540,7 +544,7 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_SetString(FileSystemException, "Failed to copy filesystem");
+            PyErr_Format(FileSystemException, "Failed to copy filesystem type %s", out_fs->type->name);
 
         return NULL;
     }
@@ -596,7 +600,7 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_SetString(FileSystemException, "Failed to resize filesystem");
+            PyErr_Format(FileSystemException, "Failed to resize filesystem type %s", out_fs->type->name);
 
         return NULL;
     }
@@ -636,7 +640,7 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_SetString(ConstraintException, "Failed to create constraint");
+        PyErr_Format(CreateException, "Failed to create constraint for filesystem type %s", out_fstype->name);
         return NULL;
     }
 
@@ -667,7 +671,7 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_SetString(ConstraintException, "Failed to create resize constraint");
+        PyErr_Format(CreateException, "Failed to create resize constraint for filesystem type %s", out_fs->type->name);
         return NULL;
     }
 
@@ -704,7 +708,7 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_SetString(ConstraintException, "Failed to create copy constraint");
+        PyErr_Format(CreateException, "Failed to create copy constraint for filesystem type %s", out_fs->type->name);
         return NULL;
     }
 

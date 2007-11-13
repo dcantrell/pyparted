@@ -56,6 +56,7 @@ PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Timer()");
         return NULL;
     }
 
@@ -70,6 +71,7 @@ PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
     } else if (!strcmp(member, "state_name")) {
         return Py_BuildValue("s", self->state_name);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);
         return NULL;
     }
 }
@@ -130,7 +132,7 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(TimerException, "Could not create new nested timer");
+        PyErr_SetString(CreateException, "Could not create new nested timer");
         return NULL;
     }
 
