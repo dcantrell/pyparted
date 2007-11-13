@@ -65,10 +65,8 @@
 
       device_get()
       disk_type_get()
-      disk_type_get_next()
       error()
       exception_set_handler()
-      file_system_type_get_next()
 
 - Handle exceptions from libparted and pass to Python as necessary.  These
   are all of the PED_ASSERT things in libparted.
