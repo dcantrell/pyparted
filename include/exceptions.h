@@ -33,6 +33,7 @@ PyObject *IOException;
 PyObject *NotNeededException;
 PyObject *PartedException;
 PyObject *PartitionException;
+PyObject *TimerException;
 PyObject *UnknownDeviceException;
 PyObject *UnknownTypeException;
 
