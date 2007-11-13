@@ -86,8 +86,6 @@
 
 - Make sure _ped module has Python docstrings galore
 
-- Add set methods for all the C primitives.
-
 - Error handling in the get and set methods.
 
 - More error handling and exn raising in:
