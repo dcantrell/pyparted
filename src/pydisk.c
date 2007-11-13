@@ -543,7 +543,7 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
 }
 
 PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
-    PyObject *in_disk, *in_fs_type, *in_start, *in_end;
+    PyObject *in_disk, *in_fs_type;
     PedDisk *out_disk = NULL;
     PedPartitionType type;
     PedFileSystemType *out_fs_type = NULL;
@@ -809,7 +809,6 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
     char *name;
-    PedPartitionFlag flag;
 
     if (!PyArg_ParseTuple(args, "s", &name)) {
         return NULL;
@@ -923,7 +922,7 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
-    PyObject *in_disk, *in_part, *in_constraint, *in_start, *in_end;
+    PyObject *in_disk, *in_part, *in_constraint;
     PedDisk *out_disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;

@@ -9,7 +9,7 @@
  * the GNU General Public License v.2, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY expressed or implied, including the implied warranties of
- * MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.  You should have received a copy of the
  * GNU General Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -63,6 +63,7 @@ PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Constraint()");
         return NULL;
     }
 
@@ -71,6 +72,7 @@ PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
     } else if (!strcmp(member, "max_size")) {
         return PyLong_FromLongLong(self->max_size);
     } else {
+        PyErr_Format(PyExc_TypeError, "Unknown member given for _ped.Constraint: %s", member);
         return NULL;
     }
 }
@@ -79,6 +81,7 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Constraint()");
         return -1;
     }
 
@@ -93,6 +96,7 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_TypeError, "Unknown member given for _ped.Constraint: %s", member);
         return -1;
     }
 
@@ -119,10 +123,29 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if(out_constraint == NULL) {
+        return NULL;
+    }
+
     out_start_align = _ped_Alignment2PedAlignment(in_start_align);
+    if (out_start_align == NULL) {
+        return NULL;
+    }
+
     out_end_align = _ped_Alignment2PedAlignment(in_end_align);
+    if (out_end_align == NULL) {
+        return NULL;
+    }
+
     out_start_range = _ped_Geometry2PedGeometry(in_start_range);
+    if (out_start_range == NULL) {
+        return NULL;
+    }
+
     out_end_range = _ped_Geometry2PedGeometry(in_end_range);
+    if (out_end_range == NULL) {
+        return NULL;
+    }
 
     ret = ped_constraint_init(out_constraint, out_start_align, out_end_align,
                               out_start_range, out_end_range,
@@ -159,15 +182,33 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
     }
 
     out_start_align = _ped_Alignment2PedAlignment(in_start_align);
+    if (out_start_align == NULL) {
+        return NULL;
+    }
+
     out_end_align = _ped_Alignment2PedAlignment(in_end_align);
+    if (out_end_align == NULL) {
+        return NULL;
+    }
+
     out_start_range = _ped_Geometry2PedGeometry(in_start_range);
+    if (out_start_range == NULL) {
+        return NULL;
+    }
+
     out_end_range = _ped_Geometry2PedGeometry(in_end_range);
+    if (out_end_range == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_new(out_start_align, out_end_align,
                                     out_start_range, out_end_range,
                                     min_size, max_size);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create new constraint");
@@ -195,11 +236,21 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
     }
 
     out_min = _ped_Geometry2PedGeometry(in_min);
+    if (out_min == NULL) {
+        return NULL;
+    }
+
     out_max = _ped_Geometry2PedGeometry(in_max);
+    if (out_max == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_new_from_min_max(out_min, out_max);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create new constraint");
@@ -224,10 +275,16 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
     }
 
     out_min = _ped_Geometry2PedGeometry(in_min);
+    if (out_min == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_new_from_min(out_min);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create new constraint");
@@ -251,10 +308,16 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     }
 
     out_max = _ped_Geometry2PedGeometry(in_max);
+    if (out_max == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_new_from_max(out_max);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create new constraint");
@@ -278,10 +341,16 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_duplicate(out_constraint);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not duplicate constraint");
@@ -304,6 +373,10 @@ PyObject *py_ped_constraint_done(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
     ped_constraint_done(out_constraint);
     ped_constraint_destroy(out_constraint);
 
@@ -321,6 +394,10 @@ PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
     ped_constraint_destroy(out_constraint);
 
     Py_INCREF(Py_None);
@@ -339,11 +416,21 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
     }
 
     out_constraintA = _ped_Constraint2PedConstraint(in_constraintA);
+    if (out_constraintA == NULL) {
+        return NULL;
+    }
+
     out_constraintB = _ped_Constraint2PedConstraint(in_constraintB);
+    if (out_constraintB == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_intersect(out_constraintA, out_constraintB);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not find constraint intersection");
@@ -369,10 +456,16 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
 
     geometry = ped_constraint_solve_max(out_constraint);
     if (geometry) {
         ret = PedGeometry2_ped_Geometry(geometry);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         if (partedExnRaised) {
@@ -407,11 +500,21 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
+    if (out_geometry == NULL) {
+        return NULL;
+    }
 
     geometry = ped_constraint_solve_nearest(out_constraint, out_geometry);
     if (geometry) {
         ret = PedGeometry2_ped_Geometry(geometry);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not solve constraint");
@@ -438,7 +541,14 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     }
 
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
+    if (out_geometry == NULL) {
+        return NULL;
+    }
 
     ret = ped_constraint_is_solution(out_constraint, out_geometry);
 
@@ -459,10 +569,16 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
     }
 
     out_device = _ped_Device2PedDevice(in_device);
+    if (out_device == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_any(out_device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create constraint");
@@ -486,10 +602,16 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
     }
 
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
+    if (out_geometry == NULL) {
+        return NULL;
+    }
 
     constraint = ped_constraint_exact(out_geometry);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
     }
     else {
         PyErr_SetString(ConstraintException, "Could not create constraint");
