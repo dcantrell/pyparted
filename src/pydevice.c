@@ -47,7 +47,9 @@ int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
     return 0;
 }
 
-PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member) {
+PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -61,6 +63,12 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
+                         void *closure) {
+
+    return 0;
 }
 
 /* _ped.Device functions */

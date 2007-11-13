@@ -53,15 +53,20 @@ PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
                                PyObject *kwds);
 int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
                           PyObject *kwds);
-PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member);
+PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure);
+int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
+                         void *closure);
 
 static PyGetSetDef _ped_CHSGeometry_getset[] = {
-    {"cylinders", (getter) _ped_CHSGeometry_get, NULL,
+    {"cylinders", (getter) _ped_CHSGeometry_get,
+                  (setter) _ped_CHSGeometry_set,
                   "CHSGeometry cylinders", "cylinders"},
-    {"heads", (getter) _ped_CHSGeometry_get, NULL,
-                  "CHSGeometry heads", "heads"},
-    {"sectors", (getter) _ped_CHSGeometry_get, NULL,
-                  "CHSGeometry sectors", "sectors"},
+    {"heads", (getter) _ped_CHSGeometry_get,
+              (setter) _ped_CHSGeometry_set,
+              "CHSGeometry heads", "heads"},
+    {"sectors", (getter) _ped_CHSGeometry_get,
+                (setter) _ped_CHSGeometry_set,
+                "CHSGeometry sectors", "sectors"},
     {NULL}  /* Sentinel */
 };
 
