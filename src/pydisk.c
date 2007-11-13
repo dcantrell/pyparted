@@ -61,6 +61,7 @@ PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Partition()");
         return NULL;
     }
 
@@ -69,6 +70,7 @@ PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
     } else if (!strcmp(member, "type")) {
         return PyLong_FromLongLong(self->type);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Partition object has no attribute %s", member);
         return NULL;
     }
 }
@@ -77,7 +79,8 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Partition()");
+        return -1;
     }
 
     if (!strcmp(member, "num")) {
@@ -91,6 +94,7 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Partition object has no attribute %s", member);
         return -1;
     }
 
@@ -148,6 +152,7 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskType()");
         return NULL;
     }
 
@@ -156,6 +161,7 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     } else if (!strcmp(member, "features")) {
         return PyLong_FromLongLong(self->features);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.DiskType object has no attribute %s", member);
         return NULL;
     }
 }
@@ -164,7 +170,8 @@ int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskType()");
+        return -1;
     }
 
     if (!strcmp(member, "name")) {
@@ -178,6 +185,7 @@ int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.DiskType object has no attribute %s", member);
         return -1;
     }
 
@@ -194,6 +202,10 @@ PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args) {
     }
 
     out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    if (out_disktype == NULL) {
+        return NULL;
+    }
+
     ped_disk_type_register(out_disktype);
     /* do not free out_disktype here because it's now in libparted's list */
 
@@ -210,6 +222,10 @@ PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
     }
 
     out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    if (out_disktype == NULL) {
+        return NULL;
+    }
+
     ped_disk_type_unregister(out_disktype);
     free(out_disktype);
 
@@ -260,6 +276,10 @@ PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
         }
 
         ret = PedDiskType2_ped_DiskType(out_type);
+        if (ret == NULL) {
+            return NULL;
+        }
+
     }
 
     return (PyObject *) ret;
@@ -281,6 +301,9 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
         ret = ped_disk_type_check_feature(out_disktype, feature);
         free(out_disktype);
     }
+    else {
+        return NULL;
+    }
 
     return PyBool_FromLong(ret);
 }
@@ -298,7 +321,16 @@ PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
     out_device = _ped_Device2PedDevice(in_device);
     if (in_device) {
         out_type = ped_disk_probe(out_device);
+        if (out_type == NULL) {
+            PyErr_Format(IOException, "Could not probe device %s", out_device->path);
+            return NULL;
+        }
+
         ret = PedDiskType2_ped_DiskType(out_type);
+        if (ret == NULL) {
+            return NULL;
+        }
+
         free(out_type);
     }
 
@@ -317,7 +349,15 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
     out_device = _ped_Device2PedDevice(in_device);
     if (out_device) {
         ret = ped_disk_clobber(out_device);
+        if (ret == 0) {
+            PyErr_Format(DiskException, "Failed to clobber partition table on device %s", out_device->path);
+            return NULL;
+        }
+
         ped_device_destroy(out_device);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -335,13 +375,23 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
     }
 
     out_device = _ped_Device2PedDevice(in_device);
-    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
-
-    if (out_device && out_disktype) {
-        ret = ped_disk_clobber_exclude(out_device, out_disktype);
-        ped_device_destroy(out_device);
-        free(out_disktype);
+    if (out_device == NULL) {
+        return NULL;
     }
+
+    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    if (out_disktype == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_clobber_exclude(out_device, out_disktype);
+    if (ret == 0) {
+        PyErr_Format(DiskException, "Failed to clobber partition table on device %s", out_device->path);
+        return NULL;
+    }
+
+    ped_device_destroy(out_device);
+    free(out_disktype);
 
     return PyBool_FromLong(ret);
 }
@@ -359,9 +409,29 @@ PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
     pass_device = _ped_Device2PedDevice(in_device);
     if (pass_device) {
         out_disk = ped_disk_new(pass_device);
+        if (out_disk == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(IOException, "Failed to read partition table from device %s", pass_device->path);
+
+            return NULL;
+        }
+
         ret = PedDisk2_ped_Disk(out_disk);
+        if (ret == NULL) {
+            return NULL;
+        }
+
         ped_device_destroy(pass_device);
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return (PyObject *) ret;
@@ -380,15 +450,37 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
     }
 
     pass_device = _ped_Device2PedDevice(in_device);
-    pass_disktype = _ped_DiskType2PedDiskType(in_disktype);
-    if (pass_device && pass_disktype) {
-        out_disk = ped_disk_new_fresh(pass_device, pass_disktype);
-        ret = PedDisk2_ped_Disk(out_disk);
-
-        ped_device_destroy(pass_device);
-        free(pass_disktype);
-        ped_disk_destroy(out_disk);
+    if (pass_device == NULL) {
+        return NULL;
     }
+
+    pass_disktype = _ped_DiskType2PedDiskType(in_disktype);
+    if (pass_disktype == NULL) {
+        return NULL;
+    }
+
+    out_disk = ped_disk_new_fresh(pass_device, pass_disktype);
+    if (out_disk == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not create new partition table on device %s", pass_device->path);
+
+        return NULL;
+    }
+
+    ret = PedDisk2_ped_Disk(out_disk);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ped_device_destroy(pass_device);
+    free(pass_disktype);
+    ped_disk_destroy(out_disk);
 
     return (PyObject *) ret;
 }
@@ -405,10 +497,29 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         pass_disk = ped_disk_duplicate(out_disk);
+        if (pass_disk == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(DiskException, "Could not duplicate device %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ret = PedDisk2_ped_Disk(pass_disk);
+        if (ret == NULL) {
+            return NULL;
+        }
 
         ped_disk_destroy(out_disk);
         ped_disk_destroy(pass_disk);
+    }
+    else {
+        return NULL;
     }
 
     return (PyObject *) ret;
@@ -425,6 +536,9 @@ PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     Py_INCREF(Py_None);
@@ -443,7 +557,23 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_commit(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(DiskException, "Could not commit to disk %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -461,7 +591,23 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_commit_to_dev(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(DiskException, "Could not commit to disk %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -479,7 +625,23 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_commit_to_os(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(DiskException, "Could not commit to disk %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -497,7 +659,23 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_check(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(IOException, partedExnMessage);
+            }
+            else
+                PyErr_Format(DiskException, "Could not check disk %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -515,6 +693,9 @@ PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
     if (out_disk) {
         ped_disk_print(out_disk);
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     Py_INCREF(Py_None);
@@ -535,6 +716,9 @@ PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
         ret = ped_disk_get_primary_partition_count(out_disk);
         ped_disk_destroy(out_disk);
     }
+    else {
+        return NULL;
+    }
 
     return PyInt_FromLong(ret);
 }
@@ -552,6 +736,9 @@ PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
     if (out_disk) {
         ret = ped_disk_get_last_partition_num(out_disk);
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyInt_FromLong(ret);
@@ -571,6 +758,9 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
     if (out_disk) {
         ret = ped_disk_get_max_primary_partition_count(out_disk);
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyInt_FromLong(ret);
@@ -592,14 +782,35 @@ PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_fs_type = _ped_FileSystemType2PedFileSystemType(in_fs_type);
-
-    if (out_disk && type && out_fs_type && start && end) {
-        pass_part = ped_partition_new(out_disk, type, out_fs_type, start, end);
-        ret = PedPartition2_ped_Partition(pass_part);
-
-        ped_disk_destroy(out_disk);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_fs_type = _ped_FileSystemType2PedFileSystemType(in_fs_type);
+    if (out_fs_type == NULL) {
+        return NULL;
+    }
+
+    pass_part = ped_partition_new(out_disk, type, out_fs_type, start, end);
+    if (pass_part == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not create new partition on device %s", out_disk->dev->path);
+
+        return NULL;
+    }
+
+    ret = PedPartition2_ped_Partition(pass_part);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
 
     return (PyObject *) ret;
 }
@@ -616,6 +827,9 @@ PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
     out_partition = _ped_Partition2PedPartition(in_partition);
     if (out_partition) {
         ped_partition_destroy(out_partition);
+    }
+    else {
+        return NULL;
     }
 
     Py_INCREF(Py_None);
@@ -637,6 +851,9 @@ PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
         ret = ped_partition_is_active(out_partition);
         ped_partition_destroy(out_partition);
     }
+    else {
+        return NULL;
+    }
 
     return PyBool_FromLong(ret);
 }
@@ -654,9 +871,24 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
     }
 
     out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
 
     if (out_part && flag && in_state > -1) {
         ret = ped_partition_set_flag(out_part, flag, in_state);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(PartitionException, partedExnMessage);
+            }
+            else
+                PyErr_Format(PartitionException, "Could not set flag on partition %s%s", out_part->disk, out_part->num);
+
+            return NULL;
+        }
 
         ped_partition_destroy(out_part);
     }
@@ -676,12 +908,12 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     }
 
     out_part = _ped_Partition2PedPartition(in_part);
-
-    if (out_part && flag) {
-        ret = ped_partition_get_flag(out_part, flag);
-
-        ped_partition_destroy(out_part);
+    if (out_part == NULL) {
+        return NULL;
     }
+
+    ret = ped_partition_get_flag(out_part, flag);
+    ped_partition_destroy(out_part);
 
     return PyInt_FromLong(ret);
 }
@@ -698,12 +930,12 @@ PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     }
 
     out_part = _ped_Partition2PedPartition(in_part);
-
-    if (out_part && flag) {
-        ret = ped_partition_is_flag_available(out_part, flag);
-
-        ped_partition_destroy(out_part);
+    if (out_part == NULL) {
+        return NULL;
     }
+
+    ret = ped_partition_is_flag_available(out_part, flag);
+    ped_partition_destroy(out_part);
 
     return PyBool_FromLong(ret);
 }
@@ -720,13 +952,22 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
     }
 
     out_part = _ped_Partition2PedPartition(in_part);
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-
-    if (out_part && out_fstype) {
-        ret = ped_partition_set_system(out_part, out_fstype);
-
-        ped_partition_destroy(out_part);
+    if (out_part == NULL) {
+        return NULL;
     }
+
+    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (out_fstype == NULL) {
+        return NULL;
+    }
+
+    ret = ped_partition_set_system(out_part, out_fstype);
+    if (ret == 0) {
+        PyErr_Format(PartitionException, "Could not set system flag on partition %s%s", out_part->disk, out_part->num);
+        return NULL;
+    }
+
+    ped_partition_destroy(out_part);
 
     return PyBool_FromLong(ret);
 }
@@ -745,7 +986,23 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part) {
         ret = ped_partition_set_name(out_part, in_name);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(PartitionException, partedExnMessage);
+            }
+            else
+                PyErr_Format(PartitionException, "Could not set name on partition %s%s", out_part->disk, out_part->num);
+
+            return NULL;
+        }
+
         ped_partition_destroy(out_part);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -763,7 +1020,23 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part) {
         ret = (char *) ped_partition_get_name(out_part);
+        if (ret == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(PartitionException, partedExnMessage);
+            }
+            else
+                PyErr_Format(PartitionException, "Could not read name on partition %s%s", out_part->disk, out_part->num);
+
+            return NULL;
+        }
+
         ped_partition_destroy(out_part);
+    }
+    else {
+        return NULL;
     }
 
     return PyString_FromString(ret);
@@ -783,6 +1056,9 @@ PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
         ret = ped_partition_is_busy(out_part);
         ped_partition_destroy(out_part);
     }
+    else {
+        return NULL;
+    }
 
     return PyBool_FromLong(ret);
 }
@@ -799,7 +1075,15 @@ PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part) {
         ret = ped_partition_get_path(out_part);
+        if (ret == NULL) {
+            PyErr_Format(PartitionException, "Could not get path for partition %s%s", out_part->disk, out_part->num);
+            return NULL;
+        }
+
         ped_partition_destroy(out_part);
+    }
+    else {
+        return NULL;
     }
 
     return PyString_FromString(ret);
@@ -875,16 +1159,37 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-
-    if (out_disk && out_part && out_constraint) {
-        ret = ped_disk_add_partition(out_disk, out_part, out_constraint);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
-        ped_constraint_destroy(out_constraint);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_add_partition(out_disk, out_part, out_constraint);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not create partition %s%s", out_part->disk, out_part->num);
+
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
+    ped_constraint_destroy(out_constraint);
 
     return PyBool_FromLong(ret);
 }
@@ -901,14 +1206,31 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-
-    if (out_disk && out_part) {
-        ret = ped_disk_remove_partition(out_disk, out_part);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_remove_partition(out_disk, out_part);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not remove partition %s%s", out_part->disk, out_part->num);
+
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
 
     return PyBool_FromLong(ret);
 }
@@ -925,14 +1247,31 @@ PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-
-    if (out_disk && out_part) {
-        ret = ped_disk_delete_partition(out_disk, out_part);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_delete_partition(out_disk, out_part);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not remove partition %s%s", out_part->disk, out_part->num);
+
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
 
     return PyBool_FromLong(ret);
 }
@@ -949,7 +1288,23 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_delete_all(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(PartitionException, partedExnMessage);
+            }
+            else
+                PyErr_Format(PartitionException, "Could not remove all partitions on %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -971,17 +1326,38 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-
-    if (out_disk && out_part && out_constraint && start && end) {
-        ret = ped_disk_set_partition_geom(out_disk, out_part, out_constraint,
-                                          start, end);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
-        ped_constraint_destroy(out_constraint);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_set_partition_geom(out_disk, out_part, out_constraint,
+                                      start, end);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not set geometry on %s%s", out_disk->dev->path, out_part->num);
+
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
+    ped_constraint_destroy(out_constraint);
 
     return PyBool_FromLong(ret);
 }
@@ -1000,16 +1376,37 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-
-    if (out_disk && out_part && out_constraint) {
-        ret = ped_disk_maximize_partition(out_disk, out_part, out_constraint);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
-        ped_constraint_destroy(out_constraint);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_maximize_partition(out_disk, out_part, out_constraint);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not maximize partition size for %s%s", out_disk->dev->path, out_part->num);
+
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
+    ped_constraint_destroy(out_constraint);
 
     return PyBool_FromLong(ret);
 }
@@ -1029,19 +1426,44 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-
-    if (out_disk && out_part && out_constraint) {
-        pass_geom = ped_disk_get_max_partition_geometry(out_disk, out_part,
-                                                        out_constraint);
-        ret = PedGeometry2_ped_Geometry(pass_geom);
-
-        ped_geometry_destroy(pass_geom);
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
-        ped_constraint_destroy(out_constraint);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+    if (out_constraint == NULL) {
+        return NULL;
+    }
+
+    pass_geom = ped_disk_get_max_partition_geometry(out_disk, out_part,
+                                                    out_constraint);
+    if (pass_geom == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        }
+        else
+            PyErr_Format(PartitionException, "Could not get maximum partition size for %s%s", out_disk->dev->path, out_part->num);
+
+        return NULL;
+    }
+
+    ret = PedGeometry2_ped_Geometry(pass_geom);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ped_geometry_destroy(pass_geom);
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
+    ped_constraint_destroy(out_constraint);
 
     return (PyObject *) ret;
 }
@@ -1058,7 +1480,23 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         ret = ped_disk_minimize_extended_partition(out_disk);
+        if (ret == 0) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException))
+                    PyErr_SetString(PartitionException, partedExnMessage);
+            }
+            else
+                PyErr_Format(PartitionException, "Could not shrink extended partition on %s", out_disk->dev->path);
+
+            return NULL;
+        }
+
         ped_disk_destroy(out_disk);
+    }
+    else {
+        return NULL;
     }
 
     return PyBool_FromLong(ret);
@@ -1077,16 +1515,29 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-    out_part = _ped_Partition2PedPartition(in_part);
-
-    if (out_disk && out_part) {
-        pass_part = ped_disk_next_partition(out_disk, out_part);
-        ret = PedPartition2_ped_Partition(pass_part);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(out_part);
-        ped_partition_destroy(pass_part);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    out_part = _ped_Partition2PedPartition(in_part);
+    if (out_part == NULL) {
+        return NULL;
+    }
+
+    pass_part = ped_disk_next_partition(out_disk, out_part);
+    if (pass_part == NULL) {
+        PyErr_SetNone(PyExc_IndexError);
+        return NULL;
+    }
+
+    ret = PedPartition2_ped_Partition(pass_part);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(out_part);
+    ped_partition_destroy(pass_part);
 
     return (PyObject *) ret;
 }
@@ -1105,10 +1556,21 @@ PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         pass_part = ped_disk_get_partition(out_disk, num);
+        if (pass_part == NULL) {
+            PyErr_SetString(PartitionException, "Partition does not exist");
+            return NULL;
+        }
+
         ret = PedPartition2_ped_Partition(pass_part);
+        if (ret == NULL) {
+            return NULL;
+        }
 
         ped_disk_destroy(out_disk);
         ped_partition_destroy(pass_part);
+    }
+    else {
+        return NULL;
     }
 
     return (PyObject *) ret;
@@ -1126,14 +1588,23 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
     }
 
     out_disk = _ped_Disk2PedDisk(in_disk);
-
-    if (out_disk && sector) {
-        pass_part = ped_disk_get_partition_by_sector(out_disk, sector);
-        ret = PedPartition2_ped_Partition(pass_part);
-
-        ped_disk_destroy(out_disk);
-        ped_partition_destroy(pass_part);
+    if (out_disk == NULL) {
+        return NULL;
     }
+
+    pass_part = ped_disk_get_partition_by_sector(out_disk, sector);
+    if (pass_part == NULL) {
+        PyErr_SetString(PartitionException, "Partition does not exist");
+        return NULL;
+    }
+
+    ret = PedPartition2_ped_Partition(pass_part);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ped_disk_destroy(out_disk);
+    ped_partition_destroy(pass_part);
 
     return (PyObject *) ret;
 }
@@ -1151,10 +1622,21 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
     out_disk = _ped_Disk2PedDisk(in_disk);
     if (out_disk) {
         pass_part = ped_disk_extended_partition(out_disk);
+        if (pass_part == NULL) {
+            PyErr_SetString(PartitionException, "Extended partition does not exist");
+            return NULL;
+        }
+
         ret = PedPartition2_ped_Partition(pass_part);
+        if (ret == NULL) {
+            return NULL;
+        }
 
         ped_disk_destroy(out_disk);
         ped_partition_destroy(pass_part);
+    }
+    else {
+        return NULL;
     }
 
     return (PyObject *) ret;

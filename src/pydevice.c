@@ -25,6 +25,7 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pyconstraint.h"
 #include "pydevice.h"
 
@@ -57,6 +58,7 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.CHSGeometry()");
         return NULL;
     }
 
@@ -67,6 +69,7 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
     } else if (!strcmp(member, "sectors")) {
         return Py_BuildValue("i", self->sectors);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.CHSGeometry object has no attribute %s", member);
         return NULL;
     }
 }
@@ -76,6 +79,7 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.CHSGeometry()");
         return -1;
     }
 
@@ -95,6 +99,7 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.CHSGeometry object has no attribute %s", member);
         return -1;
     }
 
@@ -137,6 +142,7 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Device()");
         return NULL;
     }
 
@@ -167,6 +173,7 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
     } else if (!strcmp(member, "did")) {
         return Py_BuildValue("h", self->did);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Device object has no attribute %s", member);
         return NULL;
     }
 }
@@ -175,7 +182,8 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Device()");
+        return -1;
     }
 
     if (!strcmp(member, "model")) {
@@ -242,6 +250,7 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Device object has no attribute %s", member);
         return -1;
     }
 
@@ -288,6 +297,10 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     if (device) {
         ret = PedDevice2_ped_Device(device);
     }
+    else {
+        PyErr_Format(DiskException, "Could not find device for path %s", path);
+        return NULL;
+    }
 
     free(path);
     ped_device_destroy(device);
@@ -312,6 +325,10 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
     device = ped_device_get_next(out_device);
     if (device) {
         ret = PedDevice2_ped_Device(device);
+    }
+    else {
+        PyErr_SetNone(PyExc_IndexError);
+        return NULL;
     }
 
     ped_device_destroy(out_device);
@@ -354,6 +371,19 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_open(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not open device %s", out_device->path);
+
+        return NULL;
+    }
+
     ped_device_destroy(out_device);
     return PyBool_FromLong(ret);
 }
@@ -373,6 +403,19 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_close(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not close device %s", out_device->path);
+
+        return NULL;
+    }
+
     ped_device_destroy(out_device);
     return PyBool_FromLong(ret);
 }
@@ -432,6 +475,18 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_begin_external_access(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not begin external access mode on device %s", out_device->path);
+
+        return NULL;
+    }
 
     ped_device_destroy(out_device);
 
@@ -453,6 +508,18 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_end_external_access(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not end external access mode on device %s", out_device->path);
+
+        return NULL;
+    }
 
     ped_device_destroy(out_device);
 
@@ -481,6 +548,19 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_read(out_dev, out_buf, start, count);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not read from device %s", out_dev->path);
+
+        return NULL;
+    }
+
     ped_device_destroy(out_dev);
 
     return PyLong_FromLongLong(ret);
@@ -508,6 +588,19 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_write(out_dev, out_buf, start, count);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not write to device %s", out_dev->path);
+
+        return NULL;
+    }
+
     ped_device_destroy(out_dev);
 
     return PyLong_FromLongLong(ret);
@@ -528,6 +621,18 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_sync(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not sync device %s", out_device->path);
+
+        return NULL;
+    }
 
     ped_device_destroy(out_device);
 
@@ -549,6 +654,18 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_sync_fast(out_device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(IOException, "Could not sync device %s", out_device->path);
+
+        return NULL;
+    }
 
     ped_device_destroy(out_device);
 
@@ -600,6 +717,13 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
     constraint = ped_device_get_constraint(out_device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
+        if (ret == NULL) {
+            return NULL;
+        }
+    }
+    else {
+        PyErr_SetString(CreateException, "Could not create constraint");
+        return NULL;
     }
 
     ped_device_destroy(out_device);
