@@ -72,7 +72,7 @@ PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
     } else if (!strcmp(member, "max_size")) {
         return PyLong_FromLongLong(self->max_size);
     } else {
-        PyErr_Format(PyExc_TypeError, "Unknown member given for _ped.Constraint: %s", member);
+        PyErr_Format(PyExc_AttributeError, "_ped.Constraint object has no attribute %s", member);
         return NULL;
     }
 }
@@ -96,7 +96,7 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
-        PyErr_Format(PyExc_TypeError, "Unknown member given for _ped.Constraint: %s", member);
+        PyErr_Format(PyExc_AttributeError, "_ped.Constraint object has no attribute %s", member);
         return -1;
     }
 
@@ -152,7 +152,7 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
                               min_size, max_size);
 
     if (ret == 0) {
-        PyErr_SetString(ConstraintException, "Could not create new constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint");
         return NULL;
     }
 
@@ -211,7 +211,7 @@ PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create new constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint");
         return NULL;
     }
 
@@ -253,7 +253,7 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create new constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint from min/max");
         return NULL;
     }
 
@@ -287,7 +287,7 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create new constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint from min");
         return NULL;
     }
 
@@ -320,7 +320,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create new constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint from max");
         return NULL;
     }
 
@@ -353,7 +353,7 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not duplicate constraint");
+        PyErr_SetString(CreateException, "Could not duplicate constraint");
         return NULL;
     }
 
@@ -433,7 +433,7 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not find constraint intersection");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not find constraint intersection");
         return NULL;
     }
 
@@ -475,7 +475,7 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
                 PyErr_SetString(ConstraintException, partedExnMessage);
         }
         else
-            PyErr_SetString(ConstraintException, "Could not solve constraint");
+            PyErr_SetString(PyExc_ArithmeticError, "Could not find largest region satisfying constraint");
 
         return NULL;
     }
@@ -517,7 +517,7 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not solve constraint");
+        PyErr_SetString(PyExc_ArithmeticError, "Could not find region nearest to constraint for given geometry");
         return NULL;
     }
 
@@ -581,7 +581,7 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create constraint");
+        PyErr_SetString(CreateException, "Could not create new constraint");
         return NULL;
     }
 
@@ -614,7 +614,7 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
         }
     }
     else {
-        PyErr_SetString(ConstraintException, "Could not create constraint");
+        PyErr_SetString(CreateException, "Could not create exact constraint");
         return NULL;
     }
 
