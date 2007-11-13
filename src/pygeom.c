@@ -42,8 +42,14 @@ PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
-    /* XXX */
-    return 0;
+    static char *kwlist[] = {"dev", "start", "length", "end", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!lll", kwlist,
+                                     &_ped_Device_Type_obj, &self->dev,
+                                     &self->start, &self->length, &self->end))
+        return -1;
+    else
+        return 0;
 }
 
 PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member) {

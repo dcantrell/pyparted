@@ -64,11 +64,8 @@
           duplicate()
 
       device_get()
-      disk_type_get()
-      disk_type_get_next()
       error()
       exception_set_handler()
-      file_system_type_get_next()
 
 - Handle exceptions from libparted and pass to Python as necessary.  These
   are all of the PED_ASSERT things in libparted.
@@ -101,8 +98,6 @@
       pytimer.c
 
 - Where integers are used as booleans, use PyBool_FromLong.
-
-- Fill in _init methods, decide about kwargs, etc.
 
 - Move each module's methods out of the main MethodDef in _pedmodule.c into
   the _ped_Whatever_methods lists.
