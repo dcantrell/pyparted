@@ -137,7 +137,7 @@ PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
     PyObject *in_geometry;
-    PedGeometry *out_geometry, *geometry, *geom;
+    PedGeometry *out_geometry, *geom;
     _ped_Geometry *ret;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geometry)) {
@@ -468,8 +468,7 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
-    PyObject *in_geom, *in_buf;
-    PyObject *in_count, *in_timer = NULL;
+    PyObject *in_geom, *in_buf, *in_timer = NULL;
     PedGeometry *out_geom;
     void *out_buf;
     PedSector buffer_size, offset, granularity, count, ret;
