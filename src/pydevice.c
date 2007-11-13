@@ -73,6 +73,30 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
 
 int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
                          void *closure) {
+    char *member = (char *) closure;
+
+    if (member == NULL) {
+        return -1;
+    }
+
+    if (!strcmp(member, "cylinders")) {
+        self->cylinders = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "heads")) {
+        self->heads = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "sectors")) {
+        self->sectors = PyInt_AsLong(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
 
     return 0;
 }
@@ -109,7 +133,9 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_Device_get(_ped_Device *self, char *member) {
+PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -143,6 +169,13 @@ PyObject *_ped_Device_get(_ped_Device *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for device.h in libparted */

@@ -51,7 +51,9 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_Timer_get(_ped_Timer *self, char *member) {
+PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -69,6 +71,13 @@ PyObject *_ped_Timer_get(_ped_Timer *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for timer.h in libparted */

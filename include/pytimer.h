@@ -55,19 +55,20 @@ static PyMethodDef _ped_Timer_methods[] = {
 void _ped_Timer_dealloc(_ped_Timer *self);
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Timer_get(_ped_Timer *self, char *member);
+PyObject *_ped_Timer_get(_ped_Timer *self, void *closure);
+int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Timer_getset[] = {
-    {"frac", (getter) _ped_Timer_get, NULL,
+    {"frac", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
              "PedTimer frac", "frac"},
-    {"start", (getter) _ped_Timer_get, NULL,
-             "PedTimer.start", "start"},
-    {"now", (getter) _ped_Timer_get, NULL,
-             "PedTimer.now", "now"},
-    {"predicted_end", (getter) _ped_Timer_get, NULL,
-             "PedTimer.predicted_end", "predicted_end"},
-    {"state_name", (getter) _ped_Timer_get, NULL,
-             "PedTimer.state_name", "state_name"},
+    {"start", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+              "PedTimer.start", "start"},
+    {"now", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+            "PedTimer.now", "now"},
+    {"predicted_end", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+                      "PedTimer.predicted_end", "predicted_end"},
+    {"state_name", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+                   "PedTimer.state_name", "state_name"},
     {NULL}  /* Sentinel */
 };
 

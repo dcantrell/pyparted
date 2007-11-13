@@ -58,13 +58,14 @@ void _ped_Partition_dealloc(_ped_Partition *self);
 PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds);
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Partition_get(_ped_Partition *self, char *member);
+PyObject *_ped_Partition_get(_ped_Partition *self, void *closure);
+int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Partition_getset[] = {
-    {"num", (getter) _ped_Partition_get, NULL,
+    {"num", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
             "PedPartition num", "num"},
-    {"type", (getter) _ped_Partition_get, NULL,
-            "PedPartition type", "type"},
+    {"type", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
+             "PedPartition type", "type"},
     {NULL}  /* Sentinel */
 };
 
@@ -144,13 +145,14 @@ static PyMethodDef _ped_DiskType_methods[] = {
 void _ped_DiskType_dealloc(_ped_DiskType *self);
 PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member);
+PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
+int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_DiskType_getset[] = {
-    {"name", (getter) _ped_DiskType_get, NULL,
+    {"name", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
              "DiskType name", "name"},
-    {"features", (getter) _ped_DiskType_get, NULL,
-             "DiskType features", "features"},
+    {"features", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
+                 "DiskType features", "features"},
     {NULL}  /* Sentinel */
 };
 
