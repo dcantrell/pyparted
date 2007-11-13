@@ -165,7 +165,7 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
         return (PyObject *) ret;
     }
     else {
-        PyErr_SetString(PyExc_IndexError, NULL);
+        PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
 }
