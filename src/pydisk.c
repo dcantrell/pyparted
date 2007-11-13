@@ -71,7 +71,7 @@ PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
     _ped_Disk *self;
 
-    self = (_ped_Disk *) type->tp_alloc(type, 0);
+    self = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj);
     return (PyObject *) self;
 }
 
