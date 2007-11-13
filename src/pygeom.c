@@ -25,6 +25,7 @@
 #include <Python.h>
 
 #include "convert.h"
+#include "exceptions.h"
 #include "pygeom.h"
 #include "pynatmath.h"
 
@@ -56,6 +57,7 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Geometry()");
         return NULL;
     }
 
@@ -66,6 +68,7 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
     } else if (!strcmp(member, "end")) {
         return PyLong_FromLongLong(self->end);
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Geometry object has no attribute %s", member);
         return NULL;
     }
 }
@@ -74,7 +77,8 @@ int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Geometry()");
+        return -1;
     }
 
     if (!strcmp(member, "start")) {
@@ -93,6 +97,7 @@ int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
             return -1;
         }
     } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Geometry object has no attribute %s", member);
         return -1;
     }
 
@@ -123,6 +128,19 @@ PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_init(out_geometry, out_device, start, length);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not create new geometry");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geometry);
     ped_device_destroy(out_device);
 
@@ -150,6 +168,18 @@ PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
     }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not create new geometry");
+
+        return NULL;
+    }
 
     ped_geometry_destroy(geom);
     ped_device_destroy(out_device);
@@ -174,6 +204,18 @@ PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
     geom = ped_geometry_duplicate(out_geometry);
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
+    }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not duplicate geometry");
+
+        return NULL;
     }
 
     ped_geometry_destroy(out_geometry);
@@ -205,6 +247,18 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
     geom = ped_geometry_intersect (out_a, out_b);
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
+    }
+    else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(PyExc_ArithmeticError, "Could not find geometry intersection");
+
+        return NULL;
     }
 
     return (PyObject *) ret;
@@ -246,6 +300,19 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_set(out_geom, start, length);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not create new geometry");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -268,6 +335,19 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_set_start(out_geom, start);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not create new geometry");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -290,6 +370,19 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_set_end(out_geom, end);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(CreateException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(CreateException, "Could not create new geometry");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -418,6 +511,19 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_read(out_geom, out_buf, offset, count);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(IOException, "Could not read from given region");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -438,6 +544,11 @@ PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_sync(out_geom);
+    if (ret == 0) {
+        PyErr_SetString(IOException, "Could not sync");
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
     return PyBool_FromLong(ret);
 }
@@ -457,6 +568,11 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_sync_fast(out_geom);
+    if (ret == 0) {
+        PyErr_SetString(IOException, "Could not sync");
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
     return PyBool_FromLong(ret);
 }
@@ -484,6 +600,19 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_write(out_geom, out_buf, offset, count);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_SetString(IOException, "Could not write to given region");
+
+        return NULL;
+    }
+
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -547,6 +676,11 @@ PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_map(out_dst, out_src, sector);
+    if (ret == -1) {
+        PyErr_SetString(PyExc_ArithmeticError, "Sector must exist within region given by geometry");
+        return NULL;
+    }
+
     ped_geometry_destroy(out_dst);
     ped_geometry_destroy(out_src);
 

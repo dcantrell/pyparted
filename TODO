@@ -87,11 +87,6 @@
 
 - Error handling in the get and set methods.
 
-- More error handling and exn raising in:
-      pydevice.c
-      pydisk.c
-      pygeom.c
-
 - Where integers are used as booleans, use PyBool_FromLong.
 
 - Figure out where to put the remainder of the pynatmath.c methods (get them
