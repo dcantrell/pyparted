@@ -84,12 +84,12 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
 PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
     char *ret = (char *) ped_get_version();
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
     char *ret = VERSION;
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 /* This function catches libparted exceptions and converts them into Python

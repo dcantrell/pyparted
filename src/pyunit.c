@@ -90,7 +90,7 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return Py_BuildValue("s", ped_unit_get_name(unit));
+    return PyString_FromString(ped_unit_get_name(unit));
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
@@ -130,7 +130,7 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     ret = ped_unit_format_custom_byte(out_dev, sector, unit);
     ped_device_destroy(out_dev);
 
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
@@ -150,7 +150,7 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     ret = ped_unit_format_byte(out_dev, sector);
     ped_device_destroy(out_dev);
 
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
@@ -173,7 +173,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     ret = ped_unit_format_custom(out_dev, sector, unit);
     ped_device_destroy(out_dev);
 
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
@@ -193,7 +193,7 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     ret = ped_unit_format(out_dev, sector);
     ped_device_destroy(out_dev);
 
-    return Py_BuildValue("s", ret);
+    return PyString_FromString(ret);
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
