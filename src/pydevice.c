@@ -141,9 +141,9 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
     }
 
     if (!strcmp(member, "model")) {
-        return Py_BuildValue("s", self->model);
+        return PyString_FromString(self->model);
     } else if (!strcmp(member, "path")) {
-        return Py_BuildValue("s", self->path);
+        return PyString_FromString(self->path);
     } else if (!strcmp(member, "type")) {
         return PyLong_FromLongLong(self->type);
     } else if (!strcmp(member, "sector_size")) {
