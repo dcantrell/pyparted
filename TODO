@@ -16,9 +16,6 @@
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
 
-- Remove the ENUM() macro because using cpp for that stuff is annoying.  Can't
-  grep!
-
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
       class PedDevice
@@ -109,5 +106,11 @@
 
 - Move each module's methods out of the main MethodDef in _pedmodule.c into
   the _ped_Whatever_methods lists.
+
+- Use convenience functions (e.g., PyLong_FromLongLong) when returning
+  values.
+
+- When using PyArg_ParseTuple to read in strings, use "z" to account for
+  None being passed in as the string (sets char * to NULL for us).
 
 ... and much much more
