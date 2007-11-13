@@ -91,7 +91,8 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj)) == NULL)
+    ret = (_ped_Alignment *) _ped_Alignment_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Alignment *) PyErr_NoMemory();
 
     ret->offset = alignment->offset;
@@ -153,7 +154,8 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj)) == NULL)
+    ret = (_ped_Constraint *) _ped_Constraint_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Constraint *) PyErr_NoMemory();
 
     ret->start_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->start_align);
@@ -214,7 +216,8 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Device, &_ped_Device_Type_obj)) == NULL)
+    ret = (_ped_Device *) _ped_Device_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Device *) PyErr_NoMemory();
 
     ret->model = strdup(device->model);
@@ -289,7 +292,8 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj)) == NULL)
+    ret = (_ped_Disk *) _ped_Disk_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Disk *) PyErr_NoMemory();
 
     ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
@@ -329,7 +333,8 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_DiskType, &_ped_DiskType_Type_obj)) == NULL)
+    ret = (_ped_DiskType *) _ped_DiskType_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_DiskType *) PyErr_NoMemory();
 
     if ((ret->name = strdup(type->name)) == NULL)
@@ -381,7 +386,8 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_FileSystem, &_ped_FileSystem_Type_obj)) == NULL)
+    ret = (_ped_FileSystem *) _ped_FileSystem_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_FileSystem *) PyErr_NoMemory();
 
     ret->type = (PyObject *) PedFileSystemType2_ped_FileSystemType(fs->type);
@@ -423,8 +429,9 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj)) == NULL)
-        return (_ped_FileSystemType *) PyErr_NoMemory();
+    ret = (_ped_FileSystemType *) _ped_FileSystemType_new(NULL, NULL, NULL);
+    if (!ret)
+       return (_ped_FileSystemType *) PyErr_NoMemory();
 
     ret->name = strdup(fstype->name);
     if (ret->name == NULL)
@@ -464,7 +471,8 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj)) == NULL)
+    ret = (_ped_Geometry *) _ped_Geometry_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Geometry *) PyErr_NoMemory();
 
     ret->dev = (PyObject *) PedDevice2_ped_Device(geometry->dev);
@@ -507,7 +515,8 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj)) == NULL)
+    ret = (_ped_CHSGeometry *) _ped_CHSGeometry_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_CHSGeometry *) PyErr_NoMemory();
 
     ret->cylinders = geom->cylinders;
@@ -569,7 +578,8 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Partition, &_ped_Partition_Type_obj)) == NULL)
+    ret = (_ped_Partition *) _ped_Partition_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
     ret->disk = (PyObject *) PedDisk2_ped_Disk(part->disk);
@@ -626,7 +636,8 @@ _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
         return NULL;
     }
 
-    if ((ret = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj)) == NULL)
+    ret = (_ped_Timer *) _ped_Timer_new(NULL, NULL, NULL);
+    if (!ret)
         return (_ped_Timer *) PyErr_NoMemory();
 
     ret->frac = timer->frac;
