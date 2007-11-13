@@ -717,6 +717,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(ConstraintException);
     PyModule_AddObject(m, "ConstraintException", ConstraintException);
 
+    CreateException = PyErr_NewException("_ped.CreateException", NULL, NULL);
+    Py_INCREF(CreateException);
+    PyModule_AddObject(m, "CreateException", CreateException);
+
     DiskException = PyErr_NewException("_ped.DiskException", NULL, NULL);
     Py_INCREF(DiskException);
     PyModule_AddObject(m, "DiskException", DiskException);

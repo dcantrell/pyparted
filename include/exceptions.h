@@ -27,6 +27,7 @@
 
 /* custom exceptions for _ped */
 PyObject *AlignmentException;
+PyObject *CreateException;
 PyObject *ConstraintException;
 PyObject *DiskException;
 PyObject *FileSystemException;
