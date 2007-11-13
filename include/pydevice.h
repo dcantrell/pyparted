@@ -57,54 +57,26 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, char *member);
 
 static PyGetSetDef _ped_CHSGeometry_getset[] = {
     {"cylinders", (getter) _ped_CHSGeometry_get, NULL,
-                  "CHSGeometry cylinders", NULL},
+                  "CHSGeometry cylinders", "cylinders"},
     {"heads", (getter) _ped_CHSGeometry_get, NULL,
-                  "CHSGeometry heads", NULL},
+                  "CHSGeometry heads", "heads"},
     {"sectors", (getter) _ped_CHSGeometry_get, NULL,
-                  "CHSGeometry sectors", NULL},
+                  "CHSGeometry sectors", "sectors"},
     {NULL}  /* Sentinel */
 };
 
 static PyTypeObject _ped_CHSGeometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.CHSGeometry",                        /* tp_name */
-    sizeof(_ped_CHSGeometry),                  /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_CHSGeometry_dealloc,     /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedCHSGeometry objects",                  /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_CHSGeometry_methods,                  /* tp_methods */
-    _ped_CHSGeometry_members,                  /* tp_members */
-    _ped_CHSGeometry_getset,                   /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_CHSGeometry_init,          /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_CHSGeometry_new,                      /* tp_new */
+    .tp_name = "_ped.CHSGeometry",
+    .tp_basicsize = sizeof(_ped_CHSGeometry),
+    .tp_dealloc = (destructor) _ped_CHSGeometry_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = "PedCHSGeometry objects",
+    .tp_methods = _ped_CHSGeometry_methods,
+    .tp_members = _ped_CHSGeometry_members,
+    .tp_getset = _ped_CHSGeometry_getset,
+    .tp_init = (initproc) _ped_CHSGeometry_init,
+    .tp_new = _ped_CHSGeometry_new,
 };
 
 /* _ped.Device type is the Python equivalent of PedDevice in libparted */
@@ -147,74 +119,46 @@ PyObject *_ped_Device_get(_ped_Device *self, char *member);
 
 static PyGetSetDef _ped_Device_getset[] = {
     {"model", (getter) _ped_Device_get, NULL,
-              "PedDevice model", NULL},
+              "PedDevice model", "model"},
     {"path", (getter) _ped_Device_get, NULL,
-              "PedDevice path", NULL},
+              "PedDevice path", "path"},
     {"type", (getter) _ped_Device_get, NULL,
-              "PedDevice type", NULL},
+              "PedDevice type", "type"},
     {"sector_size", (getter) _ped_Device_get, NULL,
-              "PedDevice sector_size", NULL},
+              "PedDevice sector_size", "sector_size"},
     {"phys_sector_size", (getter) _ped_Device_get, NULL,
-              "PedDevice phys_sector_size", NULL},
+              "PedDevice phys_sector_size", "phys_sector_size"},
     {"length", (getter) _ped_Device_get, NULL,
-              "PedDevice length", NULL},
+              "PedDevice length", "length"},
     {"open_count", (getter) _ped_Device_get, NULL,
-              "PedDevice open_count", NULL},
+              "PedDevice open_count", "open_count"},
     {"read_only", (getter) _ped_Device_get, NULL,
-              "PedDevice read_only", NULL},
+              "PedDevice read_only", "read_only"},
     {"external_mode", (getter) _ped_Device_get, NULL,
-              "PedDevice external_mode", NULL},
+              "PedDevice external_mode", "external_mode"},
     {"dirty", (getter) _ped_Device_get, NULL,
-              "PedDevice dirty", NULL},
+              "PedDevice dirty", "dirty"},
     {"boot_dirty", (getter) _ped_Device_get, NULL,
-              "PedDevice boot_dirty", NULL},
+              "PedDevice boot_dirty", "boot_dirty"},
     {"host", (getter) _ped_Device_get, NULL,
-              "PedDevice host", NULL},
+              "PedDevice host", "host"},
     {"did", (getter) _ped_Device_get, NULL,
-              "PedDevice did", NULL},
+              "PedDevice did", "did"},
     {NULL}  /* Sentinel */
 };
 
 static PyTypeObject _ped_Device_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.Device",                             /* tp_name */
-    sizeof(_ped_Device),                       /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_Device_dealloc,          /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedDevice objects",                       /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_Device_methods,                       /* tp_methods */
-    _ped_Device_members,                       /* tp_members */
-    _ped_Device_getset,                        /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_Device_init,               /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_Device_new,                           /* tp_new */
+    .tp_name = "_ped.Device",
+    .tp_basicsize = sizeof(_ped_Device),
+    .tp_dealloc = (destructor) _ped_Device_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = "PedDevice objects",
+    .tp_methods = _ped_Device_methods,
+    .tp_members = _ped_Device_members,
+    .tp_getset = _ped_Device_getset,
+    .tp_init = (initproc) _ped_Device_init,
+    .tp_new = _ped_Device_new,
 };
 
 /* 1:1 function mappings for device.h in libparted */

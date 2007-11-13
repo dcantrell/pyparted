@@ -55,52 +55,24 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member);
 
 static PyGetSetDef _ped_Alignment_getset[] = {
     {"offset", (getter) _ped_Alignment_get, NULL,
-               "Alignment offset", NULL},
+               "Alignment offset", "offset"},
     {"grain_size", (getter) _ped_Alignment_get, NULL,
-               "Alignment grain_size", NULL},
+               "Alignment grain_size", "grain_size"},
     {NULL}  /* Sentinel */
 };
 
 static PyTypeObject _ped_Alignment_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.Alignment",                          /* tp_name */
-    sizeof(_ped_Alignment),                    /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_Alignment_dealloc,       /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedAlignment objects",                    /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_Alignment_methods,                    /* tp_methods */
-    _ped_Alignment_members,                    /* tp_members */
-    _ped_Alignment_getset,                     /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_Alignment_init,            /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_Alignment_new,                        /* tp_new */
+    .tp_name = "_ped.Alignment",
+    .tp_basicsize = sizeof(_ped_Alignment),
+    .tp_dealloc = (destructor) _ped_Alignment_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = "PedAlignment objects",
+    .tp_methods = _ped_Alignment_methods,
+    .tp_members = _ped_Alignment_members,
+    .tp_getset = _ped_Alignment_getset,
+    .tp_init = (initproc) _ped_Alignment_init,
+    .tp_new = _ped_Alignment_new,
 };
 
 /* 1:1 function mappings for natmath.h in libparted */

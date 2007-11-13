@@ -57,54 +57,26 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member);
 
 static PyGetSetDef _ped_Geometry_getset[] = {
     {"start", (getter) _ped_Geometry_get, NULL,
-              "Geometry start", NULL},
+              "Geometry start", "start"},
     {"length", (getter) _ped_Geometry_get, NULL,
-              "Geometry length", NULL},
+              "Geometry length", "length"},
     {"end", (getter) _ped_Geometry_get, NULL,
-              "Geometry end", NULL},
+              "Geometry end", "end"},
     {NULL}  /* Sentinel */
 };
 
 static PyTypeObject _ped_Geometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
-    0,                                         /* ob_size */
-    "_ped.Geometry",                           /* tp_name */
-    sizeof(_ped_Geometry),                     /* tp_basicsize */
-    0,                                         /* tp_itemsize */
-    (destructor) _ped_Geometry_dealloc,        /* tp_dealloc */
-    0,                                         /* tp_print */
-    0,                                         /* tp_getattr */
-    0,                                         /* tp_setattr */
-    0,                                         /* tp_compare */
-    0,                                         /* tp_repr */
-    0,                                         /* tp_as_number */
-    0,                                         /* tp_as_sequence */
-    0,                                         /* tp_as_mapping */
-    0,                                         /* tp_hash */
-    0,                                         /* tp_call */
-    0,                                         /* tp_str */
-    0,                                         /* tp_getattro */
-    0,                                         /* tp_setattro */
-    0,                                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "PedGeometry objects",                     /* tp_doc */
-    0,                                         /* tp_traverse */
-    0,                                         /* tp_clear */
-    0,                                         /* tp_richcompare */
-    0,                                         /* tp_weaklistoffset */
-    0,                                         /* tp_iter */
-    0,                                         /* tp_iternext */
-    _ped_Geometry_methods,                     /* tp_methods */
-    _ped_Geometry_members,                     /* tp_members */
-    _ped_Geometry_getset,                      /* tp_getset */
-    0,                                         /* tp_base */
-    0,                                         /* tp_dict */
-    0,                                         /* tp_descr_get */
-    0,                                         /* tp_descr_set */
-    0,                                         /* tp_dictoffset */
-    (initproc) _ped_Geometry_init,             /* tp_init */
-    0,                                         /* tp_alloc */
-    _ped_Geometry_new,                         /* tp_new */
+    .tp_name = "_ped.Geometry",
+    .tp_basicsize = sizeof(_ped_Geometry),
+    .tp_dealloc = (destructor) _ped_Geometry_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = "PedGeometry objects",
+    .tp_methods = _ped_Geometry_methods,
+    .tp_members = _ped_Geometry_members,
+    .tp_getset = _ped_Geometry_getset,
+    .tp_init = (initproc) _ped_Geometry_init,
+    .tp_new = _ped_Geometry_new,
 };
 
 /* 1:1 function mappings for geom.h in libparted */
