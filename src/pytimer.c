@@ -79,7 +79,40 @@ PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
 int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
-    /* XXX */
+    if (member == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.Timer()");
+        return -1;
+    }
+
+    if (!strcmp(member, "frac")) {
+        if (!PyArg_ParseTuple(value, "f", &self->frac)) {
+            return -1;
+        }
+    } else if (!strcmp(member, "start")) {
+        self->start = PyFloat_AsDouble(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "now")) {
+        self->now = PyFloat_AsDouble(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "predicted_end")) {
+        self->predicted_end = PyFloat_AsDouble(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else if (!strcmp(member, "state_name")) {
+        self->state_name = PyString_AsString(value);
+        if (PyErr_Occurred()) {
+            return -1;
+        }
+    } else {
+        PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);
+        return -1;
+    }
+
     return 0;
 }
 
