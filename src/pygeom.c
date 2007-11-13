@@ -52,7 +52,9 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member) {
+PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -66,6 +68,13 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for geom.h in libparted */

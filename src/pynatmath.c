@@ -51,7 +51,9 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member) {
+PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -63,6 +65,13 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for natmath.h in libparted */

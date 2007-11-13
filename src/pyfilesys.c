@@ -53,7 +53,9 @@ int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
         return 0;
 }
 
-PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, char *member) {
+PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -63,6 +65,14 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
+                            void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* _ped.FileSystem functions */
@@ -91,7 +101,9 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
         return 0;
 }
 
-PyObject *_ped_FileSystem_get(_ped_FileSystem *self, char *member) {
+PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -101,6 +113,13 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for filesys.h in libparted */

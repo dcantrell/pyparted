@@ -57,7 +57,9 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_Partition_get(_ped_Partition *self, char *member) {
+PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -69,6 +71,13 @@ PyObject *_ped_Partition_get(_ped_Partition *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* _ped.Disk functions */
@@ -118,7 +127,9 @@ int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
         return 0;
 }
 
-PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member) {
+PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
+    char *member = (char *) closure;
+
     if (member == NULL) {
         return NULL;
     }
@@ -130,6 +141,13 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, char *member) {
     } else {
         return NULL;
     }
+}
+
+int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure) {
+    char *member = (char *) closure;
+
+    /* XXX */
+    return 0;
 }
 
 /* 1:1 function mappings for disk.h in libparted */

@@ -56,10 +56,14 @@ PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
                                   PyObject *kwds);
 int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
                              PyObject *kwds);
-PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, char *member);
+PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
+int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
+                            void *closure);
 
 static PyGetSetDef _ped_FileSystemType_getset[] = {
-    {"name", (getter) _ped_FileSystemType_get, NULL, "FileSystemType name", "name"},
+    {"name", (getter) _ped_FileSystemType_get,
+             (setter) _ped_FileSystemType_set,
+             "FileSystemType name", "name"},
     {NULL}  /* Sentinel */
 };
 
@@ -102,10 +106,13 @@ void _ped_FileSystem_dealloc(_ped_FileSystem *self);
 PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_FileSystem_get(_ped_FileSystem *self, char *member);
+PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
+int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_FileSystem_getset[] = {
-    {"checked", (getter) _ped_FileSystem_get, NULL, "FileSystem checked", "checked"},
+    {"checked", (getter) _ped_FileSystem_get,
+                (setter) _ped_FileSystem_set,
+                "FileSystem checked", "checked"},
     {NULL}  /* Sentinel */
 };
 

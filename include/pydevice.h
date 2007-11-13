@@ -120,35 +120,36 @@ static PyMethodDef _ped_Device_methods[] = {
 void _ped_Device_dealloc(_ped_Device *self);
 PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Device_get(_ped_Device *self, char *member);
+PyObject *_ped_Device_get(_ped_Device *self, void *closure);
+int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Device_getset[] = {
-    {"model", (getter) _ped_Device_get, NULL,
+    {"model", (getter) _ped_Device_get, (setter) _ped_Device_set,
               "PedDevice model", "model"},
-    {"path", (getter) _ped_Device_get, NULL,
-              "PedDevice path", "path"},
-    {"type", (getter) _ped_Device_get, NULL,
-              "PedDevice type", "type"},
-    {"sector_size", (getter) _ped_Device_get, NULL,
-              "PedDevice sector_size", "sector_size"},
-    {"phys_sector_size", (getter) _ped_Device_get, NULL,
-              "PedDevice phys_sector_size", "phys_sector_size"},
-    {"length", (getter) _ped_Device_get, NULL,
-              "PedDevice length", "length"},
-    {"open_count", (getter) _ped_Device_get, NULL,
-              "PedDevice open_count", "open_count"},
-    {"read_only", (getter) _ped_Device_get, NULL,
-              "PedDevice read_only", "read_only"},
-    {"external_mode", (getter) _ped_Device_get, NULL,
-              "PedDevice external_mode", "external_mode"},
-    {"dirty", (getter) _ped_Device_get, NULL,
+    {"path", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "PedDevice path", "path"},
+    {"type", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "PedDevice type", "type"},
+    {"sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                    "PedDevice sector_size", "sector_size"},
+    {"phys_sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                         "PedDevice phys_sector_size", "phys_sector_size"},
+    {"length", (getter) _ped_Device_get, (setter) _ped_Device_set,
+               "PedDevice length", "length"},
+    {"open_count", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                   "PedDevice open_count", "open_count"},
+    {"read_only", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                  "PedDevice read_only", "read_only"},
+    {"external_mode", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                      "PedDevice external_mode", "external_mode"},
+    {"dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
               "PedDevice dirty", "dirty"},
-    {"boot_dirty", (getter) _ped_Device_get, NULL,
-              "PedDevice boot_dirty", "boot_dirty"},
-    {"host", (getter) _ped_Device_get, NULL,
-              "PedDevice host", "host"},
-    {"did", (getter) _ped_Device_get, NULL,
-              "PedDevice did", "did"},
+    {"boot_dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                   "PedDevice boot_dirty", "boot_dirty"},
+    {"host", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "PedDevice host", "host"},
+    {"did", (getter) _ped_Device_get, (setter) _ped_Device_set,
+            "PedDevice did", "did"},
     {NULL}  /* Sentinel */
 };
 

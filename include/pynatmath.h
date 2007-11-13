@@ -51,13 +51,16 @@ void _ped_Alignment_dealloc(_ped_Alignment *self);
 PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds);
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Alignment_get(_ped_Alignment *self, char *member);
+PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure);
+int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Alignment_getset[] = {
-    {"offset", (getter) _ped_Alignment_get, NULL,
+    {"offset", (getter) _ped_Alignment_get,
+               (setter) _ped_Alignment_set,
                "Alignment offset", "offset"},
-    {"grain_size", (getter) _ped_Alignment_get, NULL,
-               "Alignment grain_size", "grain_size"},
+    {"grain_size", (getter) _ped_Alignment_get,
+                   (setter) _ped_Alignment_set,
+                   "Alignment grain_size", "grain_size"},
     {NULL}  /* Sentinel */
 };
 

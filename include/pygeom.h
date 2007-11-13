@@ -53,15 +53,19 @@ static PyMethodDef _ped_Geometry_methods[] = {
 void _ped_Geometry_dealloc(_ped_Geometry *self);
 PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Geometry_get(_ped_Geometry *self, char *member);
+PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure);
+int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Geometry_getset[] = {
-    {"start", (getter) _ped_Geometry_get, NULL,
+    {"start", (getter) _ped_Geometry_get,
+              (setter) _ped_Geometry_set,
               "Geometry start", "start"},
-    {"length", (getter) _ped_Geometry_get, NULL,
-              "Geometry length", "length"},
-    {"end", (getter) _ped_Geometry_get, NULL,
-              "Geometry end", "end"},
+    {"length", (getter) _ped_Geometry_get,
+               (setter) _ped_Geometry_set,
+               "Geometry length", "length"},
+    {"end", (getter) _ped_Geometry_get,
+            (setter) _ped_Geometry_set,
+            "Geometry end", "end"},
     {NULL}  /* Sentinel */
 };
 
