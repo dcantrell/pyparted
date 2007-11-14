@@ -15,6 +15,9 @@
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
 
+- Rename modules under _ped to use all lowercase names.  Make sure all classes
+  are named with studly caps (e.g., BigGiantWorthlessClass)
+
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
       class PedDevice
