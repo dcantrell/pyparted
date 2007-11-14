@@ -1,9 +1,9 @@
 - autoconf/automake the entire tree
-      'make maintainerclean' should work
-      'make distclean' should work
-      'make install'
+      'make install' and make sure Python modules are installed correctly
 
-- new native Python classes on top of _ped
+- new native Python classes on top of _ped (going to require a bit of
+  thought to figure out what sort of API we want for the 'parted' module,
+  the following are just ideas):
       Device
       Disk
       Partition
