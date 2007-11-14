@@ -302,7 +302,6 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    free(path);
     ped_device_destroy(device);
 
     return (PyObject *) ret;
