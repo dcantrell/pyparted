@@ -26,6 +26,8 @@
 import _ped
 import warnings
 
+from parted import PedDevice
+
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR
 UNIT_BYTE                = _ped.UNIT_BYTE
@@ -80,11 +82,6 @@ DISK_TYPE_EXTENDED       = _ped.DISK_TYPE_EXTENDED
 DISK_TYPE_PARTITION_NAME = _ped.DISK_TYPE_PARTITION_NAME
 
 __depstr = "%s is deprecated and will be removed."
-
-class PedDevice:
-    def __init__(self):
-        warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        # XXX
 
 class PedDisk:
     def __init__(self):
