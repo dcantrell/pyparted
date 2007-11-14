@@ -175,7 +175,7 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     ret->end_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->end_align);
     if (ret->end_align == NULL) {
         Py_DECREF(ret->start_align);
-        Py_DECRET(ret);
+        Py_DECREF(ret);
         return NULL;
     }
 
