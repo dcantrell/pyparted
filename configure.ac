@@ -16,7 +16,7 @@ dnl source code or documentation are not subject to the GNU General Public
 dnl License and may only be used or replicated with the express permission of
 dnl Red Hat, Inc.
 dnl
-dnl Red Hat Author(s): David Cantrell
+dnl Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 
 m4_define(libparted_required_version, 1.8.6)
 m4_define(python_required_version, 2.5)
