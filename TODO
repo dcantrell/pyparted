@@ -65,8 +65,6 @@
       class PedConstraint
           duplicate()
 
-      device_get()
-      error()
       exception_set_handler()
 
 - Handle exceptions from libparted and pass to Python as necessary.  These
