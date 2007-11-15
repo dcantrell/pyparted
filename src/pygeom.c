@@ -144,7 +144,7 @@ PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_geometry);
     ped_device_destroy(out_device);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
@@ -684,5 +684,5 @@ PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_dst);
     ped_geometry_destroy(out_src);
 
-    return Py_BuildValue("I", ret);
+    return Py_BuildValue("i", ret);
 }

@@ -159,7 +159,7 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
 
     ped_alignment_destroy(out_alignment);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {

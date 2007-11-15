@@ -162,7 +162,7 @@ PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
     ped_geometry_destroy(out_start_range);
     ped_geometry_destroy(out_end_range);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
@@ -555,7 +555,7 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     ped_constraint_destroy(out_constraint);
     ped_geometry_destroy(out_geometry);
 
-    return Py_BuildValue("i", ret);
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
