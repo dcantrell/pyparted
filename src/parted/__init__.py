@@ -99,7 +99,7 @@ def device_get(device):
     warnings.warn(__depstr % "device_get()", DeprecationWarning, stacklevel=2)
 
     try:
-        return _ped.PedDevice().get(device)
+        return _ped.Device().get(device)
     except Exception, e:
         raise error(e.message)
 

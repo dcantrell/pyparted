@@ -21,60 +21,63 @@
 #
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
+import _ped
+import warnings
 
 __depstr = "%s is deprecated and will be removed."
 
-class PedDevice:
-    import _ped
-    import warnings
-
+class PedDevice(object):
     def __init__(self, path):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        self.device = _ped.Device.get(path)
-        #self.length = self.device.
-        #self.model = 
-        #self.path = 
-        #self.sector_size = 
-        #self.type = 
-        #self.heads = 
-        #self.sectors = 
-        #self.cylinders = 
+        self.__device = _ped.Device().get(path)
+
+    def __setx(self, value):
+        raise AttributeError, "attribute is read-only"
+
+    length = property(lambda self: self.__device.length, __setx)
+    model = property(lambda self: self.__device.model, __setx)
+    path = property(lambda self: self.__device.path, __setx)
+    sector_size = property(lambda self: self.__device.sector_size, __setx)
+    type = property(lambda self: self.__device.type, __setx)
+    heads = property(lambda self: self.__device.heads, __setx)
+    sectors = property(lambda self: self.__device.sectors, __setx)
+    cylinders = property(lambda self: self.__device.cylinders, __setx)
 
     def close(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device.close(self.device)
+        return _ped.Device().close(self.__device)
 
     def constraint_any(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Constraint.any(self.device)
+        return _ped.Constraint().any(self.__device)
 
     def destroy(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device.destroy(self.device)
+        return _ped.Device().destroy(self.__device)
 
     def disk_new_fresh(self, type):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Disk.new_fresh(self.device, type)
+        return _ped.Disk().new_fresh(self.__device, type)
 
     def disk_probe(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Disk.probe(self.device)
+        return _ped.Disk().probe(self.__device)
 
     def geometry_new(self, start, length):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Geometry.new(self.device, start, length)
+        return _ped.Geometry().new(self.__device, start, length)
 
     def is_busy(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device.is_busy(self.device)
+        return _ped.Device().is_busy(self.__device)
 
     def open(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device.open(self.device)
+        return _ped.Device().open(self.__device)
 
     def sync(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device.sync(self.device)
+        return _ped.Device().sync(self.__device)
 
 def get(path):
     import warnings
