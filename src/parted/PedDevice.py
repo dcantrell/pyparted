@@ -22,6 +22,7 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 import _ped
+import parted
 import warnings
 
 __depstr = "%s is deprecated and will be removed."
@@ -45,11 +46,19 @@ class PedDevice(object):
 
     def close(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device().close(self.__device)
+
+        try:
+            return _ped.Device().close(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def constraint_any(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Constraint().any(self.__device)
+
+        try:
+            return _ped.Constraint().any(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def destroy(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
@@ -57,27 +66,53 @@ class PedDevice(object):
 
     def disk_new_fresh(self, type):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Disk().new_fresh(self.__device, type)
+
+        try:
+            return _ped.Disk().new_fresh(self.__device, type)
+        except TypeError:
+            raise
+        except Exception, e:
+            raise parted.error(e.message)
 
     def disk_probe(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Disk().probe(self.__device)
+
+        try:
+            return _ped.Disk().probe(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def geometry_new(self, start, length):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Geometry().new(self.__device, start, length)
+
+        try:
+            return _ped.Geometry().new(self.__device, start, length)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def is_busy(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device().is_busy(self.__device)
+
+        try:
+            return _ped.Device().is_busy(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def open(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device().open(self.__device)
+
+        try:
+            return _ped.Device().open(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
     def sync(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device().sync(self.__device)
+
+        try:
+            return _ped.Device().sync(self.__device)
+        except Exception, e:
+            raise parted.error(e.message)
 
 def get(path):
     import warnings
