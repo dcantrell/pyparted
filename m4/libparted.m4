@@ -16,7 +16,7 @@ dnl source code or documentation are not subject to the GNU General Public
 dnl License and may only be used or replicated with the express permission of
 dnl Red Hat, Inc.
 dnl
-dnl Red Hat Author(s): David Cantrell
+dnl Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 
 dnl Check for GNU parted
 dnl $1   Minimum version of libparted we require (e.g., 1.8.6)
