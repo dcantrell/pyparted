@@ -51,3 +51,6 @@ All of these reasons and more are why I have written the Python module by
 hand instead of relying partly on an automatic tool.  Will this project
 always be maintained by hand?  Who knows?  For now it is, but this could
 change.
+
+-- 
+David Cantrell <dcantrell@redhat.com>
