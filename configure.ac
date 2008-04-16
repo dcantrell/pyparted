@@ -1,6 +1,6 @@
 dnl configure.ac for pyparted
 dnl
-dnl Copyright (C) 2007  Red Hat, Inc.  All rights reserved.
+dnl Copyright (C) 2007  Red Hat, Inc.
 dnl
 dnl This copyrighted material is made available to anyone wishing to use,
 dnl modify, copy, or redistribute it subject to the terms and conditions of
