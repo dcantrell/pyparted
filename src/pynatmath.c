@@ -410,6 +410,11 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (divisor == 0) {
+       PyErr_SetNone(PyExc_ZeroDivisionError);
+       return NULL;
+    }
+
     return PyLong_FromLongLong(ped_div_round_up(numerator, divisor));
 }
 
@@ -418,6 +423,11 @@ PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
         return NULL;
+    }
+
+    if (divisor == 0) {
+       PyErr_SetNone(PyExc_ZeroDivisionError);
+       return NULL;
     }
 
     return PyLong_FromLongLong(ped_div_round_to_nearest(numerator, divisor));
