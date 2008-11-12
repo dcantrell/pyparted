@@ -1,6 +1,8 @@
 - autoconf/automake the entire tree
       'make install' and make sure Python modules are installed correctly
 
+- use disttools from Python to do as much work as possible
+
 - new native Python classes on top of _ped (going to require a bit of
   thought to figure out what sort of API we want for the 'parted' module,
   the following are just ideas):
@@ -14,6 +16,12 @@
 - Walk through all of the src/py*.c files and make sure libparted exceptions
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
+
+- Handle exceptions from libparted and pass to Python as necessary.  These
+  are all of the PED_ASSERT things in libparted.
+
+- Handle exceptions throughout the _ped module code.  Unique exceptions as
+  much as possible.
 
 - Rename modules under _ped to use all lowercase names.  Make sure all classes
   are named with studly caps (e.g., BigGiantWorthlessClass)
@@ -67,9 +75,6 @@
 
       exception_set_handler()
 
-- Handle exceptions from libparted and pass to Python as necessary.  These
-  are all of the PED_ASSERT things in libparted.
-
 - Do the _ped.X() types for things like PedSector, PedUnit and other things
   where they just have the val attribute, do we need get/set methods?  I
   think so for things like bounds checking and type checking.
@@ -77,21 +82,9 @@
 - timer.h:
       py_ped_timer_new
 
-- Handle exceptions throughout the _ped module code.  Unique exceptions as
-  much as possible.
-
 - Make sure _ped module has Python docstrings galore
 
 - Error handling in the get and set methods.
-
-- Figure out where to put the remainder of the pynatmath.c methods (get them
-  out of PyPedModuleMethods[]).
-
-- Do we want to recreate _ped_Unit again, but just to store methods and
-  get them out of PyPedModuleMethods[]?
-
-- All of the DISK_*, DEVICE_*, and PARTITION_* types...can those go under
-  the appropriate _ped_* object?
 
 - When using PyArg_ParseTuple to read in strings, use "z" to account for
   None being passed in as the string (sets char * to NULL for us).
