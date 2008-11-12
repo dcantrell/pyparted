@@ -181,8 +181,9 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     PedDevice *out_dev;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Device_Type_obj, &in_dev, &sector))
+    if (!PyArg_ParseTuple(args, "O!l", &_ped_Device_Type_obj, &in_dev, &sector)) {
         return NULL;
+    }
 
     out_dev = _ped_Device2PedDevice(in_dev);
     if (out_dev == NULL) {
@@ -196,13 +197,63 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    int ret;
+    char *str = NULL;
+    PyObject *in_dev;
+    PedDevice *out_dev;
+    PedSector sector;
+    PyObject *in_geom;
+    PedGeometry *out_geom;
+
+    if (!PyArg_ParseTuple(args, "sOlO", &str, &in_dev, &sector, &in_geom)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (out_geom == NULL) {
+        return NULL;
+    }
+
+    ret = ped_unit_parse(str, out_dev, &sector, &out_geom);
+    ped_device_destroy(out_dev);
+    ped_geometry_destroy(out_geom);
+
+    return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
+    int ret;
+    char *str = NULL;
+    PyObject *in_dev;
+    PedDevice *out_dev;
+    PedUnit unit;
+    PedSector sector;
+    PyObject *in_geom;
+    PedGeometry *out_geom;
+
+    if (!PyArg_ParseTuple(args, "sOllO", &str, &in_dev, &unit, &sector,
+                          &in_geom)) {
+        return NULL;
+    }
+
+    out_dev = _ped_Device2PedDevice(in_dev);
+    if (out_dev == NULL) {
+        return NULL;
+    }
+
+    out_geom = _ped_Geometry2PedGeometry(in_geom);
+    if (out_geom == NULL) {
+        return NULL;
+    }
+
+    ret = ped_unit_parse_custom(str, out_dev, unit, &sector, &out_geom);
+    ped_device_destroy(out_dev);
+    ped_geometry_destroy(out_geom);
+
+    return PyBool_FromLong(ret);
 }

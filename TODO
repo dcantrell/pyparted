@@ -74,10 +74,6 @@
   where they just have the val attribute, do we need get/set methods?  I
   think so for things like bounds checking and type checking.
 
-- unit.h:
-      py_ped_unit_parse
-      py_ped_unit_parse_custom
-
 - timer.h:
       py_ped_timer_new
 
