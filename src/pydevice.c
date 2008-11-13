@@ -723,3 +723,5 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
 
     return (PyObject *) ret;
 }
+
+/* vim:tw=78:ts=4:et:sw=4 */

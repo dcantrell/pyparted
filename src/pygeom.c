@@ -685,3 +685,5 @@ PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
 
     return Py_BuildValue("i", ret);
 }
+
+/* vim:tw=78:ts=4:et:sw=4 */

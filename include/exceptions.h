@@ -43,3 +43,5 @@ static unsigned int partedExnRaised = 0;
 static char *partedExnMessage = NULL;
 
 #endif /* _EXCEPTIONS_H_INCLUDED */
+
+/* vim:tw=78:ts=4:et:sw=4 */
