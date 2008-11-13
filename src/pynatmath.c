@@ -101,6 +101,11 @@ PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (grain_size == 0) {
+       PyErr_SetNone(PyExc_ZeroDivisionError);
+       return NULL;
+    }
+
     return PyLong_FromLongLong(ped_round_up_to(sector, grain_size));
 }
 
@@ -111,6 +116,11 @@ PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (grain_size == 0) {
+       PyErr_SetNone(PyExc_ZeroDivisionError);
+       return NULL;
+    }
+
     return PyLong_FromLongLong(ped_round_down_to(sector, grain_size));
 }
 
@@ -119,6 +129,11 @@ PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
         return NULL;
+    }
+
+    if (grain_size == 0) {
+       PyErr_SetNone(PyExc_ZeroDivisionError);
+       return NULL;
     }
 
     return PyLong_FromLongLong(ped_round_to_nearest(sector, grain_size));
