@@ -33,7 +33,7 @@ void _ped_Timer_dealloc(_ped_Timer *self) {
 }
 
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    _ped_Timer *self;
+    _ped_Timer *self = NULL;
 
     self = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj);
     return (PyObject *) self;
@@ -125,8 +125,8 @@ PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
-    PedTimer *out_timer;
+    PyObject *in_timer = NULL;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -144,10 +144,10 @@ PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
-    PyObject *in_parent;
+    PyObject *in_parent = NULL;
     float nest_frac;
-    PedTimer *out_parent, *timer;
-    _ped_Timer *ret;
+    PedTimer *out_parent = NULL, *timer = NULL;
+    _ped_Timer *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!f", &_ped_Timer_Type_obj, &in_parent,
                           &nest_frac))
@@ -177,8 +177,8 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
-    PedTimer *out_timer;
+    PyObject *in_timer = NULL;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -197,8 +197,8 @@ PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
-    PedTimer *out_timer;
+    PyObject *in_timer = NULL;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -217,8 +217,8 @@ PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
-    PedTimer *out_timer;
+    PyObject *in_timer = NULL;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
@@ -237,9 +237,9 @@ PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
+    PyObject *in_timer = NULL;
     float frac;
-    PedTimer *out_timer;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!f", &_ped_Timer_Type_obj, &in_timer, &frac))
         return NULL;
@@ -257,9 +257,9 @@ PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
-    PyObject *in_timer;
+    PyObject *in_timer = NULL;
     char *str = NULL;
-    PedTimer *out_timer;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!z", &_ped_Timer_Type_obj, &in_timer, &str)) {
         return NULL;

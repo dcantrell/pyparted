@@ -140,7 +140,9 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 }
 
 PyMODINIT_FUNC init_ped(void) {
-    PyObject *m, *d, *o;
+    PyObject *m = NULL;
+    PyObject *d = NULL;
+    PyObject *o = NULL;
 
     /* init the main Python module and add methods */
     m = Py_InitModule("_ped", PyPedModuleMethods);

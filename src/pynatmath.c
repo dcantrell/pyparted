@@ -35,7 +35,7 @@ void _ped_Alignment_dealloc(_ped_Alignment *self) {
 
 PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
-    _ped_Alignment *self;
+    _ped_Alignment *self = NULL;
 
     self = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
     return (PyObject *) self;
@@ -136,8 +136,8 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_alignment;
-    PedAlignment *out_alignment;
+    PyObject *in_alignment = NULL;
+    PedAlignment *out_alignment = NULL;
     PedSector offset, grain_size;
 
     if (!PyArg_ParseTuple(args, "O!ll", &_ped_Alignment_Type_obj, &in_alignment,
@@ -163,8 +163,8 @@ PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
     PedSector offset, grain_size;
-    PedAlignment *align;
-    _ped_Alignment *ret;
+    PedAlignment *align = NULL;
+    _ped_Alignment *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "ll", &offset, &grain_size)) {
         return NULL;
@@ -189,7 +189,7 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
     PyObject *in_alignment;
-    PedAlignment *out_alignment;
+    PedAlignment *out_alignment = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Alignment_Type_obj, &in_alignment))
         return NULL;
@@ -206,9 +206,9 @@ PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
-    PyObject *in_alignment;
-    PedAlignment *out_alignment, *align;
-    _ped_Alignment *ret;
+    PyObject *in_alignment = NULL;
+    PedAlignment *out_alignment = NULL, *align = NULL;
+    _ped_Alignment *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Alignment_Type_obj, &in_alignment))
         return NULL;
@@ -237,9 +237,9 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
-    PyObject *in_a, *in_b;
-    PedAlignment *out_a, *out_b, *align;
-    _ped_Alignment *ret;
+    PyObject *in_a = NULL, *in_b = NULL;
+    PedAlignment *out_a = NULL, *out_b = NULL, *align = NULL;
+    _ped_Alignment *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_Alignment_Type_obj, &in_a,
                           &_ped_Alignment_Type_obj, &in_b)) {
@@ -276,9 +276,9 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
-    PyObject *in_align, *in_geom;
-    PedAlignment *out_align;
-    PedGeometry *out_geom;
+    PyObject *in_align = NULL, *in_geom = NULL;
+    PedAlignment *out_align = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
     if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
@@ -309,9 +309,9 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
-    PyObject *in_align, *in_geom;
-    PedAlignment *out_align;
-    PedGeometry *out_geom;
+    PyObject *in_align = NULL, *in_geom = NULL;
+    PedAlignment *out_align = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
     if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
@@ -342,9 +342,9 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
-    PyObject *in_align, *in_geom;
-    PedAlignment *out_align;
-    PedGeometry *out_geom;
+    PyObject *in_align = NULL, *in_geom = NULL;
+    PedAlignment *out_align = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
     if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
@@ -376,9 +376,9 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_align, *in_geom;
-    PedAlignment *out_align;
-    PedGeometry *out_geom;
+    PyObject *in_align = NULL, *in_geom = NULL;
+    PedAlignment *out_align = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector sector;
 
     if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
