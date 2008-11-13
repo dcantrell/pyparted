@@ -117,30 +117,6 @@ PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
     return (PyObject *) self;
 }
 
-int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"model", "path", "type", "sector_size",
-                             "phys_sector_size", "length", "open_count",
-                             "read_only", "external_mode", "dirty", "boot_dirty",
-                             "hw_geom", "bios_geom", "host", "did", NULL};
-
-    self->model = NULL;
-    self->path = NULL;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|zzlllliiiiiO!O!hh", kwlist,
-                                     &self->model, &self->path, &self->type,
-                                     &self->sector_size, &self->phys_sector_size,
-                                     &self->length, &self->open_count,
-                                     &self->read_only, &self->external_mode,
-                                     &self->dirty, &self->boot_dirty,
-                                     &_ped_CHSGeometry_Type_obj, &self->hw_geom,
-                                     &_ped_CHSGeometry_Type_obj, &self->bios_geom,
-                                     &self->host, &self->did)) {
-        return -1;
-    } else {
-        return 0;
-    }
-}
-
 PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
     char *member = (char *) closure;
 
@@ -294,9 +270,6 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     }
 
     ped_device_destroy(device);
-    if (path) {
-        free(path);
-    }
 
     return (PyObject *) ret;
 }
