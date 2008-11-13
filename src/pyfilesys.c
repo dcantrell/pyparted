@@ -36,7 +36,7 @@ void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
 
 PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
                                   PyObject *kwds) {
-    _ped_FileSystemType *self;
+    _ped_FileSystemType *self = NULL;
 
     self = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
     return (PyObject *) self;
@@ -97,7 +97,7 @@ void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
 
 PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds) {
-    _ped_FileSystem *self;
+    _ped_FileSystem *self = NULL;
 
     self = PyObject_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
     return (PyObject *) self;
@@ -153,8 +153,8 @@ int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for filesys.h in libparted */
 PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
-    PyObject *in_fstype;
-    PedFileSystemType *out_fstype;
+    PyObject *in_fstype = NULL;
+    PedFileSystemType *out_fstype = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystemType_Type_obj,
                           &in_fstype)) {
@@ -173,8 +173,8 @@ PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
-    PyObject *in_fstype;
-    PedFileSystemType *out_fstype;
+    PyObject *in_fstype = NULL;
+    PedFileSystemType *out_fstype = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystemType_Type_obj,
                           &in_fstype)) {
@@ -193,8 +193,8 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
-    PedFileSystemType *fstype;
-    _ped_FileSystemType *ret;
+    PedFileSystemType *fstype = NULL;
+    _ped_FileSystemType *ret = NULL;
     char *name = NULL;
 
     if (!PyArg_ParseTuple(args, "z", &name)) {
@@ -214,8 +214,8 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     PyObject *in_fstype = NULL;
-    PedFileSystemType *out_fstype, *fstype;
-    _ped_FileSystemType *ret;
+    PedFileSystemType *out_fstype = NULL, *fstype = NULL;
+    _ped_FileSystemType *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "|O!", &_ped_FileSystemType_Type_obj,
                           &in_fstype)) {
@@ -244,10 +244,10 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
-    PyObject *in_fstype, *in_geom;
-    PedFileSystemType *out_fstype;
-    PedGeometry *out_geom, *geom;
-    _ped_Geometry *ret;
+    PyObject *in_fstype = NULL, *in_geom = NULL;
+    PedFileSystemType *out_fstype = NULL;
+    PedGeometry *out_geom = NULL, *geom = NULL;
+    _ped_Geometry *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
                           &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
@@ -288,10 +288,10 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
-    PyObject *in_geom;
-    PedGeometry *out_geom;
-    PedFileSystemType *fstype;
-    _ped_FileSystemType *ret;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
+    PedFileSystemType *fstype = NULL;
+    _ped_FileSystemType *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
@@ -326,8 +326,8 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
@@ -359,10 +359,10 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
-    PyObject *in_geom;
-    PedGeometry *out_geom;
-    PedFileSystem *fs;
-    _ped_FileSystem *ret;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
+    PedFileSystem *fs = NULL;
+    _ped_FileSystem *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
@@ -398,12 +398,12 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
-    PyObject *in_geom, *in_fstype, *in_timer = NULL;
-    PedGeometry *out_geom;
-    PedFileSystemType *out_fstype;
-    PedTimer *out_timer;
-    PedFileSystem *fs;
-    _ped_FileSystem *ret;
+    PyObject *in_geom = NULL, *in_fstype = NULL, *in_timer = NULL;
+    PedGeometry *out_geom = NULL;
+    PedFileSystemType *out_fstype = NULL;
+    PedTimer *out_timer = NULL;
+    PedFileSystem *fs = NULL;
+    _ped_FileSystem *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_FileSystemType_Type_obj, &in_fstype,
@@ -457,8 +457,8 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_fs;
-    PedFileSystem *out_fs;
+    PyObject *in_fs = NULL;
+    PedFileSystem *out_fs = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystem_Type_obj, &in_fs)) {
         return NULL;
@@ -483,9 +483,9 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_fs, *in_timer = NULL;
-    PedFileSystem *out_fs;
-    PedTimer *out_timer;
+    PyObject *in_fs = NULL, *in_timer = NULL;
+    PedFileSystem *out_fs = NULL;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Timer_Type_obj, &in_timer)) {
@@ -524,12 +524,12 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
-    PyObject *in_fs, *in_geom, *in_timer = NULL;
-    PedFileSystem *out_fs;
-    PedGeometry *out_geom;
-    PedTimer *out_timer;
-    PedFileSystem *fs;
-    _ped_FileSystem *ret;
+    PyObject *in_fs = NULL, *in_geom = NULL, *in_timer = NULL;
+    PedFileSystem *out_fs = NULL;
+    PedGeometry *out_geom = NULL;
+    PedTimer *out_timer = NULL;
+    PedFileSystem *fs = NULL;
+    _ped_FileSystem *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Geometry_Type_obj, &in_geom,
@@ -583,10 +583,10 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
-    PyObject *in_fs, *in_geom, *in_timer = NULL;
-    PedFileSystem *out_fs;
-    PedGeometry *out_geom;
-    PedTimer *out_timer;
+    PyObject *in_fs = NULL, *in_geom = NULL, *in_timer = NULL;
+    PedFileSystem *out_fs = NULL;
+    PedGeometry *out_geom = NULL;
+    PedTimer *out_timer = NULL;
     int ret = -1;
 
     if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
@@ -639,11 +639,11 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
                                                    PyObject *args) {
-    PyObject *in_fstype, *in_device;
-    PedFileSystemType *out_fstype;
-    PedDevice *out_device;
-    PedConstraint *constraint;
-    _ped_Constraint *ret;
+    PyObject *in_fstype = NULL, *in_device = NULL;
+    PedFileSystemType *out_fstype = NULL;
+    PedDevice *out_device = NULL;
+    PedConstraint *constraint = NULL;
+    _ped_Constraint *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
                           &in_fstype, &_ped_Device_Type_obj, &in_device)) {
@@ -677,10 +677,10 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
 
 PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
                                                    PyObject *args) {
-    PyObject *in_fs;
-    PedFileSystem *out_fs;
-    PedConstraint *constraint;
-    _ped_Constraint *ret;
+    PyObject *in_fs = NULL;
+    PedFileSystem *out_fs = NULL;
+    PedConstraint *constraint = NULL;
+    _ped_Constraint *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystem_Type_obj, &in_fs)) {
         return NULL;
@@ -707,11 +707,11 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
 }
 
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
-    PyObject *in_fs, *in_device;
-    PedFileSystem *out_fs;
-    PedDevice *out_device;
-    PedConstraint *constraint;
-    _ped_Constraint *ret;
+    PyObject *in_fs = NULL, *in_device = NULL;
+    PedFileSystem *out_fs = NULL;
+    PedDevice *out_device = NULL;
+    PedConstraint *constraint = NULL;
+    _ped_Constraint *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystem_Type_obj, &in_fs,
                           &_ped_Device_Type_obj, &in_device)) {

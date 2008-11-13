@@ -67,7 +67,7 @@
 
 /* _ped_Alignment -> PedAlignment functions */
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
-    PedAlignment *ret;
+    PedAlignment *ret = NULL;
     _ped_Alignment *alignment = (_ped_Alignment *) s;
 
     if (alignment == NULL) {
@@ -83,7 +83,7 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
 }
 
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
-    _ped_Alignment *ret;
+    _ped_Alignment *ret = NULL;
 
     if (alignment == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedAlignment()");
@@ -103,8 +103,8 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
 /* _ped_Constraint -> PedConstraint functions */
 PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     PedConstraint *ret = NULL;
-    PedAlignment *start_align, *end_align;
-    PedGeometry *start_range, *end_range;
+    PedAlignment *start_align = NULL, *end_align = NULL;
+    PedGeometry *start_range = NULL, *end_range = NULL;
     _ped_Constraint *constraint = (_ped_Constraint *) s;
 
     if (constraint == NULL) {
@@ -292,7 +292,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
     PedDisk *ret = NULL;
-    PedDevice *dev;
+    PedDevice *dev = NULL;
     _ped_Disk *disk = (_ped_Disk *) s;
 
     if (disk == NULL) {
@@ -395,7 +395,7 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     PedFileSystem *ret = NULL;
-    PedGeometry *geom;
+    PedGeometry *geom = NULL;
     _ped_FileSystem *fs = (_ped_FileSystem *) s;
 
     if (fs == NULL) {
@@ -499,7 +499,7 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret = NULL;
-    PedDevice *dev;
+    PedDevice *dev = NULL;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
 
     if (geometry == NULL) {
@@ -588,9 +588,9 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret = NULL;
-    PedDisk *disk;
-    PedFileSystemType *fs_type;
-    PedGeometry *tmpgeom;
+    PedDisk *disk = NULL;
+    PedFileSystemType *fs_type = NULL;
+    PedGeometry *tmpgeom = NULL;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -705,7 +705,7 @@ PedTimer *_ped_Timer2PedTimer(PyObject *s) {
 
 /* PedTimer -> _ped_Timer functions */
 _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
-    _ped_Timer *ret;
+    _ped_Timer *ret = NULL;
 
     if (timer == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedTimer()");

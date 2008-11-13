@@ -35,7 +35,7 @@ void _ped_Geometry_dealloc(_ped_Geometry *self) {
 
 PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
                             PyObject *kwds) {
-    _ped_Geometry *self;
+    _ped_Geometry *self = NULL;
 
     self = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj);
     return (PyObject *) self;
@@ -106,9 +106,9 @@ int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
 /* 1:1 function mappings for geom.h in libparted */
 PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geometry, *in_device;
-    PedGeometry *out_geometry;
-    PedDevice *out_device;
+    PyObject *in_geometry = NULL, *in_device = NULL;
+    PedGeometry *out_geometry = NULL;
+    PedDevice *out_device = NULL;
     PedSector start, length;
 
     if (!PyArg_ParseTuple(args, "O!O!ll", &_ped_Geometry_Type_obj, &in_geometry,
@@ -147,11 +147,11 @@ PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
-    PyObject *in_device;
-    PedGeometry *geom;
-    PedDevice *out_device;
+    PyObject *in_device = NULL;
+    PedGeometry *geom = NULL;
+    PedDevice *out_device = NULL;
     PedSector start, length;
-    _ped_Geometry *ret;
+    _ped_Geometry *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_device,
                           &start, &length)) {
@@ -187,9 +187,9 @@ PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
-    PyObject *in_geometry;
-    PedGeometry *out_geometry, *geom;
-    _ped_Geometry *ret;
+    PyObject *in_geometry = NULL;
+    PedGeometry *out_geometry = NULL, *geom = NULL;
+    _ped_Geometry *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geometry)) {
         return NULL;
@@ -224,9 +224,9 @@ PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
-    PyObject *in_a, *in_b;
-    PedGeometry *out_a, *out_b, *geom;
-    _ped_Geometry *ret;
+    PyObject *in_a = NULL, *in_b = NULL;
+    PedGeometry *out_a = NULL, *out_b = NULL, *geom = NULL;
+    _ped_Geometry *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_Geometry_Type_obj, &in_a,
                           &_ped_Geometry_Type_obj, &in_b)) {
@@ -264,8 +264,8 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
-    PyObject *in_geometry;
-    PedGeometry *out_geometry;
+    PyObject *in_geometry = NULL;
+    PedGeometry *out_geometry = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geometry)) {
         return NULL;
@@ -284,8 +284,8 @@ PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector start, length;
 
     if (!PyArg_ParseTuple(args, "O!ll", &_ped_Geometry_Type_obj, &in_geom,
@@ -319,8 +319,8 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector start;
 
     if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom,
@@ -354,8 +354,8 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector end;
 
     if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom,
@@ -389,8 +389,8 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_a, *in_b;
-    PedGeometry *out_a, *out_b;
+    PyObject *in_a = NULL, *in_b = NULL;
+    PedGeometry *out_a = NULL, *out_b = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_Geometry_Type_obj ,&in_a,
                           &_ped_Geometry_Type_obj, &in_b)) {
@@ -415,8 +415,8 @@ PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_a, *in_b;
-    PedGeometry *out_a, *out_b;
+    PyObject *in_a = NULL, *in_b = NULL;
+    PedGeometry *out_a = NULL, *out_b = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_Geometry_Type_obj, &in_a,
                           &_ped_Geometry_Type_obj, &in_b)) {
@@ -441,8 +441,8 @@ PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_a, *in_b;
-    PedGeometry *out_a, *out_b;
+    PyObject *in_a = NULL, *in_b = NULL;
+    PedGeometry *out_a = NULL, *out_b = NULL;
 
     if (!PyArg_ParseTuple(args, "O!O!", &_ped_Geometry_Type_obj, &in_a,
                           &_ped_Geometry_Type_obj, &in_b)) {
@@ -467,8 +467,8 @@ PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
     PedSector sector;
 
     if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom,
@@ -489,9 +489,9 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom, *in_buf;
-    PedGeometry *out_geom;
-    void *out_buf;
+    PyObject *in_geom = NULL, *in_buf = NULL;
+    PedGeometry *out_geom = NULL;
+    void *out_buf = NULL;
     PedSector offset, count;
 
     if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Geometry_Type_obj, &in_geom,
@@ -530,8 +530,8 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
@@ -554,8 +554,8 @@ PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom;
-    PedGeometry *out_geom;
+    PyObject *in_geom = NULL;
+    PedGeometry *out_geom = NULL;
 
     if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
@@ -578,9 +578,9 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom, *in_buf;
-    PedGeometry *out_geom;
-    void *out_buf;
+    PyObject *in_geom = NULL, *in_buf = NULL;
+    PedGeometry *out_geom = NULL;
+    void *out_buf = NULL;
     PedSector offset, count;
 
     if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Geometry_Type_obj, &in_geom,
@@ -618,11 +618,11 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
-    PyObject *in_geom, *in_buf, *in_timer = NULL;
-    PedGeometry *out_geom;
-    void *out_buf;
+    PyObject *in_geom = NULL, *in_buf = NULL, *in_timer = NULL;
+    PedGeometry *out_geom = NULL;
+    void *out_buf = NULL;
     PedSector buffer_size, offset, granularity, count, ret;
-    PedTimer *out_timer;
+    PedTimer *out_timer = NULL;
 
     if (!PyArg_ParseTuple(args, "O!Ollll|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &in_buf, &buffer_size, &offset, &granularity, &count,
@@ -655,8 +655,8 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_dst, *in_src;
-    PedGeometry *out_dst, *out_src;
+    PyObject *in_dst = NULL, *in_src = NULL;
+    PedGeometry *out_dst = NULL, *out_src = NULL;
     PedSector sector;
 
     if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Geometry_Type_obj, &in_dst,
