@@ -1,7 +1,7 @@
 #
 # Makefile.am for pyparted
 #
-# Copyright (C) 2007  Red Hat, Inc.
+# Copyright (C) 2008  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,15 +17,12 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+# Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
 
-ACLOCAL_AMFLAGS = -I m4
+EXTRA_DIST = $(TESTS)
+MAINTAINERCLEANFILES = Makefile.in
 
-SUBDIRS = include src tests
+TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs
 
-MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
-                       depcomp install-sh ltmain.sh missing ABOUT-NLS \
-                       INSTALL aclocal.m4 configure
-
-MOSTLYCLEANDIRS = m4
+TESTS = test_ped.py

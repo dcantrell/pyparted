@@ -26,7 +26,7 @@ AC_INIT([pyparted], [2.0.0], [dcantrell@redhat.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile include/Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile include/Makefile src/Makefile tests/Makefile tests/_ped/Makefile])
 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
 
