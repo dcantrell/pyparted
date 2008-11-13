@@ -104,4 +104,24 @@
 - Exception handling:
       - Audit error messages to make them more useful.
 
+- Test cases:
+    _ped.Alignment
+    _ped.CHSGeometry
+    _ped.Constraint
+    _ped.Device
+    _ped.Disk
+    _ped.DiskType
+    _ped.FileSystem
+    _ped.FileSystemType
+    _ped.Geometry
+    _ped.Partition
+    _ped.Timer
+    _ped.unit_format_custom_byte
+    _ped.unit_format_byte
+    _ped.unit_format_custom
+    _ped.unit_format
+    _ped.unit_get_size
+    _ped.unit_parse
+    _ped.unit_parse_custom
+
 ... and much much more
