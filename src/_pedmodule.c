@@ -630,4 +630,5 @@ PyMODINIT_FUNC init_ped(void) {
     ped_exception_set_handler(partedExnHandler);
 }
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */

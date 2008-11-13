@@ -448,4 +448,5 @@ PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_div_round_to_nearest(numerator, divisor));
 }
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */

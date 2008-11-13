@@ -734,4 +734,5 @@ _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
     return ret;
 }
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */
