@@ -54,16 +54,16 @@ PyDoc_STRVAR(pyparted_version_doc,
 "pyparted_version() -> string\n\n"
 "Return the version of the pyparted module.");
 
-PyDoc_STRVAR(getDevice_doc,
+PyDoc_STRVAR(get_device_doc,
 "get_device(string) -> Device\n\n"
 "Return the Device corresponding to the given path.  Typically, path will\n"
 "be a device name like /dev/sda.");
 
-PyDoc_STRVAR(probeAllDevices_doc,
+PyDoc_STRVAR(probe_all_devices_doc,
 "probe_all_devices()\n\n"
 "Attempt to detect all devices.");
 
-PyDoc_STRVAR(freeAllDevices_doc,
+PyDoc_STRVAR(free_all_devices_doc,
 "free_all_devices()\n\n"
 "Close and free all devices.");
 
@@ -169,11 +169,11 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
     /* pydevice.c */
     {"get_device", (PyCFunction) py_ped_device_get, METH_VARARGS,
-                   getDevice_doc},
+                   get_device_doc},
     {"probe_all_devices", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
-                          probeAllDevices_doc},
+                          probe_all_devices_doc},
     {"free_all_devices", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
-                         freeAllDevices_doc},
+                         free_all_devices_doc},
 
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
