@@ -1643,4 +1643,5 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */

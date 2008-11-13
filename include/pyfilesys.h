@@ -176,4 +176,5 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
 
 #endif /* PYFILESYS_H_INCLUDED */
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */

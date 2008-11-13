@@ -279,4 +279,5 @@ PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
     return Py_None;
 }
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */

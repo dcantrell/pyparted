@@ -126,4 +126,5 @@ static PyTypeObject _ped_Constraint_Type_obj = {
 
 #endif /* PYCONSTRAINT_H_INCLUDED */
 
-/* vim:tw=78:ts=4:et:sw=4 */
+/* vim:tw=78:ts=4:et:sw=4
+ */
