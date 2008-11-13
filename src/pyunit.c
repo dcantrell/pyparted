@@ -30,7 +30,7 @@
 
 /* 1:1 function mappings for unit.h in libparted */
 PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
-    PedUnit unit;
+    long unit;
 
     if (!PyArg_ParseTuple(args, "l", &unit)) {
         return NULL;
@@ -55,7 +55,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     long long ret = -1;
     PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
-    PedUnit unit;
+    long unit;
 
     if (!PyArg_ParseTuple(args, "lO!", &unit, &_ped_Device_Type_obj, &in_dev))
         return NULL;
@@ -78,7 +78,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
-    PedUnit unit;
+    long unit;
 
     if (!PyArg_ParseTuple(args, "l", &unit)) {
         return NULL;
@@ -93,7 +93,7 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
-    PedUnit ret;
+    long ret;
     char *name = NULL;
 
     if (!PyArg_ParseTuple(args, "z", &name)) {
@@ -112,7 +112,7 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     char *ret = NULL;
     PyObject *in_dev = NULL;
-    PedUnit unit;
+    long unit;
     PedSector sector;
     PedDevice *out_dev = NULL;
 
@@ -157,7 +157,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
-    PedUnit unit;
+    long unit;
 
     if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_dev, &sector,
                           &unit)) {
@@ -231,7 +231,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     char *str = NULL;
     PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
-    PedUnit unit;
+    long unit;
     PedSector sector;
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
