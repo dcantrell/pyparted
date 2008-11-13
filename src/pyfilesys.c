@@ -46,7 +46,9 @@ int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
                              PyObject *kwds) {
     static char *kwlist[] = {"name", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &self->name))
+    self->name = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|z", kwlist, &self->name))
         return -1;
     else
         return 0;
@@ -193,9 +195,9 @@ PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
 PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     PedFileSystemType *fstype;
     _ped_FileSystemType *ret;
-    char *name;
+    char *name = NULL;
 
-    if (!PyArg_ParseTuple(args, "s", &name)) {
+    if (!PyArg_ParseTuple(args, "z", &name)) {
         return NULL;
     }
 

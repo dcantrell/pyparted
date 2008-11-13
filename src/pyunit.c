@@ -94,9 +94,9 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     PedUnit ret;
-    char *name;
+    char *name = NULL;
 
-    if (!PyArg_ParseTuple(args, "s", &name)) {
+    if (!PyArg_ParseTuple(args, "z", &name)) {
         return NULL;
     }
 
@@ -205,7 +205,7 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
 
-    if (!PyArg_ParseTuple(args, "sOlO", &str, &in_dev, &sector, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "zOlO", &str, &in_dev, &sector, &in_geom)) {
         return NULL;
     }
 
@@ -236,7 +236,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     PyObject *in_geom;
     PedGeometry *out_geom;
 
-    if (!PyArg_ParseTuple(args, "sOllO", &str, &in_dev, &unit, &sector,
+    if (!PyArg_ParseTuple(args, "zOllO", &str, &in_dev, &unit, &sector,
                           &in_geom)) {
         return NULL;
     }
