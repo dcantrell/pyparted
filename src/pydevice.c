@@ -123,7 +123,7 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
                              "read_only", "external_mode", "dirty", "boot_dirty",
                              "hw_geom", "bios_geom", "host", "did", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|sslllliiiiiO!O!hh", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|zzlllliiiiiO!O!hh", kwlist,
                                      &self->model, &self->path, &self->type,
                                      &self->sector_size, &self->phys_sector_size,
                                      &self->length, &self->open_count,
@@ -131,10 +131,11 @@ int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds) {
                                      &self->dirty, &self->boot_dirty,
                                      &_ped_CHSGeometry_Type_obj, &self->hw_geom,
                                      &_ped_CHSGeometry_Type_obj, &self->bios_geom,
-                                     &self->host, &self->did))
+                                     &self->host, &self->did)) {
         return -1;
-    else
+    } else {
         return 0;
+    }
 }
 
 PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
@@ -258,25 +259,13 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for device.h in libparted */
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)  {
-    char *path;
-
-    if (!PyArg_ParseTuple(args, "s", &path)) {
-        return NULL;
-    }
-
     ped_device_probe_all();
-
-    free(path);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_device_free_all(PyObject *s, PyObject *args) {
-    if (!PyArg_ParseTuple(args, "")) {
-        return NULL;
-    }
-
     ped_device_free_all();
 
     Py_INCREF(Py_None);
@@ -286,9 +275,9 @@ PyObject *py_ped_device_free_all(PyObject *s, PyObject *args) {
 PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     PedDevice *device;
     _ped_Device *ret;
-    char *path;
+    char *path = NULL;
 
-    if (!PyArg_ParseTuple(args, "s", &path)) {
+    if (!PyArg_ParseTuple(args, "z", &path)) {
         return NULL;
     }
 
@@ -302,6 +291,9 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     }
 
     ped_device_destroy(device);
+    if (path) {
+        free(path);
+    }
 
     return (PyObject *) ret;
 }
@@ -451,7 +443,6 @@ PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
     }
 
     ped_device_cache_remove(out_device);
-
     ped_device_destroy(out_device);
 
     Py_INCREF(Py_None);
