@@ -76,6 +76,50 @@ PyDoc_STRVAR(div_round_to_nearest_doc,
              "div_round_to_nearest(a, b) -> sector\n\nReturns the closest "
              "result of a divided by b.");
 
+PyDoc_STRVAR(unit_set_default_doc,
+             "unit_set_default(unit)\n\nSets the default unit to be used by "
+             "further unit_* calls.  This primarily affects the formatting of "
+             "error messages.");
+
+PyDoc_STRVAR(unit_get_default_doc,
+             "unit_get_default() -> unit\n\nReturns the default unit.");
+
+PyDoc_STRVAR(unit_get_size_doc,
+             "unit_get_size(device, unit) -> long\n\nReturns the byte size of "
+             "the given unit.");
+
+PyDoc_STRVAR(unit_get_name_doc,
+             "unit_get_name(unit) -> string\n\nReturns a textual "
+             "representation of a given unit.");
+
+PyDoc_STRVAR(unit_get_by_name_doc,
+             "unit_get_by_name(string) -> unit\n\nReturns a unit given its "
+             "textual representation.  Returns one of the UNIT_* constants.");
+
+PyDoc_STRVAR(unit_format_custom_byte_doc,
+             "unit_format_custom_byte(device, sector, unit) -> string\n\nReturn "
+             "a string that describes the location of the byte sector on "
+             "device, as described by unit.");
+
+PyDoc_STRVAR(unit_format_byte_doc,
+             "unit_format_byte(device, sector) -> string\n\nReturn a string "
+             "that describes the location of the byte sector on device, as "
+             "described by the default unit.");
+
+PyDoc_STRVAR(unit_format_custom_doc,
+             "unit_format_custom(device, sector, unit) -> string\n\nReturn a "
+             "string that describes the location of sector on device, as "
+             "described by the default unit.");
+
+PyDoc_STRVAR(unit_format_doc,
+             "unit_format(device, sector) -> string\n\nReturn a string that "
+             "describes the location of sector on device, as described by the "
+             "default unit.");
+
+/* PyDoc_STRVAR(unit_parse_doc,); */
+
+/* PyDoc_STRVAR(unit_parse_custom_doc, ); */
+
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
     {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS,
@@ -99,20 +143,23 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
     /* pyunit.c */
     {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS,
-                         NULL},
+                         unit_set_default_doc},
     {"unit_get_default", (PyCFunction) py_ped_unit_get_default, METH_VARARGS,
-                         NULL},
-    {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS, NULL},
-    {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS, NULL},
+                         unit_get_default_doc},
+    {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS,
+                      unit_get_size_doc},
+    {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS,
+                      unit_get_name_doc},
     {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS,
-                         NULL},
+                         unit_get_by_name_doc},
     {"unit_format_custom_byte", (PyCFunction) py_ped_unit_format_custom_byte,
-                                METH_VARARGS, NULL},
+                                METH_VARARGS, unit_format_custom_byte_doc},
     {"unit_format_byte", (PyCFunction) py_ped_unit_format_byte, METH_VARARGS,
-                         NULL},
+                         unit_format_byte_doc},
     {"unit_format_custom", (PyCFunction) py_ped_unit_format_custom,
-                           METH_VARARGS, NULL},
-    {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS, NULL},
+                           METH_VARARGS, unit_format_custom_doc},
+    {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS,
+                    unit_format_doc},
     {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS, NULL},
     {"unit_parse_custom", (PyCFunction) py_ped_unit_parse_custom,
                           METH_VARARGS, NULL},
