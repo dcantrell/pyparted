@@ -124,41 +124,35 @@ PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
     return NULL;
 }
 
+/* XXX: should this also destroy the _ped.Timer? */
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
-        return NULL;
-    }
-
-    ped_timer_destroy(out_timer);
+    ped_timer_destroy(timer);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
-    PyObject *in_parent = NULL;
     float nest_frac;
-    PedTimer *out_parent = NULL, *timer = NULL;
+    PedTimer *parent = NULL, *timer = NULL;
     _ped_Timer *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!f", &_ped_Timer_Type_obj, &in_parent,
-                          &nest_frac))
+    if (!PyArg_ParseTuple(args, "f", &nest_frac))
         return NULL;
 
-    out_parent = _ped_Timer2PedTimer(in_parent);
-    if (out_parent == NULL) {
+    parent = _ped_Timer2PedTimer(s);
+    if (parent == NULL) {
         return NULL;
     }
 
-    timer = ped_timer_new_nested(out_parent, nest_frac);
+    timer = ped_timer_new_nested(parent, nest_frac);
     if (timer) {
         ret = PedTimer2_ped_Timer(timer);
         if (ret == NULL) {
@@ -170,109 +164,92 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_timer_destroy(out_parent);
+    ped_timer_destroy(parent);
     ped_timer_destroy(timer);
 
     return (PyObject *) ret;
 }
 
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
-        return NULL;
-    }
-
-    ped_timer_destroy_nested(out_timer);
-    ped_timer_destroy(out_timer);
+    ped_timer_destroy_nested(timer);
+    ped_timer_destroy(timer);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_touch(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
-        return NULL;
-    }
-
-    ped_timer_touch(out_timer);
-    ped_timer_destroy(out_timer);
+    ped_timer_touch(timer);
+    ped_timer_destroy(timer);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_reset(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Timer_Type_obj, &in_timer)) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
-        return NULL;
-    }
-
-    ped_timer_reset(out_timer);
-    ped_timer_destroy(out_timer);
+    ped_timer_reset(timer);
+    ped_timer_destroy(timer);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_update(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
     float frac;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!f", &_ped_Timer_Type_obj, &in_timer, &frac))
+    if (!PyArg_ParseTuple(args, "f", &frac))
         return NULL;
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    ped_timer_update(out_timer, frac);
-    ped_timer_destroy(out_timer);
+    ped_timer_update(timer, frac);
+    ped_timer_destroy(timer);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args) {
-    PyObject *in_timer = NULL;
     char *str = NULL;
-    PedTimer *out_timer = NULL;
+    PedTimer *timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!z", &_ped_Timer_Type_obj, &in_timer, &str)) {
+    if (!PyArg_ParseTuple(args, "z", &str)) {
         return NULL;
     }
 
-    out_timer = _ped_Timer2PedTimer(in_timer);
-    if (out_timer == NULL) {
+    timer = _ped_Timer2PedTimer(s);
+    if (timer == NULL) {
         return NULL;
     }
 
-    ped_timer_set_state_name(out_timer, str);
+    ped_timer_set_state_name(timer, str);
 
-    ped_timer_destroy(out_timer);
+    ped_timer_destroy(timer);
     free(str);
 
     Py_INCREF(Py_None);

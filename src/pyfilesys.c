@@ -153,40 +153,28 @@ int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for filesys.h in libparted */
 PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
-    PyObject *in_fstype = NULL;
-    PedFileSystemType *out_fstype = NULL;
+    PedFileSystemType *fstype = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype)) {
+    fstype = _ped_FileSystemType2PedFileSystemType(s);
+    if (!fstype) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (!out_fstype) {
-        return NULL;
-    }
-
-    ped_file_system_type_register(out_fstype);
+    ped_file_system_type_register(fstype);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
-    PyObject *in_fstype = NULL;
-    PedFileSystemType *out_fstype = NULL;
+    PedFileSystemType *fstype = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype)) {
+    fstype = _ped_FileSystemType2PedFileSystemType(s);
+    if (!fstype) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (!out_fstype) {
-        return NULL;
-    }
-
-    ped_file_system_type_unregister(out_fstype);
+    ped_file_system_type_unregister(fstype);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -213,25 +201,19 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
-    PyObject *in_fstype = NULL;
-    PedFileSystemType *out_fstype = NULL, *fstype = NULL;
+    PedFileSystemType *self_fstype = NULL, *fstype = NULL;
     _ped_FileSystemType *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "|O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype)) {
-        return NULL;
-    }
-
-    if (!in_fstype)
-        out_fstype = NULL;
-    else {
-        out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-        if (!out_fstype) {
+    if (s == Py_None) {
+        self_fstype = NULL;
+    } else {
+        self_fstype = _ped_FileSystemType2PedFileSystemType(s);
+        if (!self_fstype) {
             return NULL;
         }
     }
 
-    fstype = ped_file_system_type_get_next(out_fstype);
+    fstype = ped_file_system_type_get_next(self_fstype);
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
         return (PyObject *) ret;
@@ -244,18 +226,17 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
-    PyObject *in_fstype = NULL, *in_geom = NULL;
-    PedFileSystemType *out_fstype = NULL;
+    PyObject *in_geom = NULL;
+    PedFileSystemType *fstype = NULL;
     PedGeometry *out_geom = NULL, *geom = NULL;
     _ped_Geometry *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (!out_fstype) {
+    fstype = _ped_FileSystemType2PedFileSystemType(s);
+    if (!fstype) {
         return NULL;
     }
 
@@ -264,7 +245,7 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    geom = ped_file_system_probe_specific(out_fstype, out_geom);
+    geom = ped_file_system_probe_specific(fstype, out_geom);
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
     }
@@ -276,7 +257,7 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(FileSystemException, "Failed to probe filesystem type %s", out_fstype->name);
+            PyErr_Format(FileSystemException, "Failed to probe filesystem type %s", fstype->name);
 
         return NULL;
     }
@@ -287,6 +268,9 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: this needs to be pulled up to the _ped module because it's
+ * not specific to a single FileSystem instance
+ */
 PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
@@ -324,6 +308,10 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: this function needs to take the PedGeometry from self and pass
+ * that to ped_file_system_clobber(), rather than taking in the PedGeometry
+ * as a parameter
+ */
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     int ret = -1;
     PyObject *in_geom = NULL;
@@ -358,6 +346,10 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
+/* XXX: this function needs to take the PedGeometry from self and pass
+ * that to ped_file_system_clobber(), rather than taking in the PedGeometry
+ * as a parameter
+ */
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
@@ -397,6 +389,9 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: this function should use the class members already here rather
+ * than expecting arguments
+ */
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL, *in_fstype = NULL, *in_timer = NULL;
     PedGeometry *out_geom = NULL;
@@ -455,45 +450,40 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: should this function also destroy the _ped.FileSystem? */
 PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_fs = NULL;
-    PedFileSystem *out_fs = NULL;
+    PedFileSystem *fs = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystem_Type_obj, &in_fs)) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!fs) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
-        return NULL;
-    }
-
-    ret = ped_file_system_close(out_fs);
+    ret = ped_file_system_close(fs);
 
     if (!ret) {
-        PyErr_Format(FileSystemException, "Failed to close filesystem type %s", out_fs->type->name);
+        PyErr_Format(FileSystemException, "Failed to close filesystem type %s", fs->type->name);
         return NULL;
     }
 
-    ped_file_system_destroy(out_fs);
+    ped_file_system_destroy(fs);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_fs = NULL, *in_timer = NULL;
-    PedFileSystem *out_fs = NULL;
+    PyObject *in_timer = NULL;
+    PedFileSystem *fs = NULL;
     PedTimer *out_timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
-                          &_ped_Timer_Type_obj, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!fs) {
         return NULL;
     }
 
@@ -506,7 +496,7 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     else
         out_timer = NULL;
 
-    ret = ped_file_system_check(out_fs, out_timer);
+    ret = ped_file_system_check(fs, out_timer);
 
     /* NotImplementedError may have been raised if it's an unsupported
      * operation for this filesystem.  Otherwise, we shouldn't get any
@@ -517,28 +507,27 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_file_system_destroy(out_fs);
+    ped_file_system_destroy(fs);
     ped_timer_destroy(out_timer);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
-    PyObject *in_fs = NULL, *in_geom = NULL, *in_timer = NULL;
-    PedFileSystem *out_fs = NULL;
+    PyObject *in_geom = NULL, *in_timer = NULL;
+    PedFileSystem *fs = NULL;
     PedGeometry *out_geom = NULL;
     PedTimer *out_timer = NULL;
-    PedFileSystem *fs = NULL;
+    PedFileSystem *finalfs = NULL;
     _ped_FileSystem *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
-                          &_ped_Geometry_Type_obj, &in_geom,
+    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!fs) {
         return NULL;
     }
 
@@ -556,9 +545,9 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     else
         out_timer = NULL;
 
-    fs = ped_file_system_copy(out_fs, out_geom, out_timer);
-    if (fs) {
-        ret = PedFileSystem2_ped_FileSystem(fs);
+    finalfs = ped_file_system_copy(fs, out_geom, out_timer);
+    if (finalfs) {
+        ret = PedFileSystem2_ped_FileSystem(finalfs);
     }
     else {
         if (partedExnRaised) {
@@ -569,13 +558,13 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_Format(FileSystemException, "Failed to copy filesystem type %s", out_fs->type->name);
+            PyErr_Format(FileSystemException, "Failed to copy filesystem type %s", fs->type->name);
 
         return NULL;
     }
 
+    ped_file_system_destroy(finalfs);
     ped_file_system_destroy(fs);
-    ped_file_system_destroy(out_fs);
     ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
@@ -583,20 +572,19 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
-    PyObject *in_fs = NULL, *in_geom = NULL, *in_timer = NULL;
-    PedFileSystem *out_fs = NULL;
+    PyObject *in_geom = NULL, *in_timer = NULL;
+    PedFileSystem *fs = NULL;
     PedGeometry *out_geom = NULL;
     PedTimer *out_timer = NULL;
     int ret = -1;
 
-    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_FileSystem_Type_obj, &in_fs,
-                          &_ped_Geometry_Type_obj, &in_geom,
+    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_Geometry_Type_obj, &in_geom,
                           &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!fs) {
         return NULL;
     }
 
@@ -614,7 +602,7 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     else
         out_timer = NULL;
 
-    ret = ped_file_system_resize(out_fs, out_geom, out_timer);
+    ret = ped_file_system_resize(fs, out_geom, out_timer);
 
     if (!ret) {
         if (partedExnRaised) {
@@ -625,18 +613,19 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_Format(FileSystemException, "Failed to resize filesystem type %s", out_fs->type->name);
+            PyErr_Format(FileSystemException, "Failed to resize filesystem type %s", fs->type->name);
 
         return NULL;
     }
 
-    ped_file_system_destroy(out_fs);
+    ped_file_system_destroy(fs);
     ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
     return PyBool_FromLong(ret);
 }
 
+/* XXX: should this function use attributes already in the object? */
 PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
                                                    PyObject *args) {
     PyObject *in_fstype = NULL, *in_device = NULL;
@@ -677,49 +666,43 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
 
 PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
                                                    PyObject *args) {
-    PyObject *in_fs = NULL;
-    PedFileSystem *out_fs = NULL;
+    PedFileSystem *fs = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystem_Type_obj, &in_fs)) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!s) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
-        return NULL;
-    }
-
-    constraint = ped_file_system_get_resize_constraint(out_fs);
+    constraint = ped_file_system_get_resize_constraint(fs);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_Format(CreateException, "Failed to create resize constraint for filesystem type %s", out_fs->type->name);
+        PyErr_Format(CreateException, "Failed to create resize constraint for filesystem type %s", fs->type->name);
         return NULL;
     }
 
-    ped_file_system_destroy(out_fs);
+    ped_file_system_destroy(fs);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
-    PyObject *in_fs = NULL, *in_device = NULL;
-    PedFileSystem *out_fs = NULL;
+    PyObject *in_device = NULL;
+    PedFileSystem *fs = NULL;
     PedDevice *out_device = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystem_Type_obj, &in_fs,
-                          &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
-    out_fs = _ped_FileSystem2PedFileSystem(in_fs);
-    if (!out_fs) {
+    fs = _ped_FileSystem2PedFileSystem(s);
+    if (!fs) {
         return NULL;
     }
 
@@ -728,16 +711,16 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    constraint = ped_file_system_get_copy_constraint(out_fs, out_device);
+    constraint = ped_file_system_get_copy_constraint(fs, out_device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_Format(CreateException, "Failed to create copy constraint for filesystem type %s", out_fs->type->name);
+        PyErr_Format(CreateException, "Failed to create copy constraint for filesystem type %s", fs->type->name);
         return NULL;
     }
 
-    ped_file_system_destroy(out_fs);
+    ped_file_system_destroy(fs);
     ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 

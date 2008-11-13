@@ -149,29 +149,28 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_greatest_common_divisor(a, b));
 }
 
+/* XXX: can .tp_init do this? */
 PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_alignment = NULL;
-    PedAlignment *out_alignment = NULL;
+    PedAlignment *alignment = NULL;
     PedSector offset, grain_size;
 
-    if (!PyArg_ParseTuple(args, "O!ll", &_ped_Alignment_Type_obj, &in_alignment,
-                          &offset, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "ll", &offset, &grain_size)) {
         return NULL;
     }
 
-    out_alignment = _ped_Alignment2PedAlignment(in_alignment);
-    if (out_alignment == NULL) {
+    alignment = _ped_Alignment2PedAlignment(s);
+    if (alignment == NULL) {
         return NULL;
     }
 
-    ret = ped_alignment_init(out_alignment, offset, grain_size);
+    ret = ped_alignment_init(alignment, offset, grain_size);
     if (ret == 0) {
         PyErr_SetString(CreateException, "Could not create new alignment: grain_size must be >= 0");
         return NULL;
     }
 
-    ped_alignment_destroy(out_alignment);
+    ped_alignment_destroy(alignment);
 
     return PyBool_FromLong(ret);
 }
@@ -202,38 +201,31 @@ PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: should this destroy the _ped.Alignment? */
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
-    PyObject *in_alignment;
-    PedAlignment *out_alignment = NULL;
+    PedAlignment *alignment = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Alignment_Type_obj, &in_alignment))
-        return NULL;
-
-    out_alignment = _ped_Alignment2PedAlignment(in_alignment);
-    if (out_alignment == NULL) {
+    alignment = _ped_Alignment2PedAlignment(s);
+    if (alignment == NULL) {
         return NULL;
     }
 
-    ped_alignment_destroy(out_alignment);
+    ped_alignment_destroy(alignment);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
-    PyObject *in_alignment = NULL;
-    PedAlignment *out_alignment = NULL, *align = NULL;
+    PedAlignment *alignment = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Alignment_Type_obj, &in_alignment))
-        return NULL;
-
-    out_alignment = _ped_Alignment2PedAlignment(in_alignment);
-    if (out_alignment == NULL) {
+    alignment = _ped_Alignment2PedAlignment(s);
+    if (alignment == NULL) {
         return NULL;
     }
 
-    align = ped_alignment_duplicate(out_alignment);
+    align = ped_alignment_duplicate(alignment);
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
         if (ret == NULL) {
@@ -245,23 +237,22 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_alignment_destroy(out_alignment);
+    ped_alignment_destroy(alignment);
     ped_alignment_destroy(align);
 
     return (PyObject *) ret;
 }
 
 PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
-    PyObject *in_a = NULL, *in_b = NULL;
+    PyObject *in_b = NULL;
     PedAlignment *out_a = NULL, *out_b = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Alignment_Type_obj, &in_a,
-                          &_ped_Alignment_Type_obj, &in_b)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Alignment_Type_obj, &in_b)) {
         return NULL;
     }
 
-    out_a = _ped_Alignment2PedAlignment(in_a);
+    out_a = _ped_Alignment2PedAlignment(s);
     if (out_a == NULL) {
         return NULL;
     }
@@ -291,18 +282,17 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
-    PyObject *in_align = NULL, *in_geom = NULL;
-    PedAlignment *out_align = NULL;
+    PyObject *in_geom = NULL;
+    PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
-                          &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
-    out_align = _ped_Alignment2PedAlignment(in_align);
-    if (out_align == NULL) {
+    align = _ped_Alignment2PedAlignment(s);
+    if (align == NULL) {
         return NULL;
     }
 
@@ -311,31 +301,30 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_alignment_align_up(out_align, out_geom, sector);
+    ret = ped_alignment_align_up(align, out_geom, sector);
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align up to sector");
         return NULL;
     }
 
-    ped_alignment_destroy(out_align);
+    ped_alignment_destroy(align);
     ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
-    PyObject *in_align = NULL, *in_geom = NULL;
-    PedAlignment *out_align = NULL;
+    PyObject *in_geom = NULL;
+    PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
-                          &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
-    out_align = _ped_Alignment2PedAlignment(in_align);
-    if (out_align == NULL) {
+    align = _ped_Alignment2PedAlignment(s);
+    if (align == NULL) {
         return NULL;
     }
 
@@ -344,31 +333,30 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_alignment_align_down(out_align, out_geom, sector);
+    ret = ped_alignment_align_down(align, out_geom, sector);
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align down to sector");
         return NULL;
     }
 
-    ped_alignment_destroy(out_align);
+    ped_alignment_destroy(align);
     ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
-    PyObject *in_align = NULL, *in_geom = NULL;
-    PedAlignment *out_align = NULL;
+    PyObject *in_geom = NULL;
+    PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
-                          &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
-    out_align = _ped_Alignment2PedAlignment(in_align);
-    if (out_align == NULL) {
+    align = _ped_Alignment2PedAlignment(s);
+    if (align == NULL) {
         return NULL;
     }
 
@@ -377,13 +365,13 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_alignment_align_nearest(out_align, out_geom, sector);
+    ret = ped_alignment_align_nearest(align, out_geom, sector);
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align to closest sector");
         return NULL;
     }
 
-    ped_alignment_destroy(out_align);
+    ped_alignment_destroy(align);
     ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
@@ -391,18 +379,17 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_align = NULL, *in_geom = NULL;
-    PedAlignment *out_align = NULL;
+    PyObject *in_geom = NULL;
+    PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!O!l", &_ped_Alignment_Type_obj, &in_align,
-                          &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
-    out_align = _ped_Alignment2PedAlignment(in_align);
-    if (out_align == NULL) {
+    align = _ped_Alignment2PedAlignment(s);
+    if (align == NULL) {
         return NULL;
     }
 
@@ -411,8 +398,8 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_alignment_is_aligned(out_align, out_geom, sector);
-    ped_alignment_destroy(out_align);
+    ret = ped_alignment_is_aligned(align, out_geom, sector);
+    ped_alignment_destroy(align);
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
