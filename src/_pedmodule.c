@@ -41,22 +41,61 @@
 
 #include "config.h"
 
+/* Docs strings are broken out of the module structure here to be at least a
+ * little bit readable.
+ */
+PyDoc_STRVAR(libparted_version_doc,
+             "libparted_version() -> string\n\nReturn the version of libparted "
+             "that pyparted was built against.");
+
+PyDoc_STRVAR(pyparted_version_doc,
+             "pyparted_version() -> string\n\nReturn the version of the "
+             "pyparted module.");
+
+PyDoc_STRVAR(round_up_to_doc,
+             "round_up_to_doc(sector, grain_size) -> sector\n\nRounds sector "
+             "up to the closest multiple of grain_size.");
+
+PyDoc_STRVAR(round_down_to_doc,
+             "round_down_to_doc(sector, grain_size) -> sector\n\nRounds sector "
+             "down to the closest multiple of grain_size.");
+
+PyDoc_STRVAR(round_to_nearest_doc,
+             "round_down_to(sector, grain_size) -> sector\n\nRounds sector to "
+             "the closest multiple of grain_size.");
+
+PyDoc_STRVAR(greatest_common_divisor_doc,
+             "greatest_common_divisor_doc(a, b) -> sector\n\nReturns the "
+             "largest divisor of both a and b.");
+
+PyDoc_STRVAR(div_round_up_doc,
+             "div_round_up(a, b) -> sector\n\nRounds up the result of a "
+             "divided by b.");
+
+PyDoc_STRVAR(div_round_to_nearest_doc,
+             "div_round_to_nearest(a, b) -> sector\n\nReturns the closest "
+             "result of a divided by b.");
+
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
     {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS,
-                          NULL},
-    {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS, NULL},
+                          libparted_version_doc},
+    {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS,
+                         pyparted_version_doc},
 
     /* pynatmath.c */
-    {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS, NULL},
-    {"round_down_to", (PyCFunction) py_ped_round_down_to, METH_VARARGS, NULL},
+    {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
+                    round_up_to_doc},
+    {"round_down_to", (PyCFunction) py_ped_round_down_to, METH_VARARGS,
+                      round_down_to_doc},
     {"round_to_nearest", (PyCFunction) py_ped_round_to_nearest, METH_VARARGS,
-                         NULL},
+                         round_to_nearest_doc},
     {"greatest_common_divisor", (PyCFunction) py_ped_greatest_common_divisor,
-                                METH_VARARGS, NULL},
-    {"div_round_up", (PyCFunction) py_ped_div_round_up, METH_VARARGS, NULL},
+                                METH_VARARGS, greatest_common_divisor_doc},
+    {"div_round_up", (PyCFunction) py_ped_div_round_up, METH_VARARGS,
+                     div_round_up_doc},
     {"div_round_to_nearest", (PyCFunction) py_ped_div_round_to_nearest,
-                             METH_VARARGS, NULL},
+                             METH_VARARGS, div_round_to_nearest_doc},
 
     /* pyunit.c */
     {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS,
