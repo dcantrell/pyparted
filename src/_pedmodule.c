@@ -127,6 +127,11 @@ static struct PyMethodDef PyPedModuleMethods[] = {
     {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS,
                          pyparted_version_doc},
 
+    /* pydevice.c */
+    {"getDevice", (PyCFunction) py_ped_device_get, METH_VARARGS, NULL},
+    {"probeAllDevices", (PyCFunction) py_ped_device_probe_all, METH_VARARGS, NULL},
+    {"freeAllDevices",(PyCFunction) py_ped_device_free_all, METH_VARARGS, NULL},
+
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
                     round_up_to_doc},

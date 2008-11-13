@@ -132,9 +132,6 @@ static PyMemberDef _ped_Device_members[] = {
 };
 
 static PyMethodDef _ped_Device_methods[] = {
-    {"probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS, NULL},
-    {"free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS, NULL},
-    {"get", (PyCFunction) py_ped_device_get, METH_VARARGS, NULL},
     {"get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS, NULL},
     {"is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS, NULL},
     {"open", (PyCFunction) py_ped_device_open, METH_VARARGS, NULL},
@@ -158,7 +155,6 @@ static PyMethodDef _ped_Device_methods[] = {
 
 void _ped_Device_dealloc(_ped_Device *self);
 PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
-int _ped_Device_init(_ped_Device *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Device_get(_ped_Device *self, void *closure);
 int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
@@ -202,8 +198,6 @@ static PyTypeObject _ped_Device_Type_obj = {
     .tp_methods = _ped_Device_methods,
     .tp_members = _ped_Device_members,
     .tp_getset = _ped_Device_getset,
-    .tp_init = (initproc) _ped_Device_init,
-    .tp_new = _ped_Device_new,
 };
 
 #endif /* PYDEVICE_H_INCLUDED */
