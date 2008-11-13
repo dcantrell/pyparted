@@ -137,4 +137,6 @@
     _ped.FileSystemType
     _ped.PartitionType
 
+- Py_XDECREF on PyObject members in object dealloc functions.
+
 ... and much much more
