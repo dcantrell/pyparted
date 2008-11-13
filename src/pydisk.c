@@ -347,7 +347,7 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    device = _ped_Device2PedDevice(device);
+    device = _ped_Device2PedDevice(s);
     if (device == NULL) {
         return NULL;
     }
