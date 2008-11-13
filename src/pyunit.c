@@ -106,7 +106,7 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_get_by_name(name);
-    if (ret == -1) {
+    if (ret < PED_UNIT_FIRST || ret > PED_UNIT_LAST) {
         PyErr_SetString(UnknownTypeException, name);
         return NULL;
     }
