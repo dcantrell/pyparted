@@ -29,3 +29,5 @@ extern PyObject *py_libparted_get_version(PyObject *s, PyObject *args);
 extern PyObject *py_pyparted_version(PyObject *s, PyObject *args);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
+
+/* vim:tw=78:ts=4:et:sw=4 */

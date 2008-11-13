@@ -624,3 +624,5 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
 
     return (PyObject *) ret;
 }
+
+/* vim:tw=78:ts=4:et:sw=4 */

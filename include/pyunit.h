@@ -45,3 +45,5 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args);
 PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args);
 
 #endif /* PYUNIT_H_INCLUDED */
+
+/* vim:tw=78:ts=4:et:sw=4 */

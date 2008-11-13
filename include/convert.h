@@ -69,3 +69,5 @@ PedTimer *_ped_Timer2PedTimer(PyObject *s);
 _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer);
 
 #endif /* CONVERT_H_INCLUDED */
+
+/* vim:tw=78:ts=4:et:sw=4 */
