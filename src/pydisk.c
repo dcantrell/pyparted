@@ -31,6 +31,9 @@
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
+    Py_XDECREF(self->disk);
+    Py_XDECREF(self->geom);
+    Py_XDECREF(self->fs_type);
     PyObject_Del(self);
 }
 
@@ -102,6 +105,8 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
+    Py_XDECREF(self->dev);
+    Py_XDECREF(self->type);
     PyObject_Del(self);
 }
 

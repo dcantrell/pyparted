@@ -30,6 +30,7 @@
 
 /* _ped.Geometry functions */
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
+    Py_XDECREF(self->dev);
     PyObject_Del(self);
 }
 

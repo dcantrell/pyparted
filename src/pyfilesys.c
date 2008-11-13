@@ -92,6 +92,8 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
 
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
+    Py_XDECREF(self->type);
+    Py_XDECREF(self->geom);
     PyObject_Del(self);
 }
 
