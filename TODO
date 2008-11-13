@@ -124,4 +124,14 @@
     _ped.unit_parse
     _ped.unit_parse_custom
 
+- The following PyTypeObjects need to be set up so that the _ped module can
+  return them to callers, but users cannot instantiate them:
+    _ped.Device
+    _ped.CHSGeometry
+    _ped.DeviceType
+    _ped.DiskType
+    _ped.FileSystem
+    _ped.FileSystemType
+    _ped.PartitionType
+
 ... and much much more
