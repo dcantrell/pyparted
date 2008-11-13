@@ -60,6 +60,11 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     if (!PyArg_ParseTuple(args, "lO!", &unit, &_ped_Device_Type_obj, &in_dev))
         return NULL;
 
+    if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
+        PyErr_SetString(PyExc_ValueError, "Invalid unit provided.");
+        return NULL;
+    }
+
     out_dev = _ped_Device2PedDevice(in_dev);
     if (out_dev == NULL) {
         return NULL;
@@ -118,6 +123,11 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_dev, &sector,
                           &unit)) {
+        return NULL;
+    }
+
+    if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
+        PyErr_SetString(PyExc_ValueError, "Invalid unit provided.");
         return NULL;
     }
 
@@ -238,6 +248,11 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "zOllO", &str, &in_dev, &unit, &sector,
                           &in_geom)) {
+        return NULL;
+    }
+
+    if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
+        PyErr_SetString(PyExc_ValueError, "Invalid unit provided.");
         return NULL;
     }
 
