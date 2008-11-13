@@ -32,7 +32,6 @@
       include/pygeom.h
       include/pynatmath.h
       include/pytimer.h
-      src/_pedmodule.c
 
 - Rename modules under _ped to use all lowercase names.  Make sure all classes
   are named with studly caps (e.g., BigGiantWorthlessClass)
@@ -123,9 +122,9 @@
     _ped.unit_get_size
     _ped.unit_parse
     _ped.unit_parse_custom
-    _ped.getDevice
-    _ped.probeAllDevices
-    _ped.freeAllDevices
+    _ped.get_device
+    _ped.probe_all_devices
+    _ped.free_all_devices
 
 - The following PyTypeObjects need to be set up so that the _ped module can
   return them to callers, but users cannot instantiate them:
