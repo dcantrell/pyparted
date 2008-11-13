@@ -90,15 +90,14 @@
   where they just have the val attribute, do we need get/set methods?  I
   think so for things like bounds checking and type checking.
 
-- timer.h:
+- Still left to implement from libparted:
+  timer.h:
       py_ped_timer_new
 
-- Make sure _ped module has Python docstrings galore
+- Figure out what, if anything, we can do with timers.  They are optional in
+  libparted, but do we want to support them in pyparted?
 
 - Error handling in the get and set methods.
-
-- When using PyArg_ParseTuple to read in strings, use "z" to account for
-  None being passed in as the string (sets char * to NULL for us).
 
 - Free memory in error handling cases.
 
