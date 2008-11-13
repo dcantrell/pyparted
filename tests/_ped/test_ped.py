@@ -71,6 +71,77 @@ class RoundUpToTestCase(unittest.TestCase):
         self.assertEqual(_ped.round_up_to(100, -17), 68)
         self.assertRaises(ZeroDivisionError, _ped.round_up_to, 100, 0)
 
+class UnitSetDefaultTestCase(unittest.TestCase):
+    def setUp(self):
+        self._initialDefault = _ped.unit_get_default()
+
+    def tearDown(self):
+        _ped.unit_set_default(self._initialDefault)
+
+    def runTest(self):
+        for v in [_ped.UNIT_BYTE, _ped.UNIT_CHS, _ped.UNIT_COMPACT,
+                  _ped.UNIT_CYLINDER, _ped.UNIT_GIBIBYTE, _ped.UNIT_GIGABYTE,
+                  _ped.UNIT_KIBIBYTE, _ped.UNIT_KILOBYTE, _ped.UNIT_MEBIBYTE,
+                  _ped.UNIT_MEGABYTE, _ped.UNIT_PERCENT, _ped.UNIT_SECTOR,
+                  _ped.UNIT_TEBIBYTE, _ped.UNIT_TERABYTE]:
+            _ped.unit_set_default(v)
+            self.assert_(_ped.unit_get_default() == v, "Could not set unit default to %s" % v)
+
+        self.assertRaises(ValueError, _ped.unit_set_default, -1)
+        self.assertRaises(ValueError, _ped.unit_set_default, 1000)
+
+class UnitGetDefaultTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assert_(_ped.unit_get_default() >= 0)
+
+class UnitGetSizeTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitGetNameTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assert_(_ped.unit_get_name(_ped.UNIT_COMPACT) == "compact")
+        self.assert_(_ped.unit_get_name(_ped.UNIT_MEGABYTE) == "MB")
+        self.assertRaises(ValueError, _ped.unit_get_name, -1)
+        self.assertRaises(ValueError, _ped.unit_get_name, 1000)
+
+class UnitGetByNameTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assert_(_ped.unit_get_by_name("cyl") == _ped.UNIT_CYLINDER)
+        self.assert_(_ped.unit_get_by_name("TB") == _ped.UNIT_TERABYTE)
+        self.assertRaises(_ped.UnknownTypeException, _ped.unit_get_by_name, "blargle")
+
+class UnitFormatCustomByteTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitFormatByteTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitFormatCustomTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitFormatTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitParseTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class UnitParseCustomTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -80,6 +151,17 @@ def suite():
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())
     suite.addTest(RoundUpToTestCase())
+    suite.addTest(UnitSetDefaultTestCase())
+    suite.addTest(UnitGetDefaultTestCase())
+    suite.addTest(UnitGetSizeTestCase())
+    suite.addTest(UnitGetNameTestCase())
+    suite.addTest(UnitGetByNameTestCase())
+    suite.addTest(UnitFormatCustomByteTestCase())
+    suite.addTest(UnitFormatByteTestCase())
+    suite.addTest(UnitFormatCustomTestCase())
+    suite.addTest(UnitFormatTestCase())
+    suite.addTest(UnitParseTestCase())
+    suite.addTest(UnitParseCustomTestCase())
     return suite
 
 s = suite()
