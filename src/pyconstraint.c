@@ -31,6 +31,10 @@
 
 /* _ped.Constraint functions */
 void _ped_Constraint_dealloc(_ped_Constraint *self) {
+    Py_XDECREF(self->start_align);
+    Py_XDECREF(self->end_align);
+    Py_XDECREF(self->start_range);
+    Py_XDECREF(self->end_range);
     PyObject_Del(self);
 }
 

@@ -107,6 +107,8 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
 
 /* _ped.Device functions */
 void _ped_Device_dealloc(_ped_Device *self) {
+    Py_XDECREF(self->hw_geom);
+    Py_XDECREF(self->bios_geom);
     PyObject_Del(self);
 }
 
