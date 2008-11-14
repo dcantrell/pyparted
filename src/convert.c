@@ -240,7 +240,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
         return NULL;
     }
 
-    ret = (_ped_Device *) _ped_Device_new(NULL, NULL, NULL);
+    ret = (_ped_Device *) PyObject_New(_ped_Device, &_ped_Device_Type_obj);
     if (!ret)
         return (_ped_Device *) PyErr_NoMemory();
 

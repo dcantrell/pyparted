@@ -188,6 +188,7 @@ static PyMethodDef _ped_Device_methods[] = {
     {NULL}
 };
 
+PyObject *_ped_Device_alloc(PyTypeObject *self, Py_ssize_t nitems);
 void _ped_Device_dealloc(_ped_Device *self);
 PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 PyObject *_ped_Device_get(_ped_Device *self, void *closure);
@@ -227,7 +228,7 @@ static PyTypeObject _ped_Device_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Device",
     .tp_basicsize = sizeof(_ped_Device),
- /* .tp_itemsize = XXX */
+    .tp_itemsize = 0,
     .tp_dealloc = (destructor) _ped_Device_dealloc,
  /* .tp_print = XXX */
  /* .tp_getattr = XXX */
@@ -243,7 +244,7 @@ static PyTypeObject _ped_Device_Type_obj = {
  /* .tp_getattro = XXX */
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedDevice objects",
  /* .tp_traverse = XXX */
  /* .tp_clear = XXX */
@@ -255,12 +256,13 @@ static PyTypeObject _ped_Device_Type_obj = {
     .tp_members = _ped_Device_members,
     .tp_getset = _ped_Device_getset,
  /* .tp_base = XXX */
- /* .tp_dict = XXX */
+    .tp_dict = NULL,
  /* .tp_descr_get = XXX */
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
- /* .tp_init = XXX */
- /* .tp_new = XXX */
+    .tp_init = NULL,
+    .tp_alloc = _ped_Device_alloc,
+    .tp_new = NULL,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */
