@@ -1,7 +1,3 @@
-_ped.getDevice("/dev/sda") segfaults if you're not root.
-
-
-
 In [2]: import parted
 
 In [3]: xxx = parted.disk_type_get("msdos")

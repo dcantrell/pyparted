@@ -27,6 +27,8 @@
 
 #include <Python.h>
 #include <parted/parted.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 #include "_pedmodule.h"
 #include "exceptions.h"
@@ -276,6 +278,11 @@ PyMODINIT_FUNC init_ped(void) {
     PyObject *m = NULL;
     PyObject *d = NULL;
     PyObject *o = NULL;
+
+    if (geteuid() != 0) {
+        PyErr_SetString (PyExc_RuntimeError, "pyparted requires root access");
+        return;
+    }
 
     /* init the main Python module and add methods */
     m = Py_InitModule3("_ped", PyPedModuleMethods, _ped_doc);
