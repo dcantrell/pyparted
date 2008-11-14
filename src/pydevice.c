@@ -275,29 +275,20 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL, *device = NULL;
+    PedDevice *self = NULL, *device = NULL;
     _ped_Device *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "|O!", &_ped_Device_Type_obj, &in_device)) {
-        return NULL;
-    }
+    self = _ped_Device2PedDevice(s);
+    device = ped_device_get_next(s);
 
-    if (!in_device)
-       out_device = NULL;
-    else
-       out_device = _ped_Device2PedDevice(in_device);
-
-    device = ped_device_get_next(out_device);
     if (device) {
         ret = PedDevice2_ped_Device(device);
-    }
-    else {
+    } else {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(self);
     ped_device_destroy(device);
 
     return (PyObject *) ret;
@@ -305,38 +296,28 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_is_busy(out_device);
-    ped_device_destroy(out_device);
+    ret = ped_device_is_busy(device);
+    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_open(out_device);
+    ret = ped_device_open(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -345,30 +326,25 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not open device %s", out_device->path);
+            PyErr_Format(IOException, "Could not open device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_close(out_device);
+    ret = ped_device_close(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -377,49 +353,39 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not close device %s", out_device->path);
+            PyErr_Format(IOException, "Could not close device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ped_device_cache_remove(out_device);
-    ped_device_destroy(out_device);
+    ped_device_cache_remove(device);
+    ped_device_destroy(device);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -427,19 +393,14 @@ PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_begin_external_access(out_device);
+    ret = ped_device_begin_external_access(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -448,31 +409,26 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not begin external access mode on device %s", out_device->path);
+            PyErr_Format(IOException, "Could not begin external access mode on device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_end_external_access(out_device);
+    ret = ped_device_end_external_access(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -481,29 +437,28 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not end external access mode on device %s", out_device->path);
+            PyErr_Format(IOException, "Could not end external access mode on device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
-    PyObject *in_dev = NULL, *in_buf = NULL;
+    PyObject *in_buf = NULL;
     PedSector start, count, ret;
-    PedDevice *out_dev = NULL;
+    PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
-                          &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
-    if (out_dev == NULL) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
@@ -512,7 +467,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_device_read(out_dev, out_buf, start, count);
+    ret = ped_device_read(device, out_buf, start, count);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -521,29 +476,28 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not read from device %s", out_dev->path);
+            PyErr_Format(IOException, "Could not read from device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_dev);
+    ped_device_destroy(device);
 
     return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
-    PyObject *in_dev = NULL, *in_buf = NULL;
+    PyObject *in_buf = NULL;
     PedSector start, count, ret;
-    PedDevice *out_dev = NULL;
+    PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
-                          &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
-    if (out_dev == NULL) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
@@ -552,7 +506,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_device_write(out_dev, out_buf, start, count);
+    ret = ped_device_write(device, out_buf, start, count);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -561,31 +515,26 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not write to device %s", out_dev->path);
+            PyErr_Format(IOException, "Could not write to device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_dev);
+    ped_device_destroy(device);
 
     return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_sync(out_device);
+    ret = ped_device_sync(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -594,31 +543,26 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not sync device %s", out_device->path);
+            PyErr_Format(IOException, "Could not sync device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_device_sync_fast(out_device);
+    ret = ped_device_sync_fast(device);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -627,29 +571,28 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(IOException, "Could not sync device %s", out_device->path);
+            PyErr_Format(IOException, "Could not sync device %s", device->path);
 
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
-    PyObject *in_dev = NULL, *in_buf = NULL;
+    PyObject *in_buf = NULL;
     PedSector start, count, ret;
-    PedDevice *out_dev = NULL;
+    PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!Oll", &_ped_Device_Type_obj, &in_dev,
-                          &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
-    if (out_dev == NULL) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
@@ -658,28 +601,23 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_device_check(out_dev, out_buf, start, count);
-    ped_device_destroy(out_dev);
+    ret = ped_device_check(device, out_buf, start, count);
+    ped_device_destroy(device);
 
     return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
-    PedDevice *out_device = NULL;
+    PedDevice *device = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    device = _ped_Device2PedDevice(s);
+    if (device == NULL) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    constraint = ped_device_get_constraint(out_device);
+    constraint = ped_device_get_constraint(device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
         if (ret == NULL) {
@@ -691,7 +629,7 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
