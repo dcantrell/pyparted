@@ -75,7 +75,7 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        return -1;
     }
 
     if (!strcmp(member, "name")) {
@@ -136,7 +136,7 @@ int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        return -1;
     }
 
     if (!strcmp(member, "checked")) {
