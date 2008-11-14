@@ -123,6 +123,9 @@
     _ped.unit_get_size
     _ped.unit_parse
     _ped.unit_parse_custom
+    _ped.getDevice
+    _ped.probeAllDevices
+    _ped.freeAllDevices
 
 - The following PyTypeObjects need to be set up so that the _ped module can
   return them to callers, but users cannot instantiate them:
