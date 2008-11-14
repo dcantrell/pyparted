@@ -5,7 +5,7 @@
  * Python module that implements the libparted functionality via Python
  * classes and other high level language features.
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -45,80 +45,118 @@
  * little bit readable.
  */
 PyDoc_STRVAR(libparted_version_doc,
-             "libparted_version() -> string\n\nReturn the version of libparted "
-             "that pyparted was built against.");
+"libparted_version() -> string\n\n"
+"Return the version of libparted that pyparted was built against.");
 
 PyDoc_STRVAR(pyparted_version_doc,
-             "pyparted_version() -> string\n\nReturn the version of the "
-             "pyparted module.");
+"pyparted_version() -> string\n\n"
+"Return the version of the pyparted module.");
+
+PyDoc_STRVAR(getDevice_doc,
+"getDevice(string) -> Device\n\n"
+"Return the Device corresponding to the given path.  Typically, path will\n"
+"be a device name like /dev/sda.");
+
+PyDoc_STRVAR(probeAllDevices_doc,
+"probeAllDevices()\n\n"
+"Attempt to detect all devices.");
+
+PyDoc_STRVAR(freeAllDevices_doc,
+"freeAllDevices()\n\n"
+"Close and free all devices.");
 
 PyDoc_STRVAR(round_up_to_doc,
-             "round_up_to_doc(sector, grain_size) -> sector\n\nRounds sector "
-             "up to the closest multiple of grain_size.");
+"round_up_to_doc(Sector, grain_size) -> Sector\n\n"
+"Rounds Sector up to the closest multiple of grain_size.");
 
 PyDoc_STRVAR(round_down_to_doc,
-             "round_down_to_doc(sector, grain_size) -> sector\n\nRounds sector "
-             "down to the closest multiple of grain_size.");
+"round_down_to_doc(Sector, grain_size) -> Sector\n\n"
+"Rounds Sector down to the closest multiple of grain_size.");
 
 PyDoc_STRVAR(round_to_nearest_doc,
-             "round_down_to(sector, grain_size) -> sector\n\nRounds sector to "
-             "the closest multiple of grain_size.");
+"round_down_to(Sector, grain_size) -> Sector\n\n"
+"Rounds Sector to the closest multiple of grain_size.");
 
 PyDoc_STRVAR(greatest_common_divisor_doc,
-             "greatest_common_divisor_doc(a, b) -> sector\n\nReturns the "
-             "largest divisor of both a and b.");
+"greatest_common_divisor_doc(a, b) -> Sector\n\n"
+"Returns the largest divisor of both a and b.");
 
 PyDoc_STRVAR(div_round_up_doc,
-             "div_round_up(a, b) -> sector\n\nRounds up the result of a "
-             "divided by b.");
+"div_round_up(a, b) -> Sector\n\n"
+"Rounds up the result of a divided by b.");
 
 PyDoc_STRVAR(div_round_to_nearest_doc,
-             "div_round_to_nearest(a, b) -> sector\n\nReturns the closest "
-             "result of a divided by b.");
+"div_round_to_nearest(a, b) -> Sector\n\n"
+"Returns the closest result of a divided by b.");
 
 PyDoc_STRVAR(unit_set_default_doc,
-             "unit_set_default(unit)\n\nSets the default unit to be used by "
-             "further unit_* calls.  This primarily affects the formatting of "
-             "error messages.");
+"unit_set_default(Unit)\n\n"
+"Sets the default Unit to be used by further unit_* calls.  This\n"
+"primarily affects the formatting of error messages.");
 
 PyDoc_STRVAR(unit_get_default_doc,
-             "unit_get_default() -> unit\n\nReturns the default unit.");
+"unit_get_default() -> Unit\n\n"
+"Returns the default Unit.");
 
 PyDoc_STRVAR(unit_get_size_doc,
-             "unit_get_size(device, unit) -> long\n\nReturns the byte size of "
-             "the given unit.");
+"unit_get_size(Device, Unit) -> long\n\n"
+"Returns the byte size of the given Unit.");
 
 PyDoc_STRVAR(unit_get_name_doc,
-             "unit_get_name(unit) -> string\n\nReturns a textual "
-             "representation of a given unit.");
+"unit_get_name(Unit) -> string\n\n"
+"Returns a textual representation of a given Unit.");
 
 PyDoc_STRVAR(unit_get_by_name_doc,
-             "unit_get_by_name(string) -> unit\n\nReturns a unit given its "
-             "textual representation.  Returns one of the UNIT_* constants.");
+"unit_get_by_name(string) -> Unit\n\n"
+"Returns a Unit given its textual representation.  Returns one of the\n"
+"UNIT_* constants.");
 
 PyDoc_STRVAR(unit_format_custom_byte_doc,
-             "unit_format_custom_byte(device, sector, unit) -> string\n\nReturn "
-             "a string that describes the location of the byte sector on "
-             "device, as described by unit.");
+"unit_format_custom_byte(Device, Sector, Unit) -> string\n\n"
+"Return a string that describes the location of the byte Sector on\n"
+"Device, as described by Unit.");
 
 PyDoc_STRVAR(unit_format_byte_doc,
-             "unit_format_byte(device, sector) -> string\n\nReturn a string "
-             "that describes the location of the byte sector on device, as "
-             "described by the default unit.");
+"unit_format_byte(Device, Sector) -> string\n\n"
+"Return a string that describes the location of the byte Sector on\n"
+"Device, as described by the default Unit.");
 
 PyDoc_STRVAR(unit_format_custom_doc,
-             "unit_format_custom(device, sector, unit) -> string\n\nReturn a "
-             "string that describes the location of sector on device, as "
-             "described by the default unit.");
+"unit_format_custom(Device, Sector, Unit) -> string\n\n"
+"Return a string that describes the location of Sector on Device, as\n"
+"described by the default Unit.");
 
 PyDoc_STRVAR(unit_format_doc,
-             "unit_format(device, sector) -> string\n\nReturn a string that "
-             "describes the location of sector on device, as described by the "
-             "default unit.");
+"unit_format(Device, Sector) -> string\n\n"
+"Return a string that describes the location of Sector on Device, as\n"
+"described by the default Unit.");
 
-/* PyDoc_STRVAR(unit_parse_doc,); */
+PyDoc_STRVAR(unit_parse_doc,
+"unit_parse(string, Device, Sector, Geometry) -> boolean\n\n"
+"Given a string providing a valid description of a location on Device,\n"
+"create a Geometry and Sector describing it.  Geometry will be two units\n"
+"large, centered on Sector.  If this makes the Geometry exist partially\n"
+"outside Device, the Geometry will be intersected with the whole device\n"
+"geometry.  This uses the default unit.");
 
-/* PyDoc_STRVAR(unit_parse_custom_doc, ); */
+PyDoc_STRVAR(unit_parse_custom_doc,
+"unit_parse(string, Device, Unit, Sector, Geometry) -> boolean\n\n"
+"Follows the same description as unit_parse_doc, but takes a Unit as\n"
+"well.");
+
+PyDoc_STRVAR(_ped_doc,
+"This module implements an interface to libparted.\n\n"
+"pyparted provides two API layers:  a lower level that exposes the complete\n"
+"libparted API, and a higher level built on top of that which provides a\n"
+"more Python-like view.  The _ped module is the base of the lower level\n"
+"API.  It provides:\n\n"
+"\t- Access to all the basic objects and submodules of pyparted\n"
+"\t- Basic unit handling and mathematical functions\n"
+"\t- A few basic device probing functions\n"
+"\t- The DEVICE_*, PARTITION_*, and UNIT_* constants from libparted\n"
+"\t- A variety of exceptions for handling error conditions\n\n"
+"For complete documentation, refer to the docs strings for each _ped\n"
+"method, exception class, and subclass.");
 
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
@@ -128,9 +166,12 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                          pyparted_version_doc},
 
     /* pydevice.c */
-    {"getDevice", (PyCFunction) py_ped_device_get, METH_VARARGS, NULL},
-    {"probeAllDevices", (PyCFunction) py_ped_device_probe_all, METH_VARARGS, NULL},
-    {"freeAllDevices",(PyCFunction) py_ped_device_free_all, METH_VARARGS, NULL},
+    {"getDevice", (PyCFunction) py_ped_device_get, METH_VARARGS,
+                  getDevice_doc},
+    {"probeAllDevices", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
+                        probeAllDevices_doc},
+    {"freeAllDevices", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
+                       freeAllDevices_doc},
 
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
@@ -165,9 +206,10 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                            METH_VARARGS, unit_format_custom_doc},
     {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS,
                     unit_format_doc},
-    {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS, NULL},
+    {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS,
+                   unit_parse_doc},
     {"unit_parse_custom", (PyCFunction) py_ped_unit_parse_custom,
-                          METH_VARARGS, NULL},
+                          METH_VARARGS, unit_parse_custom_doc},
 
     { NULL, NULL, 0, NULL }
 };
@@ -236,7 +278,7 @@ PyMODINIT_FUNC init_ped(void) {
     PyObject *o = NULL;
 
     /* init the main Python module and add methods */
-    m = Py_InitModule("_ped", PyPedModuleMethods);
+    m = Py_InitModule3("_ped", PyPedModuleMethods, _ped_doc);
     d = PyModule_GetDict(m);
 
     /* PedUnit possible values */
