@@ -73,7 +73,7 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
     char *member = (char *) closure;
 
     if (member == NULL) {
-        return NULL;
+        return -1;
     }
 
     if (!strcmp(member, "offset")) {

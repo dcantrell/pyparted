@@ -279,7 +279,7 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
     _ped_Device *ret = NULL;
 
     self = _ped_Device2PedDevice(s);
-    device = ped_device_get_next(s);
+    device = ped_device_get_next(self);
 
     if (device) {
         ret = PedDevice2_ped_Device(device);
