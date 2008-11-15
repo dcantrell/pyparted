@@ -158,9 +158,6 @@ static PyMemberDef _ped_FileSystem_members[] = {
 };
 
 static PyMethodDef _ped_FileSystem_methods[] = {
-    {"probe_specific", (PyCFunction) py_ped_file_system_probe_specific,
-                       METH_VARARGS, NULL},
-    {"probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS, NULL},
     {"clobber", (PyCFunction) py_ped_file_system_clobber, METH_VARARGS, NULL},
     {"open", (PyCFunction) py_ped_file_system_open, METH_VARARGS, NULL},
     {"create", (PyCFunction) py_ped_file_system_create, METH_VARARGS, NULL},

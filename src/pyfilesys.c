@@ -270,9 +270,6 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: this needs to be pulled up to the _ped module because it's
- * not specific to a single FileSystem instance
- */
 PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
