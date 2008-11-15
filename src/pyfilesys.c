@@ -307,25 +307,18 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: this function needs to take the PedGeometry from self and pass
- * that to ped_file_system_clobber(), rather than taking in the PedGeometry
- * as a parameter
- */
+/* XXX: should this function destroy the _ped.FileSystem as well */
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_geom = NULL;
-    PedGeometry *out_geom = NULL;
+    _ped_FileSystem *self = (_ped_FileSystem *) s;
+    PedGeometry *geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
+    geom = _ped_Geometry2PedGeometry(self->geom);
+    if (!geom) {
         return NULL;
     }
 
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
-    if (!out_geom) {
-        return NULL;
-    }
-
-    ret = ped_file_system_clobber(out_geom);
+    ret = ped_file_system_clobber(geom);
 
     if (!ret) {
         if (partedExnRaised) {
@@ -340,31 +333,23 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_geom);
+    ped_geometry_destroy(geom);
 
     return PyBool_FromLong(ret);
 }
 
-/* XXX: this function needs to take the PedGeometry from self and pass
- * that to ped_file_system_clobber(), rather than taking in the PedGeometry
- * as a parameter
- */
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
-    PyObject *in_geom = NULL;
-    PedGeometry *out_geom = NULL;
+    _ped_FileSystem *self = (_ped_FileSystem *) s;
+    PedGeometry *geom = NULL;
     PedFileSystem *fs = NULL;
     _ped_FileSystem *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
+    geom = _ped_Geometry2PedGeometry(self->geom);
+    if (!geom) {
         return NULL;
     }
 
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
-    if (!out_geom) {
-        return NULL;
-    }
-
-    fs = ped_file_system_open(out_geom);
+    fs = ped_file_system_open(geom);
     if (fs) {
         ret = PedFileSystem2_ped_FileSystem(fs);
     }
@@ -383,48 +368,44 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(out_geom);
+    ped_geometry_destroy(geom);
 
     return (PyObject *) ret;
 }
 
-/* XXX: this function should use the class members already here rather
- * than expecting arguments
- */
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
-    PyObject *in_geom = NULL, *in_fstype = NULL, *in_timer = NULL;
-    PedGeometry *out_geom = NULL;
-    PedFileSystemType *out_fstype = NULL;
-    PedTimer *out_timer = NULL;
+    _ped_FileSystem *self = (_ped_FileSystem *) s;
+    PyObject *in_timer = NULL;
+    PedGeometry *geom = NULL;
+    PedFileSystemType *fstype = NULL;
+    PedTimer *timer = NULL;
     PedFileSystem *fs = NULL;
     _ped_FileSystem *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!|O!", &_ped_Geometry_Type_obj, &in_geom,
-                          &_ped_FileSystemType_Type_obj, &in_fstype,
-                          &_ped_Timer_Type_obj, &in_timer)) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_Timer_Type_obj, &in_timer)) {
         return NULL;
     }
 
-    out_geom = _ped_Geometry2PedGeometry(in_geom);
-    if (!out_geom) {
+    geom = _ped_Geometry2PedGeometry(self->geom);
+    if (!geom) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (!out_fstype) {
+    fstype = _ped_FileSystemType2PedFileSystemType(self->type);
+    if (!fstype) {
         return NULL;
     }
 
     if (in_timer) {
-        out_timer = _ped_Timer2PedTimer(in_timer);
-        if (!out_timer) {
+        timer = _ped_Timer2PedTimer(in_timer);
+        if (!timer) {
             return NULL;
         }
     }
     else
-       out_timer = NULL;
+       timer = NULL;
 
-    fs = ped_file_system_create(out_geom, out_fstype, out_timer);
+    fs = ped_file_system_create(geom, fstype, timer);
     if (fs) {
         ret = PedFileSystem2_ped_FileSystem(fs);
     }
@@ -437,19 +418,18 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
-            PyErr_Format(FileSystemException, "Failed to create filesystem type %s", out_fstype->name);
+            PyErr_Format(FileSystemException, "Failed to create filesystem type %s", fstype->name);
 
         return NULL;
     }
 
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(out_geom);
-    ped_timer_destroy(out_timer);
+    ped_geometry_destroy(geom);
+    ped_timer_destroy(timer);
 
     return (PyObject *) ret;
 }
 
-/* XXX: should this function also destroy the _ped.FileSystem? */
 PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
     int ret = -1;
     PedFileSystem *fs = NULL;
@@ -624,40 +604,39 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
-/* XXX: should this function use attributes already in the object? */
 PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
                                                    PyObject *args) {
-    PyObject *in_fstype = NULL, *in_device = NULL;
-    PedFileSystemType *out_fstype = NULL;
-    PedDevice *out_device = NULL;
+    _ped_FileSystem *self = (_ped_FileSystem *) s;
+    PyObject *in_device = NULL;
+    PedFileSystemType *fstype = NULL;
+    PedDevice *device = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype, &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (!out_fstype) {
+    fstype = _ped_FileSystemType2PedFileSystemType(self->type);
+    if (!fstype) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (!out_device) {
+    device = _ped_Device2PedDevice(in_device);
+    if (!device) {
         return NULL;
     }
 
-    constraint = ped_file_system_get_create_constraint(out_fstype, out_device);
+    constraint = ped_file_system_get_create_constraint(fstype, device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
     else {
-        PyErr_Format(CreateException, "Failed to create constraint for filesystem type %s", out_fstype->name);
+        PyErr_Format(CreateException, "Failed to create constraint for filesystem type %s", fstype->name);
         return NULL;
     }
 
-    ped_device_destroy(out_device);
+    ped_device_destroy(device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
