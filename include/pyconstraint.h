@@ -65,12 +65,6 @@ static PyMemberDef _ped_Constraint_members[] = {
 };
 
 static PyMethodDef _ped_Constraint_methods[] = {
-    {"new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
-                         METH_VARARGS, NULL},
-    {"new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
-                     METH_VARARGS, NULL},
-    {"new_from_max", (PyCFunction) py_ped_constraint_new_from_max,
-                     METH_VARARGS, NULL},
     {"duplicate", (PyCFunction) py_ped_constraint_duplicate,
                   METH_VARARGS, NULL},
     {"done", (PyCFunction) py_ped_constraint_done, METH_VARARGS, NULL},
@@ -83,8 +77,6 @@ static PyMethodDef _ped_Constraint_methods[] = {
                       METH_VARARGS, NULL},
     {"is_solution", (PyCFunction) py_ped_constraint_is_solution,
                     METH_VARARGS, NULL},
-    {"any", (PyCFunction) py_ped_constraint_any, METH_VARARGS, NULL},
-    {"exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS, NULL},
     {NULL}
 };
 

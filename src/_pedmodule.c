@@ -54,6 +54,28 @@ PyDoc_STRVAR(pyparted_version_doc,
 "pyparted_version() -> (major, minor, update)\n\n"
 "Return the version of the pyparted module.");
 
+PyDoc_STRVAR(constraint_new_from_min_max_doc,
+"constraint_new_from_min_max(min, max) -> Constraint\n\n"
+"min and max are Geometry objects.  Return a Constraint that requires the region\n"
+"to be entirely contained inside max and to entirely contain min.");
+
+PyDoc_STRVAR(constraint_new_from_min_doc,
+"constraint_new_from_min(Geometry) -> Constraint\n\n"
+"Return a Constraint that requires a region to entirely contain Geometry.");
+
+PyDoc_STRVAR(constraint_new_from_max,
+"constraint_new_from_max(Geometry) -> Constraint\n\n"
+"Return a Constraint that requires a region to be entirely contained inside\n"
+"Geometry.");
+
+PyDoc_STRVAR(constraint_any_doc,
+"constraint_any(Device) -> Constraint\n\n"
+"Return a Constraint that any region on Device will satisfy.");
+
+PyDoc_STRVAR(constraint_exact_doc,
+"constraint_exact(Geometry) -> Constraint\n\n"
+"Return a Constraint that only the given Geometry will satisfy.");
+
 PyDoc_STRVAR(get_device_doc,
 "get_device(string) -> Device\n\n"
 "Return the Device corresponding to the given path.  Typically, path will\n"
@@ -178,6 +200,18 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           libparted_version_doc},
     {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS,
                          pyparted_version_doc},
+
+    /* pyconstraint.c */
+    {"constraint_new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
+                                    METH_VARARGS, constraint_new_from_min_max_doc},
+    {"constraint_new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
+                                METH_VARARGS, constraint_new_from_min_doc},
+    {"constraint_new_from_max", (PyCFunction) py_ped_constraint_new_from_max,
+                                METH_VARARGS, constraint_new_from_max},
+    {"constraint_any", (PyCFunction) py_ped_constraint_any, METH_VARARGS,
+                       constraint_any_doc},
+    {"constraint_exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS,
+                         constraint_exact_doc},
 
     /* pydevice.c */
     {"get_device", (PyCFunction) py_ped_device_get, METH_VARARGS,
