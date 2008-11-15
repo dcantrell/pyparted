@@ -50,16 +50,48 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
                          PyObject *kwds) {
     static char *kwlist[] = {"start_align", "end_align", "start_range",
                              "end_range", "min_size", "max_size", NULL};
+    PedConstraint *constraint = NULL;
+    PedAlignment *start_align = NULL, *end_align = NULL;
+    PedGeometry *start_range = NULL, *end_range = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!O!O!ll", kwlist,
-                                     &_ped_Alignment_Type_obj, &self->start_align,
-                                     &_ped_Alignment_Type_obj, &self->end_align,
-                                     &_ped_Geometry_Type_obj, &self->start_range,
-                                     &_ped_Geometry_Type_obj, &self->end_range,
-                                     &self->min_size, &self->max_size))
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!O!O!ll", kwlist,
+                                     &_ped_Alignment_Type_obj,
+                                     &self->start_align,
+                                     &_ped_Alignment_Type_obj,
+                                     &self->end_align,
+                                     &_ped_Geometry_Type_obj,
+                                     &self->start_range,
+                                     &_ped_Geometry_Type_obj,
+                                     &self->end_range,
+                                     &self->min_size,
+                                     &self->max_size)) {
         return -1;
-    else
+    } else {
+        start_align = _ped_Alignment2PedAlignment(self->start_align);
+        end_align = _ped_Alignment2PedAlignment(self->end_align);
+        start_range = _ped_Geometry2PedGeometry(self->start_range);
+        end_range = _ped_Geometry2PedGeometry(self->end_range);
+
+        constraint = ped_constraint_new(start_align, end_align,
+                                        start_range, end_range,
+                                        self->min_size, self->max_size);
+        if (!constraint) {
+            PyErr_SetString(CreateException, "Could not create new constraint");
+
+            ped_alignment_destroy(start_align);
+            ped_alignment_destroy(end_align);
+            ped_geometry_destroy(start_range);
+            ped_geometry_destroy(end_range);
+            return -1;
+        }
+
+        ped_alignment_destroy(start_align);
+        ped_alignment_destroy(end_align);
+        ped_geometry_destroy(start_range);
+        ped_geometry_destroy(end_range);
+        ped_constraint_destroy(constraint);
         return 0;
+    }
 }
 
 PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
@@ -107,127 +139,6 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
 }
 
 /* 1:1 function mappings for constraint.h in libparted */
-PyObject *py_ped_constraint_init(PyObject *s, PyObject *args) {
-    int ret = -1;
-    PyObject *in_start_align = NULL, *in_end_align = NULL;
-    PyObject *in_start_range = NULL, *in_end_range = NULL;
-    PedConstraint *constraint = NULL;
-    PedAlignment *out_start_align = NULL, *out_end_align = NULL;
-    PedGeometry *out_start_range = NULL, *out_end_range = NULL;
-    PedSector min_size, max_size;
-
-    if (!PyArg_ParseTuple(args, "O!O!O!O!ll",
-                          &_ped_Alignment_Type_obj, &in_start_align,
-                          &_ped_Alignment_Type_obj, &in_end_align,
-                          &_ped_Geometry_Type_obj, &in_start_range,
-                          &_ped_Geometry_Type_obj, &in_end_range,
-                          &min_size, &max_size)) {
-        return NULL;
-    }
-
-    constraint = _ped_Constraint2PedConstraint(s);
-    if(constraint == NULL) {
-        return NULL;
-    }
-
-    out_start_align = _ped_Alignment2PedAlignment(in_start_align);
-    if (out_start_align == NULL) {
-        return NULL;
-    }
-
-    out_end_align = _ped_Alignment2PedAlignment(in_end_align);
-    if (out_end_align == NULL) {
-        return NULL;
-    }
-
-    out_start_range = _ped_Geometry2PedGeometry(in_start_range);
-    if (out_start_range == NULL) {
-        return NULL;
-    }
-
-    out_end_range = _ped_Geometry2PedGeometry(in_end_range);
-    if (out_end_range == NULL) {
-        return NULL;
-    }
-
-    ret = ped_constraint_init(constraint, out_start_align, out_end_align,
-                              out_start_range, out_end_range,
-                              min_size, max_size);
-
-    if (ret == 0) {
-        PyErr_SetString(CreateException, "Could not create new constraint");
-        return NULL;
-    }
-
-    ped_constraint_destroy(constraint);
-    ped_alignment_destroy(out_start_align);
-    ped_alignment_destroy(out_end_align);
-    ped_geometry_destroy(out_start_range);
-    ped_geometry_destroy(out_end_range);
-
-    return PyBool_FromLong(ret);
-}
-
-PyObject *py_ped_constraint_new(PyObject *s, PyObject *args) {
-    PyObject *in_start_align = NULL, *in_end_align = NULL;
-    PyObject *in_start_range = NULL, *in_end_range = NULL;
-    PedAlignment *out_start_align = NULL, *out_end_align = NULL;
-    PedGeometry *out_start_range = NULL, *out_end_range = NULL;
-    PedSector min_size, max_size;
-    PedConstraint *constraint = NULL;
-    _ped_Constraint *ret = NULL;
-
-    if (!PyArg_ParseTuple(args, "O!O!O!O!ll", &_ped_Alignment_Type_obj,
-                          &in_start_align, &_ped_Alignment_Type_obj,
-                          &in_end_align, &_ped_Geometry_Type_obj,
-                          &in_start_range, &_ped_Geometry_Type_obj,
-                          &in_end_range, &min_size, &max_size)) {
-        return NULL;
-    }
-
-    out_start_align = _ped_Alignment2PedAlignment(in_start_align);
-    if (out_start_align == NULL) {
-        return NULL;
-    }
-
-    out_end_align = _ped_Alignment2PedAlignment(in_end_align);
-    if (out_end_align == NULL) {
-        return NULL;
-    }
-
-    out_start_range = _ped_Geometry2PedGeometry(in_start_range);
-    if (out_start_range == NULL) {
-        return NULL;
-    }
-
-    out_end_range = _ped_Geometry2PedGeometry(in_end_range);
-    if (out_end_range == NULL) {
-        return NULL;
-    }
-
-    constraint = ped_constraint_new(out_start_align, out_end_align,
-                                    out_start_range, out_end_range,
-                                    min_size, max_size);
-    if (constraint) {
-        ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
-    }
-    else {
-        PyErr_SetString(CreateException, "Could not create new constraint");
-        return NULL;
-    }
-
-    ped_alignment_destroy(out_start_align);
-    ped_alignment_destroy(out_end_align);
-    ped_geometry_destroy(out_start_range);
-    ped_geometry_destroy(out_end_range);
-    ped_constraint_destroy(constraint);
-
-    return (PyObject *) ret;
-}
-
 PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
     PyObject *in_min = NULL, *in_max = NULL;
     PedGeometry *out_min = NULL, *out_max = NULL;
@@ -334,6 +245,8 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/* XXX: is this function really necessary since we can copy objects in Python?
+ */
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     PedConstraint *constraint = NULL, *dup_constraint = NULL;
     _ped_Constraint *ret = NULL;
