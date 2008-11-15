@@ -31,8 +31,6 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for geom.h in libparted */
-PyObject *py_ped_geometry_init(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_new(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args);
@@ -49,13 +47,6 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args);
-
-PyDoc_STRVAR(geometry_init_doc,
-"init(self, dev=None, start=None, length=None, end=None)\n\n"
-"Create a new _ped.Geometry object and set attribtutes in the same call.\n"
-"Of these attributes, dev is the underlying _ped.Device described by this\n"
-"Geometry object and the set of start/length/end are Sectors giving the\n"
-"boundaries of the region itself.");
 
 PyDoc_STRVAR(geometry_duplicate_doc,
 "duplicate(self) -> _ped.Geometry\n\n"
@@ -167,9 +158,6 @@ static PyMemberDef _ped_Geometry_members[] = {
 };
 
 static PyMethodDef _ped_Geometry_methods[] = {
-    {"init", (PyCFunction) py_ped_geometry_init, METH_VARARGS,
-             geometry_init_doc},
-    {"new", (PyCFunction) py_ped_geometry_new, METH_VARARGS, NULL},
     {"duplicate", (PyCFunction) py_ped_geometry_duplicate, METH_VARARGS,
                   geometry_duplicate_doc},
     {"intersect", (PyCFunction) py_ped_geometry_intersect, METH_VARARGS,

@@ -43,12 +43,21 @@ PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
 
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"offset", "grain_size", NULL};
+    PedAlignment *alignment = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ll", kwlist,
-                                     &self->offset, &self->grain_size))
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "ll", kwlist,
+                                     &self->offset, &self->grain_size)) {
         return -1;
-    else
+    } else {
+        alignment = ped_alignment_new(self->offset, self->grain_size);
+        if (!alignment) {
+            PyErr_SetString(CreateException, "Could not create new alignment");
+            return -1;
+        }
+
+        ped_alignment_destroy(alignment);
         return 0;
+    }
 }
 
 PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
@@ -147,58 +156,6 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     }
 
     return PyLong_FromLongLong(ped_greatest_common_divisor(a, b));
-}
-
-/* XXX: can .tp_init do this? */
-PyObject *py_ped_alignment_init(PyObject *s, PyObject *args) {
-    int ret = -1;
-    PedAlignment *alignment = NULL;
-    PedSector offset, grain_size;
-
-    if (!PyArg_ParseTuple(args, "ll", &offset, &grain_size)) {
-        return NULL;
-    }
-
-    alignment = _ped_Alignment2PedAlignment(s);
-    if (alignment == NULL) {
-        return NULL;
-    }
-
-    ret = ped_alignment_init(alignment, offset, grain_size);
-    if (ret == 0) {
-        PyErr_SetString(CreateException, "Could not create new alignment: grain_size must be >= 0");
-        return NULL;
-    }
-
-    ped_alignment_destroy(alignment);
-
-    return PyBool_FromLong(ret);
-}
-
-PyObject *py_ped_alignment_new(PyObject *s, PyObject *args) {
-    PedSector offset, grain_size;
-    PedAlignment *align = NULL;
-    _ped_Alignment *ret = NULL;
-
-    if (!PyArg_ParseTuple(args, "ll", &offset, &grain_size)) {
-        return NULL;
-    }
-
-    align = ped_alignment_new(offset, grain_size);
-    if (align) {
-        ret = PedAlignment2_ped_Alignment(align);
-        if (ret == NULL) {
-            return NULL;
-        }
-    }
-    else {
-        PyErr_SetString(CreateException, "Could not create new alignment");
-        return NULL;
-    }
-
-    ped_alignment_destroy(align);
-
-    return (PyObject *) ret;
 }
 
 /* XXX: should this destroy the _ped.Alignment? */

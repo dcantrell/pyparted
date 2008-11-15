@@ -44,13 +44,37 @@ PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
 
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"dev", "start", "length", "end", NULL};
+    PedGeometry *geometry = NULL;
+    PedDevice *device = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!lll", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!ll|l", kwlist,
                                      &_ped_Device_Type_obj, &self->dev,
-                                     &self->start, &self->length, &self->end))
+                                     &self->start, &self->length, &self->end)) {
         return -1;
-    else
+    } else {
+        device = _ped_Device2PedDevice(self->dev);
+
+        geometry = ped_geometry_new(device, self->start, self->length);
+
+        if (geometry) {
+            self->end = geometry->end;
+        } else {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException)) {
+                    PyErr_SetString(CreateException, partedExnMessage);
+                }
+            }
+
+            ped_device_destroy(device);
+            return -1;
+        }
+
+        ped_device_destroy(device);
+        ped_geometry_destroy(geometry);
         return 0;
+    }
 }
 
 PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
@@ -105,92 +129,6 @@ int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
 }
 
 /* 1:1 function mappings for geom.h in libparted */
-/* XXX: can the .tp_init function do this? */
-PyObject *py_ped_geometry_init(PyObject *s, PyObject *args) {
-    int ret = -1;
-    PyObject *in_device = NULL;
-    PedGeometry *geometry = NULL;
-    PedDevice *out_device = NULL;
-    PedSector start, length;
-
-    if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_device,
-                          &start, &length)) {
-        return NULL;
-    }
-
-    geometry = _ped_Geometry2PedGeometry(s);
-    if (geometry == NULL) {
-        return NULL;
-    }
-
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    ret = ped_geometry_init(geometry, out_device, start, length);
-    if (ret == 0) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(CreateException, partedExnMessage);
-        }
-        else
-            PyErr_SetString(CreateException, "Could not create new geometry");
-
-        return NULL;
-    }
-
-    ped_geometry_destroy(geometry);
-    ped_device_destroy(out_device);
-
-    return PyBool_FromLong(ret);
-}
-
-/* XXX: can .tp_new + .tp_init do this, or should this be a toplevel _ped
- * function?
- */
-PyObject *py_ped_geometry_new(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
-    PedGeometry *geom = NULL;
-    PedDevice *out_device = NULL;
-    PedSector start, length;
-    _ped_Geometry *ret = NULL;
-
-    if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_device,
-                          &start, &length)) {
-        return NULL;
-    }
-
-    out_device = _ped_Device2PedDevice(in_device);
-    if (out_device == NULL) {
-        return NULL;
-    }
-
-    geom = ped_geometry_new(out_device, start, length);
-    if (geom) {
-        ret = PedGeometry2_ped_Geometry(geom);
-    }
-    else {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(CreateException, partedExnMessage);
-        }
-        else
-            PyErr_SetString(CreateException, "Could not create new geometry");
-
-        return NULL;
-    }
-
-    ped_geometry_destroy(geom);
-    ped_device_destroy(out_device);
-
-    return (PyObject *) ret;
-}
-
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
     PedGeometry *geometry = NULL, *geom = NULL;
     _ped_Geometry *ret = NULL;

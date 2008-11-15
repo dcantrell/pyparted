@@ -147,13 +147,7 @@
   convenience wrappers for the ped_THING_init() functions.  We need to
   get rid of our pass-throughs for these functions and place the call to
   ped_THING_new() inside the .tp_new function for the object:
-      py_ped_constraint_new()
       py_ped_partition_new()
-      py_ped_geometry_new()
-      py_ped_alignment_new()
       py_ped_timer_new()
-      py_ped_constraint_init()
-      py_ped_geometry_init()
-      py_ped_alignment_init()
 
 ... and much much more

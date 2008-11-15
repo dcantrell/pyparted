@@ -30,8 +30,6 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for constraint.h in libparted */
-PyObject *py_ped_constraint_init(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
@@ -67,8 +65,6 @@ static PyMemberDef _ped_Constraint_members[] = {
 };
 
 static PyMethodDef _ped_Constraint_methods[] = {
-    {"init", (PyCFunction) py_ped_constraint_init, METH_VARARGS, NULL},
-    {"new", (PyCFunction) py_ped_constraint_new, METH_VARARGS, NULL},
     {"new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
                          METH_VARARGS, NULL},
     {"new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
