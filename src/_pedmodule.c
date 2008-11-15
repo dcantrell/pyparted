@@ -67,6 +67,18 @@ PyDoc_STRVAR(free_all_devices_doc,
 "free_all_devices()\n\n"
 "Close and free all devices.");
 
+PyDoc_STRVAR(file_system_probe_doc,
+"file_system_probe(Geometry) -> FileSystem\n\n"
+"Attempt to detect a FileSystem in the region described by Geometry.\n"
+"This function tries to be clever at dealing with ambiguous\n"
+"situations, such as when one file system was not completely erased\n"
+"before a new file system was created on top of it.");
+
+PyDoc_STRVAR(file_system_probe_specific_doc,
+"file_system_probe_specific(FileSystemType, Geometry) -> FileSystem\n\n"
+"Look at Geometry for FileSystemType, return FileSystem for that type\n"
+"if found in the specified region.");
+
 PyDoc_STRVAR(round_up_to_doc,
 "round_up_to_doc(Sector, grain_size) -> Sector\n\n"
 "Rounds Sector up to the closest multiple of grain_size.");
@@ -174,6 +186,12 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           probe_all_devices_doc},
     {"free_all_devices", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
                          free_all_devices_doc},
+
+    /* pyfilesys.c */
+    {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,
+                          file_system_probe_doc},
+    {"file_system_probe_specific", (PyCFunction) py_ped_file_system_probe_specific,
+                                   METH_VARARGS, file_system_probe_specific_doc},
 
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
