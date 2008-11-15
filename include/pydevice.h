@@ -190,7 +190,6 @@ static PyMethodDef _ped_Device_methods[] = {
 
 PyObject *_ped_Device_alloc(PyTypeObject *self, Py_ssize_t nitems);
 void _ped_Device_dealloc(_ped_Device *self);
-PyObject *_ped_Device_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 PyObject *_ped_Device_get(_ped_Device *self, void *closure);
 int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
