@@ -136,6 +136,12 @@
     _ped.FileSystemType
     _ped.PartitionType
 
-- Py_XDECREF on PyObject members in object dealloc functions.
+- Add garbage collection support code to the different PyTypeObjects.
+  http://docs.python.org/c-api/gcsupport.html#supporting-cycle-detection
+
+- Make sure this new code works in Python 3000
+
+- Look through all PyTypeObject objects and see where we can expand
+  their functionality.  Can we add str() support, for instance.
 
 ... and much much more
