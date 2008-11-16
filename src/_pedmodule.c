@@ -240,8 +240,15 @@ PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
-    char *ret = VERSION;
-    return PyString_FromString(ret);
+    int t = 0;
+    int major = -1, minor = -1, update = -1;
+
+    t = sscanf(VERSION, "%d.%d.%d", &major, &minor, &update);
+    if ((t != 3) || (t == EOF)) {
+        return NULL;
+    }
+
+    return Py_BuildValue("(iii)", major, minor, update);
 }
 
 /* This function catches libparted exceptions and converts them into Python
