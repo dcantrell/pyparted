@@ -1,5 +1,5 @@
 /*
- * _exceptions.h
+ * exceptions.h
  *
  * Copyright (C) 2007  Red Hat, Inc.
  *
