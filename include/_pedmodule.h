@@ -1,5 +1,5 @@
 /*
- * _partedmodule.h
+ * _pedmodule.h
  *
  * Copyright (C) 2007  Red Hat, Inc.
  *
