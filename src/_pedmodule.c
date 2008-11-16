@@ -51,7 +51,7 @@ PyDoc_STRVAR(libparted_version_doc,
 "Return the version of libparted that pyparted was built against.");
 
 PyDoc_STRVAR(pyparted_version_doc,
-"pyparted_version() -> string\n\n"
+"pyparted_version() -> (major, minor, update)\n\n"
 "Return the version of the pyparted module.");
 
 PyDoc_STRVAR(get_device_doc,
