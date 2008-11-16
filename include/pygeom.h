@@ -50,88 +50,88 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args);
 
-PyDoc_STRVAR(py_ped_geometry_init_doc,
+PyDoc_STRVAR(geometry_init_doc,
 "init(self, dev=None, start=None, length=None, end=None)\n\n"
 "Create a new _ped.Geometry object and set attribtutes in the same call.\n"
 "Of these attributes, dev is the underlying _ped.Device described by this\n"
 "Geometry object and the set of start/length/end are Sectors giving the\n"
 "boundaries of the region itself.");
 
-PyDoc_STRVAR(py_ped_geometry_duplicate_doc,
+PyDoc_STRVAR(geometry_duplicate_doc,
 "duplicate(self) -> _ped.Geometry\n\n"
 "Create an identical copy of self.  Raises _ped.CreateException if the\n"
 "operation fails");
 
-PyDoc_STRVAR(py_ped_geometry_intersect_doc,
+PyDoc_STRVAR(geometry_intersect_doc,
 "intersect(self, Geometry) -> _ped.Geometry\n\n"
 "Create a new Geometry describing the region common to both self and\n"
 "Geometry.  Raises ArithmeticError if the two regions do not intersect.");
 
-PyDoc_STRVAR(py_ped_geometry_destroy_doc,
+PyDoc_STRVAR(geometry_destroy_doc,
 "destroy(self) -> None\n\n"
 "Destroys the Geometry object.");
 
-PyDoc_STRVAR(py_ped_geometry_set_doc,
+PyDoc_STRVAR(geometry_set_doc,
 "set(self, start, length) -> boolean\n\n"
 "Sets a new start Sector and length Sector in the Geometry object,\n"
 "also implicitly setting the end Sector as well.");
 
-PyDoc_STRVAR(py_ped_geometry_set_start_doc,
+PyDoc_STRVAR(geometry_set_start_doc,
 "set_start(self, start) -> boolean\n\n"
 "Sets a new start Sector without modifying the end Sector.  Length\n"
 "will be modified to match the new starting position.");
 
-PyDoc_STRVAR(py_ped_geometry_set_end_doc,
+PyDoc_STRVAR(geometry_set_end_doc,
 "set_end(self, end) -> boolean\n\n"
 "Sets a new ending Sector without modifying the start Sector.  Length\n"
 "will be modified to match the new ending position.");
 
-PyDoc_STRVAR(py_ped_geometry_test_overlap_doc,
+PyDoc_STRVAR(geometry_test_overlap_doc,
 "test_overlap(self, Geometry) -> boolean\n\n"
 "Return whether self and Geometry are on the same physical device and\n"
 "share at least part of the same region.");
 
-PyDoc_STRVAR(py_ped_geometry_test_inside_doc,
+PyDoc_STRVAR(geometry_test_inside_doc,
 "test_inside(self, Geometry) -> boolean\n\n"
 "Return whether Geometry is entirely within self and on the same physical\n"
 "device.");
 
-PyDoc_STRVAR(py_ped_geometry_test_equal_doc,
+PyDoc_STRVAR(geometry_test_equal_doc,
 "test_equal(self, Geometry) -> boolean\n\n"
 "Return whether self and Geometry are on the same device and have the same\n"
 "region.");
 
-PyDoc_STRVAR(py_ped_geometry_test_sector_inside_doc,
+PyDoc_STRVAR(geometry_test_sector_inside_doc,
 "test_sector_inside(self, Sector) -> boolean\n\n"
 "Return whether Sector is entirely within the region described by self.");
 
-PyDoc_STRVAR(py_ped_geometry_read_doc,
+PyDoc_STRVAR(geometry_read_doc,
 "read(self, buffer, offset, count) -> boolean\n\n"
 "Read data from the region described by self.  This method reads count\n"
 "Sectors starting at Sector offset (from the start of the region, not\n"
 "from the start of the disk) into buffer.  This method raises\n"
 "_ped.IOException on error.");
 
-PyDoc_STRVAR(py_ped_geometry_sync_doc,
+PyDoc_STRVAR(geometry_sync_doc,
 "sync(self) -> boolean\n\n"
 "Flushes all caches on the device described by self.  This operation can be\n"
 "slow because it must guarantee cache coherency among multiple caches.  This\n"
 "method raises _ped.IOException on error.");
 
-PyDoc_STRVAR(py_ped_geometry_sync_fast_doc,
+PyDoc_STRVAR(geometry_sync_fast_doc,
 "sync_fast(self) -> boolean\n\n"
 "Flushes all caches on the device described by self without guaranteeing\n"
 "cache coherency.  This makes it fast but more prone to error.  This method\n"
 "raises _ped.IOException on error.");
 
-PyDoc_STRVAR(py_ped_geometry_write_doc,
+PyDoc_STRVAR(geometry_write_doc,
 "write(self, buffer, offset, count) -> boolean\n\n"
 "Write data into the region described by self.  This method writes count\n"
 "Sectors of buffer into the region starting at Sector offset.  The offset is\n"
 "from the beginning of the region, not of the disk.  This method raises\n"
 "_ped.IOException on error.");
 
-PyDoc_STRVAR(py_ped_geometry_check_doc,
+PyDoc_STRVAR(geometry_check_doc,
 "check(self, buffer, buffer_size, offset, granularity, count,\n"
 "      timer=None) -> Sector\n\n"
 "This method checks the region described by self for errors on the disk.\n"
@@ -142,7 +142,7 @@ PyDoc_STRVAR(py_ped_geometry_check_doc,
 "grouped together.\n\n"
 "This method returns the first bad sector, or 0 if there are no errors.");
 
-PyDoc_STRVAR(py_ped_geometry_map_doc,
+PyDoc_STRVAR(geometry_map_doc,
 "map(self, Geometry, Sector) -> integer\n\n"
 "Given a Geometry that overlaps with self and a Sector inside Geometry,\n"
 "this method translates the address of Sector into an address inside self.\n"
@@ -168,40 +168,40 @@ static PyMemberDef _ped_Geometry_members[] = {
 
 static PyMethodDef _ped_Geometry_methods[] = {
     {"init", (PyCFunction) py_ped_geometry_init, METH_VARARGS,
-             py_ped_geometry_init_doc},
+             geometry_init_doc},
     {"new", (PyCFunction) py_ped_geometry_new, METH_VARARGS, NULL},
     {"duplicate", (PyCFunction) py_ped_geometry_duplicate, METH_VARARGS,
-                  py_ped_geometry_duplicate_doc},
+                  geometry_duplicate_doc},
     {"intersect", (PyCFunction) py_ped_geometry_intersect, METH_VARARGS,
-                  py_ped_geometry_intersect_doc},
+                  geometry_intersect_doc},
     {"destroy", (PyCFunction) py_ped_geometry_destroy, METH_VARARGS,
-                py_ped_geometry_destroy_doc},
+                geometry_destroy_doc},
     {"set", (PyCFunction) py_ped_geometry_set, METH_VARARGS,
-            py_ped_geometry_set_doc},
+            geometry_set_doc},
     {"set_start", (PyCFunction) py_ped_geometry_set_start, METH_VARARGS,
-                  py_ped_geometry_set_start_doc},
+                  geometry_set_start_doc},
     {"set_end", (PyCFunction) py_ped_geometry_set_end, METH_VARARGS,
-                py_ped_geometry_set_end_doc},
+                geometry_set_end_doc},
     {"test_overlap", (PyCFunction) py_ped_geometry_test_overlap,
-                     METH_VARARGS, py_ped_geometry_test_overlap_doc},
+                     METH_VARARGS, geometry_test_overlap_doc},
     {"test_inside", (PyCFunction) py_ped_geometry_test_inside,
-                    METH_VARARGS, py_ped_geometry_test_inside_doc},
+                    METH_VARARGS, geometry_test_inside_doc},
     {"test_equal", (PyCFunction) py_ped_geometry_test_equal,
-                   METH_VARARGS, py_ped_geometry_test_equal_doc},
+                   METH_VARARGS, geometry_test_equal_doc},
     {"test_sector_inside", (PyCFunction) py_ped_geometry_test_sector_inside,
-                           METH_VARARGS, py_ped_geometry_test_sector_inside_doc},
+                           METH_VARARGS, geometry_test_sector_inside_doc},
     {"read", (PyCFunction) py_ped_geometry_read, METH_VARARGS,
-             py_ped_geometry_read_doc},
+             geometry_read_doc},
     {"sync", (PyCFunction) py_ped_geometry_sync, METH_VARARGS,
-             py_ped_geometry_sync_doc},
+             geometry_sync_doc},
     {"sync_fast", (PyCFunction) py_ped_geometry_sync_fast, METH_VARARGS,
-                  py_ped_geometry_sync_fast_doc},
+                  geometry_sync_fast_doc},
     {"write", (PyCFunction) py_ped_geometry_write, METH_VARARGS,
-              py_ped_geometry_write_doc},
+              geometry_write_doc},
     {"check", (PyCFunction) py_ped_geometry_check, METH_VARARGS,
-              py_ped_geometry_check_doc},
+              geometry_check_doc},
     {"map", (PyCFunction) py_ped_geometry_map, METH_VARARGS,
-            py_ped_geometry_map_doc},
+            geometry_map_doc},
     {NULL}
 };
 
