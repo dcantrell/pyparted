@@ -155,4 +155,7 @@
       error: unable to find 09467a8feaa343e6ea79bdeebf3c70834d28941c
       fatal: object 09467a8feaa343e6ea79bdeebf3c70834d28941c not found
 
+- The _destroy functions should also destroy the _ped.OBJECTS and not
+  just the libparted structs.
+
 ... and much much more
