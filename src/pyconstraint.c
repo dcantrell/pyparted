@@ -274,21 +274,6 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_constraint_done(PyObject *s, PyObject *args) {
-    PedConstraint *constraint = NULL;
-
-    constraint = _ped_Constraint2PedConstraint(s);
-    if (constraint == NULL) {
-        return NULL;
-    }
-
-    ped_constraint_done(constraint);
-    ped_constraint_destroy(constraint);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args) {
     PedConstraint *constraint = NULL;
 

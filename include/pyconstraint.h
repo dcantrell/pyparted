@@ -34,7 +34,6 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_done(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args);
@@ -42,6 +41,37 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_any(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args);
+
+PyDoc_STRVAR(constraint_duplicate_doc,
+"duplicate(Constraint) -> Constraint\n\n"
+"Return a new Constraint that is a copy of the given Constraint.");
+
+PyDoc_STRVAR(constraint_destroy_doc,
+"destroy() -> None\n\n"
+"Destroy this Constraint object.");
+
+PyDoc_STRVAR(constraint_intersect_doc,
+"intersect(Constraint) -> Constraint\n\n"
+"Return a Constraint that requires a region to satisfy both this\n"
+"Constraint object and the one passed in to the method.  Any\n"
+"region satisfying both Constraints will also satisfy the returned\n"
+"Constraint.");
+
+PyDoc_STRVAR(constraint_solve_max_doc,
+"solve_max() -> Constraint\n\n"
+"Find the largest region that satisfies this Constraint object and\n"
+"return a new Constraint.  There may be more than one solution.\n"
+"There are no guarantees about which solution will be returned.\n");
+
+PyDoc_STRVAR(constraint_solve_nearest_doc,
+"solve_nearest(Geometry) -> Constraint\n\n"
+"Return the nearest region to Geometry that will satisfy this\n"
+"Constraint object.  This function does not guarantee what nearest\n"
+"means.");
+
+PyDoc_STRVAR(constraint_is_solution_doc,
+"is_solution(Geometry) -> bool\n\n"
+"Return True if Geometry satisfies this Constraint, False otherwise.");
 
 /* _ped.Constraint type is the Python equiv of PedConstraint in libparted */
 typedef struct {
@@ -57,26 +87,30 @@ typedef struct {
 } _ped_Constraint;
 
 static PyMemberDef _ped_Constraint_members[] = {
-    {"start_align", T_OBJECT, offsetof(_ped_Constraint, start_align), 0, NULL},
-    {"end_align", T_OBJECT, offsetof(_ped_Constraint, end_align), 0, NULL},
-    {"start_range", T_OBJECT, offsetof(_ped_Constraint, start_range), 0, NULL},
-    {"end_range", T_OBJECT, offsetof(_ped_Constraint, end_range), 0, NULL},
+    {"start_align", T_OBJECT, offsetof(_ped_Constraint, start_align), 0,
+                    "The _ped.Alignment describing the starting alignment constraints of the partition."},
+    {"end_align", T_OBJECT, offsetof(_ped_Constraint, end_align), 0,
+                  "The _ped.Alignment describing the ending alignment constraints of the partition."},
+    {"start_range", T_OBJECT, offsetof(_ped_Constraint, start_range), 0,
+                    "The _ped.Geometry describing the minimum size constraints of the partition."},
+    {"end_range", T_OBJECT, offsetof(_ped_Constraint, end_range), 0,
+                  "The _ped.Geometry describing the maximum size constraints of the partition."},
     {NULL}
 };
 
 static PyMethodDef _ped_Constraint_methods[] = {
     {"duplicate", (PyCFunction) py_ped_constraint_duplicate,
-                  METH_VARARGS, NULL},
-    {"done", (PyCFunction) py_ped_constraint_done, METH_VARARGS, NULL},
-    {"destroy", (PyCFunction) py_ped_constraint_destroy, METH_VARARGS, NULL},
+                  METH_VARARGS, constraint_duplicate_doc},
+    {"destroy", (PyCFunction) py_ped_constraint_destroy, METH_VARARGS,
+                constraint_destroy_doc},
     {"intersect", (PyCFunction) py_ped_constraint_intersect,
-                  METH_VARARGS, NULL},
+                  METH_VARARGS, constraint_intersect_doc},
     {"solve_max", (PyCFunction) py_ped_constraint_solve_max,
-                  METH_VARARGS, NULL},
+                  METH_VARARGS, constraint_solve_max_doc},
     {"solve_nearest", (PyCFunction) py_ped_constraint_solve_nearest,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, constraint_solve_nearest_doc},
     {"is_solution", (PyCFunction) py_ped_constraint_is_solution,
-                    METH_VARARGS, NULL},
+                    METH_VARARGS, constraint_is_solution_doc},
     {NULL}
 };
 
