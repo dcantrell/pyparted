@@ -150,6 +150,4 @@
       py_ped_partition_new()
       py_ped_timer_new()
 
-- git gc
-
 ... and much much more
