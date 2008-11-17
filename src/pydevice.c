@@ -106,34 +106,6 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
 }
 
 /* _ped.Device functions */
-PyObject *_ped_Device_alloc(PyTypeObject *self, Py_ssize_t nitems) {
-    size_t len = 0;
-    size_t diff = 0;
-    PyObject *obj = NULL;
-
-    if (self->tp_itemsize != 0) {
-        self->ob_size = nitems;
-
-        /*
-         * compute object length as tp_basicsize plus (nitems *
-         * tp_itemsize), rounded up to a multiple of sizeof(void *)
-         */
-        len = self->tp_basicsize + (nitems * self->tp_itemsize);
-        diff = sizeof(void *) - (len % sizeof(void *));
-        len += diff;
-    } else {
-        len = self->tp_basicsize;
-    }
-
-    if ((obj = malloc(len)) == NULL) {
-        PyErr_NoMemory();
-        return NULL;
-    }
-
-    obj = memset(&obj, 0, sizeof(obj));
-    return obj;
-}
-
 void _ped_Device_dealloc(_ped_Device *self) {
     Py_XDECREF(self->hw_geom);
     Py_XDECREF(self->bios_geom);

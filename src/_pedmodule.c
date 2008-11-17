@@ -414,7 +414,6 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_CHSGeometry_Type_obj);
 
     /* add PedDevice type as _ped.Device */
-    _ped_Device_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Device_Type_obj) < 0)
         return;
 
