@@ -150,4 +150,9 @@
       py_ped_partition_new()
       py_ped_timer_new()
 
+- The git repository has a missing ref in it and it causes git-fetch to
+  choke all the time.  Figure out how to remove this from the git repo.
+      error: unable to find 09467a8feaa343e6ea79bdeebf3c70834d28941c
+      fatal: object 09467a8feaa343e6ea79bdeebf3c70834d28941c not found
+
 ... and much much more
