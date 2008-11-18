@@ -2,7 +2,7 @@
  * pyconstraint.h
  * pyparted type definitions for pyconstraint.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -19,6 +19,7 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #ifndef PYCONSTRAINT_H_INCLUDED
@@ -124,12 +125,22 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure);
 static PyGetSetDef _ped_Constraint_getset[] = {
     {"min_size", (getter) _ped_Constraint_get,
                  (setter) _ped_Constraint_set,
-                 "Constraint min_size", "min_size"},
+                 "The mimimum size in _ped.Sectors of the partition.", "min_size"},
     {"max_size", (getter) _ped_Constraint_get,
                  (setter) _ped_Constraint_set,
-                 "Constraint max_size", "max_size"},
+                 "The maximum size in _ped.Sectors of the partition.", "max_size"},
     {NULL}  /* Sentinel */
 };
+
+PyDoc_STRVAR(_ped_Constraint_doc,
+"A _ped.Constraint object describes a set of restrictions on other pyparted\n"
+"operations.  Constraints can restrict the location and alignment of the start\n"
+"and end of a partition, and its minimum and maximum size.  Constraint\n"
+"operations include various methods of creating constraints, intersecting,\n"
+"and solving sets of constraints.\n\n"
+"Most constraint operations can raise _ped.CreateException if creating\n"
+"temporary objects fails, or ArithmeticException if an error occurrs during\n"
+"calculations.");
 
 static PyTypeObject _ped_Constraint_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
@@ -153,7 +164,7 @@ static PyTypeObject _ped_Constraint_Type_obj = {
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_BASETYPE,
-    .tp_doc = "PedConstraint objects",
+    .tp_doc = _ped_Constraint_doc,
  /* .tp_traverse = XXX */
  /* .tp_clear = XXX */
  /* .tp_richcompare = XXX */
