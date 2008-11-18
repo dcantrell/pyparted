@@ -200,16 +200,8 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: should this destroy the _ped.Geometry as well? */
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
-    PedGeometry *geometry = NULL;
-
-    geometry = _ped_Geometry2PedGeometry(s);
-    if (geometry == NULL) {
-        return NULL;
-    }
-
-    ped_geometry_destroy(geometry);
+    PyObject_DEL(s);
 
     Py_INCREF(Py_None);
     return Py_None;
