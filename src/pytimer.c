@@ -123,7 +123,7 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for timer.h in libparted */
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    PyObject_DEL(s);
+    PyObject_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;
