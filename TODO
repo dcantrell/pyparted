@@ -152,4 +152,73 @@
 - The _destroy functions should also destroy the _ped.OBJECTS and not
   just the libparted structs.
 
+- Fix this mess:
+
+  In [1]: import _ped
+
+  In [2]: a = _ped.get_device("/dev/sda")
+
+  In [3]: dir(a)
+  Out[3]: []
+
+  In [4]: a.length
+  ---------------------------------------------------------------------------
+  AttributeError                            Traceback (most recent call last)
+
+  /home/dcantrel/pyparted/<ipython console> in <module>()
+
+  AttributeError: '_ped.Device' object has no attribute 'length'
+
+  In [5]: a
+  Out[5]: <_ped.Device object at 0x8ea6d40>
+
+  In [6]: dir(a)
+  Out[6]:
+  ['__class__',
+   '__delattr__',
+   '__doc__',
+   '__getattribute__',
+   '__hash__',
+   '__init__',
+   '__new__',
+   '__reduce__',
+   '__reduce_ex__',
+   '__repr__',
+   '__setattr__',
+   '__str__',
+   'begin_external_access',
+   'bios_geom',
+   'boot_dirty',
+   'cache_remove',
+   'check',
+   'close',
+   'destroy',
+   'did',
+   'dirty',
+   'end_external_access',
+   'external_mode',
+   'get_constraint',
+   'get_next',
+   'host',
+   'hw_geom',
+   'is_busy',
+   'length',
+   'model',
+   'open',
+   'open_count',
+   'path',
+   'phys_sector_size',
+   'read',
+   'read_only',
+   'sector_size',
+   'sync',
+   'sync_fast',
+   'type',
+   'write']
+
+  In [7]: a.length
+  Out[7]: 20480544L
+
+  In [8]: # WHAT IS HAPPENING HERE?!
+
 ... and much much more
