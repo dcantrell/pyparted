@@ -121,6 +121,13 @@
     _ped.get_device
     _ped.probe_all_devices
     _ped.free_all_devices
+    _ped.constraint_new_from_min_max
+    _ped.constraint_new_from_min
+    _ped.constraint_new_from_max
+    _ped.constraint_any
+    _ped.constraint_exact
+    _ped.file_system_probe
+    _ped.file_system_probe_specific
 
 - The following PyTypeObjects need to be set up so that the _ped module can
   return them to callers, but users cannot instantiate them:
