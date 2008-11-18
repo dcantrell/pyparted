@@ -30,7 +30,6 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for timer.h in libparted */
-PyObject *py_ped_timer_new(PyObject *s, PyObject *args);
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args);
 PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args);
@@ -58,7 +57,6 @@ static PyMemberDef _ped_Timer_members[] = {
 };
 
 static PyMethodDef _ped_Timer_methods[] = {
-    {"new", (PyCFunction) py_ped_timer_new, METH_VARARGS, NULL},
     {"destroy", (PyCFunction) py_ped_timer_destroy, METH_VARARGS, NULL},
     {"new_nested", (PyCFunction) py_ped_timer_new_nested, METH_VARARGS, NULL},
     {"destroy_nested", (PyCFunction) py_ped_timer_destroy_nested,

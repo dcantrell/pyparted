@@ -85,10 +85,6 @@
   where they just have the val attribute, do we need get/set methods?  I
   think so for things like bounds checking and type checking.
 
-- Still left to implement from libparted:
-  timer.h:
-      py_ped_timer_new
-
 - Figure out what, if anything, we can do with timers.  They are optional in
   libparted, but do we want to support them in pyparted?
 
@@ -136,12 +132,6 @@
 
 - Look through all PyTypeObject objects and see where we can expand
   their functionality.  Can we add str() support, for instance.
-
-- According to the libparted code, the ped_THING_new() functions are
-  convenience wrappers for the ped_THING_init() functions.  We need to
-  get rid of our pass-throughs for these functions and place the call to
-  ped_THING_new() inside the .tp_new function for the object:
-      py_ped_timer_new()
 
 - The git repository has a missing ref in it and it causes git-fetch to
   choke all the time.  Figure out how to remove this from the git repo.

@@ -45,6 +45,10 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
 
     self->state_name = NULL;
 
+    /* XXX: timers aren't really done yet in pyparted */
+    PyErr_SetString(PyExc_NotImplementedError, NULL);
+    return -1;
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|fdddz", kwlist,
                                      &self->frac, &self->start, &self->now,
                                      &self->predicted_end, &self->state_name))
@@ -118,12 +122,6 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
 }
 
 /* 1:1 function mappings for timer.h in libparted */
-PyObject *py_ped_timer_new(PyObject *s, PyObject *args) {
-    /* XXX */
-    PyErr_SetString(PyExc_NotImplementedError, NULL);
-    return NULL;
-}
-
 /* XXX: should this also destroy the _ped.Timer? */
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
     PedTimer *timer = NULL;
