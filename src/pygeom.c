@@ -53,7 +53,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
         return -1;
     } else {
         device = _ped_Device2PedDevice(self->dev);
-
         geometry = ped_geometry_new(device, self->start, self->length);
 
         if (geometry) {
@@ -70,6 +69,9 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
             ped_device_destroy(device);
             return -1;
         }
+
+        Py_XDECREF(self);
+        self = PedGeometry2_ped_Geometry(geometry);
 
         ped_device_destroy(device);
         ped_geometry_destroy(geometry);
