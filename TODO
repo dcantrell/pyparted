@@ -17,15 +17,17 @@
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
 
-- Handle exceptions from libparted and pass to Python as necessary.  These
-  are all of the PED_ASSERT things in libparted.
+- Handle exceptions from libparted and pass to Python as necessary.  The
+  PED_ASSERT things are where libparted aborts, so we may want to catch things
+  before it goes in to libparted so we can throw an exception rather than
+  letting the library abort().  The ped_exception_throw() instances are all
+  libparted's own exception-like system.
 
 - Handle exceptions throughout the _ped module code.  Unique exceptions as
   much as possible.
 
 - Make sure PyMemberDef, PyMethodDef, PyGetSetDef, and PyTypeObject
   structures all have docstrings:
-      include/pydevice.h
       include/pydisk.h
       include/pytimer.h
 
@@ -80,10 +82,6 @@
           duplicate()
 
       exception_set_handler()
-
-- Do the _ped.X() types for things like PedSector, PedUnit and other things
-  where they just have the val attribute, do we need get/set methods?  I
-  think so for things like bounds checking and type checking.
 
 - Figure out what, if anything, we can do with timers.  They are optional in
   libparted, but do we want to support them in pyparted?
