@@ -33,26 +33,6 @@ void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
     PyObject_Del(self);
 }
 
-PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
-                               PyObject *kwds) {
-    _ped_CHSGeometry *self = NULL;
-
-    self = PyObject_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
-                          PyObject *kwds) {
-    static char *kwlist[] = {"cylinders", "heads", "sectors", NULL};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|iii", kwlist,
-                                     &self->cylinders, &self->heads,
-                                     &self->sectors))
-        return -1;
-    else
-        return 0;
-}
-
 PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
     char *member = (char *) closure;
 

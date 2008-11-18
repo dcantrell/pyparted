@@ -176,7 +176,7 @@ static PyTypeObject _ped_Partition_Type_obj = {
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_Partition_init,
- /* .tp_alloc = XXX */
+    .tp_alloc = PyType_GenericAlloc,
     .tp_new = _ped_Partition_new,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
@@ -302,7 +302,7 @@ static PyTypeObject _ped_Disk_Type_obj = {
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_Disk_init,
- /* .tp_alloc = XXX */
+    .tp_alloc = PyType_GenericAlloc,
     .tp_new = _ped_Disk_new,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
@@ -339,8 +339,6 @@ static PyMethodDef _ped_DiskType_methods[] = {
 };
 
 void _ped_DiskType_dealloc(_ped_DiskType *self);
-PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
-int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
 int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
 
@@ -389,9 +387,9 @@ static PyTypeObject _ped_DiskType_Type_obj = {
  /* .tp_descr_get = XXX */
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
-    .tp_init = (initproc) _ped_DiskType_init,
- /* .tp_alloc = XXX */
-    .tp_new = _ped_DiskType_new,
+    .tp_init = NULL,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = NULL,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */

@@ -34,26 +34,6 @@ void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_Del(self);
 }
 
-PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
-                                  PyObject *kwds) {
-    _ped_FileSystemType *self = NULL;
-
-    self = PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
-                             PyObject *kwds) {
-    static char *kwlist[] = {"name", NULL};
-
-    self->name = NULL;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|z", kwlist, &self->name))
-        return -1;
-    else
-        return 0;
-}
-
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
     char *member = (char *) closure;
 
