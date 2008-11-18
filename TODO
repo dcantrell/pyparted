@@ -25,7 +25,6 @@
 
 - Make sure PyMemberDef, PyMethodDef, PyGetSetDef, and PyTypeObject
   structures all have docstrings:
-      include/pyconstraint.h
       include/pydevice.h
       include/pydisk.h
       include/pyfilesys.h
