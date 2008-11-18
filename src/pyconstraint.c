@@ -82,6 +82,7 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
             ped_alignment_destroy(end_align);
             ped_geometry_destroy(start_range);
             ped_geometry_destroy(end_range);
+            PyObject_Del(self);
             return -1;
         }
 
