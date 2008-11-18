@@ -313,7 +313,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     }
 
     ped_geometry_destroy(geom);
-    PyObject_DEL(s);
+    PyObject_Del(s);
 
     return PyBool_FromLong(ret);
 }

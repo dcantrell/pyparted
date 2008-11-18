@@ -60,14 +60,14 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     } else {
         disk = _ped_Disk2PedDisk(self->disk);
         if (disk == NULL) {
-            PyObject_DEL(self);
+            PyObject_Del(self);
             return -1;
         }
 
         fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
         if (fstype == NULL) {
             ped_disk_destroy(disk);
-            PyObject_DEL(self);
+            PyObject_Del(self);
             return -1;
         }
 
@@ -484,7 +484,7 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
-    PyObject_DEL(s);
+    PyObject_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;
