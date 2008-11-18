@@ -51,7 +51,6 @@ PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
                                                       PyObject *args);
-PyObject *py_ped_partition_new(PyObject *s, PyObject *args);
 PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args);
 PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args);
@@ -100,7 +99,6 @@ static PyMemberDef _ped_Partition_members[] = {
 };
 
 static PyMethodDef _ped_Partition_methods[] = {
-    {"new", (PyCFunction) py_ped_partition_new, METH_VARARGS, NULL},
     {"destroy", (PyCFunction) py_ped_partition_destroy, METH_VARARGS, NULL},
     {"is_active", (PyCFunction) py_ped_partition_is_active, METH_VARARGS, NULL},
     {"set_flag", (PyCFunction) py_ped_partition_set_flag, METH_VARARGS, NULL},
