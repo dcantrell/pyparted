@@ -335,7 +335,6 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
 PyMODINIT_FUNC init_ped(void) {
     PyObject *m = NULL;
-    PyObject *d = NULL;
     PyObject *o = NULL;
 
     if (geteuid() != 0) {
@@ -345,64 +344,22 @@ PyMODINIT_FUNC init_ped(void) {
 
     /* init the main Python module and add methods */
     m = Py_InitModule3("_ped", PyPedModuleMethods, _ped_doc);
-    d = PyModule_GetDict(m);
 
     /* PedUnit possible values */
-    o = PyInt_FromLong(PED_UNIT_SECTOR);
-    PyDict_SetItemString(d, "UNIT_SECTOR", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_BYTE);
-    PyDict_SetItemString(d, "UNIT_BYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_KILOBYTE);
-    PyDict_SetItemString(d, "UNIT_KILOBYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_MEGABYTE);
-    PyDict_SetItemString(d, "UNIT_MEGABYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_GIGABYTE);
-    PyDict_SetItemString(d, "UNIT_GIGABYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_TERABYTE);
-    PyDict_SetItemString(d, "UNIT_TERABYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_COMPACT);
-    PyDict_SetItemString(d, "UNIT_COMPACT", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_CYLINDER);
-    PyDict_SetItemString(d, "UNIT_CYLINDER", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_CHS);
-    PyDict_SetItemString(d, "UNIT_CHS", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_PERCENT);
-    PyDict_SetItemString(d, "UNIT_PERCENT", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_KIBIBYTE);
-    PyDict_SetItemString(d, "UNIT_KIBIBYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_MEBIBYTE);
-    PyDict_SetItemString(d, "UNIT_MEBIBYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_GIBIBYTE);
-    PyDict_SetItemString(d, "UNIT_GIBIBYTE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_UNIT_TEBIBYTE);
-    PyDict_SetItemString(d, "UNIT_TEBIBYTE", o);
-    Py_DECREF(o);
+    PyModule_AddIntConstant(m, "UNIT_SECTOR", PED_UNIT_SECTOR);
+    PyModule_AddIntConstant(m, "UNIT_BYTE", PED_UNIT_BYTE);
+    PyModule_AddIntConstant(m, "UNIT_KILOBYTE", PED_UNIT_KILOBYTE);
+    PyModule_AddIntConstant(m, "UNIT_MEGABYTE", PED_UNIT_MEGABYTE);
+    PyModule_AddIntConstant(m, "UNIT_GIGABYTE", PED_UNIT_GIGABYTE);
+    PyModule_AddIntConstant(m, "UNIT_TERABYTE", PED_UNIT_TERABYTE);
+    PyModule_AddIntConstant(m, "UNIT_COMPACT", PED_UNIT_COMPACT);
+    PyModule_AddIntConstant(m, "UNIT_CYLINDER", PED_UNIT_CYLINDER);
+    PyModule_AddIntConstant(m, "UNIT_CHS", PED_UNIT_CHS);
+    PyModule_AddIntConstant(m, "UNIT_PERCENT", PED_UNIT_PERCENT);
+    PyModule_AddIntConstant(m, "UNIT_KIBIBYTE", PED_UNIT_KIBIBYTE);
+    PyModule_AddIntConstant(m, "UNIT_MEBIBYTE", PED_UNIT_MEBIBYTE);
+    PyModule_AddIntConstant(m, "UNIT_GIBIBYTE", PED_UNIT_GIBIBYTE);
+    PyModule_AddIntConstant(m, "UNIT_TEBIBYTE", PED_UNIT_TEBIBYTE);
 
     /* add PedCHSGeometry type as _ped.CHSGeometry */
     _ped_CHSGeometry_Type_obj.tp_new = PyType_GenericNew;
@@ -420,61 +377,20 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(&_ped_Device_Type_obj);
     PyModule_AddObject(m, "Device", (PyObject *)&_ped_Device_Type_obj);
 
-    o = PyInt_FromLong(PED_DEVICE_UNKNOWN);
-    PyDict_SetItemString(d, "DEVICE_UNKNOWN", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_SCSI);
-    PyDict_SetItemString(d, "DEVICE_SCSI", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_IDE);
-    PyDict_SetItemString(d, "DEVICE_IDE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_DAC960);
-    PyDict_SetItemString(d, "DEVICE_DAC960", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_CPQARRAY);
-    PyDict_SetItemString(d, "DEVICE_CPQARRAY", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_FILE);
-    PyDict_SetItemString(d, "DEVICE_FILE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_ATARAID);
-    PyDict_SetItemString(d, "DEVICE_ATARAID", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_I2O);
-    PyDict_SetItemString(d, "DEVICE_I2O", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_UBD);
-    PyDict_SetItemString(d, "DEVICE_UBD", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_DASD);
-    PyDict_SetItemString(d, "DEVICE_DASD", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_VIODASD);
-    PyDict_SetItemString(d, "DEVICE_VIODASD", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_SX8);
-    PyDict_SetItemString(d, "DEVICE_SX8", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_DM);
-    PyDict_SetItemString(d, "DEVICE_DM", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DEVICE_XVD);
-    PyDict_SetItemString(d, "DEVICE_XVD", o);
-    Py_DECREF(o);
+    PyModule_AddIntConstant(m, "DEVICE_UNKNOWN", PED_DEVICE_UNKNOWN);
+    PyModule_AddIntConstant(m, "DEVICE_SCSI", PED_DEVICE_SCSI);
+    PyModule_AddIntConstant(m, "DEVICE_IDE", PED_DEVICE_IDE);
+    PyModule_AddIntConstant(m, "DEVICE_DAC960", PED_DEVICE_DAC960);
+    PyModule_AddIntConstant(m, "DEVICE_CPQARRAY", PED_DEVICE_CPQARRAY);
+    PyModule_AddIntConstant(m, "DEVICE_FILE", PED_DEVICE_FILE);
+    PyModule_AddIntConstant(m, "DEVICE_ATARAID", PED_DEVICE_ATARAID);
+    PyModule_AddIntConstant(m, "DEVICE_I2O", PED_DEVICE_I2O);
+    PyModule_AddIntConstant(m, "DEVICE_UBD", PED_DEVICE_UBD);
+    PyModule_AddIntConstant(m, "DEVICE_DASD", PED_DEVICE_DASD);
+    PyModule_AddIntConstant(m, "DEVICE_VIODASD", PED_DEVICE_VIODASD);
+    PyModule_AddIntConstant(m, "DEVICE_SX8", PED_DEVICE_SX8);
+    PyModule_AddIntConstant(m, "DEVICE_DM", PED_DEVICE_DM);
+    PyModule_AddIntConstant(m, "DEVICE_XVD", PED_DEVICE_XVD);
 
     /* add PedTimer type as _ped.Timer */
     _ped_Timer_Type_obj.tp_new = PyType_GenericNew;
@@ -533,83 +449,27 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "DiskType", (PyObject *)&_ped_DiskType_Type_obj);
 
     /* possible PedDiskTypeFeature values */
-    o = PyInt_FromLong(PED_PARTITION_NORMAL);
-    PyDict_SetItemString(d, "PARTITION_NORMAL", o);
-    Py_DECREF(o);
+    PyModule_AddIntConstant(m, "PARTITION_NORMAL", PED_PARTITION_NORMAL);
+    PyModule_AddIntConstant(m, "PARTITION_LOGICAL", PED_PARTITION_LOGICAL);
+    PyModule_AddIntConstant(m, "PARTITION_EXTENDED", PED_PARTITION_EXTENDED);
+    PyModule_AddIntConstant(m, "PARTITION_FREESPACE", PED_PARTITION_FREESPACE);
+    PyModule_AddIntConstant(m, "PARTITION_METADATA", PED_PARTITION_METADATA);
+    PyModule_AddIntConstant(m, "PARTITION_PROTECTED", PED_PARTITION_PROTECTED);
 
-    o = PyInt_FromLong(PED_PARTITION_LOGICAL);
-    PyDict_SetItemString(d, "PARTITION_LOGICAL", o);
-    Py_DECREF(o);
+    PyModule_AddIntConstant(m, "PARTITION_BOOT", PED_PARTITION_BOOT);
+    PyModule_AddIntConstant(m, "PARTITION_ROOT", PED_PARTITION_ROOT);
+    PyModule_AddIntConstant(m, "PARTITION_SWAP", PED_PARTITION_SWAP);
+    PyModule_AddIntConstant(m, "PARTITION_HIDDEN", PED_PARTITION_HIDDEN);
+    PyModule_AddIntConstant(m, "PARTITION_RAID", PED_PARTITION_RAID);
+    PyModule_AddIntConstant(m, "PARTITION_LVM", PED_PARTITION_LVM);
+    PyModule_AddIntConstant(m, "PARTITION_LBA", PED_PARTITION_LBA);
+    PyModule_AddIntConstant(m, "PARTITION_HPSERVICE", PED_PARTITION_HPSERVICE);
+    PyModule_AddIntConstant(m, "PARTITION_PALO", PED_PARTITION_PALO);
+    PyModule_AddIntConstant(m, "PARTITION_PREP", PED_PARTITION_PREP);
+    PyModule_AddIntConstant(m, "PARTITION_MSFT_RESERVED", PED_PARTITION_MSFT_RESERVED);
 
-    o = PyInt_FromLong(PED_PARTITION_EXTENDED);
-    PyDict_SetItemString(d, "PARTITION_EXTENDED", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_FREESPACE);
-    PyDict_SetItemString(d, "PARTITION_FREESPACE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_METADATA);
-    PyDict_SetItemString(d, "PARTITION_METADATA", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_PROTECTED);
-    PyDict_SetItemString(d, "PARTITION_PROTECTED", o);
-    Py_DECREF(o);
-
-
-    o = PyInt_FromLong(PED_PARTITION_BOOT);
-    PyDict_SetItemString(d, "PARTITION_BOOT", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_ROOT);
-    PyDict_SetItemString(d, "PARTITION_ROOT", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_SWAP);
-    PyDict_SetItemString(d, "PARTITION_SWAP", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_HIDDEN);
-    PyDict_SetItemString(d, "PARTITION_HIDDEN", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_RAID);
-    PyDict_SetItemString(d, "PARTITION_RAID", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_LVM);
-    PyDict_SetItemString(d, "PARTITION_LVM", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_LBA);
-    PyDict_SetItemString(d, "PARTITION_LBA", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_HPSERVICE);
-    PyDict_SetItemString(d, "PARTITION_HPSERVICE", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_PALO);
-    PyDict_SetItemString(d, "PARTITION_PALO", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_PREP);
-    PyDict_SetItemString(d, "PARTITION_PREP", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_PARTITION_MSFT_RESERVED);
-    PyDict_SetItemString(d, "PARTITION_MSFT_RESERVED", o);
-    Py_DECREF(o);
-
-
-    o = PyInt_FromLong(PED_DISK_TYPE_EXTENDED);
-    PyDict_SetItemString(d, "DISK_TYPE_EXTENDED", o);
-    Py_DECREF(o);
-
-    o = PyInt_FromLong(PED_DISK_TYPE_PARTITION_NAME);
-    PyDict_SetItemString(d, "DISK_TYPE_PARTITION_NAME", o);
-    Py_DECREF(o);
+    PyModule_AddIntConstant(m, "DISK_TYPE_EXTENDED", PED_DISK_TYPE_EXTENDED);
+    PyModule_AddIntConstant(m, "DISK_TYPE_PARTITION_NAME", PED_DISK_TYPE_PARTITION_NAME);
 
     /* add PedFileSystemType as _ped.FileSystemType */
     _ped_FileSystemType_Type_obj.tp_new = PyType_GenericNew;
