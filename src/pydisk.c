@@ -46,17 +46,54 @@ PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
 }
 
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"disk", "geom", "num", "type", "fs_type", NULL};
+    static char *kwlist[] = {"disk", "type", "fs_type", "start", "end", NULL};
+    PedSector start, end;
+    PedDisk *disk = NULL;
+    PedFileSystemType *fstype = NULL;
+    PedPartition *part = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!ilO!", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!lO!ll", kwlist,
                                      &_ped_Disk_Type_obj, &self->disk,
-                                     &_ped_Geometry_Type_obj, &self->geom,
-                                     &self->num, &self->type,
-                                     &_ped_FileSystemType_Type_obj,
-                                     &self->fs_type))
+                                     &self->type, &_ped_FileSystemType_Type_obj,
+                                     &self->fs_type, &start, &end)) {
         return -1;
-    else
+    } else {
+        disk = _ped_Disk2PedDisk(self->disk);
+        if (disk == NULL) {
+            PyObject_DEL(self);
+            return -1;
+        }
+
+        fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
+        if (fstype == NULL) {
+            ped_disk_destroy(disk);
+            PyObject_DEL(self);
+            return -1;
+        }
+
+        part = ped_partition_new(disk, self->type, fstype, start, end);
+        if (part == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException)) {
+                    PyErr_SetString(PartitionException, partedExnMessage);
+                }
+            } else {
+                PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
+            }
+
+            ped_disk_destroy(disk);
+            return -1;
+        }
+
+        /* copy over the new PedPartition values */
+        self->geom = PedGeometry2_ped_Geometry(&(part->geom));
+        self->num = part->num;
+
+        ped_disk_destroy(disk);
         return 0;
+    }
 }
 
 PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
@@ -667,54 +704,6 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
     }
 
     return PyInt_FromLong(ret);
-}
-
-PyObject *py_ped_partition_new(PyObject *s, PyObject *args) {
-    PyObject *in_fs_type = NULL;
-    PedDisk *disk = NULL;
-    PedPartitionType type;
-    PedFileSystemType *out_fs_type = NULL;
-    PedSector start, end;
-    PedPartition *pass_part = NULL;
-    _ped_Partition *ret = NULL;
-
-    if (!PyArg_ParseTuple(args, "lO!ll", &type, &_ped_FileSystemType_Type_obj,
-                          &in_fs_type, &start, &end)) {
-        return NULL;
-    }
-
-    disk = _ped_Disk2PedDisk(s);
-    if (disk == NULL) {
-        return NULL;
-    }
-
-    out_fs_type = _ped_FileSystemType2PedFileSystemType(in_fs_type);
-    if (out_fs_type == NULL) {
-        return NULL;
-    }
-
-    pass_part = ped_partition_new(disk, type, out_fs_type, start, end);
-    if (pass_part == NULL) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(PartitionException, partedExnMessage);
-        }
-        else
-            PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
-
-        return NULL;
-    }
-
-    ret = PedPartition2_ped_Partition(pass_part);
-    if (ret == NULL) {
-        return NULL;
-    }
-
-    ped_disk_destroy(disk);
-
-    return (PyObject *) ret;
 }
 
 PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {

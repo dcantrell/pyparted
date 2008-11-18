@@ -141,7 +141,6 @@
   convenience wrappers for the ped_THING_init() functions.  We need to
   get rid of our pass-throughs for these functions and place the call to
   ped_THING_new() inside the .tp_new function for the object:
-      py_ped_partition_new()
       py_ped_timer_new()
 
 - The git repository has a missing ref in it and it causes git-fetch to
