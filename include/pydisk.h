@@ -38,8 +38,6 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_probe(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_new(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_commit(PyObject *s, PyObject *args);
@@ -206,8 +204,6 @@ static PyMethodDef _ped_Disk_methods[] = {
     {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS, NULL},
     {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
                         METH_VARARGS, NULL},
-    {"new", (PyCFunction) py_ped_disk_new, METH_VARARGS, NULL},
-    {"new_fresh", (PyCFunction) py_ped_disk_new_fresh, METH_VARARGS, NULL},
     {"duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS, NULL},
     {"destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS, NULL},
     {"commit", (PyCFunction) py_ped_disk_commit, METH_VARARGS, NULL},
