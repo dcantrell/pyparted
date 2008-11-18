@@ -87,9 +87,8 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
             return -1;
         }
 
-        /* copy over the new PedPartition values */
-        self->geom = PedGeometry2_ped_Geometry(&(part->geom));
-        self->num = part->num;
+        Py_XDECREF(self);
+        self = PedPartition2_ped_Partition(part);
 
         ped_disk_destroy(disk);
         return 0;
@@ -157,13 +156,70 @@ PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
 
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"dev", "type", NULL};
+    PedDevice *device = NULL;
+    PedDisk *disk = NULL;
+    PedDiskType *type = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!|O!", kwlist,
                                      &_ped_Device_Type_obj, &self->dev,
-                                     &_ped_DiskType_Type_obj, &self->type))
+                                     &_ped_DiskType_Type_obj, &self->type)) {
         return -1;
-    else
-        return 0;
+    }
+
+    if (self->dev) {
+        device = _ped_Device2PedDevice(self->dev);
+        if (device == NULL) {
+            PyObject_Del(self);
+            return -1;
+        }
+    }
+
+    if (device) {
+        disk = ped_disk_new(device);
+    } else if (device && self->type) {
+        type = _ped_DiskType2PedDiskType(self->type);
+        if (type == NULL) {
+            PyObject_Del(self);
+            return -1;
+        }
+
+        disk = ped_disk_new_fresh(device, type);
+    } else {
+        PyErr_SetString(PyExc_TypeError, "you must provide as least a Device when creating a Disk");
+        return -1;
+    }
+
+    if (disk == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException)) {
+                PyErr_SetString(IOException, partedExnMessage);
+            }
+        } else {
+            PyErr_Format(IOException, "Failed to read partition table from device %s", device->path);
+        }
+
+        if (type) {
+            free(type);
+        }
+
+        ped_device_destroy(device);
+        PyObject_Del(self);
+        return -1;
+    }
+
+    Py_XDECREF(self);
+    self = PedDisk2_ped_Disk(disk);
+
+    if (type) {
+        free(type);
+    }
+
+    ped_disk_destroy(disk);
+    ped_device_destroy(device);
+
+    return 0;
 }
 
 /* _ped.DiskType functions */
@@ -391,90 +447,7 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
-/* XXX: Is this necessary?  Or can we use the .tp_new function for this? */
-PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
-    PedDevice *device = NULL;
-    PedDisk *out_disk = NULL;
-    _ped_Disk *ret = NULL;
-
-    device = _ped_Device2PedDevice(s);
-    if (device) {
-        out_disk = ped_disk_new(device);
-        if (out_disk == NULL) {
-            if (partedExnRaised) {
-                partedExnRaised = 0;
-
-                if (!PyErr_ExceptionMatches(PartedException))
-                    PyErr_SetString(IOException, partedExnMessage);
-            }
-            else
-                PyErr_Format(IOException, "Failed to read partition table from device %s", device->path);
-
-            return NULL;
-        }
-
-        ret = PedDisk2_ped_Disk(out_disk);
-        if (ret == NULL) {
-            return NULL;
-        }
-
-        ped_device_destroy(device);
-        ped_disk_destroy(out_disk);
-    }
-    else {
-        return NULL;
-    }
-
-    return (PyObject *) ret;
-}
-
-PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
-    PyObject *in_disktype = NULL;
-    PedDevice *device = NULL;
-    PedDiskType *pass_disktype = NULL;
-    PedDisk *out_disk = NULL;
-    _ped_Disk *ret = NULL;
-
-    if (!PyArg_ParseTuple(args, "O!", &_ped_DiskType_Type_obj, &in_disktype)) {
-        return NULL;
-    }
-
-    device = _ped_Device2PedDevice(s);
-    if (device == NULL) {
-        return NULL;
-    }
-
-    pass_disktype = _ped_DiskType2PedDiskType(in_disktype);
-    if (pass_disktype == NULL) {
-        return NULL;
-    }
-
-    out_disk = ped_disk_new_fresh(device, pass_disktype);
-    if (out_disk == NULL) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(IOException, partedExnMessage);
-        }
-        else
-            PyErr_Format(IOException, "Could not create new partition table on device %s", device->path);
-
-        return NULL;
-    }
-
-    ret = PedDisk2_ped_Disk(out_disk);
-    if (ret == NULL) {
-        return NULL;
-    }
-
-    ped_device_destroy(device);
-    free(pass_disktype);
-    ped_disk_destroy(out_disk);
-
-    return (PyObject *) ret;
-}
-
+/* XXX: is this necessary? */
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
     PedDisk *disk = NULL, *pass_disk = NULL;
     _ped_Disk *ret = NULL;
