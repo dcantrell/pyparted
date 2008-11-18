@@ -510,16 +510,8 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: should this function also destroy the Python _ped.Disk? */
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
-    PedDisk *disk = NULL;
-
-    disk = _ped_Disk2PedDisk(s);
-    if (disk) {
-        ped_disk_destroy(disk);
-    } else {
-        return NULL;
-    }
+    PyObject_DEL(s);
 
     Py_INCREF(Py_None);
     return Py_None;

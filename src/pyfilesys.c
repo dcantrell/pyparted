@@ -287,7 +287,6 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: should this function destroy the _ped.FileSystem as well */
 PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     int ret = -1;
     _ped_FileSystem *self = (_ped_FileSystem *) s;
@@ -314,6 +313,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     }
 
     ped_geometry_destroy(geom);
+    PyObject_DEL(s);
 
     return PyBool_FromLong(ret);
 }

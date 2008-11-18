@@ -158,16 +158,8 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_greatest_common_divisor(a, b));
 }
 
-/* XXX: should this destroy the _ped.Alignment? */
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
-    PedAlignment *alignment = NULL;
-
-    alignment = _ped_Alignment2PedAlignment(s);
-    if (alignment == NULL) {
-        return NULL;
-    }
-
-    ped_alignment_destroy(alignment);
+    PyObject_DEL(s);
 
     Py_INCREF(Py_None);
     return Py_None;
