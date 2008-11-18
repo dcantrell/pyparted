@@ -59,17 +59,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
         return -1;
     } else {
         disk = _ped_Disk2PedDisk(self->disk);
-        if (disk == NULL) {
-            PyObject_Del(self);
-            return -1;
-        }
-
         fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
-        if (fstype == NULL) {
-            ped_disk_destroy(disk);
-            PyObject_Del(self);
-            return -1;
-        }
 
         part = ped_partition_new(disk, self->type, fstype, start, end);
         if (part == NULL) {
@@ -168,24 +158,16 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 
     if (self->dev) {
         device = _ped_Device2PedDevice(self->dev);
-        if (device == NULL) {
-            PyObject_Del(self);
-            return -1;
-        }
     }
 
     if (device) {
         disk = ped_disk_new(device);
     } else if (device && self->type) {
         type = _ped_DiskType2PedDiskType(self->type);
-        if (type == NULL) {
-            PyObject_Del(self);
-            return -1;
-        }
-
         disk = ped_disk_new_fresh(device, type);
     } else {
-        PyErr_SetString(PyExc_TypeError, "you must provide as least a Device when creating a Disk");
+        PyErr_SetString(CreateException, "You must provide as least a Device when creating a Disk");
+        PyObject_Del(self);
         return -1;
     }
 
