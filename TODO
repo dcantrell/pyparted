@@ -28,7 +28,6 @@
       include/pydevice.h
       include/pydisk.h
       include/pyfilesys.h
-      include/pynatmath.h
       include/pytimer.h
 
 - Rename modules under _ped to use all lowercase names.  Make sure all classes

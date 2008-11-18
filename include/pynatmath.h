@@ -2,7 +2,7 @@
  * pynatmath.h
  * pyparted type definitions for pynatmath.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -19,6 +19,7 @@
  * Red Hat, Inc.
  *
  * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+ *                    Chris Lumens <clumens@redhat.com>
  */
 
 #ifndef PYNATMATH_H_INCLUDED
@@ -44,6 +45,50 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args);
 PyObject *py_ped_div_round_up(PyObject *s, PyObject *args);
 PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args);
 
+PyDoc_STRVAR(alignment_destroy_doc,
+"destroy(self) -> None\n\n"
+"Destroys the Alignment object.");
+
+PyDoc_STRVAR(alignment_duplicate_doc,
+"duplicate(self) -> _ped.Alignment\n\n"
+"Create an identical copy of self.  Raises _ped.CreateException if the\n"
+"operation fails");
+
+PyDoc_STRVAR(alignment_intersect_doc,
+"intersect(self, Alignment) -> _ped.Alignment\n\n"
+"Create a new Alignment that describes the intersection of self and\n"
+"Alignment.  A sector will satisfy the new Alignment iff it satisfies both\n"
+"of the original alignments, where 'satisfy' is determined by is_aligned().\n"
+"The proof of this is relatively complicated and is described thoroughly\n"
+"in the libparted source.  This method raises ArithmeticError if no\n"
+"intersection can be found.");
+
+PyDoc_STRVAR(alignment_align_up_doc,
+"align_up(self, Geometry, Sector) -> Sector\n\n"
+"Returns the closest Sector to the input Sector that lies inside Geometry\n"
+"and satisfies the alignment constraint.  This method prefers, but does not\n"
+"guarantee, that the result is beyond Sector.  If no such Sector can be\n"
+"found, an ArithmeticError is raised.");
+
+PyDoc_STRVAR(alignment_align_down_doc,
+"align_down(self, Geometry, Sector) -> Sector\n\n"
+"Returns the closest Sector to the input Sector that lies inside Geometry\n"
+"and satisfies the alignment constraint.  This method prefers, but does not\n"
+"guarantee, that the result is below Sector.  If no such Sector can be\n"
+"found, an ArithmeticError is raised.");
+
+PyDoc_STRVAR(alignment_align_nearest_doc,
+"align_nearest(self, Geometry, Sector) -> Sector\n\n"
+"Returns the closest Sector to the input Sector that lies inside Geometry\n"
+"and satisfies the aligmnent constraint.  If no such Sector can be found,\n"
+"an ArithmeticError is raised.");
+
+PyDoc_STRVAR(alignment_is_aligned_doc,
+"is_aligned(self, Geometry, Sector) -> boolean\n\n"
+"Returns whether or not Sector lies inside Geometry and satisfies the\n"
+"alignment constraint.  This method defines what 'satisfy' means for\n"
+"intersection.");
+
 /* _ped.Alignment type is the Python equivalent of PedAlignment in libparted */
 typedef struct {
     PyObject_HEAD
@@ -58,16 +103,20 @@ static PyMemberDef _ped_Alignment_members[] = {
 };
 
 static PyMethodDef _ped_Alignment_methods[] = {
-    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS, NULL},
-    {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS, NULL},
-    {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS, NULL},
-    {"align_up", (PyCFunction) py_ped_alignment_align_up, METH_VARARGS, NULL},
+    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS,
+                 alignment_destroy_doc},
+    {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS,
+                  alignment_duplicate_doc},
+    {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS,
+                  alignment_intersect_doc},
+    {"align_up", (PyCFunction) py_ped_alignment_align_up, METH_VARARGS,
+                 alignment_align_up_doc},
     {"align_down", (PyCFunction) py_ped_alignment_align_down,
-                   METH_VARARGS, NULL},
+                   METH_VARARGS, alignment_align_down_doc},
     {"align_nearest", (PyCFunction) py_ped_alignment_align_nearest,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, alignment_align_nearest_doc},
     {"is_aligned", (PyCFunction) py_ped_alignment_is_aligned,
-                   METH_VARARGS, NULL},
+                   METH_VARARGS, alignment_is_aligned_doc},
     {NULL}
 };
 
@@ -81,12 +130,19 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure);
 static PyGetSetDef _ped_Alignment_getset[] = {
     {"offset", (getter) _ped_Alignment_get,
                (setter) _ped_Alignment_set,
-               "Alignment offset", "offset"},
+               "Offset in sectors from the start of a _ped.Geometry.", "offset"},
     {"grain_size", (getter) _ped_Alignment_get,
                    (setter) _ped_Alignment_set,
                    "Alignment grain_size", "grain_size"},
     {NULL}  /* Sentinel */
 };
+
+PyDoc_STRVAR(_ped_Alignment_doc,
+"A _ped.Alignment object describes constraints on how sectors and Geometry\n"
+"objects are aligned.  It includes a variety of methods for aligning sectors\n"
+"and calculating the intersection of two Alignment objects.  Most methods on\n"
+"this object can raise _ped.CreateException if creating temporary objects\n"
+"fails and ArithmeticError if calculating alignments and intersections fails.");
 
 static PyTypeObject _ped_Alignment_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
@@ -109,7 +165,7 @@ static PyTypeObject _ped_Alignment_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
-    .tp_doc = "PedAlignment objects",
+    .tp_doc = _ped_Alignment_doc,
  /* .tp_traverse = XXX */
  /* .tp_clear = XXX */
  /* .tp_richcompare = XXX */

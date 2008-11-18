@@ -139,7 +139,7 @@ PyDoc_STRVAR(_ped_Constraint_doc,
 "operations include various methods of creating constraints, intersecting,\n"
 "and solving sets of constraints.\n\n"
 "Most constraint operations can raise _ped.CreateException if creating\n"
-"temporary objects fails, or ArithmeticException if an error occurrs during\n"
+"temporary objects fails, or ArithmeticError if an error occurrs during\n"
 "calculations.");
 
 static PyTypeObject _ped_Constraint_Type_obj = {
