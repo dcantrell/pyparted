@@ -161,10 +161,6 @@ static PyMethodDef _ped_FileSystemType_methods[] = {
 };
 
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
-PyObject *_ped_FileSystemType_new(PyTypeObject *type, PyObject *args,
-                                  PyObject *kwds);
-int _ped_FileSystemType_init(_ped_FileSystemType *self, PyObject *args,
-                             PyObject *kwds);
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
 int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
                             void *closure);
@@ -220,9 +216,9 @@ static PyTypeObject _ped_FileSystemType_Type_obj = {
  /* .tp_descr_get = XXX */
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
-    .tp_init = (initproc) _ped_FileSystemType_init,
- /* .tp_alloc = XXX */
-    .tp_new = _ped_FileSystemType_new,
+    .tp_init = NULL,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = NULL,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */
@@ -279,8 +275,7 @@ static PyMethodDef _ped_FileSystem_methods[] = {
 };
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
-PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
-                              PyObject *kwds);
+PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
 int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
@@ -347,7 +342,7 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_FileSystem_init,
- /* .tp_alloc = XXX */
+    .tp_alloc = PyType_GenericAlloc,
     .tp_new = _ped_FileSystem_new,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */

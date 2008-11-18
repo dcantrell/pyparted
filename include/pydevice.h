@@ -67,10 +67,6 @@ static PyMethodDef _ped_CHSGeometry_methods[] = {
 };
 
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self);
-PyObject *_ped_CHSGeometry_new(PyTypeObject *type, PyObject *args,
-                               PyObject *kwds);
-int _ped_CHSGeometry_init(_ped_CHSGeometry *self, PyObject *args,
-                          PyObject *kwds);
 PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure);
 int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
                          void *closure);
@@ -124,9 +120,9 @@ static PyTypeObject _ped_CHSGeometry_Type_obj = {
  /* .tp_descr_get = XXX */
  /* .tp_descr_set = XXX */
  /* .tp_dictoffset = XXX */
-    .tp_init = (initproc) _ped_CHSGeometry_init,
- /* .tp_alloc = XXX */
-    .tp_new = _ped_CHSGeometry_new,
+    .tp_init = NULL,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = NULL,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */

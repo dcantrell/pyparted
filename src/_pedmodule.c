@@ -362,7 +362,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddIntConstant(m, "UNIT_TEBIBYTE", PED_UNIT_TEBIBYTE);
 
     /* add PedCHSGeometry type as _ped.CHSGeometry */
-    _ped_CHSGeometry_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
         return;
 
@@ -393,7 +392,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddIntConstant(m, "DEVICE_XVD", PED_DEVICE_XVD);
 
     /* add PedTimer type as _ped.Timer */
-    _ped_Timer_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Timer_Type_obj) < 0)
         return;
 
@@ -401,7 +399,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Timer", (PyObject *)&_ped_Timer_Type_obj);
 
     /* add PedGeometry type as _ped.Geometry */
-    _ped_Geometry_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Geometry_Type_obj) < 0)
         return;
 
@@ -409,7 +406,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_Geometry_Type_obj);
 
     /* add PedAlignment type as _ped.Alignment */
-    _ped_Alignment_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Alignment_Type_obj) < 0)
         return;
 
@@ -417,7 +413,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_Alignment_Type_obj);
 
     /* add PedConstraint type as _ped.Constraint */
-    _ped_Constraint_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Constraint_Type_obj) < 0)
         return;
 
@@ -425,7 +420,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_Constraint_Type_obj);
 
     /* add PedPartition type as _ped.Partition */
-    _ped_Partition_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Partition_Type_obj) < 0)
         return;
 
@@ -433,7 +427,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
     /* add PedDisk as _ped.Disk */
-    _ped_Disk_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_Disk_Type_obj) < 0)
         return;
 
@@ -441,7 +434,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddObject(m, "Disk", (PyObject *)&_ped_Disk_Type_obj);
 
     /* add PedDiskType as _ped.DiskType */
-    _ped_DiskType_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_DiskType_Type_obj) < 0)
         return;
 
@@ -472,7 +464,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddIntConstant(m, "DISK_TYPE_PARTITION_NAME", PED_DISK_TYPE_PARTITION_NAME);
 
     /* add PedFileSystemType as _ped.FileSystemType */
-    _ped_FileSystemType_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
         return;
 
@@ -481,7 +472,6 @@ PyMODINIT_FUNC init_ped(void) {
                        (PyObject *)&_ped_FileSystemType_Type_obj);
 
     /* add PedFileSystem as _ped.FileSystem */
-    _ped_FileSystem_Type_obj.tp_new = PyType_GenericNew;
     if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0)
         return;
 

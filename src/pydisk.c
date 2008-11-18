@@ -134,26 +134,6 @@ void _ped_DiskType_dealloc(_ped_DiskType *self) {
     PyObject_Del(self);
 }
 
-PyObject *_ped_DiskType_new(PyTypeObject *type, PyObject *args,
-                            PyObject *kwds) {
-    _ped_DiskType *self = NULL;
-
-    self = (_ped_DiskType *) PyObject_New(PyObject, &_ped_DiskType_Type_obj);
-    return (PyObject *) self;
-}
-
-int _ped_DiskType_init(_ped_DiskType *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"name", "features", NULL};
-
-    self->name = NULL;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|zl", kwlist,
-                                     &self->name, &self->features))
-        return -1;
-    else
-        return 0;
-}
-
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     char *member = (char *) closure;
 
