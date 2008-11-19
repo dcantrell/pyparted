@@ -328,20 +328,20 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
         return NULL;
     }
 
-    ret = (_ped_Disk *) _ped_Disk_Type_obj.tp_new(&_ped_Disk_Type_obj, NULL, NULL);
+    ret = (_ped_Disk *) _ped_Disk_new(&_ped_Disk_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Disk *) PyErr_NoMemory();
 
     ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
     if (ret->dev == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
     if (ret->type == NULL) {
-        Py_DECREF(ret->dev);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->dev);
+        PyObject_Del(ret);
         return NULL;
     }
 
@@ -374,17 +374,18 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
         return NULL;
     }
 
-    ret = (_ped_DiskType *) PyObject_New(_ped_DiskType, &_ped_DiskType_Type_obj);
+    ret = (_ped_DiskType *) PyObject_GC_New(_ped_DiskType, &_ped_DiskType_Type_obj);
     if (!ret)
         return (_ped_DiskType *) PyErr_NoMemory();
 
     if ((ret->name = strdup(type->name)) == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return (_ped_DiskType *) PyErr_NoMemory();
     }
 
     ret->features = type->features;
 
+    PyObject_GC_Track(ret);
     return ret;
 }
 
@@ -640,20 +641,20 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
         return NULL;
     }
 
-    ret = (_ped_Partition *) _ped_Partition_Type_obj.tp_new(&_ped_Partition_Type_obj, NULL, NULL);
+    ret = (_ped_Partition *) _ped_Partition_new(&_ped_Partition_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
     ret->disk = (PyObject *) PedDisk2_ped_Disk(part->disk);
     if (ret->disk == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
     if (ret->geom == NULL) {
-        Py_DECREF(ret->disk);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->disk);
+        PyObject_Del(ret);
         return NULL;
     }
 
@@ -662,9 +663,9 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
 
     ret->fs_type = (PyObject *) PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type);
     if (ret->fs_type == NULL) {
-        Py_DECREF(ret->geom);
-        Py_DECREF(ret->disk);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->geom);
+        Py_XDECREF(ret->disk);
+        PyObject_Del(ret);
         return NULL;
     }
 

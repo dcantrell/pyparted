@@ -31,18 +31,57 @@
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
+    PyObject_GC_UnTrack(self);
     Py_XDECREF(self->disk);
     Py_XDECREF(self->geom);
     Py_XDECREF(self->fs_type);
-    PyObject_Del(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
+    int err;
+
+    if (self->disk) {
+        if ((err = visit(self->disk, arg))) {
+            return err;
+        }
+    }
+
+    if (self->geom) {
+        if ((err = visit(self->geom, arg))) {
+            return err;
+        }
+    }
+
+    if (self->fs_type) {
+        if ((err = visit(self->fs_type, arg))) {
+            return err;
+        }
+    }
+
+    return 0;
+}
+
+int _ped_Partition_clear(_ped_Partition *self) {
+    Py_XDECREF(self->disk);
+    self->disk = NULL;
+
+    Py_XDECREF(self->geom);
+    self->geom = NULL;
+
+    Py_XDECREF(self->fs_type);
+    self->fs_type = NULL;
+
+    return 0;
 }
 
 PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
-    _ped_Partition *self = NULL;
+    PyObject *self = NULL;
 
-    self = PyObject_New(_ped_Partition, &_ped_Partition_Type_obj);
-    return (PyObject *) self;
+    self = (PyObject *) PyObject_GC_New(_ped_Partition, &_ped_Partition_Type_obj);
+    PyObject_GC_Track(self);
+    return self;
 }
 
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
@@ -131,17 +170,47 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
+    PyObject_GC_UnTrack(self);
     Py_XDECREF(self->dev);
     Py_XDECREF(self->type);
-    PyObject_Del(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
+    int err;
+
+    if (self->dev) {
+        if ((err = visit(self->dev, arg))) {
+            return err;
+        }
+    }
+
+    if (self->type) {
+        if ((err = visit(self->type, arg))) {
+            return err;
+        }
+    }
+
+    return 0;
+}
+
+int _ped_Disk_clear(_ped_Disk *self) {
+    Py_XDECREF(self->dev);
+    self->dev = NULL;
+
+    Py_XDECREF(self->type);
+    self->type = NULL;
+
+    return 0;
 }
 
 PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
-    _ped_Disk *self = NULL;
+    PyObject *self = NULL;
 
-    self = PyObject_New(_ped_Disk, &_ped_Disk_Type_obj);
-    return (PyObject *) self;
+    self = (PyObject *) PyObject_GC_New(_ped_Disk, &_ped_Disk_Type_obj);
+    PyObject_GC_Track(self);
+    return self;
 }
 
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
@@ -206,7 +275,16 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 
 /* _ped.DiskType functions */
 void _ped_DiskType_dealloc(_ped_DiskType *self) {
-    PyObject_Del(self);
+    PyObject_GC_UnTrack(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg) {
+    return 0;
+}
+
+int _ped_DiskType_clear(_ped_DiskType *self) {
+    return 0;
 }
 
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {

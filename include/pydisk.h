@@ -180,6 +180,8 @@ static PyMethodDef _ped_Partition_methods[] = {
 };
 
 void _ped_Partition_dealloc(_ped_Partition *self);
+int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg);
+int _ped_Partition_clear(_ped_Partition *self);
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Partition_get(_ped_Partition *self, void *closure);
 int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure);
@@ -224,10 +226,10 @@ static PyTypeObject _ped_Partition_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_Partition_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Partition_traverse,
+    .tp_clear = (inquiry) _ped_Partition_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
@@ -321,6 +323,8 @@ static PyMethodDef _ped_Disk_methods[] = {
 };
 
 void _ped_Disk_dealloc(_ped_Disk *self);
+int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg);
+int _ped_Disk_clear(_ped_Disk *self);
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);
 
 static PyGetSetDef _ped_Disk_getset[] = {
@@ -347,10 +351,11 @@ static PyTypeObject _ped_Disk_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_GC,
     .tp_doc = "PedDisk objects",
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Disk_traverse,
+    .tp_clear = (inquiry) _ped_Disk_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
@@ -401,6 +406,8 @@ static PyMethodDef _ped_DiskType_methods[] = {
 };
 
 void _ped_DiskType_dealloc(_ped_DiskType *self);
+int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg);
+int _ped_DiskType_clear(_ped_DiskType *self);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
 int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
 
@@ -433,10 +440,10 @@ static PyTypeObject _ped_DiskType_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedDiskType objects",
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_DiskType_traverse,
+    .tp_clear = (inquiry) _ped_DiskType_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
