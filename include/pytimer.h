@@ -70,6 +70,8 @@ static PyMethodDef _ped_Timer_methods[] = {
 };
 
 void _ped_Timer_dealloc(_ped_Timer *self);
+int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg);
+int _ped_Timer_clear(_ped_Timer *self);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Timer_get(_ped_Timer *self, void *closure);
 int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure);
@@ -109,10 +111,10 @@ static PyTypeObject _ped_Timer_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedTimer objects",
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Timer_traverse,
+    .tp_clear = (inquiry) _ped_Timer_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
