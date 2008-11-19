@@ -154,6 +154,8 @@ static PyMethodDef _ped_CHSGeometry_methods[] = {
 };
 
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self);
+int _ped_CHSGeometry_traverse(_ped_CHSGeometry *self, visitproc visit, void *arg);
+int _ped_CHSGeometry_clear(_ped_CHSGeometry *self);
 PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure);
 int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
                          void *closure);
@@ -201,8 +203,8 @@ static PyTypeObject _ped_CHSGeometry_Type_obj = {
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_CHSGeometry_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_CHSGeometry_traverse,
+    .tp_clear = (inquiry) _ped_CHSGeometry_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
