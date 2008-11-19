@@ -129,19 +129,20 @@
   PyType_GenericNew do this.
 
 - Coding policy that we need to make sure we're doing:
-  If object creation fails, we need to use PyObject_GC_Del() to destroy it before
-  throwing an exception at the user.  For all other instances where we need to
-  delete or destroy the object, use Py_XDECREF().  Once the ref count is zero, the
-  GC will take over and run dealloc() for that object, which will eventually run
-  PyObject_GC_Del().  Basically, we should only be using PyObject_GC_Del() in the
-  convert functions or in __init__ constructors where we are making a new object
-  for the user.
+  If object creation fails, we need to use PyObject_GC_Del() to destroy it
+  before throwing an exception at the user.  For all other instances where
+  we need to delete or destroy the object, use Py_XDECREF().  Once the ref
+  count is zero, the GC will take over and run dealloc() for that object,
+  which will eventually run PyObject_GC_Del().  Basically, we should only
+  be using PyObject_GC_Del() in the convert functions or in __init__
+  constructors where we are making a new object for the user.
 
-  NOTE: If we need to destroy an object due to creation failure and the object we
-  are creating has other PyObject members, call Py_XDECREF on those members rather
-  than destroing them.  We can't ensure that there will be no other references to
-  those members, so let the normal object destructor handle PyObject members, but
-  forcefully destroy the object we are trying to create.
+  NOTE: If we need to destroy an object due to creation failure and the
+  object we are creating has other PyObject members, call Py_XDECREF on
+  those members rather than destroing them.  We can't ensure that there
+  will be no other references to those members, so let the normal object
+  destructor handle PyObject members, but forcefully destroy the object
+  we are trying to create.
 
 - destroy() methods don't seem to be destroying the Python object.
 
@@ -152,6 +153,14 @@
 
 - Audit all of the tp_flags and make sure we are only using the ones
   we should be using (DEFAULT may be inappropriate).
+
+- Move the constraint functions presently in _ped to be in the __init_()
+  method for _ped.Constraint, similar to what was done for _ped_Disk_init:
+      constraint_new_from_min_max
+      constraint_new_from_min
+      constraint_new_from_max
+      constraint_any
+      constraint_exact
 
 - The git repository has a missing ref in it and it causes git-fetch to
   choke all the time.  Figure out how to remove this from the git repo.
