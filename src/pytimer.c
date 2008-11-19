@@ -29,14 +29,24 @@
 
 /* _ped.Timer functions */
 void _ped_Timer_dealloc(_ped_Timer *self) {
-    PyObject_Del(self);
+    PyObject_GC_UnTrack(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg) {
+    return 0;
+}
+
+int _ped_Timer_clear(_ped_Timer *self) {
+    return 0;
 }
 
 PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    _ped_Timer *self = NULL;
+    PyObject *self = NULL;
 
-    self = PyObject_New(_ped_Timer, &_ped_Timer_Type_obj);
-    return (PyObject *) self;
+    self = (PyObject *) PyObject_GC_New(_ped_Timer, &_ped_Timer_Type_obj);
+    PyObject_GC_Track(self);
+    return self;
 }
 
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
