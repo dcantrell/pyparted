@@ -31,7 +31,16 @@
 
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
-    PyObject_Del(self);
+    PyObject_GC_UnTrack(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg) {
+    return 0;
+}
+
+int _ped_FileSystemType_clear(_ped_FileSystemType *self) {
+    return 0;
 }
 
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
@@ -72,17 +81,47 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
 
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
+    PyObject_GC_UnTrack(self);
     Py_XDECREF(self->type);
     Py_XDECREF(self->geom);
-    PyObject_Del(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) {
+    int err;
+
+    if (self->type) {
+        if ((err = visit(self->type, arg))) {
+            return err;
+        }
+    }
+
+    if (self->geom) {
+        if ((err = visit(self->geom, arg))) {
+            return err;
+        }
+    }
+
+    return 0;
+}
+
+int _ped_FileSystem_clear(_ped_FileSystem *self) {
+    Py_XDECREF(self->type);
+    self->type = NULL;
+
+    Py_XDECREF(self->geom);
+    self->geom = NULL;
+
+    return 0;
 }
 
 PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
                               PyObject *kwds) {
-    _ped_FileSystem *self = NULL;
+    PyObject *self = NULL;
 
-    self = PyObject_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
-    return (PyObject *) self;
+    self = (PyObject *) PyObject_GC_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
+    PyObject_GC_Track(self);
+    return self;
 }
 
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,

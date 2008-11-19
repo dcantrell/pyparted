@@ -432,20 +432,20 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
         return NULL;
     }
 
-    ret = (_ped_FileSystem *) _ped_FileSystem_Type_obj.tp_new(&_ped_FileSystem_Type_obj, NULL, NULL);
+    ret = (_ped_FileSystem *) _ped_FileSystem_new(&_ped_FileSystem_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_FileSystem *) PyErr_NoMemory();
 
     ret->type = (PyObject *) PedFileSystemType2_ped_FileSystemType(fs->type);
     if (ret->type == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->geom = (PyObject *) PedGeometry2_ped_Geometry(fs->geom);
     if (ret->geom == NULL) {
-        Py_DECREF(ret->type);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->type);
+        PyObject_Del(ret);
         return NULL;
     }
 
@@ -480,16 +480,17 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
         return NULL;
     }
 
-    ret = (_ped_FileSystemType *) PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
+    ret = (_ped_FileSystemType *) PyObject_GC_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
     if (!ret)
        return (_ped_FileSystemType *) PyErr_NoMemory();
 
     ret->name = strdup(fstype->name);
     if (ret->name == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return (_ped_FileSystemType *) PyErr_NoMemory();
     }
 
+    PyObject_GC_Track(ret);
     return ret;
 }
 

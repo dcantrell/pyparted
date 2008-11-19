@@ -161,6 +161,8 @@ static PyMethodDef _ped_FileSystemType_methods[] = {
 };
 
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
+int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg);
+int _ped_FileSystemType_clear(_ped_FileSystemType *self);
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
 int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
                             void *closure);
@@ -200,10 +202,10 @@ static PyTypeObject _ped_FileSystemType_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_FileSystemType_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_FileSystemType_traverse,
+    .tp_clear = (inquiry) _ped_FileSystemType_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
@@ -275,6 +277,8 @@ static PyMethodDef _ped_FileSystem_methods[] = {
 };
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
+int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg);
+int _ped_FileSystem_clear(_ped_FileSystem *self);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
 int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
@@ -324,10 +328,10 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_FileSystem_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_FileSystem_traverse,
+    .tp_clear = (inquiry) _ped_FileSystem_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
