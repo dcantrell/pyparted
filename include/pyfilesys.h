@@ -201,7 +201,7 @@ static PyTypeObject _ped_FileSystemType_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_FileSystemType_doc,
     .tp_traverse = (traverseproc) _ped_FileSystemType_traverse,
@@ -327,7 +327,7 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_FileSystem_doc,
     .tp_traverse = (traverseproc) _ped_FileSystem_traverse,

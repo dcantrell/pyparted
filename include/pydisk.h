@@ -225,7 +225,7 @@ static PyTypeObject _ped_Partition_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_Partition_doc,
     .tp_traverse = (traverseproc) _ped_Partition_traverse,
@@ -351,7 +351,7 @@ static PyTypeObject _ped_Disk_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
                 Py_TPFLAGS_HAVE_GC,
     .tp_doc = "PedDisk objects",
     .tp_traverse = (traverseproc) _ped_Disk_traverse,
@@ -439,7 +439,7 @@ static PyTypeObject _ped_DiskType_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = "PedDiskType objects",
     .tp_traverse = (traverseproc) _ped_DiskType_traverse,

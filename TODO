@@ -151,9 +151,6 @@
 - Look through all PyTypeObject objects and see where we can expand
   their functionality.  Can we add str() support, for instance.
 
-- Audit all of the tp_flags and make sure we are only using the ones
-  we should be using (DEFAULT may be inappropriate).
-
 - Move the constraint functions presently in _ped to be in the __init_()
   method for _ped.Constraint, similar to what was done for _ped_Disk_init:
       constraint_new_from_min_max
