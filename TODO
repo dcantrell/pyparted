@@ -126,11 +126,24 @@
 
 - Add garbage collection support code to the different PyTypeObjects.
   http://docs.python.org/c-api/gcsupport.html#supporting-cycle-detection
+      pyfilesys.h
+      pygeom.h
+      pynatmath.h
+      pytimer.h
+
+- Use PyObject_GC_Del()
+
+- Should we use Py_XDECREF() or PyObject_GC_Del() for failures in convert.c
+
+- destroy() methods don't seem to be destroying the Python object.
 
 - Make sure this new code works in Python 3000
 
 - Look through all PyTypeObject objects and see where we can expand
   their functionality.  Can we add str() support, for instance.
+
+- Audit all of the tp_flags and make sure we are only using the ones
+  we should be using (DEFAULT may be inappropriate).
 
 - The git repository has a missing ref in it and it causes git-fetch to
   choke all the time.  Figure out how to remove this from the git repo.
