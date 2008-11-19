@@ -121,6 +121,8 @@ static PyMethodDef _ped_Alignment_methods[] = {
 };
 
 void _ped_Alignment_dealloc(_ped_Alignment *self);
+int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg);
+int _ped_Alignment_clear(_ped_Alignment *self);
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure);
 int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure);
@@ -162,10 +164,11 @@ static PyTypeObject _ped_Alignment_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_GC,
     .tp_doc = _ped_Alignment_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Alignment_traverse,
+    .tp_clear = (inquiry) _ped_Alignment_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
