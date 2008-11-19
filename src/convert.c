@@ -161,43 +161,44 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
         return NULL;
     }
 
-    ret = (_ped_Constraint *) _ped_Constraint_Type_obj.tp_new(&_ped_Constraint_Type_obj, NULL, NULL);
+    ret = (_ped_Constraint *) PyObject_GC_New(_ped_Constraint, &_ped_Constraint_Type_obj);
     if (!ret)
         return (_ped_Constraint *) PyErr_NoMemory();
 
     ret->start_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->start_align);
     if (ret->start_align == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->end_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->end_align);
     if (ret->end_align == NULL) {
-        Py_DECREF(ret->start_align);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->start_align);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->start_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->start_range);
     if (ret->start_range == NULL) {
-        Py_DECREF(ret->end_align);
-        Py_DECREF(ret->start_align);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->end_align);
+        Py_XDECREF(ret->start_align);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->end_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->end_range);
     if (ret->end_range == NULL) {
-        Py_DECREF(ret->start_range);
-        Py_DECREF(ret->end_align);
-        Py_DECREF(ret->start_align);
-        Py_DECREF(ret);
+        Py_XDECREF(ret->start_range);
+        Py_XDECREF(ret->end_align);
+        Py_XDECREF(ret->start_align);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->min_size = constraint->min_size;
     ret->max_size = constraint->max_size;
 
+    PyObject_GC_Track(ret);
     return ret;
 }
 
@@ -276,6 +277,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 
     ret->bios_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->bios_geom);
     if (ret->bios_geom == NULL) {
+        Py_XDECREF(ret->hw_geom);
         PyObject_Del(ret);
         return NULL;
     }

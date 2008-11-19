@@ -116,6 +116,8 @@ static PyMethodDef _ped_Constraint_methods[] = {
 };
 
 void _ped_Constraint_dealloc(_ped_Constraint *self);
+int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg);
+int _ped_Constraint_clear(_ped_Constraint *self);
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure);
 int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure);
@@ -161,10 +163,10 @@ static PyTypeObject _ped_Constraint_Type_obj = {
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
     .tp_doc = _ped_Constraint_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Constraint_traverse,
+    .tp_clear = (inquiry) _ped_Constraint_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
