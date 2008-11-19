@@ -35,7 +35,7 @@ void _ped_Partition_dealloc(_ped_Partition *self) {
     Py_XDECREF(self->disk);
     Py_XDECREF(self->geom);
     Py_XDECREF(self->fs_type);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
@@ -173,7 +173,7 @@ void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_UnTrack(self);
     Py_XDECREF(self->dev);
     Py_XDECREF(self->type);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
@@ -236,7 +236,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
         disk = ped_disk_new_fresh(device, type);
     } else {
         PyErr_SetString(CreateException, "You must provide as least a Device when creating a Disk");
-        PyObject_Del(self);
+        PyObject_GC_Del(self);
         return -1;
     }
 
@@ -256,7 +256,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
         }
 
         ped_device_destroy(device);
-        PyObject_Del(self);
+        PyObject_GC_Del(self);
         return -1;
     }
 
@@ -276,7 +276,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 /* _ped.DiskType functions */
 void _ped_DiskType_dealloc(_ped_DiskType *self) {
     PyObject_GC_UnTrack(self);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg) {
@@ -544,7 +544,7 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
-    PyObject_Del(s);
+    PyObject_GC_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;

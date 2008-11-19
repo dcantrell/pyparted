@@ -31,7 +31,7 @@
 /* _ped.Alignment functions */
 void _ped_Alignment_dealloc(_ped_Alignment *self) {
     PyObject_GC_UnTrack(self);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg) {
@@ -169,7 +169,7 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
-    PyObject_Del(s);
+    PyObject_GC_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;

@@ -31,7 +31,7 @@
 /* _ped.CHSGeometry functions */
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
     PyObject_GC_UnTrack(self);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_CHSGeometry_traverse(_ped_CHSGeometry *self, visitproc visit, void *arg) {
@@ -99,7 +99,7 @@ void _ped_Device_dealloc(_ped_Device *self) {
     PyObject_GC_UnTrack(self);
     Py_XDECREF(self->hw_geom);
     Py_XDECREF(self->bios_geom);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg) {

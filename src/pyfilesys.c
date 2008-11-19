@@ -32,7 +32,7 @@
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_GC_UnTrack(self);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg) {
@@ -84,7 +84,7 @@ void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_GC_UnTrack(self);
     Py_XDECREF(self->type);
     Py_XDECREF(self->geom);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) {
@@ -352,7 +352,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
     }
 
     ped_geometry_destroy(geom);
-    PyObject_Del(s);
+    PyObject_GC_Del(s);
 
     return PyBool_FromLong(ret);
 }

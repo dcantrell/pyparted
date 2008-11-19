@@ -30,7 +30,7 @@
 /* _ped.Timer functions */
 void _ped_Timer_dealloc(_ped_Timer *self) {
     PyObject_GC_UnTrack(self);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg) {
@@ -133,7 +133,7 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for timer.h in libparted */
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    PyObject_Del(s);
+    PyObject_GC_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;
