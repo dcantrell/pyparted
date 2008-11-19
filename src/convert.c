@@ -240,20 +240,19 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
         return NULL;
     }
 
-    ret = (_ped_Device *) PyObject_New(_ped_Device, &_ped_Device_Type_obj);
+    ret = (_ped_Device *) PyObject_GC_New(_ped_Device, &_ped_Device_Type_obj);
     if (!ret)
         return (_ped_Device *) PyErr_NoMemory();
 
     ret->model = strdup(device->model);
     if (ret->model == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return (_ped_Device *) PyErr_NoMemory();
     }
 
     ret->path = strdup(device->path);
     if (ret->path == NULL) {
-        free(ret->model);
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return (_ped_Device *) PyErr_NoMemory();
     }
 
@@ -267,23 +266,17 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     ret->boot_dirty = device->boot_dirty;
     ret->host = device->host;
     ret->did = device->did;
-
     ret->length = device->length;
 
     ret->hw_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->hw_geom);
     if (ret->hw_geom == NULL) {
-        free(ret->path);
-        free(ret->model);
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
     ret->bios_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->bios_geom);
     if (ret->bios_geom == NULL) {
-        Py_DECREF(ret->hw_geom);
-        free(ret->path);
-        free(ret->model);
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
