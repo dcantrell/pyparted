@@ -76,17 +76,17 @@ PyDoc_STRVAR(constraint_exact_doc,
 "constraint_exact(Geometry) -> Constraint\n\n"
 "Return a Constraint that only the given Geometry will satisfy.");
 
-PyDoc_STRVAR(get_device_doc,
-"get_device(string) -> Device\n\n"
+PyDoc_STRVAR(device_get_doc,
+"device_get(string) -> Device\n\n"
 "Return the Device corresponding to the given path.  Typically, path will\n"
 "be a device name like /dev/sda.");
 
-PyDoc_STRVAR(probe_all_devices_doc,
-"probe_all_devices()\n\n"
+PyDoc_STRVAR(device_probe_all_doc,
+"device_probe_all()\n\n"
 "Attempt to detect all devices.");
 
-PyDoc_STRVAR(free_all_devices_doc,
-"free_all_devices()\n\n"
+PyDoc_STRVAR(device_free_all_doc,
+"device_free_all()\n\n"
 "Close and free all devices.");
 
 PyDoc_STRVAR(file_system_probe_doc,
@@ -234,12 +234,12 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                          constraint_exact_doc},
 
     /* pydevice.c */
-    {"get_device", (PyCFunction) py_ped_device_get, METH_VARARGS,
-                   get_device_doc},
-    {"probe_all_devices", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
-                          probe_all_devices_doc},
-    {"free_all_devices", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
-                         free_all_devices_doc},
+    {"device_get", (PyCFunction) py_ped_device_get, METH_VARARGS,
+                   device_get_doc},
+    {"device_probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
+                         device_probe_all_doc},
+    {"device_free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
+                        device_free_all_doc},
 
     /* pydisk.c */
     {"type_get_name", (PyCFunction) py_ped_partition_type_get_name,
