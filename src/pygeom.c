@@ -30,8 +30,28 @@
 
 /* _ped.Geometry functions */
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
+    PyObject_GC_UnTrack(self);
     Py_XDECREF(self->dev);
-    PyObject_Del(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg) {
+    int err;
+
+    if (self->dev) {
+        if ((err = visit(self->dev, arg))) {
+            return err;
+        }
+    }
+
+    return 0;
+}
+
+int _ped_Geometry_clear(_ped_Geometry *self) {
+    Py_XDECREF(self->dev);
+    self->dev = NULL;
+
+    return 0;
 }
 
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
