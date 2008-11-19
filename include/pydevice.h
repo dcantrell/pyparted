@@ -291,8 +291,9 @@ static PyMethodDef _ped_Device_methods[] = {
     {NULL}
 };
 
-PyObject *_ped_Device_alloc(PyTypeObject *self, Py_ssize_t nitems);
 void _ped_Device_dealloc(_ped_Device *self);
+int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg);
+int _ped_Device_clear(_ped_Device *self);
 PyObject *_ped_Device_get(_ped_Device *self, void *closure);
 int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
@@ -335,7 +336,7 @@ PyDoc_STRVAR(_ped_Device_doc,
 static PyTypeObject _ped_Device_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Device",
-    .tp_basicsize = sizeof(_ped_Device),
+    .tp_basicsize = PyGC_HEAD_SIZE + sizeof(_ped_Device),
     .tp_itemsize = 0,
     .tp_dealloc = (destructor) _ped_Device_dealloc,
  /* .tp_print = XXX */
@@ -352,10 +353,11 @@ static PyTypeObject _ped_Device_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE,
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_GC,
     .tp_doc = _ped_Device_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Device_traverse,
+    .tp_clear = (inquiry) _ped_Device_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */

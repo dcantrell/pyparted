@@ -87,9 +87,38 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
 
 /* _ped.Device functions */
 void _ped_Device_dealloc(_ped_Device *self) {
+    PyObject_GC_Fini(self);
     Py_XDECREF(self->hw_geom);
     Py_XDECREF(self->bios_geom);
-    PyObject_Del(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg) {
+    int err;
+
+    if (self->hw_geom) {
+        if ((err = visit(self->hw_geom, arg))) {
+            return err;
+        }
+    }
+
+    if (self->bios_geom) {
+        if ((err = visit(self->bios_geom, arg))) {
+            return err;
+        }
+    }
+
+    return 0;
+}
+
+int _ped_Device_clear(_ped_Device *self) {
+    Py_XDECREF(self->hw_geom);
+    self->hw_geom = NULL;
+
+    Py_XDECREF(self->bios_geom);
+    self->bios_geom = NULL;
+
+    return 0;
 }
 
 PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
