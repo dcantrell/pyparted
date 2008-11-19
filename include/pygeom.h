@@ -248,7 +248,7 @@ static PyTypeObject _ped_Geometry_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
                 Py_TPFLAGS_HAVE_GC,
     .tp_doc = _ped_Geometry_doc,
     .tp_traverse = (traverseproc) _ped_Geometry_traverse,
