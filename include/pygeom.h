@@ -194,6 +194,8 @@ static PyMethodDef _ped_Geometry_methods[] = {
 };
 
 void _ped_Geometry_dealloc(_ped_Geometry *self);
+int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg);
+int _ped_Geometry_clear(_ped_Geometry *self);
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure);
 int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure);
@@ -246,10 +248,11 @@ static PyTypeObject _ped_Geometry_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
  /* .tp_setattro = XXX */
  /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_GC,
     .tp_doc = _ped_Geometry_doc,
- /* .tp_traverse = XXX */
- /* .tp_clear = XXX */
+    .tp_traverse = (traverseproc) _ped_Geometry_traverse,
+    .tp_clear = (inquiry) _ped_Geometry_clear,
  /* .tp_richcompare = XXX */
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */

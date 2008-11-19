@@ -527,13 +527,13 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
         return NULL;
     }
 
-    ret = (_ped_Geometry *) _ped_Geometry_Type_obj.tp_new(&_ped_Geometry_Type_obj, NULL, NULL);
+    ret = PyObject_GC_New(_ped_Geometry, &_ped_Geometry_Type_obj);
     if (!ret)
         return (_ped_Geometry *) PyErr_NoMemory();
 
     ret->dev = (PyObject *) PedDevice2_ped_Device(geometry->dev);
     if (ret->dev == NULL) {
-        Py_DECREF(ret);
+        PyObject_Del(ret);
         return NULL;
     }
 
@@ -541,6 +541,7 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     ret->length = geometry->length;
     ret->end = geometry->end;
 
+    PyObject_GC_Track(ret);
     return ret;
 }
 

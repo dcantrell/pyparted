@@ -126,7 +126,6 @@
 
 - Add garbage collection support code to the different PyTypeObjects.
   http://docs.python.org/c-api/gcsupport.html#supporting-cycle-detection
-      pygeom.h
       pynatmath.h
       pytimer.h
 
