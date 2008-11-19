@@ -30,15 +30,25 @@
 
 /* _ped.Alignment functions */
 void _ped_Alignment_dealloc(_ped_Alignment *self) {
-    PyObject_Del(self);
+    PyObject_GC_UnTrack(self);
+    PyObject_Del(PyObject_AS_GC(self));
+}
+
+int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg) {
+    return 0;
+}
+
+int _ped_Alignment_clear(_ped_Alignment *self) {
+    return 0;
 }
 
 PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
                              PyObject *kwds) {
-    _ped_Alignment *self = NULL;
+    PyObject *self = NULL;
 
-    self = PyObject_New(_ped_Alignment, &_ped_Alignment_Type_obj);
-    return (PyObject *) self;
+    self = (PyObject *) PyObject_GC_New(_ped_Alignment, &_ped_Alignment_Type_obj);
+    PyObject_GC_Track(self);
+    return self;
 }
 
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {

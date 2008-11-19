@@ -90,7 +90,7 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
         return NULL;
     }
 
-    ret = (_ped_Alignment *) _ped_Alignment_Type_obj.tp_new(&_ped_Alignment_Type_obj, NULL, NULL);
+    ret = (_ped_Disk *) _ped_Alignment_new(&_ped_Alignment_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Alignment *) PyErr_NoMemory();
 

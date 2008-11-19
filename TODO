@@ -126,7 +126,6 @@
 
 - Add garbage collection support code to the different PyTypeObjects.
   http://docs.python.org/c-api/gcsupport.html#supporting-cycle-detection
-      pynatmath.h
       pytimer.h
 
 - Use PyObject_GC_Del()
