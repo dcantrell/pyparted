@@ -124,9 +124,24 @@
     _ped.file_system_probe_specific
     _ped.flag_get_next
 
-- Use PyObject_GC_Del()
+- Make sure PyTypeObjects that have a tp_init are allocating memory that the
+  garbage collector knows about.  I'm not sure if PyType_GenericAlloc or
+  PyType_GenericNew do this.
 
-- Should we use Py_XDECREF() or PyObject_GC_Del() for failures in convert.c
+- Coding policy that we need to make sure we're doing:
+  If object creation fails, we need to use PyObject_GC_Del() to destroy it before
+  throwing an exception at the user.  For all other instances where we need to
+  delete or destroy the object, use Py_XDECREF().  Once the ref count is zero, the
+  GC will take over and run dealloc() for that object, which will eventually run
+  PyObject_GC_Del().  Basically, we should only be using PyObject_GC_Del() in the
+  convert functions or in __init__ constructors where we are making a new object
+  for the user.
+
+  NOTE: If we need to destroy an object due to creation failure and the object we
+  are creating has other PyObject members, call Py_XDECREF on those members rather
+  than destroing them.  We can't ensure that there will be no other references to
+  those members, so let the normal object destructor handle PyObject members, but
+  forcefully destroy the object we are trying to create.
 
 - destroy() methods don't seem to be destroying the Python object.
 

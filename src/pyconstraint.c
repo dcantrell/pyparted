@@ -36,7 +36,7 @@ void _ped_Constraint_dealloc(_ped_Constraint *self) {
     Py_XDECREF(self->end_align);
     Py_XDECREF(self->start_range);
     Py_XDECREF(self->end_range);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg) {
@@ -121,7 +121,7 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
             ped_alignment_destroy(end_align);
             ped_geometry_destroy(start_range);
             ped_geometry_destroy(end_range);
-            PyObject_Del(self);
+            PyObject_GC_Del(self);
             return -1;
         }
 

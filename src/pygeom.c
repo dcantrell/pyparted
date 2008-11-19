@@ -32,7 +32,7 @@
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
     PyObject_GC_UnTrack(self);
     Py_XDECREF(self->dev);
-    PyObject_Del(PyObject_AS_GC(self));
+    PyObject_GC_Del(self);
 }
 
 int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg) {
@@ -215,7 +215,7 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
-    PyObject_Del(s);
+    PyObject_GC_Del(s);
 
     Py_INCREF(Py_None);
     return Py_None;
