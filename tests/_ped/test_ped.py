@@ -27,6 +27,26 @@ import unittest
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
+class FlagGetNameTestCase(unittest.TestCase):
+    def runTest(self):
+        for f in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
+                  _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
+                  _ped.PARTITION_LBA, _ped.PARTITION_HPSERVICE,
+                  _ped.PARTITION_PALO, _ped.PARTITION_PREP,
+                  _ped.PARTITION_MSFT_RESERVED]:
+            self.assert_(_ped.flag_get_name(f) != "", "Could not get name for flag %s" % f)
+
+        self.assertRaises(_ped.PartedException, _ped.flag_get_name, -1)
+        self.assertRaises(_ped.PartedException, _ped.flag_get_name, 1000)
+
+class FlagGetByNameTestCase(unittest.TestCase):
+    def runTest(self):
+        for f in ["boot", "root", "swap", "hidden", "raid", "lvm", "lba",
+                  "hp-service", "palo", "prep", "msftres"]:
+            self.assert_(_ped.flag_get_by_name(f) != "", "Could not get flag %s" % f)
+
+        self.assert_(_ped.flag_get_by_name("nosuchflag") == 0)
+
 class GreatestCommonDivisorTestCase(unittest.TestCase):
     def runTest(self):
         # Can't test cases where we pass a negative to greatest_common_divisor
@@ -70,6 +90,12 @@ class RoundUpToTestCase(unittest.TestCase):
         self.assertEqual(_ped.round_up_to(100, 17), 102)
         self.assertEqual(_ped.round_up_to(100, -17), 68)
         self.assertRaises(ZeroDivisionError, _ped.round_up_to, 100, 0)
+
+class TypeGetNameTestCase(unittest.TestCase):
+    def runTest(self):
+        for t in [_ped.PARTITION_METADATA, _ped.PARTITION_FREESPACE,
+                  _ped.PARTITION_EXTENDED, _ped.PARTITION_LOGICAL]:
+            self.assert_(_ped.type_get_name(t) != "", "Could not get name for flag %s" % t)
 
 class UnitSetDefaultTestCase(unittest.TestCase):
     def setUp(self):
@@ -145,12 +171,15 @@ class UnitParseCustomTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(FlagGetNameTestCase())
+    suite.addTest(FlagGetByNameTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(DivRoundToNearestTestCase())
     suite.addTest(DivRoundUpTestCase())
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())
     suite.addTest(RoundUpToTestCase())
+    suite.addTest(TypeGetNameTestCase())
     suite.addTest(UnitSetDefaultTestCase())
     suite.addTest(UnitGetDefaultTestCase())
     suite.addTest(UnitGetSizeTestCase())
