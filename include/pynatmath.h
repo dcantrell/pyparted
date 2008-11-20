@@ -121,8 +121,6 @@ static PyMethodDef _ped_Alignment_methods[] = {
 };
 
 void _ped_Alignment_dealloc(_ped_Alignment *self);
-PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds);
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure);
 int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure);
@@ -182,7 +180,7 @@ static PyTypeObject _ped_Alignment_Type_obj = {
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_Alignment_init,
     .tp_alloc = PyType_GenericAlloc,
-    .tp_new = _ped_Alignment_new,
+    .tp_new = PyType_GenericNew,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */

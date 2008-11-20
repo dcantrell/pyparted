@@ -38,14 +38,6 @@ void _ped_Constraint_dealloc(_ped_Constraint *self) {
     PyObject_Del(self);
 }
 
-PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
-                              PyObject *kwds) {
-    _ped_Constraint *self = NULL;
-
-    self = PyObject_New(_ped_Constraint, &_ped_Constraint_Type_obj);
-    return (PyObject *) self;
-}
-
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
                          PyObject *kwds) {
     static char *kwlist[] = {"start_align", "end_align", "start_range",
