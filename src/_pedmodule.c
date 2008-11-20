@@ -125,6 +125,26 @@ PyDoc_STRVAR(div_round_to_nearest_doc,
 "div_round_to_nearest(a, b) -> Sector\n\n"
 "Returns the closest result of a divided by b.");
 
+PyDoc_STRVAR(partition_type_get_name_doc,
+"type_get_name(integer) -> string\n\n"
+"Return a name for a partition type constant.  This mainly exists just to\n"
+"present something in user interfaces.  It doesn't really provide the best\n"
+"names for partition types.");
+
+PyDoc_STRVAR(partition_flag_get_name_doc,
+"flag_get_name(integer) -> string\n\n"
+"Return a name for a partition flag constant.  If an invalid flag is provided,\n"
+"_ped.PartedExeption will be raised.");
+
+PyDoc_STRVAR(partition_flag_get_by_name_doc,
+"flag_get_by_name(string) -> integer\n\n"
+"Return a partition flag given its name, or 0 if no flag matches the name.");
+
+PyDoc_STRVAR(partition_flag_next_doc,
+"flag_next(integer) -> integer\n\n"
+"Given a partition flag, return the next flag.  If there is no next flag, 0\n"
+"is returned.");
+
 PyDoc_STRVAR(unit_set_default_doc,
 "unit_set_default(Unit)\n\n"
 "Sets the default Unit to be used by further unit_* calls.  This\n"
@@ -220,6 +240,16 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           probe_all_devices_doc},
     {"free_all_devices", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
                          free_all_devices_doc},
+
+    /* pydisk.c */
+    {"type_get_name", (PyCFunction) py_ped_partition_type_get_name,
+                      METH_VARARGS, partition_type_get_name_doc},
+    {"flag_get_name", (PyCFunction) py_ped_partition_flag_get_name,
+                      METH_VARARGS, partition_flag_get_name_doc},
+    {"flag_get_by_name", (PyCFunction) py_ped_partition_flag_get_by_name,
+                         METH_VARARGS, partition_flag_get_by_name_doc},
+    {"flag_next", (PyCFunction) py_ped_partition_flag_next, METH_VARARGS,
+                  partition_flag_next_doc},
 
     /* pyfilesys.c */
     {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,
