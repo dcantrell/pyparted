@@ -378,7 +378,7 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
         return NULL;
     }
 
-    ret = (_ped_DiskType *) PyObject_New(PyObject, &_ped_DiskType_Type_obj);
+    ret = (_ped_DiskType *) PyObject_New(_ped_DiskType, &_ped_DiskType_Type_obj);
     if (!ret)
         return (_ped_DiskType *) PyErr_NoMemory();
 
@@ -483,7 +483,7 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
         return NULL;
     }
 
-    ret = (_ped_FileSystemType *) PyObject_New(PyObject, &_ped_FileSystemType_Type_obj);
+    ret = (_ped_FileSystemType *) PyObject_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
     if (!ret)
        return (_ped_FileSystemType *) PyErr_NoMemory();
 
@@ -575,7 +575,7 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
         return NULL;
     }
 
-    ret = (_ped_CHSGeometry *) PyObject_New(PyObject, &_ped_CHSGeometry_Type_obj);
+    ret = (_ped_CHSGeometry *) PyObject_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj);
     if (!ret)
         return (_ped_CHSGeometry *) PyErr_NoMemory();
 
