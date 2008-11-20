@@ -116,8 +116,6 @@ static PyMethodDef _ped_Constraint_methods[] = {
 };
 
 void _ped_Constraint_dealloc(_ped_Constraint *self);
-PyObject *_ped_Constraint_new(PyTypeObject *type, PyObject *args,
-                              PyObject *kwds);
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure);
 int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure);
@@ -181,7 +179,7 @@ static PyTypeObject _ped_Constraint_Type_obj = {
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_Constraint_init,
     .tp_alloc = PyType_GenericAlloc,
-    .tp_new = _ped_Constraint_new,
+    .tp_new = PyType_GenericNew,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */

@@ -34,14 +34,6 @@ void _ped_Geometry_dealloc(_ped_Geometry *self) {
     PyObject_Del(self);
 }
 
-PyObject *_ped_Geometry_new(PyTypeObject *type, PyObject *args,
-                            PyObject *kwds) {
-    _ped_Geometry *self = NULL;
-
-    self = PyObject_New(_ped_Geometry, &_ped_Geometry_Type_obj);
-    return (PyObject *) self;
-}
-
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"dev", "start", "length", "end", NULL};
     PedGeometry *geometry = NULL;

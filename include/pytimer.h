@@ -70,7 +70,6 @@ static PyMethodDef _ped_Timer_methods[] = {
 };
 
 void _ped_Timer_dealloc(_ped_Timer *self);
-PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Timer_get(_ped_Timer *self, void *closure);
 int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure);
@@ -128,7 +127,7 @@ static PyTypeObject _ped_Timer_Type_obj = {
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_Timer_init,
     .tp_alloc = PyType_GenericAlloc,
-    .tp_new = _ped_Timer_new,
+    .tp_new = PyType_GenericNew,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */

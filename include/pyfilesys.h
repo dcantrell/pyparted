@@ -275,7 +275,6 @@ static PyMethodDef _ped_FileSystem_methods[] = {
 };
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
-PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
 int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
@@ -343,7 +342,7 @@ static PyTypeObject _ped_FileSystem_Type_obj = {
  /* .tp_dictoffset = XXX */
     .tp_init = (initproc) _ped_FileSystem_init,
     .tp_alloc = PyType_GenericAlloc,
-    .tp_new = _ped_FileSystem_new,
+    .tp_new = PyType_GenericNew,
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
  /* .tp_bases = XXX */
