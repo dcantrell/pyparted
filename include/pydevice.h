@@ -83,7 +83,7 @@ PyDoc_STRVAR(device_cache_remove_doc,
 "allocated resources associated with it.  USE WITH CAUTION.");
 
 PyDoc_STRVAR(device_begin_external_access_doc,
-"begin_external_access() -> bool"
+"begin_external_access() -> bool\n\n"
 "Begins external access mode for this Device.  External access mode allows\n"
 "you to safely do I/O on the device.  If a Device is open, then you should\n"
 "not do any I/O on that Device, e.g. by calling an external program like\n"
@@ -99,7 +99,7 @@ PyDoc_STRVAR(device_end_external_access_doc,
 "False on failure.");
 
 PyDoc_STRVAR(device_read_doc,
-"read(buffer, start, count) -> bool"
+"read(buffer, start, count) -> bool\n\n"
 "Read count sectors from this Device in to buffer, starting at sector start.\n"
 "Both start and count are long integers and buffer is a Python object large\n"
 "enough to hold what you want to read.\n\n"
