@@ -687,7 +687,7 @@ PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
 PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
     int in_state = -1;
     PedPartition *part = NULL;
-    PedPartitionFlag flag;
+    long flag;
     int ret = 0;
 
     if (!PyArg_ParseTuple(args, "li", &flag, &in_state)) {
@@ -722,7 +722,7 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     PedPartition *part = NULL;
-    PedPartitionFlag flag;
+    long flag;
     int ret = -1;
 
     if (!PyArg_ParseTuple(args, "l", &flag)) {
@@ -742,7 +742,7 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     PedPartition *part = NULL;
-    PedPartitionFlag flag;
+    long flag;
     int ret = 0;
 
     if (!PyArg_ParseTuple(args, "l", &flag)) {
@@ -892,7 +892,7 @@ PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
-    PedPartitionType type;
+    long type;
     char *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "l", &type)) {
@@ -907,7 +907,7 @@ PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
-    PedPartitionFlag flag;
+    long flag;
     char *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "l", &flag)) {
@@ -938,7 +938,7 @@ PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
-    PedPartitionFlag flag;
+    long flag;
 
     if (!PyArg_ParseTuple(args, "l", &flag)) {
         return NULL;

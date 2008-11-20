@@ -141,7 +141,7 @@ typedef struct {
     PyObject *disk;                /* _ped.Disk */
     PyObject *geom;                /* _ped.Geometry */
     int num;
-    long long type;                /* PedPartitionType */
+    long type;                     /* PedPartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
 } _ped_Partition;
 
