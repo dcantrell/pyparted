@@ -122,6 +122,10 @@
     _ped.constraint_exact
     _ped.file_system_probe
     _ped.file_system_probe_specific
+    _ped.type_get_name
+    _ped.flag_get_name
+    _ped.flag_get_by_name
+    _ped.flag_get_next
 
 - Add garbage collection support code to the different PyTypeObjects.
   http://docs.python.org/c-api/gcsupport.html#supporting-cycle-detection

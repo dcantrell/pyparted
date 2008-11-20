@@ -132,26 +132,6 @@ PyDoc_STRVAR(partition_get_path_doc,
 "level.  For instance, on Linux this could return '/dev/sda' for a partition.\n"
 "If an error occurs, _ped.PartitionException is raised.");
 
-PyDoc_STRVAR(partition_type_get_name_doc,
-"type_get_name(integer) -> string\n\n"
-"Return a name for a partition type constant.  This mainly exists just to\n"
-"present something in user interfaces.  It doesn't really provide the best\n"
-"names for partition types.");
-
-PyDoc_STRVAR(partition_flag_get_name_doc,
-"flag_get_name(integer) -> string\n\n"
-"Return a name for a partition flag constant.  If an invalid flag is provided,\n"
-"_ped.PartedExeption will be raised.");
-
-PyDoc_STRVAR(partition_flag_get_by_name_doc,
-"flag_get_by_name(string) -> integer\n\n"
-"Return a partition flag given its name, or 0 if no flag matches the name.");
-
-PyDoc_STRVAR(partition_flag_next_doc,
-"flag_next(integer) -> integer\n\n"
-"Given a partition flag, return the next flag.  If there is no next flag, 0\n"
-"is returned.");
-
 /* _ped.Partition type is the Python equivalent of PedPartition
  * in libparted */
 typedef struct {
@@ -196,14 +176,6 @@ static PyMethodDef _ped_Partition_methods[] = {
                 partition_is_busy_doc},
     {"get_path", (PyCFunction) py_ped_partition_get_path, METH_VARARGS,
                  partition_get_path_doc},
-    {"type_get_name", (PyCFunction) py_ped_partition_type_get_name,
-                      METH_VARARGS, partition_type_get_name_doc},
-    {"flag_get_name", (PyCFunction) py_ped_partition_flag_get_name,
-                      METH_VARARGS, partition_flag_get_name_doc},
-    {"flag_get_by_name", (PyCFunction) py_ped_partition_flag_get_by_name,
-                         METH_VARARGS, partition_flag_get_by_name_doc},
-    {"flag_next", (PyCFunction) py_ped_partition_flag_next, METH_VARARGS,
-                  partition_flag_next_doc},
     {NULL}
 };
 
