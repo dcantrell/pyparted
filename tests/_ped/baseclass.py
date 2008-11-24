@@ -1,5 +1,4 @@
-#
-# Makefile.am for pyparted
+#!/usr/bin/python
 #
 # Copyright (C) 2008  Red Hat, Inc.
 #
@@ -8,7 +7,7 @@
 # the GNU General Public License v.2, or (at your option) any later version.
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY expressed or implied, including the implied warranties of
-# MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 # Public License for more details.  You should have received a copy of the
 # GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -19,10 +18,20 @@
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
+import _ped
+import os
+import tempfile
+import unittest
 
-EXTRA_DIST = baseclass.py $(TESTS)
-MAINTAINERCLEANFILES = Makefile.in
+# Base class for any test case that requires a _ped.Device object first.
+class RequiresDevice(unittest.TestCase):
+    def setUp(self):
+        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        f = os.fdopen(fd)
+        f.seek(128000)
+        os.write(fd, "0")
 
-TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs
+        self._device = _ped.device_get(self.path)
 
-TESTS = test_ped.py
+    def tearDown(self):
+        os.unlink(self.path)
