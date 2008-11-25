@@ -49,15 +49,15 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args);
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args);
 
 PyDoc_STRVAR(device_get_next_doc,
-"get_next() -> Device\n\n"
+"get_next(self) -> Device\n\n"
 "Return the next Device in the list detected by _ped.device_probe_all().");
 
 PyDoc_STRVAR(device_is_busy_doc,
-"is_busy() -> bool\n\n"
+"is_busy(self) -> bool\n\n"
 "Return True if this Device is currently in use, False otherwise.");
 
 PyDoc_STRVAR(device_open_doc,
-"open() -> bool\n\n"
+"open(self) -> bool\n\n"
 "Attempt to open this Device to allow use of read(), write(), and sync()\n"
 "methods.  The open() call is architecture-dependent.  Apart from\n"
 "requesting access to the device from the operating system, it does things\n"
@@ -67,23 +67,23 @@ PyDoc_STRVAR(device_open_doc,
 "Return True if the Device could be opened, False otherwise.");
 
 PyDoc_STRVAR(device_close_doc,
-"close() -> bool\n\n"
+"close(self) -> bool\n\n"
 "Close this Device.  All allocated resources are freed.  If a failure\n"
 "occurs while closing the Device, this method returns False.  The method\n"
 "returns True on success.");
 
 PyDoc_STRVAR(device_destroy_doc,
-"destroy() -> None\n\n"
+"destroy(self) -> None\n\n"
 "Destroys the Device, removes it from the device list, destroys all\n"
 "allocated resources associated with it, and destroys the object.");
 
 PyDoc_STRVAR(device_cache_remove_doc,
-"cache_remove() -> None\n\n"
+"cache_remove(self) -> None\n\n"
 "Remove the Device from the device list, but does not destroy it or any\n"
 "allocated resources associated with it.  USE WITH CAUTION.");
 
 PyDoc_STRVAR(device_begin_external_access_doc,
-"begin_external_access() -> bool\n\n"
+"begin_external_accessself() -> bool\n\n"
 "Begins external access mode for this Device.  External access mode allows\n"
 "you to safely do I/O on the device.  If a Device is open, then you should\n"
 "not do any I/O on that Device, e.g. by calling an external program like\n"
@@ -94,43 +94,43 @@ PyDoc_STRVAR(device_begin_external_access_doc,
 "False otherwise.");
 
 PyDoc_STRVAR(device_end_external_access_doc,
-"end_external_access() -> bool\n\n"
+"end_external_access(self) -> bool\n\n"
 "Ends external access mode for this Device.  Returns True on success,\n"
 "False on failure.");
 
 PyDoc_STRVAR(device_read_doc,
-"read(buffer, start, count) -> bool\n\n"
+"read(self, buffer, start, count) -> bool\n\n"
 "Read count sectors from this Device in to buffer, starting at sector start.\n"
 "Both start and count are long integers and buffer is a Python object large\n"
 "enough to hold what you want to read.\n\n"
 "Return True if the read was successful, False otherwise.");
 
 PyDoc_STRVAR(device_write_doc,
-"write(buffer, start, count) -> bool\n\n"
+"write(self, buffer, start, count) -> bool\n\n"
 "Write count sectors from buffer to this Device, starting at sector start.\n"
 "Both start and count are long integers and buffer is a Python object holding\n"
 "what you want to write to this Device.\n\n"
 "Return True if the write was successful, False otherwise.");
 
 PyDoc_STRVAR(device_sync_doc,
-"sync() -> bool\n\n"
+"sync(self) -> bool\n\n"
 "Flushes all write-behind caches that might be holding up writes.  It is\n"
 "slow because it guarantees cache coherency among all relevant caches.\n"
 "Return True on success, False otherwise.");
 
 PyDoc_STRVAR(device_sync_fast_doc,
-"sync_fast() -> bool\n\n"
+"sync_fast(self) -> bool\n\n"
 "Flushes all write-behind caches that might be holding writes.  WARNING:\n"
 "Does NOT ensure cache coherency with other caches.  If you need cache\n"
 "coherency, use sync() instead.  Return True on success, False otherwise.");
 
 PyDoc_STRVAR(device_check_doc,
-"check() -> long int\n\n"
+"check(self) -> long int\n\n"
 "Architecture-dependent function that returns the number of sectors on\n"
 "this Device that are ok.");
 
 PyDoc_STRVAR(device_get_constraint_doc,
-"get_constraint() -> Constraint\n\n"
+"get_constraint(self) -> Constraint\n\n"
 "Get a Constraint that represents hardware requirements on alignment and\n"
 "geometry.  This is, for example, import for media that have a physical\n"
 "sector size that is a multiple of the logical sector size.");
@@ -302,37 +302,39 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_Device_getset[] = {
     {"model", (getter) _ped_Device_get, (setter) _ped_Device_set,
-              "PedDevice model", "model"},
+              "A brief description of the hardware, usually mfr and model.",
+              "model"},
     {"path", (getter) _ped_Device_get, (setter) _ped_Device_set,
-             "PedDevice path", "path"},
+             "The operating system level path to the device node.", "path"},
     {"type", (getter) _ped_Device_get, (setter) _ped_Device_set,
-             "PedDevice type", "type"},
+             "The type of device, deprecated in favor of PedDeviceType", "type"},
     {"sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
-                    "PedDevice sector_size", "sector_size"},
+                    "Logical sector size.", "sector_size"},
     {"phys_sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
-                         "PedDevice phys_sector_size", "phys_sector_size"},
+                         "Physical sector size.", "phys_sector_size"},
     {"length", (getter) _ped_Device_get, (setter) _ped_Device_set,
-               "PedDevice length", "length"},
+               "Device length, in sectors (LBA).", "length"},
     {"open_count", (getter) _ped_Device_get, (setter) _ped_Device_set,
-                   "PedDevice open_count", "open_count"},
+                   "How many times self.open() has been called.", "open_count"},
     {"read_only", (getter) _ped_Device_get, (setter) _ped_Device_set,
-                  "PedDevice read_only", "read_only"},
+                  "Is the device opened in read-only mode?", "read_only"},
     {"external_mode", (getter) _ped_Device_get, (setter) _ped_Device_set,
                       "PedDevice external_mode", "external_mode"},
     {"dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
-              "PedDevice dirty", "dirty"},
+              "Have any unflushed changes been made to self?", "dirty"},
     {"boot_dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
-                   "PedDevice boot_dirty", "boot_dirty"},
+                   "Have any unflushed changes been made to the bootloader?",
+                   "boot_dirty"},
     {"host", (getter) _ped_Device_get, (setter) _ped_Device_set,
-             "PedDevice host", "host"},
+             "Any SCSI host ID associated with self.", "host"},
     {"did", (getter) _ped_Device_get, (setter) _ped_Device_set,
-            "PedDevice did", "did"},
+            "Any SCSI device ID associated with self.", "did"},
     {NULL}  /* Sentinel */
 };
 
 PyDoc_STRVAR(_ped_Device_doc,
 "A _ped.Device object describes a block device accessible via the\n"
-"operating system.  On Linux, an example block device is /dev/sda\n\n"
+"operating system.  On Linux, an example block device is /dev/sda.\n\n"
 "It is important to note that _ped.Device objects describe entire\n"
 "block devices and not just partitions.");
 
