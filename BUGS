@@ -1,28 +1,9 @@
-In [2]: import parted
+In [1]: import _ped
 
-In [3]: xxx = parted.disk_type_get("msdos")
-/usr/lib/python2.5/site-packages/IPython/FakeModule.py:1: DeprecationWarning: disk_type_get() is deprecated and will be removed.
-  # -*- coding: utf-8 -*-
+In [2]: a = _ped.device_get("/dev/sda")
 
-In [4]: dir(xxx)
-Out[4]: []
+In [3]: isinstance(a, _ped.Device)
+Out[3]: False
 
-In [5]: xxx
-Out[5]: <_ped.DiskType object at 0xb7b27860>
-
-In [6]: dir(xxx)
-Out[6]: 
-['__class__',
- '__delattr__',
- '__doc__',
- '__getattribute__',
- '__hash__',
- '__init__',
- '__new__',
- '__reduce__',
- '__reduce_ex__',
- '__repr__',
- '__setattr__',
- '__str__',
- 'features',
- 'name']
+In [4]: type(a)
+Out[4]: <type '_ped.Device'>
