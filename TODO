@@ -26,11 +26,6 @@
 - Handle exceptions throughout the _ped module code.  Unique exceptions as
   much as possible.
 
-- Make sure PyMemberDef, PyMethodDef, PyGetSetDef, and PyTypeObject
-  structures all have docstrings:
-      include/pydisk.h
-      include/pytimer.h
-
 - Rename modules under _ped to use all lowercase names.  Make sure all classes
   are named with studly caps (e.g., BigGiantWorthlessClass)
 
