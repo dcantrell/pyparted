@@ -132,6 +132,174 @@ PyDoc_STRVAR(partition_get_path_doc,
 "level.  For instance, on Linux this could return '/dev/sda' for a partition.\n"
 "If an error occurs, _ped.PartitionException is raised.");
 
+PyDoc_STRVAR(disk_probe_doc,
+"probe(self) -> DiskType\n\n"
+"Return the type of partition table detected, or raise _ped.IOException if\n"
+"there is an error reading self.");
+
+PyDoc_STRVAR(disk_clobber_doc,
+"clobber(self) -> boolean\n\n"
+"Remove all identifying information from a partition table.  If the partition\n"
+"table cannot be cleared, a _ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_clobber_exclude_doc,
+"clobber_exclude(self, DiskType) -> boolean\n\n"
+"Remove all identifiying information from a partition table except for tables\n"
+"of the given DiskType.  If the partition table cannot be cleared, a\n"
+"_ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_duplicate_doc,
+"duplicate(self) -> Disk\n\n"
+"Return a new Disk that is a copy of self.  This method raises\n"
+"_ped.DiskException if there is an error making the copy.");
+
+PyDoc_STRVAR(disk_destroy_doc,
+"destroy(self) -> None\n\n"
+"Destroy the Disk object.");
+
+PyDoc_STRVAR(disk_commit_doc,
+"commit(self) -> boolean\n\n"
+"Write the in-memory changes to the disk's partition table and inform the\n"
+"operating system of the changes.  This method is equivalent to calling:\n"
+"\tself.disk_commit_to_dev()\n"
+"\tself.disk_commit_to_os()\n"
+"On error, _ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_commit_to_dev_doc,
+"commit_to_dev(self) -> boolean\n\n"
+"Write the in-memory changes to the disk's partition table.  On error,\n"
+"_ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_commit_to_os_doc,
+"commit_to_os(self) -> boolean\n\n"
+"Inform the operating system that disk's partition table layout has changed.\n"
+"What exactly this means depends on the operating system.  On error, a\n"
+"_ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_check_doc,
+"check(self) -> boolean\n\n"
+"Perform a basic sanity check on the partition table.  This check does not\n"
+"depend on the type of disk.  If there is an error performing the check,\n"
+"_ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_print_doc,
+"print(self) -> None\n\n"
+"Print a summary of the partitions on self.");
+
+PyDoc_STRVAR(disk_get_primary_partition_count_doc,
+"get_primary_partition_count(self) -> integer\n\n"
+"Return the number of primary partitions on self.");
+
+PyDoc_STRVAR(disk_get_last_partition_num_doc,
+"get_last_partition_num(self) -> integer\n\n"
+"Return the highest in-use partition number on self.");
+
+PyDoc_STRVAR(disk_get_max_primary_partition_count_doc,
+"get_max_primary_partition_count(self) -> integer\n\n"
+"Get the maximum number of primary partitions spported by the disk label.");
+
+PyDoc_STRVAR(disk_add_partition_doc,
+"add_partition(self, Partition, Constraint) -> boolean\n\n"
+"Adds the new partition Partition to self.  This operation may modify the\n"
+"partition's geometry, subject to Constraint.  Having a strict Constraint\n"
+"will likely cause this operation to fail, raising a _ped.PartitionException\n"
+"in the process.");
+
+PyDoc_STRVAR(disk_remove_partition_doc,
+"remove_partition(self, Partition) -> boolean\n\n"
+"Remove Partition from self.  If Partition is an extended partition, it must\n"
+"not contain any logical partitions.  The Partition object itself is not\n"
+"destroyed.  The caller must use Partition.destroy() or self.delete_partition().\n"
+"For all error cases, _ped.PartitionException will be raised.");
+
+PyDoc_STRVAR(disk_delete_partition_doc,
+"delete_partition(self, Partition) -> boolean\n\n"
+"Remove Partition from self and destroy the Partition object afterwards.  This\n"
+"is equivalent to calling:\n"
+"\tself.remove_partition(Partition)\n"
+"\tPartition.destroy()\n"
+"For all error cases, _ped.PartitionException will be raised.");
+
+PyDoc_STRVAR(disk_delete_all_doc,
+"disk_delete_all(self) -> boolean\n\n"
+"Remove and destroy all partitions on self, raising _ped.PartitionException on\n"
+"any error case.");
+
+PyDoc_STRVAR(disk_set_partition_geom_doc,
+"set_partition_geom(self, Partition, Constraint, start_sector, end_sector) ->\n"
+"                  boolean\n\n"
+"Change the location of Partition by setting a new Geometry on it, subject to\n"
+"the restrictions of Constraint.  This operation can fail for many reasons,\n"
+"all of which result in a _ped.PartitionException.  One of the most likely\n"
+"failure cases is that the new location overlaps with an existing partition.\n"
+"On error, Partition will be unchanged.  On success, the contents of the\n"
+"partition will still not be changed - the file system itself will still\n"
+"need to be resized.");
+
+PyDoc_STRVAR(disk_maximize_partition_doc,
+"maximize_partition(self, Partition, Constraint) -> boolean\n\n"
+"Grow the Partition to the largest possibly size, subject to the restrictions\n"
+"of Constraint.  Raise _ped.PartitionException on error.");
+
+PyDoc_STRVAR(disk_get_max_partition_geometry_doc,
+"get_max_partition_geometry(self, Partition, Constraint) -> Geometry\n\n"
+"Return the maximum Geometry that Partition can be grown to, subject to the\n"
+"restrictions of Constraint.  Raise _ped.PartitionException on error.");
+
+PyDoc_STRVAR(disk_minimize_extended_partition_doc,
+"minimize_extended_partition(self) -> boolean\n\n"
+"Reduce the size of an extended partition on self to the minimum while still\n"
+"including all logical partitions.  If there are no logical partitions, the\n"
+"extended partition will be deleted.  If the extended partition cannot be\n"
+"shrunk, a _ped.PartitionException will be raised.");
+
+PyDoc_STRVAR(disk_next_partition_doc,
+"next_partition(self, Partition) -> Partition\n\n"
+"Return the next partition on self after Partition.  If Partition is None,\n"
+"return the first partition.  If Partition is an extended partition, return\n"
+"the first logical partition inside it.  If Partition is the last partition,\n"
+"raise IndexError.  Repeatedly calling this method has the effect of\n"
+"performing a depth-first traversal on self.");
+
+PyDoc_STRVAR(disk_get_partition_doc,
+"get_partition(self, num) -> Partition\n\n"
+"Return the Partition given by num, or raise _ped.PartitionException if no\n"
+"partition with that index exists.");
+
+PyDoc_STRVAR(disk_get_partition_by_sector_doc,
+"get_partition_by_sector(self, sector) -> Partition\n\n"
+"Return the Partition containing sector, or raise _ped.PartitionException\n"
+"otherwise.  If sector exists within a logical partition, the logical\n"
+"partition is returned.");
+
+PyDoc_STRVAR(disk_extended_partition_doc,
+"extended_partition(self) -> Partition\n\n"
+"If an extended partition exists on self, return it.  Otherwise, raise\n"
+"_ped.PartitionException");
+
+PyDoc_STRVAR(disk_type_register_doc,
+"register(self) -> None\n\n"
+"Register a new DiskType in parted's internal listing.");
+
+PyDoc_STRVAR(disk_type_unregister_doc,
+"unregister(self) -> None\n\n"
+"Remove self from parted's internal list of DiskType objects.");
+
+PyDoc_STRVAR(disk_type_get_next_doc,
+"get_next(self) -> DiskType\n\n"
+"Return the next DiskType after self.  If self is the last DiskType, raise\n"
+"IndexError.");
+
+PyDoc_STRVAR(disk_type_get_doc,
+"get(string) -> DiskType\n\n"
+"Return a DiskType object with the given name.  If no DiskType exists with\n"
+"that name, raise _ped.UnknownTypeException.");
+
+PyDoc_STRVAR(disk_type_check_feature_doc,
+"check_feature(self, DiskTypeFeature) -> boolean\n\n"
+"Return whether or not self supports a particular partition table feature.\n"
+"DiskTypeFeatures are given by the _ped.DISK_TYPE_* constants.");
+
 /* _ped.Partition type is the Python equivalent of PedPartition
  * in libparted */
 typedef struct {
@@ -265,60 +433,75 @@ typedef struct {
 } _ped_Disk;
 
 static PyMemberDef _ped_Disk_members[] = {
-    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0, NULL},
-    {"type", T_OBJECT, offsetof(_ped_Disk, type), 0, NULL},
+    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0,
+            "A _ped.Device object holding self's partition table."},
+    {"type", T_OBJECT, offsetof(_ped_Disk, type), 0,
+             "The type of the disk label as a _ped.DiskType."},
     {NULL}
 };
 
 static PyMethodDef _ped_Disk_methods[] = {
-    {"probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS, NULL},
-    {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS, NULL},
+    {"probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS,
+              disk_probe_doc},
+    {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
+                disk_clobber_doc},
     {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
-                        METH_VARARGS, NULL},
-    {"duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS, NULL},
-    {"destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS, NULL},
-    {"commit", (PyCFunction) py_ped_disk_commit, METH_VARARGS, NULL},
+                        METH_VARARGS, disk_clobber_exclude_doc},
+    {"duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS,
+                  disk_duplicate_doc},
+    {"destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS,
+                disk_destroy_doc},
+    {"commit", (PyCFunction) py_ped_disk_commit, METH_VARARGS,
+               disk_commit_doc},
     {"commit_to_dev", (PyCFunction) py_ped_disk_commit_to_dev,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, disk_commit_to_dev_doc},
     {"commit_to_os", (PyCFunction) py_ped_disk_commit_to_os,
-                     METH_VARARGS, NULL},
-    {"check", (PyCFunction) py_ped_disk_check, METH_VARARGS, NULL},
-    {"print", (PyCFunction) py_ped_disk_print, METH_VARARGS, NULL},
+                     METH_VARARGS, disk_commit_to_os_doc},
+    {"check", (PyCFunction) py_ped_disk_check, METH_VARARGS,
+              disk_check_doc},
+    {"print", (PyCFunction) py_ped_disk_print, METH_VARARGS,
+              disk_print_doc},
     {"get_primary_partition_count", (PyCFunction)
                                     py_ped_disk_get_primary_partition_count,
-                                    METH_VARARGS, NULL},
+                                    METH_VARARGS,
+                                    disk_get_primary_partition_count_doc},
     {"get_last_partition_num", (PyCFunction)
                                py_ped_disk_get_last_partition_num,
-                               METH_VARARGS, NULL},
+                               METH_VARARGS,
+                               disk_get_last_partition_num_doc},
     {"get_max_primary_partition_count", (PyCFunction)
                                    py_ped_disk_get_max_primary_partition_count,
-                                   METH_VARARGS, NULL},
+                                   METH_VARARGS,
+                                   disk_get_max_primary_partition_count_doc},
     {"add_partition", (PyCFunction) py_ped_disk_add_partition,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, disk_add_partition_doc},
     {"remove_partition", (PyCFunction) py_ped_disk_remove_partition,
-                         METH_VARARGS, NULL},
+                         METH_VARARGS, disk_remove_partition_doc},
     {"delete_partition", (PyCFunction) py_ped_disk_delete_partition,
-                         METH_VARARGS, NULL},
-    {"delete_all", (PyCFunction) py_ped_disk_delete_all, METH_VARARGS, NULL},
+                         METH_VARARGS, disk_delete_partition_doc},
+    {"delete_all", (PyCFunction) py_ped_disk_delete_all, METH_VARARGS,
+                   disk_delete_all_doc},
     {"set_partition_geom", (PyCFunction) py_ped_disk_set_partition_geom,
-                           METH_VARARGS, NULL},
+                           METH_VARARGS, disk_set_partition_geom_doc},
     {"maximize_partition", (PyCFunction) py_ped_disk_maximize_partition,
-                           METH_VARARGS, NULL},
+                           METH_VARARGS, disk_maximize_partition_doc},
     {"get_max_partition_geometry", (PyCFunction)
                                    py_ped_disk_get_max_partition_geometry,
-                                   METH_VARARGS, NULL},
+                                   METH_VARARGS,
+                                   disk_get_max_partition_geometry_doc},
     {"minimize_extended_partition", (PyCFunction)
                                     py_ped_disk_minimize_extended_partition,
-                                    METH_VARARGS, NULL},
+                                    METH_VARARGS,
+                                    disk_minimize_extended_partition_doc},
     {"next_partition", (PyCFunction) py_ped_disk_next_partition,
-                       METH_VARARGS, NULL},
+                       METH_VARARGS, disk_next_partition_doc},
     {"get_partition", (PyCFunction) py_ped_disk_get_partition,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, disk_get_partition_doc},
     {"get_partition_by_sector", (PyCFunction)
                                 py_ped_disk_get_partition_by_sector,
-                                METH_VARARGS, NULL},
+                                METH_VARARGS, disk_get_partition_by_sector_doc},
     {"extended_partition", (PyCFunction) py_ped_disk_extended_partition,
-                           METH_VARARGS, NULL},
+                           METH_VARARGS, disk_extended_partition_doc},
     {NULL}
 };
 
@@ -330,6 +513,20 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);
 static PyGetSetDef _ped_Disk_getset[] = {
     {NULL}  /* Sentinel */
 };
+
+PyDoc_STRVAR(_ped_Disk_doc,
+"A _ped.Disk object represents a disk label, or partition table, on a single\n"
+"_ped.Device.  Since parted supports a variety of platforms, it must also\n"
+"support a variety of disk labels, not all of which may support the same set\n"
+"of features.  For instance, DOS disk labels support extended partitions while\n"
+"other systems do not.  The Disk object therefore includes a DiskType\n"
+"reference to enumerate supported features.  However, all other Disk operations\n"
+"are supported on all disk label types.\n\n"
+"Operations on Disk objects include creating, deleting, moving, and resizing\n"
+"partitions in various ways.  Creating filesystems within these partitions is\n"
+"left up to the FileSystem objects.\n\n"
+"For most errors involving a Disk object, _ped.PartitionException will be\n"
+"raised.  Some operations can also raise _ped.IOException or IndexError.");
 
 static PyTypeObject _ped_Disk_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
@@ -353,7 +550,7 @@ static PyTypeObject _ped_Disk_Type_obj = {
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
                 Py_TPFLAGS_HAVE_GC,
-    .tp_doc = "PedDisk objects",
+    .tp_doc = _ped_Disk_doc,
     .tp_traverse = (traverseproc) _ped_Disk_traverse,
     .tp_clear = (inquiry) _ped_Disk_clear,
  /* .tp_richcompare = XXX */
@@ -394,14 +591,22 @@ static PyMemberDef _ped_DiskType_members[] = {
     {NULL}
 };
 
+PyDoc_STRVAR(_ped_DiskType_doc,
+"A _ped.DiskType object is a simple object that gives a partition table a\n"
+"name and describes features it supports.  A reference to one of these\n"
+"objects is stored inside a _ped.Disk object.");
+
 static PyMethodDef _ped_DiskType_methods[] = {
-    {"register", (PyCFunction) py_ped_disk_type_register, METH_VARARGS, NULL},
+    {"register", (PyCFunction) py_ped_disk_type_register, METH_VARARGS,
+                 disk_type_register_doc},
     {"unregister", (PyCFunction) py_ped_disk_type_unregister,
-                   METH_VARARGS, NULL},
-    {"get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS, NULL},
-    {"get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS, NULL},
+                   METH_VARARGS, disk_type_unregister_doc},
+    {"get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS,
+                 disk_type_get_next_doc},
+    {"get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS,
+            disk_type_get_doc},
     {"check_feature", (PyCFunction) py_ped_disk_type_check_feature,
-                      METH_VARARGS, NULL},
+                      METH_VARARGS, disk_type_check_feature_doc},
     {NULL}
 };
 
@@ -413,9 +618,10 @@ int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
 
 static PyGetSetDef _ped_DiskType_getset[] = {
     {"name", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
-             "DiskType name", "name"},
+             "The name of the partition table type.", "name"},
     {"features", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
-                 "DiskType features", "features"},
+                 "A bitmask of features supported by this DiskType.",
+                 "features"},
     {NULL}  /* Sentinel */
 };
 
@@ -441,7 +647,7 @@ static PyTypeObject _ped_DiskType_Type_obj = {
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
                 Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
-    .tp_doc = "PedDiskType objects",
+    .tp_doc = _ped_DiskType_doc,
     .tp_traverse = (traverseproc) _ped_DiskType_traverse,
     .tp_clear = (inquiry) _ped_DiskType_clear,
  /* .tp_richcompare = XXX */
