@@ -42,15 +42,6 @@ int _ped_Alignment_clear(_ped_Alignment *self) {
     return 0;
 }
 
-PyObject *_ped_Alignment_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds) {
-    PyObject *self = NULL;
-
-    self = (PyObject *) PyObject_GC_New(_ped_Alignment, &_ped_Alignment_Type_obj);
-    PyObject_GC_Track(self);
-    return self;
-}
-
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"offset", "grain_size", NULL};
     PedAlignment *alignment = NULL;
