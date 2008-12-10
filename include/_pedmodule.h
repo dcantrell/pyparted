@@ -27,6 +27,7 @@
 
 extern PyObject *py_libparted_get_version(PyObject *s, PyObject *args);
 extern PyObject *py_pyparted_version(PyObject *s, PyObject *args);
+extern PyMODINIT_FUNC init_ped(void);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
 
