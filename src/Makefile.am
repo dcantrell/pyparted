@@ -20,6 +20,8 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+CFLAGS = -Wall -Wmissing-prototypes
+
 INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
 # install Python module code directly in to site-packages
