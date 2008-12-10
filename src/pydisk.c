@@ -75,15 +75,6 @@ int _ped_Partition_clear(_ped_Partition *self) {
     return 0;
 }
 
-PyObject *_ped_Partition_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds) {
-    PyObject *self = NULL;
-
-    self = (PyObject *) PyObject_GC_New(_ped_Partition, &_ped_Partition_Type_obj);
-    PyObject_GC_Track(self);
-    return self;
-}
-
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"disk", "type", "fs_type", "start", "end", NULL};
     PedSector start, end;
@@ -202,15 +193,6 @@ int _ped_Disk_clear(_ped_Disk *self) {
     self->type = NULL;
 
     return 0;
-}
-
-PyObject *_ped_Disk_new(PyTypeObject *type, PyObject *args,
-                             PyObject *kwds) {
-    PyObject *self = NULL;
-
-    self = (PyObject *) PyObject_GC_New(_ped_Disk, &_ped_Disk_Type_obj);
-    PyObject_GC_Track(self);
-    return self;
 }
 
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
