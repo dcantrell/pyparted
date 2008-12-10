@@ -365,7 +365,6 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
 PyMODINIT_FUNC init_ped(void) {
     PyObject *m = NULL;
-    PyObject *o = NULL;
 
     if (geteuid() != 0) {
         PyErr_SetString (PyExc_RuntimeError, "pyparted requires root access");
