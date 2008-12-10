@@ -115,15 +115,6 @@ int _ped_FileSystem_clear(_ped_FileSystem *self) {
     return 0;
 }
 
-PyObject *_ped_FileSystem_new(PyTypeObject *type, PyObject *args,
-                              PyObject *kwds) {
-    PyObject *self = NULL;
-
-    self = (PyObject *) PyObject_GC_New(_ped_FileSystem, &_ped_FileSystem_Type_obj);
-    PyObject_GC_Track(self);
-    return self;
-}
-
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                          PyObject *kwds) {
     static char *kwlist[] = {"type", "geom", "checked", NULL};

@@ -41,14 +41,6 @@ int _ped_Timer_clear(_ped_Timer *self) {
     return 0;
 }
 
-PyObject *_ped_Timer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    PyObject *self = NULL;
-
-    self = (PyObject *) PyObject_GC_New(_ped_Timer, &_ped_Timer_Type_obj);
-    PyObject_GC_Track(self);
-    return self;
-}
-
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"frac", "start", "now", "predicted_end",
                              "state_name", NULL};
