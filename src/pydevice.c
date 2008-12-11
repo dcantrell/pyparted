@@ -275,6 +275,11 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (path == NULL) {
+        PyErr_Format(DiskException, "Could not find device for empty path");
+        return NULL;
+    }
+
     device = ped_device_get(path);
     if (device) {
         ret = PedDevice2_ped_Device(device);
