@@ -474,17 +474,15 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
         return NULL;
     }
 
-    ret = (_ped_FileSystemType *) PyObject_GC_New(_ped_FileSystemType, &_ped_FileSystemType_Type_obj);
+    ret = (_ped_FileSystemType *) _ped_FileSystemType_Type_obj.tp_new(&_ped_FileSystemType_Type_obj, NULL, NULL);
     if (!ret)
        return (_ped_FileSystemType *) PyErr_NoMemory();
 
     ret->name = strdup(fstype->name);
     if (ret->name == NULL) {
-        PyObject_GC_Del(ret);
         return (_ped_FileSystemType *) PyErr_NoMemory();
     }
 
-    PyObject_GC_Track(ret);
     return ret;
 }
 
