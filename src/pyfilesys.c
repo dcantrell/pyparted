@@ -29,6 +29,57 @@
 #include "pyfilesys.h"
 #include "pygeom.h"
 
+/* _ped.FileSystemType type object */
+PyTypeObject _ped_FileSystemType_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    .tp_name = "_ped.FileSystemType",
+    .tp_basicsize = sizeof(_ped_FileSystemType),
+ /* .tp_itemsize = XXX */
+    .tp_dealloc = (destructor) _ped_FileSystemType_dealloc,
+ /* .tp_print = XXX */
+ /* .tp_getattr = XXX */
+ /* .tp_setattr = XXX */
+ /* .tp_compare = XXX */
+ /* .tp_repr = XXX */
+ /* .tp_as_number = XXX */
+ /* .tp_as_sequence = XXX */
+ /* .tp_as_mapping = XXX */
+ /* .tp_hash = XXX */
+ /* .tp_call = XXX */
+ /* .tp_str = XXX */
+    .tp_getattro = PyObject_GenericGetAttr,
+    .tp_setattro = PyObject_GenericSetAttr,
+ /* .tp_as_buffer = XXX */
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+    .tp_doc = _ped_FileSystemType_doc,
+    .tp_traverse = (traverseproc) _ped_FileSystemType_traverse,
+    .tp_clear = (inquiry) _ped_FileSystemType_clear,
+ /* .tp_richcompare = XXX */
+ /* .tp_weaklistoffset = XXX */
+ /* .tp_iter = XXX */
+ /* .tp_iternext = XXX */
+    .tp_methods = _ped_FileSystemType_methods,
+    .tp_members = _ped_FileSystemType_members,
+    .tp_getset = _ped_FileSystemType_getset,
+    .tp_base = NULL,
+ /* .tp_dict = XXX */
+ /* .tp_descr_get = XXX */
+ /* .tp_descr_set = XXX */
+ /* .tp_dictoffset = XXX */
+    .tp_init = NULL,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = NULL,
+ /* .tp_free = XXX */
+ /* .tp_is_gc = XXX */
+    .tp_bases = NULL,
+ /* .tp_mro = XXX */
+ /* .tp_cache = XXX */
+ /* .tp_subclasses = XXX */
+ /* .tp_weaklist = XXX */
+ /* .tp_del = XXX */
+};
+
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_GC_UnTrack(self);
@@ -78,6 +129,57 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
 
     return 0;
 }
+
+/* _ped.FileSystem type object */
+PyTypeObject _ped_FileSystem_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    .tp_name = "_ped.FileSystem",
+    .tp_basicsize = sizeof(_ped_FileSystem),
+ /* .tp_itemsize = XXX */
+    .tp_dealloc = (destructor) _ped_FileSystem_dealloc,
+ /* .tp_print = XXX */
+ /* .tp_getattr = XXX */
+ /* .tp_setattr = XXX */
+ /* .tp_compare = XXX */
+ /* .tp_repr = XXX */
+ /* .tp_as_number = XXX */
+ /* .tp_as_sequence = XXX */
+ /* .tp_as_mapping = XXX */
+ /* .tp_hash = XXX */
+ /* .tp_call = XXX */
+ /* .tp_str = XXX */
+    .tp_getattro = PyObject_GenericGetAttr,
+    .tp_setattro = PyObject_GenericSetAttr,
+ /* .tp_as_buffer = XXX */
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+    .tp_doc = _ped_FileSystem_doc,
+    .tp_traverse = (traverseproc) _ped_FileSystem_traverse,
+    .tp_clear = (inquiry) _ped_FileSystem_clear,
+ /* .tp_richcompare = XXX */
+ /* .tp_weaklistoffset = XXX */
+ /* .tp_iter = XXX */
+ /* .tp_iternext = XXX */
+    .tp_methods = _ped_FileSystem_methods,
+    .tp_members = _ped_FileSystem_members,
+    .tp_getset = _ped_FileSystem_getset,
+    .tp_base = NULL,
+ /* .tp_dict = XXX */
+ /* .tp_descr_get = XXX */
+ /* .tp_descr_set = XXX */
+ /* .tp_dictoffset = XXX */
+    .tp_init = (initproc) _ped_FileSystem_init,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = PyType_GenericNew,
+ /* .tp_free = XXX */
+ /* .tp_is_gc = XXX */
+    .tp_bases = NULL,
+ /* .tp_mro = XXX */
+ /* .tp_cache = XXX */
+ /* .tp_subclasses = XXX */
+ /* .tp_weaklist = XXX */
+ /* .tp_del = XXX */
+};
 
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {

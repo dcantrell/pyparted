@@ -29,6 +29,57 @@
 #include "exceptions.h"
 #include "pydisk.h"
 
+/* _ped.Partition type object */
+PyTypeObject _ped_Partition_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    .tp_name = "_ped.Partition",
+    .tp_basicsize = sizeof(_ped_Partition),
+ /* .tp_itemsize = XXX */
+    .tp_dealloc = (destructor) _ped_Partition_dealloc,
+ /* .tp_print = XXX */
+ /* .tp_getattr = XXX */
+ /* .tp_setattr = XXX */
+ /* .tp_compare = XXX */
+ /* .tp_repr = XXX */
+ /* .tp_as_number = XXX */
+ /* .tp_as_sequence = XXX */
+ /* .tp_as_mapping = XXX */
+ /* .tp_hash = XXX */
+ /* .tp_call = XXX */
+ /* .tp_str = XXX */
+    .tp_getattro = PyObject_GenericGetAttr,
+    .tp_setattro = PyObject_GenericSetAttr,
+ /* .tp_as_buffer = XXX */
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+    .tp_doc = _ped_Partition_doc,
+    .tp_traverse = (traverseproc) _ped_Partition_traverse,
+    .tp_clear = (inquiry) _ped_Partition_clear,
+ /* .tp_richcompare = XXX */
+ /* .tp_weaklistoffset = XXX */
+ /* .tp_iter = XXX */
+ /* .tp_iternext = XXX */
+    .tp_methods = _ped_Partition_methods,
+    .tp_members = _ped_Partition_members,
+    .tp_getset = _ped_Partition_getset,
+    .tp_base = NULL,
+ /* .tp_dict = XXX */
+ /* .tp_descr_get = XXX */
+ /* .tp_descr_set = XXX */
+ /* .tp_dictoffset = XXX */
+    .tp_init = (initproc) _ped_Partition_init,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = PyType_GenericNew,
+ /* .tp_free = XXX */
+ /* .tp_is_gc = XXX */
+    .tp_bases = NULL,
+ /* .tp_mro = XXX */
+ /* .tp_cache = XXX */
+ /* .tp_subclasses = XXX */
+ /* .tp_weaklist = XXX */
+ /* .tp_del = XXX */
+};
+
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_GC_UnTrack(self);
@@ -159,6 +210,57 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
     return 0;
 }
 
+/* _ped.Disk type object */
+PyTypeObject _ped_Disk_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    .tp_name = "_ped.Disk",
+    .tp_basicsize = sizeof(_ped_Disk),
+ /* .tp_itemsize = XXX */
+    .tp_dealloc = (destructor) _ped_Disk_dealloc,
+ /* .tp_print = XXX */
+ /* .tp_getattr = XXX */
+ /* .tp_setattr = XXX */
+ /* .tp_compare = XXX */
+ /* .tp_repr = XXX */
+ /* .tp_as_number = XXX */
+ /* .tp_as_sequence = XXX */
+ /* .tp_as_mapping = XXX */
+ /* .tp_hash = XXX */
+ /* .tp_call = XXX */
+ /* .tp_str = XXX */
+    .tp_getattro = PyObject_GenericGetAttr,
+    .tp_setattro = PyObject_GenericSetAttr,
+ /* .tp_as_buffer = XXX */
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_GC,
+    .tp_doc = _ped_Disk_doc,
+    .tp_traverse = (traverseproc) _ped_Disk_traverse,
+    .tp_clear = (inquiry) _ped_Disk_clear,
+ /* .tp_richcompare = XXX */
+ /* .tp_weaklistoffset = XXX */
+ /* .tp_iter = XXX */
+ /* .tp_iternext = XXX */
+    .tp_methods = _ped_Disk_methods,
+    .tp_members = _ped_Disk_members,
+    .tp_getset = _ped_Disk_getset,
+    .tp_base = NULL,
+ /* .tp_dict = XXX */
+ /* .tp_descr_get = XXX */
+ /* .tp_descr_set = XXX */
+ /* .tp_dictoffset = XXX */
+    .tp_init = (initproc) _ped_Disk_init,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = PyType_GenericNew,
+ /* .tp_free = XXX */
+ /* .tp_is_gc = XXX */
+    .tp_bases = NULL,
+ /* .tp_mro = XXX */
+ /* .tp_cache = XXX */
+ /* .tp_subclasses = XXX */
+ /* .tp_weaklist = XXX */
+ /* .tp_del = XXX */
+};
+
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_UnTrack(self);
@@ -254,6 +356,57 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 
     return 0;
 }
+
+/* _ped.DiskType type object */
+PyTypeObject _ped_DiskType_Type_obj = {
+    PyObject_HEAD_INIT(&PyType_Type)
+    .tp_name = "_ped.DiskType",
+    .tp_basicsize = sizeof(_ped_DiskType),
+ /* .tp_itemsize = XXX */
+    .tp_dealloc = (destructor) _ped_DiskType_dealloc,
+ /* .tp_print = XXX */
+ /* .tp_getattr = XXX */
+ /* .tp_setattr = XXX */
+ /* .tp_compare = XXX */
+ /* .tp_repr = XXX */
+ /* .tp_as_number = XXX */
+ /* .tp_as_sequence = XXX */
+ /* .tp_as_mapping = XXX */
+ /* .tp_hash = XXX */
+ /* .tp_call = XXX */
+ /* .tp_str = XXX */
+    .tp_getattro = PyObject_GenericGetAttr,
+    .tp_setattro = PyObject_GenericSetAttr,
+ /* .tp_as_buffer = XXX */
+    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+    .tp_doc = _ped_DiskType_doc,
+    .tp_traverse = (traverseproc) _ped_DiskType_traverse,
+    .tp_clear = (inquiry) _ped_DiskType_clear,
+ /* .tp_richcompare = XXX */
+ /* .tp_weaklistoffset = XXX */
+ /* .tp_iter = XXX */
+ /* .tp_iternext = XXX */
+    .tp_methods = _ped_DiskType_methods,
+    .tp_members = _ped_DiskType_members,
+    .tp_getset = _ped_DiskType_getset,
+    .tp_base = NULL,
+ /* .tp_dict = XXX */
+ /* .tp_descr_get = XXX */
+ /* .tp_descr_set = XXX */
+ /* .tp_dictoffset = XXX */
+    .tp_init = NULL,
+    .tp_alloc = PyType_GenericAlloc,
+    .tp_new = NULL,
+ /* .tp_free = XXX */
+ /* .tp_is_gc = XXX */
+    .tp_bases = NULL,
+ /* .tp_mro = XXX */
+ /* .tp_cache = XXX */
+ /* .tp_subclasses = XXX */
+ /* .tp_weaklist = XXX */
+ /* .tp_del = XXX */
+};
 
 /* _ped.DiskType functions */
 void _ped_DiskType_dealloc(_ped_DiskType *self) {
