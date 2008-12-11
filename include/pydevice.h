@@ -181,55 +181,7 @@ PyDoc_STRVAR(_ped_CHSGeometry_doc,
 "number of cylinders, heads, or sectors on a disk.  They cannot be used\n"
 "to change the CHS values on a device.");
 
-static PyTypeObject _ped_CHSGeometry_Type_obj = {
-    PyObject_HEAD_INIT(&PyType_Type)
-    .tp_name = "_ped.CHSGeometry",
-    .tp_basicsize = sizeof(_ped_CHSGeometry),
- /* .tp_itemsize = XXX */
-    .tp_dealloc = (destructor) _ped_CHSGeometry_dealloc,
- /* .tp_print = XXX */
- /* .tp_getattr = XXX */
- /* .tp_setattr = XXX */
- /* .tp_compare = XXX */
- /* .tp_repr = XXX */
- /* .tp_as_number = XXX */
- /* .tp_as_sequence = XXX */
- /* .tp_as_mapping = XXX */
- /* .tp_hash = XXX */
- /* .tp_call = XXX */
- /* .tp_str = XXX */
-    .tp_getattro = PyObject_GenericGetAttr,
- /* .tp_setattro = XXX */
- /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_GC,
-    .tp_doc = _ped_CHSGeometry_doc,
-    .tp_traverse = (traverseproc) _ped_CHSGeometry_traverse,
-    .tp_clear = (inquiry) _ped_CHSGeometry_clear,
- /* .tp_richcompare = XXX */
- /* .tp_weaklistoffset = XXX */
- /* .tp_iter = XXX */
- /* .tp_iternext = XXX */
-    .tp_methods = _ped_CHSGeometry_methods,
-    .tp_members = _ped_CHSGeometry_members,
-    .tp_getset = _ped_CHSGeometry_getset,
- /* .tp_base = XXX */
- /* .tp_dict = XXX */
- /* .tp_descr_get = XXX */
- /* .tp_descr_set = XXX */
- /* .tp_dictoffset = XXX */
-    .tp_init = NULL,
-    .tp_alloc = PyType_GenericAlloc,
-    .tp_new = NULL,
- /* .tp_free = XXX */
- /* .tp_is_gc = XXX */
- /* .tp_bases = XXX */
- /* .tp_mro = XXX */
- /* .tp_cache = XXX */
- /* .tp_subclasses = XXX */
- /* .tp_weaklist = XXX */
- /* .tp_del = XXX */
-};
+extern PyTypeObject _ped_CHSGeometry_Type_obj;
 
 /* _ped.Device type is the Python equivalent of PedDevice in libparted */
 typedef struct {
@@ -338,55 +290,7 @@ PyDoc_STRVAR(_ped_Device_doc,
 "It is important to note that _ped.Device objects describe entire\n"
 "block devices and not just partitions.");
 
-static PyTypeObject _ped_Device_Type_obj = {
-    PyObject_HEAD_INIT(&PyType_Type)
-    .tp_name = "_ped.Device",
-    .tp_basicsize = PyGC_HEAD_SIZE + sizeof(_ped_Device),
-    .tp_itemsize = 0,
-    .tp_dealloc = (destructor) _ped_Device_dealloc,
- /* .tp_print = XXX */
- /* .tp_getattr = XXX */
- /* .tp_setattr = XXX */
- /* .tp_compare = XXX */
- /* .tp_repr = XXX */
- /* .tp_as_number = XXX */
- /* .tp_as_sequence = XXX */
- /* .tp_as_mapping = XXX */
- /* .tp_hash = XXX */
- /* .tp_call = XXX */
- /* .tp_str = XXX */
-    .tp_getattro = PyObject_GenericGetAttr,
- /* .tp_setattro = XXX */
- /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_GC,
-    .tp_doc = _ped_Device_doc,
-    .tp_traverse = (traverseproc) _ped_Device_traverse,
-    .tp_clear = (inquiry) _ped_Device_clear,
- /* .tp_richcompare = XXX */
- /* .tp_weaklistoffset = XXX */
- /* .tp_iter = XXX */
- /* .tp_iternext = XXX */
-    .tp_methods = _ped_Device_methods,
-    .tp_members = _ped_Device_members,
-    .tp_getset = _ped_Device_getset,
- /* .tp_base = XXX */
-    .tp_dict = NULL,
- /* .tp_descr_get = XXX */
- /* .tp_descr_set = XXX */
- /* .tp_dictoffset = XXX */
-    .tp_init = NULL,
-    .tp_alloc = PyType_GenericAlloc,
-    .tp_new = NULL,
- /* .tp_free = XXX */
- /* .tp_is_gc = XXX */
- /* .tp_bases = XXX */
- /* .tp_mro = XXX */
- /* .tp_cache = XXX */
- /* .tp_subclasses = XXX */
- /* .tp_weaklist = XXX */
- /* .tp_del = XXX */
-};
+extern PyTypeObject _ped_Device_Type_obj;
 
 #endif /* PYDEVICE_H_INCLUDED */
 
