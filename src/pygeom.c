@@ -79,6 +79,8 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
                     PyErr_SetString(CreateException, partedExnMessage);
                 }
             }
+            else
+                PyErr_SetString(CreateException, "Could not create new geometry");
 
             ped_device_destroy(device);
             return -1;
