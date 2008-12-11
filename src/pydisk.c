@@ -128,8 +128,6 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
          * third, we increment the reference count
          */
         Py_CLEAR(self->geom);
-        self->geom = NULL;
-
         self->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
         Py_INCREF(self->geom);
 
