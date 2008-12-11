@@ -30,7 +30,7 @@
 
 /* _ped.Alignment type object */
 PyTypeObject _ped_Alignment_Type_obj = {
-    PyObject_HEAD_INIT(NULL)
+    PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Alignment",
     .tp_basicsize = sizeof(_ped_Alignment),
  /* .tp_itemsize = XXX */
