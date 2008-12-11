@@ -25,4 +25,5 @@ MAINTAINERCLEANFILES = Makefile.in
 
 TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs
 
-TESTS = test_ped.py
+TESTS = test_ped.py \
+		  test_geometry.py
