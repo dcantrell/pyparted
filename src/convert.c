@@ -421,6 +421,9 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
 
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
     _ped_FileSystem *ret = NULL;
+    _ped_FileSystemType *type = NULL;
+    _ped_Geometry *geom = NULL;
+    PyObject *args = NULL;
 
     if (fs == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedFileSystem()");
@@ -431,20 +434,18 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
     if (!ret)
         return (_ped_FileSystem *) PyErr_NoMemory();
 
-    ret->type = (PyObject *) PedFileSystemType2_ped_FileSystemType(fs->type);
-    if (ret->type == NULL) {
-        PyObject_GC_Del(ret);
+    if ((type = PedFileSystemType2_ped_FileSystemType(fs->type)) == NULL)
+        return NULL;
+
+    if ((geom = PedGeometry2_ped_Geometry(fs->geom)) == NULL)
+        return NULL;
+
+    args = Py_BuildValue("OOl", type, geom, fs->checked);
+
+    if (_ped_FileSystem_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.FileSystem");
         return NULL;
     }
-
-    ret->geom = (PyObject *) PedGeometry2_ped_Geometry(fs->geom);
-    if (ret->geom == NULL) {
-        Py_XDECREF(ret->type);
-        PyObject_GC_Del(ret);
-        return NULL;
-    }
-
-    ret->checked = fs->checked;
 
     return ret;
 }
