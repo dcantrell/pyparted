@@ -23,6 +23,7 @@
 #
 import _ped
 import unittest
+import os, tempfile
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -80,6 +81,25 @@ class ConstraintExactTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         pass
+
+class DeviceGetTestCase(unittest.TestCase):
+    def setUp(self):
+        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        f = os.fdopen(fd)
+        f.seek(128000)
+        os.write(fd, "0")
+
+    def runTest(self):
+        # Try getting the device we just made.
+        self.assert_(isinstance(_ped.device_get(self.path), _ped.Device))
+
+        # Try getting a device that doesn't exist.
+        self.assertRaises(_ped.DiskException, _ped.device_get, "/blah/whatever")
+        self.assertRaises(_ped.DiskException, _ped.device_get, "")
+        self.assertRaises(_ped.DiskException, _ped.device_get, None)
+
+    def tearDown(self):
+        os.unlink(self.path)
 
 class DivRoundToNearestTestCase(unittest.TestCase):
     def runTest(self):
@@ -211,6 +231,7 @@ def suite():
     suite.addTest(ConstraintNewFromMaxTestCase())
     suite.addTest(ConstraintAnyTestCase())
     suite.addTest(ConstraintExactTestCase())
+    suite.addTest(DeviceGetTestCase())
     suite.addTest(FlagGetNameTestCase())
     suite.addTest(FlagGetByNameTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
