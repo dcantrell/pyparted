@@ -20,7 +20,7 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-noinst_HEADERS = pyconstraint.h pydevice.h pydisk.h pyfilesys.h pygeom.h
+noinst_HEADERS = pyconstraint.h pydevice.h pydisk.h pyfilesys.h pygeom.h \
                  pynatmath.h
 
 MAINTAINERCLEANFILES = Makefile.in
