@@ -567,7 +567,7 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
         return NULL;
     }
 
-    ret = (_ped_CHSGeometry *) PyObject_GC_New(_ped_CHSGeometry, &_ped_CHSGeometry_Type_obj);
+    ret = (_ped_CHSGeometry *) _ped_CHSGeometry_Type_obj.tp_new(&_ped_CHSGeometry_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_CHSGeometry *) PyErr_NoMemory();
 
@@ -575,7 +575,6 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
     ret->heads = geom->heads;
     ret->sectors = geom->sectors;
 
-    PyObject_GC_Track(ret);
     return ret;
 }
 
