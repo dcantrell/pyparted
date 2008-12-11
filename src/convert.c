@@ -97,8 +97,8 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
 
     args = Py_BuildValue("ll", alignment->offset, alignment->grain_size);
 
-    if (_ped_Alignment_init(ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Invalid types for offset and grain_size");
+    if (_ped_Alignment_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Alignment");
         return NULL;
     }
 
@@ -526,27 +526,28 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
 
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     _ped_Geometry *ret = NULL;
+    _ped_Device *dev = NULL;
+    PyObject *args = NULL;
 
     if (geometry == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedGeometry()");
         return NULL;
     }
 
-    ret = PyObject_GC_New(_ped_Geometry, &_ped_Geometry_Type_obj);
+    ret = (_ped_Geometry *) _ped_Geometry_Type_obj.tp_new(&_ped_Geometry_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Geometry *) PyErr_NoMemory();
 
-    ret->dev = (PyObject *) PedDevice2_ped_Device(geometry->dev);
-    if (ret->dev == NULL) {
-        PyObject_GC_Del(ret);
+    if ((dev = PedDevice2_ped_Device(geometry->dev)) == NULL)
+        return NULL;
+
+    args = Py_BuildValue("Olll", dev, geometry->start, geometry->length, geometry->end);
+
+    if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Geometry");
         return NULL;
     }
 
-    ret->start = geometry->start;
-    ret->length = geometry->length;
-    ret->end = geometry->end;
-
-    PyObject_GC_Track(ret);
     return ret;
 }
 
