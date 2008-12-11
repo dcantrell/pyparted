@@ -769,7 +769,7 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
-                PyErr_Format(PartitionException, "Could not set flag on partition %s%s", part->disk, part->num);
+                PyErr_Format(PartitionException, "Could not set flag on partition %s%d", part->disk->dev->path, part->num);
 
             return NULL;
         }
@@ -842,7 +842,7 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
 
     ret = ped_partition_set_system(part, out_fstype);
     if (ret == 0) {
-        PyErr_Format(PartitionException, "Could not set system flag on partition %s%s", part->disk, part->num);
+        PyErr_Format(PartitionException, "Could not set system flag on partition %s%d", part->disk->dev->path, part->num);
         return NULL;
     }
 
@@ -871,7 +871,7 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
-                PyErr_Format(PartitionException, "Could not set name on partition %s%s", part->disk, part->num);
+                PyErr_Format(PartitionException, "Could not set name on partition %s%d", part->disk->dev->path, part->num);
 
             return NULL;
         }
@@ -900,7 +900,7 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
-                PyErr_Format(PartitionException, "Could not read name on partition %s%s", part->disk, part->num);
+                PyErr_Format(PartitionException, "Could not read name on partition %s%d", part->disk->dev->path, part->num);
 
             return NULL;
         }
@@ -938,7 +938,7 @@ PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
     if (part) {
         ret = ped_partition_get_path(part);
         if (ret == NULL) {
-            PyErr_Format(PartitionException, "Could not get path for partition %s%s", part->disk, part->num);
+            PyErr_Format(PartitionException, "Could not get path for partition %s%d", part->disk->dev->path, part->num);
             return NULL;
         }
 
@@ -1043,7 +1043,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not create partition %s%s", out_part->disk, out_part->num);
+            PyErr_Format(PartitionException, "Could not create partition %s%d", out_part->disk->dev->path, out_part->num);
 
         return NULL;
     }
@@ -1084,7 +1084,7 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not remove partition %s%s", out_part->disk, out_part->num);
+            PyErr_Format(PartitionException, "Could not remove partition %s%d", out_part->disk->dev->path, out_part->num);
 
         return NULL;
     }
@@ -1124,7 +1124,7 @@ PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not remove partition %s%s", out_part->disk, out_part->num);
+            PyErr_Format(PartitionException, "Could not remove partition %s%d", out_part->disk->dev->path, out_part->num);
 
         return NULL;
     }
@@ -1203,7 +1203,7 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not set geometry on %s%s", disk->dev->path, out_part->num);
+            PyErr_Format(PartitionException, "Could not set geometry on %s%d", disk->dev->path, out_part->num);
 
         return NULL;
     }
@@ -1251,7 +1251,7 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not maximize partition size for %s%s", disk->dev->path, out_part->num);
+            PyErr_Format(PartitionException, "Could not maximize partition size for %s%d", disk->dev->path, out_part->num);
 
         return NULL;
     }
@@ -1301,7 +1301,7 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not get maximum partition size for %s%s", disk->dev->path, out_part->num);
+            PyErr_Format(PartitionException, "Could not get maximum partition size for %s%d", disk->dev->path, out_part->num);
 
         return NULL;
     }
