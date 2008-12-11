@@ -28,6 +28,37 @@
 #include "pytimer.h"
 
 /* _ped.Timer type object */
+static PyMemberDef _ped_Timer_members[] = {
+    {NULL}
+};
+
+static PyMethodDef _ped_Timer_methods[] = {
+    {"destroy", (PyCFunction) py_ped_timer_destroy, METH_VARARGS, NULL},
+    {"new_nested", (PyCFunction) py_ped_timer_new_nested, METH_VARARGS, NULL},
+    {"destroy_nested", (PyCFunction) py_ped_timer_destroy_nested,
+                       METH_VARARGS, NULL},
+    {"touch", (PyCFunction) py_ped_timer_touch, METH_VARARGS, NULL},
+    {"reset", (PyCFunction) py_ped_timer_reset, METH_VARARGS, NULL},
+    {"update", (PyCFunction) py_ped_timer_update, METH_VARARGS, NULL},
+    {"set_state_name", (PyCFunction) py_ped_timer_set_state_name,
+                       METH_VARARGS, NULL},
+    {NULL}
+};
+
+static PyGetSetDef _ped_Timer_getset[] = {
+    {"frac", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+             "PedTimer frac", "frac"},
+    {"start", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+              "PedTimer.start", "start"},
+    {"now", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+            "PedTimer.now", "now"},
+    {"predicted_end", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+                      "PedTimer.predicted_end", "predicted_end"},
+    {"state_name", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
+                   "PedTimer.state_name", "state_name"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_Timer_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Timer",
