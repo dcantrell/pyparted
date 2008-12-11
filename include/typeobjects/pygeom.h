@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYGEOM_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.Geometry type object */
 static PyMemberDef _ped_Geometry_members[] = {

@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYFILESYS_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.FileSystemType type object */
 static PyMemberDef _ped_FileSystemType_members[] = {

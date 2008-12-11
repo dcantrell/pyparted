@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYDEVICE_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.CHSGeometry type object */
 static PyMemberDef _ped_CHSGeometry_members[] = {
