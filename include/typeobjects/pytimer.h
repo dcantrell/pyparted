@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYTIMER_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.Timer type object */
 static PyMemberDef _ped_Timer_members[] = {

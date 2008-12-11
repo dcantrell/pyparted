@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYDISK_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.Partition type object */
 static PyMemberDef _ped_Partition_members[] = {

@@ -26,6 +26,7 @@
 #define TYPEOBJECTS_PYCONSTRAINT_H_INCLUDED
 
 #include <Python.h>
+#include <structmember.h>
 
 /* _ped.Constraint type object */
 static PyMemberDef _ped_Constraint_members[] = {
