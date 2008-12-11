@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# 
+#
 # Test cases for the methods in the _ped module itself - just the pyunit
 # and pynatmath files.
 #
@@ -56,6 +56,31 @@ class GreatestCommonDivisorTestCase(unittest.TestCase):
         self.assertEqual(_ped.greatest_common_divisor(40, 10), 10)
         self.assertEqual(_ped.greatest_common_divisor(47, 19), 1)
 
+class ConstraintNewFromMinMaxTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class ConstraintNewFromMinTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class ConstraintNewFromMaxTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class ConstraintAnyTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class ConstraintExactTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
 class DivRoundToNearestTestCase(unittest.TestCase):
     def runTest(self):
         self.assertEqual(_ped.div_round_to_nearest(0, 100), 0)
@@ -69,6 +94,16 @@ class DivRoundUpTestCase(unittest.TestCase):
         self.assertEqual(_ped.div_round_to_nearest(100, 5), 20)
         self.assertEqual(_ped.div_round_to_nearest(100, 6), 17)
         self.assertRaises(ZeroDivisionError, _ped.div_round_up, 100, 0)
+
+class FileSystemProbeTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemProbeSpecificTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
 
 class RoundDownToTestCase(unittest.TestCase):
     def runTest(self):
@@ -171,11 +206,19 @@ class UnitParseCustomTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(ConstraintNewFromMinMaxTestCase())
+    suite.addTest(ConstraintNewFromMinTestCase())
+    suite.addTest(ConstraintNewFromMaxTestCase())
+    suite.addTest(ConstraintAnyTestCase())
+    suite.addTest(ConstraintExactTestCase())
     suite.addTest(FlagGetNameTestCase())
     suite.addTest(FlagGetByNameTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(DivRoundToNearestTestCase())
     suite.addTest(DivRoundUpTestCase())
+    suite.addTest(FileSystemProbeTestCase())
+    suite.addTest(FileSystemProbeSpecificTestCase())
+    suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())
     suite.addTest(RoundUpToTestCase())
