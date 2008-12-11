@@ -30,6 +30,29 @@
 #include "pygeom.h"
 
 /* _ped.FileSystemType type object */
+static PyMemberDef _ped_FileSystemType_members[] = {
+    {NULL}
+};
+
+static PyMethodDef _ped_FileSystemType_methods[] = {
+    {"register", (PyCFunction) py_ped_file_system_type_register,
+                 METH_VARARGS, file_system_type_register_doc},
+    {"unregister", (PyCFunction) py_ped_file_system_type_unregister,
+                   METH_VARARGS, file_system_type_unregister_doc},
+    {"get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS,
+             file_system_type_get_doc},
+    {"get_next", (PyCFunction) py_ped_file_system_type_get_next,
+                 METH_VARARGS, file_system_type_get_next_doc},
+    {NULL}
+};
+
+static PyGetSetDef _ped_FileSystemType_getset[] = {
+    {"name", (getter) _ped_FileSystemType_get,
+             (setter) _ped_FileSystemType_set,
+             "The name of the FileSystemType.", "name"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_FileSystemType_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.FileSystemType",
@@ -131,6 +154,49 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
 }
 
 /* _ped.FileSystem type object */
+static PyMemberDef _ped_FileSystem_members[] = {
+    {"type", T_OBJECT, offsetof(_ped_FileSystem, type), 0,
+             "A _ped.FileSystemType object describing the filesystem on self.geom."},
+    {"geom", T_OBJECT, offsetof(_ped_FileSystem, geom), 0,
+             "The on-disk region where this FileSystem object exists."},
+    {NULL}
+};
+
+static PyMethodDef _ped_FileSystem_methods[] = {
+    {"clobber", (PyCFunction) py_ped_file_system_clobber, METH_VARARGS,
+                file_system_clobber_doc},
+    {"open", (PyCFunction) py_ped_file_system_open, METH_VARARGS,
+             file_system_open_doc},
+    {"create", (PyCFunction) py_ped_file_system_create, METH_VARARGS,
+               file_system_create_doc},
+    {"close", (PyCFunction) py_ped_file_system_close, METH_VARARGS,
+              file_system_close_doc},
+    {"check", (PyCFunction) py_ped_file_system_check, METH_VARARGS,
+              file_system_check_doc},
+    {"copy", (PyCFunction) py_ped_file_system_copy, METH_VARARGS,
+             file_system_copy_doc},
+    {"resize", (PyCFunction) py_ped_file_system_resize, METH_VARARGS,
+               file_system_resize_doc},
+    {"get_create_constraint", (PyCFunction)
+                              py_ped_file_system_get_create_constraint,
+                              METH_VARARGS, file_system_get_create_constraint_doc},
+    {"get_resize_constraint", (PyCFunction)
+                              py_ped_file_system_get_resize_constraint,
+                              METH_VARARGS, file_system_get_resize_constraint_doc},
+    {"get_copy_constraint", (PyCFunction)
+                            py_ped_file_system_get_copy_constraint,
+                            METH_VARARGS, file_system_get_copy_constraint_doc},
+    {NULL}
+};
+
+static PyGetSetDef _ped_FileSystem_getset[] = {
+    {"checked", (getter) _ped_FileSystem_get,
+                (setter) _ped_FileSystem_set,
+                "Has the filesystem been checked prior to calling copy or resize?",
+                "checked"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_FileSystem_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.FileSystem",

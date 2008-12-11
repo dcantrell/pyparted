@@ -144,35 +144,12 @@ typedef struct {
     char *name;
 } _ped_FileSystemType;
 
-static PyMemberDef _ped_FileSystemType_members[] = {
-    {NULL}
-};
-
-static PyMethodDef _ped_FileSystemType_methods[] = {
-    {"register", (PyCFunction) py_ped_file_system_type_register,
-                 METH_VARARGS, file_system_type_register_doc},
-    {"unregister", (PyCFunction) py_ped_file_system_type_unregister,
-                   METH_VARARGS, file_system_type_unregister_doc},
-    {"get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS,
-             file_system_type_get_doc},
-    {"get_next", (PyCFunction) py_ped_file_system_type_get_next,
-                 METH_VARARGS, file_system_type_get_next_doc},
-    {NULL}
-};
-
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg);
 int _ped_FileSystemType_clear(_ped_FileSystemType *self);
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
 int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
                             void *closure);
-
-static PyGetSetDef _ped_FileSystemType_getset[] = {
-    {"name", (getter) _ped_FileSystemType_get,
-             (setter) _ped_FileSystemType_set,
-             "The name of the FileSystemType.", "name"},
-    {NULL}  /* Sentinel */
-};
 
 PyDoc_STRVAR(_ped_FileSystemType_doc,
 "A _ped.FileSystemType object gives a name to a single filesystem that parted\n"
@@ -193,55 +170,12 @@ typedef struct {
     int checked;
 } _ped_FileSystem;
 
-static PyMemberDef _ped_FileSystem_members[] = {
-    {"type", T_OBJECT, offsetof(_ped_FileSystem, type), 0,
-             "A _ped.FileSystemType object describing the filesystem on self.geom."},
-    {"geom", T_OBJECT, offsetof(_ped_FileSystem, geom), 0,
-             "The on-disk region where this FileSystem object exists."},
-    {NULL}
-};
-
-static PyMethodDef _ped_FileSystem_methods[] = {
-    {"clobber", (PyCFunction) py_ped_file_system_clobber, METH_VARARGS,
-                file_system_clobber_doc},
-    {"open", (PyCFunction) py_ped_file_system_open, METH_VARARGS,
-             file_system_open_doc},
-    {"create", (PyCFunction) py_ped_file_system_create, METH_VARARGS,
-               file_system_create_doc},
-    {"close", (PyCFunction) py_ped_file_system_close, METH_VARARGS,
-              file_system_close_doc},
-    {"check", (PyCFunction) py_ped_file_system_check, METH_VARARGS,
-              file_system_check_doc},
-    {"copy", (PyCFunction) py_ped_file_system_copy, METH_VARARGS,
-             file_system_copy_doc},
-    {"resize", (PyCFunction) py_ped_file_system_resize, METH_VARARGS,
-               file_system_resize_doc},
-    {"get_create_constraint", (PyCFunction)
-                              py_ped_file_system_get_create_constraint,
-                              METH_VARARGS, file_system_get_create_constraint_doc},
-    {"get_resize_constraint", (PyCFunction)
-                              py_ped_file_system_get_resize_constraint,
-                              METH_VARARGS, file_system_get_resize_constraint_doc},
-    {"get_copy_constraint", (PyCFunction)
-                            py_ped_file_system_get_copy_constraint,
-                            METH_VARARGS, file_system_get_copy_constraint_doc},
-    {NULL}
-};
-
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg);
 int _ped_FileSystem_clear(_ped_FileSystem *self);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
 int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
-
-static PyGetSetDef _ped_FileSystem_getset[] = {
-    {"checked", (getter) _ped_FileSystem_get,
-                (setter) _ped_FileSystem_set,
-                "Has the filesystem been checked prior to calling copy or resize?",
-                "checked"},
-    {NULL}  /* Sentinel */
-};
 
 PyDoc_STRVAR(_ped_FileSystem_doc,
 "A _ped.FileSystem object describes a filesystem that exists in a given\n"

@@ -29,6 +29,27 @@
 #include "pydevice.h"
 
 /* _ped.CHSGeometry type object */
+static PyMemberDef _ped_CHSGeometry_members[] = {
+    {NULL}
+};
+
+static PyMethodDef _ped_CHSGeometry_methods[] = {
+    {NULL}
+};
+
+static PyGetSetDef _ped_CHSGeometry_getset[] = {
+    {"cylinders", (getter) _ped_CHSGeometry_get,
+                  (setter) _ped_CHSGeometry_set,
+                  "The number of cylinders.", "cylinders"},
+    {"heads", (getter) _ped_CHSGeometry_get,
+              (setter) _ped_CHSGeometry_set,
+              "The number of heads", "heads"},
+    {"sectors", (getter) _ped_CHSGeometry_get,
+                (setter) _ped_CHSGeometry_set,
+                "The number of sectors", "sectors"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_CHSGeometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.CHSGeometry",
@@ -146,6 +167,78 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
 }
 
 /* _ped.Device type object */
+static PyMemberDef _ped_Device_members[] = {
+    {"hw_geom", T_OBJECT, offsetof(_ped_Device, hw_geom), 0,
+                "The CHSGeometry of the Device as reported by the hardware."},
+    {"bios_geom", T_OBJECT, offsetof(_ped_Device, bios_geom), 0,
+                  "The CHSGeometry of the Device as reported by the BIOS."},
+    {NULL}
+};
+
+static PyMethodDef _ped_Device_methods[] = {
+    {"get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
+                 device_get_next_doc},
+    {"is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS,
+                device_is_busy_doc},
+    {"open", (PyCFunction) py_ped_device_open, METH_VARARGS,
+             device_open_doc},
+    {"close", (PyCFunction) py_ped_device_close, METH_VARARGS,
+              device_close_doc},
+    {"destroy", (PyCFunction) py_ped_device_destroy, METH_VARARGS,
+                device_destroy_doc},
+    {"cache_remove", (PyCFunction) py_ped_device_cache_remove,
+                     METH_VARARGS, device_cache_remove_doc},
+    {"begin_external_access", (PyCFunction) py_ped_device_begin_external_access,
+                              METH_VARARGS, device_begin_external_access_doc},
+    {"end_external_access", (PyCFunction) py_ped_device_end_external_access,
+                            METH_VARARGS, device_end_external_access_doc},
+    {"read", (PyCFunction) py_ped_device_read, METH_VARARGS,
+             device_read_doc},
+    {"write", (PyCFunction) py_ped_device_write, METH_VARARGS,
+              device_write_doc},
+    {"sync", (PyCFunction) py_ped_device_sync, METH_VARARGS,
+             device_sync_doc},
+    {"sync_fast", (PyCFunction) py_ped_device_sync_fast, METH_VARARGS,
+                  device_sync_fast_doc},
+    {"check", (PyCFunction) py_ped_device_check, METH_VARARGS,
+              device_check_doc},
+    {"get_constraint", (PyCFunction) py_ped_device_get_constraint,
+                       METH_VARARGS, device_get_constraint_doc},
+    {NULL}
+};
+
+static PyGetSetDef _ped_Device_getset[] = {
+    {"model", (getter) _ped_Device_get, (setter) _ped_Device_set,
+              "A brief description of the hardware, usually mfr and model.",
+              "model"},
+    {"path", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "The operating system level path to the device node.", "path"},
+    {"type", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "The type of device, deprecated in favor of PedDeviceType", "type"},
+    {"sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                    "Logical sector size.", "sector_size"},
+    {"phys_sector_size", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                         "Physical sector size.", "phys_sector_size"},
+    {"length", (getter) _ped_Device_get, (setter) _ped_Device_set,
+               "Device length, in sectors (LBA).", "length"},
+    {"open_count", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                   "How many times self.open() has been called.", "open_count"},
+    {"read_only", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                  "Is the device opened in read-only mode?", "read_only"},
+    {"external_mode", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                      "PedDevice external_mode", "external_mode"},
+    {"dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
+              "Have any unflushed changes been made to self?", "dirty"},
+    {"boot_dirty", (getter) _ped_Device_get, (setter) _ped_Device_set,
+                   "Have any unflushed changes been made to the bootloader?",
+                   "boot_dirty"},
+    {"host", (getter) _ped_Device_get, (setter) _ped_Device_set,
+             "Any SCSI host ID associated with self.", "host"},
+    {"did", (getter) _ped_Device_get, (setter) _ped_Device_set,
+            "Any SCSI device ID associated with self.", "did"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_Device_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Device",

@@ -52,43 +52,12 @@ typedef struct {
     void *context;
 } _ped_Timer;
 
-static PyMemberDef _ped_Timer_members[] = {
-    {NULL}
-};
-
-static PyMethodDef _ped_Timer_methods[] = {
-    {"destroy", (PyCFunction) py_ped_timer_destroy, METH_VARARGS, NULL},
-    {"new_nested", (PyCFunction) py_ped_timer_new_nested, METH_VARARGS, NULL},
-    {"destroy_nested", (PyCFunction) py_ped_timer_destroy_nested,
-                       METH_VARARGS, NULL},
-    {"touch", (PyCFunction) py_ped_timer_touch, METH_VARARGS, NULL},
-    {"reset", (PyCFunction) py_ped_timer_reset, METH_VARARGS, NULL},
-    {"update", (PyCFunction) py_ped_timer_update, METH_VARARGS, NULL},
-    {"set_state_name", (PyCFunction) py_ped_timer_set_state_name,
-                       METH_VARARGS, NULL},
-    {NULL}
-};
-
 void _ped_Timer_dealloc(_ped_Timer *self);
 int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg);
 int _ped_Timer_clear(_ped_Timer *self);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Timer_get(_ped_Timer *self, void *closure);
 int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure);
-
-static PyGetSetDef _ped_Timer_getset[] = {
-    {"frac", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
-             "PedTimer frac", "frac"},
-    {"start", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
-              "PedTimer.start", "start"},
-    {"now", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
-            "PedTimer.now", "now"},
-    {"predicted_end", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
-                      "PedTimer.predicted_end", "predicted_end"},
-    {"state_name", (getter) _ped_Timer_get, (setter) _ped_Timer_set,
-                   "PedTimer.state_name", "state_name"},
-    {NULL}  /* Sentinel */
-};
 
 extern PyTypeObject _ped_Timer_Type_obj;
 

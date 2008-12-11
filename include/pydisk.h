@@ -313,54 +313,12 @@ typedef struct {
     PyObject *fs_type;             /* _ped.FileSystemType */
 } _ped_Partition;
 
-static PyMemberDef _ped_Partition_members[] = {
-    {"disk", T_OBJECT, offsetof(_ped_Partition, disk), 0,
-             "The _ped.Disk this Partition exists on."},
-    {"geom", T_OBJECT, offsetof(_ped_Partition, geom), 0,
-             "A _ped.Geometry object describing the region this Partition occupies."},
-    {"fs_type", T_OBJECT, offsetof(_ped_Partition, fs_type), 0,
-                "A _ped.FileSystemType object describing the filesystem on this Partition."},
-    {NULL}
-};
-
-static PyMethodDef _ped_Partition_methods[] = {
-    {"destroy", (PyCFunction) py_ped_partition_destroy, METH_VARARGS,
-                partition_destroy_doc},
-    {"is_active", (PyCFunction) py_ped_partition_is_active, METH_VARARGS,
-                  partition_is_active_doc},
-    {"set_flag", (PyCFunction) py_ped_partition_set_flag, METH_VARARGS,
-                 partition_set_flag_doc},
-    {"get_flag", (PyCFunction) py_ped_partition_get_flag, METH_VARARGS,
-                 partition_get_flag_doc},
-    {"is_flag_available", (PyCFunction) py_ped_partition_is_flag_available,
-                          METH_VARARGS, partition_is_flag_available_doc},
-    {"set_system", (PyCFunction) py_ped_partition_set_system,
-                   METH_VARARGS, partition_set_system_doc},
-    {"set_name", (PyCFunction) py_ped_partition_set_name, METH_VARARGS,
-                 partition_set_name_doc},
-    {"get_name", (PyCFunction) py_ped_partition_get_name, METH_VARARGS,
-                 partition_get_name_doc},
-    {"is_busy", (PyCFunction) py_ped_partition_is_busy, METH_VARARGS,
-                partition_is_busy_doc},
-    {"get_path", (PyCFunction) py_ped_partition_get_path, METH_VARARGS,
-                 partition_get_path_doc},
-    {NULL}
-};
-
 void _ped_Partition_dealloc(_ped_Partition *self);
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg);
 int _ped_Partition_clear(_ped_Partition *self);
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_Partition_get(_ped_Partition *self, void *closure);
 int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure);
-
-static PyGetSetDef _ped_Partition_getset[] = {
-    {"num", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
-            "The number of this Partition on self.disk.", "num"},
-    {"type", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
-             "PedPartition type", "type"},
-    {NULL}  /* Sentinel */
-};
 
 PyDoc_STRVAR(_ped_Partition_doc,
 "A _ped.Partition object describes a single partition on a disk.  Operations\n"
@@ -384,87 +342,10 @@ typedef struct {
     PyObject *type;            /* _ped.DiskType */
 } _ped_Disk;
 
-static PyMemberDef _ped_Disk_members[] = {
-    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0,
-            "A _ped.Device object holding self's partition table."},
-    {"type", T_OBJECT, offsetof(_ped_Disk, type), 0,
-             "The type of the disk label as a _ped.DiskType."},
-    {NULL}
-};
-
-static PyMethodDef _ped_Disk_methods[] = {
-    {"probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS,
-              disk_probe_doc},
-    {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
-                disk_clobber_doc},
-    {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
-                        METH_VARARGS, disk_clobber_exclude_doc},
-    {"duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS,
-                  disk_duplicate_doc},
-    {"destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS,
-                disk_destroy_doc},
-    {"commit", (PyCFunction) py_ped_disk_commit, METH_VARARGS,
-               disk_commit_doc},
-    {"commit_to_dev", (PyCFunction) py_ped_disk_commit_to_dev,
-                      METH_VARARGS, disk_commit_to_dev_doc},
-    {"commit_to_os", (PyCFunction) py_ped_disk_commit_to_os,
-                     METH_VARARGS, disk_commit_to_os_doc},
-    {"check", (PyCFunction) py_ped_disk_check, METH_VARARGS,
-              disk_check_doc},
-    {"print", (PyCFunction) py_ped_disk_print, METH_VARARGS,
-              disk_print_doc},
-    {"get_primary_partition_count", (PyCFunction)
-                                    py_ped_disk_get_primary_partition_count,
-                                    METH_VARARGS,
-                                    disk_get_primary_partition_count_doc},
-    {"get_last_partition_num", (PyCFunction)
-                               py_ped_disk_get_last_partition_num,
-                               METH_VARARGS,
-                               disk_get_last_partition_num_doc},
-    {"get_max_primary_partition_count", (PyCFunction)
-                                   py_ped_disk_get_max_primary_partition_count,
-                                   METH_VARARGS,
-                                   disk_get_max_primary_partition_count_doc},
-    {"add_partition", (PyCFunction) py_ped_disk_add_partition,
-                      METH_VARARGS, disk_add_partition_doc},
-    {"remove_partition", (PyCFunction) py_ped_disk_remove_partition,
-                         METH_VARARGS, disk_remove_partition_doc},
-    {"delete_partition", (PyCFunction) py_ped_disk_delete_partition,
-                         METH_VARARGS, disk_delete_partition_doc},
-    {"delete_all", (PyCFunction) py_ped_disk_delete_all, METH_VARARGS,
-                   disk_delete_all_doc},
-    {"set_partition_geom", (PyCFunction) py_ped_disk_set_partition_geom,
-                           METH_VARARGS, disk_set_partition_geom_doc},
-    {"maximize_partition", (PyCFunction) py_ped_disk_maximize_partition,
-                           METH_VARARGS, disk_maximize_partition_doc},
-    {"get_max_partition_geometry", (PyCFunction)
-                                   py_ped_disk_get_max_partition_geometry,
-                                   METH_VARARGS,
-                                   disk_get_max_partition_geometry_doc},
-    {"minimize_extended_partition", (PyCFunction)
-                                    py_ped_disk_minimize_extended_partition,
-                                    METH_VARARGS,
-                                    disk_minimize_extended_partition_doc},
-    {"next_partition", (PyCFunction) py_ped_disk_next_partition,
-                       METH_VARARGS, disk_next_partition_doc},
-    {"get_partition", (PyCFunction) py_ped_disk_get_partition,
-                      METH_VARARGS, disk_get_partition_doc},
-    {"get_partition_by_sector", (PyCFunction)
-                                py_ped_disk_get_partition_by_sector,
-                                METH_VARARGS, disk_get_partition_by_sector_doc},
-    {"extended_partition", (PyCFunction) py_ped_disk_extended_partition,
-                           METH_VARARGS, disk_extended_partition_doc},
-    {NULL}
-};
-
 void _ped_Disk_dealloc(_ped_Disk *self);
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg);
 int _ped_Disk_clear(_ped_Disk *self);
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);
-
-static PyGetSetDef _ped_Disk_getset[] = {
-    {NULL}  /* Sentinel */
-};
 
 PyDoc_STRVAR(_ped_Disk_doc,
 "A _ped.Disk object represents a disk label, or partition table, on a single\n"
@@ -491,43 +372,16 @@ typedef struct {
     long long features;        /* PedDiskTypeFeature */
 } _ped_DiskType;
 
-static PyMemberDef _ped_DiskType_members[] = {
-    {NULL}
-};
-
 PyDoc_STRVAR(_ped_DiskType_doc,
 "A _ped.DiskType object is a simple object that gives a partition table a\n"
 "name and describes features it supports.  A reference to one of these\n"
 "objects is stored inside a _ped.Disk object.");
-
-static PyMethodDef _ped_DiskType_methods[] = {
-    {"register", (PyCFunction) py_ped_disk_type_register, METH_VARARGS,
-                 disk_type_register_doc},
-    {"unregister", (PyCFunction) py_ped_disk_type_unregister,
-                   METH_VARARGS, disk_type_unregister_doc},
-    {"get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS,
-                 disk_type_get_next_doc},
-    {"get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS,
-            disk_type_get_doc},
-    {"check_feature", (PyCFunction) py_ped_disk_type_check_feature,
-                      METH_VARARGS, disk_type_check_feature_doc},
-    {NULL}
-};
 
 void _ped_DiskType_dealloc(_ped_DiskType *self);
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg);
 int _ped_DiskType_clear(_ped_DiskType *self);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
 int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
-
-static PyGetSetDef _ped_DiskType_getset[] = {
-    {"name", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
-             "The name of the partition table type.", "name"},
-    {"features", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
-                 "A bitmask of features supported by this DiskType.",
-                 "features"},
-    {NULL}  /* Sentinel */
-};
 
 extern PyTypeObject _ped_DiskType_Type_obj;
 

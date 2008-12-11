@@ -29,6 +29,38 @@
 #include "pynatmath.h"
 
 /* _ped.Alignment type object */
+static PyMemberDef _ped_Alignment_members[] = {
+    {NULL}
+};
+
+static PyMethodDef _ped_Alignment_methods[] = {
+    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS,
+                 alignment_destroy_doc},
+    {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS,
+                  alignment_duplicate_doc},
+    {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS,
+                  alignment_intersect_doc},
+    {"align_up", (PyCFunction) py_ped_alignment_align_up, METH_VARARGS,
+                 alignment_align_up_doc},
+    {"align_down", (PyCFunction) py_ped_alignment_align_down,
+                   METH_VARARGS, alignment_align_down_doc},
+    {"align_nearest", (PyCFunction) py_ped_alignment_align_nearest,
+                      METH_VARARGS, alignment_align_nearest_doc},
+    {"is_aligned", (PyCFunction) py_ped_alignment_is_aligned,
+                   METH_VARARGS, alignment_is_aligned_doc},
+    {NULL}
+};
+
+static PyGetSetDef _ped_Alignment_getset[] = {
+    {"offset", (getter) _ped_Alignment_get,
+               (setter) _ped_Alignment_set,
+               "Offset in sectors from the start of a _ped.Geometry.", "offset"},
+    {"grain_size", (getter) _ped_Alignment_get,
+                   (setter) _ped_Alignment_set,
+                   "Alignment grain_size", "grain_size"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_Alignment_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Alignment",

@@ -29,6 +29,62 @@
 #include "pynatmath.h"
 
 /* _ped.Geometry type object */
+static PyMemberDef _ped_Geometry_members[] = {
+    {"dev", T_OBJECT, offsetof(_ped_Geometry, dev), 0,
+            "The _ped.Device described by this _ped.Geometry object."},
+    {NULL}
+};
+
+static PyMethodDef _ped_Geometry_methods[] = {
+    {"duplicate", (PyCFunction) py_ped_geometry_duplicate, METH_VARARGS,
+                  geometry_duplicate_doc},
+    {"intersect", (PyCFunction) py_ped_geometry_intersect, METH_VARARGS,
+                  geometry_intersect_doc},
+    {"destroy", (PyCFunction) py_ped_geometry_destroy, METH_VARARGS,
+                geometry_destroy_doc},
+    {"set", (PyCFunction) py_ped_geometry_set, METH_VARARGS,
+            geometry_set_doc},
+    {"set_start", (PyCFunction) py_ped_geometry_set_start, METH_VARARGS,
+                  geometry_set_start_doc},
+    {"set_end", (PyCFunction) py_ped_geometry_set_end, METH_VARARGS,
+                geometry_set_end_doc},
+    {"test_overlap", (PyCFunction) py_ped_geometry_test_overlap,
+                     METH_VARARGS, geometry_test_overlap_doc},
+    {"test_inside", (PyCFunction) py_ped_geometry_test_inside,
+                    METH_VARARGS, geometry_test_inside_doc},
+    {"test_equal", (PyCFunction) py_ped_geometry_test_equal,
+                   METH_VARARGS, geometry_test_equal_doc},
+    {"test_sector_inside", (PyCFunction) py_ped_geometry_test_sector_inside,
+                           METH_VARARGS, geometry_test_sector_inside_doc},
+    {"read", (PyCFunction) py_ped_geometry_read, METH_VARARGS,
+             geometry_read_doc},
+    {"sync", (PyCFunction) py_ped_geometry_sync, METH_VARARGS,
+             geometry_sync_doc},
+    {"sync_fast", (PyCFunction) py_ped_geometry_sync_fast, METH_VARARGS,
+                  geometry_sync_fast_doc},
+    {"write", (PyCFunction) py_ped_geometry_write, METH_VARARGS,
+              geometry_write_doc},
+    {"check", (PyCFunction) py_ped_geometry_check, METH_VARARGS,
+              geometry_check_doc},
+    {"map", (PyCFunction) py_ped_geometry_map, METH_VARARGS,
+            geometry_map_doc},
+    {NULL}
+};
+
+static PyGetSetDef _ped_Geometry_getset[] = {
+    {"start", (getter) _ped_Geometry_get,
+              (setter) _ped_Geometry_set,
+              "The starting Sector of the region.", "start"},
+    {"length", (getter) _ped_Geometry_get,
+               (setter) _ped_Geometry_set,
+               "The length of the region described by this Geometry object.",
+               "length"},
+    {"end", (getter) _ped_Geometry_get,
+            (setter) _ped_Geometry_set,
+            "The ending Sector of the region.", "end"},
+    {NULL}  /* Sentinel */
+};
+
 PyTypeObject _ped_Geometry_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.Geometry",
