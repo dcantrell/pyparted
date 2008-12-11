@@ -1,5 +1,4 @@
-#
-# Makefile.am for pyparted
+#!/usr/bin/python
 #
 # Copyright (C) 2008  Red Hat, Inc.
 #
@@ -8,7 +7,7 @@
 # the GNU General Public License v.2, or (at your option) any later version.
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY expressed or implied, including the implied warranties of
-# MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 # Public License for more details.  You should have received a copy of the
 # GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -19,12 +18,25 @@
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
+import _ped
+import unittest
 
-EXTRA_DIST = baseclass.py $(TESTS)
-MAINTAINERCLEANFILES = Makefile.in
+# One class per method, multiple tests per class.  For these simple methods,
+# that seems like good organization.  More complicated methods may require
+# multiple classes and their own test suite.
+class CHSGeometryNewTestCase(unittest.TestCase):
+    def runTest(self):
+        # You're not allowed to create a new CHSGeometry object by hand.
+        # XXX: So, how do we go about testing access and setting of the
+        # object's attributes?
+        self.assertRaises(TypeError, _ped.CHSGeometry)
 
-TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs
 
-TESTS = test_ped.py \
-		  test_chsgeometry.py \
-		  test_geometry.py
+# And then a suite to hold all the test cases for this module.
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(CHSGeometryNewTestCase())
+    return suite
+
+s = suite()
+unittest.TextTestRunner(verbosity=2).run(s)

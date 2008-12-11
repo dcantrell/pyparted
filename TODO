@@ -90,7 +90,6 @@
 
 - Test cases:
     _ped.Alignment
-    _ped.CHSGeometry
     _ped.Constraint
     _ped.Device
     _ped.Disk
