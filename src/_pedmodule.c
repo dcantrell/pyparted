@@ -43,6 +43,9 @@
 
 #include "config.h"
 
+char *partedExnMessage = NULL;
+unsigned int partedExnRaised = 0;
+
 /* Docs strings are broken out of the module structure here to be at least a
  * little bit readable.
  */
@@ -335,11 +338,6 @@ static PedExceptionOption partedExnHandler(PedException *e) {
         case PED_EXCEPTION_ERROR:
         case PED_EXCEPTION_FATAL:
             partedExnRaised = 1;
-
-            /* Clear out any old error message, then copy the new one in. */
-            if (e->message != NULL)
-                free(e->message);
-
             partedExnMessage = strdup(e->message);
 
             if (partedExnMessage == NULL)
