@@ -28,6 +28,7 @@
 #include "pyconstraint.h"
 #include "pygeom.h"
 #include "pynatmath.h"
+#include "docstrings/pyconstraint.h"
 
 /* _ped.Constraint type object */
 static PyMemberDef _ped_Constraint_members[] = {

@@ -27,6 +27,7 @@
 #include "exceptions.h"
 #include "pygeom.h"
 #include "pynatmath.h"
+#include "docstrings/pygeom.h"
 
 /* _ped.Geometry type object */
 static PyMemberDef _ped_Geometry_members[] = {

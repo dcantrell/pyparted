@@ -27,6 +27,7 @@
 #include "exceptions.h"
 #include "pydevice.h"
 #include "pynatmath.h"
+#include "docstrings/pynatmath.h"
 
 /* _ped.Alignment type object */
 static PyMemberDef _ped_Alignment_members[] = {

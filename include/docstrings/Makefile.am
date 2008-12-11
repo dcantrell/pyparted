@@ -1,5 +1,5 @@
 #
-# Makefile.am for pyparted include subdirectory
+# Makefile.am for pyparted include/docstrings subdirectory
 #
 # Copyright (C) 2007  Red Hat, Inc.
 #
@@ -20,9 +20,7 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-SUBDIRS = docstrings
-
-noinst_HEADERS = convert.h _pedmodule.h pyconstraint.h pydevice.h pydisk.h \
-                 pyfilesys.h pygeom.h pynatmath.h pytimer.h pyunit.h
+noinst_HEADERS = pyconstraint.h pydevice.h pydisk.h pyfilesys.h pygeom.h
+                 pynatmath.h
 
 MAINTAINERCLEANFILES = Makefile.in

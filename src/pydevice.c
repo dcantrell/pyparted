@@ -27,6 +27,7 @@
 #include "exceptions.h"
 #include "pyconstraint.h"
 #include "pydevice.h"
+#include "docstrings/pydevice.h"
 
 /* _ped.CHSGeometry type object */
 static PyMemberDef _ped_CHSGeometry_members[] = {
