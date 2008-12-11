@@ -39,8 +39,8 @@ PyObject *TimerException;
 PyObject *UnknownDeviceException;
 PyObject *UnknownTypeException;
 
-static unsigned int partedExnRaised = 0;
-static char *partedExnMessage = NULL;
+extern unsigned int partedExnRaised;
+extern char *partedExnMessage;
 
 #endif /* _EXCEPTIONS_H_INCLUDED */
 
