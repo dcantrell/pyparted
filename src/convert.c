@@ -368,18 +368,17 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
         return NULL;
     }
 
-    ret = (_ped_DiskType *) PyObject_GC_New(_ped_DiskType, &_ped_DiskType_Type_obj);
+    ret = (_ped_DiskType *) _ped_DiskType_Type_obj.tp_new(&_ped_DiskType_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_DiskType *) PyErr_NoMemory();
 
-    if ((ret->name = strdup(type->name)) == NULL) {
-        PyObject_GC_Del(ret);
+    ret->name = strdup(type->name);
+    if (ret->name == NULL) {
         return (_ped_DiskType *) PyErr_NoMemory();
     }
 
     ret->features = type->features;
 
-    PyObject_GC_Track(ret);
     return ret;
 }
 
