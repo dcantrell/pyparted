@@ -313,6 +313,9 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     _ped_Disk *ret = NULL;
+    _ped_Device *dev = NULL;
+    _ped_DiskType *type = NULL;
+    PyObject *args = NULL;
 
     if (disk == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedDisk()");
@@ -323,16 +326,16 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     if (!ret)
         return (_ped_Disk *) PyErr_NoMemory();
 
-    ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
-    if (ret->dev == NULL) {
-        PyObject_GC_Del(ret);
+    if ((dev = PedDevice2_ped_Device(disk->dev)) == NULL)
         return NULL;
-    }
 
-    ret->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
-    if (ret->type == NULL) {
-        Py_XDECREF(ret->dev);
-        PyObject_GC_Del(ret);
+    if ((type = PedDiskType2_ped_DiskType((PedDiskType *) disk->type)) == NULL)
+        return NULL;
+
+    args = Py_BuildValue("OO", (PyObject *) dev, (PyObject *) type);
+
+    if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Disk");
         return NULL;
     }
 
@@ -630,6 +633,9 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     _ped_Partition *ret = NULL;
+    _ped_Disk *disk = NULL;
+    _ped_FileSystemType *fs_type = NULL;
+    PyObject *args = NULL;
 
     if (part == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedPartition()");
@@ -640,27 +646,16 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
-    ret->disk = (PyObject *) PedDisk2_ped_Disk(part->disk);
-    if (ret->disk == NULL) {
-        PyObject_GC_Del(ret);
+    if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL)
         return NULL;
-    }
 
-    ret->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
-    if (ret->geom == NULL) {
-        Py_XDECREF(ret->disk);
-        PyObject_GC_Del(ret);
+    if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
         return NULL;
-    }
 
-    ret->num = part->num;
-    ret->type = part->type;
+    args = Py_BuildValue("OlOll", disk, part->type, fs_type, part->geom.start, part->geom.end);
 
-    ret->fs_type = (PyObject *) PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type);
-    if (ret->fs_type == NULL) {
-        Py_XDECREF(ret->geom);
-        Py_XDECREF(ret->disk);
-        PyObject_GC_Del(ret);
+    if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Partition");
         return NULL;
     }
 
