@@ -28,6 +28,7 @@
 #include "pydevice.h"
 #include "pyfilesys.h"
 #include "pygeom.h"
+#include "docstrings/pyfilesys.h"
 
 /* _ped.FileSystemType type object */
 static PyMemberDef _ped_FileSystemType_members[] = {

@@ -28,6 +28,7 @@
 #include "convert.h"
 #include "exceptions.h"
 #include "pydisk.h"
+#include "docstrings/pydisk.h"
 
 /* _ped.Partition type object */
 static PyMemberDef _ped_Partition_members[] = {
