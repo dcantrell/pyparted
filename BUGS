@@ -1,9 +1,2 @@
-In [1]: import _ped
-
-In [2]: a = _ped.device_get("/dev/sda")
-
-In [3]: isinstance(a, _ped.Device)
-Out[3]: False
-
-In [4]: type(a)
-Out[4]: <type '_ped.Device'>
+List bugs in this file, numbered, with an example that can be run from the
+Python interactive shell.
