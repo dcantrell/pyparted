@@ -1,7 +1,7 @@
 /*
  * pynatmath.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -28,89 +28,7 @@
 #include "pydevice.h"
 #include "pynatmath.h"
 #include "docstrings/pynatmath.h"
-
-/* _ped.Alignment type object */
-static PyMemberDef _ped_Alignment_members[] = {
-    {NULL}
-};
-
-static PyMethodDef _ped_Alignment_methods[] = {
-    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS,
-                 alignment_destroy_doc},
-    {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS,
-                  alignment_duplicate_doc},
-    {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS,
-                  alignment_intersect_doc},
-    {"align_up", (PyCFunction) py_ped_alignment_align_up, METH_VARARGS,
-                 alignment_align_up_doc},
-    {"align_down", (PyCFunction) py_ped_alignment_align_down,
-                   METH_VARARGS, alignment_align_down_doc},
-    {"align_nearest", (PyCFunction) py_ped_alignment_align_nearest,
-                      METH_VARARGS, alignment_align_nearest_doc},
-    {"is_aligned", (PyCFunction) py_ped_alignment_is_aligned,
-                   METH_VARARGS, alignment_is_aligned_doc},
-    {NULL}
-};
-
-static PyGetSetDef _ped_Alignment_getset[] = {
-    {"offset", (getter) _ped_Alignment_get,
-               (setter) _ped_Alignment_set,
-               "Offset in sectors from the start of a _ped.Geometry.", "offset"},
-    {"grain_size", (getter) _ped_Alignment_get,
-                   (setter) _ped_Alignment_set,
-                   "Alignment grain_size", "grain_size"},
-    {NULL}  /* Sentinel */
-};
-
-PyTypeObject _ped_Alignment_Type_obj = {
-    PyObject_HEAD_INIT(&PyType_Type)
-    .tp_name = "_ped.Alignment",
-    .tp_basicsize = sizeof(_ped_Alignment),
- /* .tp_itemsize = XXX */
-    .tp_dealloc = (destructor) _ped_Alignment_dealloc,
- /* .tp_print = XXX */
- /* .tp_getattr = XXX */
- /* .tp_setattr = XXX */
- /* .tp_compare = XXX */
- /* .tp_repr = XXX */
- /* .tp_as_number = XXX */
- /* .tp_as_sequence = XXX */
- /* .tp_as_mapping = XXX */
- /* .tp_hash = XXX */
- /* .tp_call = XXX */
- /* .tp_str = XXX */
-    .tp_getattro = PyObject_GenericGetAttr,
-    .tp_setattro = PyObject_GenericSetAttr,
- /* .tp_as_buffer = XXX */
-    .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_GC,
-    .tp_doc = _ped_Alignment_doc,
-    .tp_traverse = (traverseproc) _ped_Alignment_traverse,
-    .tp_clear = (inquiry) _ped_Alignment_clear,
- /* .tp_richcompare = XXX */
- /* .tp_weaklistoffset = XXX */
- /* .tp_iter = XXX */
- /* .tp_iternext = XXX */
-    .tp_methods = _ped_Alignment_methods,
-    .tp_members = _ped_Alignment_members,
-    .tp_getset = _ped_Alignment_getset,
-    .tp_base = NULL,
- /* .tp_dict = XXX */
- /* .tp_descr_get = XXX */
- /* .tp_descr_set = XXX */
- /* .tp_dictoffset = XXX */
-    .tp_init = (initproc) _ped_Alignment_init,
-    .tp_alloc = PyType_GenericAlloc,
-    .tp_new = PyType_GenericNew,
- /* .tp_free = XXX */
- /* .tp_is_gc = XXX */
-    .tp_bases = NULL,
- /* .tp_mro = XXX */
- /* .tp_cache = XXX */
- /* .tp_subclasses = XXX */
- /* .tp_weaklist = XXX */
- /* .tp_del = XXX */
-};
+#include "typeobjects/pynatmath.h"
 
 /* _ped.Alignment functions */
 void _ped_Alignment_dealloc(_ped_Alignment *self) {
