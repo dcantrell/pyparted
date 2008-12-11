@@ -4,7 +4,7 @@
  * need to be converted.  When a typedef in libparted is a primitive type,
  * we can just use it directly.
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -160,50 +160,40 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
 
 _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     _ped_Constraint *ret = NULL;
+    _ped_Alignment *start_align = NULL;
+    _ped_Alignment *end_align = NULL;
+    _ped_Geometry *start_range = NULL;
+    _ped_Geometry *end_range = NULL;
+    PyObject *args = NULL;
 
     if (constraint == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedConstraint()");
         return NULL;
     }
 
-    ret = (_ped_Constraint *) PyObject_GC_New(_ped_Constraint, &_ped_Constraint_Type_obj);
+    ret = (_ped_Constraint *) _ped_Constraint_Type_obj.tp_new(&_ped_Constraint_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Constraint *) PyErr_NoMemory();
 
-    ret->start_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->start_align);
-    if (ret->start_align == NULL) {
-        PyObject_GC_Del(ret);
+    if ((start_align = PedAlignment2_ped_Alignment(constraint->start_align)) == NULL)
+        return NULL;
+
+    if ((end_align = PedAlignment2_ped_Alignment(constraint->end_align)) == NULL)
+        return NULL;
+
+    if ((start_range = PedGeometry2_ped_Geometry(constraint->start_range)) == NULL)
+        return NULL;
+
+    if ((end_range = PedGeometry2_ped_Geometry(constraint->end_range)) == NULL)
+        return NULL;
+
+    args = Py_BuildValue("OOOOll", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
+
+    if (_ped_Constraint_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Constraint");
         return NULL;
     }
 
-    ret->end_align = (PyObject *) PedAlignment2_ped_Alignment(constraint->end_align);
-    if (ret->end_align == NULL) {
-        Py_XDECREF(ret->start_align);
-        PyObject_GC_Del(ret);
-        return NULL;
-    }
-
-    ret->start_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->start_range);
-    if (ret->start_range == NULL) {
-        Py_XDECREF(ret->end_align);
-        Py_XDECREF(ret->start_align);
-        PyObject_GC_Del(ret);
-        return NULL;
-    }
-
-    ret->end_range = (PyObject *) PedGeometry2_ped_Geometry(constraint->end_range);
-    if (ret->end_range == NULL) {
-        Py_XDECREF(ret->start_range);
-        Py_XDECREF(ret->end_align);
-        Py_XDECREF(ret->start_align);
-        PyObject_GC_Del(ret);
-        return NULL;
-    }
-
-    ret->min_size = constraint->min_size;
-    ret->max_size = constraint->max_size;
-
-    PyObject_GC_Track(ret);
     return ret;
 }
 
