@@ -236,7 +236,7 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
         return NULL;
     }
 
-    ret = (_ped_Device *) PyObject_GC_New(_ped_Device, &_ped_Device_Type_obj);
+    ret = (_ped_Device *) _ped_Device_Type_obj.tp_new(&_ped_Device_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Device *) PyErr_NoMemory();
 
@@ -265,19 +265,15 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     ret->length = device->length;
 
     ret->hw_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->hw_geom);
-    if (ret->hw_geom == NULL) {
-        PyObject_GC_Del(ret);
+    if (ret->hw_geom == NULL)
         return NULL;
-    }
+    Py_INCREF(ret->hw_geom);
 
     ret->bios_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->bios_geom);
-    if (ret->bios_geom == NULL) {
-        Py_XDECREF(ret->hw_geom);
-        PyObject_GC_Del(ret);
+    if (ret->bios_geom == NULL)
         return NULL;
-    }
+    Py_INCREF(ret->bios_geom);
 
-    PyObject_GC_Track(ret);
     return ret;
 }
 
