@@ -113,16 +113,8 @@
     _ped.unit_get_size
     _ped.unit_parse
     _ped.unit_parse_custom
-    _ped.get_device
     _ped.probe_all_devices
     _ped.free_all_devices
-    _ped.constraint_new_from_min_max
-    _ped.constraint_new_from_min
-    _ped.constraint_new_from_max
-    _ped.constraint_any
-    _ped.constraint_exact
-    _ped.file_system_probe
-    _ped.file_system_probe_specific
     _ped.flag_get_next
 
 - Make sure PyTypeObjects that have a tp_init are allocating memory that the
