@@ -84,6 +84,7 @@ PedAlignment *_ped_Alignment2PedAlignment(PyObject *s) {
 
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
     _ped_Alignment *ret = NULL;
+    PyObject *args = NULL;
 
     if (alignment == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedAlignment()");
@@ -94,8 +95,12 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
     if (!ret)
         return (_ped_Alignment *) PyErr_NoMemory();
 
-    ret->offset = alignment->offset;
-    ret->grain_size = alignment->grain_size;
+    args = Py_BuildValue("ll", alignment->offset, alignment->grain_size);
+
+    if (_ped_Alignment_init(ret, args, NULL)) {
+        PyErr_SetString(PyExc_TypeError, "Invalid types for offset and grain_size");
+        return NULL;
+    }
 
     return ret;
 }
