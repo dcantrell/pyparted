@@ -1,7 +1,7 @@
 #
-# Makefile.am for pyparted include subdirectory
+# Makefile.am for pyparted include/typeobjects subdirectory
 #
-# Copyright (C) 2007  Red Hat, Inc.
+# Copyright (C) 2008  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -20,9 +20,7 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-SUBDIRS = docstrings typeobjects
-
-noinst_HEADERS = convert.h _pedmodule.h pyconstraint.h pydevice.h pydisk.h \
-                 pyfilesys.h pygeom.h pynatmath.h pytimer.h pyunit.h
+noinst_HEADERS = pyconstraint.h pydevice.h pydisk.h pyfilesys.h \
+                 pygeom.h pynatmath.h pytimer.h
 
 MAINTAINERCLEANFILES = Makefile.in
