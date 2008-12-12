@@ -280,8 +280,6 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 
     ret = ped_disk_new(dev);
     if (ret == NULL) {
-        ped_device_destroy(dev);
-
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -490,7 +488,6 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
 
     ret = ped_geometry_new(dev, geometry->start, geometry->length);
     if (ret == NULL) {
-        ped_device_destroy(dev);
         return (PedGeometry *) PyErr_NoMemory();
     }
 

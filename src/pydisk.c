@@ -259,7 +259,6 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
             free(type);
         }
 
-        ped_device_destroy(device);
         return -1;
     }
 
@@ -274,7 +273,6 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     }
 
     ped_disk_destroy(disk);
-    ped_device_destroy(device);
 
     return 0;
 }
@@ -471,8 +469,6 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
             PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
             return NULL;
         }
-
-        ped_device_destroy(device);
     }
     else {
         return NULL;
@@ -507,7 +503,6 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
     free(out_disktype);
 
     return PyBool_FromLong(ret);
