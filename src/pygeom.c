@@ -1,7 +1,7 @@
 /*
  * pygeom.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -86,8 +86,10 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
             return -1;
         }
 
-        Py_XDECREF(self);
-        self = PedGeometry2_ped_Geometry(geometry);
+        Py_INCREF(self->dev);
+        self->start = geometry->start;
+        self->length = geometry->length;
+        self->end = geometry->end;
 
         ped_device_destroy(device);
         ped_geometry_destroy(geometry);
