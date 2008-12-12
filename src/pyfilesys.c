@@ -121,13 +121,17 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                          PyObject *kwds) {
     static char *kwlist[] = {"type", "geom", "checked", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O!O!l", kwlist,
+    self->checked = 0;
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!|l", kwlist,
                                      &_ped_FileSystemType_Type_obj, &self->type,
                                      &_ped_Geometry_Type_obj, &self->geom,
-                                     &self->checked))
+                                     &self->checked)) {
         return -1;
-    else
+    } else {
+        Py_INCREF(self->type);
+        Py_INCREF(self->geom);
         return 0;
+    }
 }
 
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
