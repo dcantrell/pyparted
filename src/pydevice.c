@@ -351,6 +351,8 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ((_ped_Device *) s)->open_count = device->open_count;
+
     ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
