@@ -107,7 +107,7 @@ class GeometryIntersectTestCase(RequiresDevice):
         self.i = self.g1.intersect(self.g2)
         self.assert_(self.i.start == self.g2.start)
         self.assert_(self.i.end == self.g1.end)
-        self.assert_(self.i.length == 25)
+        self.assert_(self.i.length == 26)
 
         # g1 and g2 do not overlap at all, so they have no intersection.
         self.g1.set(0, 25)
@@ -147,12 +147,12 @@ class GeometrySetStartTestCase(RequiresDevice):
         self.g.set_start(10)
         self.assert_(self.g.start == 10)
         self.assert_(self.g.length == 90)
-        self.assert_(self.g.end == 100)
+        self.assert_(self.g.end == 99)
 
         # Setting a negative start or the start past the end of the device
         # should fail.
-        self.assertRaises(_ped.CreateException, self.set_start, -1)
-        self.assertRaises(_ped.CreateException, self.set_start, 1000000000)
+        self.assertRaises(_ped.CreateException, self.g.set_start, -1)
+        self.assertRaises(_ped.CreateException, self.g.set_start, 1000000000)
 
 class GeometrySetEndTestCase(RequiresDevice):
     def setUp(self):
@@ -162,15 +162,15 @@ class GeometrySetEndTestCase(RequiresDevice):
     def runTest(self):
         self.g.set_end(50)
         self.assert_(self.g.start == 0)
-        self.assert_(self.g.length == 50)
+        self.assert_(self.g.length == 51)
         self.assert_(self.g.end == 50)
 
         # Setting a negative end or the end past the end of the device or
         # before the start should fail.
-        self.assertRaises(_ped.CreateException, self.set_end, -1)
-        self.assertRaises(_ped.CreateException, self.set_end, 1000000000)
+        self.assertRaises(_ped.CreateException, self.g.set_end, -1)
+        self.assertRaises(_ped.CreateException, self.g.set_end, 1000000000)
         self.g.set_start(10)
-        self.assertRaises(_ped.CreateException, self.set_end, 50)
+        self.assertRaises(_ped.CreateException, self.g.set_end, 5)
 
 class GeometryTestOverlapTestCase(RequiresDevice):
     def setUp(self):
@@ -203,22 +203,22 @@ class GeometryTestInsideTestCase(RequiresDevice):
     def runTest(self):
         # g1 and g2 are the same, so they exist inside each other.
         self.assert_(self.g1.test_inside(self.g2) == True)
-        self.assert_(self.g2.test_inside(self.g1) == False)
+        self.assert_(self.g2.test_inside(self.g1) == True)
 
         # g2 is entirely contained within g1, so it's inside.
         self.g2.set_end(75)
-        self.assert_(self.g1.test_overlap(self.g2) == True)
-        self.assert_(self.g2.test_overlap(self.g1) == False)
+        self.assert_(self.g1.test_inside(self.g2) == True)
+        self.assert_(self.g2.test_inside(self.g1) == False)
 
-        # g1 goes from inside g2 to the end, it's inside.
+        # g1 goes from inside g2 to the end, so it's not inside.
         self.g1.set_start(60)
-        self.assert_(self.g1.test_overlap(self.g2) == True)
-        self.assert_(self.g2.test_overlap(self.g1) == False)
+        self.assert_(self.g1.test_inside(self.g2) == False)
+        self.assert_(self.g2.test_inside(self.g1) == False)
 
-        # g2 exists entirely before g1, so they do not overlap.
+        # g2 exists entirely before g1, so it's not inside.
         self.g2.set(10, 10)
-        self.assert_(self.g1.test_overlap(self.g2) == False)
-        self.assert_(self.g2.test_overlap(self.g1) == False)
+        self.assert_(self.g1.test_inside(self.g2) == False)
+        self.assert_(self.g2.test_inside(self.g1) == False)
 
 class GeometryTestEqualTestCase(RequiresDevice):
     def setUp(self):
