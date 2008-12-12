@@ -33,7 +33,8 @@
 /* _ped.Geometry functions */
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->dev);
+    Py_CLEAR(self->dev);
+    self->dev = NULL;
     PyObject_GC_Del(self);
 }
 
@@ -50,7 +51,7 @@ int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg) {
 }
 
 int _ped_Geometry_clear(_ped_Geometry *self) {
-    Py_XDECREF(self->dev);
+    Py_CLEAR(self->dev);
     self->dev = NULL;
 
     return 0;
@@ -61,6 +62,7 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     PedGeometry *geometry = NULL;
     PedDevice *device = NULL;
 
+    self->dev = NULL;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!ll|l", kwlist,
                                      &_ped_Device_Type_obj, &self->dev,
                                      &self->start, &self->length, &self->end)) {
@@ -93,6 +95,8 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
 
         ped_device_destroy(device);
         ped_geometry_destroy(geometry);
+
+        Py_INCREF(self);
         return 0;
     }
 }
