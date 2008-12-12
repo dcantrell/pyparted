@@ -652,7 +652,6 @@ PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
         return NULL;
     }
 
-    ped_device_destroy(device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -715,7 +714,6 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(fs);
-    ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;

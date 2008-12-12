@@ -77,8 +77,6 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(out_dev);
-
     return PyLong_FromLongLong(ret);
 }
 
@@ -137,7 +135,6 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom_byte(out_dev, sector, unit);
-    ped_device_destroy(out_dev);
 
     return PyString_FromString(ret);
 }
@@ -157,7 +154,6 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_byte(out_dev, sector);
-    ped_device_destroy(out_dev);
 
     return PyString_FromString(ret);
 }
@@ -180,7 +176,6 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom(out_dev, sector, unit);
-    ped_device_destroy(out_dev);
 
     return PyString_FromString(ret);
 }
@@ -201,7 +196,6 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format(out_dev, sector);
-    ped_device_destroy(out_dev);
 
     return PyString_FromString(ret);
 }
@@ -230,7 +224,6 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_parse(str, out_dev, &sector, &out_geom);
-    ped_device_destroy(out_dev);
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
@@ -267,7 +260,6 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_parse_custom(str, out_dev, unit, &sector, &out_geom);
-    ped_device_destroy(out_dev);
     ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);

@@ -513,7 +513,6 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(out_device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;

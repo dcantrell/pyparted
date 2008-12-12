@@ -289,8 +289,6 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
-
     return (PyObject *) ret;
 }
 
@@ -308,9 +306,6 @@ PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(self);
-    ped_device_destroy(device);
-
     return (PyObject *) ret;
 }
 
@@ -324,7 +319,6 @@ PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_is_busy(device);
-    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
@@ -353,7 +347,6 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
 
     ((_ped_Device *) s)->open_count = device->open_count;
 
-    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
@@ -380,7 +373,6 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
     return PyBool_FromLong(ret);
 }
 
@@ -407,7 +399,6 @@ PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args) {
     }
 
     ped_device_cache_remove(device);
-    ped_device_destroy(device);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -436,8 +427,6 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
-
     return PyBool_FromLong(ret);
 }
 
@@ -463,8 +452,6 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
@@ -503,8 +490,6 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
-
     return PyLong_FromLongLong(ret);
 }
 
@@ -542,8 +527,6 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
-
     return PyLong_FromLongLong(ret);
 }
 
@@ -569,8 +552,6 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_device_destroy(device);
 
     return PyBool_FromLong(ret);
 }
@@ -598,8 +579,6 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
-
     return PyBool_FromLong(ret);
 }
 
@@ -624,7 +603,6 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_check(device, out_buf, start, count);
-    ped_device_destroy(device);
 
     return PyLong_FromLongLong(ret);
 }
@@ -651,7 +629,6 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_device_destroy(device);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;

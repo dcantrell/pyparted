@@ -84,7 +84,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
             else
                 PyErr_SetString(CreateException, "Could not create new geometry");
 
-            ped_device_destroy(device);
             return -1;
         }
 
@@ -93,7 +92,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
         self->length = geometry->length;
         self->end = geometry->end;
 
-        ped_device_destroy(device);
         ped_geometry_destroy(geometry);
 
         Py_INCREF(self);
