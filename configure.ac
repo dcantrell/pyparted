@@ -1,6 +1,6 @@
 dnl configure.ac for pyparted
 dnl
-dnl Copyright (C) 2007  Red Hat, Inc.
+dnl Copyright (C) 2007, 2008  Red Hat, Inc.
 dnl
 dnl This copyrighted material is made available to anyone wishing to use,
 dnl modify, copy, or redistribute it subject to the terms and conditions of
@@ -27,6 +27,8 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/typeobjects/Makefile src/Makefile tests/Makefile tests/_ped/Makefile])
+
+AC_CONFIG_MACRO_DIR([m4])
 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
 
