@@ -417,13 +417,12 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
-    int ret = -1;
-    PyObject *in_buf = NULL;
+    PyObject *ret = NULL;
     PedGeometry *geom = NULL;
-    void *out_buf = NULL;
+    char *out_buf = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "ll", &offset, &count)) {
         return NULL;
     }
 
@@ -432,13 +431,11 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_buf = PyCObject_AsVoidPtr(in_buf);
-    if (out_buf == NULL) {
-        return NULL;
+    if ((out_buf = malloc(geom->dev->sector_size * count)) == NULL) {
+        return PyErr_NoMemory();
     }
 
-    ret = ped_geometry_read(geom, out_buf, offset, count);
-    if (ret == 0) {
+    if (ped_geometry_read(geom, out_buf, offset, count) == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -451,8 +448,10 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ret = PyString_FromString(out_buf);
+    free(out_buf);
 
-    return PyBool_FromLong(ret);
+    return ret;
 }
 
 PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {

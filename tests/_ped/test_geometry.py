@@ -239,30 +239,109 @@ class GeometryTestEqualTestCase(RequiresDevice):
         self.g2.set_end(50)
         self.assert_(self.g1.test_equal(self.g2) == False)
 
-class GeometryTestSectorInsideTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        pass
+class GeometryTestSectorInsideTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=10, length=100)
 
-class GeometryReadTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        pass
+        # First check the boundary conditions.
+        self.assert_(self.g.test_sector_inside(10) == True)
+        self.assert_(self.g.test_sector_inside(109) == True)
+        self.assert_(self.g.test_sector_inside(110) == False)
 
-class GeometrySyncTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        pass
+        # Then some sectors that are obviously out.
+        self.assert_(self.g.test_sector_inside(0) == False)
+        self.assert_(self.g.test_sector_inside(1000) == False)
+        self.assert_(self.g.test_sector_inside(-1) == False)
 
-class GeometrySyncFastTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        pass
+class GeometryReadTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=10, length=100)
 
-class GeometryWriteTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        pass
+        # First try to read from a device that isn't open yet.
+        self.assertRaises(_ped.IOException, self.g.read, 0, 10)
+
+        # Our initial device is just full of zeros, so this should read a
+        # whole lot of nothing.
+        self._device.open()
+        self.assert_(self.g.read(0, 10) == "")
+
+        # Test bad parameter passing.
+        self.assertRaises(_ped.IOException, self.g.read, -10, 10)
+        self.assertRaises(_ped.IOException, self.g.read, 0, -10)
+        self.assertRaises(TypeError, self.g.read, None, None)
+
+        # Can't read past the end of the geometry.
+        self.assertRaises(_ped.IOException, self.g.read, 200, 1)
+        self.assertRaises(_ped.IOException, self.g.read, 0, 200)
+
+        # Now try writing something to the device, then reading to see if
+        # we get the same thing back.
+        self.g.write("1111111111", 0, 1)
+        self.assert_(self.g.read(0, 10) == "1111111111")
+        self.g.write("2", 20, 5)
+        self.assert_(self.g.read(20, 5) == "22222")
+
+    def tearDown(self):
+        self._device.close()
+
+class GeometrySyncTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=0, length=100)
+        self._device.open()
+
+    def runTest(self):
+        # XXX: I don't know of a better way to test this method.
+        self.g.write("1111111111", 0, 1)
+        self.assert_(self.g.sync() == 1)
+
+    def tearDown(self):
+        self._device.close()
+
+class GeometrySyncFastTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=0, length=100)
+        self._device.open()
+
+    def runTest(self):
+        # XXX: I don't know of a better way to test this method.
+        self.g.write("1111111111", 0, 1)
+        self.assert_(self.g.sync_fast() == 1)
+
+    def tearDown(self):
+        self._device.close()
+
+class GeometryWriteTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=10, length=100)
+
+    def runTest(self):
+        # First try to write to a device that isn't open yet.
+        self.assertRaises(_ped.IOException, self.g.write, "X", 0, 10)
+
+        # Now try a real write and make sure we (1) don't get an error code
+        # and (2) the data actually ends up on the device.
+        self._device.open()
+        self.assert_(self.g.write("X", 0, 10) != 0)
+        self.assert_(self.g.read(0, 10) == "XXXXXXXXXX")
+
+        # Test bad parameter passing.
+        self.assertRaises(_ped.IOException, self.g.write, "X", -10, 10)
+        self.assertRaises(_ped.IOException, self.g.write, "X", 0, -10)
+        self.assertRaises(TypeError, self.g.write, None, None, None)
+
+        # Can't write past the end of the geometry.
+        self.assertRaises(_ped.IOException, self.g.write, "X", 200, 1)
+        self.assertRaises(_ped.IOException, self.g.write, "X", 0, 200)
+
+    def tearDown(self):
+        self._device.close()
 
 class GeometryCheckTestCase(unittest.TestCase):
     def runTest(self):
