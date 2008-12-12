@@ -87,7 +87,9 @@ typedef struct {
     PyObject *bios_geom;          /* a _ped.CHSGeometry */
     short host;
     short did;
-    void *arch_specific;
+
+    /* store a copy of the PedDevice pointer here */
+    PedDevice *ped_device;
 } _ped_Device;
 
 void _ped_Device_dealloc(_ped_Device *self);
