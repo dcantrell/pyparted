@@ -259,6 +259,10 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ((_ped_Geometry *) s)->start = geom->start;
+    ((_ped_Geometry *) s)->length = geom->length;
+    ((_ped_Geometry *) s)->end = geom->end;
+
     ped_geometry_destroy(geom);
 
     return PyBool_FromLong(ret);
@@ -292,6 +296,9 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ((_ped_Geometry *) s)->start = geom->start;
+    ((_ped_Geometry *) s)->length = geom->length;
+
     ped_geometry_destroy(geom);
 
     return PyBool_FromLong(ret);
@@ -324,6 +331,9 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
 
         return NULL;
     }
+
+    ((_ped_Geometry *) s)->length = geom->length;
+    ((_ped_Geometry *) s)->end = geom->end;
 
     ped_geometry_destroy(geom);
 
