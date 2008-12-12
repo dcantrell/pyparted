@@ -199,6 +199,7 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
 
 /* _ped_Device -> PedDevice functions */
 PedDevice *_ped_Device2PedDevice(PyObject *s) {
+    _ped_CHSGeometry *chs;
     PedDevice *ret = NULL;
     _ped_Device *dev = (_ped_Device *) s;
 
@@ -207,22 +208,40 @@ PedDevice *_ped_Device2PedDevice(PyObject *s) {
         return NULL;
     }
 
-    if (dev->path) {
-        /* Don't free the result of ped_device_get because it's an element
-         * of an internal linked list.
-         */
-        ret = ped_device_get(dev->path);
-        if (ret == NULL)
-            return (PedDevice *) PyErr_NoMemory();
-    } else {
-        PyErr_SetString(UnknownDeviceException, "device path is empty");
-        return NULL;
+    if ((ret = malloc(sizeof(PedDevice))) == NULL)
+        return (PedDevice *) PyErr_NoMemory();
+
+    if ((ret->model = strdup(dev->model)) == NULL)
+        return (PedDevice *) PyErr_NoMemory();
+
+    if ((ret->path = strdup(dev->path)) == NULL) {
+        free(ret->model);
+        return (PedDevice *) PyErr_NoMemory();
     }
 
-    if (ret == NULL) {
-        PyErr_SetString(UnknownDeviceException, dev->path);
-        return NULL;
-    }
+    ret->arch_specific = dev->arch_specific;
+
+    ret->type = dev->type;
+    ret->sector_size = dev->sector_size;
+    ret->phys_sector_size = dev->phys_sector_size;
+    ret->open_count = dev->open_count;
+    ret->read_only = dev->read_only;
+    ret->external_mode = dev->external_mode;
+    ret->dirty = dev->dirty;
+    ret->boot_dirty = dev->boot_dirty;
+    ret->host = dev->host;
+    ret->did = dev->did;
+    ret->length = dev->length;
+
+    chs = (_ped_CHSGeometry *) dev->hw_geom;
+    ret->hw_geom.cylinders = chs->cylinders;
+    ret->hw_geom.heads = chs->heads;
+    ret->hw_geom.sectors = chs->sectors;
+
+    chs = (_ped_CHSGeometry *) dev->bios_geom;
+    ret->bios_geom.cylinders = chs->cylinders;
+    ret->bios_geom.heads = chs->heads;
+    ret->bios_geom.sectors = chs->sectors;
 
     return ret;
 }
@@ -251,6 +270,8 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
         PyObject_GC_Del(ret);
         return (_ped_Device *) PyErr_NoMemory();
     }
+
+    ret->arch_specific = device->arch_specific;
 
     ret->type = device->type;
     ret->sector_size = device->sector_size;
