@@ -198,6 +198,11 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
 }
 
 /* _ped_Device -> PedDevice functions */
+/*
+ * NOTE: We store the pointer to the PedDevice in our _ped.Device object.
+ * Do not call ped_device_destroy() on this pointer or you will end up
+ * with double free errors and other segfaults.
+ */
 PedDevice *_ped_Device2PedDevice(PyObject *s) {
     PedDevice *ret = NULL;
     _ped_Device *dev = (_ped_Device *) s;
