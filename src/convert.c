@@ -473,7 +473,6 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret = NULL;
-    PedDevice *dev = NULL;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
 
     if (geometry == NULL) {
@@ -481,12 +480,7 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
         return NULL;
     }
 
-    dev = _ped_Device2PedDevice(geometry->dev);
-    if (dev == NULL) {
-        return NULL;
-    }
-
-    ret = ped_geometry_new(dev, geometry->start, geometry->length);
+    ret = ped_geometry_new(geometry->ped_device, geometry->start, geometry->length);
     if (ret == NULL) {
         return (PedGeometry *) PyErr_NoMemory();
     }
@@ -517,6 +511,8 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
         PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Geometry");
         return NULL;
     }
+
+    ret->ped_device = geometry->dev;
 
     return ret;
 }
