@@ -56,6 +56,9 @@ typedef struct {
     long long start;              /* PedSector   */
     long long length;             /* PedSector   */
     long long end;                /* PedSector   */
+
+    /* store the PedDevice pointer */
+    PedDevice *ped_device;
 } _ped_Geometry;
 
 void _ped_Geometry_dealloc(_ped_Geometry *self);
