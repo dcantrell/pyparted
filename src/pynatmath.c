@@ -260,7 +260,6 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     }
 
     ped_alignment_destroy(align);
-    ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
 }
@@ -292,7 +291,6 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     }
 
     ped_alignment_destroy(align);
-    ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
 }
@@ -324,7 +322,6 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     }
 
     ped_alignment_destroy(align);
-    ped_geometry_destroy(out_geom);
 
     return PyLong_FromLongLong(ret);
 }
@@ -352,7 +349,6 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
 
     ret = ped_alignment_is_aligned(align, out_geom, sector);
     ped_alignment_destroy(align);
-    ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
 }

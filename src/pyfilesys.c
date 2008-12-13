@@ -280,9 +280,6 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_geom);
-    ped_geometry_destroy(geom);
-
     return (PyObject *) ret;
 }
 
@@ -318,8 +315,6 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_geom);
-
     return (PyObject *) ret;
 }
 
@@ -348,7 +343,6 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(geom);
     PyObject_GC_Del(s);
 
     return PyBool_FromLong(ret);
@@ -384,7 +378,6 @@ PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(geom);
 
     return (PyObject *) ret;
 }
@@ -440,7 +433,6 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(geom);
     ped_timer_destroy(timer);
 
     return (PyObject *) ret;
@@ -560,7 +552,6 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 
     ped_file_system_destroy(finalfs);
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
     return (PyObject *) ret;
@@ -614,7 +605,6 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(fs);
-    ped_geometry_destroy(out_geom);
     ped_timer_destroy(out_timer);
 
     return PyBool_FromLong(ret);

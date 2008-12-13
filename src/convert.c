@@ -139,7 +139,6 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
     if (end_range == NULL) {
         ped_alignment_destroy(start_align);
         ped_alignment_destroy(end_align);
-        ped_geometry_destroy(start_range);
         return NULL;
     }
 
@@ -152,8 +151,6 @@ PedConstraint *_ped_Constraint2PedConstraint(PyObject *s) {
 
     ped_alignment_destroy(start_align);
     ped_alignment_destroy(end_align);
-    ped_geometry_destroy(start_range);
-    ped_geometry_destroy(end_range);
 
     return ret;
 }
@@ -389,8 +386,6 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
 
     ret = ped_file_system_open(geom);
     if (ret == NULL) {
-        ped_geometry_destroy(geom);
-
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -598,7 +593,6 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     if ((ret = ped_partition_new(disk, part->type, fs_type, tmpgeom->start,
                                  tmpgeom->end)) == NULL) {
         ped_disk_destroy(disk);
-        ped_geometry_destroy(tmpgeom);
 
         if (partedExnRaised) {
             partedExnRaised = 0;

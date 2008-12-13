@@ -1330,7 +1330,6 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(pass_geom);
     ped_disk_destroy(disk);
     ped_partition_destroy(out_part);
     ped_constraint_destroy(out_constraint);
