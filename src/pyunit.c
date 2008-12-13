@@ -224,7 +224,6 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_parse(str, out_dev, &sector, &out_geom);
-    ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
 }
@@ -260,7 +259,6 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_parse_custom(str, out_dev, unit, &sector, &out_geom);
-    ped_geometry_destroy(out_geom);
 
     return PyBool_FromLong(ret);
 }

@@ -125,8 +125,6 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
 
             ped_alignment_destroy(start_align);
             ped_alignment_destroy(end_align);
-            ped_geometry_destroy(start_range);
-            ped_geometry_destroy(end_range);
             return -1;
         }
 
@@ -139,8 +137,6 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
         /* clean up libparted objects we created */
         ped_alignment_destroy(start_align);
         ped_alignment_destroy(end_align);
-        ped_geometry_destroy(start_range);
-        ped_geometry_destroy(end_range);
         ped_constraint_destroy(constraint);
         return 0;
     }
@@ -224,8 +220,6 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_min);
-    ped_geometry_destroy(out_max);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -258,7 +252,6 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_min);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -291,7 +284,6 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_max);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -411,7 +403,6 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     }
 
     ped_constraint_destroy(constraint);
-    ped_geometry_destroy(geometry);
 
     return (PyObject *) ret;
 }
@@ -451,8 +442,6 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
     }
 
     ped_constraint_destroy(constraint);
-    ped_geometry_destroy(out_geometry);
-    ped_geometry_destroy(geometry);
 
     return (PyObject *) ret;
 }
@@ -481,7 +470,6 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     ret = ped_constraint_is_solution(constraint, out_geometry);
 
     ped_constraint_destroy(constraint);
-    ped_geometry_destroy(out_geometry);
 
     return PyBool_FromLong(ret);
 }
@@ -545,7 +533,6 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_geometry_destroy(out_geometry);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
