@@ -131,8 +131,6 @@ static PyMemberDef _ped_Disk_members[] = {
 };
 
 static PyMethodDef _ped_Disk_methods[] = {
-    {"probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS,
-              disk_probe_doc},
     {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
                 disk_clobber_doc},
     {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,

@@ -251,6 +251,36 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
     return 0;
 }
 
+/*
+ *  * Returns the _ped.DiskType for the specified _ped.Device.
+ *   * Even though this function is part of pydisk.c, it's a method
+ *    * on _ped.Device since it operates on _ped.Device objects and
+ *     * not on _ped.Disk objects.
+ *      */
+PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
+    PedDevice *device = NULL;
+    PedDiskType *type = NULL;
+    _ped_DiskType *ret = NULL;
+
+    device = _ped_Device2PedDevice(s);
+    if (device) {
+        type = ped_disk_probe(device);
+        if (type == NULL) {
+            PyErr_Format(IOException, "Could not probe device %s", device->path);
+            return NULL;
+        }
+
+        ret = PedDiskType2_ped_DiskType(type);
+        if (ret == NULL) {
+            return NULL;
+        }
+
+        free(type);
+    }
+
+    return (PyObject *) ret;
+}
+
 /* 1:1 function mappings for device.h in libparted */
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)  {
     ped_device_probe_all();

@@ -82,11 +82,6 @@ PyDoc_STRVAR(partition_get_path_doc,
 "level.  For instance, on Linux this could return '/dev/sda' for a partition.\n"
 "If an error occurs, _ped.PartitionException is raised.");
 
-PyDoc_STRVAR(disk_probe_doc,
-"probe(self) -> DiskType\n\n"
-"Return the type of partition table detected, or raise _ped.IOException if\n"
-"there is an error reading self.");
-
 PyDoc_STRVAR(disk_clobber_doc,
 "clobber(self) -> boolean\n\n"
 "Remove all identifying information from a partition table.  If the partition\n"

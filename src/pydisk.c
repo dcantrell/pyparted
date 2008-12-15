@@ -434,30 +434,6 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
-PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
-    PedDevice *device = NULL;
-    PedDiskType *type = NULL;
-    _ped_DiskType *ret = NULL;
-
-    device = _ped_Device2PedDevice(s);
-    if (device) {
-        type = ped_disk_probe(device);
-        if (type == NULL) {
-            PyErr_Format(IOException, "Could not probe device %s", device->path);
-            return NULL;
-        }
-
-        ret = PedDiskType2_ped_DiskType(type);
-        if (ret == NULL) {
-            return NULL;
-        }
-
-        free(type);
-    }
-
-    return (PyObject *) ret;
-}
-
 PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
     int ret = 0;
