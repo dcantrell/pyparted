@@ -110,6 +110,14 @@ static PyMemberDef _ped_Device_members[] = {
 };
 
 static PyMethodDef _ped_Device_methods[] = {
+    /*
+     * This is a unique function as it's in pydisk.c, but is really
+     * a method on _ped.Device, so it's part of this PyMethod Def
+     */
+    {"disk_probe", (PyCFunction) py_ped_disk_probe, METH_VARARGS,
+                   disk_probe_doc},
+
+    /* These functions are all in pydevice.c */
     {"get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
                  device_get_next_doc},
     {"is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS,

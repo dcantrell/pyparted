@@ -35,7 +35,6 @@ PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_probe(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args);

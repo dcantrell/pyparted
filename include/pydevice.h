@@ -29,6 +29,7 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for device.h in libparted */
+PyObject *py_ped_disk_probe(PyObject *s, PyObject *args);
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args);
 PyObject *py_ped_device_free_all(PyObject *s, PyObject *args);
 PyObject *py_ped_device_get(PyObject *s, PyObject *args);
