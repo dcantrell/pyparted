@@ -431,6 +431,18 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /* py_device_read will ASSERT if the device isn't open yet. */
+    if (geom->dev->open_count <= 0) {
+        PyErr_SetString(IOException, "Attempting to read from a unopened device");
+        return NULL;
+    }
+
+    /* And then py_geometry_read will ASSERT on these things too. */
+    if (offset < 0 || count < 0) {
+        PyErr_SetString(IOException, "offset and count cannot be negative.");
+        return NULL;
+    }
+
     if ((out_buf = malloc(geom->dev->sector_size * count)) == NULL) {
         return PyErr_NoMemory();
     }
@@ -492,12 +504,11 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     int ret = -1;
-    PyObject *in_buf = NULL;
+    char *in_buf = NULL;
     PedGeometry *geom = NULL;
-    void *out_buf = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "zll", &in_buf, &offset, &count)) {
         return NULL;
     }
 
@@ -506,12 +517,19 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_buf = PyCObject_AsVoidPtr(in_buf);
-    if (out_buf == NULL) {
+    /* py_device_write will ASSERT if the device isn't open yet. */
+    if (geom->dev->open_count <= 0) {
+        PyErr_SetString(IOException, "Attempting to write to a unopened device");
         return NULL;
     }
 
-    ret = ped_geometry_write(geom, out_buf, offset, count);
+    /* And then py_geometry_wriet will ASSERT on these things too. */
+    if (offset < 0 || count < 0) {
+        PyErr_SetString(IOException, "offset and count cannot be negative.");
+        return NULL;
+    }
+
+    ret = ped_geometry_write(geom, in_buf, offset, count);
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
