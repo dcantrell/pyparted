@@ -252,11 +252,11 @@ int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure) {
 }
 
 /*
- *  * Returns the _ped.DiskType for the specified _ped.Device.
- *   * Even though this function is part of pydisk.c, it's a method
- *    * on _ped.Device since it operates on _ped.Device objects and
- *     * not on _ped.Disk objects.
- *      */
+ * Returns the _ped.DiskType for the specified _ped.Device.
+ * Even though this function is part of pydisk.c, it's a method
+ * on _ped.Device since it operates on _ped.Device objects and
+ * not on _ped.Disk objects.
+ */
 PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
     PedDiskType *type = NULL;
