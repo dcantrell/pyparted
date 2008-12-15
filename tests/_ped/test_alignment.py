@@ -20,6 +20,7 @@
 #
 import _ped
 import unittest
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -100,10 +101,29 @@ class AlignmentAlignNearestTestCase(unittest.TestCase):
         # TODO
         pass
 
-class AlignmentIsAlignedTestCase(unittest.TestCase):
+class AlignmentIsAlignedTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=0, length=100)
+        self.a = _ped.Alignment(10, 0)
+
     def runTest(self):
-        # TODO
-        pass
+        # Test a couple ways of passing bad arguments.
+        self.assertRaises(TypeError, self.a.is_aligned, None, 12)
+        self.assertRaises(TypeError, self.a.is_aligned, self.g, None)
+
+        # Sector must be inside the geometry.
+        self.assert_(self.a.is_aligned(self.g, 400) == False)
+
+        # If grain_size is 0, sector must be the same as offset.
+        self.assert_(self.a.is_aligned(self.g, 10) == True)
+        self.assert_(self.a.is_aligned(self.g, 0) == False)
+        self.assert_(self.a.is_aligned(self.g, 47) == False)
+
+        # If grain_size is anything else, there's real math involved.
+        self.a.grain_size = 5
+        self.assert_(self.a.is_aligned(self.g, 20) == True)
+        self.assert_(self.a.is_aligned(self.g, 23) == False)
 
 # And then a suite to hold all the test cases for this module.
 def suite():
