@@ -29,7 +29,7 @@ __depstr = "%s is deprecated and will be removed."
 class PedDevice(object):
     def __init__(self, path):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        self.__device = _ped.Device().get(path)
+        self.__device = _ped.device_get(path)
 
     def __setx(self, value):
         raise AttributeError, "attribute is read-only"
@@ -39,15 +39,15 @@ class PedDevice(object):
     path = property(lambda self: self.__device.path, __setx)
     sector_size = property(lambda self: self.__device.sector_size, __setx)
     type = property(lambda self: self.__device.type, __setx)
-    heads = property(lambda self: self.__device.heads, __setx)
-    sectors = property(lambda self: self.__device.sectors, __setx)
-    cylinders = property(lambda self: self.__device.cylinders, __setx)
+    heads = property(lambda self: self.__device.hw_geom.heads, __setx)
+    sectors = property(lambda self: self.__device.hw_geom.sectors, __setx)
+    cylinders = property(lambda self: self.__device.hw_geom.cylinders, __setx)
 
     def close(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Device().close(self.__device)
+            return self.__device.close()
         except Exception, e:
             raise parted.error(e.message)
 
@@ -55,19 +55,19 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Constraint().any(self.__device)
+            return _ped.constraint_any(self.__device)
         except Exception, e:
             raise parted.error(e.message)
 
     def destroy(self):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
-        return _ped.Device().destroy(self.__device)
+        return self.__device.destroy()
 
     def disk_new_fresh(self, type):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Disk().new_fresh(self.__device, type)
+            return _ped.Disk(self.__device, type)
         except TypeError:
             raise
         except Exception, e:
@@ -77,7 +77,7 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Disk().probe(self.__device)
+            return self.__device.disk_probe()
         except Exception, e:
             raise parted.error(e.message)
 
@@ -85,7 +85,7 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Geometry().new(self.__device, start, length)
+            return _ped.Geometry(self.__device, start, length)
         except Exception, e:
             raise parted.error(e.message)
 
@@ -93,7 +93,7 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Device().is_busy(self.__device)
+            return self.__device.is_busy()
         except Exception, e:
             raise parted.error(e.message)
 
@@ -101,7 +101,7 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Device().open(self.__device)
+            return self.__device.open()
         except Exception, e:
             raise parted.error(e.message)
 
@@ -109,7 +109,7 @@ class PedDevice(object):
         warnings.warn("PedDevice class is deprecated by Device", DeprecationWarning, stacklevel=2)
 
         try:
-            return _ped.Device().sync(self.__device)
+            return self.__device.sync()
         except Exception, e:
             raise parted.error(e.message)
 
