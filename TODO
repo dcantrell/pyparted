@@ -31,17 +31,6 @@
 
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
-      class PedDevice
-          get()
-          open()
-          close()
-          sync()
-          disk_probe()
-          is_busy()
-          geometry_new()
-          constraint_any()
-          disk_new_fresh()
-          destroy()
       class PedDisk
           new()
           check_feature()
