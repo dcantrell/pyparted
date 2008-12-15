@@ -25,7 +25,7 @@
 import _ped
 import warnings
 
-from parted import PedDevice
+from parted import PedDevice, PedDisk
 
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR

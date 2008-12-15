@@ -31,21 +31,8 @@
 
 - Implement existing pyparted module on top of _ped, but mark it all as
   deprecated.
-      class PedDisk
-          new()
+      class PedDiskType
           check_feature()
-          next_partition()
-          deletepartition()
-          delete_all()
-          add_partition()
-          get_partition()
-          get_partition_by_sector()
-          partition_new()
-          minimize_extended_partition()
-          maximize_partition()
-          get_primary_partition_count()
-          get_last_partition_num()
-          commit()
       class PedPartition
           is_flag_available()
           get_flag()
