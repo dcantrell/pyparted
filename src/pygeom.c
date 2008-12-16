@@ -221,7 +221,7 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
-    PyObject_GC_Del(s);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;

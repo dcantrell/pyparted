@@ -162,7 +162,7 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
-    PyObject_GC_Del(s);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
