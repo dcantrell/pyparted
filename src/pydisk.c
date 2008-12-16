@@ -533,7 +533,15 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
-    PyObject_GC_Del(s);
+    PedDisk *disk = NULL;
+
+    disk = _ped_Disk2PedDisk(s);
+    if (disk == NULL) {
+        return NULL;
+    }
+
+    ped_disk_destroy(disk);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -724,12 +732,12 @@ PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
     PedPartition *partition = NULL;
 
     partition = _ped_Partition2PedPartition(s);
-    if (partition) {
-        ped_partition_destroy(partition);
-    }
-    else {
+    if (partition == NULL) {
         return NULL;
     }
+
+    ped_partition_destroy(partition);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
