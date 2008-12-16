@@ -33,15 +33,6 @@
   deprecated.
       class PedDiskType
           check_feature()
-      class PedPartition
-          is_flag_available()
-          get_flag()
-          set_flag()
-          is_active()
-          set_system()
-          set_name()
-          get_name()
-          is_busy()
       class PedFileSystem
           check()
           copy()
