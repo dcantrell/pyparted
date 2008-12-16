@@ -420,6 +420,7 @@ PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
     }
 
     ped_device_destroy(device);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
