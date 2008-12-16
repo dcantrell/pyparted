@@ -95,10 +95,6 @@ PyTypeObject _ped_FileSystemType_Type_obj = {
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
     .tp_bases = NULL,
- /* .tp_mro = XXX */
- /* .tp_cache = XXX */
- /* .tp_subclasses = XXX */
- /* .tp_weaklist = XXX */
  /* .tp_del = XXX */
 };
 
@@ -189,10 +185,6 @@ PyTypeObject _ped_FileSystem_Type_obj = {
  /* .tp_free = XXX */
  /* .tp_is_gc = XXX */
     .tp_bases = NULL,
- /* .tp_mro = XXX */
- /* .tp_cache = XXX */
- /* .tp_subclasses = XXX */
- /* .tp_weaklist = XXX */
  /* .tp_del = XXX */
 };
 
