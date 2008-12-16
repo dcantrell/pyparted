@@ -84,8 +84,13 @@ int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->type);
-    Py_XDECREF(self->geom);
+
+    Py_CLEAR(self->type);
+    self->type = NULL;
+
+    Py_CLEAR(self->geom);
+    self->geom = NULL;
+
     PyObject_GC_Del(self);
 }
 
@@ -108,10 +113,10 @@ int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) 
 }
 
 int _ped_FileSystem_clear(_ped_FileSystem *self) {
-    Py_XDECREF(self->type);
+    Py_CLEAR(self->type);
     self->type = NULL;
 
-    Py_XDECREF(self->geom);
+    Py_CLEAR(self->geom);
     self->geom = NULL;
 
     return 0;

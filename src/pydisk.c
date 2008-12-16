@@ -34,9 +34,16 @@
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->disk);
-    Py_XDECREF(self->geom);
-    Py_XDECREF(self->fs_type);
+
+    Py_CLEAR(self->disk);
+    self->disk = NULL;
+
+    Py_CLEAR(self->geom);
+    self->geom = NULL;
+
+    Py_CLEAR(self->fs_type);
+    self->fs_type = NULL;
+
     PyObject_GC_Del(self);
 }
 
@@ -65,13 +72,13 @@ int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
 }
 
 int _ped_Partition_clear(_ped_Partition *self) {
-    Py_XDECREF(self->disk);
+    Py_CLEAR(self->disk);
     self->disk = NULL;
 
-    Py_XDECREF(self->geom);
+    Py_CLEAR(self->geom);
     self->geom = NULL;
 
-    Py_XDECREF(self->fs_type);
+    Py_CLEAR(self->fs_type);
     self->fs_type = NULL;
 
     return 0;
@@ -185,8 +192,13 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->dev);
-    Py_XDECREF(self->type);
+
+    Py_CLEAR(self->dev);
+    self->dev = NULL;
+
+    Py_CLEAR(self->type);
+    self->type = NULL;
+
     PyObject_GC_Del(self);
 }
 
@@ -209,10 +221,10 @@ int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
 }
 
 int _ped_Disk_clear(_ped_Disk *self) {
-    Py_XDECREF(self->dev);
+    Py_CLEAR(self->dev);
     self->dev = NULL;
 
-    Py_XDECREF(self->type);
+    Py_CLEAR(self->type);
     self->type = NULL;
 
     return 0;
