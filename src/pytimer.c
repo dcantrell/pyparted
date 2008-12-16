@@ -126,7 +126,7 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
 
 /* 1:1 function mappings for timer.h in libparted */
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args) {
-    PyObject_GC_Del(s);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -173,6 +173,7 @@ PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args) {
 
     ped_timer_destroy_nested(timer);
     ped_timer_destroy(timer);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
