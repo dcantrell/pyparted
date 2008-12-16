@@ -34,10 +34,19 @@
 /* _ped.Constraint functions */
 void _ped_Constraint_dealloc(_ped_Constraint *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->start_align);
-    Py_XDECREF(self->end_align);
-    Py_XDECREF(self->start_range);
-    Py_XDECREF(self->end_range);
+
+    Py_CLEAR(self->start_align);
+    self->start_align = NULL;
+
+    Py_CLEAR(self->end_align);
+    self->end_align = NULL;
+
+    Py_CLEAR(self->start_range);
+    self->start_range = NULL;
+
+    Py_CLEAR(self->end_range);
+    self->end_range = NULL;
+
     PyObject_GC_Del(self);
 }
 
@@ -72,16 +81,16 @@ int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg) 
 }
 
 int _ped_Constraint_clear(_ped_Constraint *self) {
-    Py_XDECREF(self->start_align);
+    Py_CLEAR(self->start_align);
     self->start_align = NULL;
 
-    Py_XDECREF(self->end_align);
+    Py_CLEAR(self->end_align);
     self->end_align = NULL;
 
-    Py_XDECREF(self->start_range);
+    Py_CLEAR(self->start_range);
     self->start_range = NULL;
 
-    Py_XDECREF(self->end_range);
+    Py_CLEAR(self->end_range);
     self->end_range = NULL;
 
     return 0;

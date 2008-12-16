@@ -33,8 +33,10 @@
 /* _ped.Geometry functions */
 void _ped_Geometry_dealloc(_ped_Geometry *self) {
     PyObject_GC_UnTrack(self);
+
     Py_CLEAR(self->dev);
     self->dev = NULL;
+
     PyObject_GC_Del(self);
 }
 

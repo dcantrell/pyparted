@@ -99,8 +99,13 @@ int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
 /* _ped.Device functions */
 void _ped_Device_dealloc(_ped_Device *self) {
     PyObject_GC_UnTrack(self);
-    Py_XDECREF(self->hw_geom);
-    Py_XDECREF(self->bios_geom);
+
+    Py_CLEAR(self->hw_geom);
+    self->hw_geom = NULL;
+
+    Py_CLEAR(self->bios_geom);
+    self->bios_geom = NULL;
+
     PyObject_GC_Del(self);
 }
 
@@ -123,10 +128,10 @@ int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg) {
 }
 
 int _ped_Device_clear(_ped_Device *self) {
-    Py_XDECREF(self->hw_geom);
+    Py_CLEAR(self->hw_geom);
     self->hw_geom = NULL;
 
-    Py_XDECREF(self->bios_geom);
+    Py_CLEAR(self->bios_geom);
     self->bios_geom = NULL;
 
     return 0;
