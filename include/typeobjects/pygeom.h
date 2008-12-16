@@ -91,7 +91,6 @@ PyTypeObject _ped_Geometry_Type_obj = {
     .tp_basicsize = sizeof(_ped_Geometry),
  /* .tp_itemsize = XXX */
     .tp_dealloc = (destructor) _ped_Geometry_dealloc,
- /* .tp_print = XXX */
  /* .tp_getattr = XXX */
  /* .tp_setattr = XXX */
  /* .tp_compare = XXX */

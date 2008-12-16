@@ -73,7 +73,6 @@ PyTypeObject _ped_Constraint_Type_obj = {
     .tp_basicsize = sizeof(_ped_Constraint),
  /* .tp_itemsize = XXX */
     .tp_dealloc = (destructor) _ped_Constraint_dealloc,
- /* .tp_print = XXX */
  /* .tp_getattr = XXX */
  /* .tp_setattr = XXX */
  /* .tp_compare = XXX */
