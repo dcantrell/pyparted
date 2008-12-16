@@ -299,6 +299,7 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
 }
 
 /* XXX: is this function really necessary since we can copy objects in Python?
+ * we could just use copy.deepcopy
  */
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     PedConstraint *constraint = NULL, *dup_constraint = NULL;
@@ -328,14 +329,7 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args) {
-    PedConstraint *constraint = NULL;
-
-    constraint = _ped_Constraint2PedConstraint(s);
-    if (constraint == NULL) {
-        return NULL;
-    }
-
-    ped_constraint_destroy(constraint);
+    Py_CLEAR(s);
 
     Py_INCREF(Py_None);
     return Py_None;
