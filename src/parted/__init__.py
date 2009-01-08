@@ -23,9 +23,6 @@
 #
 
 import _ped
-import warnings
-
-from parted import PedDevice, PedDisk
 
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR
@@ -79,111 +76,6 @@ PARTITION_MSFT_RESERVED  = _ped.PARTITION_MSFT_RESERVED
 
 DISK_TYPE_EXTENDED       = _ped.DISK_TYPE_EXTENDED
 DISK_TYPE_PARTITION_NAME = _ped.DISK_TYPE_PARTITION_NAME
-
-__depstr = "%s is deprecated and will be removed."
-
-class PedDisk:
-    def __init__(self):
-        warnings.warn("PedDisk class is deprecated by Disk", DeprecationWarning, stacklevel=2)
-        # XXX
-
-class error(Exception):
-    def __init__(self, message=""):
-        self.message = message
-
-    def __str__(self):
-        return self.message
-
-def device_get(device):
-    warnings.warn(__depstr % "device_get()", DeprecationWarning, stacklevel=2)
-
-    try:
-        return _ped.Device().get(device)
-    except Exception, e:
-        raise error(e.message)
-
-def disk_type_get(diskType):
-    """Given the name of a disk type ("sun", "msdos", "mac", ...) return the
-       matching PedDiskType object.
-    """
-    warnings.warn(__depstr % "disk_type_get()", DeprecationWarning, stacklevel=2)
-
-    try:
-        return _ped.DiskType().get(diskType)
-    except Exception, e:
-        raise error("unknown disk type")
-
-def disk_type_get_next(diskType=None):
-    """Given the optional PedDiskType object diskType, return the next
-       PedDiskType object in parted's list.
-    """
-    warnings.warn(__depstr % "disk_type_get_next()", DeprecationWarning, stacklevel=2)
-
-    try:
-        if diskType:
-            return _ped.DiskType().get_next(diskType)
-        else:
-            return _ped.DiskType().get_next()
-    except TypeError:
-        raise
-    except IndexError:
-        return None
-    except Exception, e:
-        raise error(e.message)
-
-def exception_set_handler():
-    warnings.warn(__depstr % "exception_set_handler()", DeprecationWarning, stacklevel=2)
-    # XXX
-
-def file_system_type_get(type):
-    """Given the string type representing a file system type name, return the
-       matching PedFileSystemType object.
-    """
-    warnings.warn(__depstr % "file_system_type_get()", DeprecationWarning, stacklevel=2)
-
-    try:
-        return _ped.FileSystemType().get(type)
-    except _ped.UnknownTypeException:
-        raise error("unknown file system type")
-
-def file_system_type_get_next(type=None):
-    """Given the optional PedFileSystemType object type, return the next
-       PedFileSystemType obejct in parted's list.
-    """
-    warnings.warn(__depstr % "file_system_type_get_next()", DeprecationWarning, stacklevel=2)
-
-    try:
-        if type:
-            return _ped.FileSystemType().get_next(type)
-        else:
-            return _ped.FileSystemType().get_next()
-    except TypeError:
-        raise
-    except IndexError:
-        return None
-    except Exception, e:
-        raise error(e.message)
-
-def partition_flag_get_by_name(name):
-    """Given the string name representing one of the PARTITION_* constants,
-       return the matching flag.
-    """
-    warnings.warn(__depstr % "partition_flag_get_by_name()", DeprecationWarning, stacklevel=2)
-    return _ped.Partition().flag_get_by_name(name)
-
-def partition_flag_get_name(flag):
-    """Given the partitioning flag, return its name as a string."""
-    warnings.warn(__depstr % "partition_flag_get_name()", DeprecationWarning, stacklevel=2)
-
-    try:
-        return _ped.Partition().flag_get_name(flag)
-    except Exception, e:
-        raise error(e.message)
-
-def partition_flag_next(flag):
-    """Given the partitioning flag, return the next flag in parted's list."""
-    warnings.warn(__depstr % "partition_flag_next()", DeprecationWarning, stacklevel=2)
-    return _ped.Partition().flag_next(flag)
 
 def version():
     """Return a dict containing the pyparted and libparted versions."""
