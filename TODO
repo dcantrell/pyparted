@@ -29,22 +29,6 @@
 - Rename modules under _ped to use all lowercase names.  Make sure all classes
   are named with studly caps (e.g., BigGiantWorthlessClass)
 
-- Implement existing pyparted module on top of _ped, but mark it all as
-  deprecated.
-      class PedDiskType
-          check_feature()
-      class PedFileSystem
-          check()
-          copy()
-          resize()
-          get_resize_constraint()
-      class PedFileSystemTypeMethods
-          probe_specific()
-      class PedConstraint
-          duplicate()
-
-      exception_set_handler()
-
 - Figure out what, if anything, we can do with timers.  They are optional in
   libparted, but do we want to support them in pyparted?
 
