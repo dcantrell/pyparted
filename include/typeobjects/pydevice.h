@@ -113,8 +113,6 @@ static PyMethodDef _ped_Device_methods[] = {
                    disk_probe_doc},
 
     /* These functions are all in pydevice.c */
-    {"get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
-                 device_get_next_doc},
     {"is_busy", (PyCFunction) py_ped_device_is_busy, METH_VARARGS,
                 device_is_busy_doc},
     {"open", (PyCFunction) py_ped_device_open, METH_VARARGS,
