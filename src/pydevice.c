@@ -328,20 +328,30 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_get_next(PyObject *s, PyObject *args) {
-    PedDevice *self = NULL, *device = NULL;
+    PyObject *in_device = NULL;
+    PedDevice *cur = NULL, *next = NULL;
     _ped_Device *ret = NULL;
 
-    self = _ped_Device2PedDevice(s);
-    device = ped_device_get_next(self);
-
-    if (device) {
-        ret = PedDevice2_ped_Device(device);
-    } else {
-        PyErr_SetNone(PyExc_IndexError);
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_Device_Type_obj, &in_device)) {
         return NULL;
     }
 
-    return (PyObject *) ret;
+    if (in_device) {
+        cur = _ped_Device2PedDevice(in_device);
+        if (!cur) {
+            return NULL;
+        }
+    }
+
+    next = ped_device_get_next(cur);
+    if (next) {
+        ret = PedDevice2_ped_Device(next);
+        return (PyObject *) ret;
+    }
+    else {
+        PyErr_SetNone(PyExc_IndexError);
+        return NULL;
+    }
 }
 
 PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {

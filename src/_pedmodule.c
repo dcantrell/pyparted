@@ -84,6 +84,10 @@ PyDoc_STRVAR(device_get_doc,
 "Return the Device corresponding to the given path.  Typically, path will\n"
 "be a device name like /dev/sda.");
 
+PyDoc_STRVAR(device_get_next_doc,
+"get_next(Device) -> Device\n\n"
+"Return the next Device in the list detected by _ped.device_probe_all().");
+
 PyDoc_STRVAR(device_probe_all_doc,
 "device_probe_all()\n\n"
 "Attempt to detect all devices.");
@@ -239,6 +243,8 @@ static struct PyMethodDef PyPedModuleMethods[] = {
     /* pydevice.c */
     {"device_get", (PyCFunction) py_ped_device_get, METH_VARARGS,
                    device_get_doc},
+    {"device_get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
+                        device_get_next_doc},
     {"device_probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
                          device_probe_all_doc},
     {"device_free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS,

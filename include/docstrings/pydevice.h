@@ -31,10 +31,6 @@ PyDoc_STRVAR(disk_probe_doc,
 "Return the type of partition table detected, or raise _ped.IOException if\n"
 "there is an error reading self.");
 
-PyDoc_STRVAR(device_get_next_doc,
-"get_next(self) -> Device\n\n"
-"Return the next Device in the list detected by _ped.device_probe_all().");
-
 PyDoc_STRVAR(device_is_busy_doc,
 "is_busy(self) -> bool\n\n"
 "Return True if this Device is currently in use, False otherwise.");
