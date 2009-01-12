@@ -1,0 +1,81 @@
+parted
+    getAllDisks()
+    getDisk("/dev/sda")
+
+    methods needed for converting types (numbers) to names (strings), or
+    maybe store it all as a hash table and do lookups
+
+    properties:
+        list of all types (see partedUtils.py in anaconda)
+        all constants from _ped need to be exposed here
+
+    class Disk:
+        properties:
+            path          "/dev/sda"
+            type          7
+            model         "Micropolis Aphex Twin Signature Edition"
+            length        32984729432
+            sectorSize    2
+            ...           (merge properties from _ped.Disk and _ped.Device)
+
+            list of Partitions
+
+        calling __init__ on Disk will probe for all Partitions, which in turn
+        probe for all FileSystems
+
+        methods:
+            getLastPartitionNum()
+            getPrimaryPartitionCount()
+            check()
+            label(...)                        type or guess based on arch
+            getPartition(...)                 by sector, extended, path, or num
+            getAllPartitions([type=XXX])
+            sync()
+            addPartition(...)
+            removePartition(...)
+            removeAllPartitions(...)
+            getMaxPartitionSize(...)
+            minimizeExtendedPartition(...)
+            beginExternalAccess()
+            endExternalAccess()
+          ? getMaxLogicalPartitions()
+          ? getMaxPrimaryPartitionCount()
+            removePartitionTable(...)
+            commit(...)
+
+    class Partition:
+        properties:
+            path          "/dev/sda47"
+            type          6
+            disk          Disk object that owns this Partition
+            number        3
+            fileSystem    FileSystem object (or None)
+            geometry      Geometry object
+            active (rw)   True/False
+            flags         or'ed list of flags
+            system        special flag or part of flags?
+            busy (ro)     True/False
+
+        __init__(disk=Disk, fs=FileSystem, geom=Geomtry, flags=XXX, system=?)
+
+        methods:
+            getMaxGeometry(Constraint)
+
+    class Geometry:
+        properties:
+            device (ro)   _ped.Device
+            start
+            length
+            end
+
+        methods:
+            intersect(Geometry)
+            testOverlap(Geometry)
+            testInside(Geometry)
+            testEqual(Geometry)
+            testSectorInside(long int)
+            read()
+            write()
+            sync()
+            check()
+            map()
