@@ -40,14 +40,12 @@
       - Audit error messages to make them more useful.
 
 - Test cases:
-    _ped.Alignment
     _ped.Constraint
     _ped.Device
     _ped.Disk
     _ped.DiskType
     _ped.FileSystem
     _ped.FileSystemType
-    _ped.Geometry
     _ped.Partition
     _ped.Timer
     _ped.constraint_new_from_min_max
