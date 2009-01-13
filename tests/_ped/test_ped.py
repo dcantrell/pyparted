@@ -37,8 +37,8 @@ class FlagGetNameTestCase(unittest.TestCase):
                   _ped.PARTITION_MSFT_RESERVED]:
             self.assert_(_ped.flag_get_name(f) != "", "Could not get name for flag %s" % f)
 
-        self.assertRaises(_ped.PartedException, _ped.flag_get_name, -1)
-        self.assertRaises(_ped.PartedException, _ped.flag_get_name, 1000)
+        self.assertRaises(ValueError, _ped.flag_get_name, -1)
+        self.assertRaises(ValueError, _ped.flag_get_name, 1000)
 
 class FlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
