@@ -85,7 +85,7 @@ PyDoc_STRVAR(device_get_doc,
 "be a device name like /dev/sda.");
 
 PyDoc_STRVAR(device_get_next_doc,
-"get_next(Device) -> Device\n\n"
+"device_get_next(Device) -> Device\n\n"
 "Return the next Device in the list detected by _ped.device_probe_all().");
 
 PyDoc_STRVAR(device_probe_all_doc,
