@@ -24,8 +24,9 @@
 
 import _ped
 
-__all__ = ['device', 'geometry']
+__all__ = ['device', 'disk', 'geometry']
 from parted.device import *
+from parted.disk import *
 from parted.geometry import *
 
 # the enumerated types in _ped need to be available from here too
