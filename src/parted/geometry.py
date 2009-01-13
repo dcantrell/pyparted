@@ -95,10 +95,8 @@ class Geometry(object):
         except ArithmeticError:
             return False
 
-    # FIXME:  should return buf, not accept it as a parameter.
-    def read(self, buf, offset, count):
+    def read(self, offset, count):
         """Read data from the region described by self.
-           buf    -- A temporary buffer to read into.
            offset -- The number of sectors from the beginning of the region
                      (not the beginning of the disk) to read.
            count  -- The number of sectors to read."""
