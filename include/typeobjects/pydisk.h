@@ -247,10 +247,6 @@ static PyMethodDef _ped_DiskType_methods[] = {
                  disk_type_register_doc},
     {"unregister", (PyCFunction) py_ped_disk_type_unregister,
                    METH_VARARGS, disk_type_unregister_doc},
-    {"get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS,
-                 disk_type_get_next_doc},
-    {"get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS,
-            disk_type_get_doc},
     {"check_feature", (PyCFunction) py_ped_disk_type_check_feature,
                       METH_VARARGS, disk_type_check_feature_doc},
     {NULL}
