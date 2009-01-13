@@ -132,8 +132,18 @@ PyDoc_STRVAR(div_round_to_nearest_doc,
 "div_round_to_nearest(a, b) -> Sector\n\n"
 "Returns the closest result of a divided by b.");
 
+PyDoc_STRVAR(disk_type_get_next_doc,
+"disk_type_get_next(self) -> DiskType\n\n"
+"Return the next DiskType after self.  If self is the last DiskType, raise\n"
+"IndexError.");
+
+PyDoc_STRVAR(disk_type_get_doc,
+"disk_type_get(string) -> DiskType\n\n"
+"Return a DiskType object with the given name.  If no DiskType exists with\n"
+"that name, raise _ped.UnknownTypeException.");
+
 PyDoc_STRVAR(partition_type_get_name_doc,
-"type_get_name(integer) -> string\n\n"
+"partition_type_get_name(integer) -> string\n\n"
 "Return a name for a partition type constant.  This mainly exists just to\n"
 "present something in user interfaces.  It doesn't really provide the best\n"
 "names for partition types.");
@@ -251,8 +261,12 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                         device_free_all_doc},
 
     /* pydisk.c */
-    {"type_get_name", (PyCFunction) py_ped_partition_type_get_name,
-                      METH_VARARGS, partition_type_get_name_doc},
+    {"disk_type_get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS,
+                           disk_type_get_next_doc},
+    {"disk_type_get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS,
+                      disk_type_get_doc},
+    {"partition_type_get_name", (PyCFunction) py_ped_partition_type_get_name,
+                                METH_VARARGS, partition_type_get_name_doc},
     {"flag_get_name", (PyCFunction) py_ped_partition_flag_get_name,
                       METH_VARARGS, partition_flag_get_name_doc},
     {"flag_get_by_name", (PyCFunction) py_ped_partition_flag_get_by_name,

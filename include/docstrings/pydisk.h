@@ -230,16 +230,6 @@ PyDoc_STRVAR(disk_type_unregister_doc,
 "unregister(self) -> None\n\n"
 "Remove self from parted's internal list of DiskType objects.");
 
-PyDoc_STRVAR(disk_type_get_next_doc,
-"get_next(self) -> DiskType\n\n"
-"Return the next DiskType after self.  If self is the last DiskType, raise\n"
-"IndexError.");
-
-PyDoc_STRVAR(disk_type_get_doc,
-"get(string) -> DiskType\n\n"
-"Return a DiskType object with the given name.  If no DiskType exists with\n"
-"that name, raise _ped.UnknownTypeException.");
-
 PyDoc_STRVAR(disk_type_check_feature_doc,
 "check_feature(self, DiskTypeFeature) -> boolean\n\n"
 "Return whether or not self supports a particular partition table feature.\n"
