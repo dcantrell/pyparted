@@ -24,6 +24,10 @@
 
 import _ped
 
+__all__ = ['device', 'geometry']
+from parted.device import *
+from parted.geometry import *
+
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR
 UNIT_BYTE                = _ped.UNIT_BYTE
@@ -147,6 +151,12 @@ partitionTypesDict = {
     0xfd: "Linux RAID",
     0xff: "BBT"
 }
+
+class ReadOnlyProperty(Exception):
+    """Exception raised when a write operation occurs on a read-only property."""
+
+    def __init__(self, property=''):
+        self.message = "%s is a read-only property" % (property,)
 
 def getDisk(path):
     """Given the operating system level path to a device node, return
