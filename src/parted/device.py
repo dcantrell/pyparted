@@ -131,3 +131,9 @@ class Device(object):
            this Device."""
 
         return self.__device.get_constraint()
+
+    def getPedDevice(self):
+        """Return the _ped.Device object contained in this Device.
+           For internal module use only."""
+
+        return self.__device
