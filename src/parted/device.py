@@ -24,9 +24,17 @@
 import _ped
 import parted
 
-# XXX: add python docstrings
+class Device(object):
+    """Device()
 
-class Device(Object):
+       Device represents a phyiscal piece of hardware in the system, e.g. a
+       disk.  A Device should be considered a low-level and operating system
+       specific interface to the hardware.
+
+       A number of read-only properties about the Device are available.
+
+       For information on the individual methods, see help(Device.METHODNAME)"""
+
     def __init__(self, path=None, device=None):
         if path is not None:
             self.__device = _ped.device_get(path)
@@ -35,22 +43,22 @@ class Device(Object):
         else:
             raise _ped.PartedException, "no path or _ped.Device specified"
 
-    model = property(lambda s: s.__device.model, lambda s, v: s.__device.model = v)
-    path = property(lambda s: s.__device.path, lambda s, v: s.__device.path = v)
-    type = property(lambda s: s.__device.type, lambda s, v: s.__device.type = v)
-    sectorSize = property(lambda s: s.__device.sector_size, lambda s, v: s.__device.sector_size = v)
-    physicalSectorSize = property(lambda s: s.__device.phys_sector_size, lambda s, v: s.__device.phys_sector_size = v)
-    length = property(lambda s: s.__device.length, lambda s, v: s.__device.length = v)
-    openCount = property(lambda s: s.__device.open_count, lambda s, v: s.__device.open_count = v)
-    readOnly = property(lambda s: s.__device.read_only, lambda s, v: s.__device.read_only = v)
-    externalMode = property(lambda s: s.__device.external_mode, lambda s, v: s.__device.external_mode = v)
-    dirty = property(lambda s: s.__device.dirty, lambda s, v: s.__device.dirty = v)
-    bootDirty = property(lambda s: s.__device.boot_dirty, lambda s, v: s.__device.boot_dirty = v)
-    host = property(lambda s: s.__device.host, lambda s, v: s.__device.host = v)
-    did = property(lambda s: s.__device.did, lambda s, v: s.__device.did = v)
+    model = property(lambda s: s.__device.model, lambda s, v: setattr(s.__device, "model", v))
+    path = property(lambda s: s.__device.path, lambda s, v: setattr(s.__device, "path", v))
+    type = property(lambda s: s.__device.type, lambda s, v: setattr(s.__device, "type", v))
+    sectorSize = property(lambda s: s.__device.sector_size, lambda s, v: setattr(s.__device, "sector_size", v))
+    physicalSectorSize = property(lambda s: s.__device.phys_sector_size, lambda s, v: setattr(s.__device, "phys_sector_size", v))
+    length = property(lambda s: s.__device.length, lambda s, v: setattr(s.__device, "length", v))
+    openCount = property(lambda s: s.__device.open_count, lambda s, v: setattr(s.__device, "open_count", v))
+    readOnly = property(lambda s: s.__device.read_only, lambda s, v: setattr(s.__device, "read_only", v))
+    externalMode = property(lambda s: s.__device.external_mode, lambda s, v: setattr(s.__device, "external_mode", v))
+    dirty = property(lambda s: s.__device.dirty, lambda s, v: setattr(s.__device, "dirty", v))
+    bootDirty = property(lambda s: s.__device.boot_dirty, lambda s, v: setattr(s.__device, "boot_dirty", v))
+    host = property(lambda s: s.__device.host, lambda s, v: setattr(s.__device, "host", v))
+    did = property(lambda s: s.__device.did, lambda s, v: setattr(s.__device, "did", v))
 
     # XXX: define parted.ReadOnlyProperty exception
-    busy = property(lambda s: s.__device.is_busy(), lambda s: raise parted.ReadOnlyProperty, "busy is a read-only property")
+    busy = property(lambda s: s.__device.is_busy(), lambda s, v: raise parted.ReadOnlyProperty, "busy is a read-only property")
 
     def open(self):
         return self.__device.open()
