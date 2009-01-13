@@ -379,20 +379,26 @@ PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
-    PedDiskType *type = NULL, *ret_type = NULL;
+    PyObject *in_type = NULL;
+    PedDiskType *cur = NULL, *next = NULL;
     _ped_DiskType *ret = NULL;
 
-    if (s == Py_None)
-       type = NULL;
-    else
-       type = _ped_DiskType2PedDiskType(s);
-
-    ret_type = ped_disk_type_get_next(type);
-    if (ret_type) {
-        ret = PedDiskType2_ped_DiskType(ret_type);
-        return (PyObject *) ret;
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_DiskType_Type_obj, &in_type)) {
+        return NULL;
     }
-    else {
+
+    if (in_type) {
+        cur = _ped_DiskType2PedDiskType(in_type);
+        if (!cur) {
+            return NULL;
+        }
+    }
+
+    next = ped_disk_type_get_next(cur);
+    if (next) {
+        ret = PedDiskType2_ped_DiskType(next);
+        return (PyObject *) ret;
+    } else {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
