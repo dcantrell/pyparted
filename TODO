@@ -55,6 +55,7 @@
     _ped.constraint_new_from_max
     _ped.constraint_any
     _ped.constraint_exact
+    _ped.device_get_next
     _ped.file_system_probe
     _ped.file_system_probe_specific
     _ped.unit_format_custom_byte
