@@ -27,8 +27,6 @@ from parted import Device
 
 # XXX: add docstrings!
 
-# XXX: figure out how to do _ped.DiskType
-
 class Disk(object):
     # XXX: fixme
     def __init__(self, device=None, type=None):
@@ -90,7 +88,7 @@ class Disk(object):
     def deleteAllPartitions(self):
         return s.__disk.delete_all()
 
-    def setPartitionGeometry(self, partition=None, constraint=None, start, end):
+    def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
         return s.__disk.set_partition_geom(partition, constraint, start, end)
 
     def maximizePartition(self, partition=None, constraint=None):
@@ -107,3 +105,15 @@ class Disk(object):
 
     def getExtendedPartition(self):
         return s.__disk.extended_partition()
+
+# collect all disk types and store them in a hash
+diskType = {}
+type = _ped.disk_type_get_next()
+diskType[type.name] = type
+
+while True:
+    try:
+        type = _ped.disk_type_get_next(type)
+        diskType[type.name] = type
+    except:
+        break
