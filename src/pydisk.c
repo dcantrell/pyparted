@@ -989,6 +989,11 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (flag < PED_PARTITION_FIRST_FLAG || flag > PED_PARTITION_LAST_FLAG) {
+        PyErr_SetString(PyExc_ValueError, "Invalid flag provided.");
+        return NULL;
+    }
+
     if (flag) {
         ret = (char *) ped_partition_flag_get_name(flag);
 
