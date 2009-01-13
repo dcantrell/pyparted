@@ -36,6 +36,11 @@ class Device(object):
        For information on the individual methods, see help(Device.METHODNAME)"""
 
     def __init__(self, path=None, device=None):
+        """Create a new Device object based on the specified path or the
+           already existing _ped.Device object.  You must provide either a
+           path (e.g., "/dev/sda") or an existing _ped.Device object, but
+           not both."""
+
         if path is not None:
             self.__device = _ped.device_get(path)
         elif device is not None:
@@ -63,37 +68,66 @@ class Device(object):
     busy = property(lambda s: s.__device.is_busy(), lambda s, v: s.__readOnlyProperty("busy"))
 
     def open(self):
+        """Open this Device for read operations."""
+
         return self.__device.open()
 
     def close(self):
+        """Close this Device.  Used after open() method calls."""
+
         return self.__device.close()
 
     def destroy(self):
+        """Destroy this Device.  Operating system specific."""
+
         return self.__device.destroy()
 
     def removeFromCache(self):
+        """Remove this Device from the internal libparted device cache."""
+
         return self.__device.cache_remove()
 
     def beginExternalAccess(self):
+        """Set up the Device for use by an external program.  Call this method
+           before running an external program that uses the Device."""
+
         return self.__device.begin_external_access()
 
     def endExternalAccess(self):
+        """Turn off external access mode for the Device.  Call this method once
+           your external program has finished using the Device."""
+
         return self.__device.end_external_access()
 
     def read(self, buffer, start, count):
+        """From the sector indentified by start, read count sectors from the
+           Device in to buffer."""
+
         return self.__device.read(buffer, start, count)
 
     def write(self, buffer, start, count):
+        """From the sector identified by start, write count sectors from
+           buffer to the Device."""
+
         return self.__device.write(buffer, start, count)
 
     def sync(self, fast=False):
+        """Perform a operating-system specific sync(2) operation on the
+           Device.  If fast is True, try to perform a fast sync(2)."""
+
         if fast:
             return self.__device.sync_fast()
         else:
             return self.__device.sync()
 
     def check(self, buffer, start, count):
+        """From the sector identified by start, perform an operating
+           system specific check on count sectors."""
+
         return self.__device.check(buffer, start, count)
 
     def getConstraint(self):
+        """Return a Constraint defining the limitations imposed by
+           this Device."""
+
         return self.__device.get_constraint()
