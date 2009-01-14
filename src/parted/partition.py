@@ -25,13 +25,31 @@
 import _ped
 import parted
 
-class Partition(object):
-    def __init__(self, disk, type, fs, geom):
-        self._disk = disk
-        self._fileSystem = fs
-        self._geometry = geom
+# XXX: add docstrings
 
-        self.__partition = _ped.Partition(disk, type, fs.type, geom.start, geom.end)
+class Partition(object):
+    def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
+        if PedPartition is None:
+            if disk is None:
+                raise _ped.PartedException, "no disk specified"
+            elif type is None:
+                raise _ped.PartedException, "no type specified"
+            elif fs is None:
+                raise _ped.PartedException, "no fs specified"
+            elif geometry is None:
+                raise _ped.PartedException, "no geometry specified"
+            else:
+                raise _ped.PartedException, "no PedPartition specified"
+
+            self._disk = disk
+            self._fileSystem = fs
+            self._geometry = geometry
+            self.__partition = _ped.Partition(disk, type, fs.type, geometry.start, geometry.end)
+        else:
+            self.__partition = PedPartition
+            self._disk = self.__partition.disk
+            # XXX: self._fileSystem = XXX
+            self._geometry = self.__partition.geom
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
