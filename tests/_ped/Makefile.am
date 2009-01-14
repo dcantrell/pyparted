@@ -21,7 +21,7 @@
 #
 
 EXTRA_DIST = baseclass.py $(TESTS)
-MAINTAINERCLEANFILES = Makefile.in
+MAINTAINERCLEANFILES = Makefile.in *.pyc
 
 TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs
 
