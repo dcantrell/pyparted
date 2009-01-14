@@ -42,14 +42,14 @@ class Disk(object):
         while i <= self.lastPartitionNumber:
             self.partitions[i] = parted.Partition(self.__disk.get_partition(i))
 
-    def __readOnlyProperty(self, property=''):
+    def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
     number = property(lambda s: s.__disk.num, lambda s, v: setattr(s.__disk, "num", v))
     type = property(lambda s: s.__disk.type, lambda s, v: setattr(s.__disk, "type", v))
-    primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnlyProperty("primaryPartitionCount"))
-    lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnlyProperty("lastPartitionNumber"))
-    maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnlyProperty("maxPrimaryPartitionCount"))
+    primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
+    lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
+    maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
 
     def clobber(self, type=None):
         if type is None:

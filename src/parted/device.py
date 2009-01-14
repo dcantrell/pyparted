@@ -48,7 +48,7 @@ class Device(object):
         else:
             raise _ped.PartedException, "no path or _ped.Device specified"
 
-    def __readOnlyProperty(self, property=''):
+    def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
     model = property(lambda s: s.__device.model, lambda s, v: setattr(s.__device, "model", v))
@@ -65,7 +65,7 @@ class Device(object):
     host = property(lambda s: s.__device.host, lambda s, v: setattr(s.__device, "host", v))
     did = property(lambda s: s.__device.did, lambda s, v: setattr(s.__device, "did", v))
 
-    busy = property(lambda s: s.__device.is_busy(), lambda s, v: s.__readOnlyProperty("busy"))
+    busy = property(lambda s: s.__device.is_busy(), lambda s, v: s.__readOnly("busy"))
 
     def open(self):
         """Open this Device for read operations."""
