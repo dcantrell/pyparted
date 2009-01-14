@@ -1,7 +1,7 @@
 #
 # Makefile.am for pyparted src subdirectory
 #
-# Copyright (C) 2007  Red Hat, Inc.
+# Copyright (C) 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,27 +17,7 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+# Red Hat Author(s): Chris Lumens  <clumens@redhat.com>
 #
 
-SUBDIRS = parted
-
-CFLAGS = -Wall -Wmissing-prototypes
-
-INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
-
-# install Python module code directly in to site-packages
-pkgpyexecdir = $(pyexecdir)
-pkgpythondir = $(pythondir)
-
-# libparted binding
-pkgpyexec_LTLIBRARIES = _pedmodule.la
-_pedmodule_la_CFLAGS = $(LIBPARTED_CFLAGS)
-_pedmodule_la_LDFLAGS = -module -avoid-version $(PYTHON_LDFLAGS) \
-                           $(LIBPARTED_LDFLAGS)
-_pedmodule_la_LIBADD = $(PYTHON_LIBS) $(LIBPARTED_LIBS)
-_pedmodule_la_SOURCES = convert.c _pedmodule.c pyconstraint.c pydevice.c \
-                        pydisk.c pyfilesys.c pygeom.c pynatmath.c pytimer.c \
-                        pyunit.c
-
-MAINTAINERCLEANFILES = Makefile.in
+EXTRA_DIST = *.py
