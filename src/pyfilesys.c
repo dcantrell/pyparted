@@ -224,28 +224,29 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
-    PedFileSystemType *self_fstype = NULL, *fstype = NULL;
+    PyObject *in_fstype = NULL;
+    PedFileSystemType *cur = NULL, *next = NULL;
     _ped_FileSystemType *ret = NULL;
 
-    if (s == Py_None) {
-        self_fstype = NULL;
-    } else {
-        self_fstype = _ped_FileSystemType2PedFileSystemType(s);
-        if (!self_fstype) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_FileSystemType_Type_obj, in_fstype)) {
+        return NULL;
+    }
+
+    if (in_fstype) {
+        cur = _ped_FileSystemType2PedFileSystemType(in_fstype);
+        if (!cur) {
             return NULL;
         }
     }
 
-    fstype = ped_file_system_type_get_next(self_fstype);
-    if (fstype) {
-        ret = PedFileSystemType2_ped_FileSystemType(fstype);
+    next = ped_file_system_type_get_next(cur);
+    if (next) {
+        ret = PedFileSystemType2_ped_FileSystemType(next);
         return (PyObject *) ret;
-    }
-    else {
+    } else {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
-
 }
 
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
