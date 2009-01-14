@@ -29,3 +29,6 @@ MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        INSTALL aclocal.m4 configure
 
 MOSTLYCLEANDIRS = m4
+
+pychecker: all
+	$(MAKE) -C src/parted pychecker
