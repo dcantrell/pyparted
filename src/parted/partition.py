@@ -33,8 +33,8 @@ class Partition(object):
 
         self.__partition = _ped.Partition(disk, type, fs.type, geom.start, geom.end)
 
-    def __readOnly(self, prop):
-        raise parted.ReadOnlyProperty, prop
+    def __readOnly(self, property):
+        raise parted.ReadOnlyProperty, property
 
     active = property(lambda s: s.__partition.is_active(), lambda s, v: s.__readOnly("active"))
     busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
