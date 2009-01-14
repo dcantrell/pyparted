@@ -108,6 +108,16 @@ PyDoc_STRVAR(file_system_probe_specific_doc,
 "Look at Geometry for FileSystemType, return FileSystem for that type\n"
 "if found in the specified region.");
 
+PyDoc_STRVAR(file_system_type_get_doc,
+"file_system_type_get(self, string) -> _ped.FileSystemType\n\n"
+"Get a FileSystemType by its name, or raise _ped.UnknownTypeException if no\n"
+"type by that name exists.");
+
+PyDoc_STRVAR(file_system_type_get_next_doc,
+"file_system_type_get_next(self) -> _ped.FileSystemType\n\n"
+"Get the next FileSystemType in parted's list after self, or raise IndexError\n"
+"if there are no more types.");
+
 PyDoc_STRVAR(round_up_to_doc,
 "round_up_to_doc(Sector, grain_size) -> Sector\n\n"
 "Rounds Sector up to the closest multiple of grain_size.");
@@ -279,6 +289,10 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                           file_system_probe_doc},
     {"file_system_probe_specific", (PyCFunction) py_ped_file_system_probe_specific,
                                    METH_VARARGS, file_system_probe_specific_doc},
+    {"file_system_type_get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS,
+                             file_system_type_get_doc},
+    {"file_system_type_get_next", (PyCFunction) py_ped_file_system_type_get_next,
+                                  METH_VARARGS, file_system_type_get_next_doc},
 
     /* pynatmath.c */
     {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,

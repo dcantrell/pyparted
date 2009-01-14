@@ -33,16 +33,6 @@ PyDoc_STRVAR(file_system_type_register_doc,
 PyDoc_STRVAR(file_system_type_unregister_doc,
 "unregister(self) -> None\n\n");
 
-PyDoc_STRVAR(file_system_type_get_doc,
-"get(self, string) -> _ped.FileSystemType\n\n"
-"Get a FileSystemType by its name, or raise _ped.UnknownTypeException if no\n"
-"type by that name exists.");
-
-PyDoc_STRVAR(file_system_type_get_next_doc,
-"get_next(self) -> _ped.FileSystemType\n\n"
-"Get the next FileSystemType in parted's list after self, or raise IndexError\n"
-"if there are no more types.");
-
 PyDoc_STRVAR(file_system_clobber_doc,
 "clobber(self) -> boolean\n\n"
 "This method erases any file system signatures found in the region given by\n"

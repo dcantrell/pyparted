@@ -38,10 +38,6 @@ static PyMethodDef _ped_FileSystemType_methods[] = {
                  METH_VARARGS, file_system_type_register_doc},
     {"unregister", (PyCFunction) py_ped_file_system_type_unregister,
                    METH_VARARGS, file_system_type_unregister_doc},
-    {"get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS,
-             file_system_type_get_doc},
-    {"get_next", (PyCFunction) py_ped_file_system_type_get_next,
-                 METH_VARARGS, file_system_type_get_next_doc},
     {NULL}
 };
 
