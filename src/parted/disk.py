@@ -33,14 +33,14 @@ class Disk(object):
         if device is None or type is None:
             raise _ped.PartedException, "no type or _ped.Device specified"
 
-        self.__device = device
-        self.__type = type
+        self._device = device
+        self._type = type
         self.__disk = _ped.Disk(self.__device.getPedDevice(), self.__type)
-        self.__partitions = {}
+        self.partitions = {}
 
         i = 1
         while i <= self.lastPartitionNumber:
-            self.__partitions[i] = parted.Partition(self.__disk.get_partition(i))
+            self.partitions[i] = parted.Partition(self.__disk.get_partition(i))
 
     def __readOnlyProperty(self, property=''):
         raise parted.ReadOnlyProperty, property
@@ -108,12 +108,12 @@ class Disk(object):
 
 # collect all disk types and store them in a hash
 diskType = {}
-type = _ped.disk_type_get_next()
-diskType[type.name] = type
+__type = _ped.disk_type_get_next()
+diskType[__type.name] = __type
 
 while True:
     try:
-        type = _ped.disk_type_get_next(type)
-        diskType[type.name] = type
+        __type = _ped.disk_type_get_next(__type)
+        diskType[__type.name] = __type
     except:
         break
