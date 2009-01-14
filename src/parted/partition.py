@@ -19,9 +19,11 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 
 import _ped
+import parted
 
 class Partition(object):
     def __init__(self, disk, type, fs, geom):
@@ -31,16 +33,16 @@ class Partition(object):
 
         self.__partition = _ped.Partition(disk, type, fs.type, geom.start, geom.end)
 
-    def _readOnly(self, prop):
-        raise parted.ReadOnlyProperty, "%s is a read-only property"
+    def __readOnly(self, prop):
+        raise parted.ReadOnlyProperty, prop
 
-    active = property(lambda s: s.__partition.is_active(), lambda s, v: s._readOnly("active"))
-    busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s._readOnly("busy"))
-    disk = property(lambda s: s._disk, lambda s, v: s._readOnly("disk"))
+    active = property(lambda s: s.__partition.is_active(), lambda s, v: s.__readOnly("active"))
+    busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
+    disk = property(lambda s: s._disk, lambda s, v: s.__readOnly("disk"))
     filesystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
     number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
-    path = property(lambda s: s.__partition.get_path(), lambda s, v: s._readOnly("path"))
+    path = property(lambda s: s.__partition.get_path(), lambda s, v: s.__readOnly("path"))
     system = property(, lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
 
