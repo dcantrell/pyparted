@@ -88,4 +88,4 @@ class Partition(object):
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
            For internal module use only."""
-       return self.__partition
+        return self.__partition

@@ -94,7 +94,7 @@ class FileSystem(object):
     def getPedFileSystem(self):
         """Return the _ped.FileSystem object contained in this FileSystem.
            For internal module use only."""
-       return self.__fileSystem
+        return self.__fileSystem
 
 # collect all filesystem types and store them in a hash
 fileSystemType = {}

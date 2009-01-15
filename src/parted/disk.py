@@ -113,7 +113,7 @@ class Disk(object):
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal
            module use only."""
-       return self.__disk
+        return self.__disk
 
 # collect all disk types and store them in a hash
 diskType = {}
