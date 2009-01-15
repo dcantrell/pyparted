@@ -24,4 +24,4 @@ EXTRA_DIST = *.py
 MAINTAINERCLEANFILES = Makefile.in *.pyc
 
 pychecker:
-	PYTHONPATH=$(top_builddir)/src/.libs:$(top_builddir)/src pychecker *.py
+	PYTHONPATH=$(top_builddir)/src/.libs:$(top_builddir)/src pychecker $(PYCHECKEROPTS) *.py
