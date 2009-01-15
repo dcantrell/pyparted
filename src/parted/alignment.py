@@ -70,3 +70,8 @@ class Alignment(object):
         """Determine whether sector lies inside geom and satisfies the
            alignment constraint self."""
         return self.__alignment.is_aligned(geom, sector)
+
+    def getPedAlignment(self):
+        """Return the _ped.Alignment object contained in this Alignment.
+           For internal module use only."""
+        return self.__alignment

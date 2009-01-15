@@ -84,3 +84,8 @@ class Partition(object):
            PartitionException will be raised.  See getFlag() for more help on
            working with partition flags."""
         return self.__partition.set_flag(flag, value)
+
+    def getPedPartition(self):
+        """Return the _ped.Partition object contained in this Partition.
+           For internal module use only."""
+       return self.__partition
