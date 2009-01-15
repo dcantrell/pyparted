@@ -78,14 +78,6 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         # TODO
         pass
 
-class AlignmentDestroyTestCase(unittest.TestCase):
-    def setUp(self):
-        self.a = _ped.Alignment(27, 49)
-
-    def runTest(self):
-        self.a.destroy()
-        self.assert_(hasattr(self.a, "offset") == False)
-
 class AlignmentAlignUpTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -132,7 +124,6 @@ def suite():
     suite.addTest(AlignmentGetSetTestCase())
     suite.addTest(AlignmentDuplicateTestCase())
     suite.addTest(AlignmentIntersectTestCase())
-    suite.addTest(AlignmentDestroyTestCase())
     suite.addTest(AlignmentAlignUpTestCase())
     suite.addTest(AlignmentAlignDownTestCase())
     suite.addTest(AlignmentAlignNearestTestCase())
