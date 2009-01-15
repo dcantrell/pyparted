@@ -228,7 +228,7 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     PedFileSystemType *cur = NULL, *next = NULL;
     _ped_FileSystemType *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "|O!", &_ped_FileSystemType_Type_obj, in_fstype)) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_FileSystemType_Type_obj, &in_fstype)) {
         return NULL;
     }
 
