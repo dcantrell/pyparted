@@ -40,7 +40,7 @@ class Alignment(object):
             self.__alignment = _ped.Alignment(offset, grainSize)
 
     offset = property(lambda s: s.__alignment.offset, lambda s, v: s.__alignment.offset("offset", v))
-    grainSize = property(lambda s: s.__alignment.grainSize, lambda s, v: s.__alignment.offset("grainSize", v))
+    grainSize = property(lambda s: s.__alignment.grainSize, lambda s, v: s.__alignment.offset("grain_size", v))
 
     def intersect(self, b):
         """Create and return a new Alignment that describes the intersection of
