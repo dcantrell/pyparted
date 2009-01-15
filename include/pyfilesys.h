@@ -63,8 +63,6 @@ void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg);
 int _ped_FileSystemType_clear(_ped_FileSystemType *self);
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
-int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
-                            void *closure);
 
 extern PyTypeObject _ped_FileSystemType_Type_obj;
 
@@ -83,7 +81,6 @@ int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg);
 int _ped_FileSystem_clear(_ped_FileSystem *self);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
-int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure);
 
 extern PyTypeObject _ped_FileSystem_Type_obj;
 
