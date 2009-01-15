@@ -321,32 +321,6 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     }
 }
 
-int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure) {
-    char *member = (char *) closure;
-
-    if (member == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped.DiskType()");
-        return -1;
-    }
-
-    if (!strcmp(member, "name")) {
-        self->name = PyString_AsString(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else if (!strcmp(member, "features")) {
-        self->features = PyLong_AsLongLong(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else {
-        PyErr_Format(PyExc_AttributeError, "_ped.DiskType object has no attribute %s", member);
-        return -1;
-    }
-
-    return 0;
-}
-
 /* 1:1 function mappings for disk.h in libparted */
 PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args) {
     PedDiskType *disktype = NULL;

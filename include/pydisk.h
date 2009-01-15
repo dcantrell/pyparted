@@ -126,7 +126,6 @@ void _ped_DiskType_dealloc(_ped_DiskType *self);
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg);
 int _ped_DiskType_clear(_ped_DiskType *self);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
-int _ped_DiskType_set(_ped_DiskType *self, PyObject *value, void *closure);
 
 extern PyTypeObject _ped_DiskType_Type_obj;
 
