@@ -253,9 +253,9 @@ static PyMethodDef _ped_DiskType_methods[] = {
 };
 
 static PyGetSetDef _ped_DiskType_getset[] = {
-    {"name", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
+    {"name", (getter) _ped_DiskType_get, NULL,
              "The name of the partition table type.", "name"},
-    {"features", (getter) _ped_DiskType_get, (setter) _ped_DiskType_set,
+    {"features", (getter) _ped_DiskType_get, NULL,
                  "A bitmask of features supported by this DiskType.",
                  "features"},
     {NULL}  /* Sentinel */
