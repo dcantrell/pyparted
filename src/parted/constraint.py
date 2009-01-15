@@ -64,8 +64,8 @@ class Constraint(object):
                                                 startRange, endRange,
                                                 minSize, maxSize)
 
-    min_size = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
-    max_size = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
+    minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
+    maxSize = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
 
     def intersect(self, b):
         """Return a new constraint that is the intersection of self and the
