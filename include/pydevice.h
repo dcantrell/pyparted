@@ -95,7 +95,6 @@ void _ped_Device_dealloc(_ped_Device *self);
 int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg);
 int _ped_Device_clear(_ped_Device *self);
 PyObject *_ped_Device_get(_ped_Device *self, void *closure);
-int _ped_Device_set(_ped_Device *self, PyObject *value, void *closure);
 
 extern PyTypeObject _ped_Device_Type_obj;
 
