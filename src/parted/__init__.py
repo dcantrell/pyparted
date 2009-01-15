@@ -183,6 +183,18 @@ def getAllDisks():
         except IndexError:
             return lst
 
+def probeForSpecificFileSystem(fstype, geometry):
+    """Call the _ped.file_system_probe_specific() function given the
+       filesystem type and geometry.  fstype must be a string
+       representing a valid _ped.FileSystemType, geometry is a
+       parted.Geometry."""
+    geom = _ped.file_system_probe_specific(parted.fileSystemType[fstype], geometry.getPedGeometry())
+    return parted.Geometry(geom)
+
+def probeFileSystem(geometry):
+    fstype = _ped.file_system_probe(geometry.getPedGeometry())
+    return fstype.name
+
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     ver = {}
