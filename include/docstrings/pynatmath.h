@@ -27,10 +27,6 @@
 
 #include <Python.h>
 
-PyDoc_STRVAR(alignment_destroy_doc,
-"destroy(self) -> None\n\n"
-"Destroys the Alignment object.");
-
 PyDoc_STRVAR(alignment_duplicate_doc,
 "duplicate(self) -> _ped.Alignment\n\n"
 "Create an identical copy of self.  Raises _ped.CreateException if the\n"

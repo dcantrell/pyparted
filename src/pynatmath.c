@@ -161,13 +161,6 @@ PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_greatest_common_divisor(a, b));
 }
 
-PyObject *py_ped_alignment_destroy(PyObject *s, PyObject *args) {
-    Py_CLEAR(s);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
     PedAlignment *alignment = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
