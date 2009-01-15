@@ -114,6 +114,17 @@ PyDoc_STRVAR(device_get_constraint_doc,
 "geometry.  This is, for example, import for media that have a physical\n"
 "sector size that is a multiple of the logical sector size.");
 
+PyDoc_STRVAR(file_system_get_create_constraint_doc,
+"get_create_constraint(self, Device) -> Constraint\n\n"
+"Return a constraint that all filesystems of type self.type that are created\n"
+"on Device must satisfy.  This includes restrictions on the minimum or\n"
+"maximum size of a given filesystem type, or where it must be created.");
+
+PyDoc_STRVAR(file_system_get_copy_constraint_doc,
+"get_copy_constraint(self, Device) -> Constraint\n\n"
+"Return a constraint on copying self to somewhere on Device using\n"
+"self.copy()");
+
 PyDoc_STRVAR(_ped_CHSGeometry_doc,
 "A _ped.CHSGeometry object describes a disk using the older CHS style\n"
 "of defining disk geometry.  CHS stands for cylinders-heads-sectors.\n\n"

@@ -84,22 +84,11 @@ PyDoc_STRVAR(file_system_resize_doc,
 "raised.  This method is not necessarily implemented for all filesystem\n"
 "types parted understands.");
 
-PyDoc_STRVAR(file_system_get_create_constraint_doc,
-"get_create_constraint(self, Device) -> Constraint\n\n"
-"Return a constraint that all filesystems of type self.type that are created\n"
-"on Device must satisfy.  This includes restrictions on the minimum or\n"
-"maximum size of a given filesystem type, or where it must be created.");
-
 PyDoc_STRVAR(file_system_get_resize_constraint_doc,
 "get_resize_constraint(self) -> Constraint\n\n"
 "Return a constraint that represents all possible ways self can be resized\n"
 "with self.resize().  This takes into account the amount of space already\n"
 "in use on the filesystem.");
-
-PyDoc_STRVAR(file_system_get_copy_constraint_doc,
-"get_copy_constraint(self, Device) -> Constraint\n\n"
-"Return a constraint on copying self to somewhere on Device using\n"
-"self.copy()");
 
 PyDoc_STRVAR(_ped_FileSystemType_doc,
 "A _ped.FileSystemType object gives a name to a single filesystem that parted\n"
