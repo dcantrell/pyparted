@@ -25,6 +25,8 @@ import _ped
 import unittest
 import os, tempfile
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
@@ -47,6 +49,11 @@ class FlagGetByNameTestCase(unittest.TestCase):
             self.assert_(_ped.flag_get_by_name(f) != "", "Could not get flag %s" % f)
 
         self.assert_(_ped.flag_get_by_name("nosuchflag") == 0)
+
+class FlagNextTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
 
 class GreatestCommonDivisorTestCase(unittest.TestCase):
     def runTest(self):
@@ -72,23 +79,36 @@ class ConstraintNewFromMaxTestCase(unittest.TestCase):
     def runTest(self):
         pass
 
-class ConstraintAnyTestCase(unittest.TestCase):
-    # TODO
+class ConstraintAnyTestCase(RequiresDevice):
     def runTest(self):
-        pass
+        self.assertRaises(TypeError, _ped.constraint_any, None)
 
-class ConstraintExactTestCase(unittest.TestCase):
-    # TODO
+        constraint = _ped.constraint_any(self._device)
+        self.assert_(isinstance(constraint, _ped.Constraint))
+
+        for testGeom in [_ped.Geometry(self._device, 0, 5),
+                         _ped.Geometry(self._device, 10, 25),
+                         _ped.Geometry(self._device, 0, 100)]:
+            self.assertTrue(constraint.is_solution(testGeom))
+
+class ConstraintExactTestCase(RequiresDevice):
     def runTest(self):
-        pass
+        geom = _ped.Geometry(self._device, 0, 100)
 
-class DeviceGetTestCase(unittest.TestCase):
-    def setUp(self):
-        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
-        f = os.fdopen(fd)
-        f.seek(128000)
-        os.write(fd, "0")
+        self.assertRaises(TypeError, _ped.constraint_exact, None)
 
+        constraint = _ped.constraint_exact(geom)
+        self.assert_(isinstance(constraint, _ped.Constraint))
+
+        for testGeom in [_ped.Geometry(self._device, 1, 100),
+                         _ped.Geometry(self._device, 0, 99),
+                         _ped.Geometry(self._device, 10, 20),
+                         _ped.Geometry(self._device, 50, 101)]:
+            self.assertFalse(constraint.is_solution(testGeom))
+
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 0, 100)))
+
+class DeviceGetTestCase(RequiresDevice):
     def runTest(self):
         # Try getting the device we just made.
         self.assert_(isinstance(_ped.device_get(self.path), _ped.Device))
@@ -98,8 +118,53 @@ class DeviceGetTestCase(unittest.TestCase):
         self.assertRaises(_ped.DiskException, _ped.device_get, "")
         self.assertRaises(_ped.DiskException, _ped.device_get, None)
 
-    def tearDown(self):
-        os.unlink(self.path)
+class DeviceGetNextTestCase(unittest.TestCase, BuildList):
+    def runTest(self):
+        # Make sure there are some devices in the system first and then
+        # make a list out of them.  That's easier to work with.
+        _ped.device_probe_all()
+        lst = self.getDeviceList(_ped.device_get_next)
+
+        # Now the test cases.
+        self.assert_(len(lst) > 0)
+        self.assertRaises(TypeError, _ped.device_get_next, None)
+
+        for ele in lst:
+            self.assert_(isinstance(ele, _ped.Device))
+
+        self.assertRaises(IndexError, _ped.device_get_next, lst[-1])
+
+class DeviceProbeAllTestCase(RequiresDevice, BuildList):
+    def runTest(self):
+        # Since we inherit from RequiresDevice, we can test that the temp
+        # device we created is in the results list.  I can't really think of
+        # any other way to test this method except by getting a list of devices
+        # via some other mechanism and comparing that to the device_probe_all
+        # results.
+        _ped.device_probe_all()
+        lst = self.getDeviceList(_ped.device_get_next)
+
+        self.assert_(len(lst) > 0)
+        self.assert_(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)) > 0)
+
+class DiskTypeGetTestCase(unittest.TestCase):
+    def runTest(self):
+        for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
+                  "pc98","sun"]:
+            self.assert_(_ped.disk_type_get(d) != "", "Could not get type %s" % d)
+
+        self.assertRaises(_ped.UnknownTypeException, _ped.disk_type_get, "nosuch")
+
+class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
+    def runTest(self):
+        lst = self.getDeviceList(_ped.disk_type_get_next)
+        self.assert_(len(lst) > 0)
+        self.assertRaises(TypeError, _ped.device_get_next, None)
+
+        for ele in lst:
+            self.assert_(isinstance(ele, _ped.DiskType))
+
+        self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
 class DivRoundToNearestTestCase(unittest.TestCase):
     def runTest(self):
@@ -125,6 +190,27 @@ class FileSystemProbeSpecificTestCase(unittest.TestCase):
     def runTest(self):
         pass
 
+class FileSystemTypeGetTestCase(unittest.TestCase):
+    def runTest(self):
+        for f in ["affs0", "amufs", "apfs1", "asfs", "ext2", "ext3", "fat16",
+                  "fat32", "hfs", "hfs+", "hfsx", "hp-ufs", "jfs", "linux-swap",
+                  "ntfs", "reiserfs", "sun-ufs", "xfs"]:
+            self.assert_(isinstance(_ped.file_system_type_get(f), _ped.FileSystemType),
+                         "Could not get fs type %s" % f)
+
+        self.assertRaises(_ped.UnknownTypeException, _ped.file_system_type_get, "nosuch")
+
+class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
+    def runTest(self):
+        lst = self.getDeviceList(_ped.file_system_type_get_next)
+        self.assert_(len(lst) > 0)
+        self.assertRaises(TypeError, _ped.file_system_type_get_next, None)
+
+        for ele in lst:
+            self.assert_(isinstance(ele, _ped.FileSystemType))
+
+        self.assertRaises(IndexError, _ped.file_system_type_get_next, lst[-1])
+
 class RoundDownToTestCase(unittest.TestCase):
     def runTest(self):
         self.assertEqual(_ped.round_down_to(0, 100), 0)
@@ -146,11 +232,11 @@ class RoundUpToTestCase(unittest.TestCase):
         self.assertEqual(_ped.round_up_to(100, -17), 68)
         self.assertRaises(ZeroDivisionError, _ped.round_up_to, 100, 0)
 
-class TypeGetNameTestCase(unittest.TestCase):
+class PartitionTypeGetNameTestCase(unittest.TestCase):
     def runTest(self):
         for t in [_ped.PARTITION_METADATA, _ped.PARTITION_FREESPACE,
                   _ped.PARTITION_EXTENDED, _ped.PARTITION_LOGICAL]:
-            self.assert_(_ped.type_get_name(t) != "", "Could not get name for flag %s" % t)
+            self.assert_(_ped.partition_type_get_name(t) != "", "Could not get name for flag %s" % t)
 
 class UnitSetDefaultTestCase(unittest.TestCase):
     def setUp(self):
@@ -232,18 +318,25 @@ def suite():
     suite.addTest(ConstraintAnyTestCase())
     suite.addTest(ConstraintExactTestCase())
     suite.addTest(DeviceGetTestCase())
-    suite.addTest(FlagGetNameTestCase())
-    suite.addTest(FlagGetByNameTestCase())
-    suite.addTest(GreatestCommonDivisorTestCase())
+    suite.addTest(DeviceGetNextTestCase())
+    suite.addTest(DeviceProbeAllTestCase())
+    suite.addTest(DiskTypeGetTestCase())
+    suite.addTest(DiskTypeGetNextTestCase())
     suite.addTest(DivRoundToNearestTestCase())
     suite.addTest(DivRoundUpTestCase())
     suite.addTest(FileSystemProbeTestCase())
     suite.addTest(FileSystemProbeSpecificTestCase())
+    suite.addTest(FileSystemTypeGetTestCase())
+    suite.addTest(FileSystemTypeGetNextTestCase())
+    suite.addTest(FlagGetNameTestCase())
+    suite.addTest(FlagGetByNameTestCase())
+    suite.addTest(FlagNextTestCase())
+    suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())
     suite.addTest(RoundUpToTestCase())
-    suite.addTest(TypeGetNameTestCase())
+    suite.addTest(PartitionTypeGetNameTestCase())
     suite.addTest(UnitSetDefaultTestCase())
     suite.addTest(UnitGetDefaultTestCase())
     suite.addTest(UnitGetSizeTestCase())
