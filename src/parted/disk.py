@@ -23,7 +23,7 @@
 
 import _ped
 import parted
-from parted import Device
+from parted.partition import *
 
 # XXX: add docstrings!
 
@@ -35,12 +35,12 @@ class Disk(object):
 
         self._device = device
         self._type = type
-        self.__disk = _ped.Disk(self.__device.getPedDevice(), self.__type)
+        self.__disk = _ped.Disk(self._device.getPedDevice(), self._type)
         self.partitions = {}
 
         i = 1
         while i <= self.lastPartitionNumber:
-            self.partitions[i] = parted.Partition(self.__disk.get_partition(i))
+            self.partitions[i] = Partition(self.__disk.get_partition(i))
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
@@ -53,58 +53,58 @@ class Disk(object):
 
     def clobber(self, type=None):
         if type is None:
-            return s.__disk.clobber()
+            return self.__disk.clobber()
         else:
-            return s.__disk.clobber_exclude(type)
+            return self.__disk.clobber_exclude(type)
 
     def duplicate(self):
-        return s.__disk.duplicate()
+        return self.__disk.duplicate()
 
     def destroy(self):
-        return s.__disk.destroy()
+        return self.__disk.destroy()
 
     def commit(self):
-        return s.__disk.commit()
+        return self.__disk.commit()
 
     def commitToDevice(self):
-        return s.__disk.commit_to_dev()
+        return self.__disk.commit_to_dev()
 
     def commitToOS(self):
-        return s.__disk.commit_to_os()
+        return self.__disk.commit_to_os()
 
     def check(self):
-        return s.__disk.check()
+        return self.__disk.check()
 
     def addPartition(self, partition=None, constraint=None):
-        return s.__disk.add_partition(partition, constraint)
+        return self.__disk.add_partition(partition, constraint)
 
     # XXX: is removePartition and deletePartition necessary?
     def removePartition(self, partition=None):
-        return s.__disk.remove_partition(partition)
+        return self.__disk.remove_partition(partition)
 
     def deletePartition(self, partition):
-        return s.__disk.delete_partition(partition)
+        return self.__disk.delete_partition(partition)
 
     def deleteAllPartitions(self):
-        return s.__disk.delete_all()
+        return self.__disk.delete_all()
 
     def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
-        return s.__disk.set_partition_geom(partition, constraint, start, end)
+        return self.__disk.set_partition_geom(partition, constraint, start, end)
 
     def maximizePartition(self, partition=None, constraint=None):
-        return s.__disk.maximize_partition(partition, constraint)
+        return self.__disk.maximize_partition(partition, constraint)
 
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
-        return s.__disk.get_max_partition_geometry(partition, constraint)
+        return self.__disk.get_max_partition_geometry(partition, constraint)
 
     def minimizeExtendedPartition(self):
-        return s.__disk.minimize_extended_partition()
+        return self.__disk.minimize_extended_partition()
 
     def getPartitionBySector(self, sector):
-        return s.__disk.get_partition_by_sector(sector)
+        return self.__disk.get_partition_by_sector(sector)
 
     def getExtendedPartition(self):
-        return s.__disk.extended_partition()
+        return self.__disk.extended_partition()
 
 # collect all disk types and store them in a hash
 diskType = {}

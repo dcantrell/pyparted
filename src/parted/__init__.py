@@ -25,9 +25,6 @@
 import _ped
 
 __all__ = ['device', 'disk', 'geometry']
-from parted.device import *
-from parted.disk import *
-from parted.geometry import *
 
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR
@@ -158,6 +155,12 @@ class ReadOnlyProperty(Exception):
 
     def __init__(self, property=''):
         self.message = "%s is a read-only property" % (property,)
+
+class WriteOnlyProperty(Exception):
+    """Exception raised when a read operation occurs on a write-only property."""
+
+    def __init__(self, property=''):
+        self.message = "%s is a write-only property" % (property,)
 
 def getDisk(path):
     """Given the operating system level path to a device node, return
