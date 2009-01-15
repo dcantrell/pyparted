@@ -196,15 +196,16 @@ def getAllDisks():
 
 def greatestCommonDivisor(a, b):
     """Return the largest divisor of both a and b."""
-    return _ped.greatestCommonDivisor(a, b)
+    return _ped.greatest_common_divisor(a, b)
 
 def probeForSpecificFileSystem(fstype, geometry):
     """Call the _ped.file_system_probe_specific() function given the
        filesystem type and geometry.  fstype must be a string
        representing a valid _ped.FileSystemType, geometry is a
        parted.Geometry."""
-    geom = _ped.file_system_probe_specific(parted.fileSystemType[fstype], geometry.getPedGeometry())
-    return parted.Geometry(geom)
+    from parted import filesystem, geometry
+    geom = _ped.file_system_probe_specific(filesystem.fileSystemType[fstype], geometry.getPedGeometry())
+    return geometry.Geometry(geom)
 
 def probeFileSystem(geometry):
     fstype = _ped.file_system_probe(geometry.getPedGeometry())
