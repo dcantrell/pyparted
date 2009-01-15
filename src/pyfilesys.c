@@ -616,26 +616,33 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
+/*
+ * This is a function that exists in filesys.c in libparted, but the
+ * way it works it is more appropriate to make it a method on a Device
+ * object in the _ped module.
+ *
+ * The self object for this method is a Device, so the input parameter
+ * will be a FileSystemType and the return value will be a Constraint.
+ */
 PyObject *py_ped_file_system_get_create_constraint(PyObject *s,
                                                    PyObject *args) {
-    _ped_FileSystem *self = (_ped_FileSystem *) s;
-    PyObject *in_device = NULL;
+    PyObject *in_fstype = NULL;
     PedFileSystemType *fstype = NULL;
     PedDevice *device = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystemType_Type_obj, &in_fstype)) {
         return NULL;
     }
 
-    fstype = _ped_FileSystemType2PedFileSystemType(self->type);
-    if (!fstype) {
-        return NULL;
-    }
-
-    device = _ped_Device2PedDevice(in_device);
+    device = _ped_Device2PedDevice(s);
     if (!device) {
+        return NULL;
+    }
+
+    fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+    if (!fstype) {
         return NULL;
     }
 
@@ -679,14 +686,27 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     return (PyObject *) ret;
 }
 
+/*
+ * This is a function that exists in filesys.c in libparted, but the
+ * way it works it is more appropriate to make it a method on a Device
+ * object in the _ped module.
+ *
+ * The self object for this method is a Device, so the input parameter
+ * will be a FileSystem and the return value will be a Constraint.
+ */
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
-    PyObject *in_device = NULL;
+    PedDevice *device = NULL;
+    PyObject *in_fs = NULL;
     PedFileSystem *fs = NULL;
-    PedDevice *out_device = NULL;
     PedConstraint *constraint = NULL;
     _ped_Constraint *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+    if (!PyArg_ParseTuple(args, "O!", &_ped_FileSystem_Type_obj, &in_fs)) {
+        return NULL;
+    }
+
+    device = _ped_Device2PedDevice(s);
+    if (!device) {
         return NULL;
     }
 
@@ -695,12 +715,7 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_device = _ped_Device2PedDevice(in_device);
-    if (!out_device) {
-        return NULL;
-    }
-
-    constraint = ped_file_system_get_copy_constraint(fs, out_device);
+    constraint = ped_file_system_get_copy_constraint(fs, device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }

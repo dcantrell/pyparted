@@ -117,15 +117,9 @@ static PyMethodDef _ped_FileSystem_methods[] = {
              file_system_copy_doc},
     {"resize", (PyCFunction) py_ped_file_system_resize, METH_VARARGS,
                file_system_resize_doc},
-    {"get_create_constraint", (PyCFunction)
-                              py_ped_file_system_get_create_constraint,
-                              METH_VARARGS, file_system_get_create_constraint_doc},
     {"get_resize_constraint", (PyCFunction)
                               py_ped_file_system_get_resize_constraint,
                               METH_VARARGS, file_system_get_resize_constraint_doc},
-    {"get_copy_constraint", (PyCFunction)
-                            py_ped_file_system_get_copy_constraint,
-                            METH_VARARGS, file_system_get_copy_constraint_doc},
     {NULL}
 };
 

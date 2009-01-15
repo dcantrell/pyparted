@@ -139,6 +139,18 @@ static PyMethodDef _ped_Device_methods[] = {
               device_check_doc},
     {"get_constraint", (PyCFunction) py_ped_device_get_constraint,
                        METH_VARARGS, device_get_constraint_doc},
+
+    /*
+     * These functions are in pyfilesys.c, but they work best
+     * as methods on a _ped.Device
+     */
+    {"get_create_constraint", (PyCFunction)
+                              py_ped_file_system_get_create_constraint,
+                              METH_VARARGS, file_system_get_create_constraint_doc},
+    {"get_copy_constraint", (PyCFunction)
+                            py_ped_file_system_get_copy_constraint,
+                            METH_VARARGS, file_system_get_copy_constraint_doc},
+
     {NULL}
 };
 
