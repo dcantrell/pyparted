@@ -59,9 +59,15 @@ class Partition(object):
 
     active = property(lambda s: s.__partition.is_active(), lambda s, v: s.__readOnly("active"))
     busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
+
+    #
+    # XXX: disk, fileSystem, and geometry need to set the property in s.__partition as
+    # writing to the properties that we have here...maybe?  figure this out.
+    #
     disk = property(lambda s: s._disk, lambda s, v: s.__readOnly("disk"))
-    filesystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
+    fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
+
     number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
     path = property(lambda s: s.__partition.get_path(), lambda s, v: s.__readOnly("path"))
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
