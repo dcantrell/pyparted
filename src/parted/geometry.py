@@ -66,7 +66,7 @@ class Geometry(object):
 
     def containsSector(self, sector):
         """Return whether the sectory is contained entirely within self."""
-        return self.__geometry.test_sector_inside(b)
+        return self.__geometry.test_sector_inside(sector)
 
     def equal(self, b):
         """Return whether self and Geometry b are on the same device and

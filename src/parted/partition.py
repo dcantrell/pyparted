@@ -54,6 +54,9 @@ class Partition(object):
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
+    def __writeOnly(self, property):
+        raise parted.WriteOnlyProperty, property
+
     active = property(lambda s: s.__partition.is_active(), lambda s, v: s.__readOnly("active"))
     busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
     disk = property(lambda s: s._disk, lambda s, v: s.__readOnly("disk"))
@@ -61,7 +64,7 @@ class Partition(object):
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
     number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
     path = property(lambda s: s.__partition.get_path(), lambda s, v: s.__readOnly("path"))
-    system = property(, lambda s, v: s.__partition.set_system(v))
+    system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
 
     def getFlag(self, flag):
