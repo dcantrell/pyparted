@@ -53,6 +53,9 @@ class Device(object):
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
+    def __getCHS(self, geometry):
+        return (geometry.cylinders, geometry.heads, geometry.sectors)
+
     model = property(lambda s: s.__device.model, lambda s, v: setattr(s.__device, "model", v))
     path = property(lambda s: s.__device.path, lambda s, v: setattr(s.__device, "path", v))
     type = property(lambda s: s.__device.type, lambda s, v: setattr(s.__device, "type", v))
@@ -68,6 +71,9 @@ class Device(object):
     did = property(lambda s: s.__device.did, lambda s, v: setattr(s.__device, "did", v))
 
     busy = property(lambda s: s.__device.is_busy(), lambda s, v: s.__readOnly("busy"))
+
+    hardwareGeometry = property(lambda s: s.__getCHS(geometry=s.__device.hw_geom), lambda s, v: s.__readOnly("hardwareGeometry"))
+    biosGeometry = property(lambda s: s.__getCHS(geometry=s.__device.bios_geom), lambda s, v: s.__readOnly("biosGeometry"))
 
     def open(self):
         """Open this Device for read operations."""
