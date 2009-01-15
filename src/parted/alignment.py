@@ -31,10 +31,13 @@ class Alignment(object):
        a specific sector multiple on a device, or that a geometry must start
        and end at sectors at those specific multiples.  Most methods on this
        object raise ArithmeticError if calculating alignments fails."""
-    def __init__(self, offset, grainSize):
+    def __init__(self, offset, grainSize, PedAlignment=None):
         """Create a new Alignment object from the sectors offset and
            grainSize."""
-        self.__alignment = _ped.Alignment(offset, grainSize)
+        if PedAlignment:
+            self.__alignment = PedAlignment
+        else:
+            self.__alignment = _ped.Alignment(offset, grainSize)
 
     offset = property(lambda s: s.__alignment.offset, lambda s, v: s.__alignment.offset("offset", v))
     grainSize = property(lambda s: s.__alignment.grainSize, lambda s, v: s.__alignment.offset("grainSize", v))

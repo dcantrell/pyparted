@@ -35,13 +35,15 @@ class Device(object):
 
        For information on the individual methods, see help(Device.METHODNAME)"""
 
-    def __init__(self, path=None, device=None):
+    def __init__(self, path=None, device=None, PedDevice=None):
         """Create a new Device object based on the specified path or the
            already existing _ped.Device object.  You must provide either a
            path (e.g., "/dev/sda") or an existing _ped.Device object, but
            not both."""
 
-        if path is not None:
+        if PedDevice:
+            self.__device = PedDevice
+        elif path is not None:
             self.__device = _ped.device_get(path)
         elif device is not None:
             self.__device = device

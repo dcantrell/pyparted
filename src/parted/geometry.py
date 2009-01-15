@@ -30,11 +30,13 @@ class Geometry(object):
        partition.  It is expressed in terms of a starting sector and a length.
        Many methods (read and write methods in particular) throughout pyparted
        take in a Geometry object as an argument."""
-    def __init__(self, device, start, length, end=None):
+    def __init__(self, device, start, length, end=None, PedGeometry=None):
         """Create a new Geometry object for the given _ped.Device that extends
            for length sectors from the start sector.  Optionally, an end sector
            can also be provided."""
-        if not end:
+        if PedGeometry:
+            self.__geometry = PedGeometry
+        elif not end:
             self.__geometry = _ped.Geometry(device, start, length)
         else:
             self.__geometry = _ped.Geometry(device, start, length, end=end)

@@ -34,7 +34,7 @@ class Constraint(object):
        calculations."""
     def __init__(self, minGeom=None, maxGeom=None, exactGeom=None,
                  device=None, startAlign=None, endAlign=None, startRange=None,
-                 endRange=None, minSize=None, maxSize=None):
+                 endRange=None, minSize=None, maxSize=None, PedConstraint=None):
         """Create a new Constraint object.  There are many different ways to
            create a Constraint, all depending on the parameters passed to
            __init__.  If minGeom and maxGeom are supplied, the constraint will
@@ -47,7 +47,9 @@ class Constraint(object):
            If none of the previously mentioned parameters are supplied, all of
            startAlign, EndAlign, startRange, endRange, minSize, and maxSize
            must be given."""
-        if minGeom and maxGeom:
+        if PedConstraint:
+            self.__constraint = PedConstraint
+        elif minGeom and maxGeom:
             self.__constraint = _ped.constraint_new_from_min_max(minGeom, maxGeom)
         elif minGeom:
             self.__constraint = _ped.constraint_new_from_min(minGeom)
