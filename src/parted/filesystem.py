@@ -41,19 +41,19 @@ class FileSystem(object):
             else:
                 raise _ped.PartedException, "no PedFileSystem specified"
 
-            s._type = type
-            s._geometry = geometry
-            s._checked = checked
-            s.__fileSystem = _ped.FileSystem(type=fileSystemType[type], geom=geometry, checked=c)
+            self._type = type
+            self._geometry = geometry
+            self._checked = checked
+            self.__fileSystem = _ped.FileSystem(type=fileSystemType[type], geom=geometry, checked=c)
         else:
-            s.__fileSystem = PedFileSystem
-            s._type = s.__fileSystem.type.name
-            s._geometry = s.__fileSystem.geom
+            self.__fileSystem = PedFileSystem
+            self._type = self.__fileSystem.type.name
+            self._geometry = self.__fileSystem.geom
 
-            if s.__fileSystem.checked:
-                s._checked = True
+            if self.__fileSystem.checked:
+                self._checked = True
             else:
-                s._checked = False
+                self._checked = False
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
