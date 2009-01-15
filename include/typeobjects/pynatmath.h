@@ -34,8 +34,6 @@ static PyMemberDef _ped_Alignment_members[] = {
 };
 
 static PyMethodDef _ped_Alignment_methods[] = {
-    {"destroy", (PyCFunction) py_ped_alignment_destroy, METH_VARARGS,
-                 alignment_destroy_doc},
     {"duplicate", (PyCFunction) py_ped_alignment_duplicate, METH_VARARGS,
                   alignment_duplicate_doc},
     {"intersect", (PyCFunction) py_ped_alignment_intersect, METH_VARARGS,
