@@ -113,9 +113,6 @@
   need to enforce that at the parted and _ped levels.
 
 - parted module:
-      - Let __init__ methods for each class accept either a low-level
-        _ped type or all of the high-level parted objects that could be
-        used to create the _ped type.
       - Write docstrings for everything
       - Sort out the __all__/import/from mess so that we can rely on
         'import parted' and get correct namespace

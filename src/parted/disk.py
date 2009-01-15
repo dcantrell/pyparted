@@ -29,13 +29,17 @@ from parted.partition import *
 
 class Disk(object):
     # XXX: fixme
-    def __init__(self, device=None, type=None):
-        if device is None or type is None:
-            raise _ped.PartedException, "no type or _ped.Device specified"
+    def __init__(self, device=None, type=None, PedDisk=None):
+        if PedDisk:
+            self.__disk = PedDisk
+        else:
+            if device is None or type is None:
+                raise _ped.PartedException, "no type or _ped.Device specified"
 
-        self._device = device
-        self._type = type
-        self.__disk = _ped.Disk(self._device.getPedDevice(), self._type)
+            self._device = device
+            self._type = type
+            self.__disk = _ped.Disk(self._device.getPedDevice(), self._type)
+
         self.partitions = {}
 
         i = 1
