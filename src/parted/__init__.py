@@ -162,6 +162,14 @@ class WriteOnlyProperty(Exception):
     def __init__(self, property=''):
         self.message = "%s is a write-only property" % (property,)
 
+def divRoundUp(numerator, divisor):
+    """Rounds up the result of numerator/divisor."""
+    return _ped.div_round_up(numerator, divisor)
+
+def divRoundToNearest(numerator, divisor):
+    """Returns the closest result of numerator/divisor."""
+    return _ped.div_round_to_nearest(numerator, divisor)
+
 def getDisk(path):
     """Given the operating system level path to a device node, return
        a Disk object for that disk.  Raises DiskException if an invalid
@@ -186,6 +194,10 @@ def getAllDisks():
         except IndexError:
             return lst
 
+def greatestCommonDivisor(a, b):
+    """Return the largest divisor of both a and b."""
+    return _ped.greatestCommonDivisor(a, b)
+
 def probeForSpecificFileSystem(fstype, geometry):
     """Call the _ped.file_system_probe_specific() function given the
        filesystem type and geometry.  fstype must be a string
@@ -197,6 +209,18 @@ def probeForSpecificFileSystem(fstype, geometry):
 def probeFileSystem(geometry):
     fstype = _ped.file_system_probe(geometry.getPedGeometry())
     return fstype.name
+
+def roundUpTo(sector, grainSize):
+    """Rounds sector up to the closest multiple of grainSize."""
+    return _ped.round_up_to(sector, grainSize)
+
+def roundDownTo(sector, grainSize):
+    """Rounds sector down to the closest multiple of grainSize."""
+    return _ped.round_down_to(sector, grainSize)
+
+def roundToNearest(sector, grainSize):
+    """Rounds sector to the closest multiple of grainSize."""
+    return _ped.round_to_nearest(sector, grainSize)
 
 def version():
     """Return a dict containing the pyparted and libparted versions."""
