@@ -35,3 +35,25 @@ class RequiresDevice(unittest.TestCase):
 
     def tearDown(self):
         os.unlink(self.path)
+
+# Base class for any test case that requires a list being built via successive
+# calls of some function.  The function must raise IndexError when there's no
+# more output to add to the return list.  This class is most useful for all
+# those _get_next methods.
+class BuildList:
+    def getDeviceList(self, func):
+        lst = []
+        prev = None
+
+        while True:
+            try:
+                if not prev:
+                    prev = func()
+                else:
+                    prev = func(prev)
+
+                lst.append(prev)
+            except IndexError:
+                break
+
+        return lst
