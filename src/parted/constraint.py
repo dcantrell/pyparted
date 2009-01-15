@@ -87,3 +87,8 @@ class Constraint(object):
     def isSolution(self, geom):
         """Does geom satisfy this constraint?"""
         return self.__constraint.is_solution(geom)
+
+    def getPedConstraint(self):
+        """Return the _ped.Constraint object contained in this Constraint.
+           For internal module use only."""
+        return self.__constraint

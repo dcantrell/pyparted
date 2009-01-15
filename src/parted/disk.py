@@ -106,6 +106,11 @@ class Disk(object):
     def getExtendedPartition(self):
         return self.__disk.extended_partition()
 
+    def getPedDisk(self):
+        """Return the _ped.Disk object contained in this Disk.  For internal
+           module use only."""
+       return self.__disk
+
 # collect all disk types and store them in a hash
 diskType = {}
 __type = _ped.disk_type_get_next()

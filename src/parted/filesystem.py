@@ -91,6 +91,11 @@ class FileSystem(object):
     def getResizeConstraint(self):
         return self.__fileSystem.get_resize_constraint()
 
+    def getPedFileSystem(self):
+        """Return the _ped.FileSystem object contained in this FileSystem.
+           For internal module use only."""
+       return self.__fileSystem
+
 # collect all filesystem types and store them in a hash
 fileSystemType = {}
 __type = _ped.file_system_type_get_next()
