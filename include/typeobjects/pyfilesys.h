@@ -42,8 +42,7 @@ static PyMethodDef _ped_FileSystemType_methods[] = {
 };
 
 static PyGetSetDef _ped_FileSystemType_getset[] = {
-    {"name", (getter) _ped_FileSystemType_get,
-             (setter) _ped_FileSystemType_set,
+    {"name", (getter) _ped_FileSystemType_get, NULL,
              "The name of the FileSystemType.", "name"},
     {NULL}  /* Sentinel */
 };
@@ -124,8 +123,7 @@ static PyMethodDef _ped_FileSystem_methods[] = {
 };
 
 static PyGetSetDef _ped_FileSystem_getset[] = {
-    {"checked", (getter) _ped_FileSystem_get,
-                (setter) _ped_FileSystem_set,
+    {"checked", (getter) _ped_FileSystem_get, NULL,
                 "Has the filesystem been checked prior to calling copy or resize?",
                 "checked"},
     {NULL}  /* Sentinel */

@@ -61,26 +61,6 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
     }
 }
 
-int _ped_FileSystemType_set(_ped_FileSystemType *self, PyObject *value,
-                            void *closure) {
-    char *member = (char *) closure;
-
-    if (member == NULL) {
-        return -1;
-    }
-
-    if (!strcmp(member, "name")) {
-        self->name = PyString_AsString(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else {
-        return -1;
-    }
-
-    return 0;
-}
-
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_GC_UnTrack(self);
@@ -153,25 +133,6 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
         PyErr_Format(PyExc_AttributeError, "_ped.FileSystem object has no attribute %s", member);
         return NULL;
     }
-}
-
-int _ped_FileSystem_set(_ped_FileSystem *self, PyObject *value, void *closure) {
-    char *member = (char *) closure;
-
-    if (member == NULL) {
-        return -1;
-    }
-
-    if (!strcmp(member, "checked")) {
-        self->checked = PyInt_AsLong(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else {
-        return -1;
-    }
-
-    return 0;
 }
 
 /* 1:1 function mappings for filesys.h in libparted */
