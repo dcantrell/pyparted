@@ -118,3 +118,8 @@ class Geometry(object):
                      of sectors from the start of the region (not the disk).
            count  -- How many sectors of buf to write out."""
         return self.__geometry.write(buf, offset, count)
+
+    def getPedGeometry(self):
+        """Return the _ped.Geometry object contained in this Geometry.
+           For internal module use only."""
+        return self.__geometry
