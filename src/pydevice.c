@@ -64,38 +64,6 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
     }
 }
 
-int _ped_CHSGeometry_set(_ped_CHSGeometry *self, PyObject *value,
-                         void *closure) {
-    char *member = (char *) closure;
-
-    if (member == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped.CHSGeometry()");
-        return -1;
-    }
-
-    if (!strcmp(member, "cylinders")) {
-        self->cylinders = PyInt_AsLong(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else if (!strcmp(member, "heads")) {
-        self->heads = PyInt_AsLong(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else if (!strcmp(member, "sectors")) {
-        self->sectors = PyInt_AsLong(value);
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-    } else {
-        PyErr_Format(PyExc_AttributeError, "_ped.CHSGeometry object has no attribute %s", member);
-        return -1;
-    }
-
-    return 0;
-}
-
 /* _ped.Device functions */
 void _ped_Device_dealloc(_ped_Device *self) {
     PyObject_GC_UnTrack(self);

@@ -39,13 +39,13 @@ static PyMethodDef _ped_CHSGeometry_methods[] = {
 
 static PyGetSetDef _ped_CHSGeometry_getset[] = {
     {"cylinders", (getter) _ped_CHSGeometry_get,
-                  (setter) _ped_CHSGeometry_set,
+                  NULL,
                   "The number of cylinders.", "cylinders"},
     {"heads", (getter) _ped_CHSGeometry_get,
-              (setter) _ped_CHSGeometry_set,
+              NULL,
               "The number of heads", "heads"},
     {"sectors", (getter) _ped_CHSGeometry_get,
-                (setter) _ped_CHSGeometry_set,
+                NULL,
                 "The number of sectors", "sectors"},
     {NULL}  /* Sentinel */
 };
