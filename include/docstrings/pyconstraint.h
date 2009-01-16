@@ -31,10 +31,6 @@ PyDoc_STRVAR(constraint_duplicate_doc,
 "duplicate(Constraint) -> Constraint\n\n"
 "Return a new Constraint that is a copy of the given Constraint.");
 
-PyDoc_STRVAR(constraint_destroy_doc,
-"destroy() -> None\n\n"
-"Destroy this Constraint object.");
-
 PyDoc_STRVAR(constraint_intersect_doc,
 "intersect(Constraint) -> Constraint\n\n"
 "Return a Constraint that requires a region to satisfy both this\n"
