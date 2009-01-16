@@ -3,16 +3,6 @@
 
 - use disttools from Python to do as much work as possible
 
-- new native Python classes on top of _ped (going to require a bit of
-  thought to figure out what sort of API we want for the 'parted' module,
-  the following are just ideas):
-      Device
-      Disk
-      Partition
-      Filesystem
-      Constraint
-      Label
-
 - Walk through all of the src/py*.c files and make sure libparted exceptions
   are captured and filtered back up through Python.  Will need to define some
   sane Python exception classes for libparted's exceptions.
@@ -104,14 +94,12 @@
       error: unable to find 09467a8feaa343e6ea79bdeebf3c70834d28941c
       fatal: object 09467a8feaa343e6ea79bdeebf3c70834d28941c not found
 
-- Audit libparted code and make a list of all properties that should be
-  read-only and make them such in the _ped and parted code.  Right now,
-  everything is rw, but libparted doesn't permit that for everything.  We
-  need to enforce that at the parted and _ped levels.
-
 - parted module:
       - Write docstrings for everything
       - Sort out the __all__/import/from mess so that we can rely on
         'import parted' and get correct namespace
+
+- Figure out how to make PyMemberDef members read-only if they need to
+  be.
 
 ... and much much more
