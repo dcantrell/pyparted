@@ -1,17 +1,2 @@
-pyparted-2.0.0 huge gigantic mega rewrite by:
-    David Cantrell <dcantrell@redhat.com>
-    Chris Lumens <clumens@redhat.com>
-
-------------------------------------------------------------------------------
-
-Original author: Matt Wilson <msw@redhat.com>
-
-Hacked on/maintained by various people, including:
 David Cantrell <dcantrell@redhat.com>
-Peter Jones <pjones@redhat.com>
-Jeremy Katz <katzj@redhat.com>
 Chris Lumens <clumens@redhat.com>
-
-------------------------------------------------------------------------------
-
-Please file bugs for pyparted at http://bugzilla.redhat.com/
