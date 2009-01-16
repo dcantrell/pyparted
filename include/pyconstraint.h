@@ -34,7 +34,6 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args);
 PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args);

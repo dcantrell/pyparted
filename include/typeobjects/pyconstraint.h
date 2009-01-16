@@ -44,8 +44,6 @@ static PyMemberDef _ped_Constraint_members[] = {
 static PyMethodDef _ped_Constraint_methods[] = {
     {"duplicate", (PyCFunction) py_ped_constraint_duplicate,
                   METH_VARARGS, constraint_duplicate_doc},
-    {"destroy", (PyCFunction) py_ped_constraint_destroy, METH_VARARGS,
-                constraint_destroy_doc},
     {"intersect", (PyCFunction) py_ped_constraint_intersect,
                   METH_VARARGS, constraint_intersect_doc},
     {"solve_max", (PyCFunction) py_ped_constraint_solve_max,

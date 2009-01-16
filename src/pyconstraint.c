@@ -328,13 +328,6 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_constraint_destroy(PyObject *s, PyObject *args) {
-    Py_CLEAR(s);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
     PyObject *in_constraintB = NULL;
     PedConstraint *constraintA = NULL, *constraintB = NULL;
