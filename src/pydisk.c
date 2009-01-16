@@ -95,6 +95,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
                                      &_ped_Disk_Type_obj, &self->disk,
                                      &self->type, &_ped_FileSystemType_Type_obj,
                                      &self->fs_type, &start, &end)) {
+        self->disk = self->geom = self->fs_type = NULL;
         return -1;
     } else {
         /*
@@ -239,6 +240,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!|O!", kwlist,
                                      &_ped_Device_Type_obj, &self->dev,
                                      &_ped_DiskType_Type_obj, &self->type)) {
+        self->dev = self->type = NULL;
         return -1;
     }
 

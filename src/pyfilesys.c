@@ -111,6 +111,7 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
                                      &_ped_FileSystemType_Type_obj, &self->type,
                                      &_ped_Geometry_Type_obj, &self->geom,
                                      &self->checked)) {
+        self->type = self->geom = NULL;
         return -1;
     } else {
         Py_INCREF(self->type);
