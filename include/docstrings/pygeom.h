@@ -37,10 +37,6 @@ PyDoc_STRVAR(geometry_intersect_doc,
 "Create a new Geometry describing the region common to both self and\n"
 "Geometry.  Raises ArithmeticError if the two regions do not intersect.");
 
-PyDoc_STRVAR(geometry_destroy_doc,
-"destroy(self) -> None\n\n"
-"Destroys the Geometry object.");
-
 PyDoc_STRVAR(geometry_set_doc,
 "set(self, start, length) -> boolean\n\n"
 "Sets a new start Sector and length Sector in the Geometry object,\n"
