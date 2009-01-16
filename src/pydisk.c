@@ -512,6 +512,15 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+/*
+ * XXX:
+ * We need to call ped_disk_destroy() to make sure the OS-specific
+ * free() function is called on the disk.  That flushes buffers,
+ * closes handles, arms, and crosschecks and whatnot.
+ *
+ * Similar to py_ped_device_destroy(), we might move the call to
+ * ped_disk_destroy() to the tp_clear() for _ped.Disk.
+ */
 PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
     PedDisk *disk = NULL;
 
@@ -708,6 +717,15 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
     return PyInt_FromLong(ret);
 }
 
+/*
+ * XXX:
+ * We need to call ped_disk_destroy() to make sure the OS-specific
+ * free() function is called on the disk.  That flushes buffers,
+ * closes handles, arms, and crosschecks and whatnot.
+ *
+ * Similar to py_ped_device_destroy(), we might move the call to
+ * ped_disk_destroy() to the tp_clear() for _ped.Disk.
+ */
 PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
     PedPartition *partition = NULL;
 
