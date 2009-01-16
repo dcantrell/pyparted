@@ -30,6 +30,9 @@ class GeometryNewTestCase(RequiresDevice):
         # Check that not passing args to _ped.Geometry.__init__ is caught.
         self.assertRaises(TypeError, _ped.Geometry)
 
+        # Or passing in the parameters in the wrong order.
+        self.assertRaises(TypeError, _ped.Geometry, 0, self._device, 100)
+
         # And then the correct ways of creating a _ped.Geometry.
         self.assert_(isinstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry))
         self.assert_(isinstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry))
