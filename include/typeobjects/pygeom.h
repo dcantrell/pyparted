@@ -40,8 +40,6 @@ static PyMethodDef _ped_Geometry_methods[] = {
                   geometry_duplicate_doc},
     {"intersect", (PyCFunction) py_ped_geometry_intersect, METH_VARARGS,
                   geometry_intersect_doc},
-    {"destroy", (PyCFunction) py_ped_geometry_destroy, METH_VARARGS,
-                geometry_destroy_doc},
     {"set", (PyCFunction) py_ped_geometry_set, METH_VARARGS,
             geometry_set_doc},
     {"set_start", (PyCFunction) py_ped_geometry_set_start, METH_VARARGS,

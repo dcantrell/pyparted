@@ -220,13 +220,6 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args) {
-    Py_CLEAR(s);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     int ret = -1;
     PedGeometry *geom = NULL;

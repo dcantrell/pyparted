@@ -114,15 +114,6 @@ class GeometryIntersectTestCase(RequiresDevice):
         self.g2.set(50, 100)
         self.assertRaises(ArithmeticError, self.g1.intersect, self.g2)
 
-class GeometryDestroyTestCase(RequiresDevice):
-    def setUp(self):
-        RequiresDevice.setUp(self)
-        self.g = _ped.Geometry(self._device, start=0, length=100)
-
-    def runTest(self):
-        self.g.destroy()
-        self.assert_(hasattr(self.g, "start") == False)
-
 class GeometrySetTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -360,7 +351,6 @@ def suite():
     suite.addTest(GeometryGetSetTestCase())
     suite.addTest(GeometryDuplicateTestCase())
     suite.addTest(GeometryIntersectTestCase())
-    suite.addTest(GeometryDestroyTestCase())
     suite.addTest(GeometrySetTestCase())
     suite.addTest(GeometrySetStartTestCase())
     suite.addTest(GeometrySetEndTestCase())

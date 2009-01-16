@@ -32,7 +32,6 @@
 /* 1:1 function mappings for geom.h in libparted */
 PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_destroy(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_set(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args);
 PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args);
