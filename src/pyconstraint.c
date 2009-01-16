@@ -115,6 +115,8 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
                                      &self->end_range,
                                      &self->min_size,
                                      &self->max_size)) {
+        self->start_align = self->end_align = NULL;
+        self->start_range = self->end_range = NULL;
         return -1;
     } else {
         /*

@@ -37,9 +37,9 @@ class ConstraintNewTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.Constraint)
         self.assertRaises(TypeError, _ped.Constraint, align1, align2)
 
-#        # Or the parameters in the wrong order.
-#        self.assertRaises(TypeError, _ped.Constraint, align1, align2, 10, 100,
-#                          geom1, geom2)
+        # Or the parameters in the wrong order.
+        self.assertRaises(TypeError, _ped.Constraint, align1, align2, 10, 100,
+                          geom1, geom2)
 
         # And then the correct way of creating a _ped.Constraint.
         c = _ped.Constraint(align1, align2, geom1, geom2, 10, 100)
