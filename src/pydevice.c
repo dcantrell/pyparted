@@ -310,6 +310,14 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
     return PyBool_FromLong(ret);
 }
 
+/*
+ * XXX: the reason we want to call ped_device_destroy() here is
+ * to unregister the device.  We need to figure out how to also
+ * get a 'del' operation run on the _ped.Device itself.
+ *
+ * Possible solution could be to put a call to ped_device_destroy()
+ * in the tp_clear function to make sure it gets unregistered.
+ */
 PyObject *py_ped_device_destroy(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
 
