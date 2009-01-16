@@ -68,6 +68,7 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!ll|l", kwlist,
                                      &_ped_Device_Type_obj, &self->dev,
                                      &self->start, &self->length, &self->end)) {
+        self->dev = NULL;
         return -1;
     } else {
         device = _ped_Device2PedDevice(self->dev);
