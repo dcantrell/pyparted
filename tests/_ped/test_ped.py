@@ -64,20 +64,56 @@ class GreatestCommonDivisorTestCase(unittest.TestCase):
         self.assertEqual(_ped.greatest_common_divisor(40, 10), 10)
         self.assertEqual(_ped.greatest_common_divisor(47, 19), 1)
 
-class ConstraintNewFromMinMaxTestCase(unittest.TestCase):
-    # TODO
+class ConstraintNewFromMinMaxTestCase(RequiresDevice):
     def runTest(self):
-        pass
+        self.assertRaises(TypeError, _ped.constraint_new_from_min_max, None)
 
-class ConstraintNewFromMinTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
+        # min is required to be within max, so test various combinations of
+        # that not being the case.
+        self.assertRaises(_ped.CreateException, _ped.constraint_new_from_min_max,
+                          _ped.Geometry(self._device, 0, 10),
+                          _ped.Geometry(self._device, 15, 25))
+        self.assertRaises(_ped.CreateException, _ped.constraint_new_from_min_max,
+                          _ped.Geometry(self._device, 10, 20),
+                          _ped.Geometry(self._device, 15, 25))
 
-class ConstraintNewFromMaxTestCase(unittest.TestCase):
-    # TODO
+        # Now test a correct call.
+        min = _ped.Geometry(self._device, 10, 20)
+        max = _ped.Geometry(self._device, 0, 30)
+        constraint = _ped.constraint_new_from_min_max(min, max)
+
+        self.assert_(isinstance(constraint, _ped.Constraint))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 11, 20)))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 0, 30)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 0, 35)))
+
+class ConstraintNewFromMinTestCase(RequiresDevice):
     def runTest(self):
-        pass
+        self.assertRaises(TypeError, _ped.constraint_new_from_min, None)
+
+        min = _ped.Geometry(self._device, 10, 20)
+        constraint = _ped.constraint_new_from_min(min)
+
+        self.assert_(isinstance(constraint, _ped.Constraint))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 15, 25)))
+
+class ConstraintNewFromMaxTestCase(RequiresDevice):
+    def runTest(self):
+        self.assertRaises(TypeError, _ped.constraint_new_from_max, None)
+
+        max = _ped.Geometry(self._device, 10, 20)
+        constraint = _ped.constraint_new_from_max(max)
+
+        self.assert_(isinstance(constraint, _ped.Constraint))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
+        self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
+        self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 15, 25)))
 
 class ConstraintAnyTestCase(RequiresDevice):
     def runTest(self):
