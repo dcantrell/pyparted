@@ -265,6 +265,11 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
+        return NULL;
+    }
+
     ret = ped_device_open(device);
     if (ret == 0) {
         if (partedExnRaised) {
@@ -290,6 +295,16 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
 
     device = _ped_Device2PedDevice(s);
     if (device == NULL) {
+        return NULL;
+    }
+
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
         return NULL;
     }
 
@@ -358,6 +373,11 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
+        return NULL;
+    }
+
     ret = ped_device_begin_external_access(device);
     if (ret == 0) {
         if (partedExnRaised) {
@@ -383,6 +403,11 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 
     device = _ped_Device2PedDevice(s);
     if (device == NULL) {
+        return NULL;
+    }
+
+    if (!device->external_mode) {
+        PyErr_Format(IOException, "Device %s is not open for external access.", device->path);
         return NULL;
     }
 
@@ -425,6 +450,16 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
+        return NULL;
+    }
+
     ret = ped_device_read(device, out_buf, start, count);
     if (ret == 0) {
         if (partedExnRaised) {
@@ -462,6 +497,16 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
+        return NULL;
+    }
+
     ret = ped_device_write(device, out_buf, start, count);
     if (ret == 0) {
         if (partedExnRaised) {
@@ -488,6 +533,16 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
+        return NULL;
+    }
+
     ret = ped_device_sync(device);
     if (ret == 0) {
         if (partedExnRaised) {
@@ -511,6 +566,16 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
 
     device = _ped_Device2PedDevice(s);
     if (device == NULL) {
+        return NULL;
+    }
+
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
         return NULL;
     }
 
@@ -548,6 +613,16 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
 
     out_buf = PyCObject_AsVoidPtr(in_buf);
     if (out_buf == NULL) {
+        return NULL;
+    }
+
+    if (!device->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", device->path);
+        return NULL;
+    }
+
+    if (device->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
         return NULL;
     }
 
