@@ -31,7 +31,6 @@
 
 - Test cases:
     _ped.Constraint
-    _ped.Device
     _ped.Disk
     _ped.DiskType
     _ped.FileSystem
