@@ -219,6 +219,12 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /* ped_constraint_new_from_min_max will ASSERT if this isn't enforced. */
+    if (!ped_geometry_test_inside(out_max, out_min)) {
+        PyErr_SetString(CreateException, "min geometry must be contained within max geometry");
+        return NULL;
+    }
+
     constraint = ped_constraint_new_from_min_max(out_min, out_max);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
