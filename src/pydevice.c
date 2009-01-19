@@ -307,6 +307,8 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ((_ped_Device *) s)->open_count = device->open_count;
+
     return PyBool_FromLong(ret);
 }
 
@@ -370,6 +372,8 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ((_ped_Device *) s)->external_mode = device->external_mode;
+
     return PyBool_FromLong(ret);
 }
 
@@ -395,6 +399,8 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 
         return NULL;
     }
+
+    ((_ped_Device *) s)->external_mode = device->external_mode;
 
     return PyBool_FromLong(ret);
 }
