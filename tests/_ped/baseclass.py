@@ -36,6 +36,20 @@ class RequiresDevice(unittest.TestCase):
     def tearDown(self):
         os.unlink(self.path)
 
+# Base class for any test case that requires a filesystem made and mounted.
+class RequiresMount(RequiresDevice):
+    def mkfs(self):
+        os.system("mkfs.ext2 -F -q %s" % self.path)
+
+    def doMount(self):
+        self.mountpoint = tempfile.mkdtemp()
+        os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
+
+    def tearDown(self):
+        os.system("umount %s" % self.mountpoint)
+        os.rmdir(self.mountpoint)
+        RequiresDevice.tearDown(self)
+
 # Base class for any test case that requires a list being built via successive
 # calls of some function.  The function must raise IndexError when there's no
 # more output to add to the return list.  This class is most useful for all
