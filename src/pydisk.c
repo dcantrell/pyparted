@@ -248,7 +248,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
         device = _ped_Device2PedDevice(self->dev);
     }
 
-    if (device) {
+    if (device && ped_disk_probe(device)) {
         disk = ped_disk_new(device);
     } else if (device && self->type) {
         type = _ped_DiskType2PedDiskType(self->type);
@@ -281,10 +281,6 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     if (self->type == NULL)
         self->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
     Py_INCREF(self->type);
-
-    if (type) {
-        free(type);
-    }
 
     ped_disk_destroy(disk);
 
