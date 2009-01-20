@@ -98,7 +98,6 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
     args = Py_BuildValue("ll", alignment->offset, alignment->grain_size);
 
     if (_ped_Alignment_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Alignment");
         return NULL;
     }
 
@@ -187,7 +186,6 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     args = Py_BuildValue("OOOOll", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
 
     if (_ped_Constraint_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Constraint");
         return NULL;
     }
 
@@ -321,7 +319,6 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     args = Py_BuildValue("OO", (PyObject *) dev, (PyObject *) type);
 
     if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Disk");
         return NULL;
     }
 
@@ -425,7 +422,6 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
     args = Py_BuildValue("OOl", type, geom, fs->checked);
 
     if (_ped_FileSystem_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.FileSystem");
         return NULL;
     }
 
@@ -508,7 +504,6 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     args = Py_BuildValue("Olll", dev, geometry->start, geometry->length, geometry->end);
 
     if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Geometry");
         return NULL;
     }
 
@@ -629,7 +624,6 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     args = Py_BuildValue("OlOll", disk, part->type, fs_type, part->geom.start, part->geom.end);
 
     if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        PyErr_SetString(PyExc_TypeError, "Failed to initialize _ped.Partition");
         return NULL;
     }
 
