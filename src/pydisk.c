@@ -253,6 +253,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     } else if (device && self->type) {
         type = _ped_DiskType2PedDiskType(self->type);
         disk = ped_disk_new_fresh(device, type);
+        ped_disk_commit_to_dev(disk);
     } else {
         PyErr_SetString(CreateException, "You must provide as least a Device when creating a Disk");
         return -1;
