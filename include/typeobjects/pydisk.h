@@ -30,11 +30,11 @@
 
 /* _ped.Partition type object */
 static PyMemberDef _ped_Partition_members[] = {
-    {"disk", T_OBJECT, offsetof(_ped_Partition, disk), 0,
+    {"disk", T_OBJECT, offsetof(_ped_Partition, disk), READONLY,
              "The _ped.Disk this Partition exists on."},
-    {"geom", T_OBJECT, offsetof(_ped_Partition, geom), 0,
+    {"geom", T_OBJECT, offsetof(_ped_Partition, geom), READONLY,
              "A _ped.Geometry object describing the region this Partition occupies."},
-    {"fs_type", T_OBJECT, offsetof(_ped_Partition, fs_type), 0,
+    {"fs_type", T_OBJECT, offsetof(_ped_Partition, fs_type), READONLY,
                 "A _ped.FileSystemType object describing the filesystem on this Partition."},
     {NULL}
 };
@@ -118,9 +118,9 @@ PyTypeObject _ped_Partition_Type_obj = {
 
 /* _ped.Disk type object */
 static PyMemberDef _ped_Disk_members[] = {
-    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), 0,
+    {"dev", T_OBJECT, offsetof(_ped_Disk, dev), READONLY,
             "A _ped.Device object holding self's partition table."},
-    {"type", T_OBJECT, offsetof(_ped_Disk, type), 0,
+    {"type", T_OBJECT, offsetof(_ped_Disk, type), READONLY,
              "The type of the disk label as a _ped.DiskType."},
     {NULL}
 };

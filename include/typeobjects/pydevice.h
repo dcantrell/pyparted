@@ -97,9 +97,9 @@ PyTypeObject _ped_CHSGeometry_Type_obj = {
 
 /* _ped.Device type object */
 static PyMemberDef _ped_Device_members[] = {
-    {"hw_geom", T_OBJECT, offsetof(_ped_Device, hw_geom), 0,
+    {"hw_geom", T_OBJECT, offsetof(_ped_Device, hw_geom), READONLY,
                 "The CHSGeometry of the Device as reported by the hardware."},
-    {"bios_geom", T_OBJECT, offsetof(_ped_Device, bios_geom), 0,
+    {"bios_geom", T_OBJECT, offsetof(_ped_Device, bios_geom), READONLY,
                   "The CHSGeometry of the Device as reported by the BIOS."},
     {NULL}
 };
