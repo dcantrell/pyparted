@@ -20,13 +20,13 @@ you want to, but it's really just meant for the larger parted module.
 
 The _ped module is written and maintained by hand.  I chose to do this
 rather than rely on a tool like SWIG or Pyrex for several reasons.  Mostly
-because I am also the GNU parted maintainer, but also because libparted is
-sort of complex.  It's a lowlevel system tool and I found it doesn't
-translate well in the tools I tried.  This is nothing against those tools, I
-just don't think libparted is ideal to go through SWIG or Pyrex.  By writing
-my own bindings, I can also find bugs in libparted that I may have
-overlooked before.  See the WHY file for more explanation as to why I wrote
-the bindings by hand.
+because I was the GNU parted maintainer, but also because libparted is sort
+of complex.  It's a lowlevel system tool and I found it doesn't translate
+well in the tools I tried.  This is nothing against those tools, I just
+don't think libparted is ideal to go through SWIG or Pyrex.  By writing my
+own bindings, I can also find bugs in libparted that I may have overlooked
+before.  See the WHY file for more explanation as to why I wrote the
+bindings by hand.
 
 
 HISTORY
