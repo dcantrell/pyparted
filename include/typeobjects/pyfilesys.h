@@ -94,9 +94,9 @@ PyTypeObject _ped_FileSystemType_Type_obj = {
 
 /* _ped.FileSystem type object */
 static PyMemberDef _ped_FileSystem_members[] = {
-    {"type", T_OBJECT, offsetof(_ped_FileSystem, type), 0,
+    {"type", T_OBJECT, offsetof(_ped_FileSystem, type), READONLY,
              "A _ped.FileSystemType object describing the filesystem on self.geom."},
-    {"geom", T_OBJECT, offsetof(_ped_FileSystem, geom), 0,
+    {"geom", T_OBJECT, offsetof(_ped_FileSystem, geom), READONLY,
              "The on-disk region where this FileSystem object exists."},
     {NULL}
 };

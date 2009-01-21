@@ -30,7 +30,7 @@
 
 /* _ped.Geometry type object */
 static PyMemberDef _ped_Geometry_members[] = {
-    {"dev", T_OBJECT, offsetof(_ped_Geometry, dev), 0,
+    {"dev", T_OBJECT, offsetof(_ped_Geometry, dev), READONLY,
             "The _ped.Device described by this _ped.Geometry object."},
     {NULL}
 };
