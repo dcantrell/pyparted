@@ -104,53 +104,66 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
     PedAlignment *start_align = NULL, *end_align = NULL;
     PedGeometry *start_range = NULL, *end_range = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!O!O!LL", kwlist,
-                                     &_ped_Alignment_Type_obj,
-                                     &self->start_align,
-                                     &_ped_Alignment_Type_obj,
-                                     &self->end_align,
-                                     &_ped_Geometry_Type_obj,
-                                     &self->start_range,
-                                     &_ped_Geometry_Type_obj,
-                                     &self->end_range,
-                                     &self->min_size,
-                                     &self->max_size)) {
-        self->start_align = self->end_align = NULL;
-        self->start_range = self->end_range = NULL;
-        return -1;
-    } else {
-        /*
-         * try to call libparted with provided information,
-         * on failure, raise an exception
-         */
-        start_align = _ped_Alignment2PedAlignment(self->start_align);
-        end_align = _ped_Alignment2PedAlignment(self->end_align);
-        start_range = _ped_Geometry2PedGeometry(self->start_range);
-        end_range = _ped_Geometry2PedGeometry(self->end_range);
-
-        constraint = ped_constraint_new(start_align, end_align,
-                                        start_range, end_range,
-                                        self->min_size, self->max_size);
-        if (constraint == NULL) {
-            PyErr_SetString(CreateException, "Could not create new constraint");
-
-            ped_alignment_destroy(start_align);
-            ped_alignment_destroy(end_align);
+    if (kwds == NULL) {
+        if (!PyArg_ParseTuple(args, "O!O!O!O!LL",
+                              &_ped_Alignment_Type_obj, &self->start_align,
+                              &_ped_Alignment_Type_obj, &self->end_align,
+                              &_ped_Geometry_Type_obj, &self->start_range,
+                              &_ped_Geometry_Type_obj, &self->end_range,
+                              &self->min_size, &self->max_size)) {
+            self->start_align = self->end_align = NULL;
+            self->start_range = self->end_range = NULL;
             return -1;
         }
+    } else {
+        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!O!O!LL", kwlist,
+                                         &_ped_Alignment_Type_obj,
+                                         &self->start_align,
+                                         &_ped_Alignment_Type_obj,
+                                         &self->end_align,
+                                         &_ped_Geometry_Type_obj,
+                                         &self->start_range,
+                                         &_ped_Geometry_Type_obj,
+                                         &self->end_range,
+                                         &self->min_size,
+                                         &self->max_size)) {
+            self->start_align = self->end_align = NULL;
+            self->start_range = self->end_range = NULL;
+            return -2;
+        }
+    }
 
-        /* increment reference count for PyObjects read by PyArg_ParseTuple */
-        Py_INCREF(self->start_align);
-        Py_INCREF(self->end_align);
-        Py_INCREF(self->start_range);
-        Py_INCREF(self->end_range);
+    /*
+     * try to call libparted with provided information,
+     * on failure, raise an exception
+     */
+    start_align = _ped_Alignment2PedAlignment(self->start_align);
+    end_align = _ped_Alignment2PedAlignment(self->end_align);
+    start_range = _ped_Geometry2PedGeometry(self->start_range);
+    end_range = _ped_Geometry2PedGeometry(self->end_range);
 
-        /* clean up libparted objects we created */
+    constraint = ped_constraint_new(start_align, end_align,
+                                    start_range, end_range,
+                                    self->min_size, self->max_size);
+    if (constraint == NULL) {
+        PyErr_SetString(CreateException, "Could not create new constraint");
+
         ped_alignment_destroy(start_align);
         ped_alignment_destroy(end_align);
-        ped_constraint_destroy(constraint);
-        return 0;
+        return -3;
     }
+
+    /* increment reference count for PyObjects read by PyArg_ParseTuple */
+    Py_INCREF(self->start_align);
+    Py_INCREF(self->end_align);
+    Py_INCREF(self->start_range);
+    Py_INCREF(self->end_range);
+
+    /* clean up libparted objects we created */
+    ped_alignment_destroy(start_align);
+    ped_alignment_destroy(end_align);
+    ped_constraint_destroy(constraint);
+    return 0;
 }
 
 PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
