@@ -1,7 +1,7 @@
 /*
  * pygeom.c
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -65,40 +65,53 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     PedDevice *device = NULL;
 
     self->dev = NULL;
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!ll|l", kwlist,
-                                     &_ped_Device_Type_obj, &self->dev,
-                                     &self->start, &self->length, &self->end)) {
-        self->dev = NULL;
-        return -1;
-    } else {
-        device = _ped_Device2PedDevice(self->dev);
-        geometry = ped_geometry_new(device, self->start, self->length);
+    self->start = 0;
+    self->length = 0;
+    self->end = 0;
+    self->ped_device = NULL;
 
-        if (geometry) {
-            self->end = geometry->end;
-        } else {
-            if (partedExnRaised) {
-                partedExnRaised = 0;
-
-                if (!PyErr_ExceptionMatches(PartedException)) {
-                    PyErr_SetString(CreateException, partedExnMessage);
-                }
-            }
-            else
-                PyErr_SetString(CreateException, "Could not create new geometry");
-
+    if (kwds == NULL) {
+        if (!PyArg_ParseTuple(args, "O!LL|L", &_ped_Device_Type_obj, &self->dev,
+                              &self->start, &self->length, &self->end)) {
+            self->dev = NULL;
             return -1;
         }
-
-        Py_INCREF(self->dev);
-        self->start = geometry->start;
-        self->length = geometry->length;
-        self->end = geometry->end;
-        self->ped_device = device;
-
-        Py_INCREF(self);
-        return 0;
+    } else {
+        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!LL|L", kwlist,
+                                         &_ped_Device_Type_obj, &self->dev,
+                                         &self->start, &self->length, &self->end)) {
+            self->dev = NULL;
+            return -2;
+        }
     }
+
+    device = _ped_Device2PedDevice(self->dev);
+    geometry = ped_geometry_new(device, self->start, self->length);
+
+    if (geometry) {
+        self->end = geometry->end;
+    } else {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException)) {
+                PyErr_SetString(CreateException, partedExnMessage);
+            }
+        } else {
+            PyErr_SetString(CreateException, "Could not create new geometry");
+        }
+
+        return -3;
+    }
+
+    Py_INCREF(self->dev);
+    self->start = geometry->start;
+    self->length = geometry->length;
+    self->end = geometry->end;
+    self->ped_device = device;
+
+    Py_INCREF(self);
+    return 0;
 }
 
 PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
@@ -226,7 +239,7 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector start, length;
 
-    if (!PyArg_ParseTuple(args, "ll", &start, &length)) {
+    if (!PyArg_ParseTuple(args, "LL", &start, &length)) {
         return NULL;
     }
 
@@ -261,7 +274,7 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector start;
 
-    if (!PyArg_ParseTuple(args, "l", &start)) {
+    if (!PyArg_ParseTuple(args, "L", &start)) {
         return NULL;
     }
 
@@ -295,7 +308,7 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector end;
 
-    if (!PyArg_ParseTuple(args, "l", &end)) {
+    if (!PyArg_ParseTuple(args, "L", &end)) {
         return NULL;
     }
 
@@ -398,7 +411,7 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "l", &sector)) {
+    if (!PyArg_ParseTuple(args, "L", &sector)) {
         return NULL;
     }
 
@@ -418,7 +431,7 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
     char *out_buf = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "ll", &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "LL", &offset, &count)) {
         return NULL;
     }
 
@@ -504,7 +517,7 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "zll", &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "zLL", &in_buf, &offset, &count)) {
         return NULL;
     }
 
@@ -549,7 +562,7 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
     PedSector buffer_size, offset, granularity, count, ret;
     PedTimer *out_timer = NULL;
 
-    if (!PyArg_ParseTuple(args, "Ollll|O!", &in_buf, &buffer_size, &offset,
+    if (!PyArg_ParseTuple(args, "OLLLL|O!", &in_buf, &buffer_size, &offset,
                           &granularity, &count, &_ped_Timer_Type_obj,
                           &in_timer)) {
         return NULL;
@@ -583,7 +596,7 @@ PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
     PedGeometry *out_dst = NULL, *src = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_dst,
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Geometry_Type_obj, &in_dst,
                           &sector)) {
         return NULL;
     }
