@@ -1,7 +1,7 @@
 /*
  * pynatmath.c
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -48,7 +48,7 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"offset", "grain_size", NULL};
     PedAlignment *alignment = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "ll", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "LL", kwlist,
                                      &self->offset, &self->grain_size)) {
         return -1;
     } else {
@@ -109,7 +109,7 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
 PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -124,7 +124,7 @@ PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
 PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -139,7 +139,7 @@ PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
 PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
     PedSector sector, grain_size;
 
-    if (!PyArg_ParseTuple(args, "ll", &sector, &grain_size)) {
+    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
         return NULL;
     }
 
@@ -154,7 +154,7 @@ PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
 PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
     PedSector a, b;
 
-    if (!PyArg_ParseTuple(args, "ll", &a, &b)) {
+    if (!PyArg_ParseTuple(args, "LL", &a, &b)) {
         return NULL;
     }
 
@@ -232,7 +232,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -263,7 +263,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -294,7 +294,7 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     PedGeometry *out_geom = NULL;
     PedSector sector, ret;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -326,7 +326,7 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     PedGeometry *out_geom = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Geometry_Type_obj, &in_geom, &sector)) {
         return NULL;
     }
 
@@ -349,7 +349,7 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
 PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
     PedSector numerator, divisor;
 
-    if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
+    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
         return NULL;
     }
 
@@ -364,7 +364,7 @@ PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
 PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
     PedSector numerator, divisor;
 
-    if (!PyArg_ParseTuple(args, "ll", &numerator, &divisor)) {
+    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
         return NULL;
     }
 

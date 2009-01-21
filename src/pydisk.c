@@ -1,7 +1,7 @@
 /*
  * pydisk.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -91,7 +91,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     PedFileSystemType *fstype = NULL;
     PedPartition *part = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!lO!ll", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!iO!LL", kwlist,
                                      &_ped_Disk_Type_obj, &self->disk,
                                      &self->type, &_ped_FileSystemType_Type_obj,
                                      &self->fs_type, &start, &end)) {
@@ -409,7 +409,7 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     PedDiskTypeFeature feature = -1;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "l", &feature)) {
+    if (!PyArg_ParseTuple(args, "i", &feature)) {
         return NULL;
     }
 
@@ -762,7 +762,7 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
     long flag;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "li", &flag, &in_state)) {
+    if (!PyArg_ParseTuple(args, "ii", &flag, &in_state)) {
         return NULL;
     }
 
@@ -797,7 +797,7 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     long flag;
     int ret = -1;
 
-    if (!PyArg_ParseTuple(args, "l", &flag)) {
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
     }
 
@@ -817,7 +817,7 @@ PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     long flag;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "l", &flag)) {
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
     }
 
@@ -967,7 +967,7 @@ PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
     long type;
     char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "l", &type)) {
+    if (!PyArg_ParseTuple(args, "i", &type)) {
         return NULL;
     }
 
@@ -982,7 +982,7 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
     long flag;
     char *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "l", &flag)) {
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
     }
 
@@ -1017,7 +1017,7 @@ PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
     long flag;
 
-    if (!PyArg_ParseTuple(args, "l", &flag)) {
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
     }
 
@@ -1189,7 +1189,7 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
     PedSector start, end;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O!O!ll", &_ped_Partition_Type_obj, &in_part,
+    if (!PyArg_ParseTuple(args, "O!O!LL", &_ped_Partition_Type_obj, &in_part,
                           &_ped_Constraint_Type_obj, &in_constraint,
                           &start, &end)) {
         return NULL;
@@ -1442,7 +1442,7 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
     PedPartition *pass_part = NULL;
     _ped_Partition *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "l", &sector)) {
+    if (!PyArg_ParseTuple(args, "L", &sector)) {
         return NULL;
     }
 
