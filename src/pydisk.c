@@ -85,16 +85,18 @@ int _ped_Partition_clear(_ped_Partition *self) {
 }
 
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"disk", "type", "fs_type", "start", "end", NULL};
+    static char *kwlist[] = {"disk", "type", "start", "end", "fs_type", NULL};
     PedSector start, end;
     PedDisk *disk = NULL;
     PedFileSystemType *fstype = NULL;
     PedPartition *part = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!iO!LL", kwlist,
+    self->fs_type = Py_None;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!iLL|O!", kwlist,
                                      &_ped_Disk_Type_obj, &self->disk,
-                                     &self->type, &_ped_FileSystemType_Type_obj,
-                                     &self->fs_type, &start, &end)) {
+                                     &self->type, &start, &end,
+                                     &_ped_FileSystemType_Type_obj, &self->fs_type)) {
         self->disk = self->geom = self->fs_type = NULL;
         return -1;
     } else {
@@ -103,7 +105,9 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
          * on failure, raise an exception
          */
         disk = _ped_Disk2PedDisk(self->disk);
-        fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
+
+        if (self->fs_type != Py_None)
+            fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
 
         part = ped_partition_new(disk, self->type, fstype, start, end);
         if (part == NULL) {
