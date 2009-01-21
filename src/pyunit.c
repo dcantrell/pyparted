@@ -1,7 +1,7 @@
 /*
  * pyunit.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -32,7 +32,7 @@
 PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
     long unit;
 
-    if (!PyArg_ParseTuple(args, "l", &unit)) {
+    if (!PyArg_ParseTuple(args, "i", &unit)) {
         return NULL;
     }
 
@@ -57,7 +57,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     PedDevice *out_dev = NULL;
     long unit;
 
-    if (!PyArg_ParseTuple(args, "lO!", &unit, &_ped_Device_Type_obj, &in_dev))
+    if (!PyArg_ParseTuple(args, "iO!", &unit, &_ped_Device_Type_obj, &in_dev))
         return NULL;
 
     if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
@@ -83,7 +83,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
     long unit;
 
-    if (!PyArg_ParseTuple(args, "l", &unit)) {
+    if (!PyArg_ParseTuple(args, "i", &unit)) {
         return NULL;
     }
 
@@ -119,7 +119,7 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     PedSector sector;
     PedDevice *out_dev = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_dev, &sector,
+    if (!PyArg_ParseTuple(args, "O!Li", &_ped_Device_Type_obj, &in_dev, &sector,
                           &unit)) {
         return NULL;
     }
@@ -145,7 +145,7 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     PedSector sector;
     PedDevice *out_dev = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Device_Type_obj, &in_dev, &sector))
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Device_Type_obj, &in_dev, &sector))
         return NULL;
 
     out_dev = _ped_Device2PedDevice(in_dev);
@@ -165,7 +165,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     PedSector sector;
     long unit;
 
-    if (!PyArg_ParseTuple(args, "O!ll", &_ped_Device_Type_obj, &in_dev, &sector,
+    if (!PyArg_ParseTuple(args, "O!Li", &_ped_Device_Type_obj, &in_dev, &sector,
                           &unit)) {
         return NULL;
     }
@@ -186,7 +186,7 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     PedDevice *out_dev = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!l", &_ped_Device_Type_obj, &in_dev, &sector)) {
+    if (!PyArg_ParseTuple(args, "O!L", &_ped_Device_Type_obj, &in_dev, &sector)) {
         return NULL;
     }
 
@@ -209,7 +209,7 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "zOlO", &str, &in_dev, &sector, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "zOLO", &str, &in_dev, &sector, &in_geom)) {
         return NULL;
     }
 
@@ -238,7 +238,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "zOllO", &str, &in_dev, &unit, &sector,
+    if (!PyArg_ParseTuple(args, "zOiLO", &str, &in_dev, &unit, &sector,
                           &in_geom)) {
         return NULL;
     }

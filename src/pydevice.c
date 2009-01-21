@@ -1,7 +1,7 @@
 /*
  * pydevice.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -436,7 +436,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OLL", &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -483,7 +483,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OLL", &in_buf, &start, &count)) {
         return NULL;
     }
 
@@ -602,7 +602,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     PedDevice *device = NULL;
     void *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "Oll", &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "OLL", &in_buf, &start, &count)) {
         return NULL;
     }
 

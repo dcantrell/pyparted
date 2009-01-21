@@ -4,7 +4,7 @@
  * need to be converted.  When a typedef in libparted is a primitive type,
  * we can just use it directly.
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -95,7 +95,7 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
     if (!ret)
         return (_ped_Alignment *) PyErr_NoMemory();
 
-    args = Py_BuildValue("ll", alignment->offset, alignment->grain_size);
+    args = Py_BuildValue("LL", alignment->offset, alignment->grain_size);
 
     if (_ped_Alignment_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -183,7 +183,7 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
     if ((end_range = PedGeometry2_ped_Geometry(constraint->end_range)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("OOOOll", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
+    args = Py_BuildValue("OOOOLL", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
 
     if (_ped_Constraint_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -419,7 +419,7 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
     if ((geom = PedGeometry2_ped_Geometry(fs->geom)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("OOl", type, geom, fs->checked);
+    args = Py_BuildValue("OOi", type, geom, fs->checked);
 
     if (_ped_FileSystem_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -501,7 +501,7 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     if ((dev = PedDevice2_ped_Device(geometry->dev)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("Olll", dev, geometry->start, geometry->length, geometry->end);
+    args = Py_BuildValue("OLLL", dev, geometry->start, geometry->length, geometry->end);
 
     if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -621,7 +621,7 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("OlOll", disk, part->type, fs_type, part->geom.start, part->geom.end);
+    args = Py_BuildValue("OiOLL", disk, part->type, fs_type, part->geom.start, part->geom.end);
 
     if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;

@@ -1,7 +1,7 @@
 /*
  * pyfilesys.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -107,7 +107,7 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
     static char *kwlist[] = {"type", "geom", "checked", NULL};
 
     self->checked = 0;
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!|l", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!|i", kwlist,
                                      &_ped_FileSystemType_Type_obj, &self->type,
                                      &_ped_Geometry_Type_obj, &self->geom,
                                      &self->checked)) {

@@ -1,7 +1,7 @@
 /*
  * pyconstraint.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -104,7 +104,7 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
     PedAlignment *start_align = NULL, *end_align = NULL;
     PedGeometry *start_range = NULL, *end_range = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!O!O!ll", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!O!O!LL", kwlist,
                                      &_ped_Alignment_Type_obj,
                                      &self->start_align,
                                      &_ped_Alignment_Type_obj,
