@@ -569,10 +569,15 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
         return NULL;
     }
 
-    fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
-    if (fs_type == NULL) {
-        ped_disk_destroy(disk);
-        return NULL;
+    /* Partitions are allowed to have a None fs_type, as a part type of
+     * FREESPACE or METADATA has no associated fs_type.
+     */
+    if (part->fs_type != Py_None) {
+        fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+        if (fs_type == NULL) {
+            ped_disk_destroy(disk);
+            return NULL;
+        }
     }
 
     tmpgeom = _ped_Geometry2PedGeometry(part->geom);
@@ -618,7 +623,9 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL)
         return NULL;
 
-    if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
+    if (part->fs_type == NULL)
+        fs_type = NULL;
+    else if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
         return NULL;
 
     args = Py_BuildValue("OiOLL", disk, part->type, fs_type, part->geom.start, part->geom.end);
