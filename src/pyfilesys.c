@@ -107,17 +107,28 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
     static char *kwlist[] = {"type", "geom", "checked", NULL};
 
     self->checked = 0;
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!|i", kwlist,
-                                     &_ped_FileSystemType_Type_obj, &self->type,
-                                     &_ped_Geometry_Type_obj, &self->geom,
-                                     &self->checked)) {
-        self->type = self->geom = NULL;
-        return -1;
+
+    if (kwds == NULL) {
+        if (!PyArg_ParseTuple(args, "O!O!|i",
+                              &_ped_FileSystemType_Type_obj, &self->type,
+                              &_ped_Geometry_Type_obj, &self->geom,
+                              &self->checked)) {
+            self->type = self->geom = NULL;
+            return -1;
+        }
     } else {
-        Py_INCREF(self->type);
-        Py_INCREF(self->geom);
-        return 0;
+        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!O!|i", kwlist,
+                                         &_ped_FileSystemType_Type_obj, &self->type,
+                                         &_ped_Geometry_Type_obj, &self->geom,
+                                         &self->checked)) {
+            self->type = self->geom = NULL;
+            return -2;
+        }
     }
+
+    Py_INCREF(self->type);
+    Py_INCREF(self->geom);
+    return 0;
 }
 
 PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
