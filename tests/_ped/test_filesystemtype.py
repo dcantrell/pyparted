@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -24,14 +24,22 @@ import unittest
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class CHSGeometryNewTestCase(unittest.TestCase):
+class FileSystemTypeNewTestCase(unittest.TestCase):
+    # TODO
     def runTest(self):
-        # You're not allowed to create a new CHSGeometry object by hand.
-        # XXX: So, how do we go about testing access and setting of the
-        # object's attributes?
-        self.assertRaises(TypeError, _ped.CHSGeometry)
+        pass
 
-class CHSGeometryGetSetTestCase(unittest.TestCase):
+class FileSystemTypeGetSetTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemTypeRegister(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemTypeUnregister(unittest.TestCase):
     # TODO
     def runTest(self):
         pass
@@ -40,8 +48,10 @@ class CHSGeometryGetSetTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(CHSGeometryNewTestCase())
-    suite.addTest(CHSGeometryGetSetTestCase())
+    suite.addTest(FileSystemTypeNewTestCase())
+    suite.addTest(FileSystemTypeGetSetTestCase())
+    suite.addTest(FileSystemTypeRegisterTestCase())
+    suite.addTest(FileSystemTypeUnregisterTestCase())
     return suite
 
 s = suite()
