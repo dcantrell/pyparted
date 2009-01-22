@@ -183,6 +183,11 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         self.assert_(len(lst) > 0)
         self.assert_(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)) > 0)
 
+class DeviceFreeAllTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
         for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
@@ -356,6 +361,7 @@ def suite():
     suite.addTest(DeviceGetTestCase())
     suite.addTest(DeviceGetNextTestCase())
     suite.addTest(DeviceProbeAllTestCase())
+    suite.addTest(DeviceFreeAllTestCase())
     suite.addTest(DiskTypeGetTestCase())
     suite.addTest(DiskTypeGetNextTestCase())
     suite.addTest(DivRoundToNearestTestCase())
@@ -367,7 +373,6 @@ def suite():
     suite.addTest(FlagGetNameTestCase())
     suite.addTest(FlagGetByNameTestCase())
     suite.addTest(FlagNextTestCase())
-    suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())

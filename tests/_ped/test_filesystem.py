@@ -24,11 +24,64 @@ import unittest
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
+class FileSystemNewTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemGetSetTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemClobberTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemCreateTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemCloseTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemCheckTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemCopyTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemResizeTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
+
+class FileSystemGetResizeConstraintTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        pass
 
 
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(FileSystemNewTestCase())
+    suite.addTest(FileSystemGetSetTestCase())
+    suite.addTest(FileSystemClobberTestCase())
+    suite.addTest(FileSystemCreateTestCase())
+    suite.addTest(FileSystemCloseTestCase())
+    suite.addTest(FileSystemCheckTestCase())
+    suite.addTest(FileSystemCopyTestCase())
+    suite.addTest(FileSystemResizeTestCase())
+    suite.addTest(FileSystemGetResizeConstraintTestCase())
     return suite
 
 s = suite()
