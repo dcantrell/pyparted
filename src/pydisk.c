@@ -848,6 +848,11 @@ PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Flag is not available on inactive partition %s%d", part->disk->dev->path, part->num);
+        return NULL;
+    }
+
     ret = ped_partition_is_flag_available(part, flag);
     ped_partition_destroy(part);
 
@@ -874,6 +879,12 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /* ped_partition_set_system will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return NULL;
+    }
+
     ret = ped_partition_set_system(part, out_fstype);
     if (ret == 0) {
         PyErr_Format(PartitionException, "Could not set system flag on partition %s%d", part->disk->dev->path, part->num);
@@ -895,6 +906,13 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
     }
 
     part = _ped_Partition2PedPartition(s);
+
+    /* ped_partition_set_name will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return NULL;
+    }
+
     if (part) {
         ret = ped_partition_set_name(part, in_name);
         if (ret == 0) {
@@ -924,6 +942,13 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
     char *ret = NULL;
 
     part = _ped_Partition2PedPartition(s);
+
+    /* ped_partition_get_name will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return NULL;
+    }
+
     if (part) {
         ret = (char *) ped_partition_get_name(part);
         if (ret == NULL) {
