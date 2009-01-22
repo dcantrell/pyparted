@@ -59,11 +59,11 @@ class PartitionGetSetTestCase(RequiresPartition):
         self.assert_(getattr(self._part, "num") == 1)
 
         # Test that setting the RO attributes directly doesn't work.
-        self.assertRaises(AttributeError, setattr, self._part, "fs_type",
-                                          _ped.file_system_type_get("fat32"))
-        self.assertRaises(AttributeError, setattr, self._part, "geom",
-                                          _ped.Geometry(self._device, 10, 20))
-        self.assertRaises(AttributeError, setattr, self._part, "disk", self._disk)
+        self.assertRaises(TypeError, setattr, self._part, "fs_type",
+                                     _ped.file_system_type_get("fat32"))
+        self.assertRaises(TypeError, setattr, self._part, "geom",
+                                     _ped.Geometry(self._device, 10, 20))
+        self.assertRaises(TypeError, setattr, self._part, "disk", self._disk)
 
         # Check that values have the right type.
         self.assertRaises(TypeError, setattr, self._part, "type", "blah")
@@ -88,8 +88,7 @@ class PartitionIsActiveTestCase(RequiresPartition):
             # Can't have a partition of these two types that also has a
             # filesystem type associated with it.  libparted doesn't like
             # that combination.
-            self._part.fs_type = None
-            self._part.type = ty
+            self._part = _ped.Partition(self._disk, ty, 0, 100)
             self.assertFalse(self._part.is_active())
 
 class PartitionSetFlagTestCase(unittest.TestCase):
@@ -102,25 +101,70 @@ class PartitionGetFlagTestCase(unittest.TestCase):
         # TODO
         pass
 
-class PartitionIsFlagAvailableTestCase(unittest.TestCase):
+class PartitionIsFlagAvailableTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        pass
+        # We don't know which flags should be available and which shouldn't,
+        # but we can at least check that there aren't any tracebacks from
+        # trying all of the valid ones.
+        for flag in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
+                     _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
+                     _ped.PARTITION_HPSERVICE, _ped.PARTITION_PALO,
+                     _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED]:
+            self.assert_(isinstance(self._part.is_flag_available(flag), bool))
 
-class PartitionSetSystemTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        pass
+        # However, an invalid flag should definitely not be available.
+        self.assertFalse(self._part.is_flag_available(1000))
 
-class PartitionSetNameTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        pass
+        # Partitions that are inactive should not have any available flags.
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
+        self.assertRaises(_ped.PartitionException, self._part.is_flag_available,
+                          _ped.PARTITION_BOOT)
 
-class PartitionGetNameTestCase(unittest.TestCase):
+class PartitionSetSystemTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        pass
+        self.assertTrue(self._part.set_system(_ped.file_system_type_get("fat32")))
+
+        self.assertRaises(TypeError, self._part.set_system, 47)
+
+        # Partitions that are inactive cannot have the system type set.
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
+        self.assertRaises(_ped.PartitionException, self._part.set_system,
+                          _ped.file_system_type_get("ext2"))
+
+class PartitionSetNameTestCase(RequiresPartition):
+    def runTest(self):
+        # The DOS disklabel does not support naming.
+        self.assertRaises(_ped.PartitionException, self._part.set_name, "blah")
+
+        # These should work.
+        self._disk = _ped.Disk(self._device, _ped.disk_type_get("mac"))
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
+                                    _ped.file_system_type_get("fat32"))
+        self.assertTrue(self._part.set_name("blah"))
+        self.assertEqual(self._part.get_name(), "blah")
+
+        # Partitions that are inactive won't work.
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
+        self.assertRaises(_ped.PartitionException, self._part.get_name)
+
+class PartitionGetNameTestCase(RequiresPartition):
+    def runTest(self):
+        # The DOS disklabel does not support naming.
+        self.assertRaises(_ped.PartitionException, self._part.get_name)
+
+        # Partitions that are inactive won't work either.
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
+        self.assertRaises(_ped.PartitionException, self._part.get_name)
+
+        # Mac disk labels do support naming, but there still has to be a name.
+        self._disk = _ped.Disk(self._device, _ped.disk_type_get("mac"))
+        self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
+                                    _ped.file_system_type_get("fat32"))
+        self.assertRaises(_ped.PartitionException, self._part.get_name)
+
+        # Finally, Mac disk labels with a name will work.
+        self._part.set_name("blah")
+        self.assertEqual(self._part.get_name(), "blah")
 
 class PartitionIsBusyTestCase(unittest.TestCase):
     def runTest(self):
