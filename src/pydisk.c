@@ -414,7 +414,11 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
@@ -433,7 +437,11 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
@@ -464,7 +472,11 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
 
     free(out_disktype);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 /* XXX: is this necessary? */
@@ -553,7 +565,11 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
@@ -582,7 +598,11 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
@@ -611,7 +631,11 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
@@ -640,7 +664,11 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
@@ -745,13 +773,17 @@ PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
     int in_state = -1;
     PedPartition *part = NULL;
-    long flag;
+    int flag;
     int ret = 0;
 
     if (!PyArg_ParseTuple(args, "ii", &flag, &in_state)) {
@@ -781,12 +813,16 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
         ped_partition_destroy(part);
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     PedPartition *part = NULL;
-    long flag;
+    int flag;
     int ret = -1;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -801,12 +837,16 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     ret = ped_partition_get_flag(part, flag);
     ped_partition_destroy(part);
 
-    return PyInt_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     PedPartition *part = NULL;
-    long flag;
+    int flag;
     int ret = 0;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -826,7 +866,11 @@ PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     ret = ped_partition_is_flag_available(part, flag);
     ped_partition_destroy(part);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
@@ -863,7 +907,11 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
 
     ped_partition_destroy(part);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
@@ -904,7 +952,11 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
@@ -956,7 +1008,11 @@ PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
@@ -1032,7 +1088,7 @@ PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
-    long flag;
+    int flag;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
@@ -1086,7 +1142,11 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     ped_partition_destroy(out_part);
     ped_constraint_destroy(out_constraint);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
@@ -1126,7 +1186,11 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
     ped_disk_destroy(disk);
     ped_partition_destroy(out_part);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
@@ -1166,7 +1230,11 @@ PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
     ped_disk_destroy(disk);
     ped_partition_destroy(out_part);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
@@ -1195,7 +1263,11 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
@@ -1246,7 +1318,11 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
     ped_partition_destroy(out_part);
     ped_constraint_destroy(out_constraint);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
@@ -1294,7 +1370,11 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
     ped_partition_destroy(out_part);
     ped_constraint_destroy(out_constraint);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
@@ -1378,7 +1458,11 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
