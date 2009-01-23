@@ -343,7 +343,11 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     ret = ped_alignment_is_aligned(align, out_geom, sector);
     ped_alignment_destroy(align);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {

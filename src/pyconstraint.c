@@ -485,10 +485,13 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
     }
 
     ret = ped_constraint_is_solution(constraint, out_geometry);
-
     ped_constraint_destroy(constraint);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
