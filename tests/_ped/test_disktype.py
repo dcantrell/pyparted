@@ -34,16 +34,6 @@ class DiskTypeGetSetTestCase(unittest.TestCase):
     def runTest(self):
         pass
 
-class DiskTypeRegisterTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
-
-class DiskTypeUnregisterTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
-
 class DiskTypeCheckFeatureTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -55,8 +45,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(DiskTypeNewTestCase())
     suite.addTest(DiskTypeGetSetTestCase())
-    suite.addTest(DiskTypeRegisterTestCase())
-    suite.addTest(DiskTypeUnregisterTestCase())
     suite.addTest(DiskTypeCheckFeatureTestCase())
     return suite
 

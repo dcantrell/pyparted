@@ -148,34 +148,6 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
 }
 
 /* 1:1 function mappings for filesys.h in libparted */
-PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args) {
-    PedFileSystemType *fstype = NULL;
-
-    fstype = _ped_FileSystemType2PedFileSystemType(s);
-    if (!fstype) {
-        return NULL;
-    }
-
-    ped_file_system_type_register(fstype);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args) {
-    PedFileSystemType *fstype = NULL;
-
-    fstype = _ped_FileSystemType2PedFileSystemType(s);
-    if (!fstype) {
-        return NULL;
-    }
-
-    ped_file_system_type_unregister(fstype);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     PedFileSystemType *fstype = NULL;
     _ped_FileSystemType *ret = NULL;

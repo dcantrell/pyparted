@@ -222,14 +222,6 @@ PyDoc_STRVAR(disk_extended_partition_doc,
 "If an extended partition exists on self, return it.  Otherwise, raise\n"
 "_ped.PartitionException");
 
-PyDoc_STRVAR(disk_type_register_doc,
-"register(self) -> None\n\n"
-"Register a new DiskType in parted's internal listing.");
-
-PyDoc_STRVAR(disk_type_unregister_doc,
-"unregister(self) -> None\n\n"
-"Remove self from parted's internal list of DiskType objects.");
-
 PyDoc_STRVAR(disk_type_check_feature_doc,
 "check_feature(self, DiskTypeFeature) -> boolean\n\n"
 "Return whether or not self supports a particular partition table feature.\n"

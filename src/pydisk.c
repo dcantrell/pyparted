@@ -343,36 +343,6 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
 }
 
 /* 1:1 function mappings for disk.h in libparted */
-PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args) {
-    PedDiskType *disktype = NULL;
-
-    disktype = _ped_DiskType2PedDiskType(s);
-    if (disktype == NULL) {
-        return NULL;
-    }
-
-    ped_disk_type_register(disktype);
-    /* do not free out_disktype here because it's now in libparted's list */
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args) {
-    PedDiskType *disktype = NULL;
-
-    disktype = _ped_DiskType2PedDiskType(s);
-    if (disktype == NULL) {
-        return NULL;
-    }
-
-    ped_disk_type_unregister(disktype);
-    free(disktype);
-
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
     PyObject *in_type = NULL;
     PedDiskType *cur = NULL, *next = NULL;
