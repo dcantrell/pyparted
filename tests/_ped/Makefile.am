@@ -31,6 +31,8 @@ TESTS = test_ped.py \
 		  test_constraint.py \
 		  test_device.py \
 		  test_disk.py \
+		  test_disktype.py \
 		  test_filesystem.py \
+		  test_filesystemtype.py \
 		  test_geometry.py \
 		  test_partition.py
