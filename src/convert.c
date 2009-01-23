@@ -53,7 +53,7 @@
  *
  * 1) When converting from a PyObject, first check for NULL and raise a
  *    PyExc_Type error.
- * 2) When convertion from a Ped*, first check for NULL and raise a
+ * 2) When converting from a Ped*, first check for NULL and raise a
  *    PyExc_Type error.
  * 3) Check the return value of all calls to other convert.c functions and
  *    return NULL on error, but do not raise an exception.
