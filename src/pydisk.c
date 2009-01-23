@@ -996,14 +996,14 @@ PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
-    long flag;
+    int flag;
     char *ret = NULL;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
         return NULL;
     }
 
-    if (flag < PED_PARTITION_FIRST_FLAG || flag > PED_PARTITION_LAST_FLAG) {
+    if ((flag < PED_PARTITION_FIRST_FLAG) || (flag > PED_PARTITION_LAST_FLAG)) {
         PyErr_SetString(PyExc_ValueError, "Invalid flag provided.");
         return NULL;
     }
@@ -1038,7 +1038,7 @@ PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ped_partition_flag_next(flag));
+    return Py_BuildValue("i", ped_partition_flag_next(flag));
 }
 
 PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
