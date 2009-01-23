@@ -93,6 +93,22 @@ class Partition(object):
            working with partition flags."""
         return self.__partition.set_flag(flag, value)
 
+    def getSize(self, unit="MB"):
+        """Return the size of the partition in the unit specified.  The unit
+           is given as a string corresponding to one of the following
+           abbreviations: b (bytes), KB (kilobytes), MB (megabytes), GB
+           (gigabytes), TB (terabytes).  An invalid unit string will raise a
+           SyntaxError exception.  The default unit is MB."""
+        exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
+        lunit = unit.lower()
+        sector_size = self.geometry.getPedGeometry().dev.sector_size
+        size = self.geometry.length * sector_size
+
+        if lunit not in exponent.keys():
+            raise SyntaxError, "invalid unit %s given" % (unit,)
+
+        return (size / math.pow(1024.0, exponent[lunit]))
+
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
            For internal module use only."""
