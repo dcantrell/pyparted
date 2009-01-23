@@ -113,3 +113,15 @@ class Partition(object):
         """Return the _ped.Partition object contained in this Partition.
            For internal module use only."""
         return self.__partition
+
+# collect all partition flags and store them in a hash
+partitionFlag = {}
+__flag = _ped.partition_flag_next(0)
+partitionFlag[__flag] = _ped.partition_flag_get_name(__flag)
+
+while True:
+    try:
+        __flag = _ped.partition_flag_next(__flag)
+        partitionFlag[__flag] = _ped.partition_flag_get_name(__flag)
+    except:
+        break
