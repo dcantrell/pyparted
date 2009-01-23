@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2008, 2009 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -21,20 +21,31 @@
 import _ped
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 class CHSGeometryNewTestCase(unittest.TestCase):
     def runTest(self):
         # You're not allowed to create a new CHSGeometry object by hand.
-        # XXX: So, how do we go about testing access and setting of the
-        # object's attributes?
         self.assertRaises(TypeError, _ped.CHSGeometry)
 
-class CHSGeometryGetSetTestCase(unittest.TestCase):
-    # TODO
+class CHSGeometryGetSetTestCase(RequiresDevice):
     def runTest(self):
-        pass
+        # A device has a CHSGeometry, so we can use that to attempt accessing
+        # parameters.
+        chs = self._device.hw_geom
+        self.assert_(isinstance(chs, _ped.CHSGeometry))
+
+        # All attributes are read-only.
+        self.assertRaises(AttributeError, setattr, chs, "cylinders", 47)
+        self.assertRaises(AttributeError, setattr, chs, "heads", 47)
+        self.assertRaises(AttributeError, setattr, chs, "sectors", 47)
+
+        self.assert_(isinstance(chs.cylinders, int))
+        self.assert_(isinstance(chs.heads, int))
+        self.assert_(isinstance(chs.sectors, int))
 
 
 # And then a suite to hold all the test cases for this module.
