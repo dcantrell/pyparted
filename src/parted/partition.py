@@ -24,6 +24,7 @@
 
 import _ped
 import parted
+import string
 
 # XXX: add docstrings
 
@@ -108,6 +109,17 @@ class Partition(object):
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
         return (size / math.pow(1024.0, exponent[lunit]))
+
+    def getFlagsAsString(self):
+        """Return a comma-separated string representing the flags
+           on this partition."""
+        flags = []
+
+        for flag in partitionFlag.keys():
+            if self.getFlag(flag):
+                flags.append(partitionFlag[flag])
+
+        return string.join(flags, ', ')
 
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
