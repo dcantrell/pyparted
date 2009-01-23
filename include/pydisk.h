@@ -30,8 +30,6 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for disk.h in libparted */
-PyObject *py_ped_disk_type_register(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_type_unregister(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);

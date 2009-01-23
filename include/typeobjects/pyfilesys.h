@@ -34,10 +34,6 @@ static PyMemberDef _ped_FileSystemType_members[] = {
 };
 
 static PyMethodDef _ped_FileSystemType_methods[] = {
-    {"register", (PyCFunction) py_ped_file_system_type_register,
-                 METH_VARARGS, file_system_type_register_doc},
-    {"unregister", (PyCFunction) py_ped_file_system_type_unregister,
-                   METH_VARARGS, file_system_type_unregister_doc},
     {NULL}
 };
 

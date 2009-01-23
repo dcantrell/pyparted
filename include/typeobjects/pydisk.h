@@ -243,10 +243,6 @@ static PyMemberDef _ped_DiskType_members[] = {
 };
 
 static PyMethodDef _ped_DiskType_methods[] = {
-    {"register", (PyCFunction) py_ped_disk_type_register, METH_VARARGS,
-                 disk_type_register_doc},
-    {"unregister", (PyCFunction) py_ped_disk_type_unregister,
-                   METH_VARARGS, disk_type_unregister_doc},
     {"check_feature", (PyCFunction) py_ped_disk_type_check_feature,
                       METH_VARARGS, disk_type_check_feature_doc},
     {NULL}

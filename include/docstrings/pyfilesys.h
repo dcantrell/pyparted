@@ -27,12 +27,6 @@
 
 #include <Python.h>
 
-PyDoc_STRVAR(file_system_type_register_doc,
-"register(self) -> None\n\n");
-
-PyDoc_STRVAR(file_system_type_unregister_doc,
-"unregister(self) -> None\n\n");
-
 PyDoc_STRVAR(file_system_clobber_doc,
 "clobber(self) -> boolean\n\n"
 "This method erases any file system signatures found in the region given by\n"
@@ -93,9 +87,7 @@ PyDoc_STRVAR(file_system_get_resize_constraint_doc,
 PyDoc_STRVAR(_ped_FileSystemType_doc,
 "A _ped.FileSystemType object gives a name to a single filesystem that parted\n"
 "understands.  parted maintains a list of these objects which can be\n"
-"traversed with the self.get_next method or accessed directly via self.get().\n"
-"File systems types are typically registered and unregistered automatically,\n"
-"so the user does not need to worry about doing it.");
+"traversed with the self.get_next method or accessed directly via self.get().");
 
 PyDoc_STRVAR(_ped_FileSystem_doc,
 "A _ped.FileSystem object describes a filesystem that exists in a given\n"

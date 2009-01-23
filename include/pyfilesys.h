@@ -33,8 +33,6 @@
 #define ped_file_system_destroy(fs)
 
 /* 1:1 function mappings for filesys.h in libparted */
-PyObject *py_ped_file_system_type_register(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_type_unregister(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args);
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args);

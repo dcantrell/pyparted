@@ -39,24 +39,12 @@ class FileSystemTypeGetSetTestCase(unittest.TestCase):
         self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
         self.assertRaises(AttributeError, getattr, fstype, "junk")
 
-class FileSystemTypeRegisterTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
-
-class FileSystemTypeUnregisterTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
-
 
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(FileSystemTypeNewTestCase())
     suite.addTest(FileSystemTypeGetSetTestCase())
-    suite.addTest(FileSystemTypeRegisterTestCase())
-    suite.addTest(FileSystemTypeUnregisterTestCase())
     return suite
 
 s = suite()
