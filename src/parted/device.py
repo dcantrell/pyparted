@@ -21,6 +21,7 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+import math
 import _ped
 import parted
 
@@ -131,17 +132,38 @@ class Device(object):
     def check(self, buffer, start, count):
         """From the sector identified by start, perform an operating
            system specific check on count sectors."""
-
         return self.__device.check(buffer, start, count)
+
+    def startSectorToCylinder(self, sector):
+        """Return the closest cylinder (round down) to sector on
+           this Device."""
+        (cylinders, heads, sectors) = self.biosGeometry
+        return long(math.floor((float(sector) / (heads * sectors)) + 1))
+
+    def endSectorToCylinder(self, sector):
+        """Return the closest cylinder (round up) to sector on
+           this Device."""
+        (cylinders, heads, sectors) = self.biosGeometry
+        return long(math.ceil(floor((sector + 1)) / (heads * sectors)))
+
+    def startCylinderToSector(self, cylinder):
+        """Return the sector corresponding to cylinder as a
+           starting cylinder on this Device."""
+        (cylinders, heads, sectors) = self.biosGeometry
+        return long((cylinder - 1) * (heads * sectors))
+
+    def endCylinderToSector(self, cylinder):
+        """Return the sector corresponding to cylinder as an
+           ending cylinder on this Device."""
+        (cylinders, heads, sectors) = self.biosGeometry
+        return long(((cylinder) * (heads * sectors)) - 1)
 
     def getConstraint(self):
         """Return a Constraint defining the limitations imposed by
            this Device."""
-
         return self.__device.get_constraint()
 
     def getPedDevice(self):
         """Return the _ped.Device object contained in this Device.
            For internal module use only."""
-
         return self.__device
