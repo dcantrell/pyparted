@@ -25,21 +25,26 @@ import unittest
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 class FileSystemTypeNewTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        pass
+        # You can't create a FileSystemType by hand.
+        self.assertRaises(TypeError, _ped.FileSystemType)
 
 class FileSystemTypeGetSetTestCase(unittest.TestCase):
+    def runTest(self):
+        fstype = _ped.file_system_type_get("ext3")
+
+        self.assert_(isinstance(fstype, _ped.FileSystemType)
+        self.assertEqual(fstype.name, "ext3")
+        self.assertEqual(getattr(fstype, "name"), "ext3")
+        self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
+        self.assertRaises(AttributeError, getattr, fstype, "junk")
+
+class FileSystemTypeRegisterTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         pass
 
-class FileSystemTypeRegister(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        pass
-
-class FileSystemTypeUnregister(unittest.TestCase):
+class FileSystemTypeUnregisterTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         pass

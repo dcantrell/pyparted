@@ -58,6 +58,7 @@ def suite():
     suite.addTest(DiskTypeRegisterTestCase())
     suite.addTest(DiskTypeUnregisterTestCase())
     suite.addTest(DiskTypeCheckFeatureTestCase())
+    return suite
 
 s = suite()
 unittest.TextTestRunner(verbosity=2).run(s)
