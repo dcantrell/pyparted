@@ -225,7 +225,11 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
 
     ret = ped_unit_parse(str, out_dev, &sector, &out_geom);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
@@ -260,7 +264,11 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
 
     ret = ped_unit_parse_custom(str, out_dev, unit, &sector, &out_geom);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 /* vim:tw=78:ts=4:et:sw=4

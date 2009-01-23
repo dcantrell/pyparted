@@ -266,7 +266,11 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
     ((_ped_Geometry *) s)->length = geom->length;
     ((_ped_Geometry *) s)->end = geom->end;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
@@ -300,7 +304,11 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
     ((_ped_Geometry *) s)->start = geom->start;
     ((_ped_Geometry *) s)->length = geom->length;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
@@ -334,7 +342,11 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
     ((_ped_Geometry *) s)->length = geom->length;
     ((_ped_Geometry *) s)->end = geom->end;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
@@ -357,7 +369,12 @@ PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_test_overlap(out_a, out_b);
-    return PyBool_FromLong(ret);
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
@@ -380,7 +397,12 @@ PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_test_inside(out_a, out_b);
-    return PyBool_FromLong(ret);
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
@@ -403,7 +425,12 @@ PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args) {
     }
 
     ret = ped_geometry_test_equal(out_a, out_b);
-    return PyBool_FromLong(ret);
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
@@ -422,7 +449,11 @@ PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args) {
 
     ret = ped_geometry_test_sector_inside(geom, sector);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
@@ -490,7 +521,11 @@ PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
@@ -508,7 +543,11 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
@@ -552,7 +591,11 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {

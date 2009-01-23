@@ -296,7 +296,11 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
 
     PyObject_GC_Del(s);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
@@ -407,7 +411,11 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
 
     ped_file_system_destroy(fs);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
@@ -448,7 +456,11 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     ped_file_system_destroy(fs);
     ped_timer_destroy(out_timer);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
@@ -558,7 +570,11 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
     ped_file_system_destroy(fs);
     ped_timer_destroy(out_timer);
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 /*

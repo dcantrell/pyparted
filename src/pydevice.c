@@ -253,7 +253,12 @@ PyObject *py_ped_device_is_busy(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_is_busy(device);
-    return PyBool_FromLong(ret);
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
@@ -286,7 +291,11 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
 
     ((_ped_Device *) s)->open_count = device->open_count;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
@@ -324,7 +333,11 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
 
     ((_ped_Device *) s)->open_count = device->open_count;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 /*
@@ -394,7 +407,11 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
 
     ((_ped_Device *) s)->external_mode = device->external_mode;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
@@ -427,7 +444,11 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 
     ((_ped_Device *) s)->external_mode = device->external_mode;
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
@@ -557,7 +578,11 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
@@ -593,7 +618,11 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyBool_FromLong(ret);
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
