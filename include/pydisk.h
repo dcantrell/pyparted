@@ -2,7 +2,7 @@
  * pydisk.h
  * pyparted type definitions for pydisk.c
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -82,7 +82,7 @@ typedef struct {
     PyObject *disk;                /* _ped.Disk */
     PyObject *geom;                /* _ped.Geometry */
     int num;
-    long type;                     /* PedPartitionType */
+    int type;                      /* PedPartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
 } _ped_Partition;
 
