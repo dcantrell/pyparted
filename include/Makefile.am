@@ -22,7 +22,8 @@
 
 SUBDIRS = docstrings typeobjects
 
-noinst_HEADERS = convert.h _pedmodule.h pyconstraint.h pydevice.h pydisk.h \
-                 pyfilesys.h pygeom.h pynatmath.h pytimer.h pyunit.h
+noinst_HEADERS = convert.h exceptions.h _pedmodule.h pyconstraint.h \
+                 pydevice.h pydisk.h pyfilesys.h pygeom.h pynatmath.h \
+                 pytimer.h pyunit.h
 
 MAINTAINERCLEANFILES = Makefile.in
