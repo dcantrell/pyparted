@@ -36,7 +36,7 @@ class Device(object):
 
        For information on the individual methods, see help(Device.METHODNAME)"""
 
-    def __init__(self, path=None, device=None, PedDevice=None):
+    def __init__(self, path=None, PedDevice=None):
         """Create a new Device object based on the specified path or the
            already existing _ped.Device object.  You must provide either a
            path (e.g., "/dev/sda") or an existing _ped.Device object, but
@@ -46,8 +46,6 @@ class Device(object):
             self.__device = PedDevice
         elif path is not None:
             self.__device = _ped.device_get(path)
-        elif device is not None:
-            self.__device = device
         else:
             raise _ped.PartedException, "no path or _ped.Device specified"
 
@@ -157,6 +155,24 @@ class Device(object):
            ending cylinder on this Device."""
         (cylinders, heads, sectors) = self.biosGeometry
         return long(((cylinder) * (heads * sectors)) - 1)
+
+    def getSize(self, unit="MB"):
+        """Return the size of the Device in the unit specified.  The unit
+           is given as a string corresponding to one of the following
+           abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
+           (gigabytes), TB (terabytes).  An invalid unit string will raise a
+           SyntaxError exception.  The default unit is MB."""
+        lunit = unit.lower()
+
+        if lunit not in parted.__exponent.keys():
+            raise SyntaxError, "invalid unit %s given" % (unit,)
+
+        (cylinders, heads, sectors) = self.biosGeometry
+        size = float(heads * cylinders * sectors)
+        size /= math.pow(1024.0, parted.__exponent[lunit])
+        size *= self.physicalSectorSize
+
+        return size
 
     def getConstraint(self):
         """Return a Constraint defining the limitations imposed by
