@@ -104,10 +104,10 @@ class Partition(object):
         physicalSectorSize = self.geometry.device.physicalSectorSize
         size = self.geometry.length * physicalSectorSize
 
-        if lunit not in parted.__exponent.keys():
+        if lunit not in parted._exponent.keys():
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
-        return (size / math.pow(1024.0, parted.__exponent[lunit]))
+        return (size / math.pow(1024.0, parted._exponent[lunit]))
 
     def getFlagsAsString(self):
         """Return a comma-separated string representing the flags

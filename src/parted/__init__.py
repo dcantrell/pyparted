@@ -170,7 +170,7 @@ partitionTypesDict = {
 #   tb    terabytes   1024^4 = 1099511627776
 # The resulting value for 1024 raised to the power is used as
 # the divisor for conversion functions.
-__exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
+_exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
 
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
