@@ -65,8 +65,9 @@ class Partition(object):
     busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
 
     #
-    # XXX: disk, fileSystem, and geometry need to set the property in s.__partition as
-    # writing to the properties that we have here...maybe?  figure this out.
+    # XXX: disk, fileSystem, and geometry need to set the property in
+    # s.__partition as writing to the properties that we have here...maybe?
+    # figure this out.
     #
     disk = property(lambda s: s._disk, lambda s, v: s.__readOnly("disk"))
     fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
@@ -120,6 +121,33 @@ class Partition(object):
                 flags.append(partitionFlag[flag])
 
         return string.join(flags, ', ')
+
+    def getMaxAvailableSize(self, unit="MB"):
+        """Return the maximum size this Partition can grow to by looking
+           at contiguous freespace partitions.  The size is returned in
+           the unit specified (default is megabytes).  The unit is a
+           string corresponding to one of the following abbreviations:
+           b (bytes), KB (kilobytes), MB (megabytes), GB (gigabytes),
+           TB (terabytes).  An invalid unit string will raise a
+           SyntaxError exception."""
+        lunit = unit.lower()
+
+        if lunit not in parted._exponent.keys():
+            raise SyntaxError, "invalid unit %s given" % (unit,)
+
+        maxLength = self.geometry.length
+        nextPartition = self.disk.nextPartition(self)
+        physicalSectorSize = self.geometry.device.physicalSectorSize
+
+        while nextPartition:
+            if nextPartition.type & parted.PARTITION_FREESPACE:
+                maxLength += nextPartition.geometry.length
+            else:
+                break
+
+            nextPartition = self.disk.nextPartition(nextPartition)
+
+        return math.floor(maxLength * math.pow(physicalSectorSize, parted._exponent[lunit]))
 
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
