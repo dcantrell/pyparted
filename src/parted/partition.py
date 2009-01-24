@@ -22,6 +22,7 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 
+import math
 import _ped
 import parted
 import string
