@@ -23,7 +23,6 @@
 
 import _ped
 import parted
-from parted.partition import *
 
 class Disk(object):
     """Disk()
@@ -41,15 +40,16 @@ class Disk(object):
             if device is None or type is None:
                 raise _ped.PartedException, "no type or _ped.Device specified"
 
-            self._device = device
-            self._type = type
-            self.__disk = _ped.Disk(self._device.getPedDevice(), self._type)
+            self.__disk = _ped.Disk(device.getPedDevice(), type)
 
+        self._device = device
+        self._type = type
         self.partitions = {}
 
         i = 1
         while i <= self.lastPartitionNumber:
-            self.partitions[i] = Partition(self.__disk.get_partition(i))
+            self.partitions[i] = parted.Partition(self.__disk.get_partition(i))
+            i += 1
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
