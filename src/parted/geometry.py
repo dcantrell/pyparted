@@ -22,6 +22,7 @@
 #
 
 import _ped
+import parted
 
 class Geometry(object):
     """Geometry()
