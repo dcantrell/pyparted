@@ -149,6 +149,22 @@ class Disk(object):
            returned (not the extended partition)."""
         return self.__disk.get_partition_by_sector(sector)
 
+    def getMaxLogicalPartitions(self):
+        """Return the maximum number of logical partitions this Disk
+           will hold.  Returns 0 if there is no extended partition on
+           the disk, returns 11 when all else fails."""
+        if not self.type.check_feature(parted.DISK_TYPE_EXTENDED):
+            return 0
+
+        dev = self.device.path[5:]
+        for key in __maxLogicalPartitionCount.keys():
+            if dev.startswith(key):
+                return __maxLogicalPartitionCount[key]
+
+        # XXX: if we don't know about it, should we pretend it can't have
+        # logicals?  probably safer to just use something reasonable
+        return 11
+
     def getExtendedPartition(self):
         """Return the extended Partition, if any, on this Disk."""
         return self.__disk.extended_partition()
@@ -169,3 +185,19 @@ while True:
         diskType[__type.name] = __type
     except:
         break
+
+# maximum number of logical partitions per device type
+__maxLogicalPartitionCount = {
+    "hd": 59,
+    "sd": 11,
+    "ataraid/": 11,
+    "rd/": 3,
+    "cciss/": 11,
+    "i2o/": 11,
+    "iseries/vd": 3,
+    "ida/": 11,
+    "sx8/": 11,
+    "xvd": 11,
+    "vd": 11,
+    "mmcblk": 5
+}
