@@ -22,9 +22,20 @@
 #                    Chris Lumens <clumens@redhat.com>
 #
 
-import _ped
+__all__ = ['alignment', 'constraint', 'device', 'disk',
+           'filesystem', 'geometry', 'partition']
 
-__all__ = ['device', 'disk', 'geometry']
+import _ped
+from alignment import Alignment
+from constraint import Constraint
+from device import Device
+from disk import Disk
+from disk import diskType
+from filesystem import FileSystem
+from filesystem import fileSystemType
+from geometry import Geometry
+from partition import Partition
+from partition import partitionFlag
 
 # the enumerated types in _ped need to be available from here too
 UNIT_SECTOR              = _ped.UNIT_SECTOR
@@ -150,6 +161,17 @@ partitionTypesDict = {
     0xff: "BBT"
 }
 
+# Exponents for 1024 used when converting sizes to byte-sized
+# units for display.  The keys are:
+#   b     bytes       1024^0 = 1
+#   kb    kilobytes   1024^1 = 1024
+#   mb    megabytes   1024^2 = 1048576
+#   gb    gigabytes   1024^3 = 1073741824
+#   tb    terabytes   1024^4 = 1099511627776
+# The resulting value for 1024 raised to the power is used as
+# the divisor for conversion functions.
+__exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
+
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
@@ -170,11 +192,11 @@ def divRoundToNearest(numerator, divisor):
     """Returns the closest result of numerator/divisor."""
     return _ped.div_round_to_nearest(numerator, divisor)
 
-def getDisk(path):
+def getDevice(path):
     """Given the operating system level path to a device node, return
-       a Disk object for that disk.  Raises DiskException if an invalid
+       a Device object for that disk.  Raises DiskException if an invalid
        path is given."""
-    return _ped.device_get(path)
+    return Device(path=path)
 
 def getAllDisks():
     """Return a list of Disk objects for all disks in the system."""
