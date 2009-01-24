@@ -24,11 +24,21 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = include src tests
 
+EXTRA_DIST = AUTHORS BUGS COPYING NEWS README TODO WHY ChangeLog
+
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        depcomp install-sh ltmain.sh missing ABOUT-NLS \
                        INSTALL aclocal.m4 configure
 
+CLEANFILES = *~ ChangeLog
+
 MOSTLYCLEANDIRS = m4
+
+dist-hook:
+	rm -rf `find $(distdir) -type f -name .gitignore`
+
+ChangeLog:
+	(GIT_DIR=.git git log > .changelog.tmp && mv .changelog.tmp ChangeLog; rm -f .changelog.tmp) || (touch ChangeLog; echo 'git directory not found: installing possibly empty ChangeLog.' >&2)
 
 pychecker: all
 	$(MAKE) -C src/parted pychecker
