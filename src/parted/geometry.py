@@ -37,13 +37,17 @@ class Geometry(object):
         if PedGeometry:
             self.__geometry = PedGeometry
         elif not end:
-            self.__geometry = _ped.Geometry(device, start, length)
+            self.__geometry = _ped.Geometry(device.getPedDevice(), start, length)
         else:
-            self.__geometry = _ped.Geometry(device, start, length, end=end)
+            self.__geometry = _ped.Geometry(device.getPedDevice(), start, length, end=end)
+
+    def __readOnly(self, property):
+        raise parted.ReadOnlyProperty, property
 
     start = property(lambda s: s.__geometry.start, lambda s, v: s.__geometry.set_start(v))
     end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
+    device = property(lambda s: Device(PedDevice=s.__geometry.dev), lambda s, v: s.__readOnly("device"))
 
     # FIXME:  Get rid of buf and size from the public API here.
     def check(self, buf, size, offset, granularity, count, timer=None):
