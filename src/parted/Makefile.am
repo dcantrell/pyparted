@@ -21,7 +21,7 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 
-parteddir = $(pythondir)/parted
+parteddir = $(pyexecdir)/parted
 
 parted_PYTHON = __init__.py alignment.py constraint.py device.py \
                 disk.py filesystem.py geometry.py partition.py
