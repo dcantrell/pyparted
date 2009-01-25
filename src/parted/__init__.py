@@ -198,21 +198,21 @@ def getDevice(path):
        path is given."""
     return Device(path=path)
 
-def getAllDisks():
-    """Return a list of Disk objects for all disks in the system."""
+def getAllDevices():
+    """Return a list of Device objects for all devices in the system."""
     lst = []
-    disk = None
+    device = None
 
     _ped.device_probe_all()
 
     while True:
         try:
-            if not disk:
-                disk = _ped.device_get_next()
+            if not device:
+                device = _ped.device_get_next()
             else:
-                disk = _ped.device_get_next(disk)
+                device = _ped.device_get_next(device)
 
-            lst.append(disk)
+            lst.append(Device(PedDevice=device))
         except IndexError:
             return lst
 
