@@ -36,19 +36,26 @@ class Disk(object):
            the diskType hash."""
         if PedDisk:
             self.__disk = PedDisk
+            self._device = parted.Device(PedDevice=self.__disk.dev)
+            self._type = self.__disk.type
+        elif device is None:
+            raise _ped.PartedException, "no device specified"
         else:
-            if device is None or type is None:
-                raise _ped.PartedException, "no type or _ped.Device specified"
+            # try to detect this disk type since the caller did not
+            # specify a disk type
+            if type is None:
+                type = device.getPedDevice().disk_probe()
 
             self.__disk = _ped.Disk(device.getPedDevice(), type)
+            self._device = device
+            self._type = type
 
-        self._device = device
-        self._type = type
+        # build a hash table of all partitions currently on this disk
         self.partitions = {}
 
         i = 1
         while i <= self.lastPartitionNumber:
-            self.partitions[i] = parted.Partition(self.__disk.get_partition(i))
+            self.partitions[i] = parted.Partition(PedPartition=self.__disk.get_partition(i))
             i += 1
 
     def __readOnly(self, property):
