@@ -1,2 +1,25 @@
 List bugs in this file, numbered, with an example that can be run from the
 Python interactive shell.
+
+---------------------------------------------------------------------------
+
+1)  get_partition() method on a _ped.Disk object doesn't seem to work.
+
+In [1]: import parted
+
+In [2]: device = parted.getDevice("/dev/sda")
+
+In [3]: disk = parted.Disk(device=device, type=parted.diskType['gpt'])
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+
+/home/dcantrel/scm/git.fedorahosted.org/pyparted/<ipython console> in <module>()
+
+/home/dcantrel/scm/git.fedorahosted.org/pyparted/src/parted/disk.py in __init__(self, device, type, PedDisk)
+     49         i = 1
+     50         while i <= self.lastPartitionNumber:
+---> 51             self.partitions[i] = parted.Partition(PedPartition=self.__disk.get_partition(i))
+     52             i += 1
+     53 
+
+TypeError: an integer is required
