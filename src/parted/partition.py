@@ -51,9 +51,9 @@ class Partition(object):
                 self.__partition = _ped.Partition(disk, type, geometry.start, geometry.end, fs.type)
         else:
             self.__partition = PedPartition
-            self._disk = self.__partition.disk
+            self._disk = parted.Disk(PedDisk=self.__partition.disk)
             # XXX: self._fileSystem = XXX
-            self._geometry = self.__partition.geom
+            self._geometry = parted.Geometry(PedGeometry=self.__partition.geom)
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
