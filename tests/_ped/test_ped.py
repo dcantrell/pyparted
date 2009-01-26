@@ -30,27 +30,27 @@ from baseclass import *
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class FlagGetNameTestCase(unittest.TestCase):
+class PartitionFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
                   _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
                   _ped.PARTITION_LBA, _ped.PARTITION_HPSERVICE,
                   _ped.PARTITION_PALO, _ped.PARTITION_PREP,
                   _ped.PARTITION_MSFT_RESERVED]:
-            self.assert_(_ped.flag_get_name(f) != "", "Could not get name for flag %s" % f)
+            self.assert_(_ped.partition_flag_get_name(f) != "", "Could not get name for flag %s" % f)
 
-        self.assertRaises(ValueError, _ped.flag_get_name, -1)
-        self.assertRaises(ValueError, _ped.flag_get_name, 1000)
+        self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
+        self.assertRaises(ValueError, _ped.partition_flag_get_name, 1000)
 
-class FlagGetByNameTestCase(unittest.TestCase):
+class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in ["boot", "root", "swap", "hidden", "raid", "lvm", "lba",
                   "hp-service", "palo", "prep", "msftres"]:
-            self.assert_(_ped.flag_get_by_name(f) != "", "Could not get flag %s" % f)
+            self.assert_(_ped.partition_flag_get_by_name(f) != "", "Could not get flag %s" % f)
 
-        self.assert_(_ped.flag_get_by_name("nosuchflag") == 0)
+        self.assert_(_ped.partition_flag_get_by_name("nosuchflag") == 0)
 
-class FlagNextTestCase(unittest.TestCase):
+class PartitionFlagNextTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         pass
@@ -370,13 +370,13 @@ def suite():
     suite.addTest(FileSystemProbeSpecificTestCase())
     suite.addTest(FileSystemTypeGetTestCase())
     suite.addTest(FileSystemTypeGetNextTestCase())
-    suite.addTest(FlagGetNameTestCase())
-    suite.addTest(FlagGetByNameTestCase())
-    suite.addTest(FlagNextTestCase())
     suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(RoundDownToTestCase())
     suite.addTest(RoundToNearestTestCase())
     suite.addTest(RoundUpToTestCase())
+    suite.addTest(PartitionFlagGetNameTestCase())
+    suite.addTest(PartitionFlagGetByNameTestCase())
+    suite.addTest(PartitionFlagNextTestCase())
     suite.addTest(PartitionTypeGetNameTestCase())
     suite.addTest(UnitSetDefaultTestCase())
     suite.addTest(UnitGetDefaultTestCase())
