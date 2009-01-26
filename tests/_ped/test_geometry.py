@@ -276,8 +276,12 @@ class GeometryReadTestCase(RequiresDevice):
         # we get the same thing back.
         self.g.write("1111111111", 0, 1)
         self.assert_(self.g.read(0, 10) == "1111111111")
+
+        # Write five bytes from the string to the geometry, so there's only
+        # one byte present.  So, only one "2" should be there when we read.
         self.g.write("2", 20, 5)
-        self.assert_(self.g.read(20, 5) == "22222")
+        self.assert_(self.g.read(20, 5) == "2")
+        self.assert_(self.g.read(20, 1) == "2")
 
     def tearDown(self):
         self._device.close()
@@ -323,6 +327,8 @@ class GeometryWriteTestCase(RequiresDevice):
         # and (2) the data actually ends up on the device.
         self._device.open()
         self.assert_(self.g.write("X", 0, 10) != 0)
+        self.assert_(self.g.read(0, 10) == "X")
+        self.assert_(self.g.write("XXXXXXXXXX", 0, 10) != 0)
         self.assert_(self.g.read(0, 10) == "XXXXXXXXXX")
 
         # Test bad parameter passing.
