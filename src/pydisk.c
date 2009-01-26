@@ -1452,7 +1452,7 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
     PedPartition *pass_part = NULL;
     _ped_Partition *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Partition_Type_obj, &in_part)) {
+    if (!PyArg_ParseTuple(args, "|O!", &_ped_Partition_Type_obj, &in_part)) {
         return NULL;
     }
 
@@ -1461,9 +1461,11 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_part = _ped_Partition2PedPartition(in_part);
-    if (out_part == NULL) {
-        return NULL;
+    if (in_part) {
+        out_part = _ped_Partition2PedPartition(in_part);
+        if (out_part == NULL) {
+            return NULL;
+        }
     }
 
     pass_part = ped_disk_next_partition(disk, out_part);
