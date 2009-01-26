@@ -172,6 +172,16 @@ partitionTypesDict = {
 # the divisor for conversion functions.
 _exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
 
+# Valid disk labels per architecture type.  The list of label
+# names map to keys in the parted.diskType hash table.
+archLabels = {'i386': ['msdos', 'gpt'],
+              's390': ['dasd', 'msdos'],
+              'alpha': ['bsd', 'msdos'],
+              'sparc': ['sun'],
+              'ia64': ['msdos', 'gpt'],
+              'ppc': ['msdos', 'mac', 'amiga', 'gpt'],
+              'x86_64': ['msdos', 'gpt']}
+
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
