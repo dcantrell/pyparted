@@ -96,6 +96,9 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
         return (_ped_Alignment *) PyErr_NoMemory();
 
     args = Py_BuildValue("LL", alignment->offset, alignment->grain_size);
+    if (args == NULL) {
+        return NULL;
+    }
 
     if (_ped_Alignment_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -184,6 +187,9 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
         return NULL;
 
     args = Py_BuildValue("OOOOLL", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
+    if (args == NULL) {
+        return NULL;
+    }
 
     if (_ped_Constraint_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -317,6 +323,9 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
         return NULL;
 
     args = Py_BuildValue("OO", (PyObject *) dev, (PyObject *) type);
+    if (args == NULL) {
+        return NULL;
+    }
 
     if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -420,6 +429,9 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
         return NULL;
 
     args = Py_BuildValue("OOi", type, geom, fs->checked);
+    if (args == NULL) {
+        return NULL;
+    }
 
     if (_ped_FileSystem_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
@@ -502,6 +514,9 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
         return NULL;
 
     args = Py_BuildValue("OLLL", dev, geometry->start, geometry->length, geometry->end);
+    if (args == NULL) {
+        return NULL;
+    }
 
     if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
