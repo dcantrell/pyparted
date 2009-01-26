@@ -628,7 +628,7 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     else if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("OiOLL", disk, part->type, fs_type, part->geom.start, part->geom.end);
+    args = Py_BuildValue("OiLLO", disk, part->type, part->geom.start, part->geom.end, fs_type);
 
     if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
