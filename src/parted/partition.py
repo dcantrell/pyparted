@@ -149,6 +149,24 @@ class Partition(object):
 
         return math.floor(maxLength * math.pow(physicalSectorSize, parted._exponent[lunit]))
 
+    def getDeviceNodeName(self):
+        """Return the device name for this Partition."""
+        drive = self.geometry.device.path[5:]
+        ptypes = [parted.DEVICE.DAC960, parted.DEVICE_CPQARRAY,
+                  parted.DEVICE_SX8]
+
+        if self.geometry.device.type in ptypes:
+            return "%sp%d" % (drive, self.number,)
+
+        if (drive.startswith("cciss") or drive.startswith("ida") or
+            drive.startswith("rd") or drive.startswith("sx8") or
+            drive.startswith("mapper") or drive.startswith("mmcblk")):
+            sep = "p"
+        else:
+            sep = ""
+
+        return "%s%s%d" % (drive, sep, self.number,)
+
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
            For internal module use only."""
