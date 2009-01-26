@@ -97,8 +97,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
 class ConstraintDuplicateTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        align1 = _ped.Alignment(10, 5)
-        align2 = _ped.Alignment(10, 5)
+        align1 = _ped.Alignment(10, 0)
+        align2 = _ped.Alignment(10, 0)
         geom1 = _ped.Geometry(self._device, 0, 50)
         geom2 = _ped.Geometry(self._device, 25, 50)
 
