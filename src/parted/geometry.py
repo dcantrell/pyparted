@@ -19,6 +19,7 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 
 import _ped
@@ -31,7 +32,8 @@ class Geometry(object):
        partition.  It is expressed in terms of a starting sector and a length.
        Many methods (read and write methods in particular) throughout pyparted
        take in a Geometry object as an argument."""
-    def __init__(self, device, start, length, end=None, PedGeometry=None):
+    def __init__(self, device=None, start=None, length=None, end=None,
+                 PedGeometry=None):
         """Create a new Geometry object for the given _ped.Device that extends
            for length sectors from the start sector.  Optionally, an end sector
            can also be provided."""
@@ -48,7 +50,7 @@ class Geometry(object):
     start = property(lambda s: s.__geometry.start, lambda s, v: s.__geometry.set_start(v))
     end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
-    device = property(lambda s: Device(PedDevice=s.__geometry.dev), lambda s, v: s.__readOnly("device"))
+    device = property(lambda s: parted.Device(PedDevice=s.__geometry.dev), lambda s, v: s.__readOnly("device"))
 
     # FIXME:  Get rid of buf and size from the public API here.
     def check(self, buf, size, offset, granularity, count, timer=None):
