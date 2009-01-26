@@ -623,12 +623,18 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL)
         return NULL;
 
-    if (part->fs_type == NULL)
+    if (part->fs_type == NULL) {
+        args = Py_BuildValue("OiLL", disk, part->type, part->geom.start, part->geom.end);
         fs_type = NULL;
+    }
     else if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
         return NULL;
+    else {
+        args = Py_BuildValue("OiLLO", disk, part->type, part->geom.start, part->geom.end, fs_type);
+    }
 
-    args = Py_BuildValue("OiLLO", disk, part->type, part->geom.start, part->geom.end, fs_type);
+    if (args == NULL)
+        return NULL;
 
     if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
