@@ -266,6 +266,13 @@ def getPartitionByName(name):
 
     return None
 
+def freshDisk(device, type):
+    """Return a Disk object for this Device and using this DiskType.
+       The new label is not written to disk until commitToDevice()
+       is called on the Disk."""
+    peddisk = _ped.disk_new_fresh(device.getPedDevice(), disk.diskType[type])
+    return disk.Disk(PedDisk=peddisk)
+
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     ver = {}
