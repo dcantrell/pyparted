@@ -50,22 +50,27 @@ class Disk(object):
             self._device = device
             self._type = type
 
-        # build a hash table of all partitions currently on this disk
-        self.partitions = {}
-
-        i = 1
-        while i <= self.lastPartitionNumber:
-            self.partitions[i] = parted.Partition(PedPartition=self.__disk.get_partition(i))
-            i += 1
+        self._partitions = {}
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
+
+    def __getPartitions(self):
+        if self._partitions == {}:
+            i = 1
+
+            while i <= self.lastPartitionNumber:
+                self._partitions[i] = parted.Partition(PedPartition=self.__disk.get_partition(i))
+                i += 1
+
+        return self._partitions
 
     number = property(lambda s: s.__disk.num, lambda s, v: setattr(s.__disk, "num", v))
     type = property(lambda s: s.__disk.type, lambda s, v: setattr(s.__disk, "type", v))
     primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
     lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
     maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
+    partitions = property(lambda s: s.__getPartitions(), lambda s, v: s.__readOnly("partitions"))
 
     def clobber(self, type=None):
         """Remove all identifying signatures of the partition table.  If type
