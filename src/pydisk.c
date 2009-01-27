@@ -958,7 +958,7 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
 
     /* ped_partition_get_name will assert on this. */
     if (!ped_partition_is_active(part)) {
-        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        PyErr_Format(PartitionException, "Could not get name on inactive partition %s%d", part->disk->dev->path, part->num);
         return NULL;
     }
 
