@@ -99,7 +99,16 @@ class Partition(object):
     def getMaxGeometry(self, constraint):
         """Given a constraint, return the maximum Geometry that self can be
            grown to.  Raises Partitionexception on error."""
-        return self.disk.get_max_partition_geometry(self.__partition, constraint)
+        return self.disk.getPedDisk().get_max_partition_geometry(self.__partition, constraint)
+
+    def isFlagAvailable(self, flag):
+        """Return True if flag is available on this Partition, False
+           otherwise."""
+        return self.__partition.is_flag_available(flag)
+
+    def nextPartition(self):
+        """Return the Partition following this one on the Disk."""
+        return self.disk.getPedDisk().next_partition(self.__partition)
 
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit
