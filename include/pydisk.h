@@ -72,6 +72,7 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args);
 PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args);
 
 /* _ped.Partition type is the Python equivalent of PedPartition
  * in libparted */
