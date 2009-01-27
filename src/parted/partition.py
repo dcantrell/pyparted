@@ -85,16 +85,21 @@ class Partition(object):
         """
         return self.__partition.get_flag(flag)
 
-    def getMaxGeometry(self, constraint):
-        """Given a constraint, return the maximum Geometry that self can be
-           grown to.  Raises Partitionexception on error."""
-        return self.disk.get_max_partition_geometry(self.__partition, constraint)
-
     def setFlag(self, flag, value):
         """Set the flag on a partition to the provided value.  On error, a
            PartitionException will be raised.  See getFlag() for more help on
            working with partition flags."""
-        return self.__partition.set_flag(flag, value)
+        val = 0
+
+        if value:
+            val = 1
+
+        return self.__partition.set_flag(flag, val)
+
+    def getMaxGeometry(self, constraint):
+        """Given a constraint, return the maximum Geometry that self can be
+           grown to.  Raises Partitionexception on error."""
+        return self.disk.get_max_partition_geometry(self.__partition, constraint)
 
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit
