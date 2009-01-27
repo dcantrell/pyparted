@@ -181,6 +181,46 @@ class Disk(object):
         """Return the extended Partition, if any, on this Disk."""
         return self.__disk.extended_partition()
 
+    def getLogicalPartitions(self):
+        """Return a list of logical Partitions on this Disk."""
+        ret = []
+
+        for partition in self.partitions.values():
+            if partition.active and (partition.type & parted.PARTITION_LOGICAL):
+                ret.append(partition)
+
+        return ret
+
+    def getPrimaryPartitions(self):
+        """Return a list of primary (or normal) Partitions on this Disk."""
+        ret = []
+
+        for partition in self.partitions.values():
+            if partition.type == parted.PARTITION_NORMAL:
+                ret.append(partition)
+
+        return ret
+
+    def getRaidPartitions(self):
+        """Return a list of RAID (or normal) Partitions on this Disk."""
+        ret = []
+
+        for partition in self.partitions.values():
+            if partition.active and partition.getFlag(parted.PARTITION_RAID):
+                ret.append(partition)
+
+        return ret
+
+    def getLVMPartitions(self):
+        """Return a list of physical volume-type Partitions on this Disk."""
+        ret = []
+
+        for partition in self.partitions.values():
+            if partition.active and partition.getFlag(parted.PARTITION_LVM):
+                ret.append(partition)
+
+        return ret
+
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal
            module use only."""
