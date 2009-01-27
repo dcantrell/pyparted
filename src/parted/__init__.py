@@ -235,7 +235,6 @@ def probeForSpecificFileSystem(fstype, geometry):
        filesystem type and geometry.  fstype must be a string
        representing a valid _ped.FileSystemType, geometry is a
        parted.Geometry."""
-    from parted import filesystem, geometry
     geom = _ped.file_system_probe_specific(filesystem.fileSystemType[fstype], geometry.getPedGeometry())
     return geometry.Geometry(PedGeometry=geom)
 
