@@ -172,6 +172,13 @@ PyDoc_STRVAR(partition_flag_next_doc,
 "Given a partition flag, return the next flag.  If there is no next flag, 0\n"
 "is returned.");
 
+PyDoc_STRVAR(disk_new_fresh_doc,
+"disk_new_fresh(Device, DiskType) -> Disk\n\n"
+"Given the Device and DiskType, create a new Disk object with using the\n"
+"DiskType specified.  The new disk label is only in-memory, the caller\n"
+"will have to use the commit_to_dev() method to write the new label to\n"
+"the disk.");
+
 PyDoc_STRVAR(unit_set_default_doc,
 "unit_set_default(Unit)\n\n"
 "Sets the default Unit to be used by further unit_* calls.  This\n"
@@ -283,6 +290,8 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                             METH_VARARGS, partition_flag_get_by_name_doc},
     {"partition_flag_next", (PyCFunction) py_ped_partition_flag_next,
                             METH_VARARGS, partition_flag_next_doc},
+    {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh,
+                       METH_VARARGS, disk_new_fresh_doc},
 
     /* pyfilesys.c */
     {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,

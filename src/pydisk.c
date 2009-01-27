@@ -1553,5 +1553,34 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
+    _ped_Device *in_device = NULL;
+    _ped_DiskType *in_type = NULL;
+    PedDevice *device = NULL;
+    PedDiskType *type = NULL;
+    PedDisk *disk = NULL;
+    _ped_Disk *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Device_Type_obj, &in_device,
+                                        &_ped_DiskType_Type_obj, &in_type)) {
+        return NULL;
+    }
+
+    if ((device = _ped_Device2PedDevice(in_device)) == NULL) {
+        return NULL;
+    }
+
+    if ((type = _ped_DiskType2PedDiskType(in_type)) == NULL) {
+        return NULL;
+    }
+
+    if ((disk = ped_disk_new_fresh(device, type)) == NULL) {
+        return NULL;
+    }
+
+    ret = PedDisk2_ped_Disk(disk);
+    return (PyObject *) ret;
+}
+
 /* vim:tw=78:ts=4:et:sw=4
  */
