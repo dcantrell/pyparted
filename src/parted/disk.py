@@ -110,6 +110,10 @@ class Disk(object):
         """Perform a sanity check on the partition table of this Disk."""
         return self.__disk.check()
 
+    def supportsFeature(self, feature):
+        """Check that the disk type supports the provided feature."""
+        return self._type.check_feature(feature)
+
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
         return self.__disk.add_partition(partition, constraint)
