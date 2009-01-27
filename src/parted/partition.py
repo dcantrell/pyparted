@@ -77,6 +77,7 @@ class Partition(object):
     path = property(lambda s: s.__partition.get_path(), lambda s, v: s.__readOnly("path"))
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
+    name = property(lambda s: s.__partition.get_name(), lambda s, v: s.__readOnly("name"))
 
     def getFlag(self, flag):
         """Get the value of a particular flag on the partition.  Valid flags
