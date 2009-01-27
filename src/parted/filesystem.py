@@ -48,7 +48,7 @@ class FileSystem(object):
         else:
             self.__fileSystem = PedFileSystem
             self._type = self.__fileSystem.type.name
-            self._geometry = self.__fileSystem.geom
+            self._geometry = parted.Geometry(PedGeometry=self.__fileSystem.geom)
 
             if self.__fileSystem.checked:
                 self._checked = True
