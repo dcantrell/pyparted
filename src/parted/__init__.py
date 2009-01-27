@@ -255,6 +255,18 @@ def roundToNearest(sector, grainSize):
     """Rounds sector to the closest multiple of grainSize."""
     return _ped.round_to_nearest(sector, grainSize)
 
+def getPartitionByName(name):
+    """Return a Partition object associated with the partition name.
+       name is a device node specification, such as /dev/sda1
+       Returns None if no partition is found."""
+    for device in getAllDevices():
+        disk = disk.Disk(device=device)
+        for partition in disk.partitions.values():
+            if partition.getDeviceNodeName() == name:
+                return partition
+
+    return None
+
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     ver = {}
