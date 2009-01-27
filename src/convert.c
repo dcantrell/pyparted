@@ -304,7 +304,6 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     _ped_Disk *ret = NULL;
     _ped_Device *dev = NULL;
-    _ped_DiskType *type = NULL;
     PyObject *args = NULL;
 
     if (disk == NULL) {
@@ -319,10 +318,7 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     if ((dev = PedDevice2_ped_Device(disk->dev)) == NULL)
         return NULL;
 
-    if ((type = PedDiskType2_ped_DiskType((PedDiskType *) disk->type)) == NULL)
-        return NULL;
-
-    args = Py_BuildValue("OO", (PyObject *) dev, (PyObject *) type);
+    args = Py_BuildValue("O", (PyObject *) dev);
     if (args == NULL) {
         return NULL;
     }
