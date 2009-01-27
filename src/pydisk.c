@@ -249,37 +249,22 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     static char *kwlist[] = {"dev", "type", NULL};
     PedDevice *device = NULL;
     PedDisk *disk = NULL;
-    PedDiskType *type = NULL;
 
     if (kwds == NULL) {
-        if (!PyArg_ParseTuple(args, "O!|O!", &_ped_Device_Type_obj, &self->dev,
-                              &_ped_DiskType_Type_obj, &self->type)) {
-            self->dev = self->type = NULL;
+        if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &self->dev)) {
+            self->dev = NULL;
             return -1;
         }
     } else {
-        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!|O!", kwlist,
-                                         &_ped_Device_Type_obj, &self->dev,
-                                         &_ped_DiskType_Type_obj, &self->type)) {
-            self->dev = self->type = NULL;
+        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist,
+                                         &_ped_Device_Type_obj, &self->dev)) {
+            self->dev = NULL;
             return -2;
         }
     }
 
-    if (self->dev) {
-        device = _ped_Device2PedDevice(self->dev);
-    }
-
-    if (device && ped_disk_probe(device)) {
-        disk = ped_disk_new(device);
-    } else if (device && self->type) {
-        type = _ped_DiskType2PedDiskType(self->type);
-        disk = ped_disk_new_fresh(device, type);
-        ped_disk_commit_to_dev(disk);
-    } else {
-        PyErr_SetString(CreateException, "You must provide as least a Device when creating a Disk");
-        return -3;
-    }
+    device = _ped_Device2PedDevice(self->dev);
+    disk = ped_disk_new(device);
 
     if (disk == NULL) {
         if (partedExnRaised) {
@@ -292,10 +277,6 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
             PyErr_Format(IOException, "Failed to read partition table from device %s", device->path);
         }
 
-        if (type) {
-            free(type);
-        }
-
         return -4;
     }
 
@@ -304,8 +285,6 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     if (self->type == NULL)
         self->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
     Py_INCREF(self->type);
-
-    ped_disk_destroy(disk);
 
     return 0;
 }
