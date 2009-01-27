@@ -318,7 +318,7 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     if ((dev = PedDevice2_ped_Device(disk->dev)) == NULL)
         return NULL;
 
-    args = Py_BuildValue("O", (PyObject *) dev);
+    args = Py_BuildValue("(O)", (PyObject *) dev);
     if (args == NULL) {
         return NULL;
     }
