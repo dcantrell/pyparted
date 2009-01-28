@@ -166,7 +166,7 @@ class Disk(object):
         """Return the maximum number of logical partitions this Disk
            will hold.  Returns 0 if there is no extended partition on
            the disk, returns 11 when all else fails."""
-        if not self.type.check_feature(parted.DISK_TYPE_EXTENDED):
+        if not self.supportsFeature(parted.DISK_TYPE_EXTENDED):
             return 0
 
         dev = self.device.path[5:]
