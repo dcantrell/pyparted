@@ -52,8 +52,8 @@ class Partition(object):
         else:
             self.__partition = PedPartition
             self._disk = parted.Disk(PedDisk=self.__partition.disk)
-            self._fileSystem = parted.FileSystem(PedFileSystem=self.__partition.fs_type)
             self._geometry = parted.Geometry(PedGeometry=self.__partition.geom)
+            self._fileSystem = parted.FileSystem(type=self.__partition.fs_type.name, geometry=self._geometry)
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
@@ -86,16 +86,17 @@ class Partition(object):
         """
         return self.__partition.get_flag(flag)
 
-    def setFlag(self, flag, value):
+    def setFlag(self, flag):
         """Set the flag on a partition to the provided value.  On error, a
            PartitionException will be raised.  See getFlag() for more help on
            working with partition flags."""
-        val = 0
+        return self.__partition.set_flag(flag, 1)
 
-        if value:
-            val = 1
-
-        return self.__partition.set_flag(flag, val)
+    def unsetFlag(self, flag):
+        """Unset the flag on this Partition.  On error, a PartitionException
+           will be raised.  See getFlag() for more help on working with
+           partition flags."""
+        return self.__partition.set_flag(flag, 0)
 
     def getMaxGeometry(self, constraint):
         """Given a constraint, return the maximum Geometry that self can be
@@ -167,7 +168,7 @@ class Partition(object):
     def getDeviceNodeName(self):
         """Return the device name for this Partition."""
         drive = self.geometry.device.path[5:]
-        ptypes = [parted.DEVICE.DAC960, parted.DEVICE_CPQARRAY,
+        ptypes = [parted.DEVICE_DAC960, parted.DEVICE_CPQARRAY,
                   parted.DEVICE_SX8]
 
         if self.geometry.device.type in ptypes:
