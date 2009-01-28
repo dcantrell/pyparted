@@ -38,13 +38,11 @@ class FileSystem(object):
                 raise _ped.PartedException, "no type specified"
             elif geometry is None:
                 raise _ped.PartedException, "no geometry specified"
-            else:
-                raise _ped.PartedException, "no PedFileSystem specified"
 
             self._type = type
             self._geometry = geometry
             self._checked = checked
-            self.__fileSystem = _ped.FileSystem(type=fileSystemType[type], geom=geometry, checked=c)
+            self.__fileSystem = _ped.FileSystem(type=fileSystemType[type], geom=geometry.getPedGeometry(), checked=c)
         else:
             self.__fileSystem = PedFileSystem
             self._type = self.__fileSystem.type.name
@@ -58,9 +56,9 @@ class FileSystem(object):
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
-    type = property(lambda s: s.__type, lambda s, v: s.__readOnly("type"))
-    geometry = property(lambda s: s.__geometry, lambda s, v: s.__readOnly("geometry"))
-    checked = property(lambda s: s.__checked, lambda s, v: s.__readOnly("checked"))
+    type = property(lambda s: s._type, lambda s, v: s.__readOnly("type"))
+    geometry = property(lambda s: s._geometry, lambda s, v: s.__readOnly("geometry"))
+    checked = property(lambda s: s._checked, lambda s, v: s.__readOnly("checked"))
 
     def clobber(self):
         return self.__fileSystem.clobber()
