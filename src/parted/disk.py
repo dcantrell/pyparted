@@ -30,25 +30,20 @@ class Disk(object):
        A Disk object describes a type of device in the system.  Disks
        can hold partitions.  A Disk is a basic operating system-specific
        object."""
-    def __init__(self, device=None, type=None, PedDisk=None):
+    def __init__(self, device=None, PedDisk=None):
         """Create a new Disk object from the device and type specified.  The
            device is a Device object and type is a string matching a key in
            the diskType hash."""
         if PedDisk:
             self.__disk = PedDisk
             self._device = parted.Device(PedDevice=self.__disk.dev)
-            self._type = self.__disk.type
+            self._type = self.__disk.type.name
         elif device is None:
             raise _ped.PartedException, "no device specified"
         else:
-            # try to detect this disk type since the caller did not
-            # specify a disk type
-            if type is None:
-                type = device.getPedDevice().disk_probe()
-
-            self.__disk = _ped.Disk(device.getPedDevice(), type)
+            self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
-            self._type = type
+            self._type = self.__disk.type.name
 
         self._partitions = {}
 
