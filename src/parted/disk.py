@@ -180,7 +180,10 @@ class Disk(object):
 
     def getExtendedPartition(self):
         """Return the extended Partition, if any, on this Disk."""
-        return self.__disk.extended_partition()
+        try:
+            return self.__disk.extended_partition()
+        except:
+            return None
 
     def getLogicalPartitions(self):
         """Return a list of logical Partitions on this Disk."""
