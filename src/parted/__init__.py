@@ -268,9 +268,17 @@ def getPartitionByName(name):
 
 def freshDisk(device, type):
     """Return a Disk object for this Device and using this DiskType.
-       The type should be a member of the parted.diskType hash.
+       The type should be a member of the parted.diskType hash,
+       either a key or a value.
+
        The new label is not written to disk until commitToDevice()
        is called on the Disk."""
+    if (type not in diskType.keys()) and (type not in diskType.values()):
+        raise SyntaxError, "type must be a key or value in parted.diskType"
+
+    if type in diskType.keys():
+        type = diskType[type]
+
     peddisk = _ped.disk_new_fresh(device.getPedDevice(), type)
     return disk.Disk(PedDisk=peddisk)
 
