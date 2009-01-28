@@ -41,8 +41,12 @@ class Geometry(object):
             self.__geometry = PedGeometry
         elif not end:
             self.__geometry = _ped.Geometry(device.getPedDevice(), start, length)
-        else:
+        elif not length and (end > start):
+            self.__geometry = _ped.Geometry(device.getPedDevice(), start, (end - start), end)
+        elif start and length and end and (end > start):
             self.__geometry = _ped.Geometry(device.getPedDevice(), start, length, end=end)
+        else:
+            raise _ped.PartedException, "must specify PedGeometry or (device, start, length) or (device, start, end) or (device, start, length, end)"
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
