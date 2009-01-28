@@ -63,6 +63,7 @@ class Disk(object):
     lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
     maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
     partitions = property(lambda s: s.__getPartitions(), lambda s, v: s.__readOnly("partitions"))
+    device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
     def clobber(self, type=None):
         """Remove all identifying signatures of the partition table.  If type
