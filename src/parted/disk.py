@@ -37,13 +37,11 @@ class Disk(object):
         if PedDisk:
             self.__disk = PedDisk
             self._device = parted.Device(PedDevice=self.__disk.dev)
-            self._type = self.__disk.type.name
         elif device is None:
             raise _ped.PartedException, "no device specified"
         else:
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
-            self._type = self.__disk.type.name
 
         self._partitions = {}
 
@@ -60,8 +58,7 @@ class Disk(object):
 
         return self._partitions
 
-    number = property(lambda s: s.__disk.num, lambda s, v: setattr(s.__disk, "num", v))
-    type = property(lambda s: s.__disk.type, lambda s, v: setattr(s.__disk, "type", v))
+    type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
     primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
     lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
     maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
@@ -107,7 +104,7 @@ class Disk(object):
 
     def supportsFeature(self, feature):
         """Check that the disk type supports the provided feature."""
-        return self._type.check_feature(feature)
+        return self.__disk.type.check_feature(feature)
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
