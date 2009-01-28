@@ -109,7 +109,8 @@ class Disk(object):
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
-        return self.__disk.add_partition(partition, constraint)
+        return self.__disk.add_partition(partition.getPedPartition(),
+                                         constraint.getPedConstraint())
 
     def removePartition(self, partition=None):
         """Removes specified Partition from this Disk.  NOTE:  If the
@@ -117,13 +118,13 @@ class Disk(object):
            logical partitions.  Also note that the partition is not
            actually destroyed unless you use the deletePartition()
            method."""
-        return self.__disk.remove_partition(partition)
+        return self.__disk.remove_partition(partition.getPedPartition())
 
     def deletePartition(self, partition):
         """Removes specified Partition from this Disk under the same
            conditions as removePartition(), but also destroy the
            removed Partition."""
-        return self.__disk.delete_partition(partition)
+        return self.__disk.delete_partition(partition.getPedPartition())
 
     def deleteAllPartitions(self):
         """Removes and destroys all Partitions in this Disk."""
@@ -134,17 +135,20 @@ class Disk(object):
            Constraint and start and end sectors.  Note that this method
            does not modify the partition contents, just the partition
            table."""
-        return self.__disk.set_partition_geom(partition, constraint, start, end)
+        return self.__disk.set_partition_geom(partition.getPedPartition(),
+                                              constraint.getPedConstraint(),
+                                              start, end)
 
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
-        return self.__disk.maximize_partition(partition, constraint)
+        return self.__disk.maximize_partition(partition.getPedPartition(),
+                                              constraint.getPedConstraint())
 
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
            subject to the given Constraint."""
-        return self.__disk.get_max_partition_geometry(partition, constraint)
+        return self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint())
 
     def minimizeExtendedPartition(self):
         """Reduce the size of the extended partition to a minimum while
