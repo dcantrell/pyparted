@@ -259,7 +259,7 @@ def getPartitionByName(name):
        name is a device node specification, such as /dev/sda1
        Returns None if no partition is found."""
     for device in getAllDevices():
-        disk = disk.Disk(device=device)
+        disk = parted.Disk(device=device)
         for partition in disk.partitions.values():
             if partition.getDeviceNodeName() == name:
                 return partition
