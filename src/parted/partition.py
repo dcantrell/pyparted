@@ -152,16 +152,13 @@ class Partition(object):
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
         maxLength = self.geometry.length
-        nextPartition = self.disk.nextPartition(self)
         physicalSectorSize = self.geometry.device.physicalSectorSize
 
-        while nextPartition:
-            if nextPartition.type & parted.PARTITION_FREESPACE:
-                maxLength += nextPartition.geometry.length
+        for partition in self.disk.partitions.values():
+            if partition.type & parted.PARTITION_FREESPACE:
+                maxLength += partition.geometry.length
             else:
                 break
-
-            nextPartition = self.disk.nextPartition(nextPartition)
 
         return math.floor(maxLength * math.pow(physicalSectorSize, parted._exponent[lunit]))
 
