@@ -1,5 +1,5 @@
 #
-# partition.py
+# constraint.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
 # Copyright (C) 2009 Red Hat, Inc.
