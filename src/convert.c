@@ -199,13 +199,7 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
 }
 
 /* _ped_Device -> PedDevice functions */
-/*
- * NOTE: We store the pointer to the PedDevice in our _ped.Device object.
- * Do not call ped_device_destroy() on this pointer or you will end up
- * with double free errors and other segfaults.
- */
 PedDevice *_ped_Device2PedDevice(PyObject *s) {
-    PedDevice *ret = NULL;
     _ped_Device *dev = (_ped_Device *) s;
 
     if (dev == NULL) {
@@ -213,8 +207,7 @@ PedDevice *_ped_Device2PedDevice(PyObject *s) {
         return NULL;
     }
 
-    ret = dev->ped_device;
-    return ret;
+    return ped_device_get(dev->path);
 }
 
 /* PedDevice -> _ped_Device functions */
@@ -263,8 +256,6 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
     if (ret->bios_geom == NULL)
         return NULL;
     Py_INCREF(ret->bios_geom);
-
-    ret->ped_device = device;
 
     return ret;
 }
@@ -477,14 +468,23 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fs
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret = NULL;
+    PedDevice *dev = NULL;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
+    _ped_Device *device = (_ped_Device *) geometry->dev;
 
     if (geometry == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.Geometry()");
         return NULL;
     }
 
-    ret = ped_geometry_new(geometry->ped_device, geometry->start, geometry->length);
+    if (device == NULL) {
+        PyErr_SetString(PyExc_TypeError, "_ped.Geometry() missing 'dev'");
+        return NULL;
+    }
+
+    dev = ped_device_get(device->path);
+    ret = ped_geometry_new(dev, geometry->start, geometry->length);
+
     if (ret == NULL) {
         return (PedGeometry *) PyErr_NoMemory();
     }
@@ -517,8 +517,6 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
     if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
     }
-
-    ret->ped_device = geometry->dev;
 
     return ret;
 }

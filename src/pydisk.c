@@ -246,7 +246,7 @@ int _ped_Disk_clear(_ped_Disk *self) {
 }
 
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"dev", "type", NULL};
+    static char *kwlist[] = {"dev", NULL};
     PedDevice *device = NULL;
     PedDisk *disk = NULL;
 

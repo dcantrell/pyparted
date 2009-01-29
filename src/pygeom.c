@@ -68,7 +68,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     self->start = 0;
     self->length = 0;
     self->end = 0;
-    self->ped_device = NULL;
 
     if (kwds == NULL) {
         if (!PyArg_ParseTuple(args, "O!LL|L", &_ped_Device_Type_obj, &self->dev,
@@ -108,7 +107,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     self->start = geometry->start;
     self->length = geometry->length;
     self->end = geometry->end;
-    self->ped_device = device;
 
     Py_INCREF(self);
     return 0;
