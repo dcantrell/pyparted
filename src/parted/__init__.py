@@ -33,6 +33,7 @@ from _ped import ConstraintException
 from _ped import DeviceException
 from _ped import DiskException
 from _ped import FileSystemException
+from _ped import GeometryException
 from _ped import IOException
 from _ped import NotNeededException
 from _ped import PartedException
