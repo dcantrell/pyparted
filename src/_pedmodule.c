@@ -576,6 +576,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(FileSystemException);
     PyModule_AddObject(m, "FileSystemException", FileSystemException);
 
+    GeometryException = PyErr_NewException("_ped.GeometryException", NULL, NULL);
+    Py_INCREF(GeometryException);
+    PyModule_AddObject(m, "GeometryException", GeometryException);
+
     IOException = PyErr_NewException("_ped.IOException", NULL, NULL);
     Py_INCREF(IOException);
     PyModule_AddObject(m, "IOException", IOException);
