@@ -29,6 +29,7 @@
 PyObject *AlignmentException;
 PyObject *CreateException;
 PyObject *ConstraintException;
+PyObject *DeviceException;
 PyObject *DiskException;
 PyObject *FileSystemException;
 PyObject *IOException;

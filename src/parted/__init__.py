@@ -30,6 +30,7 @@ import _ped
 from _ped import AlignmentException
 from _ped import CreateException
 from _ped import ConstraintException
+from _ped import DeviceException
 from _ped import DiskException
 from _ped import FileSystemException
 from _ped import IOException

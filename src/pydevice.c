@@ -200,7 +200,7 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
     }
 
     if (path == NULL) {
-        PyErr_Format(DiskException, "Could not find device for empty path");
+        PyErr_Format(DeviceException, "Could not find device for empty path");
         return NULL;
     }
 
@@ -209,7 +209,7 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
         ret = PedDevice2_ped_Device(device);
     }
     else {
-        PyErr_Format(DiskException, "Could not find device for path %s", path);
+        PyErr_Format(DeviceException, "Could not find device for path %s", path);
         return NULL;
     }
 
