@@ -445,7 +445,7 @@ PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s) {
     return ret;
 }
 
-_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype) {
+_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemType *fstype) {
     _ped_FileSystemType *ret = NULL;
 
     if (fstype == NULL) {
@@ -617,8 +617,8 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     _ped_Partition *ret = NULL;
     _ped_Disk *disk = NULL;
+    _ped_Geometry *geom = NULL;
     _ped_FileSystemType *fs_type = NULL;
-    PyObject *args = NULL;
 
     if (part == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedPartition()");
@@ -629,25 +629,32 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
-    if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL)
+    if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL) {
         return NULL;
+    } else {
+        ret->disk = (PyObject *) disk;
+        Py_INCREF(ret->disk);
+    }
+
+    if ((geom = PedGeometry2_ped_Geometry(&(part->geom))) == NULL) {
+        return NULL;
+    } else {
+        ret->geom = (PyObject *) geom;
+        Py_INCREF(ret->geom);
+    }
 
     if (part->fs_type == NULL) {
-        args = Py_BuildValue("OiLL", disk, part->type, part->geom.start, part->geom.end);
-        fs_type = NULL;
-    }
-    else if ((fs_type = PedFileSystemType2_ped_FileSystemType((PedFileSystemType *) part->fs_type)) == NULL)
-        return NULL;
-    else {
-        args = Py_BuildValue("OiLLO", disk, part->type, part->geom.start, part->geom.end, fs_type);
+        ret->fs_type = Py_None;
+        Py_INCREF(ret->fs_type);
+    } else {
+        fs_type = PedFileSystemType2_ped_FileSystemType(part->fs_type);
+        ret->fs_type = (PyObject *) fs_type;
+        Py_INCREF(ret->fs_type);
     }
 
-    if (args == NULL)
-        return NULL;
-
-    if (_ped_Partition_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
-    }
+    ret->num = part->num;
+    ret->type = part->type;
+    Py_INCREF(ret);
 
     return ret;
 }

@@ -54,7 +54,7 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
 
 PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s);
-_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(PedFileSystemType *fstype);
+_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemType *fstype);
 
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
