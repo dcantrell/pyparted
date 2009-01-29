@@ -90,6 +90,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     PedDisk *disk = NULL;
     PedFileSystemType *fstype = NULL;
     PedPartition *part = NULL;
+    PedConstraint *constraint = NULL;
 
     self->fs_type = Py_None;
 
@@ -132,8 +133,27 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
             PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
         }
 
-        ped_disk_destroy(disk);
         return -3;
+    }
+
+    constraint = ped_constraint_any(disk->dev);
+    if (!constraint) {
+        PyErr_Format(PartitionException, "Unable to generate a constraint for device %s", disk->dev->path);
+        return -4;
+    }
+
+    if (ped_disk_add_partition(disk, part, constraint)) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
+            }
+        } else {
+            PyErr_Format(PartitionException, "Could not add new partition on device %s", disk->dev->path);
+        }
+
+        return -5;
     }
 
     /* increment reference count for PyObjects read by PyArg_ParseTuple */
@@ -156,7 +176,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
 
     /* clean up libparted objects we created */
     ped_free(part);
-    ped_disk_destroy(disk);
+    ped_free(disk);
     return 0;
 }
 
@@ -483,9 +503,6 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
         if (ret == NULL) {
             return NULL;
         }
-
-        ped_disk_destroy(disk);
-        ped_disk_destroy(pass_disk);
     }
     else {
         return NULL;
@@ -537,8 +554,6 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -570,8 +585,6 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -603,8 +616,6 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -636,8 +647,6 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -656,7 +665,6 @@ PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
     disk = _ped_Disk2PedDisk(s);
     if (disk) {
         ped_disk_print(disk);
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -673,7 +681,6 @@ PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
     disk = _ped_Disk2PedDisk(s);
     if (disk) {
         ret = ped_disk_get_primary_partition_count(disk);
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -689,7 +696,6 @@ PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
     disk = _ped_Disk2PedDisk(s);
     if (disk) {
         ret = ped_disk_get_last_partition_num(disk);
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -706,7 +712,6 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
     disk = _ped_Disk2PedDisk(s);
     if (disk) {
         ret = ped_disk_get_max_primary_partition_count(disk);
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -1103,7 +1108,6 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
     ped_constraint_destroy(out_constraint);
 
     if (ret) {
@@ -1147,8 +1151,6 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
-
     if (ret) {
         Py_RETURN_TRUE;
     } else {
@@ -1190,8 +1192,6 @@ PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
-
     if (ret) {
         Py_RETURN_TRUE;
     } else {
@@ -1218,8 +1218,6 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -1276,7 +1274,6 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
     ped_constraint_destroy(out_constraint);
 
     if (ret) {
@@ -1327,7 +1324,6 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
     ped_constraint_destroy(out_constraint);
 
     if (ret) {
@@ -1385,7 +1381,6 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
     ped_constraint_destroy(out_constraint);
 
     return (PyObject *) ret;
@@ -1410,8 +1405,6 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
 
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -1458,8 +1451,6 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
-
     return (PyObject *) ret;
 }
 
@@ -1485,8 +1476,6 @@ PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
         if (ret == NULL) {
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
@@ -1521,8 +1510,6 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_disk_destroy(disk);
-
     return (PyObject *) ret;
 }
 
@@ -1543,8 +1530,6 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
         if (ret == NULL) {
             return NULL;
         }
-
-        ped_disk_destroy(disk);
     }
     else {
         return NULL;
