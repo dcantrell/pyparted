@@ -26,6 +26,20 @@ __all__ = ['alignment', 'constraint', 'device', 'disk',
            'filesystem', 'geometry', 'partition']
 
 import _ped
+
+from _ped import AlignmentException
+from _ped import CreateException
+from _ped import ConstraintException
+from _ped import DiskException
+from _ped import FileSystemException
+from _ped import IOException
+from _ped import NotNeededException
+from _ped import PartedException
+from _ped import PartitionException
+from _ped import TimerException
+from _ped import UnknownDeviceException
+from _ped import UnknownTypeException
+
 from alignment import Alignment
 from constraint import Constraint
 from device import Device
