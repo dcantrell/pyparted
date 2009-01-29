@@ -564,8 +564,6 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret = NULL;
     PedDisk *disk = NULL;
-    PedFileSystemType *fs_type = NULL;
-    PedGeometry *tmpgeom = NULL;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -578,38 +576,7 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
         return NULL;
     }
 
-    /* Partitions are allowed to have a None fs_type, as a part type of
-     * FREESPACE or METADATA has no associated fs_type.
-     */
-    if (part->fs_type != Py_None) {
-        fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
-        if (fs_type == NULL) {
-            ped_disk_destroy(disk);
-            return NULL;
-        }
-    }
-
-    tmpgeom = _ped_Geometry2PedGeometry(part->geom);
-    if (tmpgeom == NULL) {
-        ped_disk_destroy(disk);
-        return NULL;
-    }
-
-    if ((ret = ped_partition_new(disk, part->type, fs_type, tmpgeom->start,
-                                 tmpgeom->end)) == NULL) {
-        ped_disk_destroy(disk);
-
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (PyErr_ExceptionMatches(PartedException) ||
-                PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                return NULL;
-
-            PyErr_SetString(PartitionException, partedExnMessage);
-            return NULL;
-        }
-    }
+    ret = ped_disk_get_partition(disk, part->num);
 
     return ret;
 }
