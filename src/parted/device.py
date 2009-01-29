@@ -47,7 +47,7 @@ class Device(object):
         elif path is not None:
             self.__device = _ped.device_get(path)
         else:
-            raise _ped.PartedException, "no path or _ped.Device specified"
+            raise parted.DeviceException, "no path or PedDevice specified"
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property

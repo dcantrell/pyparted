@@ -38,7 +38,7 @@ class Disk(object):
             self.__disk = PedDisk
             self._device = parted.Device(PedDevice=self.__disk.dev)
         elif device is None:
-            raise _ped.DiskException, "no device specified"
+            raise parted.DiskException, "no device specified"
         else:
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
