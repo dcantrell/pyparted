@@ -33,13 +33,13 @@ class Partition(object):
     def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
         if PedPartition is None:
             if disk is None:
-                raise _ped.PartedException, "no disk specified"
+                raise parted.PartitionException, "no disk specified"
             elif type is None:
-                raise _ped.PartedException, "no type specified"
+                raise parted.PartitionException, "no type specified"
             elif geometry is None:
-                raise _ped.PartedException, "no geometry specified"
+                raise parted.PartitionException, "no geometry specified"
             else:
-                raise _ped.PartedException, "no PedPartition specified"
+                raise parted.PartitionException, "no PedPartition specified"
 
             self._disk = disk
             self._fileSystem = fs

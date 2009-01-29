@@ -35,9 +35,9 @@ class FileSystem(object):
 
         if PedFileSystem is None:
             if type is None:
-                raise _ped.PartedException, "no type specified"
+                raise parted.FileSystemException, "no type specified"
             elif geometry is None:
-                raise _ped.PartedException, "no geometry specified"
+                raise parted.FileSystemException, "no geometry specified"
 
             self._type = type
             self._geometry = geometry
