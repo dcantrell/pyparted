@@ -158,7 +158,7 @@ class Partition(object):
         maxLength = self.geometry.length
         physicalSectorSize = self.geometry.device.physicalSectorSize
 
-        for partition in self.disk.partitions.values():
+        for partition in self.disk.partitions:
             if partition.type & parted.PARTITION_FREESPACE:
                 maxLength += partition.geometry.length
             else:

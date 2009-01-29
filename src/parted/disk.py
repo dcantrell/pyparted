@@ -43,17 +43,17 @@ class Disk(object):
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
 
-        self._partitions = {}
+        self._partitions = []
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
     def __getPartitions(self):
-        if self._partitions == {}:
+        if self._partitions == []:
             i = 1
 
             while i <= self.lastPartitionNumber:
-                self._partitions[i] = parted.Partition(PedPartition=self.__disk.get_partition(i))
+                self._partitions.append(parted.Partition(PedPartition=self.__disk.get_partition(i)))
                 i += 1
 
         return self._partitions
@@ -205,7 +205,7 @@ class Disk(object):
         """Return a list of logical Partitions on this Disk."""
         ret = []
 
-        for partition in self.partitions.values():
+        for partition in self.partitions:
             if partition.active and (partition.type & parted.PARTITION_LOGICAL):
                 ret.append(partition)
 
@@ -215,7 +215,7 @@ class Disk(object):
         """Return a list of primary (or normal) Partitions on this Disk."""
         ret = []
 
-        for partition in self.partitions.values():
+        for partition in self.partitions:
             if partition.type == parted.PARTITION_NORMAL:
                 ret.append(partition)
 
@@ -225,7 +225,7 @@ class Disk(object):
         """Return a list of RAID (or normal) Partitions on this Disk."""
         ret = []
 
-        for partition in self.partitions.values():
+        for partition in self.partitions:
             if partition.active and partition.getFlag(parted.PARTITION_RAID):
                 ret.append(partition)
 
@@ -235,7 +235,7 @@ class Disk(object):
         """Return a list of physical volume-type Partitions on this Disk."""
         ret = []
 
-        for partition in self.partitions.values():
+        for partition in self.partitions:
             if partition.active and partition.getFlag(parted.PARTITION_LVM):
                 ret.append(partition)
 

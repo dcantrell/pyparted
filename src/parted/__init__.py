@@ -260,7 +260,7 @@ def getPartitionByName(name):
        Returns None if no partition is found."""
     for device in getAllDevices():
         disk = Disk(device=device)
-        for partition in disk.partitions.values():
+        for partition in disk.partitions:
             if partition.getDeviceNodeName() == name:
                 return partition
 
