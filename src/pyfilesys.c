@@ -195,16 +195,17 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
-    PyObject *in_geom = NULL;
+    PyObject *in_geom = NULL, *in_fstype = NULL;
     PedFileSystemType *fstype = NULL;
     PedGeometry *out_geom = NULL, *geom = NULL;
     _ped_Geometry *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj, &in_fstype,
+                          &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
-    fstype = _ped_FileSystemType2PedFileSystemType(s);
+    fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
     if (!fstype) {
         return NULL;
     }
