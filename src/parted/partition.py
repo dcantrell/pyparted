@@ -38,17 +38,15 @@ class Partition(object):
                 raise parted.PartitionException, "no type specified"
             elif geometry is None:
                 raise parted.PartitionException, "no geometry specified"
-            else:
-                raise parted.PartitionException, "no PedPartition specified"
 
             self._disk = disk
             self._fileSystem = fs
             self._geometry = geometry
 
             if fs is None:
-                self.__partition = _ped.Partition(disk, type, geometry.start, geometry.end)
+                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end)
             else:
-                self.__partition = _ped.Partition(disk, type, geometry.start, geometry.end, fs.type)
+                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end, fs.type)
         else:
             self.__partition = PedPartition
             self._disk = parted.Disk(PedDisk=self.__partition.disk)

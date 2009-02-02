@@ -197,7 +197,7 @@ class Disk(object):
     def getExtendedPartition(self):
         """Return the extended Partition, if any, on this Disk."""
         try:
-            return self.__disk.extended_partition()
+            return parted.Partition(PedPartition=self.__disk.extended_partition())
         except:
             return None
 

@@ -50,17 +50,18 @@ class Constraint(object):
         if PedConstraint:
             self.__constraint = PedConstraint
         elif minGeom and maxGeom:
-            self.__constraint = _ped.constraint_new_from_min_max(minGeom, maxGeom)
+            self.__constraint = _ped.constraint_new_from_min_max(minGeom.getPedGeometry(), maxGeom.getPedGeometry())
         elif minGeom:
-            self.__constraint = _ped.constraint_new_from_min(minGeom)
+            self.__constraint = _ped.constraint_new_from_min(minGeom.getPedGeometry())
         elif maxGeom:
-            self.__constraint = _ped.constraint_new_from_max(maxGeom)
+            self.__constraint = _ped.constraint_new_from_max(maxGeom.getPedGeometry())
         elif exactGeom:
-            self.__constraint = _ped.constraint_exact(exactGeom)
+            self.__constraint = _ped.constraint_exact(exactGeom.getPedGeometry())
         elif device:
-            self.__constraint = _ped.constraint_any(device)
+            self.__constraint = _ped.constraint_any(device.getPedDevice())
         else:
-            self.__constraint = _ped.Constraint(startAlign, endAlign,
+            self.__constraint = _ped.Constraint(startAlign.getPedAlignment(),
+                                                endAlign.getPedAlignment(),
                                                 startRange, endRange,
                                                 minSize, maxSize)
 
@@ -75,13 +76,13 @@ class Constraint(object):
         return self.__constraint.intersect(b)
 
     def solveMax(self):
-        """Return a new constraint that is the largest region satisfying self.
+        """Return a new geometry that is the largest region satisfying self.
            There may be more than one solution, and there are no guarantees as
            to which solution will be returned."""
         return self.__constraint.solve_max()
 
     def solveNearest(self, geom):
-        """Return a new constraint that is the nearest region to geom that
+        """Return a new geometry that is the nearest region to geom that
            satisfies self.  This function does not guarantee any specific
            meaning of 'nearest'."""
         return self.__constraint.solve_nearest(geom)
