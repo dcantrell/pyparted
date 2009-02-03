@@ -564,6 +564,7 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
 PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret = NULL;
     PedDisk *disk = NULL;
+    PedGeometry *geom = NULL;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -576,7 +577,43 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
         return NULL;
     }
 
-    ret = ped_disk_get_partition(disk, part->num);
+    geom = _ped_Geometry2PedGeometry(part->geom);
+    if (geom == NULL) {
+        return NULL;
+    }
+
+    /*
+     * We cannot use ped_disk_get_partition because metadata, freespace,
+     * and protected partitions are not true partitions because they do
+     * not have a number (they are all -1).
+     *
+     * For these types, we use the ped_disk_next_partition() method to
+     * iterate over each PedPartition.  Compare the types and then compare
+     * the PedGeometry values to see if they are equal.  If all of that
+     * matches, we have found the PedPartion we want.
+     *
+     * NOTE: Do not use ped_geometry_test_equal() here because it expects
+     * us to have equal PedDevice pointers, which we won't have.  We just
+     * need to compare the start and end sectors.
+     */
+    if (part->type == PED_PARTITION_FREESPACE ||
+        part->type == PED_PARTITION_METADATA ||
+        part->type == PED_PARTITION_PROTECTED) {
+       ret = ped_disk_next_partition(disk, NULL);
+
+       while (ret) {
+           if ((part->type == ret->type)) {
+               if ((geom->start == ret->geom.start) &&
+                   (geom->end == ret->geom.end)) {
+                   return ret;
+               }
+           }
+
+           ret = ped_disk_next_partition(disk, ret);
+       }
+    } else {
+       ret = ped_disk_get_partition(disk, part->num);
+    }
 
     return ret;
 }
