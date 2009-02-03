@@ -1442,8 +1442,8 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
 
     pass_part = ped_disk_next_partition(disk, out_part);
     if (pass_part == NULL) {
-        PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        Py_INCREF(Py_None);
+        return Py_None;
     }
 
     ret = PedPartition2_ped_Partition(pass_part);
