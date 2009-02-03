@@ -222,45 +222,24 @@ class Disk(object):
         except:
             return None
 
+    def __filterPartitions(self, fn):
+        return filter(fn, self.partitions)
+
     def getLogicalPartitions(self):
         """Return a list of logical Partitions on this Disk."""
-        ret = []
-
-        for partition in self.partitions:
-            if partition.active and (partition.type & parted.PARTITION_LOGICAL):
-                ret.append(partition)
-
-        return ret
+        return self.__filterPartitions(lambda p: p.active and p.type & parted.PARTITION_LOGICAL)
 
     def getPrimaryPartitions(self):
         """Return a list of primary (or normal) Partitions on this Disk."""
-        ret = []
-
-        for partition in self.partitions:
-            if partition.type == parted.PARTITION_NORMAL:
-                ret.append(partition)
-
-        return ret
+        return self.__filterPartitions(lambda p: p.type == parted.PARTITION_NORMAL)
 
     def getRaidPartitions(self):
         """Return a list of RAID (or normal) Partitions on this Disk."""
-        ret = []
-
-        for partition in self.partitions:
-            if partition.active and partition.getFlag(parted.PARTITION_RAID):
-                ret.append(partition)
-
-        return ret
+        return self.__filterPartitions(lambda p: p.active and p.getFlag(parted.PARTITION_RAID))
 
     def getLVMPartitions(self):
         """Return a list of physical volume-type Partitions on this Disk."""
-        ret = []
-
-        for partition in self.partitions:
-            if partition.active and partition.getFlag(parted.PARTITION_LVM):
-                ret.append(partition)
-
-        return ret
+        return self.__filterPartitions(lambda p: p.active and p.getFlag(parted.PARTITION_LVM))
 
     def getFreeSpaceRegions(self):
         """Return a list of Geometry objects representing the available
