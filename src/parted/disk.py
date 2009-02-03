@@ -286,6 +286,11 @@ class Disk(object):
 
             part = self.__disk.next_partition(part)
 
+    def getFirstPartition(self):
+        """Return the first Partition object on the disk or None if
+           there is not one."""
+        return parted.Partition(PedPartition=self.__disk.next_partition())
+
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal
            module use only."""
