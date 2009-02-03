@@ -253,6 +253,8 @@ class Disk(object):
 
             part = self.__disk.next_partition(part)
 
+        return freespace
+
     def getFreeSpacePartitions(self):
         """Return a list of Partition objects representing the available
            free space regions on this Disk."""
@@ -264,6 +266,8 @@ class Disk(object):
                 freespace.append(parted.Partition(PedPartition=part))
 
             part = self.__disk.next_partition(part)
+
+        return freespace
 
     def getFirstPartition(self):
         """Return the first Partition object on the disk or None if
