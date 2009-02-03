@@ -44,11 +44,19 @@ class Disk(object):
             self._device = device
 
         self._partitions = []
+        self._refreshPartitions = True
 
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
     def __getPartitions(self):
+        if self._refreshPartitions and self._partitions != []:
+            for partition in self._partitions:
+                self._partitions.remove(partition)
+                del partition
+
+            self._partitions = []
+
         if self._partitions == []:
             i = 1
 
@@ -56,6 +64,7 @@ class Disk(object):
                 self._partitions.append(parted.Partition(PedPartition=self.__disk.get_partition(i)))
                 i += 1
 
+        self._refreshPartitions = False
         return self._partitions
 
     type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
@@ -118,17 +127,29 @@ class Disk(object):
            logical partitions.  Also note that the partition is not
            actually destroyed unless you use the deletePartition()
            method."""
-        return self.__disk.remove_partition(partition.getPedPartition())
+        if self.__disk.remove_partition(partition.getPedPartition()):
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def deletePartition(self, partition):
         """Removes specified Partition from this Disk under the same
            conditions as removePartition(), but also destroy the
            removed Partition."""
-        return self.__disk.delete_partition(partition.getPedPartition())
+        if self.__disk.delete_partition(partition.getPedPartition()):
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def deleteAllPartitions(self):
         """Removes and destroys all Partitions in this Disk."""
-        return self.__disk.delete_all()
+        if self.__disk.delete_all():
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
         """Sets the Geometry of the specified Partition using the given
@@ -240,6 +261,30 @@ class Disk(object):
                 ret.append(partition)
 
         return ret
+
+    def getFreeSpaceRegions(self):
+        """Return a list of Geometry objects representing the available
+           free space regions on this Disk."""
+        freespace = []
+        part = self.__disk.next_partition()
+
+        while part:
+            if part.type & parted.PARTITION_FREESPACE:
+                freespace.append(parted.Geometry(PedGeometry=part.geom))
+
+            part = self.__disk.next_partition(part)
+
+    def getFreeSpacePartitions(self):
+        """Return a list of Partition objects representing the available
+           free space regions on this Disk."""
+        freespace = []
+        part = self.__disk.next_partition()
+
+        while part:
+            if part.type & parted.PARTITION_FREESPACE:
+                freespace.append(parted.Partition(PedPartition=part))
+
+            part = self.__disk.next_partition(part)
 
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal

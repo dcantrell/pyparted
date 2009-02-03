@@ -1,3 +1,10 @@
+- add parted.Device.toSectors() method that takes in a size specification,
+  such as 10.5MB, as a string and converts that size to a sector count
+  based on the sector size of that Device
+
+- add a getSize() method to parted.Geometry objects, possibly simplifying
+  the getSize() method on parted.Partition
+
 - autoconf/automake the entire tree
       'make install' and make sure Python modules are installed correctly
 
