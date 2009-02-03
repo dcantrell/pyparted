@@ -815,6 +815,12 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /* ped_partition_get_flag will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not get flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return NULL;
+    }
+
     ret = ped_partition_get_flag(part, flag);
 
     if (ret) {
