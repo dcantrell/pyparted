@@ -112,7 +112,7 @@ class Partition(object):
 
     def nextPartition(self):
         """Return the Partition following this one on the Disk."""
-        return self.disk.getPedDisk().next_partition(self.__partition)
+        return parted.Partition(PedPartition=self.disk.getPedDisk().next_partition(self.__partition))
 
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit
