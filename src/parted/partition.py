@@ -120,14 +120,7 @@ class Partition(object):
            abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
            (gigabytes), TB (terabytes).  An invalid unit string will raise a
            SyntaxError exception.  The default unit is MB."""
-        lunit = unit.lower()
-        physicalSectorSize = self.geometry.device.physicalSectorSize
-        size = self.geometry.length * physicalSectorSize
-
-        if lunit not in parted._exponent.keys():
-            raise SyntaxError, "invalid unit %s given" % (unit,)
-
-        return (size / math.pow(1024.0, parted._exponent[lunit]))
+        return self.geometry.getSize(unit)
 
     def getFlagsAsString(self):
         """Return a comma-separated string representing the flags

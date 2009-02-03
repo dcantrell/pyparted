@@ -22,6 +22,7 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 
+import math
 import _ped
 import parted
 
@@ -85,6 +86,21 @@ class Geometry(object):
         """Return whether self and Geometry b are on the same device and
            describe the same region."""
         return self.__geometry.equal(b)
+
+    def getSize(self, unit="MB"):
+        """Return the size of the geometry in the unit specified.  The unit
+           is given as a string corresponding to one of the following
+           abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
+           (gigabytes), TB (terabytes).  An invalid unit string will raise a
+           SyntaxError exception.  The default unit is MB."""
+        lunit = unit.lower()
+        physicalSectorSize = self.device.physicalSectorSize
+        size = self.length * physicalSectorSize
+
+        if lunit not in parted._exponent.keys():
+            raise SyntaxError, "invalid unit %s given" % (unit,)
+
+        return (size / math.pow(1024.0, parted._exponent[lunit]))
 
     def intersect(self, b):
         """Return a new Geometry describing the region common to both self
