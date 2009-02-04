@@ -289,6 +289,18 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
         }
     }
 
+    if (disk->part_list) {
+        if (ret->part_list) {
+           ped_free(ret->part_list);
+           ret->part_list = NULL;
+        }
+
+        ret->part_list = _ped_Partition2PedPartition(disk->part_list);
+    }
+
+    ret->needs_clobber = disk->needs_clobber;
+    ret->update_mode = disk->update_mode;
+
     return ret;
 }
 
@@ -317,6 +329,17 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
         return NULL;
     }
+
+    /*
+     * A _ped.Disk is initialized using ped_disk_new(), so it always
+     * contains the on-disk information first.  During a conversion
+     * of types, we want to convert in-memory data as well, so make
+     * sure we get the part_list and flag values, which may differ
+     * from the on-disk information.
+     */
+    ret->part_list = _ped_Partition2PedPartition(disk->part_list);
+    ret->needs_clobber = disk->needs_clobber;
+    ret->update_mode = disk->update_mode;
 
     return ret;
 }
