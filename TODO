@@ -1,3 +1,6 @@
+- speed things up:
+      - accessing Disk.partitions
+
 - add parted.Device.toSectors() method that takes in a size specification,
   such as 10.5MB, as a string and converts that size to a sector count
   based on the sector size of that Device
