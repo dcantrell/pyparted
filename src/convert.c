@@ -565,6 +565,7 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     PedPartition *ret = NULL;
     PedDisk *disk = NULL;
     PedGeometry *geom = NULL;
+    PedFileSystemType *fs_type = NULL;
     _ped_Partition *part = (_ped_Partition *) s;
 
     if (part == NULL) {
@@ -599,20 +600,48 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
     if (part->type == PED_PARTITION_FREESPACE ||
         part->type == PED_PARTITION_METADATA ||
         part->type == PED_PARTITION_PROTECTED) {
-       ret = ped_disk_next_partition(disk, NULL);
+        ret = ped_disk_next_partition(disk, NULL);
 
-       while (ret) {
-           if ((part->type == ret->type)) {
-               if ((geom->start == ret->geom.start) &&
-                   (geom->end == ret->geom.end)) {
-                   return ret;
-               }
-           }
+        while (ret) {
+            if ((part->type == ret->type)) {
+                if ((geom->start == ret->geom.start) &&
+                    (geom->end == ret->geom.end)) {
+                    return ret;
+                }
+            }
 
-           ret = ped_disk_next_partition(disk, ret);
-       }
+            ret = ped_disk_next_partition(disk, ret);
+        }
     } else {
-       ret = ped_disk_get_partition(disk, part->num);
+        ret = ped_disk_get_partition(disk, part->num);
+    }
+
+    /*
+     * If we get here and ret is NULL, it means we have a new
+     * partition that we need to convert to a PedPartition type
+     * so the user can add it to the disk.
+     */
+    if (ret == NULL) {
+        fs_type = _ped_FileSystemType2PedFileSystemType(part->fs_type);
+        if (fs_type == NULL) {
+            return NULL;
+        }
+
+        ret = ped_partition_new(disk, part->type, fs_type,
+                                geom->start, geom->end);
+        if (ret == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (!PyErr_ExceptionMatches(PartedException)) {
+                    PyErr_SetString(PartitionException, partedExnMessage);
+                }
+            } else {
+                PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
+            }
+
+            return NULL;
+        }
     }
 
     return ret;
