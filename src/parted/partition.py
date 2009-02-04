@@ -46,7 +46,7 @@ class Partition(object):
             if fs is None:
                 self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end)
             else:
-                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end, fs.type)
+                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end, parted.fileSystemType[fs.type])
         else:
             self.__partition = PedPartition
             self._disk = parted.Disk(PedDisk=self.__partition.disk)
