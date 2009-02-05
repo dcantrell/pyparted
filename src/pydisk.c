@@ -153,9 +153,6 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     self->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
     Py_INCREF(self->geom);
 
-    /* clean up libparted objects we created */
-    ped_free(part);
-    ped_free(disk);
     return 0;
 }
 
@@ -213,9 +210,6 @@ void _ped_Disk_dealloc(_ped_Disk *self) {
     Py_CLEAR(self->type);
     self->type = NULL;
 
-    Py_CLEAR(self->part_list);
-    self->part_list = NULL;
-
     PyObject_GC_Del(self);
 }
 
@@ -234,12 +228,6 @@ int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
         }
     }
 
-    if (self->part_list) {
-        if ((err = visit(self->part_list, arg))) {
-            return err;
-        }
-    }
-
     return 0;
 }
 
@@ -249,9 +237,6 @@ int _ped_Disk_clear(_ped_Disk *self) {
 
     Py_CLEAR(self->type);
     self->type = NULL;
-
-    Py_CLEAR(self->part_list);
-    self->part_list = NULL;
 
     return 0;
 }
@@ -296,11 +281,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     self->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
     Py_INCREF(self->type);
 
-    self->part_list = (PyObject *) PedPartition2_ped_Partition(disk->part_list);
-    Py_INCREF(self->part_list);
-
-    self->needs_clobber = disk->needs_clobber;
-    self->update_mode = disk->update_mode;
+    self->ped_disk = disk;
 
     return 0;
 }
@@ -1095,9 +1076,6 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     if (out_constraint == NULL) {
         return NULL;
     }
-
-    /* make sure we reference the same PedDisk */
-    out_part->disk = disk;
 
     ret = ped_disk_add_partition(disk, out_part, out_constraint);
     if (ret == 0) {
