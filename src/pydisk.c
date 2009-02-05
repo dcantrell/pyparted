@@ -153,6 +153,8 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     self->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
     Py_INCREF(self->geom);
 
+    self->ped_partition = part;
+
     return 0;
 }
 
