@@ -103,11 +103,9 @@ typedef struct {
     /* PedDisk members */
     PyObject *dev;             /* _ped.Device */
     PyObject *type;            /* _ped.DiskType */
-    PyObject *part_list;       /* _ped.Partition */
 
-    /* only used internally in libparted, but save for conversion */
-    int needs_clobber;
-    int update_mode;
+    /* store the PedDisk from libparted */
+    PedDisk *ped_disk;
 } _ped_Disk;
 
 void _ped_Disk_dealloc(_ped_Disk *self);

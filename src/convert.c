@@ -261,8 +261,6 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 }
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
-    PedDisk *ret = NULL;
-    PedDevice *dev = NULL;
     _ped_Disk *disk = (_ped_Disk *) s;
 
     if (disk == NULL) {
@@ -270,38 +268,7 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
         return NULL;
     }
 
-    dev = _ped_Device2PedDevice(disk->dev);
-    if (dev == NULL) {
-        return NULL;
-    }
-
-    ret = ped_disk_new(dev);
-    if (ret == NULL) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (PyErr_ExceptionMatches(PartedException) ||
-                PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                return NULL;
-
-            PyErr_SetString(DiskException, partedExnMessage);
-            return NULL;
-        }
-    }
-
-    if (disk->part_list) {
-        if (ret->part_list) {
-           ped_free(ret->part_list);
-           ret->part_list = NULL;
-        }
-
-        ret->part_list = _ped_Partition2PedPartition(disk->part_list);
-    }
-
-    ret->needs_clobber = disk->needs_clobber;
-    ret->update_mode = disk->update_mode;
-
-    return ret;
+    return disk->ped_disk;
 }
 
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
@@ -330,16 +297,7 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
         return NULL;
     }
 
-    /*
-     * A _ped.Disk is initialized using ped_disk_new(), so it always
-     * contains the on-disk information first.  During a conversion
-     * of types, we want to convert in-memory data as well, so make
-     * sure we get the part_list and flag values, which may differ
-     * from the on-disk information.
-     */
-    ret->part_list = _ped_Partition2PedPartition(disk->part_list);
-    ret->needs_clobber = disk->needs_clobber;
-    ret->update_mode = disk->update_mode;
+    ret->ped_disk = disk;
 
     return ret;
 }
@@ -635,7 +593,7 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
 
             ret = ped_disk_next_partition(disk, ret);
         }
-    } else {
+    } else if (part->num != -1) {
         ret = ped_disk_get_partition(disk, part->num);
     }
 
