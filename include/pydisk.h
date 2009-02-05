@@ -85,6 +85,9 @@ typedef struct {
     int num;
     int type;                      /* PedPartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
+
+    /* store the PedPartition from libparted */
+    PedPartition *ped_partition;
 } _ped_Partition;
 
 void _ped_Partition_dealloc(_ped_Partition *self);
