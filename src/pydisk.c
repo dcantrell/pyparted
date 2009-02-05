@@ -1054,7 +1054,7 @@ PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     _ped_Partition *in_part = NULL;
-    _ped_Constraint *in_constraint = NULL;
+    PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;
@@ -1070,7 +1070,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_part = _ped_Partition2PedPartition(in_part);
+    out_part = _ped_Partition2PedPartition((PyObject *) in_part);
     if (out_part == NULL) {
         return NULL;
     }
