@@ -36,3 +36,4 @@ src/Makefile.in
 stamp-h1
 src/*.o
 *~
+tags
