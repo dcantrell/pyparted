@@ -1098,6 +1098,9 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     in_part->num = out_part->num;
     in_part->type = out_part->type;
 
+    /* this _ped.Disk now owns this _ped.Partition */
+    Py_INCREF(in_part);
+
     ped_constraint_destroy(out_constraint);
 
     if (ret) {
