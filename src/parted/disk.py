@@ -58,11 +58,17 @@ class Disk(object):
             self._partitions = []
 
         if self._partitions == []:
-            i = 1
+            part = self.getFirstPartition()
 
-            while i <= self.lastPartitionNumber:
-                self._partitions.append(parted.Partition(PedPartition=self.__disk.get_partition(i)))
-                i += 1
+            while part:
+                if part.type & parted.PARTITION_FREESPACE or \
+                   part.type & parted.PARTITION_METADATA or \
+                   part.type & parted.PARTITION_PROTECTED:
+                    part = part.nextPartition()
+                    continue
+
+                self._partitions.append(part)
+                part = part.nextPartition()
 
         self._refreshPartitions = False
         return self._partitions
@@ -300,7 +306,7 @@ class Disk(object):
            path, such as /dev/sda1.  Returns None if no partition is found."""
         for partition in self.partitions:
             if partition.getDeviceNodeName() == path:
-                return Partition
+                return partition
 
         return None
 
