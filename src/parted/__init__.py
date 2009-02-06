@@ -270,18 +270,6 @@ def roundToNearest(sector, grainSize):
     """Rounds sector to the closest multiple of grainSize."""
     return _ped.round_to_nearest(sector, grainSize)
 
-def getPartitionByName(name):
-    """Return a Partition object associated with the partition name.
-       name is a device node specification, such as /dev/sda1
-       Returns None if no partition is found."""
-    for device in getAllDevices():
-        disk = Disk(device=device)
-        for partition in disk.partitions:
-            if partition.getDeviceNodeName() == name:
-                return partition
-
-    return None
-
 def freshDisk(device, type):
     """Return a Disk object for this Device and using this DiskType.
        The type should be a member of the parted.diskType hash,
