@@ -79,6 +79,8 @@ class Disk(object):
            is not None, remove all identifying signatures of the partition
            table, except for partition tables of that type.  type must be a
            string matching a valid key in the diskType hash."""
+        self._refreshPartitions = True
+
         if type is None:
             return self.__disk.clobber()
         else:
@@ -96,16 +98,19 @@ class Disk(object):
         """Writes in-memory changes to a partition table to disk and
            informs the operating system of the changes.  Equivalent to
            calling self.commitToDevice() then self.commitToOS()."""
+        self._refreshPartitions = True
         return self.__disk.commit()
 
     def commitToDevice(self):
         """Write the changes made to the in-memory description of a
            partition table to the device."""
+        self._refreshPartitions = True
         return self.__disk.commit_to_dev()
 
     def commitToOS(self):
         """Tell the operating system kernel about the partition table
            layout of this Disk."""
+        self._refreshPartitions = True
         return self.__disk.commit_to_os()
 
     def check(self):
@@ -118,8 +123,12 @@ class Disk(object):
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
-        return self.__disk.add_partition(partition.getPedPartition(),
-                                         constraint.getPedConstraint())
+        if self.__disk.add_partition(partition.getPedPartition(),
+                                     constraint.getPedConstraint()):
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def removePartition(self, partition=None):
         """Removes specified Partition from this Disk.  NOTE:  If the
@@ -156,15 +165,23 @@ class Disk(object):
            Constraint and start and end sectors.  Note that this method
            does not modify the partition contents, just the partition
            table."""
-        return self.__disk.set_partition_geom(partition.getPedPartition(),
-                                              constraint.getPedConstraint(),
-                                              start, end)
+        if self.__disk.set_partition_geom(partition.getPedPartition(),
+                                          constraint.getPedConstraint(),
+                                          start, end):
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
-        return self.__disk.maximize_partition(partition.getPedPartition(),
-                                              constraint.getPedConstraint())
+        if self.__disk.maximize_partition(partition.getPedPartition(),
+                                          constraint.getPedConstraint()):
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
@@ -175,7 +192,11 @@ class Disk(object):
         """Reduce the size of the extended partition to a minimum while
            still wrapping its logical partitions.  If there are no logical
            partitions, remove the extended partition."""
-        return self.__disk.minimize_extended_partition()
+        if self.__disk.minimize_extended_partition():
+            self._refreshPartitions = True
+            return True
+        else:
+            return False
 
     def getPartitionBySector(self, sector):
         """Returns the Partition that contains the sector.  If the sector
@@ -273,6 +294,15 @@ class Disk(object):
         """Return the first Partition object on the disk or None if
            there is not one."""
         return parted.Partition(PedPartition=self.__disk.next_partition())
+
+    def getPartitionByPath(self, path):
+        """Return a Partition object associated with the partition device
+           path, such as /dev/sda1.  Returns None if no partition is found."""
+        for partition in self.partitions:
+            if partition.getDeviceNodeName() == path:
+                return Partition
+
+        return None
 
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal
