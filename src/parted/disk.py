@@ -43,35 +43,24 @@ class Disk(object):
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
 
-        self._partitions = []
-        self._refreshPartitions = True
-
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
     def __getPartitions(self):
-        if self._refreshPartitions and self._partitions != []:
-            for partition in self._partitions:
-                self._partitions.remove(partition)
-                del partition
+        partitions = []
+        partition = self.getFirstPartition()
 
-            self._partitions = []
+        while partition:
+            if partition.type & parted.PARTITION_FREESPACE or \
+               partition.type & parted.PARTITION_METADATA or \
+               partition.type & parted.PARTITION_PROTECTED:
+                partition = partition.nextPartition()
+                continue
 
-        if self._partitions == []:
-            part = self.getFirstPartition()
+            partitions.append(partition)
+            partition = partition.nextPartition()
 
-            while part:
-                if part.type & parted.PARTITION_FREESPACE or \
-                   part.type & parted.PARTITION_METADATA or \
-                   part.type & parted.PARTITION_PROTECTED:
-                    part = part.nextPartition()
-                    continue
-
-                self._partitions.append(part)
-                part = part.nextPartition()
-
-        self._refreshPartitions = False
-        return self._partitions
+        return partitions
 
     type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
     primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
@@ -85,8 +74,6 @@ class Disk(object):
            is not None, remove all identifying signatures of the partition
            table, except for partition tables of that type.  type must be a
            string matching a valid key in the diskType hash."""
-        self._refreshPartitions = True
-
         if type is None:
             return self.__disk.clobber()
         else:
@@ -104,19 +91,16 @@ class Disk(object):
         """Writes in-memory changes to a partition table to disk and
            informs the operating system of the changes.  Equivalent to
            calling self.commitToDevice() then self.commitToOS()."""
-        self._refreshPartitions = True
         return self.__disk.commit()
 
     def commitToDevice(self):
         """Write the changes made to the in-memory description of a
            partition table to the device."""
-        self._refreshPartitions = True
         return self.__disk.commit_to_dev()
 
     def commitToOS(self):
         """Tell the operating system kernel about the partition table
            layout of this Disk."""
-        self._refreshPartitions = True
         return self.__disk.commit_to_os()
 
     def check(self):
@@ -129,12 +113,8 @@ class Disk(object):
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
-        if self.__disk.add_partition(partition.getPedPartition(),
-                                     constraint.getPedConstraint()):
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.add_partition(partition.getPedPartition(),
+                                         constraint.getPedConstraint())
 
     def removePartition(self, partition=None):
         """Removes specified Partition from this Disk.  NOTE:  If the
@@ -142,52 +122,32 @@ class Disk(object):
            logical partitions.  Also note that the partition is not
            actually destroyed unless you use the deletePartition()
            method."""
-        if self.__disk.remove_partition(partition.getPedPartition()):
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.remove_partition(partition.getPedPartition())
 
     def deletePartition(self, partition):
         """Removes specified Partition from this Disk under the same
            conditions as removePartition(), but also destroy the
            removed Partition."""
-        if self.__disk.delete_partition(partition.getPedPartition()):
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.delete_partition(partition.getPedPartition())
 
     def deleteAllPartitions(self):
         """Removes and destroys all Partitions in this Disk."""
-        if self.__disk.delete_all():
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.delete_all()
 
     def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
         """Sets the Geometry of the specified Partition using the given
            Constraint and start and end sectors.  Note that this method
            does not modify the partition contents, just the partition
            table."""
-        if self.__disk.set_partition_geom(partition.getPedPartition(),
-                                          constraint.getPedConstraint(),
-                                          start, end):
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.set_partition_geom(partition.getPedPartition(),
+                                              constraint.getPedConstraint(),
+                                              start, end)
 
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
-        if self.__disk.maximize_partition(partition.getPedPartition(),
-                                          constraint.getPedConstraint()):
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.maximize_partition(partition.getPedPartition(),
+                                              constraint.getPedConstraint())
 
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
@@ -198,11 +158,7 @@ class Disk(object):
         """Reduce the size of the extended partition to a minimum while
            still wrapping its logical partitions.  If there are no logical
            partitions, remove the extended partition."""
-        if self.__disk.minimize_extended_partition():
-            self._refreshPartitions = True
-            return True
-        else:
-            return False
+        return self.__disk.minimize_extended_partition()
 
     def getPartitionBySector(self, sector):
         """Returns the Partition that contains the sector.  If the sector
