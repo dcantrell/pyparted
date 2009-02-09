@@ -174,6 +174,17 @@ class Device(object):
 
         return size
 
+    def getSizeAsSectors(self):
+        """Return the size of the Device as a number of sectors, taking
+           in to account the sector size of the Device."""
+        bytes = self.getSize(unit="bytes")
+        sectors = bytes / self.sectorSize
+
+        if bytes % self.sectorSize:
+            sector += 1
+
+        return sectors
+
     def getConstraint(self):
         """Return a Constraint defining the limitations imposed by
            this Device."""
