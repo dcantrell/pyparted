@@ -188,7 +188,7 @@ class Device(object):
     def getConstraint(self):
         """Return a Constraint defining the limitations imposed by
            this Device."""
-        return self.__device.get_constraint()
+        return parted.Constraint(PedConstraint=self.__device.get_constraint())
 
     def getPedDevice(self):
         """Return the _ped.Device object contained in this Device.

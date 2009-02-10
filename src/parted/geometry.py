@@ -76,7 +76,7 @@ class Geometry(object):
     def contains(self, b):
         """Return whether Geometry b is contained entirely within self and on
            the same physical device."""
-        return self.__geometry.test_inside(b)
+        return self.__geometry.test_inside(b.getPedGeometry())
 
     def containsSector(self, sector):
         """Return whether the sectory is contained entirely within self."""
@@ -85,7 +85,7 @@ class Geometry(object):
     def equal(self, b):
         """Return whether self and Geometry b are on the same device and
            describe the same region."""
-        return self.__geometry.equal(b)
+        return self.__geometry.equal(b.getPedGeometry())
 
     def getSize(self, unit="MB"):
         """Return the size of the geometry in the unit specified.  The unit
@@ -106,20 +106,20 @@ class Geometry(object):
         """Return a new Geometry describing the region common to both self
            and Geometry b.  Raises ArithmeticError if the regions do not
            intersect."""
-        return self.__geometry.intersect(b)
+        return Geometry(PedGeometry=self.__geometry.intersect(b.getPedGeometry()))
 
     def map(self, src, sector):
         """Given a Geometry src that overlaps with self and a sector inside src,
            this method translates the address of the sector into an address
            inside self.  If self does not contain sector, ArithmeticError will
            be raised."""
-        return self.__geometry.map(src, sector)
+        return self.__geometry.map(src.getPedGeometry(), sector)
 
     def overlapsWith(self, b):
         """Return whether self and b are on the same device and share at least
            some of the same region."""
         try:
-            self.__geometry.intersect(b)
+            self.__geometry.intersect(b.getPedGeometry())
             return True
         except ArithmeticError:
             return False

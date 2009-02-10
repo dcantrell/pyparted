@@ -81,7 +81,7 @@ class Disk(object):
 
     def duplicate(self):
         """Make a deep copy of this Disk."""
-        return self.__disk.duplicate()
+        return Disk(PedDisk=self.__disk.duplicate())
 
     def destroy(self):
         """Closes the Disk ensuring all outstanding writes are flushed."""

@@ -103,7 +103,7 @@ class Partition(object):
     def getMaxGeometry(self, constraint):
         """Given a constraint, return the maximum Geometry that self can be
            grown to.  Raises Partitionexception on error."""
-        return self.disk.getPedDisk().get_max_partition_geometry(self.__partition, constraint)
+        return parted.Geometry(PedGeometry=self.disk.getPedDisk().get_max_partition_geometry(self.__partition, constraint))
 
     def isFlagAvailable(self, flag):
         """Return True if flag is available on this Partition, False
