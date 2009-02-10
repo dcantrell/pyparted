@@ -255,6 +255,8 @@ def probeForSpecificFileSystem(fstype, geometry):
     return geometry.Geometry(PedGeometry=geom)
 
 def probeFileSystem(geometry):
+    """Return the name of the filesystem detected on the given
+       Geometry.  Returns None is no filesystem found."""
     fstype = _ped.file_system_probe(geometry.getPedGeometry())
     return fstype.name
 
