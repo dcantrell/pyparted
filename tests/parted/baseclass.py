@@ -1,5 +1,4 @@
-#
-# Makefile.am for tests/parted
+#!/usr/bin/python
 #
 # Copyright (C) 2009  Red Hat, Inc.
 #
@@ -8,7 +7,7 @@
 # the GNU General Public License v.2, or (at your option) any later version.
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY expressed or implied, including the implied warranties of
-# MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 # Public License for more details.  You should have received a copy of the
 # GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -20,16 +19,28 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-EXTRA_DIST = baseclass.py $(TESTS)
-MAINTAINERCLEANFILES = Makefile.in *.pyc
+import _ped
+import parted
+import os
+import tempfile
+import unittest
 
-TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs:$(top_builddir)/src
+# Base class for any test case that requires a parted.Device object first.
+class RequiresDevice(unittest.TestCase):
+    def setUp(self):
+        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        f = os.fdopen(fd)
+        f.seek(128000)
+        os.write(fd, "0")
 
-TESTS = test_parted.py \
-		  test_alignment.py \
-		  test_constraint.py \
-		  test_device.py \
-		  test_disk.py \
-		  test_filesystem.py \
-		  test_geometry.py \
-		  test_partition.py
+        self._device = parted.getDevice(self.path)
+
+    def tearDown(self):
+        os.unlink(self.path)
+
+# Base class for any test case that requires a parted.Disk.
+class RequiresDisk(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        pd = _ped.Disk(self._device, _ped.disk_type_get("msdos"))
+        self._disk = parted.Disk(PedDisk=pd)
