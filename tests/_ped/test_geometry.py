@@ -346,12 +346,12 @@ class GeometryWriteTestCase(RequiresDevice):
 class GeometryCheckTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class GeometryMapTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():

@@ -30,58 +30,72 @@ import unittest
 class GeometryNewTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryCheckTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryContainsTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryContainsSectorTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryEqualTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryGetSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryMapTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryOverlapsWithTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryReadTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometrySyncTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryWriteTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GeometryGetPedGeometryTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
