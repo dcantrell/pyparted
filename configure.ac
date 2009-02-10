@@ -26,7 +26,7 @@ AC_INIT([pyparted], [2.0.0], [dcantrell@redhat.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/typeobjects/Makefile src/Makefile src/parted/Makefile tests/Makefile tests/_ped/Makefile])
+AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/typeobjects/Makefile src/Makefile src/parted/Makefile tests/Makefile tests/_ped/Makefile tests/parted/Makefile])
 
 AC_CONFIG_MACRO_DIR([m4])
 
