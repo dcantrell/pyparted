@@ -43,6 +43,30 @@ class Disk(object):
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
 
+    def _hasSameParts(self, other):
+        import itertools
+
+        if len(self.partitions) != len(other.partitions):
+            return False
+
+        iter = itertools.izip(self.partitions, other.partitions)
+        while True:
+            try:
+                (left, right) = iter.next()
+                if left != right:
+                    return False
+            except StopIteration:
+                return True
+
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.device != other.device or not self._hasSameParts(other)
+
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 

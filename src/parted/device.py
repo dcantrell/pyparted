@@ -49,6 +49,15 @@ class Device(object):
         else:
             raise parted.DeviceException, "no path or PedDevice specified"
 
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.model != other.model or self.path != other.path or self.type != other.type or self.length != other.length
+
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 

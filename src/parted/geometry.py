@@ -49,6 +49,15 @@ class Geometry(object):
         else:
             raise parted.GeometryException, "must specify PedGeometry or (device, start, length) or (device, start, end) or (device, start, length, end)"
 
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.device != other.device or self.start != other.start or self.length != other.length
+
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
@@ -81,11 +90,6 @@ class Geometry(object):
     def containsSector(self, sector):
         """Return whether the sectory is contained entirely within self."""
         return self.__geometry.test_sector_inside(sector)
-
-    def equal(self, b):
-        """Return whether self and Geometry b are on the same device and
-           describe the same region."""
-        return self.__geometry.equal(b.getPedGeometry())
 
     def getSize(self, unit="MB"):
         """Return the size of the geometry in the unit specified.  The unit

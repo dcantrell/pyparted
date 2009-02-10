@@ -56,6 +56,15 @@ class FileSystem(object):
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.type != other.type or self.geometry != other.geometry
+
     type = property(lambda s: s._type, lambda s, v: s.__readOnly("type"))
     geometry = property(lambda s: s._geometry, lambda s, v: s.__readOnly("geometry"))
     checked = property(lambda s: s._checked, lambda s, v: s.__readOnly("checked"))
