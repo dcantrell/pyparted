@@ -64,11 +64,11 @@ class FileSystem(object):
         return self.__fileSystem.clobber()
 
     def open(self):
-        return self.__fileSystem.open()
+        return parted.FileSystem(PedFileSystem=self.__fileSystem.open())
 
     # XXX: this can take in a Timer
     def create(self):
-        return self.__fileSystem.create()
+        return parted.FileSystem(PedFileSystem=self.__fileSystem.create())
 
     def close(self):
         return self.__fileSystem.close()
@@ -80,14 +80,14 @@ class FileSystem(object):
 
     # XXX: this can take in a Timer
     def copy(self, geometry):
-        return self.__fileSystem.copy(geometry)
+        return parted.FileSystem(PedFileSystem=self.__fileSystem.copy(geometry.getPedGeometry()))
 
     # XXX: this can take in a Timer
     def resize(self, geometry):
-        return self.__fileSystem.resize(geometry)
+        return self.__fileSystem.resize(geometry.getPedGeometry())
 
     def getResizeConstraint(self):
-        return self.__fileSystem.get_resize_constraint()
+        return parted.Constraint(PedConstraint=self.__fileSystem.get_resize_constraint())
 
     def getPedFileSystem(self):
         """Return the _ped.FileSystem object contained in this FileSystem.
