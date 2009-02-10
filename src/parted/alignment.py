@@ -42,8 +42,8 @@ class Alignment(object):
         else:
             raise parted.AlignmentException, "no offset+grainSize or PedAlignment specified"
 
-    offset = property(lambda s: s.__alignment.offset, lambda s, v: s.__alignment.offset("offset", v))
-    grainSize = property(lambda s: s.__alignment.grain_size, lambda s, v: s.__alignment.offset("grain_size", v))
+    offset = property(lambda s: s.__alignment.offset, lambda s, v: setattr(s.__alignment, "offset", v))
+    grainSize = property(lambda s: s.__alignment.grain_size, lambda s, v: setattr(s.__alignment, "grain_size", v))
 
     def __eq__(self, other):
         return not self.__ne__(other)
@@ -84,6 +84,12 @@ class Alignment(object):
     def isAligned(self, geom, sector):
         """Determine whether sector lies inside geom and satisfies the
            alignment constraint self."""
+        if not geom:
+            raise TypeError, "missing parted.Geometry parameter"
+
+        if sector is None:
+            raise TypeError, "missing sector parameter"
+
         return self.__alignment.is_aligned(geom.getPedGeometry(), sector)
 
     def getPedAlignment(self):
