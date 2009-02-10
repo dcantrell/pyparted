@@ -57,6 +57,8 @@
     _ped.free_all_devices
     _ped.flag_get_next
 
+- All test cases with '# TODO' in the runTest() method.
+
 - Make sure PyTypeObjects that have a tp_init are allocating memory that the
   garbage collector knows about.  I'm not sure if PyType_GenericAlloc or
   PyType_GenericNew do this.
@@ -99,8 +101,5 @@
 
 - parted module:
       - Write docstrings for everything
-
-- Figure out how to make PyMemberDef members read-only if they need to
-  be.
 
 ... and much much more
