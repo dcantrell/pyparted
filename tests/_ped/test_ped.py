@@ -55,15 +55,6 @@ class PartitionFlagNextTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class GreatestCommonDivisorTestCase(unittest.TestCase):
-    def runTest(self):
-        # Can't test cases where we pass a negative to greatest_common_divisor
-        # because libparted will assert() on those and we'll abort.
-        self.assertEqual(_ped.greatest_common_divisor(40, 0), 40)
-        self.assertEqual(_ped.greatest_common_divisor(0, 40), 40)
-        self.assertEqual(_ped.greatest_common_divisor(40, 10), 10)
-        self.assertEqual(_ped.greatest_common_divisor(47, 19), 1)
-
 class ConstraintNewFromMinMaxTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_new_from_min_max, None)
@@ -207,20 +198,6 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
 
         self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
-class DivRoundToNearestTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertEqual(_ped.div_round_to_nearest(0, 100), 0)
-        self.assertEqual(_ped.div_round_to_nearest(100, 5), 20)
-        self.assertEqual(_ped.div_round_to_nearest(100, 6), 17)
-        self.assertRaises(ZeroDivisionError, _ped.div_round_to_nearest, 100, 0)
-
-class DivRoundUpTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertEqual(_ped.div_round_up(0, 100), 0)
-        self.assertEqual(_ped.div_round_to_nearest(100, 5), 20)
-        self.assertEqual(_ped.div_round_to_nearest(100, 6), 17)
-        self.assertRaises(ZeroDivisionError, _ped.div_round_up, 100, 0)
-
 class FileSystemProbeTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -251,27 +228,6 @@ class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
             self.assert_(isinstance(ele, _ped.FileSystemType))
 
         self.assertRaises(IndexError, _ped.file_system_type_get_next, lst[-1])
-
-class RoundDownToTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertEqual(_ped.round_down_to(0, 100), 0)
-        self.assertEqual(_ped.round_down_to(100, 17), 85)
-        self.assertEqual(_ped.round_down_to(100, -17), 85)
-        self.assertRaises(ZeroDivisionError, _ped.round_down_to, 100, 0)
-
-class RoundToNearestTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertEqual(_ped.round_to_nearest(0, 100), 0)
-        self.assertEqual(_ped.round_to_nearest(100, 17), 102)
-        self.assertEqual(_ped.round_to_nearest(100, -17), 68)
-        self.assertRaises(ZeroDivisionError, _ped.round_to_nearest, 100, 0)
-
-class RoundUpToTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertEqual(_ped.round_to_nearest(0, 100), 0)
-        self.assertEqual(_ped.round_up_to(100, 17), 102)
-        self.assertEqual(_ped.round_up_to(100, -17), 68)
-        self.assertRaises(ZeroDivisionError, _ped.round_up_to, 100, 0)
 
 class PartitionTypeGetNameTestCase(unittest.TestCase):
     def runTest(self):
