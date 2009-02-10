@@ -1,7 +1,7 @@
 #
-# Makefile.am for pyparted
+# Makefile.am for tests/parted
 #
-# Copyright (C) 2008, 2009  Red Hat, Inc.
+# Copyright (C) 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,10 +17,19 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): Chris Lumens <clumens@redhat.com>
-#                    David Cantrell <dcantrell@redhat.com>
+# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-SUBDIRS = _ped parted
+EXTRA_DIST = $(TESTS)
+MAINTAINERCLEANFILES = Makefile.in *.pyc
 
-MAINTAINERCLEANFILES = Makefile.in
+TESTS_ENVIRONMENT = PYTHONPATH=$(top_builddir)/src/.libs:$(top_builddir)/src
+
+TESTS = test_parted.py \
+		  test_alignment.py \
+		  test_constraint.py \
+		  test_device.py \
+		  test_disk.py \
+		  test_filesystem.py \
+		  test_geometry.py \
+		  test_partition.py
