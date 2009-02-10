@@ -118,30 +118,6 @@ PyDoc_STRVAR(file_system_type_get_next_doc,
 "Get the next FileSystemType in parted's list after self, or raise IndexError\n"
 "if there are no more types.");
 
-PyDoc_STRVAR(round_up_to_doc,
-"round_up_to_doc(Sector, grain_size) -> Sector\n\n"
-"Rounds Sector up to the closest multiple of grain_size.");
-
-PyDoc_STRVAR(round_down_to_doc,
-"round_down_to_doc(Sector, grain_size) -> Sector\n\n"
-"Rounds Sector down to the closest multiple of grain_size.");
-
-PyDoc_STRVAR(round_to_nearest_doc,
-"round_down_to(Sector, grain_size) -> Sector\n\n"
-"Rounds Sector to the closest multiple of grain_size.");
-
-PyDoc_STRVAR(greatest_common_divisor_doc,
-"greatest_common_divisor_doc(a, b) -> Sector\n\n"
-"Returns the largest divisor of both a and b.");
-
-PyDoc_STRVAR(div_round_up_doc,
-"div_round_up(a, b) -> Sector\n\n"
-"Rounds up the result of a divided by b.");
-
-PyDoc_STRVAR(div_round_to_nearest_doc,
-"div_round_to_nearest(a, b) -> Sector\n\n"
-"Returns the closest result of a divided by b.");
-
 PyDoc_STRVAR(disk_type_get_next_doc,
 "disk_type_get_next(self) -> DiskType\n\n"
 "Return the next DiskType after self.  If self is the last DiskType, raise\n"
@@ -302,20 +278,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                              file_system_type_get_doc},
     {"file_system_type_get_next", (PyCFunction) py_ped_file_system_type_get_next,
                                   METH_VARARGS, file_system_type_get_next_doc},
-
-    /* pynatmath.c */
-    {"round_up_to", (PyCFunction) py_ped_round_up_to, METH_VARARGS,
-                    round_up_to_doc},
-    {"round_down_to", (PyCFunction) py_ped_round_down_to, METH_VARARGS,
-                      round_down_to_doc},
-    {"round_to_nearest", (PyCFunction) py_ped_round_to_nearest, METH_VARARGS,
-                         round_to_nearest_doc},
-    {"greatest_common_divisor", (PyCFunction) py_ped_greatest_common_divisor,
-                                METH_VARARGS, greatest_common_divisor_doc},
-    {"div_round_up", (PyCFunction) py_ped_div_round_up, METH_VARARGS,
-                     div_round_up_doc},
-    {"div_round_to_nearest", (PyCFunction) py_ped_div_round_to_nearest,
-                             METH_VARARGS, div_round_to_nearest_doc},
 
     /* pyunit.c */
     {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS,
