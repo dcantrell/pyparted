@@ -30,18 +30,12 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for natmath.h in libparted */
-PyObject *py_ped_round_up_to(PyObject *s, PyObject *args);
-PyObject *py_ped_round_down_to(PyObject *s, PyObject *args);
-PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args);
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args);
-PyObject *py_ped_div_round_up(PyObject *s, PyObject *args);
-PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args);
 
 /* _ped.Alignment type is the Python equivalent of PedAlignment in libparted */
 typedef struct {

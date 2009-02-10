@@ -106,61 +106,6 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
 }
 
 /* 1:1 function mappings for natmath.h in libparted */
-PyObject *py_ped_round_up_to(PyObject *s, PyObject *args) {
-    PedSector sector, grain_size;
-
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
-        return NULL;
-    }
-
-    if (grain_size == 0) {
-       PyErr_SetNone(PyExc_ZeroDivisionError);
-       return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_round_up_to(sector, grain_size));
-}
-
-PyObject *py_ped_round_down_to(PyObject *s, PyObject *args) {
-    PedSector sector, grain_size;
-
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
-        return NULL;
-    }
-
-    if (grain_size == 0) {
-       PyErr_SetNone(PyExc_ZeroDivisionError);
-       return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_round_down_to(sector, grain_size));
-}
-
-PyObject *py_ped_round_to_nearest(PyObject *s, PyObject *args) {
-    PedSector sector, grain_size;
-
-    if (!PyArg_ParseTuple(args, "LL", &sector, &grain_size)) {
-        return NULL;
-    }
-
-    if (grain_size == 0) {
-       PyErr_SetNone(PyExc_ZeroDivisionError);
-       return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_round_to_nearest(sector, grain_size));
-}
-
-PyObject *py_ped_greatest_common_divisor(PyObject *s, PyObject *args) {
-    PedSector a, b;
-
-    if (!PyArg_ParseTuple(args, "LL", &a, &b)) {
-        return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_greatest_common_divisor(a, b));
-}
-
 PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
     PedAlignment *alignment = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
@@ -348,36 +293,6 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     } else {
         Py_RETURN_FALSE;
     }
-}
-
-PyObject *py_ped_div_round_up(PyObject *s, PyObject *args) {
-    PedSector numerator, divisor;
-
-    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
-        return NULL;
-    }
-
-    if (divisor == 0) {
-       PyErr_SetNone(PyExc_ZeroDivisionError);
-       return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_div_round_up(numerator, divisor));
-}
-
-PyObject *py_ped_div_round_to_nearest(PyObject *s, PyObject *args) {
-    PedSector numerator, divisor;
-
-    if (!PyArg_ParseTuple(args, "LL", &numerator, &divisor)) {
-        return NULL;
-    }
-
-    if (divisor == 0) {
-       PyErr_SetNone(PyExc_ZeroDivisionError);
-       return NULL;
-    }
-
-    return PyLong_FromLongLong(ped_div_round_to_nearest(numerator, divisor));
 }
 
 /* vim:tw=78:ts=4:et:sw=4
