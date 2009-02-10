@@ -386,7 +386,6 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     disktype = _ped_DiskType2PedDiskType(s);
     if (disktype && feature) {
         ret = ped_disk_type_check_feature(disktype, feature);
-        Py_CLEAR(disktype);
     }
     else {
         return NULL;
