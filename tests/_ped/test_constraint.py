@@ -131,22 +131,22 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 class ConstraintIntersectTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class ConstraintSolveMaxTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class ConstraintSolveNearestTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class ConstraintIsSolutionTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 
 # And then a suite to hold all the test cases for this module.

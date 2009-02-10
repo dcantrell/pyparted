@@ -27,47 +27,47 @@ import unittest
 class FileSystemNewTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemGetSetTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemClobberTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemCreateTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemCloseTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemCheckTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemCopyTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemResizeTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemGetResizeConstraintTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 
 # And then a suite to hold all the test cases for this module.

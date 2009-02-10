@@ -74,7 +74,7 @@ class PartitionGetSetTestCase(RequiresPartition):
 class PartitionDestroyTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class PartitionIsActiveTestCase(RequiresPartition):
     def runTest(self):
@@ -94,12 +94,12 @@ class PartitionIsActiveTestCase(RequiresPartition):
 class PartitionSetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class PartitionGetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class PartitionIsFlagAvailableTestCase(RequiresPartition):
     def runTest(self):
@@ -169,7 +169,7 @@ class PartitionGetNameTestCase(RequiresPartition):
 class PartitionIsBusyTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):

@@ -76,22 +76,22 @@ class AlignmentDuplicateTestCase(unittest.TestCase):
 class AlignmentIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignUpTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignDownTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
-        pass
+        self.fail("Unimplemented test case.")
 
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):

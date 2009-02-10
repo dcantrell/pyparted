@@ -53,7 +53,7 @@ class PartitionFlagGetByNameTestCase(unittest.TestCase):
 class PartitionFlagNextTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class GreatestCommonDivisorTestCase(unittest.TestCase):
     def runTest(self):
@@ -186,7 +186,7 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
 class DeviceFreeAllTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
@@ -224,12 +224,12 @@ class DivRoundUpTestCase(unittest.TestCase):
 class FileSystemProbeTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemProbeSpecificTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class FileSystemTypeGetTestCase(unittest.TestCase):
     def runTest(self):
@@ -305,7 +305,7 @@ class UnitGetDefaultTestCase(unittest.TestCase):
 class UnitGetSizeTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitGetNameTestCase(unittest.TestCase):
     def runTest(self):
@@ -323,32 +323,32 @@ class UnitGetByNameTestCase(unittest.TestCase):
 class UnitFormatCustomByteTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitFormatByteTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitFormatCustomTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitFormatTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitParseTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class UnitParseCustomTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():

@@ -99,12 +99,12 @@ class DeviceClose(RequiresDevice):
 class DeviceDestroy(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DeviceCacheRemove(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DeviceBeginExternalAccess(RequiresDevice):
     def runTest(self):
@@ -149,12 +149,12 @@ class DeviceEndExternalAccess(RequiresDevice):
 class DeviceRead(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DeviceWrite(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DeviceSync(RequiresDevice):
     def runTest(self):
@@ -187,7 +187,7 @@ class DeviceSyncFast(RequiresDevice):
 class DeviceCheck(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DeviceGetConstraint(RequiresDevice):
     def runTest(self):

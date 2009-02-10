@@ -30,30 +30,37 @@ import unittest
 class ConstraintNewTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintSolveMaxTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintSolveNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintIsSolutionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ConstraintGetPedConstraintTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():

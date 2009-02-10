@@ -30,34 +30,42 @@ import unittest
 class AlignmentNewTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignUpTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignDownTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentAlignNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentIsAlignedTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():

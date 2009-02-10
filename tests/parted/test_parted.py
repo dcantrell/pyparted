@@ -30,50 +30,62 @@ import unittest
 class DivRoundUpTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class DivRoundToNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GetDeviceTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GetAllDevicesTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class GreatestCommonDivisorTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ProbeForSpecificFileSystemTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class ProbeFileSystemTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class RoundUpToTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class RoundDownToTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class RoundToNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class FreshDiskTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 class VersionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():

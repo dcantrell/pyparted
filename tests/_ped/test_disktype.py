@@ -27,17 +27,17 @@ import unittest
 class DiskTypeNewTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DiskTypeGetSetTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 class DiskTypeCheckFeatureTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
-        pass
+        self.fail("Unimplemented test case.")
 
 
 # And then a suite to hold all the test cases for this module.
