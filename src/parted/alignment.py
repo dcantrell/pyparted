@@ -31,13 +31,15 @@ class Alignment(object):
        a specific sector multiple on a device, or that a geometry must start
        and end at sectors at those specific multiples.  Most methods on this
        object raise ArithmeticError if calculating alignments fails."""
-    def __init__(self, offset, grainSize, PedAlignment=None):
+    def __init__(self, offset=None, grainSize=None, PedAlignment=None):
         """Create a new Alignment object from the sectors offset and
            grainSize."""
         if PedAlignment:
             self.__alignment = PedAlignment
-        else:
+        elif offset is not None and grainSize is not None:
             self.__alignment = _ped.Alignment(offset, grainSize)
+        else:
+            raise parted.AlignmentException, "no offset+grainSize or PedAlignment specified"
 
     offset = property(lambda s: s.__alignment.offset, lambda s, v: s.__alignment.offset("offset", v))
     grainSize = property(lambda s: s.__alignment.grainSize, lambda s, v: s.__alignment.offset("grain_size", v))
@@ -47,32 +49,32 @@ class Alignment(object):
            self and alignment b.  A sector will satisfy the new alignment iff
            it satisfies both of the original alignments.  Whether a sector
            satisfies a given alignment is determined by is_aligned()."""
-        return self.__alignment.intersect(b)
+        return parted.Alignment(PedAlignment=self.__alignment.intersect(b.getPedAlignment()))
 
     def alignUp(self, geom, sector):
         """Return the closest sector to the provided sector that lies inside
            geom and satisfies the alignment constraint self.  This method
            prefers, but does not guarantee, that the result is beyond sector.
            If no such sector can be found, an ArithmeticError is raised."""
-        return self.__alignment.align_up(geom, sector)
+        return self.__alignment.align_up(geom.getPedGeometry(), sector)
 
     def alignDown(self, geom, sector):
         """Return the closest sector to the provided sector that lies inside
            geom and satisfies the alignment constraint self.  This method
            prefers, but does not guarantee, that the result is below sector.
            If no such sector can be found, an ArithmeticError is raised."""
-        return self.__alignment.align_down(geom, sector)
+        return self.__alignment.align_down(geom.getPedGeometry(), sector)
 
     def alignNearest(self, geom, sector):
         """Return toe closest sector to the input sector that lies inside
-        geom and satisfies the alignment constraint self.  If no such sector
-        can be found, an ArithmeticError is raised."""
-        return self.__alignment.align_nearest(geom, sector)
+           geom and satisfies the alignment constraint self.  If no such sector
+           can be found, an ArithmeticError is raised."""
+        return self.__alignment.align_nearest(geom.getPedGeometry(), sector)
 
     def isAligned(self, geom, sector):
         """Determine whether sector lies inside geom and satisfies the
            alignment constraint self."""
-        return self.__alignment.is_aligned(geom, sector)
+        return self.__alignment.is_aligned(geom.getPedGeometry(), sector)
 
     def getPedAlignment(self):
         """Return the _ped.Alignment object contained in this Alignment.
