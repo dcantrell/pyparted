@@ -168,8 +168,6 @@ PyObject *py_ped_disk_probe(PyObject *s, PyObject *args) {
         if (ret == NULL) {
             return NULL;
         }
-
-        Py_CLEAR(type);
     }
 
     return (PyObject *) ret;
