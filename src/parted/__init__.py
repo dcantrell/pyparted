@@ -251,7 +251,7 @@ def probeForSpecificFileSystem(fstype, geometry):
        filesystem type and geometry.  fstype must be a string
        representing a valid _ped.FileSystemType, geometry is a
        parted.Geometry."""
-    geom = _ped.file_system_probe_specific(filesystem.fileSystemType[fstype], geometry.getPedGeometry())
+    geom = _ped.file_system_probe_specific(fileSystemType[fstype], geometry.getPedGeometry())
     return geometry.Geometry(PedGeometry=geom)
 
 def probeFileSystem(geometry):
@@ -270,21 +270,21 @@ def roundToNearest(sector, grainSize):
     """Rounds sector to the closest multiple of grainSize."""
     return _ped.round_to_nearest(sector, grainSize)
 
-def freshDisk(device, type):
+def freshDisk(device, ty):
     """Return a Disk object for this Device and using this DiskType.
        The type should be a member of the parted.diskType hash,
        either a key or a value.
 
        The new label is not written to disk until commitToDevice()
        is called on the Disk."""
-    if (type not in diskType.keys()) and (type not in diskType.values()):
+    if (ty not in diskType.keys()) and (ty not in diskType.values()):
         raise SyntaxError, "type must be a key or value in parted.diskType"
 
-    if type in diskType.keys():
-        type = diskType[type]
+    if ty in diskType.keys():
+        ty = diskType[ty]
 
-    peddisk = _ped.disk_new_fresh(device.getPedDevice(), type)
-    return disk.Disk(PedDisk=peddisk)
+    peddisk = _ped.disk_new_fresh(device.getPedDevice(), ty)
+    return Disk(PedDisk=peddisk)
 
 def version():
     """Return a dict containing the pyparted and libparted versions."""

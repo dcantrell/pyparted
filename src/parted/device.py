@@ -181,7 +181,7 @@ class Device(object):
         sectors = bytes / self.sectorSize
 
         if bytes % self.sectorSize:
-            sector += 1
+            sectors += 1
 
         return sectors
 
