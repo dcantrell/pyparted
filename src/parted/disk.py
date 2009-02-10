@@ -152,7 +152,7 @@ class Disk(object):
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
            subject to the given Constraint."""
-        return self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint())
+        return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))
 
     def minimizeExtendedPartition(self):
         """Reduce the size of the extended partition to a minimum while
@@ -164,7 +164,7 @@ class Disk(object):
         """Returns the Partition that contains the sector.  If the sector
            lies within a logical partition, then the logical partition is
            returned (not the extended partition)."""
-        return self.__disk.get_partition_by_sector(sector)
+        return parted.Partition(PedPartition=self.__disk.get_partition_by_sector(sector))
 
     def getMaxLogicalPartitions(self):
         """Return the maximum number of logical partitions this Disk
