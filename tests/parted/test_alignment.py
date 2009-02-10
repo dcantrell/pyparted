@@ -21,21 +21,60 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+import _ped
 import parted
 import unittest
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 class AlignmentNewTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        pa = _ped.Alignment(0, 100)
+
+        # Check that not passing args to parted.Alignment.__init__ is caught.
+        self.assertRaises(parted.AlignmentException, parted.Alignment)
+
+        # And then the correct ways of creating a parted.Alignment
+        a = parted.Alignment(offset=0, grainSize=100)
+        self.assert_(isinstance(a, parted.Alignment))
+
+        b = parted.Alignment(PedAlignment=pa)
+        self.assert_(isinstance(b, parted.Alignment))
+
+        # Test for _ped.Alignment equality
+        self.assertTrue(b.getPedAlignment() == pa)
 
 class AlignmentGetSetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.a = parted.Alignment(offset=27, grainSize=49)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Test that passing the args to __init__ works.
+        self.assert_(isinstance(self.a, parted.Alignment))
+        self.assert_(self.a.offset == 27)
+        self.assert_(self.a.grainSize == 49)
+
+        # Test that setting directly and getting with getattr works.
+        self.a.offset = 10
+        self.a.grainSize = 90
+
+        self.assert_(getattr(self.a, "offset") == 10)
+        self.assert_(getattr(self.a, "grainSize") == 90)
+
+        # Check that setting with setattr and getting directly works.
+        setattr(self.a, "offset", 20)
+        setattr(self.a, "grainSize", 80)
+
+        self.assert_(self.a.offset == 20)
+        self.assert_(self.a.grainSize == 80)
+
+        # Check that values have the right type.
+        self.assertRaises(TypeError, setattr, self.a, "offset", "string")
+
+        # Check that looking for invalid attributes fails properly.
+        self.assertRaises(AttributeError, getattr, self.a, "blah")
 
 class AlignmentIntersectTestCase(unittest.TestCase):
     def runTest(self):
@@ -57,10 +96,29 @@ class AlignmentAlignNearestTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
-class AlignmentIsAlignedTestCase(unittest.TestCase):
+class AlignmentIsAlignedTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = parted.Geometry(device=self._device, start=0, length=100)
+        self.a = parted.Alignment(offset=10, grainSize=0)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Test a couple ways of passing bad arguments.
+        self.assertRaises(TypeError, self.a.isAligned, None, 12)
+        self.assertRaises(TypeError, self.a.isAligned, self.g, None)
+
+        # Sector must be inside the geometry.
+        self.assert_(self.a.isAligned(self.g, 400) == False)
+
+        # If grain_size is 0, sector must be the same as offset.
+        self.assert_(self.a.isAligned(self.g, 10) == True)
+        self.assert_(self.a.isAligned(self.g, 0) == False)
+        self.assert_(self.a.isAligned(self.g, 47) == False)
+
+        # If grain_size is anything else, there's real math involved.
+        self.a.grainSize = 5
+        self.assert_(self.a.isAligned(self.g, 20) == True)
+        self.assert_(self.a.isAligned(self.g, 23) == False)
 
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
     def runTest(self):
