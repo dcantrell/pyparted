@@ -62,16 +62,10 @@ class VersionTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(DivRoundUpTestCase())
-    suite.addTest(DivRoundToNearestTestCase())
     suite.addTest(GetDeviceTestCase())
     suite.addTest(GetAllDevicesTestCase())
-    suite.addTest(GreatestCommonDivisorTestCase())
     suite.addTest(ProbeForSpecificFileSystemTestCase())
     suite.addTest(ProbeFileSystemTestCase())
-    suite.addTest(RoundUpToTestCase())
-    suite.addTest(RoundDownToTestCase())
-    suite.addTest(RoundToNearestTestCase())
     suite.addTest(FreshDiskTestCase())
     suite.addTest(VersionTestCase())
     return suite
