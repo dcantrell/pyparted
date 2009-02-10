@@ -62,7 +62,8 @@ class Constraint(object):
         else:
             self.__constraint = _ped.Constraint(startAlign.getPedAlignment(),
                                                 endAlign.getPedAlignment(),
-                                                startRange, endRange,
+                                                startRange.getPedGeometry(),
+                                                endRange.getPedGeometry(),
                                                 minSize, maxSize)
 
     minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
@@ -73,23 +74,23 @@ class Constraint(object):
            provided constraint b.  The returned constraint will therefore be
            more restrictive than either input as it will have to satisfy
            both."""
-        return self.__constraint.intersect(b)
+        return parted.Constraint(PedConstraint=self.__constraint.intersect(b.getPedConstraint()))
 
     def solveMax(self):
         """Return a new geometry that is the largest region satisfying self.
            There may be more than one solution, and there are no guarantees as
            to which solution will be returned."""
-        return self.__constraint.solve_max()
+        return parted.Geometry(PedGeometry=self.__constraint.solve_max())
 
     def solveNearest(self, geom):
         """Return a new geometry that is the nearest region to geom that
            satisfies self.  This function does not guarantee any specific
            meaning of 'nearest'."""
-        return self.__constraint.solve_nearest(geom)
+        return parted.Geometry(PedGeometry=self.__constraint.solve_nearest(geom.getPedGeometry()))
 
     def isSolution(self, geom):
         """Does geom satisfy this constraint?"""
-        return self.__constraint.is_solution(geom)
+        return self.__constraint.is_solution(geom.getPedGeometry())
 
     def getPedConstraint(self):
         """Return the _ped.Constraint object contained in this Constraint.
