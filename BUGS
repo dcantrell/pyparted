@@ -3,4 +3,7 @@ Python interactive shell.
 
 ---------------------------------------------------------------------------
 
-
+1) parted.Disk.getLogicalPartitions() crashes
+       device = parted.getDevice("/dev/sda")
+       disk = parted.Disk(device)
+       disk.getLogicalPartitions()

@@ -99,8 +99,6 @@
 
 - parted module:
       - Write docstrings for everything
-      - Sort out the __all__/import/from mess so that we can rely on
-        'import parted' and get correct namespace
 
 - Figure out how to make PyMemberDef members read-only if they need to
   be.
