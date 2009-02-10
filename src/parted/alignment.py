@@ -67,7 +67,7 @@ class Alignment(object):
         return self.__alignment.align_down(geom.getPedGeometry(), sector)
 
     def alignNearest(self, geom, sector):
-        """Return toe closest sector to the input sector that lies inside
+        """Return the closest sector to the input sector that lies inside
            geom and satisfies the alignment constraint self.  If no such sector
            can be found, an ArithmeticError is raised."""
         return self.__alignment.align_nearest(geom.getPedGeometry(), sector)
