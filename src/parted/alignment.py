@@ -21,6 +21,7 @@
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
 
+import parted
 import _ped
 
 class Alignment(object):
