@@ -57,6 +57,15 @@ class Partition(object):
             else:
                 self._fileSystem = parted.FileSystem(type=self.__partition.fs_type.name, geometry=self._geometry)
 
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.path != other.path or self.type != other.type or self.geometry != other.geometry or self.fileSystem != other.fileSystem
+
     def __readOnly(self, property):
         raise parted.ReadOnlyProperty, property
 

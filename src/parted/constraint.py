@@ -67,6 +67,18 @@ class Constraint(object):
                                                 endRange.getPedGeometry(),
                                                 minSize, maxSize)
 
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        c1 = self.getPedConstraint()
+        c2 = other.getPedConstraint()
+
+        return self.minSize != other.minSize or self.maxSize != other.maxSize or c1.start_align != c2.start_align or c1.end_align != c2.end_align or c1.start_range != c2.start_range or c1.end_range != c2.end_range
+
     minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
     maxSize = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
 

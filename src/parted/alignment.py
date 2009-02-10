@@ -43,7 +43,16 @@ class Alignment(object):
             raise parted.AlignmentException, "no offset+grainSize or PedAlignment specified"
 
     offset = property(lambda s: s.__alignment.offset, lambda s, v: s.__alignment.offset("offset", v))
-    grainSize = property(lambda s: s.__alignment.grainSize, lambda s, v: s.__alignment.offset("grain_size", v))
+    grainSize = property(lambda s: s.__alignment.grain_size, lambda s, v: s.__alignment.offset("grain_size", v))
+
+    def __eq__(self, other):
+        return not self.__ne__(other)
+
+    def __ne__(self, other):
+        if hash(self) == hash(other):
+            return False
+
+        return self.offset != other.offset or self.grainSize != other.grainSize
 
     def intersect(self, b):
         """Create and return a new Alignment that describes the intersection of
