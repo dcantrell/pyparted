@@ -113,7 +113,7 @@ class Geometry(object):
            this method translates the address of the sector into an address
            inside self.  If self does not contain sector, ArithmeticError will
            be raised."""
-        return self.__geometry.map(src.getPedGeometry(), sector)
+        return parted.Geometry(PedGeometry=self.__geometry.map(src.getPedGeometry(), sector))
 
     def overlapsWith(self, b):
         """Return whether self and b are on the same device and share at least
