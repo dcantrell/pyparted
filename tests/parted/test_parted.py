@@ -21,33 +21,19 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+import _ped
 import parted
 import unittest
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class DivRoundUpTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class DivRoundToNearestTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
 class GetDeviceTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 class GetAllDevicesTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class GreatestCommonDivisorTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
@@ -62,21 +48,6 @@ class ProbeFileSystemTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
-class RoundUpToTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class RoundDownToTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class RoundToNearestTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
 class FreshDiskTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -84,8 +55,9 @@ class FreshDiskTestCase(unittest.TestCase):
 
 class VersionTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        ver = parted.version()
+        self.assertTrue(ver['libparted'] == _ped.libparted_version())
+        self.assertTrue(ver['pyparted'] == _ped.pyparted_version())
 
 # And then a suite to hold all the test cases for this module.
 def suite():
