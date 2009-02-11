@@ -5,9 +5,6 @@
   such as 10.5MB, as a string and converts that size to a sector count
   based on the sector size of that Device
 
-- autoconf/automake the entire tree
-      'make install' and make sure Python modules are installed correctly
-
 - use disttools from Python to do as much work as possible
 
 - Walk through all of the src/py*.c files and make sure libparted exceptions
@@ -35,27 +32,6 @@
 
 - Exception handling:
       - Audit error messages to make them more useful.
-
-- Test cases:
-    _ped.Constraint
-    _ped.Disk
-    _ped.DiskType
-    _ped.FileSystem
-    _ped.FileSystemType
-    _ped.Partition
-    _ped.Timer
-    _ped.file_system_probe
-    _ped.file_system_probe_specific
-    _ped.unit_format_custom_byte
-    _ped.unit_format_byte
-    _ped.unit_format_custom
-    _ped.unit_format
-    _ped.unit_get_size
-    _ped.unit_parse
-    _ped.unit_parse_custom
-    _ped.probe_all_devices
-    _ped.free_all_devices
-    _ped.flag_get_next
 
 - All test cases with '# TODO' in the runTest() method.
 
