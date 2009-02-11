@@ -42,3 +42,23 @@ ChangeLog:
 
 pychecker: all
 	$(MAKE) -C src/parted pychecker
+
+tag: dist-gzip
+	@if [ -z "$(GPGKEY)" ]; then \
+		echo "GPGKEY environment variable missing, please set this to the key ID" ; \
+		echo "you want to use to tag the repository." ; \
+		exit 1 ; \
+	fi
+	@git tag -u $(GPGKEY) -m "Tag as $(PACKAGE)-$(VERSION)" -f $(PACKAGE)-$(VERSION)
+	@echo "Tagged as $(PACKAGE)-$(VERSION) (GPG signed)"
+
+release: tag
+	rm -rf $(PACKAGE)-$(VERSION)
+	gzip -dc $(PACKAGE)-$(VERSION).tar.gz | tar -xvf -
+	( cd $(PACKAGE)-$(VERSION) && ./configure && make ) || exit 1
+	@echo
+	@echo "$(PACKAGE)-$(VERSION).tar.gz is now ready to upload."
+	@echo "Don't forget to push changes to the repository with:."
+	@echo "    git push" ; \
+	@echo "    git push --tags" ; \
+	@echo
