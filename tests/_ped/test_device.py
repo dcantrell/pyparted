@@ -17,7 +17,9 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
 
@@ -51,7 +53,7 @@ class DeviceIsBusyTestCase(RequiresDevice):
 #        self.doMount()
 #        self.assertTrue(self._device.is_busy())
 
-class DeviceOpen(RequiresDevice):
+class DeviceOpenTestCase(RequiresDevice):
     def runTest(self):
         self.assertTrue(self._device.open())
         self.assertEquals(self._device.open_count, 1)
@@ -72,7 +74,7 @@ class DeviceOpen(RequiresDevice):
         self._device.close()
         self._device.close()
 
-class DeviceClose(RequiresDevice):
+class DeviceCloseTestCase(RequiresDevice):
     def runTest(self):
         self._device.open()
         self.assertTrue(self._device.close())
@@ -96,17 +98,17 @@ class DeviceClose(RequiresDevice):
         self.assertEquals(self._device.open_count, 0)
         self.assertRaises(_ped.IOException, self._device.close)
 
-class DeviceDestroy(unittest.TestCase):
+class DeviceDestroyTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceCacheRemove(unittest.TestCase):
+class DeviceCacheRemoveTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceBeginExternalAccess(RequiresDevice):
+class DeviceBeginExternalAccessTestCase(RequiresDevice):
     def runTest(self):
         # First test external access on a device that's not open.
         self.assertEquals(self._device.external_mode, 0)
@@ -123,7 +125,7 @@ class DeviceBeginExternalAccess(RequiresDevice):
         self._device.end_external_access()
         self._device.close()
 
-class DeviceEndExternalAccess(RequiresDevice):
+class DeviceEndExternalAccessTestCase(RequiresDevice):
     def runTest(self):
         # Attempt to end external access on a device that never had it begun.
         self.assertRaises(_ped.IOException, self._device.end_external_access)
@@ -146,17 +148,17 @@ class DeviceEndExternalAccess(RequiresDevice):
         self.assertEquals(self._device.open_count, 1)
         self._device.close()
 
-class DeviceRead(unittest.TestCase):
+class DeviceReadTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceWrite(unittest.TestCase):
+class DeviceWriteTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceSync(RequiresDevice):
+class DeviceSyncTestCase(RequiresDevice):
     def runTest(self):
         # Can't sync a device that's not open or is in external mode.
         self.assertRaises(_ped.IOException, self._device.sync)
@@ -170,7 +172,7 @@ class DeviceSync(RequiresDevice):
         self.assertTrue(self._device.sync())
         self._device.close()
 
-class DeviceSyncFast(RequiresDevice):
+class DeviceSyncFastTestCase(RequiresDevice):
     def runTest(self):
         # Can't sync a device that's not open or is in external mode.
         self.assertRaises(_ped.IOException, self._device.sync_fast)
@@ -184,12 +186,12 @@ class DeviceSyncFast(RequiresDevice):
         self.assertTrue(self._device.sync_fast())
         self._device.close()
 
-class DeviceCheck(unittest.TestCase):
+class DeviceCheckTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceGetConstraint(RequiresDevice):
+class DeviceGetConstraintTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
@@ -202,18 +204,18 @@ def suite():
     suite.addTest(DeviceNewTestCase())
     suite.addTest(DeviceGetSetTestCase())
     suite.addTest(DeviceIsBusyTestCase())
-    suite.addTest(DeviceOpen())
-    suite.addTest(DeviceClose())
-    suite.addTest(DeviceDestroy())
-    suite.addTest(DeviceCacheRemove())
-    suite.addTest(DeviceBeginExternalAccess())
-    suite.addTest(DeviceEndExternalAccess())
-    suite.addTest(DeviceRead())
-    suite.addTest(DeviceWrite())
-    suite.addTest(DeviceSync())
-    suite.addTest(DeviceSyncFast())
-    suite.addTest(DeviceCheck())
-    suite.addTest(DeviceGetConstraint())
+    suite.addTest(DeviceOpenTestCase())
+    suite.addTest(DeviceCloseTestCase())
+    suite.addTest(DeviceDestroyTestCase())
+    suite.addTest(DeviceCacheRemoveTestCase())
+    suite.addTest(DeviceBeginExternalAccessTestCase())
+    suite.addTest(DeviceEndExternalAccessTestCase())
+    suite.addTest(DeviceReadTestCase())
+    suite.addTest(DeviceWriteTestCase())
+    suite.addTest(DeviceSyncTestCase())
+    suite.addTest(DeviceSyncFastTestCase())
+    suite.addTest(DeviceCheckTestCase())
+    suite.addTest(DeviceGetConstraintTestCase())
     return suite
 
 s = suite()
