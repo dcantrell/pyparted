@@ -212,7 +212,7 @@ class WriteOnlyProperty(Exception):
 
 def getDevice(path):
     """Given the operating system level path to a device node, return
-       a Device object for that disk.  Raises DiskException if an invalid
+       a Device object for that disk.  Raises DeviceException if an invalid
        path is given."""
     return Device(path=path)
 
