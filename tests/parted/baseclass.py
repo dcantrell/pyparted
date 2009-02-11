@@ -25,18 +25,22 @@ import os
 import tempfile
 import unittest
 
-# Base class for any test case that requires a parted.Device object first.
-class RequiresDevice(unittest.TestCase):
+# Base class for any test case that requires a temp device node
+class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(128000)
         os.write(fd, "0")
 
-        self._device = parted.getDevice(self.path)
-
     def tearDown(self):
         os.unlink(self.path)
+
+# Base class for any test case that requires a parted.Device object first.
+class RequiresDevice(RequiresDeviceNode):
+    def setUp(self):
+        RequiresDeviceNode.setUp(self)
+        self._device = parted.getDevice(self.path)
 
 # Base class for any test case that requires a parted.Disk.
 class RequiresDisk(RequiresDevice):
