@@ -51,9 +51,21 @@ class PartitionFlagGetByNameTestCase(unittest.TestCase):
         self.assert_(_ped.partition_flag_get_by_name("nosuchflag") == 0)
 
 class PartitionFlagNextTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # We should get TypeError when the parameter is invalid
+        self.assertRaises(TypeError, _ped.partition_flag_next)
+        self.assertRaises(TypeError, _ped.partition_flag_next, 'blah')
+
+        # First flag is 0, keep getting flags until we loop back around
+        # to zero.  Make sure each flag we get is an integer.
+        flag = _ped.partition_flag_next(0)
+        self.assertTrue(type(flag).__name__ == 'int')
+
+        while True:
+            flag = _ped.partition_flag_next(flag)
+            if not flag:
+                break
+            self.assertTrue(type(flag).__name__ == 'int')
 
 class ConstraintNewFromMinMaxTestCase(RequiresDevice):
     def runTest(self):
@@ -258,7 +270,7 @@ class UnitGetDefaultTestCase(unittest.TestCase):
     def runTest(self):
         self.assert_(_ped.unit_get_default() >= 0)
 
-class UnitGetSizeTestCase(unittest.TestCase):
+class UnitGetSizeTestCase(RequiresDevice):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
@@ -320,16 +332,10 @@ def suite():
     suite.addTest(DeviceFreeAllTestCase())
     suite.addTest(DiskTypeGetTestCase())
     suite.addTest(DiskTypeGetNextTestCase())
-    suite.addTest(DivRoundToNearestTestCase())
-    suite.addTest(DivRoundUpTestCase())
     suite.addTest(FileSystemProbeTestCase())
     suite.addTest(FileSystemProbeSpecificTestCase())
     suite.addTest(FileSystemTypeGetTestCase())
     suite.addTest(FileSystemTypeGetNextTestCase())
-    suite.addTest(GreatestCommonDivisorTestCase())
-    suite.addTest(RoundDownToTestCase())
-    suite.addTest(RoundToNearestTestCase())
-    suite.addTest(RoundUpToTestCase())
     suite.addTest(PartitionFlagGetNameTestCase())
     suite.addTest(PartitionFlagGetByNameTestCase())
     suite.addTest(PartitionFlagNextTestCase())
