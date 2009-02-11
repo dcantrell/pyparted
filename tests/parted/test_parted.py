@@ -24,19 +24,34 @@
 import _ped
 import parted
 import unittest
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class GetDeviceTestCase(unittest.TestCase):
+class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Check that a DiskException is raised for an invalid path
+        self.assertRaises(parted.DeviceException, parted.getDevice, None)
+        self.assertRaises(parted.DeviceException, parted.getDevice, "")
+        self.assertRaises(parted.DeviceException, parted.getDevice, "/dev/whatever")
+
+        # Check that we get a parted.Device back
+        self.assert_(isinstance(parted.getDevice(self.path), parted.Device))
+
+        # Make sure the device node paths match
+        self.assertTrue(parted.getDevice(self.path).path == self.path)
 
 class GetAllDevicesTestCase(unittest.TestCase):
+    def setUp(self):
+        self.devices = parted.getAllDevices()
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Check self.devices and see that it's a list
+        self.assertTrue(type(self.devices).__name__ == 'list')
+
+        # And make sure each element of the list is a parted.Device
+        map(lambda s: self.assert_(isinstance(s, parted.Device)), self.devices)
 
 class ProbeForSpecificFileSystemTestCase(unittest.TestCase):
     def runTest(self):
@@ -48,10 +63,23 @@ class ProbeFileSystemTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
-class FreshDiskTestCase(unittest.TestCase):
+class FreshDiskTestCase(RequiresDevice):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Make sure we get SyntaxError when using an invalid disk type
+        self.assertRaises(SyntaxError, parted.freshDisk, self._device, 'cheese')
+        self.assertRaises(SyntaxError, parted.freshDisk, self._device, 'crackers')
+
+        # Create a new disk for each disk type key, verify each one
+        for key in parted.diskType.keys():
+            disk = parted.freshDisk(self._device, key)
+            self.assert_(isinstance(disk, parted.Disk))
+            self.assertTrue(disk.type == key)
+
+        # Create a new disk each disk type value, verify each one
+        for value in parted.diskType.values():
+            disk = parted.freshDisk(self._device, value)
+            self.assert_(isinstance(disk, parted.Disk))
+            self.assertTrue(parted.diskType[disk.type] == value)
 
 class VersionTestCase(unittest.TestCase):
     def runTest(self):

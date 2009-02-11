@@ -30,9 +30,10 @@ from baseclass import *
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 class AlignmentNewTestCase(unittest.TestCase):
-    def runTest(self):
-        pa = _ped.Alignment(0, 100)
+    def setUp(self):
+        self.pa = _ped.Alignment(0, 100)
 
+    def runTest(self):
         # Check that not passing args to parted.Alignment.__init__ is caught.
         self.assertRaises(parted.AlignmentException, parted.Alignment)
 
@@ -40,11 +41,11 @@ class AlignmentNewTestCase(unittest.TestCase):
         a = parted.Alignment(offset=0, grainSize=100)
         self.assert_(isinstance(a, parted.Alignment))
 
-        b = parted.Alignment(PedAlignment=pa)
+        b = parted.Alignment(PedAlignment=self.pa)
         self.assert_(isinstance(b, parted.Alignment))
 
         # Test for _ped.Alignment equality
-        self.assertTrue(b.getPedAlignment() == pa)
+        self.assertTrue(b.getPedAlignment() == self.pa)
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
@@ -121,9 +122,16 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
         self.assert_(self.a.isAligned(self.g, 23) == False)
 
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
+    def setUp(self):
+        self.pa = _ped.Alignment(0, 100)
+        self.alignment = parted.Alignment(PedAlignment=self.pa)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Test to make sure we get a _ped.Alignment
+        self.assert_(isinstance(self.alignment.getPedAlignment(), _ped.Alignment))
+
+        # Test for _ped.Alignment equality
+        self.assertTrue(self.alignment.getPedAlignment() == self.pa)
 
 # And then a suite to hold all the test cases for this module.
 def suite():

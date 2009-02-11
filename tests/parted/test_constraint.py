@@ -21,21 +21,103 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+import _ped
 import parted
 import unittest
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class ConstraintNewTestCase(unittest.TestCase):
+class ConstraintNewTestCase(RequiresDevice):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        align1 = parted.Alignment(offset=10, grainSize=5)
+        align2 = parted.Alignment(offset=10, grainSize=5)
+        geom1 = parted.Geometry(device=self._device, start=0, length=50)
+        geom2 = parted.Geometry(device=self._device, start=25, length=50)
 
-class ConstraintGetSetTestCase(unittest.TestCase):
+        # Check that not passing enough args to parted.Constraint.__init__
+        # is caught.
+        self.assertRaises(parted.ConstraintException, parted.Constraint)
+        self.assertRaises(parted.ConstraintException, parted.Constraint,
+                          startAlign=align1, endAlign=align2)
+
+        # And then the correct ways of creating a _ped.Constraint.
+        c = parted.Constraint(minGeom=geom1, maxGeom=geom2)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        c = parted.Constraint(minGeom=geom1)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        c = parted.Constraint(maxGeom=geom2)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        c = parted.Constraint(exactGeom=geom1)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        c = parted.Constraint(device=self._device)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        c = parted.Constraint(startAlign=align1, endAlign=2,
+                              startRange=geom1, endRange=geom2,
+                              minSize=10, maxSize=100)
+        self.assert_(isinstance(c, parted.Constraint))
+
+        # Use a _ped.Constraint as the initializer
+        pc = _ped.Constraint(align1, align2, geom1, geom2, 10, 100)
+        c = parted.Constraint(PedConstraint=pc)
+        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(c.getPedConstraint() == pc)
+
+class ConstraintGetSetTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        align1 = parted.Alignment(offset=10, grainSize=5)
+        align2 = parted.Alignment(offset=10, grainSize=5)
+        geom1 = parted.Geometry(device=self._device, start=0, length=50)
+        geom2 = parted.Geometry(device=self._device, start=25, length=50)
+
+        self.c = parted.Constraint(startAlign=align1, endAlign=align2,
+                                   startRange=geom1, endRange=geom2,
+                                   minSize=10, maxSize=100)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # Test that properties work
+        self.assert_(self.c.minSize == 10)
+        self.assert_(self.c.maxSize == 100)
+        self.assert_(isinstance(self.c.startAlign, parted.Alignment))
+        self.assert_(isinstance(self.c.endAlign, parted.Alignment))
+        self.assert_(isinstance(self.c.startRange, parted.Geometry))
+        self.assert_(isinstance(self.c.endRange, parted.Geometry))
+
+        # Test that setting directly and getting with getattr works.
+        self.c.minSize = 15
+        self.c.maxSize = 75
+
+        self.assert_(getattr(self.c, "minSize") == 15)
+        self.assert_(getattr(self.c, "maxSize") == 75)
+        self.assert_(isinstance(getattr(self.c, "startAlign"), parted.Alignment))
+        self.assert_(isinstance(getattr(self.c, "endAlign"), parted.Alignment))
+        self.assert_(isinstance(getattr(self.c, "startRange"), parted.Geometry))
+        self.assert_(isinstance(getattr(self.c, "endRange"), parted.Geometry))
+
+        # Test that setting with setattr and getting directly works.
+        setattr(self.c, "minSize", 10)
+        setattr(self.c, "maxSize", 90)
+
+        self.assert_(self.c.minSize == 10)
+        self.assert_(self.c.maxSize == 90)
+
+        # Test that values have the right type.
+        self.assertRaises(TypeError, setattr, self.c, "minSize", "string")
+
+        # Test that looking for invalid attributes fails properly.
+        self.assertRaises(AttributeError, getattr, self.c, "blah")
+
+        # We really shouldn't be allowed to overwrite objects stored in a
+        # parted.Constraint, but for now there's no way to prevent it.
+        self.c.endRange = 47
+        self.assert_(self.c.endRange == 47)
 
 class ConstraintIntersectTestCase(unittest.TestCase):
     def runTest(self):
