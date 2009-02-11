@@ -60,12 +60,16 @@ class Constraint(object):
             self.__constraint = _ped.constraint_exact(exactGeom.getPedGeometry())
         elif device:
             self.__constraint = _ped.constraint_any(device.getPedDevice())
-        else:
+        elif startAlign and endAlign and \
+             startRange and endRange and \
+             minSize and maxSize:
             self.__constraint = _ped.Constraint(startAlign.getPedAlignment(),
                                                 endAlign.getPedAlignment(),
                                                 startRange.getPedGeometry(),
                                                 endRange.getPedGeometry(),
                                                 minSize, maxSize)
+        else:
+            raise parted.ConstraintException, "missing initialization parameters"
 
     def __eq__(self, other):
         return not self.__ne__(other)
@@ -79,6 +83,10 @@ class Constraint(object):
 
         return self.minSize != other.minSize or self.maxSize != other.maxSize or c1.start_align != c2.start_align or c1.end_align != c2.end_align or c1.start_range != c2.start_range or c1.end_range != c2.end_range
 
+    startAlign = property(lambda s: parted.Alignment(PedAlignment=s.__constraint.start_align), lambda s, v: setattr(s.__constraint, "start_align", v.getPedAlignment()))
+    endAlign = property(lambda s: parted.Alignment(PedAlignment=s.__constraint.end_align), lambda s, v: setattr(s.__constraint, "end_align", v.getPedAlignment()))
+    startRange = property(lambda s: parted.Geometry(PedGeometry=s.__contraint.start_range), lambda s, v: setattr(s.__constraint, "start_range", v.getPedGeometry()))
+    endRange = property(lambda s: parted.Geometry(PedGeometry=s.__contraint.end_range), lambda s, v: setattr(s.__constraint, "end_range", v.getPedGeometry()))
     minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
     maxSize = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
 
