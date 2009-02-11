@@ -198,10 +198,11 @@ class Partition(object):
 partitionFlag = {}
 __flag = _ped.partition_flag_next(0)
 partitionFlag[__flag] = _ped.partition_flag_get_name(__flag)
+__readFlags = True
 
-while True:
-    try:
-        __flag = _ped.partition_flag_next(__flag)
+while __readFlags:
+    __flag = _ped.partition_flag_next(__flag)
+    if not __flag:
+        __readFlags = False
+    else:
         partitionFlag[__flag] = _ped.partition_flag_get_name(__flag)
-    except:
-        break
