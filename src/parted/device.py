@@ -151,7 +151,7 @@ class Device(object):
         """Return the closest cylinder (round up) to sector on
            this Device."""
         (cylinders, heads, sectors) = self.biosGeometry
-        return long(math.ceil(math.floor((sector + 1)) / (heads * sectors)))
+        return long(math.ceil(float((sector + 1)) / (heads * sectors)))
 
     def startCylinderToSector(self, cylinder):
         """Return the sector corresponding to cylinder as a
