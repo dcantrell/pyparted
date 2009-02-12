@@ -1,3 +1,9 @@
+- Methods in the parted module that just return data and take in no
+  parameters...make those read-only properties and get rid of the
+  method.  Since we have more or less established the API now, mark
+  the methods as Deprecated and leave them around for a release
+  before removing them.
+
 - speed things up:
       - accessing Disk.partitions
 
