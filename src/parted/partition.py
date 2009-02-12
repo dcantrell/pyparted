@@ -39,9 +39,9 @@ class Partition(object):
             elif geometry is None:
                 raise parted.PartitionException, "no geometry specified"
 
-            self._disk = disk
             self._fileSystem = fs
             self._geometry = geometry
+            self._disk = disk
 
             if fs is None:
                 self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end)
@@ -49,8 +49,12 @@ class Partition(object):
                 self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end, parted.fileSystemType[fs.type])
         else:
             self.__partition = PedPartition
-            self._disk = parted.Disk(PedDisk=self.__partition.disk)
             self._geometry = parted.Geometry(PedGeometry=self.__partition.geom)
+
+            if disk is None:
+                self._disk = parted.Disk(PedDisk=self.__partition.disk)
+            else:
+                self._disk = disk
 
             if self.__partition.fs_type is None:
                 self._fileSystem = None
@@ -126,7 +130,7 @@ class Partition(object):
         if partition is None:
             return None
         else:
-            return parted.Partition(PedPartition=partition)
+            return parted.Partition(disk=self.disk, PedPartition=partition)
 
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit

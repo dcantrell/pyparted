@@ -40,12 +40,20 @@ class Geometry(object):
            can also be provided."""
         if PedGeometry:
             self.__geometry = PedGeometry
+
+            if device is None:
+                self._device = parted.Device(PedDevice=self.__geometry.dev)
+            else:
+                self._device = device
         elif not end:
-            self.__geometry = _ped.Geometry(device.getPedDevice(), start, length)
+            self._device = device
+            self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, length)
         elif not length and (end > start):
-            self.__geometry = _ped.Geometry(device.getPedDevice(), start, (end - start), end)
+            self._device = device
+            self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, (end - start), end)
         elif start and length and end and (end > start):
-            self.__geometry = _ped.Geometry(device.getPedDevice(), start, length, end=end)
+            self._device = device
+            self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, length, end=end)
         else:
             raise parted.GeometryException, "must specify PedGeometry or (device, start, length) or (device, start, end) or (device, start, length, end)"
 
@@ -64,7 +72,7 @@ class Geometry(object):
     start = property(lambda s: s.__geometry.start, lambda s, v: s.__geometry.set_start(v))
     end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
-    device = property(lambda s: parted.Device(PedDevice=s.__geometry.dev), lambda s, v: s.__readOnly("device"))
+    device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
     # FIXME:  Get rid of buf and size from the public API here.
     def check(self, buf, size, offset, granularity, count, timer=None):
