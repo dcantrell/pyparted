@@ -78,11 +78,10 @@ PyDoc_STRVAR(device_end_external_access_doc,
 "False on failure.");
 
 PyDoc_STRVAR(device_read_doc,
-"read(self, buffer, start, count) -> bool\n\n"
-"Read count sectors from this Device in to buffer, starting at sector start.\n"
+"read(self, start, count) -> bool\n\n"
+"Read and return count sectors from this Device, starting at sector start.\n"
 "Both start and count are long integers and buffer is a Python object large\n"
-"enough to hold what you want to read.\n\n"
-"Return True if the read was successful, False otherwise.");
+"enough to hold what you want to read.");
 
 PyDoc_STRVAR(device_write_doc,
 "write(self, buffer, start, count) -> bool\n\n"

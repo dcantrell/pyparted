@@ -98,14 +98,11 @@ PyDoc_STRVAR(geometry_write_doc,
 "_ped.IOException on error.");
 
 PyDoc_STRVAR(geometry_check_doc,
-"check(self, buffer, buffer_size, offset, granularity, count,\n"
-"      timer=None) -> Sector\n\n"
+"check(self, offset, granularity, count, timer=None) -> Sector\n\n"
 "This method checks the region described by self for errors on the disk.\n"
-"buffer is a temporary storage space used internally by check().  Do not rely\n"
-"on its contents.  buffer_size describes the size of buffer in Sectors.  The\n"
-"region to check starts at offset Sectors from the beginning of the region\n"
-"and is count Sectors long.  granularity specifies how Sectors should be\n"
-"grouped together.\n\n"
+"The region to check starts at offset Sectors from the beginning of the\n"
+"region and is count Sectors long.  granularity specifies how Sectors should\n"
+"be grouped together.\n\n"
 "This method returns the first bad sector, or 0 if there are no errors.");
 
 PyDoc_STRVAR(geometry_map_doc,

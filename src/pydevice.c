@@ -450,22 +450,17 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
-    PyObject *in_buf = NULL;
-    PedSector start, count, ret;
+    PyObject *ret = NULL;
+    PedSector start, count;
     PedDevice *device = NULL;
-    void *out_buf = NULL;
+    char *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "OLL", &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "LL", &start, &count)) {
         return NULL;
     }
 
     device = _ped_Device2PedDevice(s);
     if (device == NULL) {
-        return NULL;
-    }
-
-    out_buf = PyCObject_AsVoidPtr(in_buf);
-    if (out_buf == NULL) {
         return NULL;
     }
 
@@ -479,8 +474,11 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_device_read(device, out_buf, start, count);
-    if (ret == 0) {
+    if ((out_buf = malloc(device->sector_size * count)) == NULL) {
+        return PyErr_NoMemory();
+    }
+
+    if (ped_device_read(device, out_buf, start, count) == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -493,7 +491,10 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    ret = PyString_FromString(out_buf);
+    free(out_buf);
+
+    return ret;
 }
 
 PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
@@ -624,22 +625,16 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
-    PyObject *in_buf = NULL;
     PedSector start, count, ret;
     PedDevice *device = NULL;
-    void *out_buf = NULL;
+    char *out_buf = NULL;
 
-    if (!PyArg_ParseTuple(args, "OLL", &in_buf, &start, &count)) {
+    if (!PyArg_ParseTuple(args, "LL", &start, &count)) {
         return NULL;
     }
 
     device = _ped_Device2PedDevice(s);
     if (device == NULL) {
-        return NULL;
-    }
-
-    out_buf = PyCObject_AsVoidPtr(in_buf);
-    if (out_buf == NULL) {
         return NULL;
     }
 
@@ -651,6 +646,10 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     if (device->external_mode) {
         PyErr_Format(IOException, "Device %s is already open for external access.", device->path);
         return NULL;
+    }
+
+    if ((out_buf = malloc(device->sector_size * 32)) == NULL) {
+        return PyErr_NoMemory();
     }
 
     ret = ped_device_check(device, out_buf, start, count);
