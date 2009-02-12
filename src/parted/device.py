@@ -115,11 +115,11 @@ class Device(object):
 
         return self.__device.end_external_access()
 
-    def read(self, buffer, start, count):
-        """From the sector indentified by start, read count sectors from the
-           Device in to buffer."""
+    def read(self, start, count):
+        """From the sector indentified by start, read and return count sectors
+           from the Device."""
 
-        return self.__device.read(buffer, start, count)
+        return self.__device.read(start, count)
 
     def write(self, buffer, start, count):
         """From the sector identified by start, write count sectors from
@@ -136,10 +136,10 @@ class Device(object):
         else:
             return self.__device.sync()
 
-    def check(self, buffer, start, count):
+    def check(self, start, count):
         """From the sector identified by start, perform an operating
            system specific check on count sectors."""
-        return self.__device.check(buffer, start, count)
+        return self.__device.check(start, count)
 
     def startSectorToCylinder(self, sector):
         """Return the closest cylinder (round down) to sector on

@@ -74,21 +74,16 @@ class Geometry(object):
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
     device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
-    # FIXME:  Get rid of buf and size from the public API here.
-    def check(self, buf, size, offset, granularity, count, timer=None):
+    def check(self, offset, granularity, count, timer=None):
         """Check the region described by self for errors on the disk.
-           buffer -- A temporary storage space used internally by check.  Do
-                     not rely on its contents.
-           size -- The size of buffer in sectors.
            offset -- The beginning of the region to check, in sectors from the
                      start of the geometry.
            granularity -- How sectors should be grouped together
            count -- How many sectors from the region to check."""
         if not timer:
-            return self.__geometry.check(buf, size, offset, granularity, count)
+            return self.__geometry.check(offset, granularity, count)
         else:
-            return self.__geometry.check(buf, size, offset, granularity, count,
-                                         timer)
+            return self.__geometry.check(offset, granularity, count, timer)
 
     def contains(self, b):
         """Return whether Geometry b is contained entirely within self and on
