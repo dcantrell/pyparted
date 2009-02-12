@@ -1,0 +1,3 @@
+#!/bin/sh
+export PYTHONPATH=$(pwd)/..:$(pwd)/../.libs
+python fdisk.py $*
