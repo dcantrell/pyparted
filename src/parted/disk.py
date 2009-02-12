@@ -36,7 +36,11 @@ class Disk(object):
            the diskType hash."""
         if PedDisk:
             self.__disk = PedDisk
-            self._device = parted.Device(PedDevice=self.__disk.dev)
+
+            if device is None:
+                self._device = parted.Device(PedDevice=self.__disk.dev)
+            else:
+                self._device = device
         elif device is None:
             raise parted.DiskException, "no device specified"
         else:
@@ -188,7 +192,7 @@ class Disk(object):
         """Returns the Partition that contains the sector.  If the sector
            lies within a logical partition, then the logical partition is
            returned (not the extended partition)."""
-        return parted.Partition(PedPartition=self.__disk.get_partition_by_sector(sector))
+        return parted.Partition(disk=self, PedPartition=self.__disk.get_partition_by_sector(sector))
 
     def getMaxLogicalPartitions(self):
         """Return the maximum number of logical partitions this Disk
@@ -225,7 +229,7 @@ class Disk(object):
     def getExtendedPartition(self):
         """Return the extended Partition, if any, on this Disk."""
         try:
-            return parted.Partition(PedPartition=self.__disk.extended_partition())
+            return parted.Partition(disk=self, PedPartition=self.__disk.extended_partition())
         except:
             return None
 
@@ -270,7 +274,7 @@ class Disk(object):
 
         while part:
             if part.type & parted.PARTITION_FREESPACE:
-                freespace.append(parted.Partition(PedPartition=part))
+                freespace.append(parted.Partition(disk=self, PedPartition=part))
 
             part = self.__disk.next_partition(part)
 
@@ -279,7 +283,7 @@ class Disk(object):
     def getFirstPartition(self):
         """Return the first Partition object on the disk or None if
            there is not one."""
-        return parted.Partition(PedPartition=self.__disk.next_partition())
+        return parted.Partition(disk=self, PedPartition=self.__disk.next_partition())
 
     def getPartitionByPath(self, path):
         """Return a Partition object associated with the partition device
