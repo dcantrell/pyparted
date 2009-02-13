@@ -59,6 +59,6 @@ release: tag
 	@echo
 	@echo "$(PACKAGE)-$(VERSION).tar.gz is now ready to upload."
 	@echo "Don't forget to push changes to the repository with:."
-	@echo "    git push" ; \
-	@echo "    git push --tags" ; \
+	@echo "    git push"
+	@echo "    git push --tags"
 	@echo
