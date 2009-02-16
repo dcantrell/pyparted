@@ -64,6 +64,9 @@ class Geometry(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.device != other.device or self.start != other.start or self.length != other.length
 
     def __readOnly(self, property):

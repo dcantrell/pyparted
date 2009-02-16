@@ -52,6 +52,9 @@ class Alignment(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.offset != other.offset or self.grainSize != other.grainSize
 
     def intersect(self, b):

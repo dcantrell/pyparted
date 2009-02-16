@@ -63,6 +63,9 @@ class FileSystem(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.type != other.type or self.geometry != other.geometry
 
     type = property(lambda s: s._type, lambda s, v: s.__readOnly("type"))
