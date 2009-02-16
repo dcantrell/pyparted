@@ -68,6 +68,9 @@ class Partition(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.path != other.path or self.type != other.type or self.geometry != other.geometry or self.fileSystem != other.fileSystem
 
     def __readOnly(self, property):

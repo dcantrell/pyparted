@@ -78,6 +78,9 @@ class Constraint(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         c1 = self.getPedConstraint()
         c2 = other.getPedConstraint()
 

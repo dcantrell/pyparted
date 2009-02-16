@@ -69,6 +69,9 @@ class Disk(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.device != other.device or not self._hasSameParts(other)
 
     def __readOnly(self, property):

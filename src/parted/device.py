@@ -56,6 +56,9 @@ class Device(object):
         if hash(self) == hash(other):
             return False
 
+        if type(self) != type(other):
+            return True
+
         return self.model != other.model or self.path != other.path or self.type != other.type or self.length != other.length
 
     def __readOnly(self, property):
