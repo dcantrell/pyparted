@@ -77,6 +77,14 @@ class Geometry(object):
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
     device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
+    def __str__(self):
+        s = ("parted.Geometry instance --\n"
+             "  start: %(start)s  end: %(end)s  length: %(length)s\n"
+             "  device: %(device)r  PedGeometry: %(ped)r" %
+             {"start": self.start, "end": self.end, "length": self.length,
+              "device": self.device, "ped": self.__geometry})
+        return s
+
     def check(self, offset, granularity, count, timer=None):
         """Check the region described by self for errors on the disk.
            offset -- The beginning of the region to check, in sectors from the

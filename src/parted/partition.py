@@ -97,6 +97,23 @@ class Partition(object):
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
     name = property(lambda s: s.__partition.get_name(), lambda s, v: s.__readOnly("name"))
 
+    def __str__(self):
+        try:
+            name = self.name
+        except parted.PartitionException:
+            name = None
+
+        s = ("parted.Partition instance --\n"
+             "  disk: %(disk)r  fileSystem: %(fileSystem)r\n"
+             "  number: %(number)s  path: %(path)s  type: %(type)s\n"
+             "  name: %(name)s  active: %(active)s  busy: %(busy)s\n"
+             "  geometry: %(geometry)r  PedPartition: %(ped)r" %
+             {"disk": self.disk, "fileSystem": self.fileSystem, "geometry": self.geometry,
+              "number": self.number, "path": self.path,
+              "type": self.type, "name": name, "active": self.active,
+              "busy": self.busy, "ped": self.__partition})
+        return s
+
     def getFlag(self, flag):
         """Get the value of a particular flag on the partition.  Valid flags
            are the _ped.PARTITION_* constants.  See _ped.flag_get_name() and
