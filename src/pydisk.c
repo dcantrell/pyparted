@@ -275,6 +275,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
             PyErr_Format(IOException, "Failed to read partition table from device %s", device->path);
         }
 
+        self->dev = NULL;
         return -4;
     }
 
