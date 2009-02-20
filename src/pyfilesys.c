@@ -34,6 +34,7 @@
 /* _ped.FileSystemType functions */
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_GC_UnTrack(self);
+    free(self->name);
     PyObject_GC_Del(self);
 }
 
