@@ -108,7 +108,6 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     self->length = geometry->length;
     self->end = geometry->end;
 
-    Py_INCREF(self);
     return 0;
 }
 
