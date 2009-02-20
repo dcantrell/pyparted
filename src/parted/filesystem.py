@@ -72,6 +72,14 @@ class FileSystem(object):
     geometry = property(lambda s: s._geometry, lambda s, v: s.__readOnly("geometry"))
     checked = property(lambda s: s._checked, lambda s, v: s.__readOnly("checked"))
 
+    def __str__(self):
+        s = ("parted.FileSystem instance --\n"
+             "  type: %(type)s  geometry: %(geometry)r  checked: %(checked)s\n"
+             "  PedFileSystem: %(ped)r" %
+             {"type": self.type, "geometry": self.geometry,
+              "checked": self.checked, "ped": self.__fileSystem})
+        return s
+
     def clobber(self):
         return self.__fileSystem.clobber()
 

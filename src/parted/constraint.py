@@ -93,6 +93,18 @@ class Constraint(object):
     minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
     maxSize = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
 
+    def __str__(self):
+        s = ("parted.Constraint instance --\n"
+             "  startAlign: %(startAlign)r  endAlign: %(endAlign)r\n"
+             "  startRange: %(startRange)r  endRange: %(endRange)r\n"
+             "  minSize: %(minSize)s  maxSize: %(maxSize)\n"
+             "  PedConstraint: %(ped)r" %
+             {"startAlign": self.startAlign, "endAlign": self.endAlign,
+              "startRange": self.startRange, "endRange": self.endRange,
+              "minSize": self.minSize, "maxSize": self.maxSize,
+              "ped": self.__constraint})
+        return s
+
     def intersect(self, b):
         """Return a new constraint that is the intersection of self and the
            provided constraint b.  The returned constraint will therefore be

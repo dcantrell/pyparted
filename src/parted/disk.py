@@ -100,6 +100,19 @@ class Disk(object):
     partitions = property(lambda s: s.__getPartitions(), lambda s, v: s.__readOnly("partitions"))
     device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
+    def __str__(self):
+        s = ("parted.Disk instance --\n"
+             "  type: %(type)s  primaryPartitionCount: %(primaryCount)s\n"
+             "  lastPartitionNumber: %(last)s  maxPrimaryPartitionCount: %(max)s\n"
+             "  partitions: %(partitions)s\n"
+             "  device: %(device)r\n"
+             "  PedDisk: %(ped)r" %
+             {"type": self.type, "primaryCount": self.primaryPartitionCount,
+              "last": self.lastPartitionNumber, "max": self.maxPrimaryPartitionCount,
+              "partitions": self.partitions, "device": self.device,
+              "ped": self.__disk})
+        return s
+
     def clobber(self, type=None):
         """Remove all identifying signatures of the partition table.  If type
            is not None, remove all identifying signatures of the partition

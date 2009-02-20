@@ -57,6 +57,14 @@ class Alignment(object):
 
         return self.offset != other.offset or self.grainSize != other.grainSize
 
+    def __str__(self):
+        s = ("parted.Alignment instance --\n"
+             "  offset: %(offset)s  grainSize: %(grainSize)s\n"
+             "  PedAlignment: %(ped)r" %
+             {"offset": self.offset, "grainSize": self.grainSize,
+              "ped": self.__alignment})
+        return s
+
     def intersect(self, b):
         """Create and return a new Alignment that describes the intersection of
            self and alignment b.  A sector will satisfy the new alignment iff

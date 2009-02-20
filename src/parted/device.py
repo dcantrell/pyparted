@@ -86,6 +86,25 @@ class Device(object):
     hardwareGeometry = property(lambda s: s.__getCHS(geometry=s.__device.hw_geom), lambda s, v: s.__readOnly("hardwareGeometry"))
     biosGeometry = property(lambda s: s.__getCHS(geometry=s.__device.bios_geom), lambda s, v: s.__readOnly("biosGeometry"))
 
+    def __str__(self):
+        s = ("parted.Device instance --\n"
+             "  model: %(model)s  path: %(path)s  type: %(type)s\n"
+             "  sectorSize: %(sectorSize)s  physicalSectorSize:  %(physSectorSize)s\n"
+             "  length: %(length)s  openCount: %(openCount)s  readOnly: %(readOnly)s\n"
+             "  externalMode: %(external)s  dirty: %(dirty)s  bootDirty: %(bootDirty)s\n"
+             "  host: %(host)s  did: %(did)s  busy: %(busy)s\n"
+             "  hardwareGeometry: %(hardwareGeom)s  biosGeometry: %(biosGeom)s\n"
+             "  PedDevice: %(ped)r" %
+             {"model": self.model, "path": self.path, "type": self.type,
+              "sectorSize": self.sectorSize, "physSectorSize": self.physicalSectorSize,
+              "length": self.length, "openCount": self.openCount, "readOnly": self.readOnly,
+              "external": self.externalMode, "dirty": self.dirty, "bootDirty": self.bootDirty,
+              "host": self.host, "did": self.did, "busy": self.busy,
+              "hardwareGeom": self.hardwareGeometry, "biosGeom": self.biosGeometry,
+              "ped": self.__device})
+        return s
+
+
     def open(self):
         """Open this Device for read operations."""
 
