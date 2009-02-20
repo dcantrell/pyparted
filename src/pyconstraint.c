@@ -150,6 +150,10 @@ int _ped_Constraint_init(_ped_Constraint *self, PyObject *args,
 
         ped_alignment_destroy(start_align);
         ped_alignment_destroy(end_align);
+        self->start_align = NULL;
+        self->end_align = NULL;
+        self->start_range = NULL;
+        self->end_range = NULL;
         return -3;
     }
 

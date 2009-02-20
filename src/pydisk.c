@@ -98,7 +98,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
                               &_ped_Disk_Type_obj, &self->disk,
                               &self->type, &start, &end,
                               &_ped_FileSystemType_Type_obj, &self->fs_type)) {
-            self->disk = self->geom = self->fs_type = NULL;
+            self->disk = self->fs_type = NULL;
             return -1;
         }
     } else {
@@ -106,7 +106,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
                                          &_ped_Disk_Type_obj, &self->disk,
                                          &self->type, &start, &end,
                                          &_ped_FileSystemType_Type_obj, &self->fs_type)) {
-            self->disk = self->geom = self->fs_type = NULL;
+            self->disk = self->fs_type = NULL;
             return -1;
         }
     }
@@ -132,6 +132,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
             PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
         }
 
+        self->disk = self->fs_type = NULL;
         return -3;
     }
 
