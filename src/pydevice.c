@@ -68,6 +68,9 @@ PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure) {
 void _ped_Device_dealloc(_ped_Device *self) {
     PyObject_GC_UnTrack(self);
 
+    free(self->model);
+    free(self->path);
+
     Py_CLEAR(self->hw_geom);
     self->hw_geom = NULL;
 

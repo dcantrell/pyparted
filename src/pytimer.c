@@ -31,6 +31,7 @@
 /* _ped.Timer functions */
 void _ped_Timer_dealloc(_ped_Timer *self) {
     PyObject_GC_UnTrack(self);
+    free(self->state_name);
     PyObject_GC_Del(self);
 }
 
@@ -63,6 +64,17 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
                                          &self->predicted_end, &self->state_name))
             return -2;
     }
+
+     /* self->state_name now points to the internal buffer of a PyString object,
+      * which may be freed when its refcount drops to zero, so strdup it.
+      */
+     if (self->state_name) {
+         self->state_name = strdup(self->state_name);
+         if (!self->state_name) {
+             PyErr_NoMemory();
+             return -3;
+         }
+     }
 
     return 0;
 }
@@ -122,6 +134,16 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
         self->state_name = PyString_AsString(value);
         if (PyErr_Occurred()) {
             return -1;
+        }
+        /* self->state_name now points to the internal buffer of a PyString obj
+         * which may be freed when its refcount drops to zero, so strdup it.
+         */
+        if (self->state_name) {
+            self->state_name = strdup(self->state_name);
+            if (!self->state_name) {
+                PyErr_NoMemory();
+                return -2;
+            }
         }
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);

@@ -292,6 +292,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
 /* _ped.DiskType functions */
 void _ped_DiskType_dealloc(_ped_DiskType *self) {
     PyObject_GC_UnTrack(self);
+    free(self->name);
     PyObject_GC_Del(self);
 }
 
