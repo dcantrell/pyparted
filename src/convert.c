@@ -97,14 +97,21 @@ _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment) {
 
     args = Py_BuildValue("LL", alignment->offset, alignment->grain_size);
     if (args == NULL) {
-        return NULL;
+        goto error;
     }
 
     if (_ped_Alignment_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
+        goto error;
     }
 
+    Py_DECREF(args);
+
     return ret;
+
+error:
+    Py_XDECREF(args);
+    Py_DECREF(ret);
+    return NULL;
 }
 
 /* _ped_Constraint -> PedConstraint functions */
@@ -175,27 +182,42 @@ _ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint) {
         return (_ped_Constraint *) PyErr_NoMemory();
 
     if ((start_align = PedAlignment2_ped_Alignment(constraint->start_align)) == NULL)
-        return NULL;
+        goto error;
 
     if ((end_align = PedAlignment2_ped_Alignment(constraint->end_align)) == NULL)
-        return NULL;
+        goto error;
 
     if ((start_range = PedGeometry2_ped_Geometry(constraint->start_range)) == NULL)
-        return NULL;
+        goto error;
 
     if ((end_range = PedGeometry2_ped_Geometry(constraint->end_range)) == NULL)
-        return NULL;
+        goto error;
 
     args = Py_BuildValue("OOOOLL", start_align, end_align, start_range, end_range, constraint->min_size, constraint->max_size);
     if (args == NULL) {
-        return NULL;
+        goto error;
     }
 
     if (_ped_Constraint_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
+        goto error;
     }
 
+    Py_DECREF(args);
+    Py_DECREF(start_align);
+    Py_DECREF(end_align);
+    Py_DECREF(start_range);
+    Py_DECREF(end_range);
+
     return ret;
+
+error:
+    Py_XDECREF(args);
+    Py_XDECREF(start_align);
+    Py_XDECREF(end_align);
+    Py_XDECREF(start_range);
+    Py_XDECREF(end_range);
+    Py_DECREF(ret);
+    return NULL;
 }
 
 /* _ped_Device -> PedDevice functions */
@@ -225,14 +247,14 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 
     ret->model = strdup(device->model);
     if (ret->model == NULL) {
-        PyObject_GC_Del(ret);
-        return (_ped_Device *) PyErr_NoMemory();
+        PyErr_NoMemory();
+        goto error;
     }
 
     ret->path = strdup(device->path);
     if (ret->path == NULL) {
-        PyObject_GC_Del(ret);
-        return (_ped_Device *) PyErr_NoMemory();
+        PyErr_NoMemory();
+        goto error;
     }
 
     ret->type = device->type;
@@ -249,15 +271,17 @@ _ped_Device *PedDevice2_ped_Device(PedDevice *device) {
 
     ret->hw_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->hw_geom);
     if (ret->hw_geom == NULL)
-        return NULL;
-    Py_INCREF(ret->hw_geom);
+        goto error;
 
     ret->bios_geom = (PyObject *) PedCHSGeometry2_ped_CHSGeometry(&device->bios_geom);
     if (ret->bios_geom == NULL)
-        return NULL;
-    Py_INCREF(ret->bios_geom);
+        goto error;
 
     return ret;
+
+error:
+    Py_DECREF(ret);
+    return NULL;
 }
 
 PedDisk *_ped_Disk2PedDisk(PyObject *s) {
@@ -285,21 +309,30 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     if (!ret)
         return (_ped_Disk *) PyErr_NoMemory();
 
+    ret->ped_disk = disk;
+
     if ((dev = PedDevice2_ped_Device(disk->dev)) == NULL)
-        return NULL;
+        goto error;
 
     args = Py_BuildValue("(O)", (PyObject *) dev);
     if (args == NULL) {
-        return NULL;
+        goto error;
     }
 
     if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
+        goto error;
     }
 
-    ret->ped_disk = disk;
+    Py_DECREF(args);
+    Py_DECREF(dev);
 
     return ret;
+
+error:
+    Py_XDECREF(args);
+    Py_XDECREF(dev);
+    Py_DECREF(ret);
+    return NULL;
 }
 
 PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
@@ -334,6 +367,7 @@ _ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
 
     ret->name = strdup(type->name);
     if (ret->name == NULL) {
+        Py_DECREF(ret);
         return (_ped_DiskType *) PyErr_NoMemory();
     }
 
@@ -391,21 +425,32 @@ _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {
         return (_ped_FileSystem *) PyErr_NoMemory();
 
     if ((type = PedFileSystemType2_ped_FileSystemType(fs->type)) == NULL)
-        return NULL;
+        goto error;
 
     if ((geom = PedGeometry2_ped_Geometry(fs->geom)) == NULL)
-        return NULL;
+        goto error;
 
     args = Py_BuildValue("OOi", type, geom, fs->checked);
     if (args == NULL) {
-        return NULL;
+        goto error;
     }
 
     if (_ped_FileSystem_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
+        goto error;
     }
 
+    Py_DECREF(args);
+    Py_DECREF(type);
+    Py_DECREF(geom);
+
     return ret;
+
+error:
+    Py_XDECREF(args);
+    Py_XDECREF(type);
+    Py_XDECREF(geom);
+    Py_DECREF(ret);
+    return NULL;
 }
 
 /* _ped_FileSystemType -> PedFileSystemType functions */
@@ -440,6 +485,7 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemTy
 
     ret->name = strdup(fstype->name);
     if (ret->name == NULL) {
+        Py_DECREF(ret);
         return (_ped_FileSystemType *) PyErr_NoMemory();
     }
 
@@ -488,18 +534,27 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
         return (_ped_Geometry *) PyErr_NoMemory();
 
     if ((dev = PedDevice2_ped_Device(geometry->dev)) == NULL)
-        return NULL;
+        goto error;
 
     args = Py_BuildValue("OLLL", dev, geometry->start, geometry->length, geometry->end);
     if (args == NULL) {
-        return NULL;
+        goto error;
     }
 
     if (_ped_Geometry_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        return NULL;
+        goto error;
     }
 
+    Py_DECREF(args);
+    Py_DECREF(dev);
+
     return ret;
+
+error:
+    Py_XDECREF(args);
+    Py_XDECREF(dev);
+    Py_DECREF(ret);
+    return NULL;
 }
 
 /* _ped_CHSGeometry -> PedCHSGeometry functions */
@@ -555,9 +610,6 @@ PedPartition *_ped_Partition2PedPartition(PyObject *s) {
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     _ped_Partition *ret = NULL;
-    _ped_Disk *disk = NULL;
-    _ped_Geometry *geom = NULL;
-    _ped_FileSystemType *fs_type = NULL;
 
     if (part == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedPartition()");
@@ -568,35 +620,32 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
     if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
-    if ((disk = PedDisk2_ped_Disk(part->disk)) == NULL) {
-        return NULL;
-    } else {
-        ret->disk = (PyObject *) disk;
-        Py_INCREF(ret->disk);
-    }
+    ret->disk = (PyObject *)PedDisk2_ped_Disk(part->disk);
+    if (!ret->disk)
+        goto error;
 
-    if ((geom = PedGeometry2_ped_Geometry(&(part->geom))) == NULL) {
-        return NULL;
-    } else {
-        ret->geom = (PyObject *) geom;
-        Py_INCREF(ret->geom);
-    }
+    ret->geom = (PyObject *)PedGeometry2_ped_Geometry(&part->geom);
+    if (!ret->geom)
+        goto error;
 
     if (part->fs_type == NULL) {
         ret->fs_type = Py_None;
         Py_INCREF(ret->fs_type);
     } else {
-        fs_type = PedFileSystemType2_ped_FileSystemType(part->fs_type);
-        ret->fs_type = (PyObject *) fs_type;
-        Py_INCREF(ret->fs_type);
+        ret->fs_type = (PyObject *)PedFileSystemType2_ped_FileSystemType(part->fs_type);
+        if (!ret->fs_type)
+            goto error;
     }
 
     ret->num = part->num;
     ret->type = part->type;
     ret->ped_partition = part;
-    Py_INCREF(ret);
 
     return ret;
+
+error:
+    Py_DECREF(ret);
+    return NULL;
 }
 
 /* _ped_Timer -> PedTimer functions */
@@ -648,8 +697,8 @@ _ped_Timer *PedTimer2_ped_Timer(PedTimer *timer) {
 
     ret->state_name = strdup(timer->state_name);
     if (ret->state_name == NULL) {
-        PyObject_GC_Del(ret);
-        return NULL;
+        Py_DECREF(ret);
+        return (_ped_Timer *) PyErr_NoMemory();
     }
 
     /* XXX: don't know what to do with these */
