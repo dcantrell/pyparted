@@ -182,6 +182,12 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
      */
     Py_CLEAR(self->geom);
     self->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
+    if (self->geom == NULL) {
+        Py_CLEAR(self->disk);
+        Py_CLEAR(self->fs_type);
+        ped_partition_destroy(part);
+        return -4;
+    }
 
     self->ped_partition = part;
 
@@ -948,6 +954,9 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
     }
 
     part = _ped_Partition2PedPartition(s);
+    if (part == NULL) {
+        return NULL;
+    }
 
     /* ped_partition_set_name will assert on this. */
     if (!ped_partition_is_active(part)) {
@@ -986,6 +995,9 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
     char *ret = NULL;
 
     part = _ped_Partition2PedPartition(s);
+    if (part == NULL) {
+        return NULL;
+    }
 
     /* ped_partition_get_name will assert on this. */
     if (!ped_partition_is_active(part)) {
