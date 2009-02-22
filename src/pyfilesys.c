@@ -666,7 +666,7 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     _ped_Constraint *ret = NULL;
 
     fs = _ped_FileSystem2PedFileSystem(s);
-    if (!s) {
+    if (!fs) {
         return NULL;
     }
 
