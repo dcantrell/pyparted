@@ -512,8 +512,6 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    free(out_disktype);
-
     if (ret) {
         Py_RETURN_TRUE;
     } else {
