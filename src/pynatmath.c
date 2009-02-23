@@ -39,7 +39,9 @@ void _ped_Alignment_dealloc(_ped_Alignment *self) {
 PyObject *_ped_Alignment_str(_ped_Alignment *self) {
     char *ret = NULL;
 
-    if (asprintf(&ret, "_ped.Alignment instance --\n  offset: %lld  grain_size: %lld", self->offset, self->grain_size) == -1) {
+    if (asprintf(&ret, "_ped.Alignment instance --\n"
+                       "  offset: %lld  grain_size: %lld",
+                 self->offset, self->grain_size) == -1) {
         return PyErr_NoMemory();
     }
 
