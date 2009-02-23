@@ -491,6 +491,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         else
             PyErr_Format(IOException, "Could not read from device %s", device->path);
 
+        free(out_buf);
         return NULL;
     }
 
@@ -656,6 +657,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     }
 
     ret = ped_device_check(device, out_buf, start, count);
+    free(out_buf);
 
     return PyLong_FromLongLong(ret);
 }
