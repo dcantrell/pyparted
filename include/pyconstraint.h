@@ -55,6 +55,7 @@ typedef struct {
 } _ped_Constraint;
 
 void _ped_Constraint_dealloc(_ped_Constraint *self);
+PyObject *_ped_Constraint_str(_ped_Constraint *self);
 int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg);
 int _ped_Constraint_clear(_ped_Constraint *self);
 int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);

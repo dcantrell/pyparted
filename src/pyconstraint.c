@@ -50,6 +50,34 @@ void _ped_Constraint_dealloc(_ped_Constraint *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Constraint_str(_ped_Constraint *self) {
+    char *ret = NULL;
+    char *start_align = NULL, *end_align = NULL;
+    char *start_range = NULL, *end_range = NULL;
+
+    start_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->start_align));
+    end_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->end_align));
+    start_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->start_range));
+    end_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->end_range));
+
+    if (asprintf(&ret, "_ped.Constraint instance --\n"
+                       "  start_align: %s  end_align: %s\n"
+                       "  start_range: %s  end_range: %s\n"
+                       "  min_size: %lld  max_size: %lld",
+                 start_align, end_align,
+                 start_range, end_range,
+                 self->min_size, self->max_size) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    free(start_align);
+    free(end_align);
+    free(start_range);
+    free(end_range);
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg) {
     int err;
 
