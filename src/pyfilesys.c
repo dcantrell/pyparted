@@ -154,7 +154,7 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     _ped_FileSystemType *ret = NULL;
     char *name = NULL;
 
-    if (!PyArg_ParseTuple(args, "z", &name)) {
+    if (!PyArg_ParseTuple(args, "s", &name)) {
         return NULL;
     }
 
