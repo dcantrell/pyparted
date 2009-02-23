@@ -85,11 +85,6 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self) {
         return PyErr_NoMemory();
     }
 
-    free(start_align);
-    free(end_align);
-    free(start_range);
-    free(end_range);
-
     return Py_BuildValue("s", ret);
 }
 
