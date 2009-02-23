@@ -133,6 +133,11 @@ class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
         # Test for _ped.Alignment equality
         self.assertTrue(self.alignment.getPedAlignment() == self.pa)
 
+class AlignmentStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -144,6 +149,7 @@ def suite():
     suite.addTest(AlignmentAlignNearestTestCase())
     suite.addTest(AlignmentIsAlignedTestCase())
     suite.addTest(AlignmentGetPedAlignmentTestCase())
+    suite.addTest(AlignmentStrTestCase())
     return suite
 
 s = suite()

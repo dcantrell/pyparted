@@ -82,6 +82,11 @@ class FileSystemGetPedFileSystemTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class FileSystemStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -96,6 +101,7 @@ def suite():
     suite.addTest(FileSystemResizeTestCase())
     suite.addTest(FileSystemGetResizeConstraintTestCase())
     suite.addTest(FileSystemGetPedFileSystemTestCase())
+    suite.addTest(FileSystemStrTestCase())
     return suite
 
 s = suite()
