@@ -75,6 +75,30 @@ void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
+    char *ret = NULL;
+    char *type = NULL, *geom = NULL;
+
+    type = PyString_AsString(_ped_FileSystem_Type_obj.tp_repr(self->type));
+    if (type == NULL) {
+        return NULL;
+    }
+
+    geom = PyString_AsString(_ped_FileSystem_Type_obj.tp_repr(self->geom));
+    if (geom == NULL) {
+        return NULL;
+    }
+
+    if (asprintf(&ret, "_ped.FileSystem instance --\n"
+                       "  type: %s  geom: %s\n"
+                       "  checked: %d",
+                 type, geom, self->checked) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) {
     int err;
 
