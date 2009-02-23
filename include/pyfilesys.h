@@ -75,6 +75,7 @@ typedef struct {
 } _ped_FileSystem;
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
+PyObject *_ped_FileSystem_str(_ped_FileSystem *self);
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg);
 int _ped_FileSystem_clear(_ped_FileSystem *self);
 int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
