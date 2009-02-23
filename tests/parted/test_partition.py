@@ -92,6 +92,11 @@ class PartitionGetPedPartitionTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class PartitionStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -108,6 +113,7 @@ def suite():
     suite.addTest(PartitionGetMaxAvailableSizeTestCase())
     suite.addTest(PartitionGetDeviceNodeNameTestCase())
     suite.addTest(PartitionGetPedPartitionTestCase())
+    suite.addTest(PartitionStrTestCase())
     return suite
 
 s = suite()

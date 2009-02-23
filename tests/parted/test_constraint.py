@@ -144,6 +144,11 @@ class ConstraintGetPedConstraintTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class ConstraintStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -154,6 +159,7 @@ def suite():
     suite.addTest(ConstraintSolveNearestTestCase())
     suite.addTest(ConstraintIsSolutionTestCase())
     suite.addTest(ConstraintGetPedConstraintTestCase())
+    suite.addTest(ConstraintStrTestCase())
     return suite
 
 s = suite()

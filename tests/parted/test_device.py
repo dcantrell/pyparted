@@ -129,6 +129,11 @@ class DeviceGetPedDeviceTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class DeviceStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -152,6 +157,7 @@ def suite():
     suite.addTest(DeviceGetSizeAsSectorsTestCase())
     suite.addTest(DeviceGetConstraintTestCase())
     suite.addTest(DeviceGetPedDeviceTestCase())
+    suite.addTest(DeviceStrTestCase())
     return suite
 
 s = suite()
