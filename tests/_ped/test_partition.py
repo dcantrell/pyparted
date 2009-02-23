@@ -175,6 +175,10 @@ class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
         self.assert_(self._part.get_path() != "")
 
+class PartitionStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
@@ -191,6 +195,7 @@ def suite():
     suite.addTest(PartitionGetNameTestCase())
     suite.addTest(PartitionIsBusyTestCase())
     suite.addTest(PartitionGetPathTestCase())
+    suite.addTest(PartitionStrTestCase())
     return suite
 
 s = suite()

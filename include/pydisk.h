@@ -91,6 +91,7 @@ typedef struct {
 } _ped_Partition;
 
 void _ped_Partition_dealloc(_ped_Partition *self);
+PyObject *_ped_Partition_str(_ped_Partition *self);
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg);
 int _ped_Partition_clear(_ped_Partition *self);
 int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds);

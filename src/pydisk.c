@@ -47,6 +47,37 @@ void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Partition_str(_ped_Partition *self) {
+    char *ret = NULL;
+    char *disk = NULL, *fs_type = NULL, *geom = NULL;
+
+    disk = PyString_AsString(_ped_Disk_Type_obj.tp_repr(self->disk));
+    if (disk == NULL) {
+        return NULL;
+    }
+
+    fs_type = PyString_AsString(_ped_FileSystemType_Type_obj.tp_repr(self->fs_type));
+    if (fs_type == NULL) {
+        return NULL;
+    }
+
+    geom = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->geom));
+    if (geom == NULL) {
+        return NULL;
+    }
+
+    if (asprintf(&ret, "_ped.Partition instance --\n"
+                       "  disk: %s  fs_type: %s\n"
+                       "  num: %s  type: %s\n"
+                       "  geom: %s",
+                 disk, fs_type, self->num, self->type,
+                 geom) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
     int err;
 
