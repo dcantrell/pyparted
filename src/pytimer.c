@@ -35,6 +35,22 @@ void _ped_Timer_dealloc(_ped_Timer *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Timer_str(_ped_Timer *self) {
+    char *ret = NULL;
+
+    if (asprintf(&ret, "_ped.Timer instance --\n"
+                       "  start: %s  now:  %s\n"
+                       "  predicted_end: %s  frac: %f\n"
+                       "  state_name: %s",
+                 ctime(&(self->start)), ctime(&(self->now)),
+                 ctime(&(self->predicted_end)), self->frac,
+                 self->state_name) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg) {
     return 0;
 }

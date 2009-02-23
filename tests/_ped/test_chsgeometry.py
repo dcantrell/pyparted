@@ -47,12 +47,17 @@ class CHSGeometryGetSetTestCase(RequiresDevice):
         self.assert_(isinstance(chs.heads, int))
         self.assert_(isinstance(chs.sectors, int))
 
+class CHSGeometryStrTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(CHSGeometryNewTestCase())
     suite.addTest(CHSGeometryGetSetTestCase())
+    suite.addTest(CHSGeometryStrTestCase())
     return suite
 
 s = suite()

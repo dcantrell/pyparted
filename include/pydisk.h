@@ -130,6 +130,7 @@ typedef struct {
 } _ped_DiskType;
 
 void _ped_DiskType_dealloc(_ped_DiskType *self);
+PyObject *_ped_DiskType_str(_ped_DiskType *self);
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg);
 int _ped_DiskType_clear(_ped_DiskType *self);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);

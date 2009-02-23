@@ -347,6 +347,18 @@ void _ped_DiskType_dealloc(_ped_DiskType *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_DiskType_str(_ped_DiskType *self) {
+    char *ret = NULL;
+
+    if (asprintf(&ret, "_ped.DiskType instance --\n"
+                       "  name: %s  features: %lld",
+                 self->name, self->features) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg) {
     return 0;
 }

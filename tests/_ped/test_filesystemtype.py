@@ -39,12 +39,17 @@ class FileSystemTypeGetSetTestCase(unittest.TestCase):
         self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
         self.assertRaises(AttributeError, getattr, fstype, "junk")
 
+class FileSystemTypeStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(FileSystemTypeNewTestCase())
     suite.addTest(FileSystemTypeGetSetTestCase())
+    suite.addTest(FileSystemTypeStrTestCase())
     return suite
 
 s = suite()

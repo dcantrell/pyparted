@@ -59,6 +59,7 @@ typedef struct {
 } _ped_CHSGeometry;
 
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self);
+PyObject *_ped_CHSGeometry_str(_ped_CHSGeometry *self);
 int _ped_CHSGeometry_traverse(_ped_CHSGeometry *self, visitproc visit, void *arg);
 int _ped_CHSGeometry_clear(_ped_CHSGeometry *self);
 PyObject *_ped_CHSGeometry_get(_ped_CHSGeometry *self, void *closure);

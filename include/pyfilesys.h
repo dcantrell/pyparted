@@ -58,6 +58,7 @@ typedef struct {
 } _ped_FileSystemType;
 
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
+PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self);
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg);
 int _ped_FileSystemType_clear(_ped_FileSystemType *self);
 PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);

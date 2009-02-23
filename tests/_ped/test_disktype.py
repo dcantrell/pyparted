@@ -39,6 +39,10 @@ class DiskTypeCheckFeatureTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+class DiskTypeStrTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
@@ -46,6 +50,7 @@ def suite():
     suite.addTest(DiskTypeNewTestCase())
     suite.addTest(DiskTypeGetSetTestCase())
     suite.addTest(DiskTypeCheckFeatureTestCase())
+    suite.addTest(DiskTypeStrTestCase())
     return suite
 
 s = suite()

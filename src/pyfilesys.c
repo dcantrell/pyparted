@@ -38,6 +38,18 @@ void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self) {
+    char *ret = NULL;
+
+    if (asprintf(&ret, "_ped.FileSystemType instance --\n"
+                       "  name: %s",
+                 self->name) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg) {
     return 0;
 }
