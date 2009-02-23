@@ -197,6 +197,10 @@ class DeviceGetConstraintTestCase(RequiresDevice):
         # hardware with unusual sector sizes.
         self.assert_(isinstance(self._device.get_constraint(), _ped.Constraint))
 
+class DeviceStrTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
@@ -216,6 +220,7 @@ def suite():
     suite.addTest(DeviceSyncFastTestCase())
     suite.addTest(DeviceCheckTestCase())
     suite.addTest(DeviceGetConstraintTestCase())
+    suite.addTest(DeviceStrTestCase())
     return suite
 
 s = suite()

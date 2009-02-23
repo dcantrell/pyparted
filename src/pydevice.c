@@ -80,6 +80,39 @@ void _ped_Device_dealloc(_ped_Device *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Device_str(_ped_Device *self) {
+    char *ret = NULL;
+    char *hw_geom = NULL, *bios_geom = NULL;
+
+    hw_geom = PyString_AsString(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
+    if (hw_geom == NULL) {
+        return NULL;
+    }
+
+    bios_geom = PyString_AsString(_ped_CHSGeometry_Type_obj.tp_repr(self->bios_geom));
+    if (bios_geom == NULL) {
+        return NULL;
+    }
+
+    if (asprintf(&ret, "_ped.Device instance --\n"
+                       "  model: %s  path: %s  type: %lld\n"
+                       "  sector_size: %lld  phys_sector_size: %lld\n"
+                       "  length: %lld  open_count: %d  read_only: %d\n"
+                       "  external_mode: %d  dirty: %d  boot_dirty: %d\n"
+                       "  host: %hd  did: %hd\n"
+                       "  hw_geom: %s  bios_geom: %s",
+                 self->model, self->path, self->type,
+                 self->sector_size, self->phys_sector_size,
+                 self->length, self->open_count, self->read_only,
+                 self->external_mode, self->dirty, self->boot_dirty,
+                 self->host, self->did,
+                 hw_geom, bios_geom) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg) {
     int err;
 
