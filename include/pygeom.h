@@ -58,6 +58,7 @@ typedef struct {
 } _ped_Geometry;
 
 void _ped_Geometry_dealloc(_ped_Geometry *self);
+PyObject *_ped_Geometry_str(_ped_Geometry *self);
 int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg);
 int _ped_Geometry_clear(_ped_Geometry *self);
 int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds);
