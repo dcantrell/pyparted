@@ -353,6 +353,11 @@ class GeometryMapTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class GeometryStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -373,6 +378,7 @@ def suite():
     suite.addTest(GeometryWriteTestCase())
     suite.addTest(GeometryCheckTestCase())
     suite.addTest(GeometryMapTestCase())
+    suite.addTest(GeometryStrTestCase())
     return suite
 
 s = suite()

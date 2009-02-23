@@ -40,6 +40,26 @@ void _ped_Geometry_dealloc(_ped_Geometry *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Geometry_str(_ped_Geometry *self) {
+    char *ret = NULL;
+    char *dev = NULL;
+
+    dev = PyString_AsString(_ped_Device_Type_obj.tp_repr(self->dev));
+    if (dev == NULL) {
+        return NULL;
+    }
+
+    if (asprintf(&ret, "_ped.Geometry instance --\n"
+                       "  start: %lld  end: %lld  length: %lld\n"
+                       "  device: %s",
+                 self->start, self->end, self->length,
+                 dev) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg) {
     int err;
 
