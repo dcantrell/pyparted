@@ -352,7 +352,7 @@ PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
     PedDiskType *out_type = NULL;
     _ped_DiskType *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "z", &in_name)) {
+    if (!PyArg_ParseTuple(args, "s", &in_name)) {
         return NULL;
     }
 
@@ -880,7 +880,7 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
     char *in_name = NULL;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "z", &in_name)) {
+    if (!PyArg_ParseTuple(args, "s", &in_name)) {
         return NULL;
     }
 
@@ -1034,7 +1034,7 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
 PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
     char *name = NULL;
 
-    if (!PyArg_ParseTuple(args, "z", &name)) {
+    if (!PyArg_ParseTuple(args, "s", &name)) {
         return NULL;
     }
 

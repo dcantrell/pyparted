@@ -554,7 +554,7 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     PedGeometry *geom = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "zLL", &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "sLL", &in_buf, &offset, &count)) {
         return NULL;
     }
 
