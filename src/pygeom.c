@@ -495,6 +495,7 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         else
             PyErr_SetString(IOException, "Could not read from given region");
 
+        free(out_buf);
         return NULL;
     }
 
@@ -625,6 +626,7 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
     ret = ped_geometry_check(geom, out_buf, 32, offset,
                              granularity, count, out_timer);
     ped_timer_destroy(out_timer);
+    free(out_buf);
 
     return PyLong_FromLongLong(ret);
 }
