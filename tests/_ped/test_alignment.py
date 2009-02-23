@@ -117,6 +117,11 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
         self.assert_(self.a.is_aligned(self.g, 20) == True)
         self.assert_(self.a.is_aligned(self.g, 23) == False)
 
+class AlignmentStrTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -128,6 +133,7 @@ def suite():
     suite.addTest(AlignmentAlignDownTestCase())
     suite.addTest(AlignmentAlignNearestTestCase())
     suite.addTest(AlignmentIsAlignedTestCase())
+    suite.addTest(AlignmentStrTestCase())
     return suite
 
 s = suite()
