@@ -214,6 +214,28 @@ void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Disk_str(_ped_Disk *self) {
+    char *ret = NULL;
+    char *dev = NULL, *type = NULL;
+
+    dev = PyString_AsString(_ped_Device_Type_obj.tp_repr(self->dev));
+    if (dev == NULL) {
+        return NULL;
+    }
+
+    type = PyString_AsString(_ped_Device_Type_obj.tp_repr(self->type));
+    if (type == NULL) {
+        return NULL;
+    }
+
+    if (asprintf(&ret, "_ped.Disk instance --\n  dev: %s  type: %s",
+                 dev, type) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
     int err;
 
