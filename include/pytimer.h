@@ -52,6 +52,7 @@ typedef struct {
 } _ped_Timer;
 
 void _ped_Timer_dealloc(_ped_Timer *self);
+PyObject *_ped_Timer_str(_ped_Timer *self);
 int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg);
 int _ped_Timer_clear(_ped_Timer *self);
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds);

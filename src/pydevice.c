@@ -36,6 +36,18 @@ void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_CHSGeometry_str(_ped_CHSGeometry *self) {
+    char *ret = NULL;
+
+    if (asprintf(&ret, "_ped.CHSGeometry instance --\n"
+                       "  cylinders: %d  heads: %d  sectors: %d",
+                 self->cylinders, self->heads, self->sectors) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_CHSGeometry_traverse(_ped_CHSGeometry *self, visitproc visit, void *arg) {
     return 0;
 }
