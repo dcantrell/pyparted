@@ -112,6 +112,7 @@ typedef struct {
 } _ped_Disk;
 
 void _ped_Disk_dealloc(_ped_Disk *self);
+PyObject *_ped_Disk_str(_ped_Disk *self);
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg);
 int _ped_Disk_clear(_ped_Disk *self);
 int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);

@@ -154,6 +154,10 @@ class DiskExtendedPartitionTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+class DiskStrTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
@@ -184,6 +188,7 @@ def suite():
     suite.addTest(DiskGetPartitionTestCase())
     suite.addTest(DiskGetPartitionBySectorTestCase())
     suite.addTest(DiskExtendedPartitionTestCase())
+    suite.addTest(DiskStrTestCase())
     return suite
 
 s = suite()
