@@ -56,9 +56,24 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self) {
     char *start_range = NULL, *end_range = NULL;
 
     start_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->start_align));
+    if (start_align == NULL) {
+        return NULL;
+    }
+
     end_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->end_align));
+    if (end_align == NULL) {
+        return NULL;
+    }
+
     start_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->start_range));
+    if (start_range == NULL) {
+        return NULL;
+    }
+
     end_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->end_range));
+    if (end_range == NULL) {
+        return NULL;
+    }
 
     if (asprintf(&ret, "_ped.Constraint instance --\n"
                        "  start_align: %s  end_align: %s\n"
