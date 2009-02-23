@@ -36,6 +36,16 @@ void _ped_Alignment_dealloc(_ped_Alignment *self) {
     PyObject_GC_Del(self);
 }
 
+PyObject *_ped_Alignment_str(_ped_Alignment *self) {
+    char *ret = NULL;
+
+    if (asprintf(&ret, "_ped.Alignment instance --\n  offset: %lld  grain_size: %lld", self->offset, self->grain_size) == -1) {
+        return PyErr_NoMemory();
+    }
+
+    return Py_BuildValue("s", ret);
+}
+
 int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg) {
     return 0;
 }

@@ -47,6 +47,7 @@ typedef struct {
 } _ped_Alignment;
 
 void _ped_Alignment_dealloc(_ped_Alignment *self);
+PyObject *_ped_Alignment_str(_ped_Alignment *self);
 int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg);
 int _ped_Alignment_clear(_ped_Alignment *self);
 int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
