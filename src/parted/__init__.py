@@ -25,8 +25,6 @@
 __all__ = ['alignment', 'constraint', 'device', 'disk',
            'filesystem', 'geometry', 'partition']
 
-import _ped
-
 from _ped import AlignmentException
 from _ped import CreateException
 from _ped import ConstraintException
@@ -54,57 +52,57 @@ from partition import Partition
 from partition import partitionFlag
 
 # the enumerated types in _ped need to be available from here too
-UNIT_SECTOR              = _ped.UNIT_SECTOR
-UNIT_BYTE                = _ped.UNIT_BYTE
-UNIT_KILOBYTE            = _ped.UNIT_KILOBYTE
-UNIT_MEGABYTE            = _ped.UNIT_MEGABYTE
-UNIT_GIGABYTE            = _ped.UNIT_GIGABYTE
-UNIT_TERABYTE            = _ped.UNIT_TERABYTE
-UNIT_COMPACT             = _ped.UNIT_COMPACT
-UNIT_CYLINDER            = _ped.UNIT_CYLINDER
-UNIT_CHS                 = _ped.UNIT_CHS
-UNIT_PERCENT             = _ped.UNIT_PERCENT
-UNIT_KIBIBYTE            = _ped.UNIT_KIBIBYTE
-UNIT_MEBIBYTE            = _ped.UNIT_MEBIBYTE
-UNIT_GIBIBYTE            = _ped.UNIT_GIBIBYTE
-UNIT_TEBIBYTE            = _ped.UNIT_TEBIBYTE
+from _ped import UNIT_SECTOR
+from _ped import UNIT_BYTE
+from _ped import UNIT_KILOBYTE
+from _ped import UNIT_MEGABYTE
+from _ped import UNIT_GIGABYTE
+from _ped import UNIT_TERABYTE
+from _ped import UNIT_COMPACT
+from _ped import UNIT_CYLINDER
+from _ped import UNIT_CHS
+from _ped import UNIT_PERCENT
+from _ped import UNIT_KIBIBYTE
+from _ped import UNIT_MEBIBYTE
+from _ped import UNIT_GIBIBYTE
+from _ped import UNIT_TEBIBYTE
 
-DEVICE_UNKNOWN           = _ped.DEVICE_UNKNOWN
-DEVICE_SCSI              = _ped.DEVICE_SCSI
-DEVICE_IDE               = _ped.DEVICE_IDE
-DEVICE_DAC960            = _ped.DEVICE_DAC960
-DEVICE_CPQARRAY          = _ped.DEVICE_CPQARRAY
-DEVICE_FILE              = _ped.DEVICE_FILE
-DEVICE_ATARAID           = _ped.DEVICE_ATARAID
-DEVICE_I2O               = _ped.DEVICE_I2O
-DEVICE_UBD               = _ped.DEVICE_UBD
-DEVICE_DASD              = _ped.DEVICE_DASD
-DEVICE_VIODASD           = _ped.DEVICE_VIODASD
-DEVICE_SX8               = _ped.DEVICE_SX8
-DEVICE_DM                = _ped.DEVICE_DM
-DEVICE_XVD               = _ped.DEVICE_XVD
+from _ped import DEVICE_UNKNOWN
+from _ped import DEVICE_SCSI
+from _ped import DEVICE_IDE
+from _ped import DEVICE_DAC960
+from _ped import DEVICE_CPQARRAY
+from _ped import DEVICE_FILE
+from _ped import DEVICE_ATARAID
+from _ped import DEVICE_I2O
+from _ped import DEVICE_UBD
+from _ped import DEVICE_DASD
+from _ped import DEVICE_VIODASD
+from _ped import DEVICE_SX8
+from _ped import DEVICE_DM
+from _ped import DEVICE_XVD
 
-PARTITION_NORMAL         = _ped.PARTITION_NORMAL
-PARTITION_LOGICAL        = _ped.PARTITION_LOGICAL
-PARTITION_EXTENDED       = _ped.PARTITION_EXTENDED
-PARTITION_FREESPACE      = _ped.PARTITION_FREESPACE
-PARTITION_METADATA       = _ped.PARTITION_METADATA
-PARTITION_PROTECTED      = _ped.PARTITION_PROTECTED
+from _ped import PARTITION_NORMAL
+from _ped import PARTITION_LOGICAL
+from _ped import PARTITION_EXTENDED
+from _ped import PARTITION_FREESPACE
+from _ped import PARTITION_METADATA
+from _ped import PARTITION_PROTECTED
 
-PARTITION_BOOT           = _ped.PARTITION_BOOT
-PARTITION_ROOT           = _ped.PARTITION_ROOT
-PARTITION_SWAP           = _ped.PARTITION_SWAP
-PARTITION_HIDDEN         = _ped.PARTITION_HIDDEN
-PARTITION_RAID           = _ped.PARTITION_RAID
-PARTITION_LVM            = _ped.PARTITION_LVM
-PARTITION_LBA            = _ped.PARTITION_LBA
-PARTITION_HPSERVICE      = _ped.PARTITION_HPSERVICE
-PARTITION_PALO           = _ped.PARTITION_PALO
-PARTITION_PREP           = _ped.PARTITION_PREP
-PARTITION_MSFT_RESERVED  = _ped.PARTITION_MSFT_RESERVED
+from _ped import PARTITION_BOOT
+from _ped import PARTITION_ROOT
+from _ped import PARTITION_SWAP
+from _ped import PARTITION_HIDDEN
+from _ped import PARTITION_RAID
+from _ped import PARTITION_LVM
+from _ped import PARTITION_LBA
+from _ped import PARTITION_HPSERVICE
+from _ped import PARTITION_PALO
+from _ped import PARTITION_PREP
+from _ped import PARTITION_MSFT_RESERVED
 
-DISK_TYPE_EXTENDED       = _ped.DISK_TYPE_EXTENDED
-DISK_TYPE_PARTITION_NAME = _ped.DISK_TYPE_PARTITION_NAME
+from _ped import DISK_TYPE_EXTENDED
+from _ped import DISK_TYPE_PARTITION_NAME
 
 partitionTypesDict = {
     0x00: "Empty",
@@ -218,17 +216,20 @@ def getDevice(path):
 
 def getAllDevices():
     """Return a list of Device objects for all devices in the system."""
+    from _ped import device_probe_all
+    from _ped import device_get_next
+
     lst = []
     device = None
 
-    _ped.device_probe_all()
+    device_probe_all()
 
     while True:
         try:
             if not device:
-                device = _ped.device_get_next()
+                device = device_get_next()
             else:
-                device = _ped.device_get_next(device)
+                device = device_get_next(device)
 
             lst.append(Device(PedDevice=device))
         except IndexError:
@@ -239,13 +240,15 @@ def probeForSpecificFileSystem(fstype, geometry):
        filesystem type and geometry.  fstype must be a string
        representing a valid _ped.FileSystemType, geometry is a
        parted.Geometry."""
-    geom = _ped.file_system_probe_specific(fileSystemType[fstype], geometry.getPedGeometry())
+    from _ped import file_system_probe_specific
+    geom = file_system_probe_specific(fileSystemType[fstype], geometry.getPedGeometry())
     return geometry.Geometry(PedGeometry=geom)
 
 def probeFileSystem(geometry):
     """Return the name of the filesystem detected on the given
        Geometry.  Returns None is no filesystem found."""
-    fstype = _ped.file_system_probe(geometry.getPedGeometry())
+    from _ped import file_system_probe
+    fstype = file_system_probe(geometry.getPedGeometry())
     return fstype.name
 
 def freshDisk(device, ty):
@@ -255,18 +258,23 @@ def freshDisk(device, ty):
 
        The new label is not written to disk until commitToDevice()
        is called on the Disk."""
+    from _ped import disk_new_fresh
+
     if (ty not in diskType.keys()) and (ty not in diskType.values()):
         raise SyntaxError, "type must be a key or value in parted.diskType"
 
     if ty in diskType.keys():
         ty = diskType[ty]
 
-    peddisk = _ped.disk_new_fresh(device.getPedDevice(), ty)
+    peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)
 
 def version():
     """Return a dict containing the pyparted and libparted versions."""
+    from _ped import libparted_version
+    from _ped import pyparted_version
+
     ver = {}
-    ver['libparted'] = _ped.libparted_version()
-    ver['pyparted'] = _ped.pyparted_version()
+    ver['libparted'] = libparted_version()
+    ver['pyparted'] = pyparted_version()
     return ver
