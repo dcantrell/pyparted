@@ -7,7 +7,7 @@ dnl modify, copy, or redistribute it subject to the terms and conditions of
 dnl the GNU General Public License v.2, or (at your option) any later version.
 dnl This program is distributed in the hope that it will be useful, but WITHOUT
 dnl ANY WARRANTY expressed or implied, including the implied warranties of
-dnl MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 dnl Public License for more details.  You should have received a copy of the
 dnl GNU General Public License along with this program; if not, write to the
 dnl Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
