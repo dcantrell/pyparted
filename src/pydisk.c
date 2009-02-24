@@ -68,7 +68,7 @@ PyObject *_ped_Partition_str(_ped_Partition *self) {
 
     if (asprintf(&ret, "_ped.Partition instance --\n"
                        "  disk: %s  fs_type: %s\n"
-                       "  num: %s  type: %s\n"
+                       "  num: %d  type: %d\n"
                        "  geom: %s",
                  disk, fs_type, self->num, self->type,
                  geom) == -1) {
