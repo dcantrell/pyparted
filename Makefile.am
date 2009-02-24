@@ -1,14 +1,14 @@
 #
 # Makefile.am for pyparted
 #
-# Copyright (C) 2007  Red Hat, Inc.
+# Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
 # the GNU General Public License v.2, or (at your option) any later version.
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY expressed or implied, including the implied warranties of
-# MERCHANTABILITY or FITNESS FOR A * PARTICULAR PURPOSE.  See the GNU General
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 # Public License for more details.  You should have received a copy of the
 # GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -58,7 +58,10 @@ release: tag
 	( cd $(PACKAGE)-$(VERSION) && ./configure && make ) || exit 1
 	@echo
 	@echo "$(PACKAGE)-$(VERSION).tar.gz is now ready to upload."
-	@echo "Don't forget to push changes to the repository with:."
+	@echo "Do not forget to push changes to the repository with:"
 	@echo "    git push"
 	@echo "    git push --tags"
+	@echo
+	@echo "Do not forget to add a new Version entry on the Trac site:"
+	@echo "    https://fedorahosted.org/pyparted/admin/ticket/versions"
 	@echo
