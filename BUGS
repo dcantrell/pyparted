@@ -7,3 +7,14 @@ Python interactive shell.
        device = parted.getDevice("/dev/sda")
        disk = parted.Disk(device)
        disk.getLogicalPartitions()
+
+2) pydisk.c:
+
+   py_ped_disk_type_get() returns NULL without setting an exception when
+     called with None argument
+
+   py_ped_disk_type_check_feature() returns NULL without setting an
+     exception when called with 0 as argument
+
+   py_ped_geometry_read() and py_ped_device_read() do not work properly
+     when the read data contains 0 bytes
