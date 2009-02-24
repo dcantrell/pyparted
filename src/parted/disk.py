@@ -53,10 +53,10 @@ class Disk(object):
         if len(self.partitions) != len(other.partitions):
             return False
 
-        iter = itertools.izip(self.partitions, other.partitions)
+        partIter = itertools.izip(self.partitions, other.partitions)
         while True:
             try:
-                (left, right) = iter.next()
+                (left, right) = partIter.next()
                 if left != right:
                     return False
             except StopIteration:
