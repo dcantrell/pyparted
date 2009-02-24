@@ -11,10 +11,13 @@ Python interactive shell.
 2) pydisk.c:
 
    py_ped_disk_type_get() returns NULL without setting an exception when
-     called with None argument
+   called with None argument
+       # XXX: NEED REPRODUCER
 
    py_ped_disk_type_check_feature() returns NULL without setting an
-     exception when called with 0 as argument
+   exception when called with 0 as argument
+       # XXX: NEED REPRODUCER
 
    py_ped_geometry_read() and py_ped_device_read() do not work properly
-     when the read data contains 0 bytes
+   when the read data contains 0 bytes
+       # XXX: NEED REPRODUCER
