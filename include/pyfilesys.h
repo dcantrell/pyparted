@@ -2,7 +2,7 @@
  * pyfilesys.h
  * pyparted type definitions for pyfilesys.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -70,9 +70,12 @@ typedef struct {
     PyObject_HEAD
 
     /* PedFileSystem members */
-    PyObject *type;              /* _ped.FileSystemType */
-    PyObject *geom;              /* _ped.Geometry */
+    PyObject *type;                /* _ped.FileSystemType */
+    PyObject *geom;                /* _ped.Geometry */
     int checked;
+
+    /* store the PedFileSystem from libparted */
+    PedFileSystem *ped_filesystem;
 } _ped_FileSystem;
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *self);
