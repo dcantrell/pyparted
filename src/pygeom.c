@@ -640,6 +640,7 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
        out_timer = NULL;
 
     if ((out_buf = malloc(geom->dev->sector_size * 32)) == NULL) {
+        ped_timer_destroy(out_timer);
         return PyErr_NoMemory();
     }
 

@@ -128,18 +128,17 @@ PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
     }
 
     align = ped_alignment_duplicate(alignment);
+
+    ped_alignment_destroy(alignment);
+
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not duplicate alignment");
         return NULL;
     }
 
-    ped_alignment_destroy(alignment);
     ped_alignment_destroy(align);
 
     return (PyObject *) ret;
@@ -165,19 +164,18 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
     }
 
     align = ped_alignment_intersect(out_a, out_b);
+
+    ped_alignment_destroy(out_a);
+    ped_alignment_destroy(out_b);
+
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(PyExc_ArithmeticError, "Could not find alignment intersection");
         return NULL;
     }
 
-    ped_alignment_destroy(out_a);
-    ped_alignment_destroy(out_b);
     ped_alignment_destroy(align);
 
     return (PyObject *) ret;
@@ -204,12 +202,13 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_up(align, out_geom, sector);
+
+    ped_alignment_destroy(align);
+
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align up to sector");
         return NULL;
     }
-
-    ped_alignment_destroy(align);
 
     return PyLong_FromLongLong(ret);
 }
@@ -235,12 +234,13 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_down(align, out_geom, sector);
+
+    ped_alignment_destroy(align);
+
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align down to sector");
         return NULL;
     }
-
-    ped_alignment_destroy(align);
 
     return PyLong_FromLongLong(ret);
 }
@@ -266,12 +266,13 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     }
 
     ret = ped_alignment_align_nearest(align, out_geom, sector);
+
+    ped_alignment_destroy(align);
+
     if (ret == -1) {
         PyErr_SetString(PyExc_ArithmeticError, "Could not align to closest sector");
         return NULL;
     }
-
-    ped_alignment_destroy(align);
 
     return PyLong_FromLongLong(ret);
 }
