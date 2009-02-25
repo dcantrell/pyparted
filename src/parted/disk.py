@@ -24,6 +24,8 @@
 import _ped
 import parted
 
+from cachedlist import CachedList
+
 class Disk(object):
     """Disk()
 
@@ -46,6 +48,8 @@ class Disk(object):
         else:
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
+
+        self._partitions = CachedList(lambda : self.__getPartitions())
 
     def _hasSameParts(self, other):
         import itertools
@@ -78,6 +82,9 @@ class Disk(object):
         raise parted.ReadOnlyProperty, property
 
     def __getPartitions(self):
+        """Construct a list of partitions on the disk.  This is called only as
+           needed from the self.partitions property, which just happens to be
+           a CachedList."""
         partitions = []
         partition = self.getFirstPartition()
 
@@ -97,7 +104,7 @@ class Disk(object):
     primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
     lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
     maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
-    partitions = property(lambda s: s.__getPartitions(), lambda s, v: s.__readOnly("partitions"))
+    partitions = property(lambda s: s._partitions, lambda s, v: s.__readOnly("partitions"))
     device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
 
     def __str__(self):
@@ -118,6 +125,8 @@ class Disk(object):
            is not None, remove all identifying signatures of the partition
            table, except for partition tables of that type.  type must be a
            string matching a valid key in the diskType hash."""
+        self.partitions.invalidate()
+
         if type is None:
             return self.__disk.clobber()
         else:
@@ -135,16 +144,22 @@ class Disk(object):
         """Writes in-memory changes to a partition table to disk and
            informs the operating system of the changes.  Equivalent to
            calling self.commitToDevice() then self.commitToOS()."""
+        self.partitions.invalidate()
+
         return self.__disk.commit()
 
     def commitToDevice(self):
         """Write the changes made to the in-memory description of a
            partition table to the device."""
+        self.partitions.invalidate()
+
         return self.__disk.commit_to_dev()
 
     def commitToOS(self):
         """Tell the operating system kernel about the partition table
            layout of this Disk."""
+        self.partitions.invalidate()
+
         return self.__disk.commit_to_os()
 
     def check(self):
@@ -157,8 +172,12 @@ class Disk(object):
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
-        return self.__disk.add_partition(partition.getPedPartition(),
-                                         constraint.getPedConstraint())
+        if self.__disk.add_partition(partition.getPedPartition(),
+                                     constraint.getPedConstraint()):
+            self.partitions.invalidate()
+            return True
+        else:
+            return False
 
     def removePartition(self, partition=None):
         """Removes specified Partition from this Disk.  NOTE:  If the
@@ -166,17 +185,29 @@ class Disk(object):
            logical partitions.  Also note that the partition is not
            actually destroyed unless you use the deletePartition()
            method."""
-        return self.__disk.remove_partition(partition.getPedPartition())
+        if self.__disk.remove_partition(partition.getPedPartition()):
+            self.partitions.invalidate()
+            return True
+        else:
+            return False
 
     def deletePartition(self, partition):
         """Removes specified Partition from this Disk under the same
            conditions as removePartition(), but also destroy the
            removed Partition."""
-        return self.__disk.delete_partition(partition.getPedPartition())
+        if self.__disk.delete_partition(partition.getPedPartition()):
+            self.partitions.invalidate()
+            return True
+        else:
+            return False
 
     def deleteAllPartitions(self):
         """Removes and destroys all Partitions in this Disk."""
-        return self.__disk.delete_all()
+        if self.__disk.delete_all():
+            self.partitions.invalidate()
+            return True
+        else:
+            return False
 
     def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
         """Sets the Geometry of the specified Partition using the given
