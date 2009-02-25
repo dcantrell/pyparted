@@ -332,8 +332,6 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    PyObject_GC_Del(s);
-
     if (ret) {
         Py_RETURN_TRUE;
     } else {
