@@ -1328,6 +1328,9 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
 
     ret = ped_disk_set_partition_geom(disk, out_part, out_constraint,
                                       start, end);
+
+    ped_constraint_destroy(out_constraint);
+
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -1340,8 +1343,6 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_constraint_destroy(out_constraint);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -1378,6 +1379,9 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
     }
 
     ret = ped_disk_maximize_partition(disk, out_part, out_constraint);
+
+    ped_constraint_destroy(out_constraint);
+
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -1390,8 +1394,6 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_constraint_destroy(out_constraint);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -1430,6 +1432,8 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
 
     pass_geom = ped_disk_get_max_partition_geometry(disk, out_part,
                                                     out_constraint);
+    ped_constraint_destroy(out_constraint);
+
     if (pass_geom == NULL) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -1447,8 +1451,6 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
     if (ret == NULL) {
         return NULL;
     }
-
-    ped_constraint_destroy(out_constraint);
 
     return (PyObject *) ret;
 }

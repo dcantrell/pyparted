@@ -283,9 +283,6 @@ PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args) {
     constraint = ped_constraint_new_from_min_max(out_min, out_max);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create new constraint from min/max");
@@ -315,9 +312,6 @@ PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args) {
     constraint = ped_constraint_new_from_min(out_min);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create new constraint from min");
@@ -347,9 +341,6 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     constraint = ped_constraint_new_from_max(out_max);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create new constraint from max");
@@ -374,18 +365,17 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     }
 
     dup_constraint = ped_constraint_duplicate(constraint);
+
+    ped_constraint_destroy(constraint);
+
     if (dup_constraint) {
         ret = PedConstraint2_ped_Constraint(dup_constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not duplicate constraint");
         return NULL;
     }
 
-    ped_constraint_destroy(constraint);
     ped_constraint_destroy(dup_constraint);
 
     return (PyObject *) ret;
@@ -409,23 +399,23 @@ PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args) {
 
     constraintB = _ped_Constraint2PedConstraint(in_constraintB);
     if (constraintB == NULL) {
+        ped_constraint_destroy(constraintA);
         return NULL;
     }
 
     constraint = ped_constraint_intersect(constraintA, constraintB);
+
+    ped_constraint_destroy(constraintA);
+    ped_constraint_destroy(constraintB);
+
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(PyExc_ArithmeticError, "Could not find constraint intersection");
         return NULL;
     }
 
-    ped_constraint_destroy(constraintA);
-    ped_constraint_destroy(constraintB);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -442,11 +432,11 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
     }
 
     geometry = ped_constraint_solve_max(constraint);
+
+    ped_constraint_destroy(constraint);
+
     if (geometry) {
         ret = PedGeometry2_ped_Geometry(geometry);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         if (partedExnRaised) {
@@ -460,8 +450,6 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
 }
@@ -485,22 +473,21 @@ PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args) {
 
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
     if (out_geometry == NULL) {
+        ped_constraint_destroy(constraint);
         return NULL;
     }
 
     geometry = ped_constraint_solve_nearest(constraint, out_geometry);
+
+    ped_constraint_destroy(constraint);
+
     if (geometry) {
         ret = PedGeometry2_ped_Geometry(geometry);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(PyExc_ArithmeticError, "Could not find region nearest to constraint for given geometry");
         return NULL;
     }
-
-    ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
 }
@@ -523,6 +510,7 @@ PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args) {
 
     out_geometry = _ped_Geometry2PedGeometry(in_geometry);
     if (out_geometry == NULL) {
+        ped_constraint_destroy(constraint);
         return NULL;
     }
 
@@ -554,9 +542,6 @@ PyObject *py_ped_constraint_any(PyObject *s, PyObject *args) {
     constraint = ped_constraint_any(out_device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create new constraint");
@@ -586,9 +571,6 @@ PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args) {
     constraint = ped_constraint_exact(out_geometry);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create exact constraint");

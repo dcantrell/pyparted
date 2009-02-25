@@ -422,6 +422,7 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
         else
             PyErr_Format(FileSystemException, "Failed to create filesystem type %s", fstype->name);
 
+        ped_timer_destroy(timer);
         return NULL;
     }
 
@@ -442,12 +443,12 @@ PyObject *py_ped_file_system_close(PyObject *s, PyObject *args) {
 
     ret = ped_file_system_close(fs);
 
+    ped_file_system_destroy(fs);
+
     if (!ret) {
         PyErr_Format(FileSystemException, "Failed to close filesystem type %s", fs->type->name);
         return NULL;
     }
-
-    ped_file_system_destroy(fs);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -474,6 +475,7 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
     if (in_timer) {
         out_timer = _ped_Timer2PedTimer(in_timer);
         if (!out_timer) {
+            ped_file_system_destroy(fs);
             return NULL;
         }
     }
@@ -481,6 +483,9 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
         out_timer = NULL;
 
     ret = ped_file_system_check(fs, out_timer);
+
+    ped_file_system_destroy(fs);
+    ped_timer_destroy(out_timer);
 
     /* NotImplementedError may have been raised if it's an unsupported
      * operation for this filesystem.  Otherwise, we shouldn't get any
@@ -490,9 +495,6 @@ PyObject *py_ped_file_system_check(PyObject *s, PyObject *args) {
         partedExnRaised = 0;
         return NULL;
     }
-
-    ped_file_system_destroy(fs);
-    ped_timer_destroy(out_timer);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -521,12 +523,14 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     if (!out_geom) {
+        ped_file_system_destroy(fs);
         return NULL;
     }
 
     if (in_timer) {
         out_timer = _ped_Timer2PedTimer(in_timer);
         if (!out_timer) {
+            ped_file_system_destroy(fs);
             return NULL;
         }
     }
@@ -534,6 +538,10 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
         out_timer = NULL;
 
     finalfs = ped_file_system_copy(fs, out_geom, out_timer);
+
+    ped_file_system_destroy(fs);
+    ped_timer_destroy(out_timer);
+
     if (finalfs) {
         ret = PedFileSystem2_ped_FileSystem(finalfs);
     }
@@ -552,8 +560,6 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
     }
 
     ped_file_system_destroy(finalfs);
-    ped_file_system_destroy(fs);
-    ped_timer_destroy(out_timer);
 
     return (PyObject *) ret;
 }
@@ -577,12 +583,14 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
     if (!out_geom) {
+        ped_file_system_destroy(fs);
         return NULL;
     }
 
     if (in_timer) {
         out_timer = _ped_Timer2PedTimer(in_timer);
         if (!out_timer) {
+            ped_file_system_destroy(fs);
             return NULL;
         }
     }
@@ -590,6 +598,9 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
         out_timer = NULL;
 
     ret = ped_file_system_resize(fs, out_geom, out_timer);
+
+    ped_file_system_destroy(fs);
+    ped_timer_destroy(out_timer);
 
     if (!ret) {
         if (partedExnRaised) {
@@ -604,9 +615,6 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
 
         return NULL;
     }
-
-    ped_file_system_destroy(fs);
-    ped_timer_destroy(out_timer);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -671,6 +679,9 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
     }
 
     constraint = ped_file_system_get_resize_constraint(fs);
+
+    ped_file_system_destroy(fs);
+
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
@@ -679,7 +690,6 @@ PyObject *py_ped_file_system_get_resize_constraint(PyObject *s,
         return NULL;
     }
 
-    ped_file_system_destroy(fs);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;
@@ -715,6 +725,9 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
     }
 
     constraint = ped_file_system_get_copy_constraint(fs, device);
+
+    ped_file_system_destroy(fs);
+
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
     }
@@ -723,7 +736,6 @@ PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ped_file_system_destroy(fs);
     ped_constraint_destroy(constraint);
 
     return (PyObject *) ret;

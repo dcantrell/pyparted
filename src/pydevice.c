@@ -720,9 +720,6 @@ PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {
     constraint = ped_device_get_constraint(device);
     if (constraint) {
         ret = PedConstraint2_ped_Constraint(constraint);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create constraint");

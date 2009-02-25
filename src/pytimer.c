@@ -191,18 +191,17 @@ PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args) {
     }
 
     timer = ped_timer_new_nested(parent, nest_frac);
+
+    ped_timer_destroy(parent);
+
     if (timer) {
         ret = PedTimer2_ped_Timer(timer);
-        if (ret == NULL) {
-            return NULL;
-        }
     }
     else {
         PyErr_SetString(CreateException, "Could not create new nested timer");
         return NULL;
     }
 
-    ped_timer_destroy(parent);
     ped_timer_destroy(timer);
 
     return (PyObject *) ret;
