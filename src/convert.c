@@ -382,31 +382,35 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
     PedGeometry *geom = NULL;
     _ped_FileSystem *fs = (_ped_FileSystem *) s;
 
-    if (fs == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem");
-        return NULL;
-    }
-
-    geom = _ped_Geometry2PedGeometry(fs->geom);
-    if (geom == NULL) {
-        return NULL;
-    }
-
-    ret = ped_file_system_open(geom);
-    if (ret == NULL) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (PyErr_ExceptionMatches(PartedException) ||
-                PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                return NULL;
-
-            PyErr_SetString(FileSystemException, partedExnMessage);
+    if (fs->ped_filesystem == NULL) {
+        if (fs == NULL) {
+            PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem");
             return NULL;
         }
-    }
 
-    return ret;
+        geom = _ped_Geometry2PedGeometry(fs->geom);
+        if (geom == NULL) {
+            return NULL;
+        }
+
+        ret = ped_file_system_open(geom);
+        if (ret == NULL) {
+            if (partedExnRaised) {
+                partedExnRaised = 0;
+
+                if (PyErr_ExceptionMatches(PartedException) ||
+                    PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                    return NULL;
+
+                PyErr_SetString(FileSystemException, partedExnMessage);
+                return NULL;
+            }
+        }
+
+        return ret;
+    } else {
+        return fs->ped_filesystem;
+    }
 }
 
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs) {

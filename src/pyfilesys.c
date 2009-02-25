@@ -165,6 +165,7 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
 
     Py_INCREF(self->type);
     Py_INCREF(self->geom);
+    self->ped_filesystem = NULL;
     return 0;
 }
 
@@ -341,36 +342,15 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
     _ped_FileSystem *self = (_ped_FileSystem *) s;
-    PedGeometry *geom = NULL;
     PedFileSystem *fs = NULL;
-    _ped_FileSystem *ret = NULL;
 
-    geom = _ped_Geometry2PedGeometry(self->geom);
-    if (!geom) {
-        return NULL;
-    }
+    fs = _ped_FileSystem2PedFileSystem(self);
 
-    fs = ped_file_system_open(geom);
     if (fs) {
-        ret = PedFileSystem2_ped_FileSystem(fs);
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
     }
-    else {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
-                !PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(FileSystemException, partedExnMessage);
-        }
-        else
-            PyErr_SetString(FileSystemException, "Failed to open any filesystem in given geometry");
-
-        return NULL;
-    }
-
-    ped_file_system_destroy(fs);
-
-    return (PyObject *) ret;
 }
 
 PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
