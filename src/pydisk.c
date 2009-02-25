@@ -33,6 +33,10 @@
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
+    if (self->ped_partition) {
+        ped_free(self->ped_partition);
+    }
+
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->disk);
@@ -240,6 +244,10 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 
 /* _ped.Disk functions */
 void _ped_Disk_dealloc(_ped_Disk *self) {
+    if (self->ped_disk) {
+        ped_disk_destroy(self->ped_disk);
+    }
+
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->dev);
