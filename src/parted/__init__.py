@@ -235,6 +235,11 @@ def getAllDevices():
         except IndexError:
             return lst
 
+def freeAllDevices():
+    """Free all Device objects.  There is no reason to call this function."""
+    from _ped import device_free_all
+    return device_free_all()
+
 def probeForSpecificFileSystem(fstype, geometry):
     """Call the _ped.file_system_probe_specific() function given the
        filesystem type and geometry.  fstype must be a string
