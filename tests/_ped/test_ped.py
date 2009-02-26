@@ -20,10 +20,13 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
-import os, tempfile
+import os
+import tempfile
 
 from baseclass import *
 
@@ -186,10 +189,10 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         self.assert_(len(lst) > 0)
         self.assert_(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)) > 0)
 
-class DeviceFreeAllTestCase(unittest.TestCase):
-    # TODO
+class DeviceFreeAllTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        _ped.device_probe_all()
+        self.assetEquals(_ped.device_free_all(), None)
 
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):

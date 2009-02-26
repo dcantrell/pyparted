@@ -41,8 +41,9 @@ class FileSystemTypeGetSetTestCase(unittest.TestCase):
 
 class FileSystemTypeStrTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        fstype = _ped.file_system_type_get("ext3")
+
+        self.assertEqual(str(fstype), "_ped.FileSystemType instance --\n  name: ext3")
 
 # And then a suite to hold all the test cases for this module.
 def suite():
