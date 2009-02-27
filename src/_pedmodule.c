@@ -314,13 +314,25 @@ PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
 PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
     int t = 0;
     int major = -1, minor = -1, update = -1;
+    char suffix[10];
 
-    t = sscanf(VERSION, "%d.%d.%d", &major, &minor, &update);
-    if ((t != 3) || (t == EOF)) {
-        return NULL;
+    if (index(VERSION, '-')) {
+        memset(&suffix, '\0', sizeof(suffix));
+
+        t = sscanf(VERSION, "%d.%d.%d-%s", &major, &minor, &update, &suffix);
+        if ((t != 4) || (t == EOF)) {
+            return NULL;
+        }
+
+        return Py_BuildValue("(iiis)", major, minor, update, suffix);
+    } else {
+        t = sscanf(VERSION, "%d.%d.%d", &major, &minor, &update);
+        if ((t != 3) || (t == EOF)) {
+            return NULL;
+        }
+
+        return Py_BuildValue("(iii)", major, minor, update);
     }
-
-    return Py_BuildValue("(iii)", major, minor, update);
 }
 
 /* This function catches libparted exceptions and converts them into Python
