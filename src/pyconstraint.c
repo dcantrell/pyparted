@@ -442,7 +442,7 @@ PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(ConstraintException, partedExnMessage);
         }
         else
