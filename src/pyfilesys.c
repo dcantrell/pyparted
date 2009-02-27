@@ -270,7 +270,7 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -305,7 +305,7 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -333,7 +333,7 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -402,8 +402,7 @@ PyObject *py_ped_file_system_create(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
-                !PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
@@ -536,8 +535,7 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
-                !PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
@@ -593,8 +591,7 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PyExc_NotImplementedError) &&
-                !PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_Occurred())
                 PyErr_SetString(FileSystemException, partedExnMessage);
         }
         else
