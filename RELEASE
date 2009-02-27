@@ -1,0 +1,25 @@
+Instructions for making a new release:
+
+1) git checkout master
+2) git clean -d -x -f         # I hope you've commit or stashed everything
+                              # you are working on
+2) git fetch
+3) git rebase origin
+4) Edit configure.ac and remove the '-devel' from the line beginning with
+   "AC_INIT([pyparted],".  The release version should just be X.Y.Z/
+5) git add configure.ac
+6) git commit                 # Comment should be 'New version.' or similar.
+7) ./bootstrap
+8) ./configure
+9) make release
+
+Resulting pyparted-X.Y.Z.tar.bz2 is the release.  'cp -a' this to the pkg
+CVS tree and make a new build.  Also need to copy it to the project
+download site and make a new version entry in the Trac site.
+
+10) git push
+11) git push --tags
+12) Edit configure.ac and change the version from X.Y.Z to X.Y.(Z+1)-devel
+13) git add configure.ac
+14) git commit
+15) git push
