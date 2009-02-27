@@ -398,11 +398,13 @@ PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_Occurred())
-                    PyErr_SetString(FileSystemException, partedExnMessage);
+                if (PyErr_ExceptionMatches(PartedException) ||
+                    PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                    return NULL;
+
+                PyErr_SetString(FileSystemException, partedExnMessage);
+                return NULL;
             }
-            else
-                PyErr_SetString(FileSystemException, "Unknown error opening filesystem");
         }
 
         return ret;

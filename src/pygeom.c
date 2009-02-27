@@ -113,7 +113,7 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred()) {
+            if (!PyErr_ExceptionMatches(PartedException)) {
                 PyErr_SetString(CreateException, partedExnMessage);
             }
         } else {
@@ -201,7 +201,7 @@ PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(CreateException, partedExnMessage);
         }
         else
@@ -240,7 +240,7 @@ PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(CreateException, partedExnMessage);
         }
         else
@@ -271,7 +271,7 @@ PyObject *py_ped_geometry_set(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(CreateException, partedExnMessage);
         }
         else
@@ -310,7 +310,7 @@ PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(CreateException, partedExnMessage);
         }
         else
@@ -348,7 +348,7 @@ PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(CreateException, partedExnMessage);
         }
         else
@@ -509,7 +509,7 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -601,7 +601,7 @@ PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_Occurred())
+            if (!PyErr_ExceptionMatches(PartedException))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
