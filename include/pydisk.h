@@ -43,6 +43,8 @@ typedef struct {
 
     /* store the PedPartition from libparted */
     PedPartition *ped_partition;
+
+    int _owned;                    /* Belongs to a Disk or not */
 } _ped_Partition;
 
 void _ped_Partition_dealloc(_ped_Partition *self);

@@ -33,8 +33,8 @@
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
-    if (self->ped_partition) {
-        ped_free(self->ped_partition);
+    if (self->ped_partition && !self->_owned) {
+        ped_partition_destroy(self->ped_partition);
     }
 
     PyObject_GC_UnTrack(self);
@@ -1179,6 +1179,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     /* update our _ped.Partition object with out_part values */
     in_part->num = out_part->num;
     in_part->type = out_part->type;
+    in_part->_owned = 1;
 
     ped_constraint_destroy(out_constraint);
 
@@ -1222,6 +1223,8 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
 
         return NULL;
     }
+
+    in_part->_owned = 0;
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -1528,6 +1531,7 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ret->_owned = 1;
     return (PyObject *) ret;
 }
 
@@ -1558,6 +1562,7 @@ PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ret->_owned = 1;
     return (PyObject *) ret;
 }
 
@@ -1587,6 +1592,7 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ret->_owned = 1;
     return (PyObject *) ret;
 }
 
@@ -1612,6 +1618,7 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    ret->_owned = 1;
     return (PyObject *) ret;
 }
 
