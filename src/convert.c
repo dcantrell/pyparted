@@ -601,15 +601,13 @@ _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom) {
     return ret;
 }
 
-PedPartition *_ped_Partition2PedPartition(PyObject *s) {
-    _ped_Partition *part = (_ped_Partition *) s;
-
-    if (part == NULL) {
+PedPartition *_ped_Partition2PedPartition(_ped_Partition *s) {
+    if (s == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.Partition()");
         return NULL;
     }
 
-    return part->ped_partition;
+    return s->ped_partition;
 }
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {

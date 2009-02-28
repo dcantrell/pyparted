@@ -29,51 +29,6 @@
 
 #include <parted/parted.h>
 
-/* 1:1 function mappings for disk.h in libparted */
-PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_check(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_print(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
-                                                      PyObject *args);
-PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args);
-
 /* _ped.Partition type is the Python equivalent of PedPartition
  * in libparted */
 typedef struct {
@@ -136,6 +91,51 @@ int _ped_DiskType_clear(_ped_DiskType *self);
 PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
 
 extern PyTypeObject _ped_DiskType_Type_obj;
+
+/* 1:1 function mappings for disk.h in libparted */
+PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_commit(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_check(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_print(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
+                                                      PyObject *args);
+PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args);
+PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args);
+PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args);
+PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args);
+PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args);
 
 #endif /* PYDISK_H_INCLUDED */
 

@@ -784,7 +784,7 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
  * Similar to py_ped_device_destroy(), we might move the call to
  * ped_disk_destroy() to the tp_clear() for _ped.Disk.
  */
-PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args) {
     PedPartition *partition = NULL;
 
     partition = _ped_Partition2PedPartition(s);
@@ -799,7 +799,7 @@ PyObject *py_ped_partition_destroy(PyObject *s, PyObject *args) {
     return Py_None;
 }
 
-PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args) {
     PedPartition *partition = NULL;
     int ret = 0;
 
@@ -818,7 +818,7 @@ PyObject *py_ped_partition_is_active(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args) {
     int in_state = -1;
     PedPartition *part = NULL;
     int flag;
@@ -856,7 +856,7 @@ PyObject *py_ped_partition_set_flag(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     int flag;
     int ret = -1;
@@ -885,7 +885,7 @@ PyObject *py_ped_partition_get_flag(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     int flag;
     int ret = 0;
@@ -913,7 +913,7 @@ PyObject *py_ped_partition_is_flag_available(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args) {
     PyObject *in_fstype = NULL;
     PedPartition *part = NULL;
     PedFileSystemType *out_fstype = NULL;
@@ -952,7 +952,7 @@ PyObject *py_ped_partition_set_system(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     char *in_name = NULL;
     int ret = 0;
@@ -998,7 +998,7 @@ PyObject *py_ped_partition_set_name(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     char *ret = NULL;
 
@@ -1035,7 +1035,7 @@ PyObject *py_ped_partition_get_name(PyObject *s, PyObject *args) {
     return PyString_FromString(ret);
 }
 
-PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     int ret = 0;
 
@@ -1054,7 +1054,7 @@ PyObject *py_ped_partition_is_busy(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_path(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     char *ret = NULL;
 
@@ -1152,7 +1152,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_part = _ped_Partition2PedPartition((PyObject *) in_part);
+    out_part = _ped_Partition2PedPartition(in_part);
     if (out_part == NULL) {
         return NULL;
     }
@@ -1190,7 +1190,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL;
+    _ped_Partition *in_part = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     int ret = 0;
@@ -1231,7 +1231,7 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL;
+    _ped_Partition *in_part = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     int ret = 0;
@@ -1303,7 +1303,8 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL, *in_constraint = NULL;
+    _ped_Partition *in_part = NULL;
+    PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;
@@ -1357,7 +1358,8 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL, *in_constraint = NULL;
+    _ped_Partition *in_part = NULL;
+    PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;
@@ -1408,7 +1410,8 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL, *in_constraint = NULL;
+    _ped_Partition *in_part = NULL;
+    PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;
@@ -1492,7 +1495,7 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
-    PyObject *in_part = NULL;
+    _ped_Partition *in_part = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedPartition *pass_part = NULL;
