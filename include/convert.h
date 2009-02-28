@@ -62,7 +62,7 @@ _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
 PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
 _ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
 
-PedPartition *_ped_Partition2PedPartition(PyObject *s);
+PedPartition *_ped_Partition2PedPartition(_ped_Partition *s);
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part);
 
 PedTimer *_ped_Timer2PedTimer(PyObject *s);
