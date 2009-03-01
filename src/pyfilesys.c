@@ -551,6 +551,7 @@ PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
+    _ped_FileSystem *self = (_ped_FileSystem *) s;
     PyObject *in_geom = NULL, *in_timer = NULL;
     PedFileSystem *fs = NULL;
     PedGeometry *out_geom = NULL;
@@ -584,6 +585,9 @@ PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args) {
         out_timer = NULL;
 
     ret = ped_file_system_resize(fs, out_geom, out_timer);
+
+    if (ret)
+        *((_ped_Geometry *)self->geom)->ped_geometry = *(fs->geom);
 
     ped_file_system_destroy(fs);
     ped_timer_destroy(out_timer);
