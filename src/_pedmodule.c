@@ -314,12 +314,12 @@ PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
 PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
     int t = 0;
     int major = -1, minor = -1, update = -1;
-    char suffix[10];
+    char suffix[11];
 
     if (index(VERSION, '-')) {
         memset(&suffix, '\0', sizeof(suffix));
-
-        t = sscanf(VERSION, "%d.%d.%d-%s", &major, &minor, &update, &suffix);
+        t = sscanf(VERSION, "%d.%d.%d-%10s", &major, &minor, &update,
+                   (char *) &suffix);
         if ((t != 4) || (t == EOF)) {
             return NULL;
         }
