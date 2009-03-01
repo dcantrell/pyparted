@@ -52,9 +52,9 @@ typedef struct {
 
     /* PedGeometry members */
     PyObject *dev;                /* _ped.Device */
-    long long start;              /* PedSector   */
-    long long length;             /* PedSector   */
-    long long end;                /* PedSector   */
+
+    /* store the PedGeometry from libparted */
+    PedGeometry *ped_geometry;
 } _ped_Geometry;
 
 void _ped_Geometry_dealloc(_ped_Geometry *self);
