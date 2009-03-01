@@ -174,6 +174,7 @@ class Disk(object):
         """Add a new Partition to this Disk with the given Constraint."""
         if self.__disk.add_partition(partition.getPedPartition(),
                                      constraint.getPedConstraint()):
+            partition.geometry = parted.Geometry(PedGeometry=partition.getPedPartition().geom)
             self.partitions.invalidate()
             return True
         else:
