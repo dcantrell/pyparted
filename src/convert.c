@@ -501,26 +501,13 @@ PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
     PedGeometry *ret = NULL;
     PedDevice *dev = NULL;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
-    _ped_Device *device = (_ped_Device *) geometry->dev;
 
     if (geometry == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.Geometry()");
         return NULL;
     }
 
-    if (device == NULL) {
-        PyErr_SetString(PyExc_TypeError, "_ped.Geometry() missing 'dev'");
-        return NULL;
-    }
-
-    dev = ped_device_get(device->path);
-    ret = ped_geometry_new(dev, geometry->start, geometry->length);
-
-    if (ret == NULL) {
-        return (PedGeometry *) PyErr_NoMemory();
-    }
-
-    return ret;
+    return geometry->ped_geometry;
 }
 
 _ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry) {
