@@ -105,7 +105,7 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
         return NULL;
     }
 
-    geom = PyString_AsString(_ped_FileSystem_Type_obj.tp_repr(self->geom));
+    geom = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->geom));
     if (geom == NULL) {
         return NULL;
     }
