@@ -1243,44 +1243,7 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
-    _ped_Partition *in_part = NULL;
-    PedDisk *disk = NULL;
-    PedPartition *out_part = NULL;
-    int ret = 0;
-
-    if (!PyArg_ParseTuple(args, "O!", &_ped_Partition_Type_obj, &in_part)) {
-        return NULL;
-    }
-
-    disk = _ped_Disk2PedDisk(s);
-    if (disk == NULL) {
-        return NULL;
-    }
-
-    out_part = _ped_Partition2PedPartition(in_part);
-    if (out_part == NULL) {
-        return NULL;
-    }
-
-    ret = ped_disk_delete_partition(disk, out_part);
-    if (ret == 0) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException))
-                PyErr_SetString(PartitionException, partedExnMessage);
-        }
-        else
-            PyErr_Format(PartitionException, "Could not remove partition %s%d", out_part->disk->dev->path, out_part->num);
-
-        return NULL;
-    }
-
-    if (ret) {
-        Py_RETURN_TRUE;
-    } else {
-        Py_RETURN_FALSE;
-    }
+    return py_ped_disk_remove_partition(s, args);
 }
 
 PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
