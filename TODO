@@ -4,9 +4,6 @@
   the methods as Deprecated and leave them around for a release
   before removing them.
 
-- speed things up:
-      - accessing Disk.partitions
-
 - add parted.Device.toSectors() method that takes in a size specification,
   such as 10.5MB, as a string and converts that size to a sector count
   based on the sector size of that Device
@@ -25,9 +22,6 @@
 
 - Handle exceptions throughout the _ped module code.  Unique exceptions as
   much as possible.
-
-- Rename modules under _ped to use all lowercase names.  Make sure all classes
-  are named with studly caps (e.g., BigGiantWorthlessClass)
 
 - Figure out what, if anything, we can do with timers.  They are optional in
   libparted, but do we want to support them in pyparted?
