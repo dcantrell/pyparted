@@ -192,7 +192,7 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
 class DeviceFreeAllTestCase(RequiresDevice):
     def runTest(self):
         _ped.device_probe_all()
-        self.assetEquals(_ped.device_free_all(), None)
+        self.asset_(_ped.device_free_all() == None)
 
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
