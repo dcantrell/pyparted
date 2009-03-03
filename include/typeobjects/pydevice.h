@@ -2,7 +2,7 @@
  * pydevice.h
  * pyparted type objects for pydevice.c
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -139,6 +139,15 @@ static PyMethodDef _ped_Device_methods[] = {
               device_check_doc},
     {"get_constraint", (PyCFunction) py_ped_device_get_constraint,
                        METH_VARARGS, device_get_constraint_doc},
+
+    /*
+     * These functions are in pydisk.c, but they work best as
+     * methods on a _ped.Device.
+     */
+    {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
+                disk_clobber_doc},
+    {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
+                        METH_VARARGS, disk_clobber_exclude_doc},
 
     /*
      * These functions are in pyfilesys.c, but they work best

@@ -2,7 +2,7 @@
  * pydisk.h
  * pyparted docstrings for pydisk.c
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -81,17 +81,6 @@ PyDoc_STRVAR(partition_get_path_doc,
 "Return a path that could be used for addressing self at an operating system\n"
 "level.  For instance, on Linux this could return '/dev/sda' for a partition.\n"
 "If an error occurs, _ped.PartitionException is raised.");
-
-PyDoc_STRVAR(disk_clobber_doc,
-"clobber(self) -> boolean\n\n"
-"Remove all identifying information from a partition table.  If the partition\n"
-"table cannot be cleared, a _ped.DiskException is raised.");
-
-PyDoc_STRVAR(disk_clobber_exclude_doc,
-"clobber_exclude(self, DiskType) -> boolean\n\n"
-"Remove all identifiying information from a partition table except for tables\n"
-"of the given DiskType.  If the partition table cannot be cleared, a\n"
-"_ped.DiskException is raised.");
 
 PyDoc_STRVAR(disk_duplicate_doc,
 "duplicate(self) -> Disk\n\n"

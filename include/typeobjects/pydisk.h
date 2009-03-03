@@ -2,7 +2,7 @@
  * pydisk.h
  * pyparted type objects for pydisk.c
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -126,10 +126,6 @@ static PyMemberDef _ped_Disk_members[] = {
 };
 
 static PyMethodDef _ped_Disk_methods[] = {
-    {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
-                disk_clobber_doc},
-    {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
-                        METH_VARARGS, disk_clobber_exclude_doc},
     {"duplicate", (PyCFunction) py_ped_disk_duplicate, METH_VARARGS,
                   disk_duplicate_doc},
     {"destroy", (PyCFunction) py_ped_disk_destroy, METH_VARARGS,

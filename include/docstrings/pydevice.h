@@ -2,7 +2,7 @@
  * pydevice.h
  * pyparted docstrings for pydevice.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -106,6 +106,17 @@ PyDoc_STRVAR(device_check_doc,
 "check(self) -> long int\n\n"
 "Architecture-dependent function that returns the number of sectors on\n"
 "this Device that are ok.");
+
+PyDoc_STRVAR(disk_clobber_doc,
+"clobber(self) -> boolean\n\n"
+"Remove all identifying information from a partition table.  If the partition\n"
+"table cannot be cleared, a _ped.DiskException is raised.");
+
+PyDoc_STRVAR(disk_clobber_exclude_doc,
+"clobber_exclude(self, DiskType) -> boolean\n\n"
+"Remove all identifiying information from a partition table except for tables\n"
+"of the given DiskType.  If the partition table cannot be cleared, a\n"
+"_ped.DiskException is raised.");
 
 PyDoc_STRVAR(device_get_constraint_doc,
 "get_constraint(self) -> Constraint\n\n"
