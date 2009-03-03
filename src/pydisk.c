@@ -1190,7 +1190,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     }
 
     Py_XDECREF(in_part->geom);
-    in_part->geom = new_geom;
+    in_part->geom = (PyObject *) new_geom;
 
     if (ret) {
         Py_RETURN_TRUE;
