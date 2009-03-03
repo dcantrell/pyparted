@@ -1140,10 +1140,9 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
     PedConstraint *out_constraint = NULL;
-    _ped_Geometry *new_geom = NULL;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Partition_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!O!",&_ped_Partition_Type_obj,
                           &in_part, &_ped_Constraint_Type_obj, &in_constraint)) {
         return NULL;
     }
@@ -1181,16 +1180,9 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     in_part->num = out_part->num;
     in_part->type = out_part->type;
     in_part->_owned = 1;
+    *((_ped_Geometry *)in_part->geom)->ped_geometry = out_part->geom;
 
     ped_constraint_destroy(out_constraint);
-
-    new_geom = PedGeometry2_ped_Geometry(&(out_part->geom));
-    if (new_geom == NULL) {
-        return NULL;
-    }
-
-    Py_XDECREF(in_part->geom);
-    in_part->geom = (PyObject *) new_geom;
 
     if (ret) {
         Py_RETURN_TRUE;
