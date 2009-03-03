@@ -84,4 +84,7 @@
 - parted module:
       - Write docstrings for everything
 
+- autoconf
+      - More detailed API checks for libparted and Python
+
 ... and much much more
