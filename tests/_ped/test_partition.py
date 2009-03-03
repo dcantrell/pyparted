@@ -137,7 +137,7 @@ class PartitionSetNameTestCase(RequiresPartition):
         self.assertRaises(_ped.PartitionException, self._part.set_name, "blah")
 
         # These should work.
-        self._disk = _ped.Disk(self._device, _ped.disk_type_get("mac"))
+        self._disk = _ped.Disk(self._device)
         self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
                                     _ped.file_system_type_get("fat32"))
         self.assertTrue(self._part.set_name("blah"))
@@ -157,7 +157,7 @@ class PartitionGetNameTestCase(RequiresPartition):
         self.assertRaises(_ped.PartitionException, self._part.get_name)
 
         # Mac disk labels do support naming, but there still has to be a name.
-        self._disk = _ped.Disk(self._device, _ped.disk_type_get("mac"))
+        self._disk = _ped.Disk(self._device)
         self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
                                     _ped.file_system_type_get("fat32"))
         self.assertRaises(_ped.PartitionException, self._part.get_name)

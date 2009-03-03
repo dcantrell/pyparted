@@ -40,7 +40,7 @@ class RequiresDevice(unittest.TestCase):
 class RequiresDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        self._disk = _ped.Disk(self._device, _ped.disk_type_get("msdos"))
+        self._disk = _ped.Disk(self._device)
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
