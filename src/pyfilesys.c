@@ -350,10 +350,9 @@ PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_file_system_open(PyObject *s, PyObject *args) {
-    _ped_FileSystem *self = (_ped_FileSystem *) s;
     PedFileSystem *fs = NULL;
 
-    fs = _ped_FileSystem2PedFileSystem(self);
+    fs = _ped_FileSystem2PedFileSystem(s);
 
     if (fs) {
         Py_RETURN_TRUE;
