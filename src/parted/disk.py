@@ -120,18 +120,6 @@ class Disk(object):
               "ped": self.__disk})
         return s
 
-    def clobber(self, type=None):
-        """Remove all identifying signatures of the partition table.  If type
-           is not None, remove all identifying signatures of the partition
-           table, except for partition tables of that type.  type must be a
-           string matching a valid key in the diskType hash."""
-        self.partitions.invalidate()
-
-        if type is None:
-            return self.__disk.clobber()
-        else:
-            return self.__disk.clobber_exclude(diskType[type])
-
     def duplicate(self):
         """Make a deep copy of this Disk."""
         return Disk(PedDisk=self.__disk.duplicate())
