@@ -104,6 +104,15 @@ class Device(object):
               "ped": self.__device})
         return s
 
+    def clobber(self, type=None):
+        """Remove all identifying signatures of the partition table.  If type
+           is not None, remove all identifying signatures of the partition
+           table, except for partition tables of that type.  type must be a
+           string matching a valid key in the diskType hash."""
+        if type is None:
+            return self.__device.clobber()
+        else:
+            return self.__device.clobber_exclude(diskType[type])
 
     def open(self):
         """Open this Device for read operations."""
