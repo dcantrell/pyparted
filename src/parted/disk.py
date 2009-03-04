@@ -222,7 +222,12 @@ class Disk(object):
         """Reduce the size of the extended partition to a minimum while
            still wrapping its logical partitions.  If there are no logical
            partitions, remove the extended partition."""
-        return self.__disk.minimize_extended_partition()
+        ret = self.__disk.minimize_extended_partition()
+
+        if ret:
+            self.partitions.invalidate()
+
+        return ret
 
     def getPartitionBySector(self, sector):
         """Returns the Partition that contains the sector.  If the sector
