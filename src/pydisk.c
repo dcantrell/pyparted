@@ -335,7 +335,7 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
             partedExnRaised = 0;
 
             if (!PyErr_ExceptionMatches(PartedException)) {
-                PyErr_SetString(IOException, partedExnMessage);
+                PyErr_SetString(DiskLabelException, partedExnMessage);
             }
         } else {
             PyErr_Format(IOException, "Failed to read partition table from device %s", device->path);

@@ -31,6 +31,7 @@ PyObject *CreateException;
 PyObject *ConstraintException;
 PyObject *DeviceException;
 PyObject *DiskException;
+PyObject *DiskLabelException;
 PyObject *FileSystemException;
 PyObject *GeometryException;
 PyObject *IOException;
