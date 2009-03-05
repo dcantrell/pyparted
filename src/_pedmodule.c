@@ -545,6 +545,10 @@ PyMODINIT_FUNC init_ped(void) {
     Py_INCREF(DiskException);
     PyModule_AddObject(m, "DiskException", DiskException);
 
+    DiskLabelException = PyErr_NewException("_ped.DiskLabelException", NULL, NULL);
+    Py_INCREF(DiskLabelException);
+    PyModule_AddObject(m, "DiskLabelException", DiskLabelException);
+
     FileSystemException = PyErr_NewException("_ped.FileSystemException", NULL,
                                              NULL);
     Py_INCREF(FileSystemException);
