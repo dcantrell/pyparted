@@ -1317,6 +1317,8 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    *((_ped_Geometry *)in_part->geom)->ped_geometry = out_part->geom;
+
     if (ret) {
         Py_RETURN_TRUE;
     } else {
