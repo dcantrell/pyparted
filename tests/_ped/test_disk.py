@@ -17,9 +17,13 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
+
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -99,17 +103,29 @@ class DiskAddPartitionTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DiskRemovePartitionTestCase(unittest.TestCase):
+class DiskRemovePartitionTestCase(RequiresLabeledDisk):
+    def runTest(self):
+        # gather a list of all partitions on the disk
+        partitions = []
+        partition = self._disk.next_partition()
+
+        while partition:
+            partitions.append(partition)
+            partition = self._disk.next_partition(partition)
+
+        import pdb
+        pdb.set_trace()
+
+        # remove a partition
+        # re-gather list of partitions, see that the removed one is gone
+
+
+class DiskDeletePartitionTestCase(RequiresLabeledDisk):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DiskDeletePartitionTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class DiskDeleteAllTestCase(unittest.TestCase):
+class DiskDeleteAllTestCase(RequiresLabeledDisk):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
