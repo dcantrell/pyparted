@@ -436,7 +436,9 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddIntConstant(m, "DEVICE_DASD", PED_DEVICE_DASD);
     PyModule_AddIntConstant(m, "DEVICE_VIODASD", PED_DEVICE_VIODASD);
     PyModule_AddIntConstant(m, "DEVICE_SX8", PED_DEVICE_SX8);
+#ifdef PED_DEVICE_DM
     PyModule_AddIntConstant(m, "DEVICE_DM", PED_DEVICE_DM);
+#endif
     PyModule_AddIntConstant(m, "DEVICE_XVD", PED_DEVICE_XVD);
 
     /* add PedTimer type as _ped.Timer */
