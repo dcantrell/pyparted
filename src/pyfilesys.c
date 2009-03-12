@@ -67,7 +67,10 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
     }
 
     if (!strcmp(member, "name")) {
-        return PyString_FromString(self->name);
+        if (self->name != NULL)
+            return PyString_FromString(self->name);
+        else
+            return PyString_FromString("");
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.FileSystemType object has no attribute %s", member);
         return NULL;

@@ -81,6 +81,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
+    const char *name;
     long unit;
 
     if (!PyArg_ParseTuple(args, "i", &unit)) {
@@ -92,7 +93,11 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyString_FromString(ped_unit_get_name(unit));
+    name = ped_unit_get_name(unit);
+    if (name != NULL)
+        return PyString_FromString(name);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
@@ -135,8 +140,10 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom_byte(out_dev, sector, unit);
-
-    return PyString_FromString(ret);
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
@@ -154,8 +161,10 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_byte(out_dev, sector);
-
-    return PyString_FromString(ret);
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
@@ -176,8 +185,10 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom(out_dev, sector, unit);
-
-    return PyString_FromString(ret);
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
@@ -196,8 +207,10 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format(out_dev, sector);
-
-    return PyString_FromString(ret);
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {

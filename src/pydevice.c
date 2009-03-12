@@ -162,9 +162,15 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
     }
 
     if (!strcmp(member, "model")) {
-        return PyString_FromString(self->model);
+        if (self->model != NULL)
+            return PyString_FromString(self->model);
+        else
+            return PyString_FromString("");
     } else if (!strcmp(member, "path")) {
-        return PyString_FromString(self->path);
+        if (self->path != NULL)
+            return PyString_FromString(self->path);
+        else
+            return PyString_FromString("");
     } else if (!strcmp(member, "type")) {
         return PyLong_FromLongLong(self->type);
     } else if (!strcmp(member, "sector_size")) {
