@@ -390,7 +390,10 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     }
 
     if (!strcmp(member, "name")) {
-        return PyString_FromString(self->name);
+        if (self->name != NULL)
+            return PyString_FromString(self->name);
+        else
+            return PyString_FromString("");
     } else if (!strcmp(member, "features")) {
         return PyLong_FromLongLong(self->features);
     } else {
@@ -1085,7 +1088,10 @@ PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
         ret = (char *) ped_partition_type_get_name(type);
     }
 
-    return PyString_FromString(ret);
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {

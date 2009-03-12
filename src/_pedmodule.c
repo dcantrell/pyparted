@@ -308,7 +308,11 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
 PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
     char *ret = (char *) ped_get_version();
-    return PyString_FromString(ret);
+
+    if (ret != NULL)
+        return PyString_FromString(ret);
+    else
+        return PyString_FromString("");
 }
 
 PyObject *py_pyparted_version(PyObject *s, PyObject *args) {

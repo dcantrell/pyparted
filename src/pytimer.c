@@ -112,7 +112,10 @@ PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
     } else if (!strcmp(member, "predicted_end")) {
         return Py_BuildValue("d", self->predicted_end);
     } else if (!strcmp(member, "state_name")) {
-        return PyString_FromString(self->state_name);
+        if (self->state_name != NULL)
+            return PyString_FromString(self->state_name);
+        else
+            return PyString_FromString("");
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);
         return NULL;
