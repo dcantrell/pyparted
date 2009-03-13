@@ -79,7 +79,10 @@ from _ped import DEVICE_UBD
 from _ped import DEVICE_DASD
 from _ped import DEVICE_VIODASD
 from _ped import DEVICE_SX8
-from _ped import DEVICE_DM
+try:
+    from _ped import DEVICE_DM
+except:
+    pass
 from _ped import DEVICE_XVD
 
 from _ped import PARTITION_NORMAL
