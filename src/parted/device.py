@@ -61,30 +61,102 @@ class Device(object):
 
         return self.model != other.model or self.path != other.path or self.type != other.type or self.length != other.length
 
-    def __readOnly(self, property):
-        raise parted.ReadOnlyProperty, property
-
     def __getCHS(self, geometry):
         return (geometry.cylinders, geometry.heads, geometry.sectors)
 
-    model = property(lambda s: s.__device.model, lambda s, v: s.__readOnly("model"))
-    path = property(lambda s: s.__device.path, lambda s, v: s.__readOnly("path"))
-    type = property(lambda s: s.__device.type, lambda s, v: s.__readOnly("type"))
-    sectorSize = property(lambda s: s.__device.sector_size, lambda s, v: s.__readOnly("sectorSize"))
-    physicalSectorSize = property(lambda s: s.__device.phys_sector_size, lambda s, v: s.__readOnly("physicalSectorSize"))
-    length = property(lambda s: s.__device.length, lambda s, v: s.__readOnly("length"))
-    openCount = property(lambda s: s.__device.open_count, lambda s, v: s.__readOnly("openCount"))
-    readOnly = property(lambda s: s.__device.read_only, lambda s, v: s.__readOnly("readOnly"))
-    externalMode = property(lambda s: s.__device.external_mode, lambda s, v: s.__readOnly("externalMode"))
-    dirty = property(lambda s: s.__device.dirty, lambda s, v: s.__readOnly("dirty"))
-    bootDirty = property(lambda s: s.__device.boot_dirty, lambda s, v: s.__readOnly("bootDirty"))
-    host = property(lambda s: s.__device.host, lambda s, v: s.__readOnly("host"))
-    did = property(lambda s: s.__device.did, lambda s, v: s.__readOnly("did"))
+    @property
+    def model(self):
+        """Model name and vendor of this device."""
+        return self.__device.model
 
-    busy = property(lambda s: s.__device.is_busy(), lambda s, v: s.__readOnly("busy"))
+    @property
+    def path(self):
+        """Filesystem node path of this device (e.g., /dev/sda)."""
+        return self.__device.path
 
-    hardwareGeometry = property(lambda s: s.__getCHS(geometry=s.__device.hw_geom), lambda s, v: s.__readOnly("hardwareGeometry"))
-    biosGeometry = property(lambda s: s.__getCHS(geometry=s.__device.bios_geom), lambda s, v: s.__readOnly("biosGeometry"))
+    @property
+    def type(self):
+        """Type of this device.  An integer constant corresponding
+           to one of the parted.DEVICE_* values.
+        """
+        return self.__device.type
+
+    @property
+    def sectorSize(self):
+        """Sector size (in bytes) for this device."""
+        return self.__device.sector_size
+
+    @property
+    def physicalSectorSize(self):
+        """Physical sector size (in bytes) for this device.  Not always
+           the same as sectorSize, but is a multiple of sectorSize.
+        """
+        return self.__device.phys_sector_size
+
+    @property
+    def length(self):
+        """The size of this device in sectors."""
+        return self.__device.length
+
+    @property
+    def openCount(self):
+        """How many times the open() method has been called on this device."""
+        return self.__device.open_count
+
+    @property
+    def readOnly(self):
+        """True if the device is currently in read-only mode, False
+           otherwise.
+        """
+        return bool(self.__device.read_only)
+
+    @property
+    def externalMode(self):
+        """True if external access mode is currently activated on this
+           device, False otherwise.  External access mode has to be used
+           if you want to use an external command on the device while
+           you are currently using it in pyparted.
+        """
+        return bool(self.__device.external_mode)
+
+    @property
+    def dirty(self):
+        """True if the device is marked dirty, False otherwise."""
+        return bool(self.__device.dirty)
+
+    @property
+    def bootDirty(self):
+        """True if the device is marked boot dirty, False otherwise."""
+        return bool(self.__device.boot_dirty)
+
+    @property
+    def host(self):
+        """The host value of this device."""
+        return self.__device.host
+
+    @property
+    def did(self):
+        """The did value of this device."""
+        return self.__device.did
+
+    @property
+    def busy(self):
+        """True if this device is busy, False otherwise."""
+        return bool(self.__device.busy)
+
+    @property
+    def hardwareGeometry(self):
+        """A 3-tuple representing the hardware geometry of this device.
+           The tuple is in order of cylinders, heads, and sectors.
+        """
+        return self.__getCHS(self.__device.hw_geom)
+
+    @property
+    def biosGeometry(self):
+        """A 3-tuple representing the BIOS geometry of this device.
+           The tuple is in order of cylinders, heads, and sectors.
+        """
+        return self.__getCHS(self.__device.bios_geom)
 
     def __str__(self):
         s = ("parted.Device instance --\n"
