@@ -69,14 +69,6 @@ class Geometry(object):
 
         return self.device != other.device or self.start != other.start or self.length != other.length
 
-    def __readOnly(self, property):
-        raise parted.ReadOnlyProperty, property
-
-    start = property(lambda s: s.__geometry.start, lambda s, v: s.__geometry.set_start(v))
-    end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
-    length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
-    device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
-
     def __str__(self):
         s = ("parted.Geometry instance --\n"
              "  start: %(start)s  end: %(end)s  length: %(length)s\n"
@@ -84,6 +76,15 @@ class Geometry(object):
              {"start": self.start, "end": self.end, "length": self.length,
               "device": self.device, "ped": self.__geometry})
         return s
+
+    @property
+    def device(self):
+        """The Device this geometry describes."""
+        return self._device
+
+    start = property(lambda s: s.__geometry.start, lambda s, v: s.__geometry.set_start(v))
+    end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
+    length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
 
     def check(self, offset, granularity, count, timer=None):
         """Check the region described by self for errors on the disk.

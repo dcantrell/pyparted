@@ -73,30 +73,6 @@ class Partition(object):
 
         return self.path != other.path or self.type != other.type or self.geometry != other.geometry or self.fileSystem != other.fileSystem
 
-    def __readOnly(self, property):
-        raise parted.ReadOnlyProperty, property
-
-    def __writeOnly(self, property):
-        raise parted.WriteOnlyProperty, property
-
-    active = property(lambda s: s.__partition.is_active(), lambda s, v: s.__readOnly("active"))
-    busy = property(lambda s: s.__partition.is_busy(), lambda s, v: s.__readOnly("busy"))
-
-    #
-    # XXX: disk, fileSystem, and geometry need to set the property in
-    # s.__partition as writing to the properties that we have here...maybe?
-    # figure this out.
-    #
-    disk = property(lambda s: s._disk, lambda s, v: s.__readOnly("disk"))
-    fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
-    geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
-
-    number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
-    path = property(lambda s: s.__partition.get_path(), lambda s, v: s.__readOnly("path"))
-    system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
-    type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
-    name = property(lambda s: s.__partition.get_name(), lambda s, v: s.__readOnly("name"))
-
     def __str__(self):
         try:
             name = self.name
@@ -113,6 +89,40 @@ class Partition(object):
               "type": self.type, "name": name, "active": self.active,
               "busy": self.busy, "ped": self.__partition})
         return s
+
+    def __writeOnly(self, property):
+        raise parted.WriteOnlyProperty, property
+
+    @property
+    def active(self):
+        """True if the partition is active, False otherwise."""
+        return bool(self.__partition.is_active())
+
+    @property
+    def busy(self):
+        """True if the partition is active, False otherwise."""
+        return bool(self.__partition.is_busy())
+
+    @property
+    def disk(self):
+        """The Disk this partition belongs to."""
+        return self._disk
+
+    @property
+    def path(self):
+        """The filesystem path to this partition's device node."""
+        return self.__partition.get_path()
+
+    @property
+    def name(self):
+        """The name of this partition."""
+        return self.__partition.get_name()
+
+    fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
+    geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
+    number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
+    system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
+    type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
 
     def getFlag(self, flag):
         """Get the value of a particular flag on the partition.  Valid flags

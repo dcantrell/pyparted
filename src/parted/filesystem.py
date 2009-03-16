@@ -53,9 +53,6 @@ class FileSystem(object):
             else:
                 self._checked = False
 
-    def __readOnly(self, property):
-        raise parted.ReadOnlyProperty, property
-
     def __eq__(self, other):
         return not self.__ne__(other)
 
@@ -68,10 +65,6 @@ class FileSystem(object):
 
         return self.type != other.type or self.geometry != other.geometry
 
-    type = property(lambda s: s._type, lambda s, v: s.__readOnly("type"))
-    geometry = property(lambda s: s._geometry, lambda s, v: s.__readOnly("geometry"))
-    checked = property(lambda s: s._checked, lambda s, v: s.__readOnly("checked"))
-
     def __str__(self):
         s = ("parted.FileSystem instance --\n"
              "  type: %(type)s  geometry: %(geometry)r  checked: %(checked)s\n"
@@ -79,6 +72,21 @@ class FileSystem(object):
              {"type": self.type, "geometry": self.geometry,
               "checked": self.checked, "ped": self.__fileSystem})
         return s
+
+    @property
+    def type(self):
+        """The type of this filesystem, e.g. ext3."""
+        return self._type
+
+    @property
+    def geometry(self):
+        """The Geometry object describing this filesystem."""
+        return self._geometry
+
+    @property
+    def checked(self):
+        """True if this filesystem has been checked, False otherwise."""
+        return bool(self._checked)
 
     def clobber(self):
         return self.__fileSystem.clobber()
