@@ -78,8 +78,18 @@ class Disk(object):
 
         return self.device != other.device or not self._hasSameParts(other)
 
-    def __readOnly(self, property):
-        raise parted.ReadOnlyProperty, property
+    def __str__(self):
+        s = ("parted.Disk instance --\n"
+             "  type: %(type)s  primaryPartitionCount: %(primaryCount)s\n"
+             "  lastPartitionNumber: %(last)s  maxPrimaryPartitionCount: %(max)s\n"
+             "  partitions: %(partitions)s\n"
+             "  device: %(device)r\n"
+             "  PedDisk: %(ped)r" %
+             {"type": self.type, "primaryCount": self.primaryPartitionCount,
+              "last": self.lastPartitionNumber, "max": self.maxPrimaryPartitionCount,
+              "partitions": self.partitions, "device": self.device,
+              "ped": self.__disk})
+        return s
 
     def __getPartitions(self):
         """Construct a list of partitions on the disk.  This is called only as
@@ -100,25 +110,32 @@ class Disk(object):
 
         return partitions
 
-    type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
-    primaryPartitionCount = property(lambda s: s.__disk.get_primary_partition_count(), lambda s, v: s.__readOnly("primaryPartitionCount"))
-    lastPartitionNumber = property(lambda s: s.__disk.get_last_partition_num(), lambda s, v: s.__readOnly("lastPartitionNumber"))
-    maxPrimaryPartitionCount = property(lambda s: s.__disk.get_max_primary_partition_count(), lambda s, v: s.__readOnly("maxPrimaryPartitionCount"))
-    partitions = property(lambda s: s._partitions, lambda s, v: s.__readOnly("partitions"))
-    device = property(lambda s: s._device, lambda s, v: s.__readOnly("device"))
+    @property
+    def primaryPartitionCount(self):
+        """The number of primary partitions on this disk."""
+        return self.__disk.get_primary_partition_count()
 
-    def __str__(self):
-        s = ("parted.Disk instance --\n"
-             "  type: %(type)s  primaryPartitionCount: %(primaryCount)s\n"
-             "  lastPartitionNumber: %(last)s  maxPrimaryPartitionCount: %(max)s\n"
-             "  partitions: %(partitions)s\n"
-             "  device: %(device)r\n"
-             "  PedDisk: %(ped)r" %
-             {"type": self.type, "primaryCount": self.primaryPartitionCount,
-              "last": self.lastPartitionNumber, "max": self.maxPrimaryPartitionCount,
-              "partitions": self.partitions, "device": self.device,
-              "ped": self.__disk})
-        return s
+    @property
+    def lastPartitionNumber(self):
+        """The last assigned partition number currently on this disk."""
+        return self.__disk.get_last_partition_num()
+
+    @property
+    def maxPrimaryPartitionCount(self):
+        """The maximum number of primary partitions allowed on this disk."""
+        return self.__disk.get_max_primary_partition_count()
+
+    @property
+    def partitions(self):
+        """The list of partitions currently on this disk."""
+        return self._partitions
+
+    @property
+    def device(self):
+        """The underlying Device holding this disk and partitions."""
+        return s._device
+
+    type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
 
     def duplicate(self):
         """Make a deep copy of this Disk."""
