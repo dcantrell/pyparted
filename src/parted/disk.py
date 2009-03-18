@@ -133,7 +133,7 @@ class Disk(object):
     @property
     def device(self):
         """The underlying Device holding this disk and partitions."""
-        return s._device
+        return self._device
 
     type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
 
