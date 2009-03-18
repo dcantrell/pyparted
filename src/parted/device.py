@@ -142,7 +142,7 @@ class Device(object):
     @property
     def busy(self):
         """True if this device is busy, False otherwise."""
-        return bool(self.__device.busy)
+        return self.__device.is_busy()
 
     @property
     def hardwareGeometry(self):
