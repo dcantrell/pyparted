@@ -116,7 +116,10 @@ class Partition(object):
     @property
     def name(self):
         """The name of this partition."""
-        return self.__partition.get_name()
+        try:
+            return self.__partition.get_name()
+        except parted.PartitionException as msg:
+            return None
 
     fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
