@@ -1217,6 +1217,11 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (out_part->part_list != NULL) {
+        PyErr_SetString(PartitionException, "Attempting to remove an extended partition that still contains logical partitions");
+        return NULL;
+    }
+
     ret = ped_disk_remove_partition(disk, out_part);
     if (ret == 0) {
         if (partedExnRaised) {
