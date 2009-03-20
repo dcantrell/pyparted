@@ -24,6 +24,7 @@
 import math
 import _ped
 import parted
+from disk import diskType
 
 class Device(object):
     """Device()
