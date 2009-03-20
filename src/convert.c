@@ -597,7 +597,8 @@ PedPartition *_ped_Partition2PedPartition(_ped_Partition *s) {
     return s->ped_partition;
 }
 
-_ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
+_ped_Partition *PedPartition2_ped_Partition(PedPartition *part,
+        _ped_Disk *pydisk) {
     _ped_Partition *ret = NULL;
 
     if (part == NULL) {
@@ -605,13 +606,17 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part) {
         return NULL;
     }
 
+    if (pydisk == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped_Disk()");
+        return NULL;
+    }
+
     ret = (_ped_Partition *) _ped_Partition_Type_obj.tp_new(&_ped_Partition_Type_obj, NULL, NULL);
     if (!ret)
         return (_ped_Partition *) PyErr_NoMemory();
 
-    ret->disk = (PyObject *)PedDisk2_ped_Disk(part->disk);
-    if (!ret->disk)
-        goto error;
+    ret->disk = (PyObject *)pydisk;
+    Py_INCREF(ret->disk);
 
     ret->geom = (PyObject *)PedGeometry2_ped_Geometry(&part->geom);
     if (!ret->geom)

@@ -1512,7 +1512,7 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
         return Py_None;
     }
 
-    ret = PedPartition2_ped_Partition(pass_part);
+    ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);
     if (ret == NULL) {
         return NULL;
     }
@@ -1539,7 +1539,7 @@ PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
             return NULL;
         }
 
-        ret = PedPartition2_ped_Partition(pass_part);
+        ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);
         if (ret == NULL) {
             return NULL;
         }
@@ -1573,7 +1573,7 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = PedPartition2_ped_Partition(pass_part);
+    ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);
     if (ret == NULL) {
         return NULL;
     }
@@ -1595,7 +1595,7 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
             return NULL;
         }
 
-        ret = PedPartition2_ped_Partition(pass_part);
+        ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);
         if (ret == NULL) {
             return NULL;
         }
