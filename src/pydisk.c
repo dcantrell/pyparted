@@ -1317,6 +1317,7 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    out_part->disk = disk;
     ret = ped_disk_set_partition_geom(disk, out_part, out_constraint,
                                       start, end);
 
