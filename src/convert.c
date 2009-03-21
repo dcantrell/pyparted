@@ -498,8 +498,6 @@ _ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemTy
 
 /* _ped_Geometry -> PedGeometry functions */
 PedGeometry *_ped_Geometry2PedGeometry(PyObject *s) {
-    PedGeometry *ret = NULL;
-    PedDevice *dev = NULL;
     _ped_Geometry *geometry = (_ped_Geometry *) s;
 
     if (geometry == NULL) {
