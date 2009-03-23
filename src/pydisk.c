@@ -1174,6 +1174,11 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (out_part->disk != disk) {
+        PyErr_SetString(PartitionException, "Cannot add a partition to another disk then the one used for creating the partition");
+        return NULL;
+    }
+
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
     if (out_constraint == NULL) {
         return NULL;
@@ -1232,6 +1237,11 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
 
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part == NULL) {
+        return NULL;
+    }
+
+    if (out_part->disk != disk) {
+        PyErr_SetString(PartitionException, "Partition is not part of the disk it is being removed from");
         return NULL;
     }
 
@@ -1330,6 +1340,11 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (out_part->disk != disk) {
+        PyErr_SetString(PartitionException, "partition.disk does not match disk");
+        return NULL;
+    }
+
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
     if (out_constraint == NULL) {
         return NULL;
@@ -1386,6 +1401,11 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (out_part->disk != disk) {
+        PyErr_SetString(PartitionException, "partition.disk does not match disk");
+        return NULL;
+    }
+
     out_constraint = _ped_Constraint2PedConstraint(in_constraint);
     if (out_constraint == NULL) {
         return NULL;
@@ -1438,6 +1458,11 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
 
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part == NULL) {
+        return NULL;
+    }
+
+    if (out_part->disk != disk) {
+        PyErr_SetString(PartitionException, "partition.disk does not match disk");
         return NULL;
     }
 
@@ -1521,6 +1546,11 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
     if (in_part) {
         out_part = _ped_Partition2PedPartition(in_part);
         if (out_part == NULL) {
+            return NULL;
+        }
+
+        if (out_part->disk != disk) {
+            PyErr_SetString(PartitionException, "partition.disk does not match disk");
             return NULL;
         }
     }
