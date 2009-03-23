@@ -195,6 +195,9 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
 
     self->ped_partition = part;
 
+    /* On creation the object is not owned by any disk */
+    self->_owned = 0;
+
     return 0;
 }
 
@@ -1158,6 +1161,14 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /* Its non-sense to add an owned partition */
+    if (in_part->_owned == 1) {
+        PyErr_SetString(PartitionException, "Attempting to add a partition "
+                                            "that is already owned by a disk.");
+        return NULL;
+    }
+
+
     out_part = _ped_Partition2PedPartition(in_part);
     if (out_part == NULL) {
         return NULL;
@@ -1209,6 +1220,13 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
 
     disk = _ped_Disk2PedDisk(s);
     if (disk == NULL) {
+        return NULL;
+    }
+
+    /* Its non-sense  to remove an unowned partition */
+    if (in_part->_owned == 0) {
+        PyErr_SetString(PartitionException, "Attempting to remove a partition "
+                                            "that is not owned by any disk.");
         return NULL;
     }
 
