@@ -177,8 +177,13 @@ class Disk(object):
 
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
-        if self.__disk.add_partition(partition.getPedPartition(),
-                                     constraint.getPedConstraint()):
+        if constraint:
+            result = self.__disk.add_partition(partition.getPedPartition(),
+                                               constraint.getPedConstraint())
+        else:
+            result = self.__disk.add_partition(partition.getPedPartition())
+
+        if result:
             partition.geometry = parted.Geometry(PedGeometry=partition.getPedPartition().geom)
             self.partitions.invalidate()
             return True
@@ -227,13 +232,19 @@ class Disk(object):
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
-        return self.__disk.maximize_partition(partition.getPedPartition(),
-                                              constraint.getPedConstraint())
+        if constraint:
+            return self.__disk.maximize_partition(partition.getPedPartition(),
+                                                  constraint.getPedConstraint())
+        else:
+            return self.__disk.maximize_partition(partition.getPedPartition())
 
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
            subject to the given Constraint."""
-        return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))
+        if constraint:
+            return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))
+        else:
+            return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition()))
 
     def minimizeExtendedPartition(self):
         """Reduce the size of the extended partition to a minimum while
