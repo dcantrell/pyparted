@@ -1187,6 +1187,10 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     }
 
     ret = ped_disk_add_partition(disk, out_part, out_constraint);
+
+    if (out_constraint)
+        ped_constraint_destroy(out_constraint);
+
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -1205,9 +1209,6 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     in_part->type = out_part->type;
     in_part->_owned = 1;
     *((_ped_Geometry *)in_part->geom)->ped_geometry = out_part->geom;
-
-    if (out_constraint)
-        ped_constraint_destroy(out_constraint);
 
     if (ret) {
         Py_RETURN_TRUE;
