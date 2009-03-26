@@ -1151,7 +1151,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     PedConstraint *out_constraint = NULL;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O!O!",&_ped_Partition_Type_obj,
+    if (!PyArg_ParseTuple(args, "O!|O!",&_ped_Partition_Type_obj,
                           &in_part, &_ped_Constraint_Type_obj, &in_constraint)) {
         return NULL;
     }
@@ -1179,9 +1179,11 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-    if (out_constraint == NULL) {
-        return NULL;
+    if (in_constraint) {
+        out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+        if (out_constraint == NULL) {
+            return NULL;
+        }
     }
 
     ret = ped_disk_add_partition(disk, out_part, out_constraint);
@@ -1204,7 +1206,8 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     in_part->_owned = 1;
     *((_ped_Geometry *)in_part->geom)->ped_geometry = out_part->geom;
 
-    ped_constraint_destroy(out_constraint);
+    if (out_constraint)
+        ped_constraint_destroy(out_constraint);
 
     if (ret) {
         Py_RETURN_TRUE;
@@ -1324,9 +1327,14 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
     PedSector start, end;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O!O!LL", &_ped_Partition_Type_obj, &in_part,
-                          &_ped_Constraint_Type_obj, &in_constraint,
-                          &start, &end)) {
+    if (!PyArg_ParseTuple(args, "O!OLL", &_ped_Partition_Type_obj, &in_part,
+                          &in_constraint, &start, &end)) {
+        return NULL;
+    }
+
+    if (in_constraint != Py_None && !PyObject_IsInstance(in_constraint,
+                                      (PyObject *)&_ped_Constraint_Type_obj)) {
+        PyErr_SetString(PyExc_ValueError, "invalid constraint type");
         return NULL;
     }
 
@@ -1345,15 +1353,18 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-    if (out_constraint == NULL) {
-        return NULL;
+    if (in_constraint != Py_None) {
+        out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+        if (out_constraint == NULL) {
+            return NULL;
+        }
     }
 
     ret = ped_disk_set_partition_geom(disk, out_part, out_constraint,
                                       start, end);
 
-    ped_constraint_destroy(out_constraint);
+    if (out_constraint)
+        ped_constraint_destroy(out_constraint);
 
     if (ret == 0) {
         if (partedExnRaised) {
@@ -1385,7 +1396,7 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
     PedConstraint *out_constraint = NULL;
     int ret = 0;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Partition_Type_obj, &in_part,
+    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_Partition_Type_obj, &in_part,
                           &_ped_Constraint_Type_obj, &in_constraint)) {
         return NULL;
     }
@@ -1405,14 +1416,17 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-    if (out_constraint == NULL) {
-        return NULL;
+    if (in_constraint) {
+        out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+        if (out_constraint == NULL) {
+            return NULL;
+        }
     }
 
     ret = ped_disk_maximize_partition(disk, out_part, out_constraint);
 
-    ped_constraint_destroy(out_constraint);
+    if (out_constraint)
+        ped_constraint_destroy(out_constraint);
 
     if (ret == 0) {
         if (partedExnRaised) {
@@ -1445,7 +1459,7 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
     PedGeometry *pass_geom = NULL;
     _ped_Geometry *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_Partition_Type_obj, &in_part,
+    if (!PyArg_ParseTuple(args, "O!|O!", &_ped_Partition_Type_obj, &in_part,
                           &_ped_Constraint_Type_obj, &in_constraint)) {
         return NULL;
     }
@@ -1465,14 +1479,17 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_constraint = _ped_Constraint2PedConstraint(in_constraint);
-    if (out_constraint == NULL) {
-        return NULL;
+    if (in_constraint) {
+        out_constraint = _ped_Constraint2PedConstraint(in_constraint);
+        if (out_constraint == NULL) {
+            return NULL;
+        }
     }
 
     pass_geom = ped_disk_get_max_partition_geometry(disk, out_part,
                                                     out_constraint);
-    ped_constraint_destroy(out_constraint);
+    if (out_constraint)
+        ped_constraint_destroy(out_constraint);
 
     if (pass_geom == NULL) {
         if (partedExnRaised) {
