@@ -160,7 +160,8 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException)) {
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
                 PyErr_SetString(PartitionException, partedExnMessage);
             }
         } else {
@@ -337,7 +338,8 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException)) {
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
                 PyErr_SetString(DiskLabelException, partedExnMessage);
             }
         } else {
@@ -551,7 +553,8 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
@@ -607,7 +610,8 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
@@ -638,7 +642,8 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
@@ -669,7 +674,8 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
@@ -700,7 +706,8 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
@@ -845,7 +852,8 @@ PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
@@ -984,7 +992,8 @@ PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
@@ -1025,7 +1034,8 @@ PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
@@ -1195,7 +1205,8 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
@@ -1266,7 +1277,8 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
@@ -1299,7 +1311,8 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
@@ -1371,7 +1384,8 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
@@ -1433,7 +1447,8 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
@@ -1496,7 +1511,8 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
@@ -1524,7 +1540,8 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
             if (partedExnRaised) {
                 partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException))
+                if (!PyErr_ExceptionMatches(PartedException) &&
+                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                     PyErr_SetString(PartitionException, partedExnMessage);
             }
             else
@@ -1703,7 +1720,8 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(PartitionException, partedExnMessage);
         }
         else
