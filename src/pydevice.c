@@ -332,7 +332,8 @@ PyObject *py_ped_device_open(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -374,7 +375,8 @@ PyObject *py_ped_device_close(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -448,7 +450,8 @@ PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -485,7 +488,8 @@ PyObject *py_ped_device_end_external_access(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -536,7 +540,8 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -587,7 +592,8 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -623,7 +629,8 @@ PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
@@ -663,7 +670,8 @@ PyObject *py_ped_device_sync_fast(PyObject *s, PyObject *args) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
-            if (!PyErr_ExceptionMatches(PartedException))
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
         }
         else
