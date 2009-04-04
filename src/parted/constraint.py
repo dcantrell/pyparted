@@ -19,6 +19,7 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 
 import parted
@@ -33,9 +34,7 @@ class Constraint(object):
        constraint operations can raise CreateException if creating temporary
        objects fails, or ArithmeticError if an error occurs during
        calculations."""
-    def __init__(self, minGeom=None, maxGeom=None, exactGeom=None,
-                 device=None, startAlign=None, endAlign=None, startRange=None,
-                 endRange=None, minSize=None, maxSize=None, PedConstraint=None):
+    def __init__(self, *args, **kwargs):
         """Create a new Constraint object.  There are many different ways to
            create a Constraint, all depending on the parameters passed to
            __init__.  If minGeom and maxGeom are supplied, the constraint will
@@ -48,26 +47,35 @@ class Constraint(object):
            If none of the previously mentioned parameters are supplied, all of
            startAlign, EndAlign, startRange, endRange, minSize, and maxSize
            must be given."""
-        if PedConstraint:
-            self.__constraint = PedConstraint
-        elif minGeom and maxGeom:
-            self.__constraint = _ped.constraint_new_from_min_max(minGeom.getPedGeometry(), maxGeom.getPedGeometry())
-        elif minGeom:
-            self.__constraint = _ped.constraint_new_from_min(minGeom.getPedGeometry())
-        elif maxGeom:
-            self.__constraint = _ped.constraint_new_from_max(maxGeom.getPedGeometry())
-        elif exactGeom:
-            self.__constraint = _ped.constraint_exact(exactGeom.getPedGeometry())
-        elif device:
-            self.__constraint = _ped.constraint_any(device.getPedDevice())
-        elif startAlign and endAlign and \
-             startRange and endRange and \
-             minSize and maxSize:
-            self.__constraint = _ped.Constraint(startAlign.getPedAlignment(),
-                                                endAlign.getPedAlignment(),
-                                                startRange.getPedGeometry(),
-                                                endRange.getPedGeometry(),
-                                                minSize, maxSize)
+        if kwargs.has_key("PedConstraint"):
+            self.__constraint = kwargs.get("PedConstraint")
+        elif kwargs.has_key("minGeom") and kwargs.has_key("maxGeom"):
+            ming = kwargs.get("minGeom").getPedGeometry()
+            maxg = kwargs.get("maxGeom").getPedGeometry()
+            self.__constraint = _ped.constraint_new_from_min_max(ming, maxg)
+        elif kwargs.has_key("minGeom"):
+            ming = kwargs.get("minGeom").getPedGeometry()
+            self.__constraint = _ped.constraint_new_from_min(ming)
+        elif kwargs.has_key("maxGeom"):
+            maxg = kwargs.get("maxGeom").getPedGeometry()
+            self.__constraint = _ped.constraint_new_from_max(maxg)
+        elif kwargs.has_key("exactGeom"):
+            exact = kwargs.get("exactGeom").getPedGeometry()
+            self.__constraint = _ped.constraint_exact(exact)
+        elif kwargs.has_key("device"):
+            dev = kwargs.get("device").getPedDevice()
+            self.__constraint = _ped.constraint_any(dev)
+        elif kwargs.has_key("startAlign") and kwargs.has_key("endAlign") and \
+             kwargs.has_key("startRange") and kwargs.has_key("endRange") and \
+             kwargs.has_key("minSize") and kwargs.has_key("maxSize"):
+            starta = kwargs.get("startAlign").getPedAlignment()
+            enda = kwargs.get("endAlign").getPedAlignment()
+            startr = kwargs.get("startRange").getPedGeometry()
+            endr = kwargs.get("endRange").getPedGeometry()
+            mins = kwargs.get("minSize")
+            maxs = kwargs.get("maxSize")
+            self.__constraint = _ped.Constraint(starta, enda, startr, endr,
+                                                mins, maxs)
         else:
             raise parted.ConstraintException, "missing initialization parameters"
 
