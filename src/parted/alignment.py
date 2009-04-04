@@ -19,6 +19,7 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 
 import parted
@@ -32,13 +33,14 @@ class Alignment(object):
        a specific sector multiple on a device, or that a geometry must start
        and end at sectors at those specific multiples.  Most methods on this
        object raise ArithmeticError if calculating alignments fails."""
-    def __init__(self, offset=None, grainSize=None, PedAlignment=None):
+    def __init__(self, *args, **kwargs):
         """Create a new Alignment object from the sectors offset and
            grainSize."""
-        if PedAlignment:
-            self.__alignment = PedAlignment
-        elif offset is not None and grainSize is not None:
-            self.__alignment = _ped.Alignment(offset, grainSize)
+        if kwargs.has_key("PedAlignment"):
+            self.__alignment = kwargs.get("PedAlignment")
+        elif kwargs.has_key("offset") and kwargs.has_key("grainSize"):
+            self.__alignment = _ped.Alignment(kwargs.get("offset"),
+                                              kwargs.get("grainSize"))
         else:
             raise parted.AlignmentException, "no offset+grainSize or PedAlignment specified"
 
