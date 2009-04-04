@@ -149,9 +149,10 @@ class Disk(object):
         """Writes in-memory changes to a partition table to disk and
            informs the operating system of the changes.  Equivalent to
            calling self.commitToDevice() then self.commitToOS()."""
-        self.partitions.invalidate()
+        if not self.commitToDevice():
+            return False
 
-        return self.__disk.commit()
+        return self.commitToOS()
 
     def commitToDevice(self):
         """Write the changes made to the in-memory description of a
