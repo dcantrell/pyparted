@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,7 +17,9 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
 from baseclass import *
@@ -31,8 +33,8 @@ class AlignmentNewTestCase(unittest.TestCase):
         self.assertRaises(TypeError, _ped.Alignment)
 
         # And then the correct ways of creating a _ped.Alignment.
-        self.assert_(isinstance(_ped.Alignment(0, 100), _ped.Alignment))
-        self.assert_(isinstance(_ped.Alignment(offset=0, grain_size=100), _ped.Alignment))
+        self.assertTrue(isinstance(_ped.Alignment(0, 100), _ped.Alignment))
+        self.assertTrue(isinstance(_ped.Alignment(offset=0, grain_size=100), _ped.Alignment))
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
@@ -40,23 +42,23 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 
     def runTest(self):
         # Test that passing the args to __init__ works.
-        self.assert_(isinstance(self.a, _ped.Alignment))
-        self.assert_(self.a.offset == 27)
-        self.assert_(self.a.grain_size == 49)
+        self.assertTrue(isinstance(self.a, _ped.Alignment))
+        self.assertTrue(self.a.offset == 27)
+        self.assertTrue(self.a.grain_size == 49)
 
         # Test that setting directly and getting with getattr works.
         self.a.offset = 10
         self.a.grain_size = 90
 
-        self.assert_(getattr(self.a, "offset") == 10)
-        self.assert_(getattr(self.a, "grain_size") == 90)
+        self.assertTrue(getattr(self.a, "offset") == 10)
+        self.assertTrue(getattr(self.a, "grain_size") == 90)
 
         # Check that setting with setattr and getting directly works.
         setattr(self.a, "offset", 20)
         setattr(self.a, "grain_size", 80)
 
-        self.assert_(self.a.offset == 20)
-        self.assert_(self.a.grain_size == 80)
+        self.assertTrue(self.a.offset == 20)
+        self.assertTrue(self.a.grain_size == 80)
 
         # Check that values have the right type.
         self.assertRaises(TypeError, setattr, self.a, "offset", "string")
@@ -70,13 +72,57 @@ class AlignmentDuplicateTestCase(unittest.TestCase):
 
     def runTest(self):
         self.dup = self.a.duplicate()
-        self.assert_(self.a.offset == self.dup.offset)
-        self.assert_(self.a.grain_size == self.dup.grain_size)
+        self.assertTrue(self.a.offset == self.dup.offset)
+        self.assertTrue(self.a.grain_size == self.dup.grain_size)
 
 class AlignmentIntersectTestCase(unittest.TestCase):
+    def setUp(self):
+        self.trivialA = _ped.Alignment(47, 0)
+        self.trivialB = _ped.Alignment(47, 0)
+
+        self.complexA = _ped.Alignment(512, 3)
+        self.complexB = _ped.Alignment(256, 4)
+
+    def orderAlignments(self, a, b):
+        if a.grain_size < b.grain_size:
+            tmp = a
+            a = b
+            b = tmp
+
+        return (a, b)
+
+    # from libparted/cs/natmath.c
+    def extendedEuclid(self, a, b):
+        if b == 0:
+            gcd = a
+            x = 1
+            y = 0
+            return (gcd, x, y)
+
+        (tmp_gcd, tmp_x, tmp_y) = self.extendedEuclid(b, a % b)
+        gcd = tmp_gcd
+        x = tmp_y
+        y = tmp_x - (a / b) * tmp_y
+        return (gcd, x, y)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # trivial test first, result should be a duplicate of trivialA
+        trivial = self.trivialA.intersect(self.trivialB)
+        self.assertTrue(trivial.offset == self.trivialA.offset)
+        self.assertTrue(trivial.grain_size == self.trivialA.grain_size)
+
+        # complex test second, see libparted/cs/natmath.c for an explanation
+        # of the math behind computing the intersection of two alignments
+        (verifyA, verifyB) = self.orderAlignments(self.complexA, self.complexB)
+        (gcd, x, y) = self.extendedEuclid(verifyA.grain_size,
+                                          verifyB.grain_size)
+        delta_on_gcd = (verifyB.offset - verifyA.offset) / gcd
+        new_offset = verifyA.offset + x * delta_on_gcd * verifyA.grain_size
+        new_grain_size = verifyA.grain_size * verifyB.grain_size / gcd
+
+        complex = self.complexA.intersect(self.complexB)
+        self.assertTrue(new_offset == complex.offset)
+        self.assertTrue(new_grain_size == complex.grain_size)
 
 class AlignmentAlignUpTestCase(unittest.TestCase):
     def runTest(self):
