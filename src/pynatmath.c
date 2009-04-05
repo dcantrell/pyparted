@@ -70,6 +70,9 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
             return -1;
         }
 
+        self->offset = alignment->offset;
+        self->grain_size = alignment->grain_size;
+
         ped_alignment_destroy(alignment);
         return 0;
     }
