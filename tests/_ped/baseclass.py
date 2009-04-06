@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,7 +17,8 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
-#
+#                    David Cantrell <dcantrell@redhat.com>
+
 import _ped
 import os
 import tempfile
@@ -35,6 +36,58 @@ class RequiresDevice(unittest.TestCase):
 
     def tearDown(self):
         os.unlink(self.path)
+
+# Base class for certain alignment tests that require a _ped.Device
+class RequiresDeviceAlignment(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+
+    def roundDownTo(self, sector, grain_size):
+        if sector < 0:
+            shift = sector % grain_size + grain_size
+        else:
+            shift = sector % grain_size
+
+        return sector - shift
+
+    def roundUpTo(self, sector, grain_size):
+        if sector % grain_size:
+            return self.roundDownTo(sector, grain_size) + grain_size
+        else:
+            return sector
+
+    def closestInsideGeometry(self, alignment, geometry, sector):
+        if alignment.grain_size == 0:
+            if alignment.is_aligned(geometry, sector) and \
+               ((geometry is None) or geometry.test_sector_inside(sector)):
+                return sector
+            else:
+                return -1
+
+        if sector < geometry.start:
+            sector += self.roundUpTo(geometry.start - sector,
+                                     alignment.grain_size)
+
+        if sector > geometry.end:
+            sector -= self.roundUpTo(sector - geometry.end,
+                                     alignment.grain_size)
+
+        if not geometry.test_sector_inside(sector):
+            return -1
+
+        return sector
+
+    def closest(self, sector, a, b):
+        if a == -1:
+            return b
+
+        if b == -1:
+            return a
+
+        if abs(sector - a) < abs(sector - b):
+            return a
+        else:
+            return b
 
 # Base class for any test case that requires a _ped.Disk.
 class RequiresDisk(RequiresDevice):
