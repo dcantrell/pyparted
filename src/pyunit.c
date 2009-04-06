@@ -82,7 +82,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
     const char *name;
-    long unit;
+    int unit;
 
     if (!PyArg_ParseTuple(args, "i", &unit)) {
         return NULL;
