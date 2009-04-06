@@ -3,7 +3,7 @@
 # Test cases for the methods in the _ped module itself - just the pyunit
 # and pynatmath files.
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -280,15 +280,41 @@ class UnitGetSizeTestCase(RequiresDevice):
 
 class UnitGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        self.assert_(_ped.unit_get_name(_ped.UNIT_COMPACT) == "compact")
-        self.assert_(_ped.unit_get_name(_ped.UNIT_MEGABYTE) == "MB")
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_BYTE) == 'B')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_CHS) == 'chs')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_COMPACT) == 'compact')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_CYLINDER) == 'cyl')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_GIBIBYTE) == 'GiB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_GIGABYTE) == 'GB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_KIBIBYTE) == 'kiB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_KILOBYTE) == 'kB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_MEBIBYTE) == 'MiB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_MEGABYTE) == 'MB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_PERCENT) == '%')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_SECTOR) == 's')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_TEBIBYTE) == 'TiB')
+        self.assertTrue(_ped.unit_get_name(_ped.UNIT_TERABYTE) == 'TB')
+
         self.assertRaises(ValueError, _ped.unit_get_name, -1)
         self.assertRaises(ValueError, _ped.unit_get_name, 1000)
 
 class UnitGetByNameTestCase(unittest.TestCase):
     def runTest(self):
-        self.assert_(_ped.unit_get_by_name("cyl") == _ped.UNIT_CYLINDER)
-        self.assert_(_ped.unit_get_by_name("TB") == _ped.UNIT_TERABYTE)
+        self.assertTrue(_ped.unit_get_by_name('B') == _ped.UNIT_BYTE)
+        self.assertTrue(_ped.unit_get_by_name('chs') == _ped.UNIT_CHS)
+        self.assertTrue(_ped.unit_get_by_name('compact') == _ped.UNIT_COMPACT)
+        self.assertTrue(_ped.unit_get_by_name('cyl') == _ped.UNIT_CYLINDER)
+        self.assertTrue(_ped.unit_get_by_name('GiB') == _ped.UNIT_GIBIBYTE)
+        self.assertTrue(_ped.unit_get_by_name('GB') == _ped.UNIT_GIGABYTE)
+        self.assertTrue(_ped.unit_get_by_name('kiB') == _ped.UNIT_KIBIBYTE)
+        self.assertTrue(_ped.unit_get_by_name('kB') == _ped.UNIT_KILOBYTE)
+        self.assertTrue(_ped.unit_get_by_name('MiB') == _ped.UNIT_MEBIBYTE)
+        self.assertTrue(_ped.unit_get_by_name('MB') == _ped.UNIT_MEGABYTE)
+        self.assertTrue(_ped.unit_get_by_name('%') == _ped.UNIT_PERCENT)
+        self.assertTrue(_ped.unit_get_by_name('s') == _ped.UNIT_SECTOR)
+        self.assertTrue(_ped.unit_get_by_name('TiB') == _ped.UNIT_TEBIBYTE)
+        self.assertTrue(_ped.unit_get_by_name('TB') == _ped.UNIT_TERABYTE)
+
         self.assertRaises(_ped.UnknownTypeException, _ped.unit_get_by_name, "blargle")
 
 class UnitFormatCustomByteTestCase(unittest.TestCase):
