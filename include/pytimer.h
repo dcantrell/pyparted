@@ -52,6 +52,8 @@ typedef struct {
 } _ped_Timer;
 
 void _ped_Timer_dealloc(_ped_Timer *);
+int _ped_Timer_compare(_ped_Timer *, PyObject *);
+PyObject *_ped_Timer_richcompare(_ped_Timer *, PyObject *, int);
 PyObject *_ped_Timer_str(_ped_Timer *);
 int _ped_Timer_traverse(_ped_Timer *, visitproc, void *);
 int _ped_Timer_clear(_ped_Timer *);
