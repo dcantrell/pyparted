@@ -70,7 +70,7 @@ PyTypeObject _ped_CHSGeometry_Type_obj = {
     .tp_setattro = PyObject_GenericSetAttr,
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_GC,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HAVE_RICHCOMPARE,
     .tp_doc = _ped_CHSGeometry_doc,
     .tp_traverse = (traverseproc) _ped_CHSGeometry_traverse,
     .tp_clear = (inquiry) _ped_CHSGeometry_clear,
@@ -215,7 +215,7 @@ PyTypeObject _ped_Device_Type_obj = {
     .tp_setattro = PyObject_GenericSetAttr,
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_GC,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HAVE_RICHCOMPARE,
     .tp_doc = _ped_Device_doc,
     .tp_traverse = (traverseproc) _ped_Device_traverse,
     .tp_clear = (inquiry) _ped_Device_clear,
