@@ -48,6 +48,8 @@ typedef struct {
 } _ped_Partition;
 
 void _ped_Partition_dealloc(_ped_Partition *);
+int _ped_Partition_compare(_ped_Partition *, PyObject *);
+PyObject *_ped_Partition_richcompare(_ped_Partition *, PyObject *, int);
 PyObject *_ped_Partition_str(_ped_Partition *);
 int _ped_Partition_traverse(_ped_Partition *, visitproc, void *);
 int _ped_Partition_clear(_ped_Partition *);
@@ -70,6 +72,8 @@ typedef struct {
 } _ped_Disk;
 
 void _ped_Disk_dealloc(_ped_Disk *);
+int _ped_Disk_compare(_ped_Disk *, PyObject *);
+PyObject *_ped_Disk_richcompare(_ped_Disk *, PyObject *, int);
 PyObject *_ped_Disk_str(_ped_Disk *);
 int _ped_Disk_traverse(_ped_Disk *, visitproc, void *);
 int _ped_Disk_clear(_ped_Disk *);
@@ -87,6 +91,8 @@ typedef struct {
 } _ped_DiskType;
 
 void _ped_DiskType_dealloc(_ped_DiskType *);
+int _ped_DiskType_compare(_ped_DiskType *, PyObject *);
+PyObject *_ped_DiskType_richcompare(_ped_DiskType *, PyObject *, int);
 PyObject *_ped_DiskType_str(_ped_DiskType *);
 int _ped_DiskType_traverse(_ped_DiskType *, visitproc, void *);
 int _ped_DiskType_clear(_ped_DiskType *);
