@@ -71,8 +71,16 @@ PyObject *py_ped_unit_get_size(_ped_Device *s, PyObject *args) {
 
     ret = ped_unit_get_size(dev, unit);
     if (ret == 0) {
-        /* Re-raise the libparted exception. */
-        partedExnRaised = 0;
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_Occurred()) {
+                PyErr_SetString(PyExc_ValueError, partedExnMessage);
+            }
+        } else {
+            PyErr_SetString(PyExc_ValueError, "Could not get size");
+        }
+
         return NULL;
     }
 
