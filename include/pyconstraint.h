@@ -55,6 +55,8 @@ typedef struct {
 } _ped_Constraint;
 
 void _ped_Constraint_dealloc(_ped_Constraint *);
+int _ped_Constraint_compare(_ped_Constraint *, PyObject *);
+PyObject *_ped_Constraint_richcompare(_ped_Constraint *, PyObject *, int);
 PyObject *_ped_Constraint_str(_ped_Constraint *);
 int _ped_Constraint_traverse(_ped_Constraint *, visitproc, void *);
 int _ped_Constraint_clear(_ped_Constraint *);

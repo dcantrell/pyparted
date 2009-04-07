@@ -50,6 +50,55 @@ void _ped_Constraint_dealloc(_ped_Constraint *self) {
     PyObject_GC_Del(self);
 }
 
+int _ped_Constraint_compare(_ped_Constraint *self, PyObject *obj) {
+    _ped_Constraint *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Constraint_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Constraint");
+        return -1;
+    }
+
+    comp = (_ped_Constraint *) obj;
+    if ((_ped_Alignment_Type_obj.tp_richcompare(self->start_align, comp->start_align, Py_EQ)) &&
+        (_ped_Alignment_Type_obj.tp_richcompare(self->end_align, comp->end_align, Py_EQ)) &&
+        (_ped_Geometry_Type_obj.tp_richcompare(self->start_range, comp->start_range, Py_EQ)) &&
+        (_ped_Geometry_Type_obj.tp_richcompare(self->end_range, comp->end_range, Py_EQ)) &&
+        (self->min_size == comp->min_size) &&
+        (self->max_size == comp->max_size)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Constraint_richcompare(_ped_Constraint *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Constraint_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Constraint_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Constraint");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
+}
+
 PyObject *_ped_Constraint_str(_ped_Constraint *self) {
     char *ret = NULL;
     char *start_align = NULL, *end_align = NULL;

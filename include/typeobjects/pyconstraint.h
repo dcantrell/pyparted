@@ -2,7 +2,7 @@
  * pyconstraint.h
  * pyparted type objects for pyconstraint.c
  *
- * Copyright (C) 2007, 2008  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -73,7 +73,7 @@ PyTypeObject _ped_Constraint_Type_obj = {
     .tp_dealloc = (destructor) _ped_Constraint_dealloc,
  /* .tp_getattr = XXX */
  /* .tp_setattr = XXX */
- /* .tp_compare = XXX */
+    .tp_compare = (cmpfunc) _ped_Constraint_compare,
  /* .tp_repr = XXX */
  /* .tp_as_number = XXX */
  /* .tp_as_sequence = XXX */
@@ -85,11 +85,12 @@ PyTypeObject _ped_Constraint_Type_obj = {
     .tp_setattro = PyObject_GenericSetAttr,
  /* .tp_as_buffer = XXX */
     .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
+                Py_TPFLAGS_HAVE_RICHCOMPARE,
     .tp_doc = _ped_Constraint_doc,
     .tp_traverse = (traverseproc) _ped_Constraint_traverse,
     .tp_clear = (inquiry) _ped_Constraint_clear,
- /* .tp_richcompare = XXX */
+    .tp_richcompare = (richcmpfunc) _ped_Constraint_richcompare,
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
  /* .tp_iternext = XXX */
