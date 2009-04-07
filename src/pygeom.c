@@ -58,7 +58,9 @@ int _ped_Geometry_compare(_ped_Geometry *self, PyObject *obj) {
 
     comp = (_ped_Geometry *) obj;
     if ((_ped_Geometry_Type_obj.tp_richcompare(self->dev, comp->dev, Py_EQ)) &&
-        (self->ped_geometry == comp->ped_geometry)) {
+        (self->ped_geometry->start == comp->ped_geometry->start) &&
+        (self->ped_geometry->length == comp->ped_geometry->length) &&
+        (self->ped_geometry->end == comp->ped_geometry->end)) {
         return 0;
     } else {
         return 1;
