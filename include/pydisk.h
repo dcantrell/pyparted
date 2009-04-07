@@ -47,13 +47,13 @@ typedef struct {
     int _owned;                    /* Belongs to a Disk or not */
 } _ped_Partition;
 
-void _ped_Partition_dealloc(_ped_Partition *self);
-PyObject *_ped_Partition_str(_ped_Partition *self);
-int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg);
-int _ped_Partition_clear(_ped_Partition *self);
-int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Partition_get(_ped_Partition *self, void *closure);
-int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure);
+void _ped_Partition_dealloc(_ped_Partition *);
+PyObject *_ped_Partition_str(_ped_Partition *);
+int _ped_Partition_traverse(_ped_Partition *, visitproc, void *);
+int _ped_Partition_clear(_ped_Partition *);
+int _ped_Partition_init(_ped_Partition *, PyObject *, PyObject *);
+PyObject *_ped_Partition_get(_ped_Partition *, void *);
+int _ped_Partition_set(_ped_Partition *, PyObject *, void *);
 
 extern PyTypeObject _ped_Partition_Type_obj;
 
@@ -69,11 +69,11 @@ typedef struct {
     PedDisk *ped_disk;
 } _ped_Disk;
 
-void _ped_Disk_dealloc(_ped_Disk *self);
-PyObject *_ped_Disk_str(_ped_Disk *self);
-int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg);
-int _ped_Disk_clear(_ped_Disk *self);
-int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds);
+void _ped_Disk_dealloc(_ped_Disk *);
+PyObject *_ped_Disk_str(_ped_Disk *);
+int _ped_Disk_traverse(_ped_Disk *, visitproc, void *);
+int _ped_Disk_clear(_ped_Disk *);
+int _ped_Disk_init(_ped_Disk *, PyObject *, PyObject *);
 
 extern PyTypeObject _ped_Disk_Type_obj;
 
@@ -86,58 +86,57 @@ typedef struct {
     long long features;        /* PedDiskTypeFeature */
 } _ped_DiskType;
 
-void _ped_DiskType_dealloc(_ped_DiskType *self);
-PyObject *_ped_DiskType_str(_ped_DiskType *self);
-int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg);
-int _ped_DiskType_clear(_ped_DiskType *self);
-PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure);
+void _ped_DiskType_dealloc(_ped_DiskType *);
+PyObject *_ped_DiskType_str(_ped_DiskType *);
+int _ped_DiskType_traverse(_ped_DiskType *, visitproc, void *);
+int _ped_DiskType_clear(_ped_DiskType *);
+PyObject *_ped_DiskType_get(_ped_DiskType *, void *);
 
 extern PyTypeObject _ped_DiskType_Type_obj;
 
 /* 1:1 function mappings for disk.h in libparted */
-PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_check(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_print(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
-                                                      PyObject *args);
-PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args);
-PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args);
-PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args);
-PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args);
+PyObject *py_ped_disk_type_get_next(PyObject *, PyObject *);
+PyObject *py_ped_disk_type_get(PyObject *, PyObject *);
+PyObject *py_ped_disk_type_check_feature(PyObject *, PyObject *);
+PyObject *py_ped_disk_clobber(PyObject *, PyObject *);
+PyObject *py_ped_disk_clobber_exclude(PyObject *, PyObject *);
+PyObject *py_ped_disk_duplicate(PyObject *, PyObject *);
+PyObject *py_ped_disk_destroy(PyObject *, PyObject *);
+PyObject *py_ped_disk_commit(PyObject *, PyObject *);
+PyObject *py_ped_disk_commit_to_dev(PyObject *, PyObject *);
+PyObject *py_ped_disk_commit_to_os(PyObject *, PyObject *);
+PyObject *py_ped_disk_check(PyObject *, PyObject *);
+PyObject *py_ped_disk_print(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_primary_partition_count(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_last_partition_num(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *, PyObject *);
+PyObject *py_ped_partition_destroy(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_is_active(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_set_flag(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_get_flag(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_is_flag_available(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_set_system(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_set_name(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_get_name(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_is_busy(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_get_path(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_type_get_name(PyObject *, PyObject *);
+PyObject *py_ped_partition_flag_get_name(PyObject *, PyObject *);
+PyObject *py_ped_partition_flag_get_by_name(PyObject *, PyObject *);
+PyObject *py_ped_partition_flag_next(PyObject *, PyObject *);
+PyObject *py_ped_disk_add_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_remove_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_delete_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_delete_all(PyObject *, PyObject *);
+PyObject *py_ped_disk_set_partition_geom(PyObject *, PyObject *);
+PyObject *py_ped_disk_maximize_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_max_partition_geometry(PyObject *, PyObject *);
+PyObject *py_ped_disk_minimize_extended_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_next_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_partition_by_sector(PyObject *, PyObject *);
+PyObject *py_ped_disk_extended_partition(PyObject *, PyObject *);
+PyObject *py_ped_disk_new_fresh(PyObject *, PyObject *);
 
 #endif /* PYDISK_H_INCLUDED */
 

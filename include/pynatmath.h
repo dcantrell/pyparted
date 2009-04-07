@@ -2,7 +2,7 @@
  * pynatmath.h
  * pyparted type definitions for pynatmath.c
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -30,12 +30,12 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for natmath.h in libparted */
-PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args);
+PyObject *py_ped_alignment_duplicate(PyObject *, PyObject *);
+PyObject *py_ped_alignment_intersect(PyObject *, PyObject *);
+PyObject *py_ped_alignment_align_up(PyObject *, PyObject *);
+PyObject *py_ped_alignment_align_down(PyObject *, PyObject *);
+PyObject *py_ped_alignment_align_nearest(PyObject *, PyObject *);
+PyObject *py_ped_alignment_is_aligned(PyObject *, PyObject *);
 
 /* _ped.Alignment type is the Python equivalent of PedAlignment in libparted */
 typedef struct {
@@ -46,13 +46,13 @@ typedef struct {
     long long grain_size;          /* PedSector */
 } _ped_Alignment;
 
-void _ped_Alignment_dealloc(_ped_Alignment *self);
-PyObject *_ped_Alignment_str(_ped_Alignment *self);
-int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg);
-int _ped_Alignment_clear(_ped_Alignment *self);
-int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure);
-int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure);
+void _ped_Alignment_dealloc(_ped_Alignment *);
+PyObject *_ped_Alignment_str(_ped_Alignment *);
+int _ped_Alignment_traverse(_ped_Alignment *, visitproc, void *);
+int _ped_Alignment_clear(_ped_Alignment *);
+int _ped_Alignment_init(_ped_Alignment *, PyObject *, PyObject *);
+PyObject *_ped_Alignment_get(_ped_Alignment *, void *);
+int _ped_Alignment_set(_ped_Alignment *, PyObject *, void *);
 
 extern PyTypeObject _ped_Alignment_Type_obj;
 

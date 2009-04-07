@@ -2,7 +2,7 @@
  * convert.h
  * Functions for converting to/from Python _ped types and C libparted types
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -35,39 +35,38 @@
 #include "pynatmath.h"
 #include "pytimer.h"
 
-PedAlignment *_ped_Alignment2PedAlignment(PyObject *s);
-_ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *alignment);
+PedAlignment *_ped_Alignment2PedAlignment(PyObject *);
+_ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *);
 
-PedConstraint *_ped_Constraint2PedConstraint(PyObject *s);
-_ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *constraint);
+PedConstraint *_ped_Constraint2PedConstraint(PyObject *);
+_ped_Constraint *PedConstraint2_ped_Constraint(PedConstraint *);
 
-PedDevice *_ped_Device2PedDevice(PyObject *s);
-_ped_Device *PedDevice2_ped_Device(PedDevice *device);
+PedDevice *_ped_Device2PedDevice(PyObject *);
+_ped_Device *PedDevice2_ped_Device(PedDevice *);
 
-PedDisk *_ped_Disk2PedDisk(PyObject *s);
-_ped_Disk *PedDisk2_ped_Disk(PedDisk *disk);
+PedDisk *_ped_Disk2PedDisk(PyObject *);
+_ped_Disk *PedDisk2_ped_Disk(PedDisk *);
 
-PedDiskType *_ped_DiskType2PedDiskType(PyObject *s);
-_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type);
+PedDiskType *_ped_DiskType2PedDiskType(PyObject *);
+_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *);
 
-PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s);
-_ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *fs);
+PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *);
+_ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *);
 
-PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *s);
-_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemType *fstype);
+PedFileSystemType *_ped_FileSystemType2PedFileSystemType(PyObject *);
+_ped_FileSystemType *PedFileSystemType2_ped_FileSystemType(const PedFileSystemType *);
 
-PedGeometry *_ped_Geometry2PedGeometry(PyObject *s);
-_ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *geometry);
+PedGeometry *_ped_Geometry2PedGeometry(PyObject *);
+_ped_Geometry *PedGeometry2_ped_Geometry(PedGeometry *);
 
-PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *s);
-_ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *geom);
+PedCHSGeometry *_ped_CHSGeometry2PedCHSGeometry(PyObject *);
+_ped_CHSGeometry *PedCHSGeometry2_ped_CHSGeometry(PedCHSGeometry *);
 
-PedPartition *_ped_Partition2PedPartition(_ped_Partition *s);
-_ped_Partition *PedPartition2_ped_Partition(PedPartition *part,
-        _ped_Disk *pydisk);
+PedPartition *_ped_Partition2PedPartition(_ped_Partition *);
+_ped_Partition *PedPartition2_ped_Partition(PedPartition *, _ped_Disk *);
 
-PedTimer *_ped_Timer2PedTimer(PyObject *s);
-_ped_Timer *PedTimer2_ped_Timer(PedTimer *timer);
+PedTimer *_ped_Timer2PedTimer(PyObject *);
+_ped_Timer *PedTimer2_ped_Timer(PedTimer *);
 
 #endif /* CONVERT_H_INCLUDED */
 

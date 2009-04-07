@@ -2,7 +2,7 @@
  * pyconstraint.h
  * pyparted type definitions for pyconstraint.c
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -30,16 +30,16 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for constraint.h in libparted */
-PyObject *py_ped_constraint_new_from_min_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new_from_min(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_solve_max(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_solve_nearest(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_is_solution(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_any(PyObject *s, PyObject *args);
-PyObject *py_ped_constraint_exact(PyObject *s, PyObject *args);
+PyObject *py_ped_constraint_new_from_min_max(PyObject *, PyObject *);
+PyObject *py_ped_constraint_new_from_min(PyObject *, PyObject *);
+PyObject *py_ped_constraint_new_from_max(PyObject *, PyObject *);
+PyObject *py_ped_constraint_duplicate(PyObject *, PyObject *);
+PyObject *py_ped_constraint_intersect(PyObject *, PyObject *);
+PyObject *py_ped_constraint_solve_max(PyObject *, PyObject *);
+PyObject *py_ped_constraint_solve_nearest(PyObject *, PyObject *);
+PyObject *py_ped_constraint_is_solution(PyObject *, PyObject *);
+PyObject *py_ped_constraint_any(PyObject *, PyObject *);
+PyObject *py_ped_constraint_exact(PyObject *, PyObject *);
 
 /* _ped.Constraint type is the Python equiv of PedConstraint in libparted */
 typedef struct {
@@ -54,13 +54,13 @@ typedef struct {
     long long max_size;                 /* PedSector      */
 } _ped_Constraint;
 
-void _ped_Constraint_dealloc(_ped_Constraint *self);
-PyObject *_ped_Constraint_str(_ped_Constraint *self);
-int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg);
-int _ped_Constraint_clear(_ped_Constraint *self);
-int _ped_Constraint_init(_ped_Constraint *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure);
-int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure);
+void _ped_Constraint_dealloc(_ped_Constraint *);
+PyObject *_ped_Constraint_str(_ped_Constraint *);
+int _ped_Constraint_traverse(_ped_Constraint *, visitproc, void *);
+int _ped_Constraint_clear(_ped_Constraint *);
+int _ped_Constraint_init(_ped_Constraint *, PyObject *, PyObject *);
+PyObject *_ped_Constraint_get(_ped_Constraint *, void *);
+int _ped_Constraint_set(_ped_Constraint *, PyObject *, void *);
 
 extern PyTypeObject _ped_Constraint_Type_obj;
 

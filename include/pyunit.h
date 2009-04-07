@@ -2,7 +2,7 @@
  * pyunit.h
  * pyparted type definitions for pyunit.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -31,17 +31,17 @@
 /* a PedUnit is a long int in C, so we store it that way in Python */
 
 /* 1:1 function mappings for unit.h in libparted */
-PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_format(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_parse(PyObject *s, PyObject *args);
-PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args);
+PyObject *py_ped_unit_set_default(PyObject *, PyObject *);
+PyObject *py_ped_unit_get_default(PyObject *, PyObject *);
+PyObject *py_ped_unit_get_size(PyObject *, PyObject *);
+PyObject *py_ped_unit_get_name(PyObject *, PyObject *);
+PyObject *py_ped_unit_get_by_name(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_custom_byte(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_byte(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_custom(PyObject *, PyObject *);
+PyObject *py_ped_unit_format(PyObject *, PyObject *);
+PyObject *py_ped_unit_parse(PyObject *, PyObject *);
+PyObject *py_ped_unit_parse_custom(PyObject *, PyObject *);
 
 #endif /* PYUNIT_H_INCLUDED */
 
