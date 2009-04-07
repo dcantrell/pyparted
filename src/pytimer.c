@@ -1,7 +1,7 @@
 /*
  * pytimer.c
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -33,6 +33,56 @@ void _ped_Timer_dealloc(_ped_Timer *self) {
     PyObject_GC_UnTrack(self);
     free(self->state_name);
     PyObject_GC_Del(self);
+}
+
+int _ped_Timer_compare(_ped_Timer *self, PyObject *obj) {
+    _ped_Timer *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Timer_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Timer");
+        return -1;
+    }
+
+    comp = (_ped_Timer *) obj;
+    if ((self->frac == comp->frac) &&
+        (self->start == comp->start) &&
+        (self->now == comp->now) &&
+        (self->predicted_end == comp->predicted_end) &&
+        (!strcmp(self->state_name, comp->state_name)) &&
+        (self->handler == comp->handler) &&
+        (self->context == comp->context)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Timer_richcompare(_ped_Timer *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Timer_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Timer_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Timer");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
 }
 
 PyObject *_ped_Timer_str(_ped_Timer *self) {
