@@ -51,6 +51,54 @@ void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_GC_Del(self);
 }
 
+int _ped_Partition_compare(_ped_Partition *self, PyObject *obj) {
+    _ped_Partition *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Partition_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Partition");
+        return -1;
+    }
+
+    comp = (_ped_Partition *) obj;
+    if ((_ped_Disk_Type_obj.tp_richcompare(self->disk, comp->disk, Py_EQ)) &&
+        (_ped_Geometry_Type_obj.tp_richcompare(self->geom, comp->geom, Py_EQ)) &&
+        (self->num == comp->num) &&
+        (self->type == comp->type) &&
+        (_ped_FileSystemType_Type_obj.tp_richcompare(self->fs_type, comp->fs_type, Py_EQ))) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Partition_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Partition_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Partition");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
+}
+
 PyObject *_ped_Partition_str(_ped_Partition *self) {
     char *ret = NULL;
     char *disk = NULL, *fs_type = NULL, *geom = NULL;
@@ -263,6 +311,51 @@ void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_Del(self);
 }
 
+int _ped_Disk_compare(_ped_Disk *self, PyObject *obj) {
+    _ped_Disk *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Disk_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Disk");
+        return -1;
+    }
+
+    comp = (_ped_Disk *) obj;
+    if ((_ped_Device_Type_obj.tp_richcompare(self->dev, comp->dev, Py_EQ)) &&
+        (_ped_DiskType_Type_obj.tp_richcompare(self->type, comp->type, Py_EQ))) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Disk_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Disk_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Disk");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
+}
+
 PyObject *_ped_Disk_str(_ped_Disk *self) {
     char *ret = NULL;
     char *dev = NULL, *type = NULL;
@@ -364,6 +457,51 @@ void _ped_DiskType_dealloc(_ped_DiskType *self) {
     PyObject_GC_UnTrack(self);
     free(self->name);
     PyObject_GC_Del(self);
+}
+
+int _ped_DiskType_compare(_ped_DiskType *self, PyObject *obj) {
+    _ped_DiskType *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_DiskType_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.DiskType");
+        return -1;
+    }
+
+    comp = (_ped_DiskType *) obj;
+    if ((!strcmp(self->name, comp->name)) &&
+        (self->features == comp->features)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_DiskType_richcompare(_ped_DiskType *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_DiskType_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_DiskType_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.DiskType");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
 }
 
 PyObject *_ped_DiskType_str(_ped_DiskType *self) {
