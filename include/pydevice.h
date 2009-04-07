@@ -28,26 +28,6 @@
 
 #include <parted/parted.h>
 
-/* 1:1 function mappings for device.h in libparted */
-PyObject *py_ped_disk_probe(PyObject *, PyObject *);
-PyObject *py_ped_device_probe_all(PyObject *, PyObject *);
-PyObject *py_ped_device_free_all(PyObject *, PyObject *);
-PyObject *py_ped_device_get(PyObject *, PyObject *);
-PyObject *py_ped_device_get_next(PyObject *, PyObject *);
-PyObject *py_ped_device_is_busy(PyObject *, PyObject *);
-PyObject *py_ped_device_open(PyObject *, PyObject *);
-PyObject *py_ped_device_close(PyObject *, PyObject *);
-PyObject *py_ped_device_destroy(PyObject *, PyObject *);
-PyObject *py_ped_device_cache_remove(PyObject *, PyObject *);
-PyObject *py_ped_device_begin_external_access(PyObject *, PyObject *);
-PyObject *py_ped_device_end_external_access(PyObject *, PyObject *);
-PyObject *py_ped_device_read(PyObject *, PyObject *);
-PyObject *py_ped_device_write(PyObject *, PyObject *);
-PyObject *py_ped_device_sync(PyObject *, PyObject *);
-PyObject *py_ped_device_sync_fast(PyObject *, PyObject *);
-PyObject *py_ped_device_check(PyObject *, PyObject *);
-PyObject *py_ped_device_get_constraint(PyObject *, PyObject *);
-
 /* _ped.CHSGeometry type is the Python equiv of PedCHSGeometry in libparted */
 typedef struct {
     PyObject_HEAD
@@ -100,6 +80,29 @@ int _ped_Device_clear(_ped_Device *);
 PyObject *_ped_Device_get(_ped_Device *, void *);
 
 extern PyTypeObject _ped_Device_Type_obj;
+
+/* 1:1 function mappings for device.h in libparted */
+PyObject *py_ped_disk_probe(PyObject *, PyObject *);
+PyObject *py_ped_device_probe_all(PyObject *, PyObject *);
+PyObject *py_ped_device_free_all(PyObject *, PyObject *);
+PyObject *py_ped_device_get(PyObject *, PyObject *);
+PyObject *py_ped_device_get_next(PyObject *, PyObject *);
+PyObject *py_ped_device_is_busy(PyObject *, PyObject *);
+PyObject *py_ped_device_open(PyObject *, PyObject *);
+PyObject *py_ped_device_close(PyObject *, PyObject *);
+PyObject *py_ped_device_destroy(PyObject *, PyObject *);
+PyObject *py_ped_device_cache_remove(PyObject *, PyObject *);
+PyObject *py_ped_device_begin_external_access(PyObject *, PyObject *);
+PyObject *py_ped_device_end_external_access(PyObject *, PyObject *);
+PyObject *py_ped_device_read(PyObject *, PyObject *);
+PyObject *py_ped_device_write(PyObject *, PyObject *);
+PyObject *py_ped_device_sync(PyObject *, PyObject *);
+PyObject *py_ped_device_sync_fast(PyObject *, PyObject *);
+PyObject *py_ped_device_check(PyObject *, PyObject *);
+PyObject *py_ped_device_get_constraint(PyObject *, PyObject *);
+PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
+PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
+PyObject *py_ped_unit_get_size(_ped_Device *, PyObject *);
 
 #endif /* PYDEVICE_H_INCLUDED */
 

@@ -164,10 +164,6 @@ PyDoc_STRVAR(unit_get_default_doc,
 "unit_get_default() -> Unit\n\n"
 "Returns the default Unit.");
 
-PyDoc_STRVAR(unit_get_size_doc,
-"unit_get_size(Device, Unit) -> long\n\n"
-"Returns the byte size of the given Unit.");
-
 PyDoc_STRVAR(unit_get_name_doc,
 "unit_get_name(Unit) -> string\n\n"
 "Returns a textual representation of a given Unit.");
@@ -284,8 +280,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                          unit_set_default_doc},
     {"unit_get_default", (PyCFunction) py_ped_unit_get_default, METH_VARARGS,
                          unit_get_default_doc},
-    {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS,
-                      unit_get_size_doc},
     {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS,
                       unit_get_name_doc},
     {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS,

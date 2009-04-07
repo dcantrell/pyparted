@@ -160,6 +160,13 @@ static PyMethodDef _ped_Device_methods[] = {
                             py_ped_file_system_get_copy_constraint,
                             METH_VARARGS, file_system_get_copy_constraint_doc},
 
+    /*
+     * These functions are in pyunit.c, but they work best as methods
+     * on a _ped.Device
+     */
+    {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS,
+                      unit_get_size_doc},
+
     {NULL}
 };
 
