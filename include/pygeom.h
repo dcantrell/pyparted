@@ -58,6 +58,8 @@ typedef struct {
 } _ped_Geometry;
 
 void _ped_Geometry_dealloc(_ped_Geometry *);
+int _ped_Geometry_compare(_ped_Geometry *, PyObject *);
+PyObject *_ped_Geometry_richcompare(_ped_Geometry *, PyObject *, int);
 PyObject *_ped_Geometry_str(_ped_Geometry *);
 int _ped_Geometry_traverse(_ped_Geometry *, visitproc, void *);
 int _ped_Geometry_clear(_ped_Geometry *);
