@@ -58,6 +58,9 @@ typedef struct {
 } _ped_FileSystemType;
 
 void _ped_FileSystemType_dealloc(_ped_FileSystemType *);
+int _ped_FileSystemType_compare(_ped_FileSystemType *, PyObject *);
+PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *, PyObject *,
+                                          int);
 PyObject *_ped_FileSystemType_str(_ped_FileSystemType *);
 int _ped_FileSystemType_traverse(_ped_FileSystemType *, visitproc, void *);
 int _ped_FileSystemType_clear(_ped_FileSystemType *);
@@ -79,6 +82,8 @@ typedef struct {
 } _ped_FileSystem;
 
 void _ped_FileSystem_dealloc(_ped_FileSystem *);
+int _ped_FileSystem_compare(_ped_FileSystem *, PyObject *);
+PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *, PyObject *, int);
 PyObject *_ped_FileSystem_str(_ped_FileSystem *);
 int _ped_FileSystem_traverse(_ped_FileSystem *, visitproc, void *);
 int _ped_FileSystem_clear(_ped_FileSystem *);
