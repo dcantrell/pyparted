@@ -17,32 +17,68 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
+from baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 class DiskTypeNewTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # You're not allowed to create a new DiskType object by hand.
+        self.assertRaises(TypeError, _ped.DiskType)
 
-class DiskTypeGetSetTestCase(unittest.TestCase):
-    # TODO
+class DiskTypeGetSetTestCase(RequiresDiskTypes):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # All attributes are read-only.
+        for name in self.disktype.keys():
+            t = self.disktype[name]
 
-class DiskTypeCheckFeatureTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
+            self.assertRaises(AttributeError, setattr, t, "name", "fakename")
+            self.assertRaises(AttributeError, setattr, t, "features", 47)
 
-class DiskTypeStrTestCase(unittest.TestCase):
-    # TODO
+            self.assertTrue(isinstance(t.name, str))
+            self.assertTrue(t.name == name)
+            self.assertTrue(isinstance(t.features, long))
+
+class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # The following types have no features [that libparted supports]
+        for name in ['aix', 'sun', 'bsd', 'loop']:
+            self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_EXTENDED))
+            self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_NAME))
+
+        # The following types support DISK_TYPE_EXTENDED
+        for name in ['msdos']:
+            self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_EXTENDED))
+            self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_NAME))
+
+        # The following types support DISK_TYPE_PARTITION_NAME
+        for name in ['amiga', 'gpt', 'mac', 'pc98']:
+            self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_EXTENDED))
+            self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_NAME))
+
+        # The following types support all features
+        for name in ['dvh']:
+            self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_EXTENDED))
+            self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_NAME))
+
+class DiskTypeStrTestCase(RequiresDiskTypes):
+    def runTest(self):
+        self.assertTrue(str(self.disktype['msdos']) == '_ped.DiskType instance --\n  name: msdos  features: 1')
+        self.assertTrue(str(self.disktype['aix']) == '_ped.DiskType instance --\n  name: aix  features: 0')
+        self.assertTrue(str(self.disktype['sun']) == '_ped.DiskType instance --\n  name: sun  features: 0')
+        self.assertTrue(str(self.disktype['amiga']) == '_ped.DiskType instance --\n  name: amiga  features: 2')
+        self.assertTrue(str(self.disktype['gpt']) == '_ped.DiskType instance --\n  name: gpt  features: 2')
+        self.assertTrue(str(self.disktype['mac']) == '_ped.DiskType instance --\n  name: mac  features: 2')
+        self.assertTrue(str(self.disktype['bsd']) == '_ped.DiskType instance --\n  name: bsd  features: 0')
+        self.assertTrue(str(self.disktype['pc98']) == '_ped.DiskType instance --\n  name: pc98  features: 2')
+        self.assertTrue(str(self.disktype['loop']) == '_ped.DiskType instance --\n  name: loop  features: 0')
+        self.assertTrue(str(self.disktype['dvh']) == '_ped.DiskType instance --\n  name: dvh  features: 3')
 
 # And then a suite to hold all the test cases for this module.
 def suite():
