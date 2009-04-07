@@ -198,7 +198,9 @@ class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
         for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
                   "pc98","sun"]:
-            self.assert_(_ped.disk_type_get(d) != "", "Could not get type %s" % d)
+            t = _ped.disk_type_get(d)
+            self.assertTrue(isinstance(t, _ped.DiskType))
+            self.assertTrue(t.name == d)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.disk_type_get, "nosuch")
 
