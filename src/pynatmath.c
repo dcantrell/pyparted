@@ -36,6 +36,51 @@ void _ped_Alignment_dealloc(_ped_Alignment *self) {
     PyObject_GC_Del(self);
 }
 
+int _ped_Alignment_compare(_ped_Alignment *self, PyObject *obj) {
+    _ped_Alignment *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Alignment_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Alignment");
+        return -1;
+    }
+
+    comp = (_ped_Alignment *) obj;
+    if ((self->offset == comp->offset) &&
+        (self->grain_size == comp->grain_size)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Alignment_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Alignment_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Alignment");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
+}
+
 PyObject *_ped_Alignment_str(_ped_Alignment *self) {
     char *ret = NULL;
 
