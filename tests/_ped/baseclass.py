@@ -116,6 +116,21 @@ class RequiresPartition(RequiresDisk):
         self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
                                     start=0, end=100, fs_type=_ped.file_system_type_get("ext2"))
 
+# Base class for any test case that requires a hash table of all
+# _ped.DiskType objects available
+class RequiresDiskTypes(unittest.TestCase):
+    def setUp(self):
+        self.disktype = {}
+        type = _ped.disk_type_get_next()
+        self.disktype[type.name] = type
+
+        while True:
+            try:
+                type = _ped.disk_type_get_next(type)
+                self.disktype[type.name] = type
+            except:
+                break
+
 # Base class for any test case that requires a list being built via successive
 # calls of some function.  The function must raise IndexError when there's no
 # more output to add to the return list.  This class is most useful for all
