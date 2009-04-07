@@ -59,6 +59,8 @@ typedef struct {
 } _ped_CHSGeometry;
 
 void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *);
+int _ped_CHSGeometry_compare(_ped_CHSGeometry *, PyObject *);
+PyObject *_ped_CHSGeometry_richcompare(_ped_CHSGeometry *, PyObject *, int);
 PyObject *_ped_CHSGeometry_str(_ped_CHSGeometry *);
 int _ped_CHSGeometry_traverse(_ped_CHSGeometry *, visitproc, void *);
 int _ped_CHSGeometry_clear(_ped_CHSGeometry *);
@@ -90,6 +92,8 @@ typedef struct {
 } _ped_Device;
 
 void _ped_Device_dealloc(_ped_Device *);
+int _ped_Device_compare(_ped_Device *, PyObject *);
+PyObject *_ped_Device_richcompare(_ped_Device *, PyObject *, int);
 PyObject *_ped_Device_str(_ped_Device *);
 int _ped_Device_traverse(_ped_Device *, visitproc, void *);
 int _ped_Device_clear(_ped_Device *);

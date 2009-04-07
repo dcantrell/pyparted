@@ -36,6 +36,53 @@ void _ped_CHSGeometry_dealloc(_ped_CHSGeometry *self) {
     PyObject_GC_Del(self);
 }
 
+int _ped_CHSGeometry_compare(_ped_CHSGeometry *self, PyObject *obj) {
+    _ped_CHSGeometry *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_CHSGeometry_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.CHSGeometry");
+        return -1;
+    }
+
+    comp = (_ped_CHSGeometry *) obj;
+    if ((self->cylinders == comp->cylinders) &&
+        (self->heads == comp->heads) &&
+        (self->sectors == comp->sectors)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_CHSGeometry_richcompare(_ped_CHSGeometry *a, PyObject *b,
+                                       int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_CHSGeometry_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_CHSGeometry_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.CHSGeometry");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
+}
+
 PyObject *_ped_CHSGeometry_str(_ped_CHSGeometry *self) {
     char *ret = NULL;
 
@@ -90,6 +137,64 @@ void _ped_Device_dealloc(_ped_Device *self) {
     self->bios_geom = NULL;
 
     PyObject_GC_Del(self);
+}
+
+int _ped_Device_compare(_ped_Device *self, PyObject *obj) {
+    _ped_Device *comp = NULL;
+    int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Device_Type_obj);
+
+    if (PyErr_Occurred()) {
+        return -1;
+    }
+
+    if (!check) {
+        PyErr_SetString(PyExc_ValueError, "object comparing to must be a _ped.Device");
+        return -1;
+    }
+
+    comp = (_ped_Device *) obj;
+    if ((!strcmp(self->model, comp->model)) &&
+        (!strcmp(self->path, comp->path)) &&
+        (self->type == comp->type) &&
+        (self->sector_size == comp->sector_size) &&
+        (self->phys_sector_size == comp->phys_sector_size) &&
+        (self->length == comp->length) &&
+        (self->open_count == comp->open_count) &&
+        (self->read_only == comp->read_only) &&
+        (self->external_mode == comp->external_mode) &&
+        (self->dirty == comp->dirty) &&
+        (self->boot_dirty == comp->dirty) &&
+        (_ped_CHSGeometry_Type_obj.tp_richcompare(self->hw_geom, comp->hw_geom, Py_EQ)) &&
+        (_ped_CHSGeometry_Type_obj.tp_richcompare(self->bios_geom, comp->bios_geom, Py_EQ)) &&
+        (self->host == comp->host) &&
+        (self->did == comp->did)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+PyObject *_ped_Device_richcompare(_ped_Device *a, PyObject *b, int op) {
+    if (op == Py_EQ) {
+        if (!(_ped_Device_Type_obj.tp_compare((PyObject *) a, b))) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if (op == Py_NE) {
+        if (_ped_Device_Type_obj.tp_compare((PyObject *) a, b)) {
+            Py_RETURN_TRUE;
+        } else {
+            Py_RETURN_FALSE;
+        }
+    } else if ((op == Py_LT) || (op == Py_LE) ||
+               (op == Py_GT) || (op == Py_GE)) {
+        PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Device");
+        return NULL;
+    } else {
+        PyErr_SetString(PyExc_ValueError, "unknown richcompare op");
+        return NULL;
+    }
 }
 
 PyObject *_ped_Device_str(_ped_Device *self) {
