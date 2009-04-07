@@ -33,20 +33,20 @@
 #define ped_file_system_destroy(fs)
 
 /* 1:1 function mappings for filesys.h in libparted */
-PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_clobber(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_open(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_create(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_close(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_check(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_copy(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_resize(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_create_constraint(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_resize_constraint(PyObject *s, PyObject *args);
-PyObject *py_ped_file_system_get_copy_constraint(PyObject *s, PyObject *args);
+PyObject *py_ped_file_system_type_get(PyObject *, PyObject *);
+PyObject *py_ped_file_system_type_get_next(PyObject *, PyObject *);
+PyObject *py_ped_file_system_probe_specific(PyObject *, PyObject *);
+PyObject *py_ped_file_system_probe(PyObject *, PyObject *);
+PyObject *py_ped_file_system_clobber(PyObject *, PyObject *);
+PyObject *py_ped_file_system_open(PyObject *, PyObject *);
+PyObject *py_ped_file_system_create(PyObject *, PyObject *);
+PyObject *py_ped_file_system_close(PyObject *, PyObject *);
+PyObject *py_ped_file_system_check(PyObject *, PyObject *);
+PyObject *py_ped_file_system_copy(PyObject *, PyObject *);
+PyObject *py_ped_file_system_resize(PyObject *, PyObject *);
+PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
+PyObject *py_ped_file_system_get_resize_constraint(PyObject *, PyObject *);
+PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
 
 /* _ped.FileSystemType type is the Python equivalent of PedFileSystemType
  * in libparted */
@@ -57,11 +57,11 @@ typedef struct {
     char *name;
 } _ped_FileSystemType;
 
-void _ped_FileSystemType_dealloc(_ped_FileSystemType *self);
-PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self);
-int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg);
-int _ped_FileSystemType_clear(_ped_FileSystemType *self);
-PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure);
+void _ped_FileSystemType_dealloc(_ped_FileSystemType *);
+PyObject *_ped_FileSystemType_str(_ped_FileSystemType *);
+int _ped_FileSystemType_traverse(_ped_FileSystemType *, visitproc, void *);
+int _ped_FileSystemType_clear(_ped_FileSystemType *);
+PyObject *_ped_FileSystemType_get(_ped_FileSystemType *, void *);
 
 extern PyTypeObject _ped_FileSystemType_Type_obj;
 
@@ -78,12 +78,12 @@ typedef struct {
     PedFileSystem *ped_filesystem;
 } _ped_FileSystem;
 
-void _ped_FileSystem_dealloc(_ped_FileSystem *self);
-PyObject *_ped_FileSystem_str(_ped_FileSystem *self);
-int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg);
-int _ped_FileSystem_clear(_ped_FileSystem *self);
-int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure);
+void _ped_FileSystem_dealloc(_ped_FileSystem *);
+PyObject *_ped_FileSystem_str(_ped_FileSystem *);
+int _ped_FileSystem_traverse(_ped_FileSystem *, visitproc, void *);
+int _ped_FileSystem_clear(_ped_FileSystem *);
+int _ped_FileSystem_init(_ped_FileSystem *, PyObject *, PyObject *);
+PyObject *_ped_FileSystem_get(_ped_FileSystem *, void *);
 
 extern PyTypeObject _ped_FileSystem_Type_obj;
 

@@ -2,7 +2,7 @@
  * pygeom.h
  * pyparted type definitions for pygeom.c
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -30,21 +30,21 @@
 #include <parted/parted.h>
 
 /* 1:1 function mappings for geom.h in libparted */
-PyObject *py_ped_geometry_duplicate(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_intersect(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set_start(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_set_end(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_overlap(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_inside(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_equal(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_test_sector_inside(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_read(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_sync(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_write(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_check(PyObject *s, PyObject *args);
-PyObject *py_ped_geometry_map(PyObject *s, PyObject *args);
+PyObject *py_ped_geometry_duplicate(PyObject *, PyObject *);
+PyObject *py_ped_geometry_intersect(PyObject *, PyObject *);
+PyObject *py_ped_geometry_set(PyObject *, PyObject *);
+PyObject *py_ped_geometry_set_start(PyObject *, PyObject *);
+PyObject *py_ped_geometry_set_end(PyObject *, PyObject *);
+PyObject *py_ped_geometry_test_overlap(PyObject *, PyObject *);
+PyObject *py_ped_geometry_test_inside(PyObject *, PyObject *);
+PyObject *py_ped_geometry_test_equal(PyObject *, PyObject *);
+PyObject *py_ped_geometry_test_sector_inside(PyObject *, PyObject *);
+PyObject *py_ped_geometry_read(PyObject *, PyObject *);
+PyObject *py_ped_geometry_sync(PyObject *, PyObject *);
+PyObject *py_ped_geometry_sync_fast(PyObject *, PyObject *);
+PyObject *py_ped_geometry_write(PyObject *, PyObject *);
+PyObject *py_ped_geometry_check(PyObject *, PyObject *);
+PyObject *py_ped_geometry_map(PyObject *, PyObject *);
 
 /* _ped.Geometry type is the Python equivalent of PedGeometry in libparted */
 typedef struct {
@@ -57,13 +57,13 @@ typedef struct {
     PedGeometry *ped_geometry;
 } _ped_Geometry;
 
-void _ped_Geometry_dealloc(_ped_Geometry *self);
-PyObject *_ped_Geometry_str(_ped_Geometry *self);
-int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg);
-int _ped_Geometry_clear(_ped_Geometry *self);
-int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds);
-PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure);
-int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure);
+void _ped_Geometry_dealloc(_ped_Geometry *);
+PyObject *_ped_Geometry_str(_ped_Geometry *);
+int _ped_Geometry_traverse(_ped_Geometry *, visitproc, void *);
+int _ped_Geometry_clear(_ped_Geometry *);
+int _ped_Geometry_init(_ped_Geometry *, PyObject *, PyObject *);
+PyObject *_ped_Geometry_get(_ped_Geometry *, void *);
+int _ped_Geometry_set(_ped_Geometry *, PyObject *, void *);
 
 extern PyTypeObject _ped_Geometry_Type_obj;
 

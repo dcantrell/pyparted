@@ -1,7 +1,7 @@
 /*
  * _pedmodule.h
  *
- * Copyright (C) 2007  Red Hat, Inc.
+ * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -25,8 +25,8 @@
 
 #include <Python.h>
 
-extern PyObject *py_libparted_get_version(PyObject *s, PyObject *args);
-extern PyObject *py_pyparted_version(PyObject *s, PyObject *args);
+extern PyObject *py_libparted_get_version(PyObject *, PyObject *);
+extern PyObject *py_pyparted_version(PyObject *, PyObject *);
 extern PyMODINIT_FUNC init_ped(void);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
