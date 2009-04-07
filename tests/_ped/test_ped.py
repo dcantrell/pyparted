@@ -276,9 +276,21 @@ class UnitGetDefaultTestCase(unittest.TestCase):
         self.assert_(_ped.unit_get_default() >= 0)
 
 class UnitGetSizeTestCase(RequiresDevice):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_SECTOR) == 512)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_BYTE) == 1)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_KILOBYTE) == 1000)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_MEGABYTE) == 1000000)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_GIGABYTE) == 1000000000)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_TERABYTE) == 1000000000000)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_KIBIBYTE) == 1024)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_MEBIBYTE) == 1048576)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_GIBIBYTE) == 1073741824)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_TEBIBYTE) == 1099511627776)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_CYLINDER) == 65536)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_CHS) == 512)
+        self.assertTrue(self._device.unit_get_size(_ped.UNIT_PERCENT) == 1280)
+        self.assertRaises(ValueError, self._device.unit_get_size(_ped.UNIT_COMPACT))
 
 class UnitGetNameTestCase(unittest.TestCase):
     def runTest(self):
