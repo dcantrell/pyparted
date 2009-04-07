@@ -135,6 +135,11 @@ PyDoc_STRVAR(file_system_get_copy_constraint_doc,
 "Return a constraint on copying self to somewhere on Device using\n"
 "self.copy()");
 
+PyDoc_STRVAR(unit_get_size_doc,
+"unit_get_size(self, Unit) -> long\n\n"
+"Returns the byte size of self in the specified Unit.  The Unit\n"
+"is any of the _ped.UNIT_* constants.");
+
 PyDoc_STRVAR(_ped_CHSGeometry_doc,
 "A _ped.CHSGeometry object describes a disk using the older CHS style\n"
 "of defining disk geometry.  CHS stands for cylinders-heads-sectors.\n\n"

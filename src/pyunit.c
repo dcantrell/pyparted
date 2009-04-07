@@ -51,13 +51,12 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_unit_get_default());
 }
 
-PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_get_size(_ped_Device *s, PyObject *args) {
     long long ret = -1;
-    PyObject *in_dev = NULL;
-    PedDevice *out_dev = NULL;
-    long unit;
+    PedDevice *dev = NULL;
+    int unit;
 
-    if (!PyArg_ParseTuple(args, "iO!", &unit, &_ped_Device_Type_obj, &in_dev))
+    if (!PyArg_ParseTuple(args, "i", &unit))
         return NULL;
 
     if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
@@ -65,12 +64,12 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
-    if (out_dev == NULL) {
+    dev = _ped_Device2PedDevice(s);
+    if (dev == NULL) {
         return NULL;
     }
 
-    ret = ped_unit_get_size(out_dev, unit);
+    ret = ped_unit_get_size(dev, unit);
     if (ret == 0) {
         /* Re-raise the libparted exception. */
         partedExnRaised = 0;

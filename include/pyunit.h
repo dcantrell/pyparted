@@ -33,7 +33,6 @@
 /* 1:1 function mappings for unit.h in libparted */
 PyObject *py_ped_unit_set_default(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_default(PyObject *, PyObject *);
-PyObject *py_ped_unit_get_size(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_name(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_by_name(PyObject *, PyObject *);
 PyObject *py_ped_unit_format_custom_byte(PyObject *, PyObject *);

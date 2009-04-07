@@ -44,9 +44,7 @@ PyObject *py_ped_file_system_close(PyObject *, PyObject *);
 PyObject *py_ped_file_system_check(PyObject *, PyObject *);
 PyObject *py_ped_file_system_copy(PyObject *, PyObject *);
 PyObject *py_ped_file_system_resize(PyObject *, PyObject *);
-PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
 PyObject *py_ped_file_system_get_resize_constraint(PyObject *, PyObject *);
-PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
 
 /* _ped.FileSystemType type is the Python equivalent of PedFileSystemType
  * in libparted */
