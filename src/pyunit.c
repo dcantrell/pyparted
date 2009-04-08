@@ -51,7 +51,7 @@ PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ped_unit_get_default());
 }
 
-PyObject *py_ped_unit_get_size(_ped_Device *s, PyObject *args) {
+PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     long long ret = -1;
     PedDevice *dev = NULL;
     int unit;
