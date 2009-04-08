@@ -37,7 +37,6 @@ typedef struct {
     /* PedPartition members */
     PyObject *disk;                /* _ped.Disk */
     PyObject *geom;                /* _ped.Geometry */
-    int num;
     int type;                      /* PedPartitionType */
     PyObject *fs_type;             /* _ped.FileSystemType */
 

@@ -121,9 +121,13 @@ class Partition(object):
         except parted.PartitionException as msg:
             return None
 
+    @property
+    def number(self):
+        """The partition number."""
+        return self.__partition.num
+
     fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
-    number = property(lambda s: s.__partition.num, lambda s, v: setattr(s.__partition, "num", v))
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
 

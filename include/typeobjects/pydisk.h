@@ -64,7 +64,7 @@ static PyMethodDef _ped_Partition_methods[] = {
 };
 
 static PyGetSetDef _ped_Partition_getset[] = {
-    {"num", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
+    {"num", (getter) _ped_Partition_get, NULL,
             "The number of this Partition on self.disk.", "num"},
     {"type", (getter) _ped_Partition_get, (setter) _ped_Partition_set,
              "PedPartition type", "type"},

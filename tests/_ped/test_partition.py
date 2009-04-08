@@ -54,11 +54,10 @@ class PartitionGetSetTestCase(RequiresPartition):
 
         # Test that setting the RW attributes directly works.
         self._part.type = _ped.PARTITION_EXTENDED
-        self._part.num = 1
         self.assert_(getattr(self._part, "type") == _ped.PARTITION_EXTENDED)
-        self.assert_(getattr(self._part, "num") == 1)
 
         # Test that setting the RO attributes directly doesn't work.
+        self.assertRaises(TypeError, setattr, self._part, "num", 1)
         self.assertRaises(TypeError, setattr, self._part, "fs_type",
                                      _ped.file_system_type_get("fat32"))
         self.assertRaises(TypeError, setattr, self._part, "geom",
