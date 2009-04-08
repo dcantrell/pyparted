@@ -629,7 +629,6 @@ _ped_Partition *PedPartition2_ped_Partition(PedPartition *part,
             goto error;
     }
 
-    ret->num = part->num;
     ret->type = part->type;
     ret->ped_partition = part;
 
