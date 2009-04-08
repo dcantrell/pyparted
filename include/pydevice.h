@@ -102,7 +102,7 @@ PyObject *py_ped_device_check(PyObject *, PyObject *);
 PyObject *py_ped_device_get_constraint(PyObject *, PyObject *);
 PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
-PyObject *py_ped_unit_get_size(_ped_Device *, PyObject *);
+PyObject *py_ped_unit_get_size(PyObject *, PyObject *);
 
 #endif /* PYDEVICE_H_INCLUDED */
 
