@@ -290,7 +290,7 @@ class UnitGetSizeTestCase(RequiresDevice):
         self.assertTrue(self._device.unit_get_size(_ped.UNIT_CYLINDER) == 65536)
         self.assertTrue(self._device.unit_get_size(_ped.UNIT_CHS) == 512)
         self.assertTrue(self._device.unit_get_size(_ped.UNIT_PERCENT) == 1280)
-        self.assertRaises(ValueError, self._device.unit_get_size(_ped.UNIT_COMPACT))
+        self.assertRaises(ValueError, self._device.unit_get_size, _ped.UNIT_COMPACT)
 
 class UnitGetNameTestCase(unittest.TestCase):
     def runTest(self):
