@@ -223,7 +223,8 @@ class Partition(object):
 
         if (drive.startswith("cciss") or drive.startswith("ida") or
             drive.startswith("rd") or drive.startswith("sx8") or
-            drive.startswith("mapper") or drive.startswith("mmcblk")):
+            drive.startswith("mapper") or drive.startswith("mmcblk") or
+            drive.startswith("md")):
             sep = "p"
         else:
             sep = ""
