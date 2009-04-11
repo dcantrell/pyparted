@@ -140,6 +140,40 @@ PyDoc_STRVAR(unit_get_size_doc,
 "Returns the byte size of self in the specified Unit.  The Unit\n"
 "is any of the _ped.UNIT_* constants.");
 
+PyDoc_STRVAR(unit_format_custom_byte_doc,
+"unit_format_custom_byte(Sector, Unit) -> string\n\n"
+"Return a string that describes the location of the byte Sector on\n"
+"self, as described by Unit.  The Unit is any of the _ped.UNIT_*\n"
+"constants.");
+
+PyDoc_STRVAR(unit_format_byte_doc,
+"unit_format_byte(Sector) -> string\n\n"
+"Return a string that describes the location of the byte Sector on\n"
+"self, as described by the default Unit.");
+
+PyDoc_STRVAR(unit_format_custom_doc,
+"unit_format_custom(Sector, Unit) -> string\n\n"
+"Return a string that describes the location of Sector on self, as\n"
+"described by Unit.  The Unit is any of the _ped.UNIT_* constants.");
+
+PyDoc_STRVAR(unit_format_doc,
+"unit_format(Device, Sector) -> string\n\n"
+"Return a string that describes the location of Sector on self, as\n"
+"described by the default Unit.");
+
+PyDoc_STRVAR(unit_parse_doc,
+"unit_parse(string, Sector, Geometry) -> boolean\n\n"
+"Given a string providing a valid description of a location on self,\n"
+"create a Geometry and Sector describing it.  Geometry will be two units\n"
+"large, centered on Sector.  If this makes the Geometry exist partially\n"
+"outside self, the Geometry will be intersected with the whole device\n"
+"geometry.  This uses the default unit.");
+
+PyDoc_STRVAR(unit_parse_custom_doc,
+"unit_parse(string, Unit, Sector, Geometry) -> boolean\n\n"
+"Follows the same description as unit_parse_doc, but takes a Unit as\n"
+"well.  The Unit is any of the _ped.UNIT_* constants.");
+
 PyDoc_STRVAR(_ped_CHSGeometry_doc,
 "A _ped.CHSGeometry object describes a disk using the older CHS style\n"
 "of defining disk geometry.  CHS stands for cylinders-heads-sectors.\n\n"

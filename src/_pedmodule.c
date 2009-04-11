@@ -173,39 +173,6 @@ PyDoc_STRVAR(unit_get_by_name_doc,
 "Returns a Unit given its textual representation.  Returns one of the\n"
 "UNIT_* constants.");
 
-PyDoc_STRVAR(unit_format_custom_byte_doc,
-"unit_format_custom_byte(Device, Sector, Unit) -> string\n\n"
-"Return a string that describes the location of the byte Sector on\n"
-"Device, as described by Unit.");
-
-PyDoc_STRVAR(unit_format_byte_doc,
-"unit_format_byte(Device, Sector) -> string\n\n"
-"Return a string that describes the location of the byte Sector on\n"
-"Device, as described by the default Unit.");
-
-PyDoc_STRVAR(unit_format_custom_doc,
-"unit_format_custom(Device, Sector, Unit) -> string\n\n"
-"Return a string that describes the location of Sector on Device, as\n"
-"described by the default Unit.");
-
-PyDoc_STRVAR(unit_format_doc,
-"unit_format(Device, Sector) -> string\n\n"
-"Return a string that describes the location of Sector on Device, as\n"
-"described by the default Unit.");
-
-PyDoc_STRVAR(unit_parse_doc,
-"unit_parse(string, Device, Sector, Geometry) -> boolean\n\n"
-"Given a string providing a valid description of a location on Device,\n"
-"create a Geometry and Sector describing it.  Geometry will be two units\n"
-"large, centered on Sector.  If this makes the Geometry exist partially\n"
-"outside Device, the Geometry will be intersected with the whole device\n"
-"geometry.  This uses the default unit.");
-
-PyDoc_STRVAR(unit_parse_custom_doc,
-"unit_parse(string, Device, Unit, Sector, Geometry) -> boolean\n\n"
-"Follows the same description as unit_parse_doc, but takes a Unit as\n"
-"well.");
-
 PyDoc_STRVAR(_ped_doc,
 "This module implements an interface to libparted.\n\n"
 "pyparted provides two API layers:  a lower level that exposes the complete\n"
@@ -284,18 +251,6 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                       unit_get_name_doc},
     {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS,
                          unit_get_by_name_doc},
-    {"unit_format_custom_byte", (PyCFunction) py_ped_unit_format_custom_byte,
-                                METH_VARARGS, unit_format_custom_byte_doc},
-    {"unit_format_byte", (PyCFunction) py_ped_unit_format_byte, METH_VARARGS,
-                         unit_format_byte_doc},
-    {"unit_format_custom", (PyCFunction) py_ped_unit_format_custom,
-                           METH_VARARGS, unit_format_custom_doc},
-    {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS,
-                    unit_format_doc},
-    {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS,
-                   unit_parse_doc},
-    {"unit_parse_custom", (PyCFunction) py_ped_unit_parse_custom,
-                          METH_VARARGS, unit_parse_custom_doc},
 
     { NULL, NULL, 0, NULL }
 };

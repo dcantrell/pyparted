@@ -166,6 +166,18 @@ static PyMethodDef _ped_Device_methods[] = {
      */
     {"unit_get_size", (PyCFunction) py_ped_unit_get_size, METH_VARARGS,
                       unit_get_size_doc},
+    {"unit_format_custom_byte", (PyCFunction) py_ped_unit_format_custom_byte,
+                                METH_VARARGS, unit_format_custom_byte_doc},
+    {"unit_format_byte", (PyCFunction) py_ped_unit_format_byte, METH_VARARGS,
+                         unit_format_byte_doc},
+    {"unit_format_custom", (PyCFunction) py_ped_unit_format_custom,
+                           METH_VARARGS, unit_format_custom_doc},
+    {"unit_format", (PyCFunction) py_ped_unit_format, METH_VARARGS,
+                    unit_format_doc},
+    {"unit_parse", (PyCFunction) py_ped_unit_parse, METH_VARARGS,
+                   unit_parse_doc},
+    {"unit_parse_custom", (PyCFunction) py_ped_unit_parse_custom,
+                          METH_VARARGS, unit_parse_custom_doc},
 
     {NULL}
 };
