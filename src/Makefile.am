@@ -1,7 +1,7 @@
 #
 # Makefile.am for pyparted src subdirectory
 #
-# Copyright (C) 2007  Red Hat, Inc.
+# Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -22,7 +22,7 @@
 
 SUBDIRS = parted
 
-CFLAGS = -Wall -Wmissing-prototypes
+CFLAGS += -Wall -Wmissing-prototypes
 
 INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
