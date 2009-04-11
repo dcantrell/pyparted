@@ -22,7 +22,7 @@
 
 SUBDIRS = parted
 
-CFLAGS += -Wall -Wmissing-prototypes
+CFLAGS += -Werror -Wmissing-prototypes -fno-strict-aliasing
 
 INCLUDES = -I$(top_srcdir)/include $(PYTHON_INCLUDES) $(LIBPARTED_INCLUDES)
 
