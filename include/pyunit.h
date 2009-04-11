@@ -35,12 +35,6 @@ PyObject *py_ped_unit_set_default(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_default(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_name(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_by_name(PyObject *, PyObject *);
-PyObject *py_ped_unit_format_custom_byte(PyObject *, PyObject *);
-PyObject *py_ped_unit_format_byte(PyObject *, PyObject *);
-PyObject *py_ped_unit_format_custom(PyObject *, PyObject *);
-PyObject *py_ped_unit_format(PyObject *, PyObject *);
-PyObject *py_ped_unit_parse(PyObject *, PyObject *);
-PyObject *py_ped_unit_parse_custom(PyObject *, PyObject *);
 
 #endif /* PYUNIT_H_INCLUDED */
 

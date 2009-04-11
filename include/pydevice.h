@@ -103,6 +103,12 @@ PyObject *py_ped_device_get_constraint(PyObject *, PyObject *);
 PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
 PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_size(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_custom_byte(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_byte(PyObject *, PyObject *);
+PyObject *py_ped_unit_format_custom(PyObject *, PyObject *);
+PyObject *py_ped_unit_format(PyObject *, PyObject *);
+PyObject *py_ped_unit_parse(PyObject *, PyObject *);
+PyObject *py_ped_unit_parse_custom(PyObject *, PyObject *);
 
 #endif /* PYDEVICE_H_INCLUDED */
 

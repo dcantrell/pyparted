@@ -126,13 +126,11 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     char *ret = NULL;
-    PyObject *in_dev = NULL;
     long unit;
     PedSector sector;
     PedDevice *out_dev = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!Li", &_ped_Device_Type_obj, &in_dev, &sector,
-                          &unit)) {
+    if (!PyArg_ParseTuple(args, "Li", &sector, &unit)) {
         return NULL;
     }
 
@@ -141,7 +139,7 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
@@ -155,14 +153,13 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     char *ret = NULL;
-    PyObject *in_dev = NULL;
     PedSector sector;
     PedDevice *out_dev = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!L", &_ped_Device_Type_obj, &in_dev, &sector))
+    if (!PyArg_ParseTuple(args, "L", &sector))
         return NULL;
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
@@ -176,17 +173,15 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     char *ret = NULL;
-    PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
     long unit;
 
-    if (!PyArg_ParseTuple(args, "O!Li", &_ped_Device_Type_obj, &in_dev, &sector,
-                          &unit)) {
+    if (!PyArg_ParseTuple(args, "Li", &sector, &unit)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
@@ -200,15 +195,14 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     char *ret = NULL;
-    PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
 
-    if (!PyArg_ParseTuple(args, "O!L", &_ped_Device_Type_obj, &in_dev, &sector)) {
+    if (!PyArg_ParseTuple(args, "L", &sector)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
@@ -223,17 +217,17 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     int ret;
     char *str = NULL;
-    PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "zOLO", &str, &in_dev, &sector, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "zLO!", &str, &sector,
+                          &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
@@ -255,15 +249,14 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
 PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     int ret;
     char *str = NULL;
-    PyObject *in_dev = NULL;
     PedDevice *out_dev = NULL;
     long unit;
     PedSector sector;
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "zOiLO", &str, &in_dev, &unit, &sector,
-                          &in_geom)) {
+    if (!PyArg_ParseTuple(args, "ziLO!", &str, &unit, &sector,
+                          &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -272,7 +265,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_dev = _ped_Device2PedDevice(in_dev);
+    out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
