@@ -331,36 +331,6 @@ class UnitGetByNameTestCase(unittest.TestCase):
 
         self.assertRaises(_ped.UnknownTypeException, _ped.unit_get_by_name, "blargle")
 
-class UnitFormatCustomByteTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class UnitFormatByteTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class UnitFormatCustomTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class UnitFormatTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class UnitParseTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-class UnitParseCustomTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
@@ -388,12 +358,6 @@ def suite():
     suite.addTest(UnitGetSizeTestCase())
     suite.addTest(UnitGetNameTestCase())
     suite.addTest(UnitGetByNameTestCase())
-    suite.addTest(UnitFormatCustomByteTestCase())
-    suite.addTest(UnitFormatByteTestCase())
-    suite.addTest(UnitFormatCustomTestCase())
-    suite.addTest(UnitFormatTestCase())
-    suite.addTest(UnitParseTestCase())
-    suite.addTest(UnitParseCustomTestCase())
     return suite
 
 s = suite()

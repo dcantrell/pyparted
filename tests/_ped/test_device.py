@@ -197,6 +197,36 @@ class DeviceGetConstraintTestCase(RequiresDevice):
         # hardware with unusual sector sizes.
         self.assert_(isinstance(self._device.get_constraint(), _ped.Constraint))
 
+class UnitFormatCustomByteTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
+class UnitFormatByteTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
+class UnitFormatCustomTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
+class UnitFormatTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
+class UnitParseTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
+class UnitParseCustomTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
 class DeviceStrTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -220,6 +250,12 @@ def suite():
     suite.addTest(DeviceSyncFastTestCase())
     suite.addTest(DeviceCheckTestCase())
     suite.addTest(DeviceGetConstraintTestCase())
+    suite.addTest(UnitFormatCustomByteTestCase())
+    suite.addTest(UnitFormatByteTestCase())
+    suite.addTest(UnitFormatCustomTestCase())
+    suite.addTest(UnitFormatTestCase())
+    suite.addTest(UnitParseTestCase())
+    suite.addTest(UnitParseCustomTestCase())
     suite.addTest(DeviceStrTestCase())
     return suite
 
