@@ -266,13 +266,12 @@ def freshDisk(device, ty):
 
        The new label is not written to disk until commitToDevice()
        is called on the Disk."""
-    from _ped import disk_new_fresh
+    from _ped import disk_new_fresh, DiskType
 
-    if (ty not in diskType.keys()) and (ty not in diskType.values()):
-        raise SyntaxError, "type must be a key or value in parted.diskType"
-
-    if ty in diskType.keys():
+    if type(ty) == str:
         ty = diskType[ty]
+    elif not isinstance(ty, DiskType):
+        raise SyntaxError, "type must be a key or value in parted.diskType"
 
     peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)
