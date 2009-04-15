@@ -283,35 +283,34 @@ class GeometryReadTestCase(RequiresDevice):
         self.assertEquals(self.g.read(20, 5), "2")
         self.assertEquals(self.g.read(20, 1), "2")
 
-    def tearDown(self):
         self._device.close()
 
 class GeometrySyncTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self.g = _ped.Geometry(self._device, start=0, length=100)
-        self._device.open()
 
     def runTest(self):
+        self._device.open()
+
         # XXX: I don't know of a better way to test this method.
         self.g.write("1111111111", 0, 1)
         self.assertEquals(self.g.sync(), 1)
 
-    def tearDown(self):
         self._device.close()
 
 class GeometrySyncFastTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self.g = _ped.Geometry(self._device, start=0, length=100)
-        self._device.open()
 
     def runTest(self):
+        self._device.open()
+
         # XXX: I don't know of a better way to test this method.
         self.g.write("1111111111", 0, 1)
         self.assertEquals(self.g.sync_fast(), 1)
 
-    def tearDown(self):
         self._device.close()
 
 class GeometryWriteTestCase(RequiresDevice):
@@ -340,7 +339,6 @@ class GeometryWriteTestCase(RequiresDevice):
         self.assertRaises(_ped.IOException, self.g.write, "X", 200, 1)
         self.assertRaises(_ped.IOException, self.g.write, "X", 0, 200)
 
-    def tearDown(self):
         self._device.close()
 
 class GeometryCheckTestCase(RequiresDevice):
@@ -353,10 +351,10 @@ class GeometryCheckTestCase(RequiresDevice):
         self.assertEquals(self.g.check(0, 0, 0), 0)
 
         self._device.open()
+
         self.assertEquals(self.g.check(0, 0, 10), 0)
         self.assertEquals(self.g.check(0, 0, 50), 0)
 
-    def tearDown(self):
         self._device.close()
 
 class GeometryMapTestCase(RequiresDevice):
@@ -374,7 +372,6 @@ class GeometryMapTestCase(RequiresDevice):
         val2 = self.g1.read(25, 8)
         self.assertEquals(val1, val2)
 
-    def tearDown(self):
         self._device.close()
 
 class GeometryStrTestCase(RequiresDevice):

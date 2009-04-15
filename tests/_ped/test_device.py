@@ -149,13 +149,13 @@ class DeviceEndExternalAccessTestCase(RequiresDevice):
         self._device.close()
 
 class DeviceReadTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
+        # TODO
         self.fail("Unimplemented test case.")
 
 class DeviceWriteTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
+        # TODO
         self.fail("Unimplemented test case.")
 
 class DeviceSyncTestCase(RequiresDevice):
@@ -186,10 +186,11 @@ class DeviceSyncFastTestCase(RequiresDevice):
         self.assertTrue(self._device.sync_fast())
         self._device.close()
 
-class DeviceCheckTestCase(unittest.TestCase):
-    # TODO
+class DeviceCheckTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self._device.open()
+        self.assertEquals(self._device.check(0, 20), 20)
+        self._device.close()
 
 class DeviceGetConstraintTestCase(RequiresDevice):
     def runTest(self):
@@ -197,10 +198,22 @@ class DeviceGetConstraintTestCase(RequiresDevice):
         # hardware with unusual sector sizes.
         self.assertTrue(isinstance(self._device.get_constraint(), _ped.Constraint))
 
-class UnitFormatCustomByteTestCase(unittest.TestCase):
-    # TODO
+class UnitFormatCustomByteTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_SECTOR), '0s')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_BYTE), '47B')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_KILOBYTE), '0.05kB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_MEGABYTE), '0.00MB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_GIGABYTE), '0.00GB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_TERABYTE), '0.00TB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_COMPACT), '47.0B')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_CYLINDER), '0cyl')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_CHS), '0,0,0')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_PERCENT), '0.04%')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_KIBIBYTE), '0.05kiB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_MEBIBYTE), '0.00MiB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_GIBIBYTE), '0.00GiB')
+        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_TEBIBYTE), '0.00TiB')
 
 class UnitFormatByteTestCase(unittest.TestCase):
     # TODO
