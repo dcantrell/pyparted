@@ -694,6 +694,16 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    if (!geom->dev->open_count) {
+        PyErr_Format(IOException, "Device %s is not open.", geom->dev->path);
+        return NULL;
+    }
+
+    if (geom->dev->external_mode) {
+        PyErr_Format(IOException, "Device %s is already open for external access.", geom->dev->path);
+        return NULL;
+    }
+
     if (in_timer)
        out_timer = _ped_Timer2PedTimer(in_timer);
     else
