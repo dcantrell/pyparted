@@ -39,7 +39,7 @@ class DeviceGetSetTestCase(RequiresDevice):
         for attr in ["model", "path", "type", "sector_size", "phys_sector_size",
                      "length", "open_count", "read_only", "external_mode",
                      "dirty", "boot_dirty", "host", "did"]:
-            self.assert_(getattr(self._device, attr) is not None)
+            self.assertNotEquals(getattr(self._device, attr), None)
             self.assertRaises(AttributeError, setattr, self._device, attr, 47)
 
 class DeviceIsBusyTestCase(RequiresDevice):
@@ -195,7 +195,7 @@ class DeviceGetConstraintTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
-        self.assert_(isinstance(self._device.get_constraint(), _ped.Constraint))
+        self.assertTrue(isinstance(self._device.get_constraint(), _ped.Constraint))
 
 class UnitFormatCustomByteTestCase(unittest.TestCase):
     # TODO

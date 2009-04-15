@@ -42,7 +42,7 @@ class DiskTypeGetSetTestCase(RequiresDiskTypes):
             self.assertRaises(AttributeError, setattr, t, "features", 47)
 
             self.assertTrue(isinstance(t.name, str))
-            self.assertTrue(t.name == name)
+            self.assertEquals(t.name, name)
             self.assertTrue(isinstance(t.features, long))
 
 class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
@@ -69,16 +69,16 @@ class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
 
 class DiskTypeStrTestCase(RequiresDiskTypes):
     def runTest(self):
-        self.assertTrue(str(self.disktype['msdos']) == '_ped.DiskType instance --\n  name: msdos  features: 1')
-        self.assertTrue(str(self.disktype['aix']) == '_ped.DiskType instance --\n  name: aix  features: 0')
-        self.assertTrue(str(self.disktype['sun']) == '_ped.DiskType instance --\n  name: sun  features: 0')
-        self.assertTrue(str(self.disktype['amiga']) == '_ped.DiskType instance --\n  name: amiga  features: 2')
-        self.assertTrue(str(self.disktype['gpt']) == '_ped.DiskType instance --\n  name: gpt  features: 2')
-        self.assertTrue(str(self.disktype['mac']) == '_ped.DiskType instance --\n  name: mac  features: 2')
-        self.assertTrue(str(self.disktype['bsd']) == '_ped.DiskType instance --\n  name: bsd  features: 0')
-        self.assertTrue(str(self.disktype['pc98']) == '_ped.DiskType instance --\n  name: pc98  features: 2')
-        self.assertTrue(str(self.disktype['loop']) == '_ped.DiskType instance --\n  name: loop  features: 0')
-        self.assertTrue(str(self.disktype['dvh']) == '_ped.DiskType instance --\n  name: dvh  features: 3')
+        self.assertEquals(str(self.disktype['msdos']), '_ped.DiskType instance --\n  name: msdos  features: 1')
+        self.assertEquals(str(self.disktype['aix']), '_ped.DiskType instance --\n  name: aix  features: 0')
+        self.assertEquals(str(self.disktype['sun']), '_ped.DiskType instance --\n  name: sun  features: 0')
+        self.assertEquals(str(self.disktype['amiga']), '_ped.DiskType instance --\n  name: amiga  features: 2')
+        self.assertEquals(str(self.disktype['gpt']), '_ped.DiskType instance --\n  name: gpt  features: 2')
+        self.assertEquals(str(self.disktype['mac']), '_ped.DiskType instance --\n  name: mac  features: 2')
+        self.assertEquals(str(self.disktype['bsd']), '_ped.DiskType instance --\n  name: bsd  features: 0')
+        self.assertEquals(str(self.disktype['pc98']), '_ped.DiskType instance --\n  name: pc98  features: 2')
+        self.assertEquals(str(self.disktype['loop']), '_ped.DiskType instance --\n  name: loop  features: 0')
+        self.assertEquals(str(self.disktype['dvh']), '_ped.DiskType instance --\n  name: dvh  features: 3')
 
 # And then a suite to hold all the test cases for this module.
 def suite():
