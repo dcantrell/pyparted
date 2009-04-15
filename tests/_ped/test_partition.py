@@ -37,24 +37,24 @@ class PartitionNewTestCase(RequiresDisk):
 
         part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
                               _ped.file_system_type_get("ext2"))
-        self.assert_(isinstance(part, _ped.Partition))
+        self.assertTrue(isinstance(part, _ped.Partition))
 
         # You don't need to pass a filesystem type at all, since this partition
         # might be FREESPACE or METADATA.
         part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100)
-        self.assert_(isinstance(part, _ped.Partition))
+        self.assertTrue(isinstance(part, _ped.Partition))
 
 class PartitionGetSetTestCase(RequiresPartition):
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assert_(self._part.disk == self._disk)
-        self.assert_(isinstance(self._part.geom, _ped.Geometry))
-        self.assert_(self._part.type == _ped.PARTITION_NORMAL)
-        self.assert_(self._part.fs_type.name == "ext2")
+        self.assertEquals(self._part.disk, self._disk)
+        self.assertTrue(isinstance(self._part.geom, _ped.Geometry))
+        self.assertEquals(self._part.type, _ped.PARTITION_NORMAL)
+        self.assertEquals(self._part.fs_type.name, "ext2")
 
         # Test that setting the RW attributes directly works.
         self._part.type = _ped.PARTITION_EXTENDED
-        self.assert_(getattr(self._part, "type") == _ped.PARTITION_EXTENDED)
+        self.assertEquals(getattr(self._part, "type"), _ped.PARTITION_EXTENDED)
 
         # Test that setting the RO attributes directly doesn't work.
         self.assertRaises(TypeError, setattr, self._part, "num", 1)
@@ -109,7 +109,7 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
                      _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
                      _ped.PARTITION_HPSERVICE, _ped.PARTITION_PALO,
                      _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED]:
-            self.assert_(isinstance(self._part.is_flag_available(flag), bool))
+            self.assertTrue(isinstance(self._part.is_flag_available(flag), bool))
 
         # However, an invalid flag should definitely not be available.
         self.assertFalse(self._part.is_flag_available(1000))
@@ -172,7 +172,7 @@ class PartitionIsBusyTestCase(unittest.TestCase):
 
 class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
-        self.assert_(self._part.get_path() != "")
+        self.assertNotEquals(self._part.get_path(), "")
 
 class PartitionStrTestCase(unittest.TestCase):
     def runTest(self):

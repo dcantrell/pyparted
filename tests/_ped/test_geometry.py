@@ -326,9 +326,9 @@ class GeometryWriteTestCase(RequiresDevice):
         # Now try a real write and make sure we (1) don't get an error code
         # and (2) the data actually ends up on the device.
         self._device.open()
-        self.assertFalse(self.g.write("X", 0, 10) == 0)
+        self.assertNotEquals(self.g.write("X", 0, 10), 0)
         self.assertEquals(self.g.read(0, 10), "X")
-        self.assertFalse(self.g.write("XXXXXXXXXX", 0, 10) == 0)
+        self.assertNotEquals(self.g.write("XXXXXXXXXX", 0, 10), 0)
         self.assertEquals(self.g.read(0, 10), "XXXXXXXXXX")
 
         # Test bad parameter passing.

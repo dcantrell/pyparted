@@ -60,8 +60,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assertTrue(self.c.min_size == 10)
-        self.assertTrue(self.c.max_size == 100)
+        self.assertEquals(self.c.min_size, 10)
+        self.assertEquals(self.c.max_size, 100)
         self.assertTrue(isinstance(self.c.start_align, _ped.Alignment))
         self.assertTrue(isinstance(self.c.end_align, _ped.Alignment))
         self.assertTrue(isinstance(self.c.start_range, _ped.Geometry))
@@ -71,8 +71,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.c.min_size = 15
         self.c.max_size = 75
 
-        self.assertTrue(getattr(self.c, "min_size") == 15)
-        self.assertTrue(getattr(self.c, "max_size") == 75)
+        self.assertEquals(getattr(self.c, "min_size"), 15)
+        self.assertEquals(getattr(self.c, "max_size"), 75)
         self.assertTrue(isinstance(getattr(self.c, "start_align"), _ped.Alignment))
         self.assertTrue(isinstance(getattr(self.c, "end_align"), _ped.Alignment))
         self.assertTrue(isinstance(getattr(self.c, "start_range"), _ped.Geometry))
@@ -82,8 +82,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         setattr(self.c, "min_size", 10)
         setattr(self.c, "max_size", 90)
 
-        self.assertTrue(self.c.min_size == 10)
-        self.assertTrue(self.c.max_size == 90)
+        self.assertEquals(self.c.min_size, 10)
+        self.assertEquals(self.c.max_size, 90)
 
         # Test that values have the right type.
         self.assertRaises(TypeError, setattr, self.c, "min_size", "string")
@@ -94,7 +94,7 @@ class ConstraintGetSetTestCase(RequiresDevice):
         # We really shouldn't be allowed to overwrite objects stored in a
         # _ped.Constraint, but for now there's no way to prevent it.
         self.c.end_range = 47
-        self.assertTrue(self.c.end_range == 47)
+        self.assertEquals(self.c.end_range, 47)
 
 class ConstraintDuplicateTestCase(RequiresDevice):
     def setUp(self):
@@ -109,26 +109,26 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 
     def runTest(self):
         self.dup = self.c.duplicate()
-        self.assertTrue(self.c.min_size == self.dup.min_size)
-        self.assertTrue(self.c.max_size == self.dup.max_size)
+        self.assertEquals(self.c.min_size, self.dup.min_size)
+        self.assertEquals(self.c.max_size, self.dup.max_size)
 
         # duplicate methods should do a deepcopy, so self.dup should have
         # different references, but the same contents.
-        self.assertFalse(repr(self.c) == repr(self.dup))
-        self.assertTrue(self.c.start_align == self.dup.start_align)
-        self.assertTrue(self.c.end_align == self.dup.end_align)
-        self.assertTrue(self.c.start_range == self.dup.start_range)
-        self.assertTrue(self.c.end_range == self.dup.end_range)
-        self.assertTrue(self.c.start_align.grain_size == self.dup.start_align.grain_size)
-        self.assertTrue(self.c.start_align.offset == self.dup.start_align.offset)
-        self.assertTrue(self.c.end_align.grain_size == self.dup.end_align.grain_size)
-        self.assertTrue(self.c.end_align.offset == self.dup.end_align.offset)
-        self.assertTrue(self.c.start_range.start == self.dup.start_range.start)
-        self.assertTrue(self.c.start_range.length == self.dup.start_range.length)
-        self.assertTrue(self.c.start_range.end == self.dup.start_range.end)
-        self.assertTrue(self.c.end_range.start == self.dup.end_range.start)
-        self.assertTrue(self.c.end_range.length == self.dup.end_range.length)
-        self.assertTrue(self.c.end_range.end == self.dup.end_range.end)
+        self.assertFalse(repr(self.c), repr(self.dup))
+        self.assertEquals(self.c.start_align, self.dup.start_align)
+        self.assertEquals(self.c.end_align, self.dup.end_align)
+        self.assertEquals(self.c.start_range, self.dup.start_range)
+        self.assertEquals(self.c.end_range, self.dup.end_range)
+        self.assertEquals(self.c.start_align.grain_size, self.dup.start_align.grain_size)
+        self.assertEquals(self.c.start_align.offset, self.dup.start_align.offset)
+        self.assertEquals(self.c.end_align.grain_size, self.dup.end_align.grain_size)
+        self.assertEquals(self.c.end_align.offset, self.dup.end_align.offset)
+        self.assertEquals(self.c.start_range.start, self.dup.start_range.start)
+        self.assertEquals(self.c.start_range.length, self.dup.start_range.length)
+        self.assertEquals(self.c.start_range.end, self.dup.start_range.end)
+        self.assertEquals(self.c.end_range.start, self.dup.end_range.start)
+        self.assertEquals(self.c.end_range.length, self.dup.end_range.length)
+        self.assertEquals(self.c.end_range.end, self.dup.end_range.end)
 
 class ConstraintIntersectTestCase(RequiresDevice):
     def setUp(self):
@@ -162,7 +162,7 @@ class ConstraintIntersectTestCase(RequiresDevice):
                                        min_size=minSize, max_size=maxSize)
 
         result = self.c1.intersect(self.c2)
-        self.assertTrue(result == expected)
+        self.assertEquals(result, expected)
 
 class ConstraintSolveMaxTestCase(unittest.TestCase):
     # TODO
@@ -201,12 +201,12 @@ class ConstraintStrTestCase(RequiresDevice):
     def runTest(self):
         result = str(self.c1).split('\n')
 
-        self.assertTrue(result[0] == '_ped.Constraint instance --')
+        self.assertEquals(result[0], '_ped.Constraint instance --')
         self.assertTrue(result[1].startswith('  start_align: <_ped.Alignment object at '))
-        self.assertFalse(result[1].find('  end_align: <_ped.Alignment object at ') == -1)
+        self.assertNotEquals(result[1].find('  end_align: <_ped.Alignment object at '), -1)
         self.assertTrue(result[2].startswith('  start_range: <_ped.Geometry object at '))
-        self.assertFalse(result[2].find('  end_range: <_ped.Geometry object at ') == -1)
-        self.assertTrue(result[3] == '  min_size: 10  max_size: 100')
+        self.assertNotEquals(result[2].find('  end_range: <_ped.Geometry object at '), -1)
+        self.assertEquals(result[3], '  min_size: 10  max_size: 100')
 
 # And then a suite to hold all the test cases for this module.
 def suite():
