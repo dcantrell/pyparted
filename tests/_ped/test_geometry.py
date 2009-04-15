@@ -34,8 +34,8 @@ class GeometryNewTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.Geometry, 0, self._device, 100)
 
         # And then the correct ways of creating a _ped.Geometry.
-        self.assert_(isinstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry))
-        self.assert_(isinstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry))
+        self.assertTrue(isinstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry))
+        self.assertTrue(isinstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry))
 
 class GeometryGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -44,28 +44,28 @@ class GeometryGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assert_(isinstance(self.g, _ped.Geometry))
-        self.assert_(self.g.start == 0)
-        self.assert_(self.g.length == 100)
-        self.assert_(self.g.end == 99)
+        self.assertTrue(isinstance(self.g, _ped.Geometry))
+        self.assertEquals(self.g.start, 0)
+        self.assertEquals(self.g.length, 100)
+        self.assertEquals(self.g.end, 99)
 
         # Test that setting directly and getting with getattr works.
         self.g.start = 10
         self.g.length = 90
         self.g.end = 99
 
-        self.assert_(getattr(self.g, "start") == 10)
-        self.assert_(getattr(self.g, "length") == 90)
-        self.assert_(getattr(self.g, "end") == 99)
+        self.assertEquals(getattr(self.g, "start"), 10)
+        self.assertEquals(getattr(self.g, "length"), 90)
+        self.assertEquals(getattr(self.g, "end"), 99)
 
         # Check that setting with setattr and getting directly works.
         setattr(self.g, "start", 20)
         setattr(self.g, "length", 80)
         setattr(self.g, "end", 99)
 
-        self.assert_(self.g.start == 20)
-        self.assert_(self.g.length == 80)
-        self.assert_(self.g.end == 99)
+        self.assertEquals(self.g.start, 20)
+        self.assertEquals(self.g.length, 80)
+        self.assertEquals(self.g.end, 99)
 
         # Check that values have the right type.
         self.assertRaises(TypeError, setattr, self.g, "start", "string")
@@ -80,9 +80,9 @@ class GeometryDuplicateTestCase(RequiresDevice):
 
     def runTest(self):
         self.dup = self.g.duplicate()
-        self.assert_(self.g.start == self.dup.start)
-        self.assert_(self.g.length == self.dup.length)
-        self.assert_(self.g.end == self.dup.end)
+        self.assertEquals(self.g.start, self.dup.start)
+        self.assertEquals(self.g.length, self.dup.length)
+        self.assertEquals(self.g.end, self.dup.end)
 
 class GeometryIntersectTestCase(RequiresDevice):
     def setUp(self):
@@ -93,24 +93,24 @@ class GeometryIntersectTestCase(RequiresDevice):
     def runTest(self):
        # g1 and g2 are the same, so their intersection is the same
         self.i = self.g1.intersect(self.g2)
-        self.assert_(self.i.start == self.g1.start)
-        self.assert_(self.i.end == self.g1.end)
-        self.assert_(self.i.length == self.g1.length)
+        self.assertEquals(self.i.start, self.g1.start)
+        self.assertEquals(self.i.end, self.g1.end)
+        self.assertEquals(self.i.length, self.g1.length)
 
         # g2 is the second half of g1, so their intersection is the same as g2.
         self.g2.set_start(50)
         self.i = self.g1.intersect(self.g2)
-        self.assert_(self.i.start == self.g2.start)
-        self.assert_(self.i.end == self.g2.end)
-        self.assert_(self.i.length == self.g2.length)
+        self.assertEquals(self.i.start, self.g2.start)
+        self.assertEquals(self.i.end, self.g2.end)
+        self.assertEquals(self.i.length, self.g2.length)
 
         # g2 only partially overlaps the end of g1, so they have a more
         # interesting intersection.
         self.g1.set_end(75)
         self.i = self.g1.intersect(self.g2)
-        self.assert_(self.i.start == self.g2.start)
-        self.assert_(self.i.end == self.g1.end)
-        self.assert_(self.i.length == 26)
+        self.assertEquals(self.i.start, self.g2.start)
+        self.assertEquals(self.i.end, self.g1.end)
+        self.assertEquals(self.i.length, 26)
 
         # g1 and g2 do not overlap at all, so they have no intersection.
         self.g1.set(0, 25)
@@ -123,8 +123,8 @@ class GeometrySetTestCase(RequiresDevice):
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
-        self.assert_(self.g.start == 0)
-        self.assert_(self.g.length == 100)
+        self.assertEquals(self.g.start, 0)
+        self.assertEquals(self.g.length, 100)
 
         # Setting a negative for either value, or a length past the end of
         # the device should fail.
@@ -139,9 +139,9 @@ class GeometrySetStartTestCase(RequiresDevice):
 
     def runTest(self):
         self.g.set_start(10)
-        self.assert_(self.g.start == 10)
-        self.assert_(self.g.length == 90)
-        self.assert_(self.g.end == 99)
+        self.assertEquals(self.g.start, 10)
+        self.assertEquals(self.g.length, 90)
+        self.assertEquals(self.g.end, 99)
 
         # Setting a negative start or the start past the end of the device
         # should fail.
@@ -155,9 +155,9 @@ class GeometrySetEndTestCase(RequiresDevice):
 
     def runTest(self):
         self.g.set_end(50)
-        self.assert_(self.g.start == 0)
-        self.assert_(self.g.length == 51)
-        self.assert_(self.g.end == 50)
+        self.assertEquals(self.g.start, 0)
+        self.assertEquals(self.g.length, 51)
+        self.assertEquals(self.g.end, 50)
 
         # Setting a negative end or the end past the end of the device or
         # before the start should fail.
@@ -174,19 +174,19 @@ class GeometryTestOverlapTestCase(RequiresDevice):
 
     def runTest(self):
         # g2 occupies the second half of g1, so they overlap.
-        self.assert_(self.g1.test_overlap(self.g2) == True)
+        self.assertTrue(self.g1.test_overlap(self.g2))
 
         # g2 is entirely contained within g1, so they overlap.
         self.g2.set_end(75)
-        self.assert_(self.g1.test_overlap(self.g2) == True)
+        self.assertTrue(self.g1.test_overlap(self.g2))
 
         # g1 goes from inside g2 to the end, so they overlap.
         self.g1.set_start(60)
-        self.assert_(self.g1.test_overlap(self.g2) == True)
+        self.assertTrue(self.g1.test_overlap(self.g2))
 
         # g2 exists entirely before g1, so they do not overlap.
         self.g2.set(10, 10)
-        self.assert_(self.g1.test_overlap(self.g2) == False)
+        self.assertFalse(self.g1.test_overlap(self.g2))
 
 class GeometryTestInsideTestCase(RequiresDevice):
     def setUp(self):
@@ -196,23 +196,23 @@ class GeometryTestInsideTestCase(RequiresDevice):
 
     def runTest(self):
         # g1 and g2 are the same, so they exist inside each other.
-        self.assert_(self.g1.test_inside(self.g2) == True)
-        self.assert_(self.g2.test_inside(self.g1) == True)
+        self.assertTrue(self.g1.test_inside(self.g2))
+        self.assertTrue(self.g2.test_inside(self.g1))
 
         # g2 is entirely contained within g1, so it's inside.
         self.g2.set_end(75)
-        self.assert_(self.g1.test_inside(self.g2) == True)
-        self.assert_(self.g2.test_inside(self.g1) == False)
+        self.assertTrue(self.g1.test_inside(self.g2))
+        self.assertFalse(self.g2.test_inside(self.g1))
 
         # g1 goes from inside g2 to the end, so it's not inside.
         self.g1.set_start(60)
-        self.assert_(self.g1.test_inside(self.g2) == False)
-        self.assert_(self.g2.test_inside(self.g1) == False)
+        self.assertFalse(self.g1.test_inside(self.g2))
+        self.assertFalse(self.g2.test_inside(self.g1))
 
         # g2 exists entirely before g1, so it's not inside.
         self.g2.set(10, 10)
-        self.assert_(self.g1.test_inside(self.g2) == False)
-        self.assert_(self.g2.test_inside(self.g1) == False)
+        self.assertFalse(self.g1.test_inside(self.g2))
+        self.assertFalse(self.g2.test_inside(self.g1))
 
 class GeometryTestEqualTestCase(RequiresDevice):
     def setUp(self):
@@ -222,16 +222,16 @@ class GeometryTestEqualTestCase(RequiresDevice):
 
     def runTest(self):
         # g1 and g2 have the same start and end.
-        self.assert_(self.g1.test_equal(self.g2) == True)
+        self.assertTrue(self.g1.test_equal(self.g2))
 
         # g1 and g2 have the same end, but different starts.
         self.g2.set_start(5)
-        self.assert_(self.g1.test_equal(self.g2) == False)
+        self.assertFalse(self.g1.test_equal(self.g2))
 
         # g1 and g2 have the same start, but different ends.
         self.g2.set_start(5)
         self.g2.set_end(50)
-        self.assert_(self.g1.test_equal(self.g2) == False)
+        self.assertFalse(self.g1.test_equal(self.g2))
 
 class GeometryTestSectorInsideTestCase(RequiresDevice):
     def setUp(self):
@@ -240,14 +240,14 @@ class GeometryTestSectorInsideTestCase(RequiresDevice):
 
     def runTest(self):
         # First check the boundary conditions.
-        self.assert_(self.g.test_sector_inside(10) == True)
-        self.assert_(self.g.test_sector_inside(109) == True)
-        self.assert_(self.g.test_sector_inside(110) == False)
+        self.assertTrue(self.g.test_sector_inside(10))
+        self.assertTrue(self.g.test_sector_inside(109))
+        self.assertFalse(self.g.test_sector_inside(110))
 
         # Then some sectors that are obviously out.
-        self.assert_(self.g.test_sector_inside(0) == False)
-        self.assert_(self.g.test_sector_inside(1000) == False)
-        self.assert_(self.g.test_sector_inside(-1) == False)
+        self.assertFalse(self.g.test_sector_inside(0))
+        self.assertFalse(self.g.test_sector_inside(1000))
+        self.assertFalse(self.g.test_sector_inside(-1))
 
 class GeometryReadTestCase(RequiresDevice):
     def setUp(self):
@@ -261,7 +261,7 @@ class GeometryReadTestCase(RequiresDevice):
         # Our initial device is just full of zeros, so this should read a
         # whole lot of nothing.
         self._device.open()
-        self.assert_(self.g.read(0, 10) == "")
+        self.assertEquals(self.g.read(0, 10), "")
 
         # Test bad parameter passing.
         self.assertRaises(_ped.IOException, self.g.read, -10, 10)
@@ -275,13 +275,13 @@ class GeometryReadTestCase(RequiresDevice):
         # Now try writing something to the device, then reading to see if
         # we get the same thing back.
         self.g.write("1111111111", 0, 1)
-        self.assert_(self.g.read(0, 10) == "1111111111")
+        self.assertEquals(self.g.read(0, 10), "1111111111")
 
         # Write five bytes from the string to the geometry, so there's only
         # one byte present.  So, only one "2" should be there when we read.
         self.g.write("2", 20, 5)
-        self.assert_(self.g.read(20, 5) == "2")
-        self.assert_(self.g.read(20, 1) == "2")
+        self.assertEquals(self.g.read(20, 5), "2")
+        self.assertEquals(self.g.read(20, 1), "2")
 
     def tearDown(self):
         self._device.close()
@@ -295,7 +295,7 @@ class GeometrySyncTestCase(RequiresDevice):
     def runTest(self):
         # XXX: I don't know of a better way to test this method.
         self.g.write("1111111111", 0, 1)
-        self.assert_(self.g.sync() == 1)
+        self.assertEquals(self.g.sync(), 1)
 
     def tearDown(self):
         self._device.close()
@@ -309,7 +309,7 @@ class GeometrySyncFastTestCase(RequiresDevice):
     def runTest(self):
         # XXX: I don't know of a better way to test this method.
         self.g.write("1111111111", 0, 1)
-        self.assert_(self.g.sync_fast() == 1)
+        self.assertEquals(self.g.sync_fast(), 1)
 
     def tearDown(self):
         self._device.close()
@@ -326,10 +326,10 @@ class GeometryWriteTestCase(RequiresDevice):
         # Now try a real write and make sure we (1) don't get an error code
         # and (2) the data actually ends up on the device.
         self._device.open()
-        self.assert_(self.g.write("X", 0, 10) != 0)
-        self.assert_(self.g.read(0, 10) == "X")
-        self.assert_(self.g.write("XXXXXXXXXX", 0, 10) != 0)
-        self.assert_(self.g.read(0, 10) == "XXXXXXXXXX")
+        self.assertFalse(self.g.write("X", 0, 10) == 0)
+        self.assertEquals(self.g.read(0, 10), "X")
+        self.assertFalse(self.g.write("XXXXXXXXXX", 0, 10) == 0)
+        self.assertEquals(self.g.read(0, 10), "XXXXXXXXXX")
 
         # Test bad parameter passing.
         self.assertRaises(_ped.IOException, self.g.write, "X", -10, 10)
@@ -343,20 +343,50 @@ class GeometryWriteTestCase(RequiresDevice):
     def tearDown(self):
         self._device.close()
 
-class GeometryCheckTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+class GeometryCheckTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=10, length=100)
 
-class GeometryMapTestCase(unittest.TestCase):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # trivial test case first
+        self.assertEquals(self.g.check(0, 0, 0), 0)
 
-class GeometryStrTestCase(unittest.TestCase):
+        self._device.open()
+        self.assertEquals(self.g.check(0, 0, 10), 0)
+        self.assertEquals(self.g.check(0, 0, 50), 0)
+
+    def tearDown(self):
+        self._device.close()
+
+class GeometryMapTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g1 = _ped.Geometry(self._device, start=10, length=100)
+        self.g2 = _ped.Geometry(self._device, start=10, length=90)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # write a word to the device starting at sector 25
+        self._device.open()
+        self.g1.write("UNITTEST", 25, 8)
+
+        val1 = self.g2.read(self.g2.map(self.g1, 25), 8)
+        val2 = self.g1.read(25, 8)
+        self.assertEquals(val1, val2)
+
+    def tearDown(self):
+        self._device.close()
+
+class GeometryStrTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.g = _ped.Geometry(self._device, start=10, length=100)
+
+    def runTest(self):
+        lines = str(self.g).split('\n')
+        self.assertEquals(lines[0], '_ped.Geometry instance --')
+        self.assertEquals(lines[1], '  start: 10  end: 109  length: 100')
+        self.assertTrue(lines[2].startswith('  device: <_ped.Device object at '))
 
 # And then a suite to hold all the test cases for this module.
 def suite():
