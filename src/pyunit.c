@@ -30,7 +30,7 @@
 
 /* 1:1 function mappings for unit.h in libparted */
 PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
-    long unit;
+    int unit;
 
     if (!PyArg_ParseTuple(args, "i", &unit)) {
         return NULL;
@@ -108,7 +108,7 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
-    long ret;
+    int ret;
     char *name = NULL;
 
     if (!PyArg_ParseTuple(args, "z", &name)) {
@@ -121,14 +121,14 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return Py_BuildValue("i", ret);
 }
 
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     PyObject *ret = NULL;
     char *pedret = NULL;
     PedSector sector;
-    long unit;
+    int unit;
     PedDevice *out_dev = NULL;
 
     if (!PyArg_ParseTuple(args, "Li", &sector, &unit)) {
@@ -186,7 +186,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     char *ret = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
-    long unit;
+    int unit;
 
     if (!PyArg_ParseTuple(args, "Li", &sector, &unit)) {
         return NULL;
@@ -198,10 +198,11 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format_custom(out_dev, sector, unit);
-    if (ret != NULL)
+    if (ret != NULL) {
         return PyString_FromString(ret);
-    else
+    } else {
         return PyString_FromString("");
+    }
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
@@ -219,10 +220,11 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_format(out_dev, sector);
-    if (ret != NULL)
+    if (ret != NULL) {
         return PyString_FromString(ret);
-    else
+    } else {
         return PyString_FromString("");
+    }
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
@@ -261,7 +263,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     int ret;
     char *str = NULL;
     PedDevice *out_dev = NULL;
-    long unit;
+    int unit;
     PedSector sector;
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
