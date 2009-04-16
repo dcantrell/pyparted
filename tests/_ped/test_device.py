@@ -199,36 +199,106 @@ class DeviceGetConstraintTestCase(RequiresDevice):
         self.assertTrue(isinstance(self._device.get_constraint(), _ped.Constraint))
 
 class UnitFormatCustomByteTestCase(RequiresDevice):
-    def runTest(self):
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_SECTOR), '0s')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_BYTE), '47B')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_KILOBYTE), '0.05kB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_MEGABYTE), '0.00MB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_GIGABYTE), '0.00GB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_TERABYTE), '0.00TB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_COMPACT), '47.0B')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_CYLINDER), '0cyl')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_CHS), '0,0,0')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_PERCENT), '0.04%')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_KIBIBYTE), '0.05kiB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_MEBIBYTE), '0.00MiB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_GIBIBYTE), '0.00GiB')
-        self.assertEquals(self._device.unit_format_custom_byte(47, _ped.UNIT_TEBIBYTE), '0.00TiB')
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.pairs = [(_ped.UNIT_SECTOR, '0s'),
+                      (_ped.UNIT_BYTE, '47B'),
+                      (_ped.UNIT_KILOBYTE, '0.05kB'),
+                      (_ped.UNIT_MEGABYTE, '0.00MB'),
+                      (_ped.UNIT_GIGABYTE, '0.00GB'),
+                      (_ped.UNIT_TERABYTE, '0.00TB'),
+                      (_ped.UNIT_COMPACT, '47.0B'),
+                      (_ped.UNIT_CYLINDER, '0cyl'),
+                      (_ped.UNIT_CHS, '0,0,0'),
+                      (_ped.UNIT_PERCENT, '0.04%'),
+                      (_ped.UNIT_KIBIBYTE, '0.05kiB'),
+                      (_ped.UNIT_MEBIBYTE, '0.00MiB'),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
 
-class UnitFormatByteTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        for (unit, expected) in self.pairs:
+            self.assertEquals(self._device.unit_format_custom_byte(47, unit),
+                              expected)
 
-class UnitFormatCustomTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
+class UnitFormatByteTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self._initialDefault = _ped.unit_get_default()
+        self.pairs = [(_ped.UNIT_SECTOR, '0s'),
+                      (_ped.UNIT_BYTE, '47B'),
+                      (_ped.UNIT_KILOBYTE, '0.05kB'),
+                      (_ped.UNIT_MEGABYTE, '0.00MB'),
+                      (_ped.UNIT_GIGABYTE, '0.00GB'),
+                      (_ped.UNIT_TERABYTE, '0.00TB'),
+                      (_ped.UNIT_COMPACT, '47.0B'),
+                      (_ped.UNIT_CYLINDER, '0cyl'),
+                      (_ped.UNIT_CHS, '0,0,0'),
+                      (_ped.UNIT_PERCENT, '0.04%'),
+                      (_ped.UNIT_KIBIBYTE, '0.05kiB'),
+                      (_ped.UNIT_MEBIBYTE, '0.00MiB'),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
 
-class UnitFormatTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        for (unit, expected) in self.pairs:
+            _ped.unit_set_default(unit)
+            result = self._device.unit_format_byte(47)
+            self.assertEquals(result, expected)
+
+    def tearDown(self):
+        _ped.unit_set_default(self._initialDefault)
+
+class UnitFormatCustomTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.pairs = [(_ped.UNIT_SECTOR, '47s'),
+                      (_ped.UNIT_BYTE, '24064B'),
+                      (_ped.UNIT_KILOBYTE, '24.1kB'),
+                      (_ped.UNIT_MEGABYTE, '0.02MB'),
+                      (_ped.UNIT_GIGABYTE, '0.00GB'),
+                      (_ped.UNIT_TERABYTE, '0.00TB'),
+                      (_ped.UNIT_COMPACT, '24.1kB'),
+                      (_ped.UNIT_CYLINDER, '0cyl'),
+                      (_ped.UNIT_CHS, '0,1,15'),
+                      (_ped.UNIT_PERCENT, '18.8%'),
+                      (_ped.UNIT_KIBIBYTE, '23.5kiB'),
+                      (_ped.UNIT_MEBIBYTE, '0.02MiB'),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
+
+    def runTest(self):
+        for (unit, expected) in self.pairs:
+            result = self._device.unit_format_custom(47, unit)
+            self.assertEquals(result, expected)
+
+class UnitFormatTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self._initialDefault = _ped.unit_get_default()
+        self.pairs = [(_ped.UNIT_SECTOR, '47s'),
+                      (_ped.UNIT_BYTE, '24064B'),
+                      (_ped.UNIT_KILOBYTE, '24.1kB'),
+                      (_ped.UNIT_MEGABYTE, '0.02MB'),
+                      (_ped.UNIT_GIGABYTE, '0.00GB'),
+                      (_ped.UNIT_TERABYTE, '0.00TB'),
+                      (_ped.UNIT_COMPACT, '24.1kB'),
+                      (_ped.UNIT_CYLINDER, '0cyl'),
+                      (_ped.UNIT_CHS, '0,1,15'),
+                      (_ped.UNIT_PERCENT, '18.8%'),
+                      (_ped.UNIT_KIBIBYTE, '23.5kiB'),
+                      (_ped.UNIT_MEBIBYTE, '0.02MiB'),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
+
+    def runTest(self):
+        for (unit, expected) in self.pairs:
+            _ped.unit_set_default(unit)
+            result = self._device.unit_format(47)
+            self.assertEquals(result, expected)
+
+    def tearDown(self):
+        _ped.unit_set_default(self._initialDefault)
 
 class UnitParseTestCase(unittest.TestCase):
     # TODO
@@ -240,10 +310,46 @@ class UnitParseCustomTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
-class DeviceStrTestCase(unittest.TestCase):
-    # TODO
+class DeviceStrTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        data = str(self._device).split()
+        self.assertEquals(data[0], '_ped.Device')
+        self.assertEquals(data[1], 'instance')
+        self.assertEquals(data[2], '--')
+        self.assertEquals(data[3], 'model:')
+        self.assertEquals(data[4], 'path:')
+        self.assertTrue(data[5].startswith('/tmp/temp-device-'))
+        self.assertEquals(data[6], 'type:')
+        self.assertEquals(data[7], '5')
+        self.assertEquals(data[8], 'sector_size:')
+        self.assertEquals(data[9], '512')
+        self.assertEquals(data[10], 'phys_sector_size:')
+        self.assertEquals(data[11], '512')
+        self.assertEquals(data[12], 'length:')
+        self.assertEquals(data[13], '250')
+        self.assertEquals(data[14], 'open_count:')
+        self.assertEquals(data[15], '0')
+        self.assertEquals(data[16], 'read_only:')
+        self.assertEquals(data[17], '0')
+        self.assertEquals(data[18], 'external_mode:')
+        self.assertEquals(data[19], '0')
+        self.assertEquals(data[20], 'dirty:')
+        self.assertEquals(data[21], '0')
+        self.assertEquals(data[22], 'boot_dirty:')
+        self.assertEquals(data[23], '0')
+        self.assertEquals(data[24], 'host:')
+        self.assertEquals(data[26], 'did:')
+        self.assertEquals(data[27], '0')
+        self.assertEquals(data[28], 'hw_geom:')
+        self.assertEquals(data[29], '<_ped.CHSGeometry')
+        self.assertEquals(data[30], 'object')
+        self.assertEquals(data[31], 'at')
+        self.assertTrue(data[32].startswith('0x'))
+        self.assertEquals(data[33], 'bios_geom:')
+        self.assertEquals(data[34], '<_ped.CHSGeometry')
+        self.assertEquals(data[35], 'object')
+        self.assertEquals(data[36], 'at')
+        self.assertTrue(data[37].startswith('0x'))
 
 # And then a suite to hold all the test cases for this module.
 def suite():
