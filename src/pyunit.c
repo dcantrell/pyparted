@@ -100,11 +100,16 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
+    /*
+     * DO NOT free the result from ped_unit_get_name(), it's a pointer to
+     * a value in the static unit_names[] array in libparted.
+     */
     name = ped_unit_get_name(unit);
-    if (name != NULL)
+    if (name != NULL) {
         return PyString_FromString(name);
-    else
+    } else {
         return PyString_FromString("");
+    }
 }
 
 PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
@@ -183,7 +188,8 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *pedret = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
     int unit;
@@ -197,16 +203,20 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_unit_format_custom(out_dev, sector, unit);
-    if (ret != NULL) {
-        return PyString_FromString(ret);
+    pedret = ped_unit_format_custom(out_dev, sector, unit);
+    if (pedret != NULL) {
+        ret = PyString_FromString(pedret);
+        ped_free(pedret);
     } else {
-        return PyString_FromString("");
+        ret = PyString_FromString("");
     }
+
+    return ret;
 }
 
 PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *pedret = NULL;
     PedDevice *out_dev = NULL;
     PedSector sector;
 
@@ -219,12 +229,15 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_unit_format(out_dev, sector);
-    if (ret != NULL) {
-        return PyString_FromString(ret);
+    pedret = ped_unit_format(out_dev, sector);
+    if (pedret != NULL) {
+        ret = PyString_FromString(pedret);
+        ped_free(pedret);
     } else {
-        return PyString_FromString("");
+        ret = PyString_FromString("");
     }
+
+    return ret;
 }
 
 PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
