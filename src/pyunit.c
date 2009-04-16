@@ -125,9 +125,10 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
-    char *ret = NULL;
-    long unit;
+    PyObject *ret = NULL;
+    char *pedret = NULL;
     PedSector sector;
+    long unit;
     PedDevice *out_dev = NULL;
 
     if (!PyArg_ParseTuple(args, "Li", &sector, &unit)) {
@@ -144,31 +145,41 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = ped_unit_format_custom_byte(out_dev, sector, unit);
-    if (ret != NULL)
-        return PyString_FromString(ret);
-    else
-        return PyString_FromString("");
+    pedret = ped_unit_format_custom_byte(out_dev, sector, unit);
+    if (pedret != NULL) {
+        ret = PyString_FromString(pedret);
+        ped_free(pedret);
+    } else {
+        ret = PyString_FromString("");
+    }
+
+    return ret;
 }
 
 PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *pedret = NULL;
     PedSector sector;
     PedDevice *out_dev = NULL;
 
-    if (!PyArg_ParseTuple(args, "L", &sector))
+    if (!PyArg_ParseTuple(args, "L", &sector)) {
         return NULL;
+    }
 
     out_dev = _ped_Device2PedDevice(s);
     if (out_dev == NULL) {
         return NULL;
     }
 
-    ret = ped_unit_format_byte(out_dev, sector);
-    if (ret != NULL)
-        return PyString_FromString(ret);
-    else
-        return PyString_FromString("");
+    pedret = ped_unit_format_byte(out_dev, sector);
+    if (pedret != NULL) {
+        ret = PyString_FromString(pedret);
+        ped_free(pedret);
+    } else {
+        ret = PyString_FromString("");
+    }
+
+    return ret;
 }
 
 PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
