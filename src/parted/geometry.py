@@ -26,6 +26,8 @@ import math
 import _ped
 import parted
 
+from decorators import localeC
+
 class Geometry(object):
     """Geometry()
 
@@ -33,6 +35,7 @@ class Geometry(object):
        partition.  It is expressed in terms of a starting sector and a length.
        Many methods (read and write methods in particular) throughout pyparted
        take in a Geometry object as an argument."""
+    @localeC
     def __init__(self, device=None, start=None, length=None, end=None,
                  PedGeometry=None):
         """Create a new Geometry object for the given _ped.Device that extends
@@ -86,6 +89,7 @@ class Geometry(object):
     end = property(lambda s: s.__geometry.end, lambda s, v: s.__geometry.set_end(v))
     length = property(lambda s: s.__geometry.length, lambda s, v: s.__geometry.set(s.__geometry.start, v))
 
+    @localeC
     def check(self, offset, granularity, count, timer=None):
         """Check the region described by self for errors on the disk.
            offset -- The beginning of the region to check, in sectors from the
@@ -97,15 +101,18 @@ class Geometry(object):
         else:
             return self.__geometry.check(offset, granularity, count, timer)
 
+    @localeC
     def contains(self, b):
         """Return whether Geometry b is contained entirely within self and on
            the same physical device."""
         return self.__geometry.test_inside(b.getPedGeometry())
 
+    @localeC
     def containsSector(self, sector):
         """Return whether the sectory is contained entirely within self."""
         return self.__geometry.test_sector_inside(sector)
 
+    @localeC
     def getSize(self, unit="MB"):
         """Return the size of the geometry in the unit specified.  The unit
            is given as a string corresponding to one of the following
@@ -121,12 +128,14 @@ class Geometry(object):
 
         return (size / math.pow(1024.0, parted._exponent[lunit]))
 
+    @localeC
     def intersect(self, b):
         """Return a new Geometry describing the region common to both self
            and Geometry b.  Raises ArithmeticError if the regions do not
            intersect."""
         return Geometry(PedGeometry=self.__geometry.intersect(b.getPedGeometry()))
 
+    @localeC
     def map(self, src, sector):
         """Given a Geometry src that overlaps with self and a sector inside src,
            this method translates the address of the sector into an address
@@ -134,6 +143,7 @@ class Geometry(object):
            be raised."""
         return parted.Geometry(PedGeometry=self.__geometry.map(src.getPedGeometry(), sector))
 
+    @localeC
     def overlapsWith(self, b):
         """Return whether self and b are on the same device and share at least
            some of the same region."""
@@ -143,6 +153,7 @@ class Geometry(object):
         except ArithmeticError:
             return False
 
+    @localeC
     def read(self, offset, count):
         """Read data from the region described by self.
            offset -- The number of sectors from the beginning of the region
@@ -150,6 +161,7 @@ class Geometry(object):
            count  -- The number of sectors to read."""
         return self.__geometry.read(offset, count)
 
+    @localeC
     def sync(self, fast=False):
         """Flushes all caches on the device described by self.  If fast is
            True, the flush will be quicked by cache coherency is not
@@ -159,6 +171,7 @@ class Geometry(object):
         else:
             return self.__geometry.sync()
 
+    @localeC
     def write(self, buf, offset, count):
         """Write data into the region described by self.
            buf    -- The data to be written.

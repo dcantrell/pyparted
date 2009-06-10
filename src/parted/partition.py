@@ -27,9 +27,12 @@ import _ped
 import parted
 import string
 
+from decorators import localeC
+
 # XXX: add docstrings
 
 class Partition(object):
+    @localeC
     def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
         if PedPartition is None:
             if disk is None:
@@ -94,11 +97,13 @@ class Partition(object):
         raise parted.WriteOnlyProperty, property
 
     @property
+    @localeC
     def active(self):
         """True if the partition is active, False otherwise."""
         return bool(self.__partition.is_active())
 
     @property
+    @localeC
     def busy(self):
         """True if the partition is active, False otherwise."""
         return bool(self.__partition.is_busy())
@@ -109,11 +114,13 @@ class Partition(object):
         return self._disk
 
     @property
+    @localeC
     def path(self):
         """The filesystem path to this partition's device node."""
         return self.__partition.get_path()
 
     @property
+    @localeC
     def name(self):
         """The name of this partition."""
         try:
@@ -131,6 +138,7 @@ class Partition(object):
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
 
+    @localeC
     def getFlag(self, flag):
         """Get the value of a particular flag on the partition.  Valid flags
            are the _ped.PARTITION_* constants.  See _ped.flag_get_name() and
@@ -138,28 +146,33 @@ class Partition(object):
         """
         return self.__partition.get_flag(flag)
 
+    @localeC
     def setFlag(self, flag):
         """Set the flag on a partition to the provided value.  On error, a
            PartitionException will be raised.  See getFlag() for more help on
            working with partition flags."""
         return self.__partition.set_flag(flag, 1)
 
+    @localeC
     def unsetFlag(self, flag):
         """Unset the flag on this Partition.  On error, a PartitionException
            will be raised.  See getFlag() for more help on working with
            partition flags."""
         return self.__partition.set_flag(flag, 0)
 
+    @localeC
     def getMaxGeometry(self, constraint):
         """Given a constraint, return the maximum Geometry that self can be
            grown to.  Raises Partitionexception on error."""
         return parted.Geometry(PedGeometry=self.disk.getPedDisk().get_max_partition_geometry(self.__partition, constraint))
 
+    @localeC
     def isFlagAvailable(self, flag):
         """Return True if flag is available on this Partition, False
            otherwise."""
         return self.__partition.is_flag_available(flag)
 
+    @localeC
     def nextPartition(self):
         """Return the Partition following this one on the Disk."""
         partition = self.disk.getPedDisk().next_partition(self.__partition)
@@ -169,6 +182,7 @@ class Partition(object):
         else:
             return parted.Partition(disk=self.disk, PedPartition=partition)
 
+    @localeC
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit
            is given as a string corresponding to one of the following

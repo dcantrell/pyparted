@@ -107,6 +107,8 @@ from _ped import PARTITION_MSFT_RESERVED
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
+from decorators import localeC
+
 partitionTypesDict = {
     0x00: "Empty",
     0x01: "DOS 12-bit FAT",
@@ -211,12 +213,14 @@ class WriteOnlyProperty(Exception):
     def __init__(self, property=''):
         self.message = "%s is a write-only property" % (property,)
 
+@localeC
 def getDevice(path):
     """Given the operating system level path to a device node, return
        a Device object for that disk.  Raises DeviceException if an invalid
        path is given."""
     return Device(path=path)
 
+@localeC
 def getAllDevices():
     """Return a list of Device objects for all devices in the system."""
     from _ped import device_probe_all
@@ -238,11 +242,13 @@ def getAllDevices():
         except IndexError:
             return lst
 
+@localeC
 def freeAllDevices():
     """Free all Device objects.  There is no reason to call this function."""
     from _ped import device_free_all
     return device_free_all()
 
+@localeC
 def probeForSpecificFileSystem(fstype, geometry):
     """Call the _ped.file_system_probe_specific() function given the
        filesystem type and geometry.  fstype must be a string
@@ -252,6 +258,7 @@ def probeForSpecificFileSystem(fstype, geometry):
     geom = file_system_probe_specific(fileSystemType[fstype], geometry.getPedGeometry())
     return geometry.Geometry(PedGeometry=geom)
 
+@localeC
 def probeFileSystem(geometry):
     """Return the name of the filesystem detected on the given
        Geometry.  Returns None is no filesystem found."""
@@ -259,6 +266,7 @@ def probeFileSystem(geometry):
     fstype = file_system_probe(geometry.getPedGeometry())
     return fstype.name
 
+@localeC
 def freshDisk(device, ty):
     """Return a Disk object for this Device and using this DiskType.
        The type should be a member of the parted.diskType hash,
@@ -276,6 +284,7 @@ def freshDisk(device, ty):
     peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)
 
+@localeC
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     from _ped import libparted_version

@@ -24,9 +24,12 @@
 import _ped
 import parted
 
+from decorators import localeC
+
 # XXX: add docstrings!
 
 class FileSystem(object):
+    @localeC
     def __init__(self, type=None, geometry=None, checked=False, PedFileSystem=None):
         if checked:
             c = 1
@@ -88,32 +91,40 @@ class FileSystem(object):
         """True if this filesystem has been checked, False otherwise."""
         return bool(self._checked)
 
+    @localeC
     def clobber(self):
         return self.__fileSystem.clobber()
 
+    @localeC
     def open(self):
         return parted.FileSystem(PedFileSystem=self.__fileSystem.open())
 
     # XXX: this can take in a Timer
+    @localeC
     def create(self):
         return parted.FileSystem(PedFileSystem=self.__fileSystem.create())
 
+    @localeC
     def close(self):
         return self.__fileSystem.close()
 
     # XXX: this can take in a Timer
+    @localeC
     def check(self):
         return self.__fileSystem.check()
         self._checked = self.__fileSystem.checked
 
     # XXX: this can take in a Timer
+    @localeC
     def copy(self, geometry):
         return parted.FileSystem(PedFileSystem=self.__fileSystem.copy(geometry.getPedGeometry()))
 
     # XXX: this can take in a Timer
+    @localeC
     def resize(self, geometry):
         return self.__fileSystem.resize(geometry.getPedGeometry())
 
+    @localeC
     def getResizeConstraint(self):
         return parted.Constraint(PedConstraint=self.__fileSystem.get_resize_constraint())
 
