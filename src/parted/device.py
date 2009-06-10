@@ -26,6 +26,8 @@ import _ped
 import parted
 from disk import diskType
 
+from decorators import localeC
+
 class Device(object):
     """Device()
 
@@ -37,6 +39,7 @@ class Device(object):
 
        For information on the individual methods, see help(Device.METHODNAME)"""
 
+    @localeC
     def __init__(self, path=None, PedDevice=None):
         """Create a new Device object based on the specified path or the
            already existing _ped.Device object.  You must provide either a
@@ -177,6 +180,7 @@ class Device(object):
               "ped": self.__device})
         return s
 
+    @localeC
     def clobber(self, type=None):
         """Remove all identifying signatures of the partition table.  If type
            is not None, remove all identifying signatures of the partition
@@ -187,50 +191,59 @@ class Device(object):
         else:
             return self.__device.clobber_exclude(diskType[type])
 
+    @localeC
     def open(self):
         """Open this Device for read operations."""
 
         return self.__device.open()
 
+    @localeC
     def close(self):
         """Close this Device.  Used after open() method calls."""
 
         return self.__device.close()
 
+    @localeC
     def destroy(self):
         """Destroy this Device.  Operating system specific."""
 
         return self.__device.destroy()
 
+    @localeC
     def removeFromCache(self):
         """Remove this Device from the internal libparted device cache."""
 
         return self.__device.cache_remove()
 
+    @localeC
     def beginExternalAccess(self):
         """Set up the Device for use by an external program.  Call this method
            before running an external program that uses the Device."""
 
         return self.__device.begin_external_access()
 
+    @localeC
     def endExternalAccess(self):
         """Turn off external access mode for the Device.  Call this method once
            your external program has finished using the Device."""
 
         return self.__device.end_external_access()
 
+    @localeC
     def read(self, start, count):
         """From the sector indentified by start, read and return count sectors
            from the Device."""
 
         return self.__device.read(start, count)
 
+    @localeC
     def write(self, buffer, start, count):
         """From the sector identified by start, write count sectors from
            buffer to the Device."""
 
         return self.__device.write(buffer, start, count)
 
+    @localeC
     def sync(self, fast=False):
         """Perform a operating-system specific sync(2) operation on the
            Device.  If fast is True, try to perform a fast sync(2)."""
@@ -240,29 +253,34 @@ class Device(object):
         else:
             return self.__device.sync()
 
+    @localeC
     def check(self, start, count):
         """From the sector identified by start, perform an operating
            system specific check on count sectors."""
         return self.__device.check(start, count)
 
+    @localeC
     def startSectorToCylinder(self, sector):
         """Return the closest cylinder (round down) to sector on
            this Device."""
         (cylinders, heads, sectors) = self.biosGeometry
         return long(math.floor((float(sector) / (heads * sectors)) + 1))
 
+    @localeC
     def endSectorToCylinder(self, sector):
         """Return the closest cylinder (round up) to sector on
            this Device."""
         (cylinders, heads, sectors) = self.biosGeometry
         return long(math.ceil(float((sector + 1)) / (heads * sectors)))
 
+    @localeC
     def startCylinderToSector(self, cylinder):
         """Return the sector corresponding to cylinder as a
            starting cylinder on this Device."""
         (cylinders, heads, sectors) = self.biosGeometry
         return long((cylinder - 1) * (heads * sectors))
 
+    @localeC
     def endCylinderToSector(self, cylinder):
         """Return the sector corresponding to cylinder as an
            ending cylinder on this Device."""
@@ -287,6 +305,7 @@ class Device(object):
 
         return size
 
+    @localeC
     def getConstraint(self):
         """Return a Constraint defining the limitations imposed by
            this Device."""

@@ -25,6 +25,8 @@
 import parted
 import _ped
 
+from decorators import localeC
+
 class Constraint(object):
     """Constraint()
 
@@ -34,6 +36,7 @@ class Constraint(object):
        constraint operations can raise CreateException if creating temporary
        objects fails, or ArithmeticError if an error occurs during
        calculations."""
+    @localeC
     def __init__(self, *args, **kwargs):
         """Create a new Constraint object.  There are many different ways to
            create a Constraint, all depending on the parameters passed to
@@ -113,6 +116,7 @@ class Constraint(object):
               "ped": self.__constraint})
         return s
 
+    @localeC
     def intersect(self, b):
         """Return a new constraint that is the intersection of self and the
            provided constraint b.  The returned constraint will therefore be
@@ -120,18 +124,21 @@ class Constraint(object):
            both."""
         return parted.Constraint(PedConstraint=self.__constraint.intersect(b.getPedConstraint()))
 
+    @localeC
     def solveMax(self):
         """Return a new geometry that is the largest region satisfying self.
            There may be more than one solution, and there are no guarantees as
            to which solution will be returned."""
         return parted.Geometry(PedGeometry=self.__constraint.solve_max())
 
+    @localeC
     def solveNearest(self, geom):
         """Return a new geometry that is the nearest region to geom that
            satisfies self.  This function does not guarantee any specific
            meaning of 'nearest'."""
         return parted.Geometry(PedGeometry=self.__constraint.solve_nearest(geom.getPedGeometry()))
 
+    @localeC
     def isSolution(self, geom):
         """Does geom satisfy this constraint?"""
         return self.__constraint.is_solution(geom.getPedGeometry())
