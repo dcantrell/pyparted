@@ -2,7 +2,7 @@
 # __init__.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
-# Copyright (C) 2007, 2008, 2009 Red Hat, Inc.
+# Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -187,9 +187,14 @@ partitionTypesDict = {
 #   mb    megabytes   1024^2 = 1048576
 #   gb    gigabytes   1024^3 = 1073741824
 #   tb    terabytes   1024^4 = 1099511627776
+#   pb    petabytes   1024^5 = 1125899906842624
+#   eb    exabytes    1024^6 = 1152921504606846976
+#   zb    zettabytes  1024^7 = 1180591620717411303424
+#   yb    yottabytes  1024^8 = 1208925819614629174706176
 # The resulting value for 1024 raised to the power is used as
 # the divisor for conversion functions.
-_exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4}
+_exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4,
+             'pb': 5, 'eb': 6, 'zb': 7, 'yb': 8}
 
 # Valid disk labels per architecture type.  The list of label
 # names map to keys in the parted.diskType hash table.
