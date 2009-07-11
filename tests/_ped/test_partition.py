@@ -108,7 +108,9 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
         for flag in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
                      _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
                      _ped.PARTITION_HPSERVICE, _ped.PARTITION_PALO,
-                     _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED]:
+                     _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED,
+                     _ped.PARTITION_APPLE_TV_RECOVERY,
+                     _ped.PARTITION_BIOS_GRUB]:
             self.assertTrue(isinstance(self._part.is_flag_available(flag), bool))
 
         # However, an invalid flag should definitely not be available.
