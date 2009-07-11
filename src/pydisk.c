@@ -920,6 +920,11 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
     return PyInt_FromLong(ret);
 }
 
+PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s,
+                                                        PyObject *args) {
+    /* FIXME */
+}
+
 /*
  * XXX:
  * We need to call ped_disk_destroy() to make sure the OS-specific
