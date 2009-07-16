@@ -153,7 +153,7 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     pedret = ped_unit_format_custom_byte(out_dev, sector, unit);
     if (pedret != NULL) {
         ret = PyString_FromString(pedret);
-        ped_free(pedret);
+        free(pedret);
     } else {
         ret = PyString_FromString("");
     }
@@ -179,7 +179,7 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     pedret = ped_unit_format_byte(out_dev, sector);
     if (pedret != NULL) {
         ret = PyString_FromString(pedret);
-        ped_free(pedret);
+        free(pedret);
     } else {
         ret = PyString_FromString("");
     }
@@ -206,7 +206,7 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     pedret = ped_unit_format_custom(out_dev, sector, unit);
     if (pedret != NULL) {
         ret = PyString_FromString(pedret);
-        ped_free(pedret);
+        free(pedret);
     } else {
         ret = PyString_FromString("");
     }
@@ -232,7 +232,7 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     pedret = ped_unit_format(out_dev, sector);
     if (pedret != NULL) {
         ret = PyString_FromString(pedret);
-        ped_free(pedret);
+        free(pedret);
     } else {
         ret = PyString_FromString("");
     }
