@@ -922,7 +922,18 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s,
 
 PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s,
                                                         PyObject *args) {
-    /* FIXME */
+    PedDisk *disk = NULL;
+    int max = 0;
+
+    disk = _ped_Disk2PedDisk(s);
+    if (disk) {
+        if (ped_disk_get_max_supported_partition_count(disk, &max) == true) {
+            return Py_BuildValue("i", max);
+        }
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 /*

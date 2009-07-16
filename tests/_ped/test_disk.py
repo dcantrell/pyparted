@@ -94,6 +94,11 @@ class DiskGetMaxPrimaryPartitionCountTestCase(unittest.TestCase):
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+class DiskGetMaxSupportedPartitionCountTestCase(unittest.TestCase):
+    # TODO
+    def runTest(self):
+        self.fail("Unimplemented test case.")
+
 class DiskAddPartitionTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -176,6 +181,7 @@ def suite():
     suite.addTest(DiskGetPrimaryPartitionCountTestCase())
     suite.addTest(DiskGetLastPartitionNumTestCase())
     suite.addTest(DiskGetMaxPrimaryPartitionCountTestCase())
+    suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
     suite.addTest(DiskAddPartitionTestCase())
     suite.addTest(DiskRemovePartitionTestCase())
     suite.addTest(DiskDeletePartitionTestCase())

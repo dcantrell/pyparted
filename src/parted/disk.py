@@ -131,6 +131,12 @@ class Disk(object):
         return self.__disk.get_max_primary_partition_count()
 
     @property
+    @localeC
+    def maxSupportedPartitionCount(self):
+        """The maximum number of partitions allowed on this disk."""
+        return self.__disk.get_max_supported_partition_count()
+
+    @property
     def partitions(self):
         """The list of partitions currently on this disk."""
         return self._partitions
