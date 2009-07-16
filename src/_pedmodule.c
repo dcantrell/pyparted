@@ -155,6 +155,19 @@ PyDoc_STRVAR(disk_new_fresh_doc,
 "will have to use the commit_to_dev() method to write the new label to\n"
 "the disk.");
 
+PyDoc_STRVAR(disk_align_to_cylinders_on_doc,
+"disk_align_to_cylinders_on() -> boolean\n\n"
+"Returns True if libparted is currently set to align partitions to\n"
+"cylinder boundaries on the disk.  Returns False otherwise.");
+
+PyDoc_STRVAR(disk_align_to_cylinders_toggle_doc,
+"disk_align_to_cylinders_toggle_doc() -> boolean\n\n"
+"Toggles the align-to-cylinders setting in libparted.  The return value\n"
+"of this function indicates success or failure of the toggle operation,\n"
+"not the value of the align-to-cylinders setting.  You must still use\n"
+"disk_align_to_cylinders_on() to check the current value of the setting.\n"
+"This function returns True if it succeeds, False otherwise.");
+
 PyDoc_STRVAR(unit_set_default_doc,
 "unit_set_default(Unit)\n\n"
 "Sets the default Unit to be used by further unit_* calls.  This\n"
@@ -231,6 +244,14 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                             METH_VARARGS, partition_flag_next_doc},
     {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh,
                        METH_VARARGS, disk_new_fresh_doc},
+    {"disk_align_to_cylinders_toggle", (PyCFunction)
+                                       py_ped_disk_align_to_cylinders_toggle,
+                                       METH_VARARGS,
+                                       disk_align_to_cylinders_toggle_doc},
+    {"disk_align_to_cylinders_on", (PyCFunction)
+                                   py_ped_disk_align_to_cylinders_on,
+                                   METH_VARARGS,
+                                   disk_align_to_cylinders_on_doc},
 
     /* pyfilesys.c */
     {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,
