@@ -81,6 +81,16 @@ class FreshDiskTestCase(RequiresDevice):
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(parted.diskType[disk.type] == value)
 
+class IsAlignToCylindersTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
+class ToggleAlignToCylindersTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
 class VersionTestCase(unittest.TestCase):
     def runTest(self):
         ver = parted.version()
@@ -95,6 +105,8 @@ def suite():
     suite.addTest(ProbeForSpecificFileSystemTestCase())
     suite.addTest(ProbeFileSystemTestCase())
     suite.addTest(FreshDiskTestCase())
+    suite.addTest(IsAlignToCylindersTestCase())
+    suite.addTest(ToggleAlignToCylindersTestCase())
     suite.addTest(VersionTestCase())
     return suite
 
