@@ -9,7 +9,7 @@ Instructions for making a new release:
    "AC_INIT([pyparted],".  The release version should just be X.Y.Z/
 5) git add configure.ac
 6) git commit                 # Comment should be 'New version.' or similar.
-7) ./bootstrap
+7) ./autogen.sh
 8) ./configure
 9) make release
 
