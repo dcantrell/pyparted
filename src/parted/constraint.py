@@ -95,14 +95,36 @@ class Constraint(object):
         c1 = self.getPedConstraint()
         c2 = other.getPedConstraint()
 
-        return self.minSize != other.minSize or self.maxSize != other.maxSize or c1.start_align != c2.start_align or c1.end_align != c2.end_align or c1.start_range != c2.start_range or c1.end_range != c2.end_range
+        return self.minSize != other.minSize \
+                or self.maxSize != other.maxSize \
+                or c1.start_align != c2.start_align \
+                or c1.end_align != c2.end_align \
+                or c1.start_range != c2.start_range \
+                or c1.end_range != c2.end_range
 
-    startAlign = property(lambda s: parted.Alignment(PedAlignment=s.__constraint.start_align), lambda s, v: setattr(s.__constraint, "start_align", v.getPedAlignment()))
-    endAlign = property(lambda s: parted.Alignment(PedAlignment=s.__constraint.end_align), lambda s, v: setattr(s.__constraint, "end_align", v.getPedAlignment()))
-    startRange = property(lambda s: parted.Geometry(PedGeometry=s.__constraint.start_range), lambda s, v: setattr(s.__constraint, "start_range", v.getPedGeometry()))
-    endRange = property(lambda s: parted.Geometry(PedGeometry=s.__constraint.end_range), lambda s, v: setattr(s.__constraint, "end_range", v.getPedGeometry()))
-    minSize = property(lambda s: s.__constraint.min_size, lambda s, v: setattr(s.__constraint, "min_size", v))
-    maxSize = property(lambda s: s.__constraint.max_size, lambda s, v: setattr(s.__constraint, "max_size", v))
+    startAlign = property(
+            lambda s: parted.Alignment(PedAlignment=s.__constraint.start_align),
+            lambda s, v: setattr(s.__constraint, "start_align", v.getPedAlignment()))
+
+    endAlign = property(
+            lambda s: parted.Alignment(PedAlignment=s.__constraint.end_align),
+            lambda s, v: setattr(s.__constraint, "end_align", v.getPedAlignment()))
+
+    startRange = property(
+            lambda s: parted.Geometry(PedGeometry=s.__constraint.start_range),
+            lambda s, v: setattr(s.__constraint, "start_range", v.getPedGeometry()))
+
+    endRange = property(
+            lambda s: parted.Geometry(PedGeometry=s.__constraint.end_range),
+            lambda s, v: setattr(s.__constraint, "end_range", v.getPedGeometry()))
+
+    minSize = property(
+            lambda s: s.__constraint.min_size,
+            lambda s, v: setattr(s.__constraint, "min_size", v))
+
+    maxSize = property(
+            lambda s: s.__constraint.max_size,
+            lambda s, v: setattr(s.__constraint, "max_size", v))
 
     def __str__(self):
         s = ("parted.Constraint instance --\n"
