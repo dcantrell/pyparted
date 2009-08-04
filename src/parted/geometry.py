@@ -53,7 +53,7 @@ class Geometry(object):
             self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, length)
         elif not length and (end > start):
             self._device = device
-            self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, (end - start), end)
+            self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, (end - start + 1), end=end)
         elif start and length and end and (end > start):
             self._device = device
             self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, length, end=end)
