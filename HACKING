@@ -178,7 +178,7 @@ use the git version control system.  You can clone the upstream repository
 and commit your changes locally and then generate a set of diffs against
 the latest upstream code.
 
-    $ git-clone git://git.fedorahosted.org/pyparted.git/
+    $ git clone git://git.fedorahosted.org/pyparted.git/
     $ cd pyparted
     $ # make your changes to files here
     $ git add FILE           # repeat this add/commit process for
