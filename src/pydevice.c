@@ -366,7 +366,16 @@ PyObject *py_ped_device_get(PyObject *s, PyObject *args) {
         ret = PedDevice2_ped_Device(device);
     }
     else {
-        PyErr_Format(DeviceException, "Could not find device for path %s", path);
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(DeviceException, "Could not find device for path %s", path);
+
         return NULL;
     }
 
