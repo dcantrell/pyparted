@@ -721,7 +721,8 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
-                PyErr_Format(DiskException, "Could not commit to disk %s", disk->dev->path);
+                PyErr_Format(DiskException, "Could not commit to disk %s, (%s)",
+                             disk->dev->path, __func__);
 
             return NULL;
         }
@@ -753,7 +754,8 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
-                PyErr_Format(DiskException, "Could not commit to disk %s", disk->dev->path);
+                PyErr_Format(DiskException, "Could not commit to disk %s, (%s)",
+                             disk->dev->path, __func__);
 
             return NULL;
         }
@@ -785,7 +787,8 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
                     PyErr_SetString(IOException, partedExnMessage);
             }
             else
-                PyErr_Format(DiskException, "Could not commit to disk %s", disk->dev->path);
+                PyErr_Format(DiskException, "Could not commit to disk %s, (%s)",
+                             disk->dev->path, __func__);
 
             return NULL;
         }
