@@ -79,10 +79,7 @@ from _ped import DEVICE_UBD
 from _ped import DEVICE_DASD
 from _ped import DEVICE_VIODASD
 from _ped import DEVICE_SX8
-try:
-    from _ped import DEVICE_DM
-except:
-    pass
+from _ped import DEVICE_DM
 from _ped import DEVICE_XVD
 from _ped import DEVICE_SDMMC
 from _ped import DEVICE_VIRTBLK
