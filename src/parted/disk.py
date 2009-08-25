@@ -200,6 +200,8 @@ class Disk(object):
         if constraint:
             result = self.__disk.add_partition(partition.getPedPartition(),
                                                constraint.getPedConstraint())
+        elif not partition:
+            raise parted.DiskException, "no partition or constraint specified"
         else:
             result = self.__disk.add_partition(partition.getPedPartition())
 
@@ -217,6 +219,9 @@ class Disk(object):
            logical partitions.  Also note that the partition is not
            actually destroyed unless you use the deletePartition()
            method."""
+        if not partition:
+            raise parted.DiskException, "no partition specified"
+
         if self.__disk.remove_partition(partition.getPedPartition()):
             self.partitions.invalidate()
             return True
@@ -249,6 +254,12 @@ class Disk(object):
            Constraint and start and end sectors.  Note that this method
            does not modify the partition contents, just the partition
            table."""
+        if not partition or not constraint:
+            raise parted.DiskException, "no partition or constraint specified"
+
+        if not start or not end:
+            raise parted.DiskException, "no start or end geometry specified"
+
         return self.__disk.set_partition_geom(partition.getPedPartition(),
                                               constraint.getPedConstraint(),
                                               start, end)
@@ -257,6 +268,9 @@ class Disk(object):
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
+        if not partition:
+            raise parted.DiskException, "no partition specified"
+
         if constraint:
             return self.__disk.maximize_partition(partition.getPedPartition(),
                                                   constraint.getPedConstraint())
@@ -267,6 +281,9 @@ class Disk(object):
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
            subject to the given Constraint."""
+        if not partition:
+            raise parted.DiskException, "no partition specified"
+
         if constraint:
             return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))
         else:
