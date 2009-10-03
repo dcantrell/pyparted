@@ -24,7 +24,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = include src tests
 
-EXTRA_DIST = AUTHORS BUGS COPYING NEWS README TODO WHY ChangeLog
+EXTRA_DIST = AUTHORS BUGS COPYING NEWS README TODO ChangeLog
 
 MAINTAINERCLEANFILES = Makefile.in config.guess config.h.in config.sub \
                        depcomp install-sh ltmain.sh missing ABOUT-NLS \
@@ -51,6 +51,11 @@ tag: dist-gzip
 	fi
 	@git tag -u $(GPGKEY) -m "Tag as $(PACKAGE)-$(VERSION)" -f $(PACKAGE)-$(VERSION)
 	@echo "Tagged as $(PACKAGE)-$(VERSION) (GPG signed)"
+
+bumpver:
+	@NEWSUBVER=$$((`echo $(PACKAGE_VERSION) |cut -d . -f 2` + 1)) ; \
+	NEWVERSION=`echo $(PACKAGE_VERSION).$$NEWSUBVER |cut -d . -f 1,3` ; \
+	sed -i "s/AC_INIT(\[$(PACKAGE_NAME)\], \[$(PACKAGE_VERSION)\], \[$(PACKAGE_BUGREPORT\])/AC_INIT(\[$(PACKAGE_NAME)\], \[$$NEWVERSION\], \[$(PACKAGE_BUGREPORT\])/" configure.ac
 
 release: tag
 	rm -rf $(PACKAGE)-$(VERSION)
