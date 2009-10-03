@@ -1860,6 +1860,16 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
     }
 
     if ((disk = ped_disk_new_fresh(device, type)) == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(PartitionException, partedExnMessage);
+        } else {
+            PyErr_Format(PartitionException, "Could not create new disk label on %s", disk->dev->path);
+        }
+
         return NULL;
     }
 
