@@ -5,12 +5,11 @@ Instructions for making a new release:
                               # you are working on
 2) git fetch
 3) git rebase origin
-4) Edit configure.ac and remove the '-devel' from the line beginning with
-   "AC_INIT([pyparted],".  The release version should just be X.Y.Z/
-5) git add configure.ac
-6) git commit                 # Comment should be 'New version.' or similar.
-7) ./autogen.sh
-8) ./configure
+4) ./autogen.sh && ./configure
+5) make bumpver
+6) git commit -a
+7) git clean -d -x -f
+8) ./autogen.sh && ./configure
 9) make release
 
 Resulting pyparted-X.Y.Z.tar.gz is the release.  'cp -a' this to the pkg
