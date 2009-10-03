@@ -297,8 +297,6 @@ PedDisk *_ped_Disk2PedDisk(PyObject *s) {
 
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     _ped_Disk *ret = NULL;
-    _ped_Device *dev = NULL;
-    PyObject *args = NULL;
 
     if (disk == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty PedDisk()");
@@ -306,31 +304,23 @@ _ped_Disk *PedDisk2_ped_Disk(PedDisk *disk) {
     }
 
     ret = (_ped_Disk *) _ped_Disk_Type_obj.tp_new(&_ped_Disk_Type_obj, NULL, NULL);
-    if (!ret)
+    if (!ret) {
+        ped_disk_destroy(disk);
         return (_ped_Disk *) PyErr_NoMemory();
-
+    }
     ret->ped_disk = disk;
 
-    if ((dev = PedDevice2_ped_Device(disk->dev)) == NULL)
+    ret->dev = (PyObject *) PedDevice2_ped_Device(disk->dev);
+    if (!ret->dev)
         goto error;
 
-    args = Py_BuildValue("(O)", (PyObject *) dev);
-    if (args == NULL) {
+    ret->type = (PyObject *) PedDiskType2_ped_DiskType(disk->type);
+    if (!ret->type)
         goto error;
-    }
-
-    if (_ped_Disk_Type_obj.tp_init((PyObject *) ret, args, NULL)) {
-        goto error;
-    }
-
-    Py_DECREF(args);
-    Py_DECREF(dev);
 
     return ret;
 
 error:
-    Py_XDECREF(args);
-    Py_XDECREF(dev);
     Py_DECREF(ret);
     return NULL;
 }
@@ -353,7 +343,7 @@ PedDiskType *_ped_DiskType2PedDiskType(PyObject *s) {
     return ret;
 }
 
-_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *type) {
+_ped_DiskType *PedDiskType2_ped_DiskType(const PedDiskType *type) {
     _ped_DiskType *ret = NULL;
 
     if (type == NULL) {

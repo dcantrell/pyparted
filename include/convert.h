@@ -48,7 +48,7 @@ PedDisk *_ped_Disk2PedDisk(PyObject *);
 _ped_Disk *PedDisk2_ped_Disk(PedDisk *);
 
 PedDiskType *_ped_DiskType2PedDiskType(PyObject *);
-_ped_DiskType *PedDiskType2_ped_DiskType(PedDiskType *);
+_ped_DiskType *PedDiskType2_ped_DiskType(const PedDiskType *);
 
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *);
 _ped_FileSystem *PedFileSystem2_ped_FileSystem(PedFileSystem *);
