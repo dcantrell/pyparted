@@ -626,14 +626,21 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
     int ret = 0;
 
     device = _ped_Device2PedDevice(s);
-    if (device) {
-        ret = ped_disk_clobber(device);
-        if (ret == 0) {
-            PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
-            return NULL;
+    if (device == NULL)
+        return NULL;
+
+    ret = ped_disk_clobber(device);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(IOException, partedExnMessage);
         }
-    }
-    else {
+        else
+            PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
+
         return NULL;
     }
 
@@ -666,7 +673,15 @@ PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
 
     ret = ped_disk_clobber_exclude(device, out_disktype);
     if (ret == 0) {
-        PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(IOException, partedExnMessage);
+        }
+        else
+            PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
         return NULL;
     }
 
@@ -1869,9 +1884,9 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
 
             if (!PyErr_ExceptionMatches(PartedException) &&
                 !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                PyErr_SetString(PartitionException, partedExnMessage);
+                PyErr_SetString(DiskException, partedExnMessage);
         } else {
-            PyErr_Format(PartitionException, "Could not create new disk label on %s", disk->dev->path);
+            PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
         }
 
         return NULL;
@@ -1883,11 +1898,12 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
 
             if (!PyErr_ExceptionMatches(PartedException) &&
                 !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                PyErr_SetString(PartitionException, partedExnMessage);
+                PyErr_SetString(IOException, partedExnMessage);
         }
         else
-            PyErr_Format(PartitionException, "Could not create new disk label on %s", disk->dev->path);
+            PyErr_Format(DiskException, "Could not commit new disk label on %s", disk->dev->path);
 
+        ped_disk_destroy(disk);
         return NULL;
     }
 
