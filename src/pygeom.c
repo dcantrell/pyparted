@@ -153,6 +153,10 @@ int _ped_Geometry_init(_ped_Geometry *self, PyObject *args, PyObject *kwds) {
     }
 
     device = _ped_Device2PedDevice(self->dev);
+    if (device == NULL) {
+        self->dev = NULL;
+        return -3;
+    }
     self->ped_geometry = ped_geometry_new(device, start, length);
 
     if (self->ped_geometry == NULL) {
