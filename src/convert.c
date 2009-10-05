@@ -223,13 +223,26 @@ error:
 /* _ped_Device -> PedDevice functions */
 PedDevice *_ped_Device2PedDevice(PyObject *s) {
     _ped_Device *dev = (_ped_Device *) s;
+    PedDevice *ret;
 
     if (dev == NULL) {
         PyErr_SetString(PyExc_TypeError, "Empty _ped.Device()");
         return NULL;
     }
 
-    return ped_device_get(dev->path);
+    ret = ped_device_get(dev->path);
+    if (ret == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(DeviceException, partedExnMessage);
+        }
+        else
+            PyErr_Format(DeviceException, "Could not find device for path %s", dev->path);
+    }
+    return ret;
 }
 
 /* PedDevice -> _ped_Device functions */
