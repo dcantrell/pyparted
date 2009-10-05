@@ -419,6 +419,10 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     }
 
     device = _ped_Device2PedDevice(self->dev);
+    if (device == NULL) {
+        self->dev = NULL;
+        return -3;
+    }
     disk = ped_disk_new(device);
 
     if (disk == NULL) {
