@@ -1892,21 +1892,6 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if (!ped_disk_commit_to_dev(disk)) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException) &&
-                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                PyErr_SetString(IOException, partedExnMessage);
-        }
-        else
-            PyErr_Format(DiskException, "Could not commit new disk label on %s", disk->dev->path);
-
-        ped_disk_destroy(disk);
-        return NULL;
-    }
-
     ret = PedDisk2_ped_Disk(disk);
     return (PyObject *) ret;
 }
