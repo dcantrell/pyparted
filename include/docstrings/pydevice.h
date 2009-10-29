@@ -120,9 +120,48 @@ PyDoc_STRVAR(disk_clobber_exclude_doc,
 
 PyDoc_STRVAR(device_get_constraint_doc,
 "get_constraint(self) -> Constraint\n\n"
-"Get a Constraint that represents hardware requirements on alignment and\n"
-"geometry.  This is, for example, import for media that have a physical\n"
-"sector size that is a multiple of the logical sector size.");
+"Get a constraint that represents hardware requirements on geometry.\n"
+"This method will return a constraint representing the limits imposed by\n"
+"the size of the disk, it will *not* provide any alignment constraints.\n"
+"\n"
+"Alignment constraints may be desirable when using media that have a\n"
+"physical sector size that is a multiple of the logical sector size, as\n"
+"in this case proper partition alignment can benefit disk performance\n"
+"signigicantly.\n");
+
+PyDoc_STRVAR(device_get_minimal_aligned_constraint_doc,
+"get_minimal_aligned_constraint(self) -> Constraint\n\n"
+"Get a constraint that represents hardware requirements on geometry and\n"
+"alignment. This method returns a constraint representing the limits\n"
+"imposed by the size of the disk and the minimal alignment requirements\n"
+"for proper performance of the disk.\n");
+
+PyDoc_STRVAR(device_get_optimal_aligned_constraint_doc,
+"get_optimal_aligned_constraint(self) -> Constraint\n\n"
+"Get a constraint that represents hardware requirements on geometry and\n"
+"alignment. This method returns a constraint representing the limits\n"
+"imposed by the size of the disk and the alignment requirements for\n"
+"optimal performance of the disk.\n");
+
+PyDoc_STRVAR(device_get_minimum_alignment_doc,
+"get_minimum_alignment(self) -> Alignment\n\n"
+"Get an alignment that represents minimum hardware requirements on\n"
+"alignment. When for example using media that has a physical sector size\n"
+"that is a multiple of the logical sector size, it is desirable to have\n"
+"disk accesses (and thus partitions) properly aligned. Having partitions\n"
+"not aligned to the minimum hardware requirements may lead to a\n"
+"performance penalty.\n\n"
+"The returned alignment describes the alignment for the start sector of\n"
+"the partition, the end sector should be aligned too, to get the end\n"
+"sector alignment decrease the returned alignment's offset by 1.\n");
+
+PyDoc_STRVAR(device_get_optimum_alignment_doc,
+"get_optimum_alignment(self) -> Alignment\n\n"
+"Get an alignment that represents the hardware requirements for optimal\n"
+"performance.\n\n"
+"The returned alignment describes the alignment for the start sector of\n"
+"the partition, the end sector should be aligned too, to get the end\n"
+"sector alignment decrease the returned alignment's offset by 1.\n");
 
 PyDoc_STRVAR(file_system_get_create_constraint_doc,
 "get_create_constraint(self, Device) -> Constraint\n\n"
