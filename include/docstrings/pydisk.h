@@ -136,6 +136,14 @@ PyDoc_STRVAR(disk_get_max_supported_partition_count_doc,
 "get_max_supported_partition_count(self) -> integer\n\n"
 "Get the highest supported partition number of this disk.");
 
+PyDoc_STRVAR(disk_get_partition_alignment_doc,
+"get_partition_alignment(self) -> Alignment\n\n"
+"Get the alignment needed for partition boundaries on this disk.\n"
+"The returned alignment describes the alignment for the start sector\n"
+"of the partition, for all disklabel types which require alignment,\n"
+"except Sun disklabels, the end sector must be aligned too.\n"
+"To get the end sector alignment decrease the PedAlignment offset by 1.\n");
+
 PyDoc_STRVAR(disk_add_partition_doc,
 "add_partition(self, Partition, Constraint) -> boolean\n\n"
 "Adds the new partition Partition to self.  This operation may modify the\n"

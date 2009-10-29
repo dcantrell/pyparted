@@ -157,6 +157,10 @@ static PyMethodDef _ped_Disk_methods[] = {
                                  py_ped_disk_get_max_supported_partition_count,
                                  METH_VARARGS,
                                  disk_get_max_supported_partition_count_doc},
+    {"get_partition_alignment", (PyCFunction)
+                                 py_ped_disk_get_partition_alignment,
+                                 METH_NOARGS,
+                                 disk_get_partition_alignment_doc},
     {"add_partition", (PyCFunction) py_ped_disk_add_partition,
                       METH_VARARGS, disk_add_partition_doc},
     {"remove_partition", (PyCFunction) py_ped_disk_remove_partition,
