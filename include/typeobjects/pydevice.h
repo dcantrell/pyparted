@@ -139,6 +139,18 @@ static PyMethodDef _ped_Device_methods[] = {
               device_check_doc},
     {"get_constraint", (PyCFunction) py_ped_device_get_constraint,
                        METH_VARARGS, device_get_constraint_doc},
+    {"get_minimal_aligned_constraint",
+                  (PyCFunction) py_ped_device_get_minimal_aligned_constraint,
+                  METH_NOARGS, device_get_minimal_aligned_constraint_doc},
+    {"get_optimal_aligned_constraint",
+                  (PyCFunction) py_ped_device_get_optimal_aligned_constraint,
+                  METH_NOARGS, device_get_optimal_aligned_constraint_doc},
+    {"get_minimum_alignment",
+                  (PyCFunction) py_ped_device_get_minimum_alignment,
+                  METH_NOARGS, device_get_minimum_alignment_doc},
+    {"get_optimum_alignment",
+                  (PyCFunction) py_ped_device_get_optimum_alignment,
+                  METH_NOARGS, device_get_optimum_alignment_doc},
 
     /*
      * These functions are in pydisk.c, but they work best as
