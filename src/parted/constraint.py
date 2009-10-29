@@ -130,7 +130,7 @@ class Constraint(object):
         s = ("parted.Constraint instance --\n"
              "  startAlign: %(startAlign)r  endAlign: %(endAlign)r\n"
              "  startRange: %(startRange)r  endRange: %(endRange)r\n"
-             "  minSize: %(minSize)s  maxSize: %(maxSize)\n"
+             "  minSize: %(minSize)s  maxSize: %(maxSize)s\n"
              "  PedConstraint: %(ped)r" %
              {"startAlign": self.startAlign, "endAlign": self.endAlign,
               "startRange": self.startRange, "endRange": self.endRange,
