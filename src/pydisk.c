@@ -955,6 +955,27 @@ PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s,
     return Py_None;
 }
 
+PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args) {
+    PedDisk *disk = NULL;
+    PedAlignment *alignment = NULL;
+    _ped_Alignment *ret = NULL;
+
+    disk = _ped_Disk2PedDisk(s);
+    if (!disk)
+        return NULL;
+
+    alignment = ped_disk_get_partition_alignment(disk);
+    if (!alignment) {
+        PyErr_SetString(CreateException, "Could not get alignment for device");
+        return NULL;
+    }
+
+    ret = PedAlignment2_ped_Alignment(alignment);
+    ped_alignment_destroy(alignment);
+
+    return (PyObject *) ret;
+}
+
 /*
  * XXX:
  * We need to call ped_disk_destroy() to make sure the OS-specific

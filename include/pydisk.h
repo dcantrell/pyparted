@@ -116,6 +116,7 @@ PyObject *py_ped_disk_get_primary_partition_count(PyObject *, PyObject *);
 PyObject *py_ped_disk_get_last_partition_num(PyObject *, PyObject *);
 PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *, PyObject *);
 PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *, PyObject *);
+PyObject *py_ped_disk_get_partition_alignment(PyObject *, PyObject *);
 PyObject *py_ped_partition_destroy(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_is_active(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_set_flag(_ped_Partition *, PyObject *);
