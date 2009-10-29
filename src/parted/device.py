@@ -311,6 +311,36 @@ class Device(object):
            this Device."""
         return parted.Constraint(PedConstraint=self.__device.get_constraint())
 
+    @property
+    @localeC
+    def minimalAlignedConstraint(self):
+        """Return a Constraint defining the limitations and minimal advisable
+           alignment imposed by this Device."""
+        constraint = self.__device.get_minimal_aligned_constraint()
+        return parted.Constraint(PedConstraint=constraint)
+
+    @property
+    @localeC
+    def optimalAlignedConstraint(self):
+        """Return a Constraint defining the limitations and optimal
+           alignment imposed by this Device."""
+        constraint = self.__device.get_optimal_aligned_constraint()
+        return parted.Constraint(PedConstraint=constraint)
+
+    @property
+    @localeC
+    def minimumAlignment(self):
+        """Return an Alignment defining the minimum alignment for this Device."""
+        alignment = self.__device.get_minimum_alignment()
+        return parted.Alignment(PedAlignment=alignment)
+
+    @property
+    @localeC
+    def optimumAlignment(self):
+        """Return an Alignment defining the optimum alignment for this Device."""
+        alignment = self.__device.get_optimum_alignment()
+        return parted.Alignment(PedAlignment=alignment)
+
     def getPedDevice(self):
         """Return the _ped.Device object contained in this Device.
            For internal module use only."""
