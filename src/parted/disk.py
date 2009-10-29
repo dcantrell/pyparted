@@ -137,6 +137,13 @@ class Disk(object):
         return self.__disk.get_max_supported_partition_count()
 
     @property
+    @localeC
+    def partitionAlignment(self):
+        """Partition start address Alignment."""
+        alignment = self.__disk.get_partition_alignment()
+        return parted.Alignment(PedAlignment=alignment)
+
+    @property
     def partitions(self):
         """The list of partitions currently on this disk."""
         return self._partitions
