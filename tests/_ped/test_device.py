@@ -198,6 +198,40 @@ class DeviceGetConstraintTestCase(RequiresDevice):
         # hardware with unusual sector sizes.
         self.assertTrue(isinstance(self._device.get_constraint(), _ped.Constraint))
 
+class DeviceGetMinimalAlignedConstraintTestCase(RequiresDevice):
+    def runTest(self):
+        # XXX: This test case would be a lot more useful testing on real
+        # hardware with unusual sector sizes.
+        constraint = self._device.get_minimal_aligned_constraint()
+        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertEquals(constraint.start_align.offset, 0)
+        self.assertEquals(constraint.start_align.grain_size, 1)
+        self.assertEquals(constraint.end_align.offset, 0)
+        self.assertEquals(constraint.end_align.grain_size, 1)
+
+class DeviceGetOptimalAlignedConstraintTestCase(RequiresDevice):
+    def runTest(self):
+        # XXX: This test case would be a lot more useful testing on real
+        # hardware with unusual sector sizes.
+        constraint = self._device.get_minimal_aligned_constraint()
+        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertEquals(constraint.start_align.offset, 0)
+        self.assertEquals(constraint.start_align.grain_size, 1)
+        self.assertEquals(constraint.end_align.offset, 0)
+        self.assertEquals(constraint.end_align.grain_size, 1)
+
+class DeviceGetMinimumAlignmentTestCase(RequiresDevice):
+    def runTest(self):
+        # XXX: This test case would be a lot more useful testing on real
+        # hardware with unusual sector sizes.
+        self.assertRaises(_ped.CreateException, self._device.get_minimum_alignment)
+
+class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
+    def runTest(self):
+        # XXX: This test case would be a lot more useful testing on real
+        # hardware with unusual sector sizes.
+        self.assertRaises(_ped.CreateException, self._device.get_optimum_alignment)
+
 class UnitFormatCustomByteTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -369,6 +403,10 @@ def suite():
     suite.addTest(DeviceSyncFastTestCase())
     suite.addTest(DeviceCheckTestCase())
     suite.addTest(DeviceGetConstraintTestCase())
+    suite.addTest(DeviceGetMinimalAlignedConstraintTestCase())
+    suite.addTest(DeviceGetOptimalAlignedConstraintTestCase())
+    suite.addTest(DeviceGetMinimumAlignmentTestCase())
+    suite.addTest(DeviceGetOptimumAlignmentTestCase())
     suite.addTest(UnitFormatCustomByteTestCase())
     suite.addTest(UnitFormatByteTestCase())
     suite.addTest(UnitFormatCustomTestCase())
