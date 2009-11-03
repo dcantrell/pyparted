@@ -29,7 +29,7 @@ class RequiresDevice(unittest.TestCase):
     def setUp(self):
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
-        f.seek(128000)
+        f.seek(140000)
         os.write(fd, "0")
 
         self._device = _ped.device_get(self.path)
@@ -93,7 +93,7 @@ class RequiresDeviceAlignment(RequiresDevice):
 class RequiresDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        self._disk = _ped.Disk(self._device)
+        self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):

@@ -33,8 +33,8 @@ class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
         # Check that a DiskException is raised for an invalid path
         self.assertRaises(parted.DeviceException, parted.getDevice, None)
-        self.assertRaises(parted.DeviceException, parted.getDevice, "")
-        self.assertRaises(parted.DeviceException, parted.getDevice, "/dev/whatever")
+        self.assertRaises(parted.IOException, parted.getDevice, "")
+        self.assertRaises(parted.IOException, parted.getDevice, "/dev/whatever")
 
         # Check that we get a parted.Device back
         self.assert_(isinstance(parted.getDevice(self.path), parted.Device))
@@ -66,8 +66,8 @@ class ProbeFileSystemTestCase(unittest.TestCase):
 class FreshDiskTestCase(RequiresDevice):
     def runTest(self):
         # Make sure we get SyntaxError when using an invalid disk type
-        self.assertRaises(SyntaxError, parted.freshDisk, self._device, 'cheese')
-        self.assertRaises(SyntaxError, parted.freshDisk, self._device, 'crackers')
+        self.assertRaises(KeyError, parted.freshDisk, self._device, 'cheese')
+        self.assertRaises(KeyError, parted.freshDisk, self._device, 'crackers')
 
         # Create a new disk for each disk type key, verify each one
         for key in parted.diskType.keys():
