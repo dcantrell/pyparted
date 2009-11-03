@@ -30,7 +30,7 @@ class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
-        f.seek(128000)
+        f.seek(140000)
         os.write(fd, "0")
 
     def tearDown(self):

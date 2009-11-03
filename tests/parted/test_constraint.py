@@ -114,10 +114,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         # Test that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self.c, "blah")
 
-        # We really shouldn't be allowed to overwrite objects stored in a
-        # parted.Constraint, but for now there's no way to prevent it.
-        self.c.endRange = 47
-        self.assert_(self.c.endRange == 47)
+        self.assertRaises(AttributeError, setattr, self.c, "startRange", 47)
+        self.assertRaises(AttributeError, setattr, self.c, "endRange", 47)
 
 class ConstraintIntersectTestCase(unittest.TestCase):
     def runTest(self):

@@ -158,8 +158,8 @@ class DeviceGetTestCase(RequiresDevice):
         self.assertTrue(isinstance(_ped.device_get(self.path), _ped.Device))
 
         # Try getting a device that doesn't exist.
-        self.assertRaises(_ped.DeviceException, _ped.device_get, "/blah/whatever")
-        self.assertRaises(_ped.DeviceException, _ped.device_get, "")
+        self.assertRaises(_ped.IOException, _ped.device_get, "/blah/whatever")
+        self.assertRaises(_ped.IOException, _ped.device_get, "")
         self.assertRaises(_ped.DeviceException, _ped.device_get, None)
 
 class DeviceGetNextTestCase(unittest.TestCase, BuildList):

@@ -348,7 +348,7 @@ class GeometryCheckTestCase(RequiresDevice):
 
     def runTest(self):
         # trivial test case first
-        self.assertEquals(self.g.check(0, 0, 0), 0)
+        self.assertRaises(_ped.IOException, self.g.check, 0, 0, 0)
 
         self._device.open()
 
