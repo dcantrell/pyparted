@@ -70,3 +70,31 @@ release: tag
 	@echo "Do not forget to add a new Version entry on the Trac site:"
 	@echo "    https://fedorahosted.org/pyparted/admin/ticket/versions"
 	@echo
+
+# User can specify TAG= on the command line to override the default of
+# using the last tag made.
+rpmlog:
+	@if [ ! -f $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz ]; then \
+		echo "*** Run 'make bumpver' and 'make release' before using this target." ; \
+		exit 1 ; \
+	fi ; \
+	LAST=$$(echo $(PACKAGE_VERSION) | grep "\." -o | wc -l) ; \
+	FIELD=$$(($${LAST} + 1)) ; \
+	NEWSUBVER=$$((`echo $(PACKAGE_VERSION) | cut -d . -f $${FIELD}` + 1)) ; \
+	NEWVERSION="`echo $(PACKAGE_VERSION) | cut -d . -f 1-$${LAST}`.$${NEWSUBVER}" ; \
+	echo "* $$(date "+%a %b %d %Y") $$(git config user.name) <$$(git config user.email)> - $${NEWVERSION}-1" ; \
+	if [ -z "$(TAG)" ]; then \
+		tagspec="$$(git tag -l $(PACKAGE_NAME)-* | tail -n 2 | head -n 1).." ; \
+	else \
+		tagspec="$(TAG).." ; \
+	fi ; \
+	git log --pretty="format:- %s (%ae)" $${tagspec} | \
+		sed -e 's/@.*)/)/' | sed -e 's/%/%%/g' | \
+		grep -v " TODO " | \
+	fold -s -w 77 | while read line ; do \
+		if [ ! "$$(echo $$line | cut -c-2)" = "- " ]; then \
+			echo "  $$line" ; \
+		else \
+			echo "$$line" ; \
+		fi ; \
+	done
