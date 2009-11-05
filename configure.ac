@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/t
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of pyparted build])
+AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
 AC_DISABLE_STATIC
 AC_PROG_CPP
