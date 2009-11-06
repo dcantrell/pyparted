@@ -216,7 +216,7 @@ class Partition(object):
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
         maxLength = self.geometry.length
-        physicalSectorSize = self.geometry.device.physicalSectorSize
+        sectorSize = self.geometry.device.sectorSize
 
         for partition in self.disk.partitions:
             if partition.type & parted.PARTITION_FREESPACE:
@@ -224,7 +224,7 @@ class Partition(object):
             else:
                 break
 
-        return math.floor(maxLength * math.pow(physicalSectorSize, parted._exponent[lunit]))
+        return math.floor(maxLength * math.pow(sectorSize, parted._exponent[lunit]))
 
     def getDeviceNodeName(self):
         """Return the device name for this Partition."""

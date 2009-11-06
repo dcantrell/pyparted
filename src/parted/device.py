@@ -301,7 +301,7 @@ class Device(object):
         (cylinders, heads, sectors) = self.biosGeometry
         size = float(heads * cylinders * sectors)
         size /= math.pow(1024.0, parted._exponent[lunit])
-        size *= self.physicalSectorSize
+        size *= self.sectorSize
 
         return size
 

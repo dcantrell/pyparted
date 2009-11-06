@@ -120,8 +120,7 @@ class Geometry(object):
            (gigabytes), TB (terabytes).  An invalid unit string will raise a
            SyntaxError exception.  The default unit is MB."""
         lunit = unit.lower()
-        physicalSectorSize = self.device.physicalSectorSize
-        size = self.length * physicalSectorSize
+        size = self.length * self.device.sectorSize
 
         if lunit not in parted._exponent.keys():
             raise SyntaxError, "invalid unit %s given" % (unit,)
