@@ -33,11 +33,6 @@ class DiskNewTestCase(RequiresDevice):
         self.assertTrue(isinstance(self._disk, _ped.Disk))
         self.assertEquals(self._disk.type.name, "msdos")
 
-class DiskGetSetTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
 class DiskClobberTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -172,7 +167,6 @@ class DiskStrTestCase(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(DiskNewTestCase())
-    suite.addTest(DiskGetSetTestCase())
     suite.addTest(DiskClobberTestCase())
     suite.addTest(DiskClobberExcludeTestCase())
     suite.addTest(DiskDuplicateTestCase())
