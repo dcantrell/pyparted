@@ -93,7 +93,8 @@ class RequiresDeviceAlignment(RequiresDevice):
 class RequiresDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
+        os.system("parted -s %s mklabel msdos" % self.path)
+        self._disk = _ped.Disk(self._device)
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
