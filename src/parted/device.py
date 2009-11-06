@@ -298,8 +298,7 @@ class Device(object):
         if lunit not in parted._exponent.keys():
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
-        (cylinders, heads, sectors) = self.biosGeometry
-        size = float(heads * cylinders * sectors)
+        size = float(self.__device.length)
         size /= math.pow(1024.0, parted._exponent[lunit])
         size *= self.sectorSize
 
