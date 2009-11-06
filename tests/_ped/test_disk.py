@@ -21,13 +21,17 @@
 import _ped
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class DiskNewTestCase(unittest.TestCase):
-    # TODO
+class DiskNewTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        os.system("parted -s %s mklabel msdos" % self.path)
+        self._disk = _ped.Disk(self._device)
+        self.assertTrue(isinstance(self._disk, _ped.Disk))
+        self.assertEquals(self._disk.type.name, "msdos")
 
 class DiskGetSetTestCase(unittest.TestCase):
     # TODO
