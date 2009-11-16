@@ -21,6 +21,8 @@
 import _ped
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
@@ -98,6 +100,14 @@ class DiskGetMaxSupportedPartitionCountTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
+
+class DiskGetPartitionAlignmentTestCase(RequiresDisk):
+    def runTest(self):
+        alignment = self._disk.get_partition_alignment()
+        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        # These 2 tests assume an MSDOS label as given by RequiresDisk
+        self.assertEquals(alignment.offset, 0)
+        self.assertEquals(alignment.grain_size, 1)
 
 class DiskAddPartitionTestCase(unittest.TestCase):
     # TODO
@@ -182,6 +192,7 @@ def suite():
     suite.addTest(DiskGetLastPartitionNumTestCase())
     suite.addTest(DiskGetMaxPrimaryPartitionCountTestCase())
     suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
+    suite.addTest(DiskGetPartitionAlignmentTestCase())
     suite.addTest(DiskAddPartitionTestCase())
     suite.addTest(DiskRemovePartitionTestCase())
     suite.addTest(DiskDeletePartitionTestCase())
