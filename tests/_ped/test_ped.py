@@ -230,10 +230,15 @@ class DiskAlignToCylindersToggleTestCase(unittest.TestCase):
     def runTest(self):
         self.assertTrue(_ped.disk_align_to_cylinders_toggle())
 
-class FileSystemProbeTestCase(unittest.TestCase):
-    # TODO
+class FileSystemProbeTestCase(RequiresFileSystem):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        type = _ped.file_system_probe(self._geometry)
+
+        for name in self._fileSystemType.keys():
+            if name == 'ext2':
+                self.assertEquals(type.name, name)
+            else:
+                self.assertNotEquals(type.name, name)
 
 class FileSystemProbeSpecificTestCase(unittest.TestCase):
     # TODO
