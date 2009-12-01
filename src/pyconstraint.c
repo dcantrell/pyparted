@@ -401,8 +401,8 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: is this function really necessary since we can copy objects in Python?
- * we could just use copy.deepcopy
+/* XXX: Remove this function at some point in the future.  The deprecation
+ * warning tells people what they should be doing.
  */
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     PedConstraint *constraint = NULL, *dup_constraint = NULL;
@@ -413,14 +413,18 @@ PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    dup_constraint = ped_constraint_duplicate(constraint);
+    if (PyErr_WarnEx(PyExc_DeprecationWarning,
+                     "use copy.deepcopy() to duplicate a _ped.Constraint",
+                     1) == -1) {
+        return NULL;
+    }
 
+    dup_constraint = ped_constraint_duplicate(constraint);
     ped_constraint_destroy(constraint);
 
     if (dup_constraint) {
         ret = PedConstraint2_ped_Constraint(dup_constraint);
-    }
-    else {
+    } else {
         PyErr_SetString(CreateException, "Could not duplicate constraint");
         return NULL;
     }
