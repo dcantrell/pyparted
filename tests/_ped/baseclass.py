@@ -37,6 +37,34 @@ class RequiresDevice(unittest.TestCase):
     def tearDown(self):
         os.unlink(self.path)
 
+# Base class for any test case that requires a filesystem on a device.
+class RequiresFileSystem(unittest.TestCase):
+    def setUp(self):
+        self._fileSystemType = {}
+        type = _ped.file_system_type_get_next()
+        self._fileSystemType[type.name] = type
+
+        while True:
+            try:
+                type = _ped.file_system_type_get_next(type)
+                self._fileSystemType[type.name] = type
+            except:
+                break
+
+        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        f = os.fdopen(fd)
+        f.seek(140000)
+        os.write(fd, "0")
+        f.close()
+
+        os.system("/sbin/mke2fs -F -q %s" % (self.path,))
+
+        self._device = _ped.device_get(self.path)
+        self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
+
+    def tearDown(self):
+        os.unlink(self.path)
+
 # Base class for certain alignment tests that require a _ped.Device
 class RequiresDeviceAlignment(RequiresDevice):
     def setUp(self):
