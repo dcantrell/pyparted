@@ -51,7 +51,7 @@ class CHSGeometryGetSetTestCase(RequiresDevice):
 
 class CHSGeometryStrTestCase(RequiresDevice):
     def runTest(self):
-        expected = "_ped.CHSGeometry instance --\n  cylinders: 1  heads: 4  sectors: 32"
+        expected = "_ped.CHSGeometry instance --\n  cylinders: %d  heads: %d  sectors: %d" % (self._device.hw_geom.cylinders, self._device.hw_geom.heads, self._device.hw_geom.sectors,)
         result = str(self._device.hw_geom)
         self.assertEquals(result, expected)
 
