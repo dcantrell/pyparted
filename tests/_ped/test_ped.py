@@ -218,14 +218,17 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
         self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
 class DiskAlignToCylindersOnTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        if _ped.disk_align_to_cylinders_on():
+            _ped.disk_align_to_cylinders_toggle()
+
+        self.assertFalse(_ped.disk_align_to_cylinders_on())
+        _ped.disk_align_to_cylinders_toggle()
+        self.assertTrue(_ped.disk_align_to_cylinders_on())
 
 class DiskAlignToCylindersToggleTestCase(unittest.TestCase):
-    # TODO
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertTrue(_ped.disk_align_to_cylinders_toggle())
 
 class FileSystemProbeTestCase(unittest.TestCase):
     # TODO
