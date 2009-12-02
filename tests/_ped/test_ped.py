@@ -240,10 +240,26 @@ class FileSystemProbeTestCase(RequiresFileSystem):
             else:
                 self.assertNotEquals(type.name, name)
 
-class FileSystemProbeSpecificTestCase(unittest.TestCase):
-    # TODO
+class FileSystemProbeSpecificTestCase(RequiresFileSystem):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        for (name, type,) in self._fileSystemType.items():
+            if name == 'ext2':
+                result = _ped.file_system_probe_specific(type, self._geometry)
+
+                # XXX: this should work
+                # we're getting
+                #     ValueError: object comparing to must be a _ped.Geometry
+                # at runtime.  works fine in pdb.
+                #self.assertEquals(result, self._geometry)
+
+                self.assertTrue(isinstance(result, _ped.Geometry))
+                self.assertEquals(result.start, self._geometry.start)
+                self.assertEquals(result.end, self._geometry.end)
+                self.assertEquals(result.length, self._geometry.length)
+                self.assertEquals(result.dev, self._device)
+            else:
+                result = _ped.file_system_probe_specific(type, self._geometry)
+                self.assertEquals(result, None)
 
 class FileSystemTypeGetTestCase(unittest.TestCase):
     def runTest(self):
