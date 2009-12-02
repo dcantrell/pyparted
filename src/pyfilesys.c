@@ -342,8 +342,8 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     PedGeometry *out_geom = NULL, *geom = NULL;
     _ped_Geometry *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj, &in_fstype,
-                          &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
+                          &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -360,19 +360,17 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     geom = ped_file_system_probe_specific(fstype, out_geom);
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
-    }
-    else {
+    } else {
+        /* libparted swallows exceptions here (I think) and just returns
+         * NULL if the match is not made.  Reset exception flag and return
+         * None.
+         */
         if (partedExnRaised) {
             partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException) &&
-                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                PyErr_SetString(IOException, partedExnMessage);
         }
-        else
-            PyErr_Format(FileSystemException, "Failed to probe filesystem type %s", fstype->name);
 
-        return NULL;
+        Py_INCREF(Py_None);
+        return Py_None;
     }
 
     return (PyObject *) ret;
