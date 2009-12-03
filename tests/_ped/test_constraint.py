@@ -180,16 +180,12 @@ class ConstraintSolveMaxTestCase(unittest.TestCase):
 class ConstraintSolveNearestTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        align1 = _ped.Alignment(1, 0)
-        align2 = _ped.Alignment(20, 0)
-        geom1 = _ped.Geometry(self._device, 0, 100)
-        geom2 = _ped.Geometry(self._device, 100, 200)
-
-        self.c1 = _ped.Constraint(align1, align2, geom1, geom2, 1, 200)
-        self.g1 = _ped.Geometry(self._device, 10, 10)
+        self.c1 = self._device.get_constraint()
+        self.g1 = _ped.Geometry(self._device, 1, 8)
 
     def runTest(self):
         result = self.c1.solve_nearest(self.g1)
+        self.assertEquals(result, self.g1)
 
 class ConstraintIsSolutionTestCase(unittest.TestCase):
     # TODO
