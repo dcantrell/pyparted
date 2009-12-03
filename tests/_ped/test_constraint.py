@@ -172,10 +172,15 @@ class ConstraintIntersectTestCase(RequiresDevice):
         result = self.c1.intersect(self.c2)
         self.assertEquals(result, expected)
 
-class ConstraintSolveMaxTestCase(unittest.TestCase):
-    # TODO
+class ConstraintSolveMaxTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.c1 = self._device.get_constraint()
+
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        result = self.c1.solve_max()
+        self.assertEquals(result.dev, self._device)
+        self.assertEquals(result.length, self._device.length - 1)
 
 class ConstraintSolveNearestTestCase(RequiresDevice):
     def setUp(self):
