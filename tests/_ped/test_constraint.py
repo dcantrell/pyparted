@@ -192,10 +192,14 @@ class ConstraintSolveNearestTestCase(RequiresDevice):
         result = self.c1.solve_nearest(self.g1)
         self.assertEquals(result, self.g1)
 
-class ConstraintIsSolutionTestCase(unittest.TestCase):
-    # TODO
+class ConstraintIsSolutionTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.c1 = self._device.get_constraint()
+        self.g1 = _ped.Geometry(self._device, 1, 8)
+
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertTrue(self.c1.is_solution(self.g1))
 
 class ConstraintStrTestCase(RequiresDevice):
     def setUp(self):
