@@ -233,44 +233,46 @@ class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
 class UnitFormatCustomByteTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        self.pairs = [(_ped.UNIT_SECTOR, '0s'),
-                      (_ped.UNIT_BYTE, '47B'),
-                      (_ped.UNIT_KILOBYTE, '0.05kB'),
-                      (_ped.UNIT_MEGABYTE, '0.00MB'),
-                      (_ped.UNIT_GIGABYTE, '0.00GB'),
-                      (_ped.UNIT_TERABYTE, '0.00TB'),
-                      (_ped.UNIT_COMPACT, '47.0B'),
-                      (_ped.UNIT_CYLINDER, '0cyl'),
-                      (_ped.UNIT_CHS, '0,0,0'),
-                      (_ped.UNIT_PERCENT, '0.04%'),
-                      (_ped.UNIT_KIBIBYTE, '0.05kiB'),
-                      (_ped.UNIT_MEBIBYTE, '0.00MiB'),
-                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
-                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
+        pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
+        self.pairs = [(_ped.UNIT_SECTOR, '0s',),
+                      (_ped.UNIT_BYTE, '47B',),
+                      (_ped.UNIT_KILOBYTE, '0.05kB',),
+                      (_ped.UNIT_MEGABYTE, '0.00MB',),
+                      (_ped.UNIT_GIGABYTE, '0.00GB',),
+                      (_ped.UNIT_TERABYTE, '0.00TB',),
+                      (_ped.UNIT_COMPACT, '47.0B',),
+                      (_ped.UNIT_CYLINDER, '0cyl',),
+                      (_ped.UNIT_CHS, '0,0,0',),
+                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_KIBIBYTE, '0.05kiB',),
+                      (_ped.UNIT_MEBIBYTE, '0.00MiB',),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB',),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB',)]
 
     def runTest(self):
-        for (unit, expected) in self.pairs:
+        for (unit, expected,) in self.pairs:
             self.assertEquals(self._device.unit_format_custom_byte(47, unit),
                               expected)
 
 class UnitFormatByteTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
+        pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
         self._initialDefault = _ped.unit_get_default()
-        self.pairs = [(_ped.UNIT_SECTOR, '0s'),
-                      (_ped.UNIT_BYTE, '47B'),
-                      (_ped.UNIT_KILOBYTE, '0.05kB'),
-                      (_ped.UNIT_MEGABYTE, '0.00MB'),
-                      (_ped.UNIT_GIGABYTE, '0.00GB'),
-                      (_ped.UNIT_TERABYTE, '0.00TB'),
-                      (_ped.UNIT_COMPACT, '47.0B'),
-                      (_ped.UNIT_CYLINDER, '0cyl'),
-                      (_ped.UNIT_CHS, '0,0,0'),
-                      (_ped.UNIT_PERCENT, '0.04%'),
-                      (_ped.UNIT_KIBIBYTE, '0.05kiB'),
-                      (_ped.UNIT_MEBIBYTE, '0.00MiB'),
-                      (_ped.UNIT_GIBIBYTE, '0.00GiB'),
-                      (_ped.UNIT_TEBIBYTE, '0.00TiB')]
+        self.pairs = [(_ped.UNIT_SECTOR, '0s',),
+                      (_ped.UNIT_BYTE, '47B',),
+                      (_ped.UNIT_KILOBYTE, '0.05kB',),
+                      (_ped.UNIT_MEGABYTE, '0.00MB',),
+                      (_ped.UNIT_GIGABYTE, '0.00GB',),
+                      (_ped.UNIT_TERABYTE, '0.00TB',),
+                      (_ped.UNIT_COMPACT, '47.0B',),
+                      (_ped.UNIT_CYLINDER, '0cyl',),
+                      (_ped.UNIT_CHS, '0,0,0',),
+                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_KIBIBYTE, '0.05kiB',),
+                      (_ped.UNIT_MEBIBYTE, '0.00MiB',),
+                      (_ped.UNIT_GIBIBYTE, '0.00GiB',),
+                      (_ped.UNIT_TEBIBYTE, '0.00TiB',)]
 
     def runTest(self):
         for (unit, expected) in self.pairs:
