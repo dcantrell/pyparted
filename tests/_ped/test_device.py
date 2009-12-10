@@ -98,15 +98,13 @@ class DeviceCloseTestCase(RequiresDevice):
         self.assertEquals(self._device.open_count, 0)
         self.assertRaises(_ped.IOException, self._device.close)
 
-class DeviceDestroyTestCase(unittest.TestCase):
-    # TODO
+class DeviceDestroyTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertEquals(self._device.destroy(), None)
 
-class DeviceCacheRemoveTestCase(unittest.TestCase):
-    # TODO
+class DeviceCacheRemoveTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        self.assertEquals(self._device.cache_remove(), None)
 
 class DeviceBeginExternalAccessTestCase(RequiresDevice):
     def runTest(self):
@@ -346,44 +344,8 @@ class UnitParseCustomTestCase(unittest.TestCase):
 
 class DeviceStrTestCase(RequiresDevice):
     def runTest(self):
-        data = str(self._device).split()
-        self.assertEquals(data[0], '_ped.Device')
-        self.assertEquals(data[1], 'instance')
-        self.assertEquals(data[2], '--')
-        self.assertEquals(data[3], 'model:')
-        self.assertEquals(data[4], 'path:')
-        self.assertTrue(data[5].startswith('/tmp/temp-device-'))
-        self.assertEquals(data[6], 'type:')
-        self.assertEquals(data[7], '5')
-        self.assertEquals(data[8], 'sector_size:')
-        self.assertEquals(data[9], '512')
-        self.assertEquals(data[10], 'phys_sector_size:')
-        self.assertEquals(data[11], '512')
-        self.assertEquals(data[12], 'length:')
-        self.assertEquals(data[13], '250')
-        self.assertEquals(data[14], 'open_count:')
-        self.assertEquals(data[15], '0')
-        self.assertEquals(data[16], 'read_only:')
-        self.assertEquals(data[17], '0')
-        self.assertEquals(data[18], 'external_mode:')
-        self.assertEquals(data[19], '0')
-        self.assertEquals(data[20], 'dirty:')
-        self.assertEquals(data[21], '0')
-        self.assertEquals(data[22], 'boot_dirty:')
-        self.assertEquals(data[23], '0')
-        self.assertEquals(data[24], 'host:')
-        self.assertEquals(data[26], 'did:')
-        self.assertEquals(data[27], '0')
-        self.assertEquals(data[28], 'hw_geom:')
-        self.assertEquals(data[29], '<_ped.CHSGeometry')
-        self.assertEquals(data[30], 'object')
-        self.assertEquals(data[31], 'at')
-        self.assertTrue(data[32].startswith('0x'))
-        self.assertEquals(data[33], 'bios_geom:')
-        self.assertEquals(data[34], '<_ped.CHSGeometry')
-        self.assertEquals(data[35], 'object')
-        self.assertEquals(data[36], 'at')
-        self.assertTrue(data[37].startswith('0x'))
+        import pdb
+        pdb.set_trace()
 
 # And then a suite to hold all the test cases for this module.
 def suite():
