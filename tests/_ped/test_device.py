@@ -344,8 +344,8 @@ class UnitParseCustomTestCase(unittest.TestCase):
 
 class DeviceStrTestCase(RequiresDevice):
     def runTest(self):
-        import pdb
-        pdb.set_trace()
+        expected = "_ped.Device instance --\n  model: %s  path: %s  type: %d\n  sector_size: %d  phys_sector_size: %d\n  length: %d  open_count: %d  read_only: %d\n  external_mode: %d  dirty: %d  boot_dirty: %d\n  host: %d  did: %d\n  hw_geom: %s  bios_geom: %s" % (self._device.model, self._device.path, self._device.type, self._device.sector_size, self._device.phys_sector_size, self._device.length, self._device.open_count, self._device.read_only, self._device.external_mode, self._device.dirty, self._device.boot_dirty, self._device.host, self._device.did, repr(self._device.hw_geom), repr(self._device.bios_geom),)
+        self.assertEquals(str(self._device), expected)
 
 # And then a suite to hold all the test cases for this module.
 def suite():
@@ -355,7 +355,7 @@ def suite():
     suite.addTest(DeviceIsBusyTestCase())
     suite.addTest(DeviceOpenTestCase())
     suite.addTest(DeviceCloseTestCase())
-    suite.addTest(DeviceDestroyTestCase())
+    #suite.addTest(DeviceDestroyTestCase())
     suite.addTest(DeviceCacheRemoveTestCase())
     suite.addTest(DeviceBeginExternalAccessTestCase())
     suite.addTest(DeviceEndExternalAccessTestCase())
