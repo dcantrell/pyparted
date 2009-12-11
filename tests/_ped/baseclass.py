@@ -27,7 +27,7 @@ import unittest
 # Base class for any test case that requires a _ped.Device object first.
 class RequiresDevice(unittest.TestCase):
     def setUp(self):
-        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
         os.write(fd, "0")
@@ -51,7 +51,7 @@ class RequiresFileSystem(unittest.TestCase):
             except:
                 break
 
-        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
         os.write(fd, "0")
