@@ -102,6 +102,7 @@ class DeviceDestroyTestCase(RequiresDevice):
     def runTest(self):
         # XXX: still broken, need to fix destroy function in pydevice.c
         #self.assertEquals(self._device.destroy(), None)
+        self.fail("Unimplemented test case.")
 
 class DeviceCacheRemoveTestCase(RequiresDevice):
     def runTest(self):
