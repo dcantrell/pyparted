@@ -117,6 +117,12 @@ class RequiresDeviceAlignment(RequiresDevice):
         else:
             return b
 
+# Base class for any test case that requires a labeled device
+class RequiresLabeledDevice(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        os.system("/sbin/parted -s %s mklabel msdos" % (self.path,))
+
 # Base class for any test case that requires a _ped.Disk.
 class RequiresDisk(RequiresDevice):
     def setUp(self):
