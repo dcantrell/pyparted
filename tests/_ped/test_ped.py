@@ -72,6 +72,38 @@ class PartitionFlagNextTestCase(unittest.TestCase):
                 break
             self.assertEquals(type(flag).__name__, 'int')
 
+class DiskFlagGetNameTestCase(unittest.TestCase):
+    def runTest(self):
+        for f in [_ped.DISK_CYLINDER_ALIGNMENT]:
+            self.assertNotEquals(_ped.disk_flag_get_name(f), "", "Could not get name for flag %s" % f)
+
+        self.assertRaises(ValueError, _ped.disk_flag_get_name, -1)
+        self.assertRaises(ValueError, _ped.disk_flag_get_name, 1000)
+
+class DiskFlagGetByNameTestCase(unittest.TestCase):
+    def runTest(self):
+        for f in ["cylinder_alignment"]:
+            self.assertNotEquals(_ped.disk_flag_get_by_name(f), 0, "Could not get flag %s" % f)
+
+        self.assertEquals(_ped.disk_flag_get_by_name("nosuchflag"), 0)
+
+class DiskFlagNextTestCase(unittest.TestCase):
+    def runTest(self):
+        # We should get TypeError when the parameter is invalid
+        self.assertRaises(TypeError, _ped.disk_flag_next)
+        self.assertRaises(TypeError, _ped.disk_flag_next, 'blah')
+
+        # First flag is 0, keep getting flags until we loop back around
+        # to zero.  Make sure each flag we get is an integer.
+        flag = _ped.disk_flag_next(0)
+        self.assertEquals(type(flag).__name__, 'int')
+
+        while True:
+            flag = _ped.disk_flag_next(flag)
+            if not flag:
+                break
+            self.assertEquals(type(flag).__name__, 'int')
+
 class ConstraintNewFromMinMaxTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_new_from_min_max, None)
@@ -379,6 +411,9 @@ def suite():
     suite.addTest(DeviceGetNextTestCase())
     suite.addTest(DeviceProbeAllTestCase())
     suite.addTest(DeviceFreeAllTestCase())
+    suite.addTest(DiskFlagGetNameTestCase())
+    suite.addTest(DiskFlagGetByNameTestCase())
+    suite.addTest(DiskFlagNextTestCase())
     suite.addTest(DiskTypeGetTestCase())
     suite.addTest(DiskTypeGetNextTestCase())
     suite.addTest(DiskAlignToCylindersOnTestCase())

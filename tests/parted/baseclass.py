@@ -46,5 +46,5 @@ class RequiresDevice(RequiresDeviceNode):
 class RequiresDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        pd = _ped.Disk(self._device)
+        pd = _ped.disk_new_fresh(self._device.getPedDevice(), parted.diskType["msdos"])
         self._disk = parted.Disk(PedDisk=pd)

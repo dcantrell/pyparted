@@ -24,6 +24,8 @@
 import parted
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
@@ -132,6 +134,31 @@ class DiskGetMaxSupportedPartitionCountTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class DiskGetFlagTestCase(RequiresDisk):
+    def runTest(self):
+        flag = self._disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
+        self.assertTrue(isinstance(flag, bool))
+
+class DiskSetFlagTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self._disk.setFlag(parted.DISK_CYLINDER_ALIGNMENT)
+        flag = self._disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
+        self.assertEquals(flag, True)
+
+class DiskUnsetFlagTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self._disk.unsetFlag(parted.DISK_CYLINDER_ALIGNMENT)
+        flag = self._disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
+        self.assertEquals(flag, False)
+
+class DiskIsFlagAvailableTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        available = self._disk.isFlagAvailable(parted.DISK_CYLINDER_ALIGNMENT)
+        self.assertEquals(available, True)
+
 class DiskGetExtendedPartitionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -211,6 +238,10 @@ def suite():
     suite.addTest(DiskGetPartitionBySectorTestCase())
     suite.addTest(DiskGetMaxLogicalPartitionsTestCase())
     suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
+    suite.addTest(DiskGetFlagTestCase())
+    suite.addTest(DiskSetFlagTestCase())
+    suite.addTest(DiskUnsetFlagTestCase())
+    suite.addTest(DiskIsFlagAvailableTestCase())
     suite.addTest(DiskGetExtendedPartitionTestCase())
     suite.addTest(DiskGetLogicalPartitionsTestCase())
     suite.addTest(DiskGetPrimaryPartitionsTestCase())
