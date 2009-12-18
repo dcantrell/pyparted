@@ -249,19 +249,6 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
 
         self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
-class DiskAlignToCylindersOnTestCase(unittest.TestCase):
-    def runTest(self):
-        if _ped.disk_align_to_cylinders_on():
-            _ped.disk_align_to_cylinders_toggle()
-
-        self.assertFalse(_ped.disk_align_to_cylinders_on())
-        _ped.disk_align_to_cylinders_toggle()
-        self.assertTrue(_ped.disk_align_to_cylinders_on())
-
-class DiskAlignToCylindersToggleTestCase(unittest.TestCase):
-    def runTest(self):
-        self.assertTrue(_ped.disk_align_to_cylinders_toggle())
-
 class FileSystemProbeTestCase(RequiresFileSystem):
     def runTest(self):
         type = _ped.file_system_probe(self._geometry)
@@ -416,8 +403,6 @@ def suite():
     suite.addTest(DiskFlagNextTestCase())
     suite.addTest(DiskTypeGetTestCase())
     suite.addTest(DiskTypeGetNextTestCase())
-    suite.addTest(DiskAlignToCylindersOnTestCase())
-    suite.addTest(DiskAlignToCylindersToggleTestCase())
     suite.addTest(FileSystemProbeTestCase())
     suite.addTest(FileSystemProbeSpecificTestCase())
     suite.addTest(FileSystemTypeGetTestCase())
