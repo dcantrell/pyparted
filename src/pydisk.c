@@ -976,6 +976,26 @@ PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args) {
+    PedDisk *disk = NULL;
+
+    disk = _ped_Disk2PedDisk(s);
+    if (!disk)
+        return NULL;
+
+    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_length(disk));
+}
+
+PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
+    PedDisk *disk = NULL;
+
+    disk = _ped_Disk2PedDisk(s);
+    if (!disk)
+        return NULL;
+
+    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_start_sector(disk));
+}
+
 PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
     int ret, flag, state;
     PedDisk *disk = NULL;

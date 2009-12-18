@@ -143,6 +143,18 @@ class Disk(object):
         alignment = self.__disk.get_partition_alignment()
         return parted.Alignment(PedAlignment=alignment)
 
+    @property
+    @localeC
+    def maxPartitionLength(self):
+        """Max Partition Length the disk's label can represent."""
+        return self.__disk.max_partition_length()
+
+    @property
+    @localeC
+    def maxPartitionStartSector(self):
+        """Max Partition Start Sector the disk's label can represent."""
+        return self.__disk.max_partition_start_sector()
+
     @localeC
     def getFlag(self, flag):
         """Get the value of a particular flag on the disk.  Valid flags

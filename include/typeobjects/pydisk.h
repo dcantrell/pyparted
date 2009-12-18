@@ -161,6 +161,14 @@ static PyMethodDef _ped_Disk_methods[] = {
                                  py_ped_disk_get_partition_alignment,
                                  METH_NOARGS,
                                  disk_get_partition_alignment_doc},
+    {"max_partition_length", (PyCFunction)
+                             py_ped_disk_max_partition_length,
+                             METH_NOARGS,
+                             disk_max_partition_length_doc},
+    {"max_partition_start_sector", (PyCFunction)
+                             py_ped_disk_max_partition_start_sector,
+                             METH_NOARGS,
+                             disk_max_partition_start_sector_doc},
     {"set_flag", (PyCFunction) py_ped_disk_set_flag, METH_VARARGS,
                  disk_set_flag_doc},
     {"get_flag", (PyCFunction) py_ped_disk_get_flag, METH_VARARGS,
