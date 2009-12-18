@@ -134,6 +134,16 @@ class DiskGetMaxSupportedPartitionCountTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class DiskMaxPartitionLengthTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self.assertEquals(self._disk.maxPartitionLength, 4294967295L)
+
+class DiskMaxPartitionStartSectorTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self.assertEquals(self._disk.maxPartitionStartSector, 4294967295L)
+
 class DiskGetFlagTestCase(RequiresDisk):
     def runTest(self):
         flag = self._disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
@@ -238,6 +248,8 @@ def suite():
     suite.addTest(DiskGetPartitionBySectorTestCase())
     suite.addTest(DiskGetMaxLogicalPartitionsTestCase())
     suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
+    suite.addTest(DiskMaxPartitionLengthTestCase())
+    suite.addTest(DiskMaxPartitionStartSectorTestCase())
     suite.addTest(DiskGetFlagTestCase())
     suite.addTest(DiskSetFlagTestCase())
     suite.addTest(DiskUnsetFlagTestCase())

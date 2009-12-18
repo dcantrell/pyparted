@@ -110,6 +110,16 @@ class DiskGetPartitionAlignmentTestCase(RequiresDisk):
         self.assertEquals(alignment.offset, 0)
         self.assertEquals(alignment.grain_size, 1)
 
+class DiskMaxPartitionLengthTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self.assertEquals(self._disk.max_partition_length(), 4294967295L)
+
+class DiskMaxPartitionStartSectorTestCase(RequiresDisk):
+    def runTest(self):
+        # This test assumes an MSDOS label as given by RequiresDisk
+        self.assertEquals(self._disk.max_partition_start_sector(), 4294967295L)
+
 class DiskSetFlagTestCase(RequiresDisk):
     def runTest(self):
         # These 2 tests assume an MSDOS label as given by RequiresDisk
@@ -220,6 +230,8 @@ def suite():
     suite.addTest(DiskGetMaxPrimaryPartitionCountTestCase())
     suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
     suite.addTest(DiskGetPartitionAlignmentTestCase())
+    suite.addTest(DiskMaxPartitionLengthTestCase())
+    suite.addTest(DiskMaxPartitionStartSectorTestCase())
     suite.addTest(DiskSetFlagTestCase())
     suite.addTest(DiskGetFlagTestCase())
     suite.addTest(DiskIsFlagAvailableTestCase())
