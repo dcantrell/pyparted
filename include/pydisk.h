@@ -150,8 +150,6 @@ PyObject *py_ped_disk_get_partition(PyObject *, PyObject *);
 PyObject *py_ped_disk_get_partition_by_sector(PyObject *, PyObject *);
 PyObject *py_ped_disk_extended_partition(PyObject *, PyObject *);
 PyObject *py_ped_disk_new_fresh(PyObject *, PyObject *);
-PyObject *py_ped_disk_align_to_cylinders_on(PyObject *, PyObject *);
-PyObject *py_ped_disk_align_to_cylinders_toggle(PyObject *, PyObject *);
 
 #endif /* PYDISK_H_INCLUDED */
 

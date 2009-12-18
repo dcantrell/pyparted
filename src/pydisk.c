@@ -2039,21 +2039,5 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_align_to_cylinders_on(PyObject *s, PyObject *args) {
-    if (ped_disk_align_to_cylinders_on()) {
-        Py_RETURN_TRUE;
-    } else {
-        Py_RETURN_FALSE;
-    }
-}
-
-PyObject *py_ped_disk_align_to_cylinders_toggle(PyObject *s, PyObject *args) {
-    if (ped_disk_align_to_cylinders_toggle()) {
-        Py_RETURN_TRUE;
-    } else {
-        Py_RETURN_TRUE;
-    }
-}
-
 /* vim:tw=78:ts=4:et:sw=4
  */

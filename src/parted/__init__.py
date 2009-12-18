@@ -294,24 +294,6 @@ def freshDisk(device, ty):
     return Disk(PedDisk=peddisk)
 
 @localeC
-def isAlignToCylinders():
-    """Returns True if libparted is currently set to align partitions
-       to cylinder boundaries.
-    """
-    from _ped import disk_align_to_cylinders_on
-
-    return disk_align_to_cylinders_on()
-
-@localeC
-def toggleAlignToCylinders():
-    """Toggles the align-to-cylinders setting in libparted.  You must still
-       use the isAlignToCylinders() method to check the value.
-    """
-    from _ped import disk_align_to_cylinders_toggle
-
-    return disk_align_to_cylinders_toggle()
-
-@localeC
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     from _ped import libparted_version
