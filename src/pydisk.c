@@ -976,6 +976,128 @@ PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
+    int ret, flag, state;
+    PedDisk *disk = NULL;
+
+    if (!PyArg_ParseTuple(args, "ii", &flag, &state)) {
+        return NULL;
+    }
+
+    disk = _ped_Disk2PedDisk(s);
+    if (disk == NULL) {
+        return NULL;
+    }
+
+    ret = ped_disk_set_flag(disk, flag, state);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(DiskException, partedExnMessage);
+        }
+        else
+            PyErr_Format(DiskException, "Could not set flag on disk %s", disk->dev->path);
+
+        return NULL;
+    }
+
+    Py_RETURN_TRUE;
+}
+
+PyObject *py_ped_disk_get_flag(PyObject *s, PyObject *args) {
+    int flag;
+    PedDisk *disk = NULL;
+
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
+        return NULL;
+    }
+
+    disk = _ped_Disk2PedDisk(s);
+    if (disk == NULL) {
+        return NULL;
+    }
+
+    if (ped_disk_get_flag(disk, flag)) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
+}
+
+PyObject *py_ped_disk_is_flag_available(PyObject *s, PyObject *args) {
+    int flag;
+    PedDisk *disk = NULL;
+
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
+        return NULL;
+    }
+
+    disk = _ped_Disk2PedDisk(s);
+    if (disk == NULL) {
+        return NULL;
+    }
+
+    if (ped_disk_is_flag_available(disk, flag)) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
+}
+
+PyObject *py_ped_disk_flag_get_name(PyObject *s, PyObject *args) {
+    int flag;
+    char *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
+        return NULL;
+    }
+
+    if ((flag < PED_DISK_FIRST_FLAG) || (flag > PED_DISK_LAST_FLAG)) {
+        PyErr_SetString(PyExc_ValueError, "Invalid flag provided.");
+        return NULL;
+    }
+
+    ret = (char *) ped_disk_flag_get_name(flag);
+    if (ret == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(DiskException, partedExnMessage);
+        }
+        else
+            PyErr_Format(DiskException, "Could not get disk flag name for %d", flag);
+
+        return NULL;
+    }
+
+    return PyString_FromString(ret);
+}
+
+PyObject *py_ped_disk_flag_get_by_name(PyObject *s, PyObject *args) {
+    char *name = NULL;
+
+    if (!PyArg_ParseTuple(args, "s", &name)) {
+        return NULL;
+    }
+
+    return PyLong_FromLongLong(ped_disk_flag_get_by_name(name));
+}
+
+PyObject *py_ped_disk_flag_next(PyObject *s, PyObject *args) {
+    int flag;
+
+    if (!PyArg_ParseTuple(args, "i", &flag)) {
+        return NULL;
+    }
+
+    return Py_BuildValue("i", ped_disk_flag_next(flag));
+}
+
 /*
  * XXX:
  * We need to call ped_disk_destroy() to make sure the OS-specific
