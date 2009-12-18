@@ -110,6 +110,30 @@ class DiskGetPartitionAlignmentTestCase(RequiresDisk):
         self.assertEquals(alignment.offset, 0)
         self.assertEquals(alignment.grain_size, 1)
 
+class DiskSetFlagTestCase(RequiresDisk):
+    def runTest(self):
+        # These 2 tests assume an MSDOS label as given by RequiresDisk
+        self._disk.set_flag(_ped.DISK_CYLINDER_ALIGNMENT, 1)
+        self.assertEquals(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), True)
+        self._disk.set_flag(_ped.DISK_CYLINDER_ALIGNMENT, 0)
+        self.assertEquals(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), False)
+
+class DiskGetFlagTestCase(RequiresDisk):
+    def runTest(self):
+        flag = self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT)
+        self.assertTrue(isinstance(flag, bool))
+
+class DiskIsFlagAvailableTestCase(RequiresDisk):
+    def runTest(self):
+        # We don't know which flags should be available and which shouldn't,
+        # but we can at least check that there aren't any tracebacks from
+        # trying all of the valid ones.
+        for flag in [_ped.DISK_CYLINDER_ALIGNMENT]:
+            self.assertTrue(isinstance(self._disk.is_flag_available(flag), bool))
+
+        # However, an invalid flag should definitely not be available.
+        self.assertFalse(self._disk.is_flag_available(1000))
+
 class DiskAddPartitionTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -196,6 +220,9 @@ def suite():
     suite.addTest(DiskGetMaxPrimaryPartitionCountTestCase())
     suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
     suite.addTest(DiskGetPartitionAlignmentTestCase())
+    suite.addTest(DiskSetFlagTestCase())
+    suite.addTest(DiskGetFlagTestCase())
+    suite.addTest(DiskIsFlagAvailableTestCase())
     suite.addTest(DiskAddPartitionTestCase())
     suite.addTest(DiskRemovePartitionTestCase())
     suite.addTest(DiskDeletePartitionTestCase())
