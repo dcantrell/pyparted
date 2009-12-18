@@ -45,6 +45,7 @@ from constraint import Constraint
 from device import Device
 from disk import Disk
 from disk import diskType
+from disk import diskFlag
 from filesystem import FileSystem
 from filesystem import fileSystemType
 from geometry import Geometry
@@ -104,6 +105,8 @@ from _ped import PARTITION_PREP
 from _ped import PARTITION_MSFT_RESERVED
 from _ped import PARTITION_APPLE_TV_RECOVERY
 from _ped import PARTITION_BIOS_GRUB
+
+from _ped import DISK_CYLINDER_ALIGNMENT
 
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME

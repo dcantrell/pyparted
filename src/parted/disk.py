@@ -143,6 +143,32 @@ class Disk(object):
         alignment = self.__disk.get_partition_alignment()
         return parted.Alignment(PedAlignment=alignment)
 
+    @localeC
+    def getFlag(self, flag):
+        """Get the value of a particular flag on the disk.  Valid flags
+           are the _ped.DISK_* constants.  See _ped.disk_flag_get_name() and
+           _ped.disk_flag_get_by_name() for more help working with disk flags.
+        """
+        return self.__disk.get_flag(flag)
+
+    @localeC
+    def setFlag(self, flag):
+        """Set the flag on this disk.  On error, an Exception will be raised.
+           See getFlag() for more help on working with disk flags."""
+        return self.__disk.set_flag(flag, 1)
+
+    @localeC
+    def unsetFlag(self, flag):
+        """Unset the flag on this disk.  On error, an Exception will be raised.
+           See getFlag() for more help on working with disk flags."""
+        return self.__disk.set_flag(flag, 0)
+
+    @localeC
+    def isFlagAvailable(self, flag):
+        """Return True if flag is available on this Disk, False
+           otherwise."""
+        return self.__disk.is_flag_available(flag)
+
     @property
     def partitions(self):
         """The list of partitions currently on this disk."""
@@ -435,3 +461,16 @@ while True:
         diskType[__type.name] = __type
     except:
         break
+
+# collect all disk flags and store them in a hash
+diskFlag = {}
+__flag = _ped.disk_flag_next(0)
+diskFlag[__flag] = _ped.disk_flag_get_name(__flag)
+__readFlags = True
+
+while __readFlags:
+    __flag = _ped.disk_flag_next(__flag)
+    if not __flag:
+        __readFlags = False
+    else:
+        diskFlag[__flag] = _ped.disk_flag_get_name(__flag)

@@ -144,6 +144,22 @@ PyDoc_STRVAR(disk_get_partition_alignment_doc,
 "except Sun disklabels, the end sector must be aligned too.\n"
 "To get the end sector alignment decrease the PedAlignment offset by 1.\n");
 
+PyDoc_STRVAR(disk_set_flag_doc,
+"set_flag(self, flag, state) -> boolean\n\n"
+"Sets the state of the given flag on self .\n"
+"If provided with an invalid flag for the disk's label,\n"
+"a PartedException is raised.");
+
+PyDoc_STRVAR(disk_get_flag_doc,
+"get_flag(self, flag) -> boolean\n\n"
+"Return the state of the given flag on self.  There is no check for invalid\n"
+"flag types, so these will always return 0.  It is therefore recommended to\n"
+"call self.is_flag_available() first to make sure.");
+
+PyDoc_STRVAR(disk_is_flag_available_doc,
+"is_flag_available(self, flag) -> boolean\n\n"
+"Return whether the given flag is valid for self.");
+
 PyDoc_STRVAR(disk_add_partition_doc,
 "add_partition(self, Partition, Constraint) -> boolean\n\n"
 "Adds the new partition Partition to self.  This operation may modify the\n"
