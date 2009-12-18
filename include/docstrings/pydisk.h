@@ -144,6 +144,19 @@ PyDoc_STRVAR(disk_get_partition_alignment_doc,
 "except Sun disklabels, the end sector must be aligned too.\n"
 "To get the end sector alignment decrease the PedAlignment offset by 1.\n");
 
+PyDoc_STRVAR(disk_max_partition_length_doc,
+"max_partition_length(self) -> long\n\n"
+"This returns the maximum length for a partition the label on this disk\n"
+"can represent. This does not necessarily mean that there is enough\n"
+"freespace to create such a partition.\n"
+"If this information is not available 0 is returned");
+
+PyDoc_STRVAR(disk_max_partition_start_sector_doc,
+"max_partition_start_sector(self) -> long\n\n"
+"This returns the maximum partition start sector the label on this disk\n"
+"can represent.\n"
+"If this information is not available 0 is returned");
+
 PyDoc_STRVAR(disk_set_flag_doc,
 "set_flag(self, flag, state) -> boolean\n\n"
 "Sets the state of the given flag on self .\n"
