@@ -70,3 +70,18 @@ release: tag
 	@echo "Do not forget to add a new Version entry on the Trac site:"
 	@echo "    https://fedorahosted.org/pyparted/admin/ticket/versions"
 	@echo
+
+rpmlog:
+	@prevtag="$$(git tag -l | grep -v "^start$$" | tail -n 2 | head -n 1)" ; \
+	git log --pretty="format:- %s (%ae)" $${prevtag}.. | \
+	sed -e 's/@.*)/)/' | \
+	sed -e 's/%/%%/g' | \
+	grep -v "New version" | \
+	fold -s -w 77 | \
+	while read line ; do \
+		if [ ! "$$(echo $$line | cut -c-2)" = "- " ]; then \
+			echo "  $$line" ; \
+		else \
+			echo "$$line" ; \
+		fi ; \
+	done
