@@ -12,6 +12,10 @@ Instructions for making a new release:
 8) ./autogen.sh && ./configure
 9) make release
 
+If packaging in RPM format, you might find the 'make rpmlog' target useful.
+It gives you an RPM spec file formatted changelog block that contains the
+git shortlog entries of all changes since the last tag.
+
 Resulting pyparted-X.Y.tar.gz is the release.  'cp -a' this to the pkg
 CVS tree and make a new build.  Also need to copy it to the project
 download site and make a new version entry in the Trac site.
