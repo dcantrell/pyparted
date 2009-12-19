@@ -12,13 +12,13 @@ Instructions for making a new release:
 8) ./autogen.sh && ./configure
 9) make release
 
-Resulting pyparted-X.Y.Z.tar.gz is the release.  'cp -a' this to the pkg
+Resulting pyparted-X.Y.tar.gz is the release.  'cp -a' this to the pkg
 CVS tree and make a new build.  Also need to copy it to the project
 download site and make a new version entry in the Trac site.
 
 10) git push
 11) git push --tags
-12) Edit configure.ac and change the version from X.Y.Z to X.Y.(Z+1)-devel
+12) Edit configure.ac and change the version from X.Y to X.(Y+1)-devel
 13) git add configure.ac
 14) git commit
 15) git push
