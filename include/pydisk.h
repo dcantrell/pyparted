@@ -104,7 +104,6 @@ PyObject *py_ped_disk_type_get_next(PyObject *, PyObject *);
 PyObject *py_ped_disk_type_get(PyObject *, PyObject *);
 PyObject *py_ped_disk_type_check_feature(PyObject *, PyObject *);
 PyObject *py_ped_disk_clobber(PyObject *, PyObject *);
-PyObject *py_ped_disk_clobber_exclude(PyObject *, PyObject *);
 PyObject *py_ped_disk_duplicate(PyObject *, PyObject *);
 PyObject *py_ped_disk_destroy(PyObject *, PyObject *);
 PyObject *py_ped_disk_commit(PyObject *, PyObject *);
