@@ -112,12 +112,6 @@ PyDoc_STRVAR(disk_clobber_doc,
 "Remove all identifying information from a partition table.  If the partition\n"
 "table cannot be cleared, a _ped.DiskException is raised.");
 
-PyDoc_STRVAR(disk_clobber_exclude_doc,
-"clobber_exclude(self, DiskType) -> boolean\n\n"
-"Remove all identifiying information from a partition table except for tables\n"
-"of the given DiskType.  If the partition table cannot be cleared, a\n"
-"_ped.DiskException is raised.");
-
 PyDoc_STRVAR(device_get_constraint_doc,
 "get_constraint(self) -> Constraint\n\n"
 "Get a constraint that represents hardware requirements on geometry.\n"

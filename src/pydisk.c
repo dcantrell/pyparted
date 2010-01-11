@@ -651,47 +651,6 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_clobber_exclude(PyObject *s, PyObject *args) {
-    PyObject *in_disktype = NULL;
-    PedDevice *device = NULL;
-    PedDiskType *out_disktype = NULL;
-    int ret = 0;
-
-    if (!PyArg_ParseTuple(args, "O!", &_ped_DiskType_Type_obj, &in_disktype)) {
-        return NULL;
-    }
-
-    device = _ped_Device2PedDevice(s);
-    if (device == NULL) {
-        return NULL;
-    }
-
-    out_disktype = _ped_DiskType2PedDiskType(in_disktype);
-    if (out_disktype == NULL) {
-        return NULL;
-    }
-
-    ret = ped_disk_clobber_exclude(device, out_disktype);
-    if (ret == 0) {
-        if (partedExnRaised) {
-            partedExnRaised = 0;
-
-            if (!PyErr_ExceptionMatches(PartedException) &&
-                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                PyErr_SetString(IOException, partedExnMessage);
-        }
-        else
-            PyErr_Format(DiskException, "Failed to clobber partition table on device %s", device->path);
-        return NULL;
-    }
-
-    if (ret) {
-        Py_RETURN_TRUE;
-    } else {
-        Py_RETURN_FALSE;
-    }
-}
-
 /* XXX: is this necessary? */
 PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
     PedDisk *disk = NULL, *pass_disk = NULL;

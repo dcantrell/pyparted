@@ -158,8 +158,6 @@ static PyMethodDef _ped_Device_methods[] = {
      */
     {"clobber", (PyCFunction) py_ped_disk_clobber, METH_VARARGS,
                 disk_clobber_doc},
-    {"clobber_exclude", (PyCFunction) py_ped_disk_clobber_exclude,
-                        METH_VARARGS, disk_clobber_exclude_doc},
 
     /*
      * These functions are in pyfilesys.c, but they work best
