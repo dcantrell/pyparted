@@ -599,7 +599,7 @@ PedPartition *_ped_Partition2PedPartition(_ped_Partition *s) {
 }
 
 _ped_Partition *PedPartition2_ped_Partition(PedPartition *part,
-        _ped_Disk *pydisk) {
+                                            _ped_Disk *pydisk) {
     _ped_Partition *ret = NULL;
 
     if (part == NULL) {
