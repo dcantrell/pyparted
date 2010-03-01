@@ -33,10 +33,6 @@
 
 /* _ped.Partition functions */
 void _ped_Partition_dealloc(_ped_Partition *self) {
-    if (self->ped_partition && !self->_owned) {
-        ped_partition_destroy(self->ped_partition);
-    }
-
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->disk);
