@@ -33,7 +33,8 @@
 - Exception handling:
       - Audit error messages to make them more useful.
 
-- All test cases with '# TODO' in the runTest() method.
+- All test cases with '# TODO' in the runTest() method.  Be sure to uncomment
+  them once you have written the test.
 
 - Make sure PyTypeObjects that have a tp_init are allocating memory that the
   garbage collector knows about.  I'm not sure if PyType_GenericAlloc or
