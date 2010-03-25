@@ -27,8 +27,10 @@ import locale
 def localeC(fn, *args, **kwds):
     oldlocale = locale.getlocale(locale.LC_MESSAGES)
     locale.setlocale(locale.LC_MESSAGES, 'C')
-    ret = fn(*args, **kwds)
-    locale.setlocale(locale.LC_MESSAGES, oldlocale)
+    try:
+        ret = fn(*args, **kwds)
+    finally:
+        locale.setlocale(locale.LC_MESSAGES, oldlocale)
     return ret
 
 
