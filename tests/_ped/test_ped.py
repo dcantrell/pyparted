@@ -41,7 +41,7 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
                   _ped.PARTITION_PALO, _ped.PARTITION_PREP,
                   _ped.PARTITION_MSFT_RESERVED,
                   _ped.PARTITION_APPLE_TV_RECOVERY,
-                  _ped.PARTITION_BIOS_GRUB]:
+                  _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG]:
             self.assertNotEquals(_ped.partition_flag_get_name(f), "", "Could not get name for flag %s" % f)
 
         self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
