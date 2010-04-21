@@ -110,7 +110,7 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
                      _ped.PARTITION_HPSERVICE, _ped.PARTITION_PALO,
                      _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED,
                      _ped.PARTITION_APPLE_TV_RECOVERY,
-                     _ped.PARTITION_BIOS_GRUB]:
+                     _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG]:
             self.assertTrue(isinstance(self._part.is_flag_available(flag), bool))
 
         # However, an invalid flag should definitely not be available.
