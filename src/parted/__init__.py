@@ -39,6 +39,7 @@ from _ped import PartitionException
 from _ped import TimerException
 from _ped import UnknownDeviceException
 from _ped import UnknownTypeException
+from _ped import PartedAskException
 
 from alignment import Alignment
 from constraint import Constraint
