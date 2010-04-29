@@ -41,6 +41,7 @@ PyObject *PartitionException;
 PyObject *TimerException;
 PyObject *UnknownDeviceException;
 PyObject *UnknownTypeException;
+PyObject *PartedAskException;
 
 extern unsigned int partedExnRaised;
 extern char *partedExnMessage;
