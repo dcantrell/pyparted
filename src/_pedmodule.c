@@ -322,8 +322,17 @@ static PedExceptionOption partedExnHandler(PedException *e) {
         case PED_EXCEPTION_WARNING:
             if (e->options == PED_EXCEPTION_YES_NO) {
                 partedExnRaised = 1;
-                PyErr_SetString (PartedAskException, e->message);
-                return PED_EXCEPTION_CANCEL;
+                partedExnMessage = strdup(e->message);
+
+                if (partedExnMessage == NULL)
+                    PyErr_NoMemory();
+
+                /*
+                 * return 'no' for yes/no question exceptions in libparted,
+                 * prevent any potential disk destruction and pass up an
+                 * exception to our caller
+                 */
+                return PED_EXCEPTION_NO;
             } else {
                 partedExnRaised = 0;
                 return PED_EXCEPTION_IGNORE;
@@ -552,10 +561,6 @@ PyMODINIT_FUNC init_ped(void) {
     PartedException = PyErr_NewException("_ped.PartedException", NULL, NULL);
     Py_INCREF(PartedException);
     PyModule_AddObject(m, "PartedException", PartedException);
-
-    PartedAskException = PyErr_NewException("_ped.PartedAskException", NULL, NULL);
-    Py_INCREF(PartedAskException);
-    PyModule_AddObject(m, "PartedAskException", PartedAskException);
 
     PartitionException = PyErr_NewException("_ped.PartitionException", NULL,
                                              NULL);
