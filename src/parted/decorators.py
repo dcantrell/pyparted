@@ -20,17 +20,15 @@
 # Red Hat Author(s): Peter Jones <pjones@redhat.com>
 #
 
-from decorator import decorator
 import locale
 
-@decorator
 def localeC(fn, *args, **kwds):
-    oldlocale = locale.getlocale(locale.LC_MESSAGES)
-    locale.setlocale(locale.LC_MESSAGES, 'C')
-    try:
-        ret = fn(*args, **kwds)
-    finally:
-        locale.setlocale(locale.LC_MESSAGES, oldlocale)
-    return ret
-
-
+    def new(*args, **kwds):
+        oldlocale = locale.getlocale(locale.LC_MESSAGES)
+        locale.setlocale(locale.LC_MESSAGES, 'C')
+        try:
+            ret = fn(*args, **kwds)
+        finally:
+            locale.setlocale(locale.LC_MESSAGES, oldlocale)
+        return ret
+    return new
