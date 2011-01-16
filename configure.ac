@@ -44,10 +44,6 @@ dnl Check for Python
 AM_PATH_PYTHON(python_required_version)
 AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)])
 
-dnl Check for python-decorators
-AM_CHECK_PYMOD(decorator, decorator, [],
-               [AC_MSG_ERROR(could not import decorator Python module)])
-
 dnl Check for GNU parted
 AM_CHECK_LIBPARTED(libparted_required_version)
 
