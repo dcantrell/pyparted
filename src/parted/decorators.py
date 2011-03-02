@@ -21,8 +21,10 @@
 #
 
 import locale
+import functools
 
-def localeC(fn, *args, **kwds):
+def localeC(fn):
+    @functools.wraps(fn)
     def new(*args, **kwds):
         oldlocale = locale.getlocale(locale.LC_MESSAGES)
         locale.setlocale(locale.LC_MESSAGES, 'C')
