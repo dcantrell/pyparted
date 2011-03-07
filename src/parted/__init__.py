@@ -22,6 +22,8 @@
 #                    Chris Lumens <clumens@redhat.com>
 #
 
+from __future__ import division
+
 __all__ = ['alignment', 'constraint', 'device', 'disk',
            'filesystem', 'geometry', 'partition']
 
@@ -186,6 +188,10 @@ partitionTypesDict = {
     0xff: "BBT"
 }
 
+# XXX: Using _exponent and powers of 1024 is deprecated. This method fragments
+# the logic for converting from bytes, and the units are wrong. Instead,
+# convert from bytes to other byte units using the formatBytes function.
+
 # Exponents for 1024 used when converting sizes to byte-sized
 # units for display.  The keys are:
 #   b     bytes       1024^0 = 1
@@ -201,6 +207,52 @@ partitionTypesDict = {
 # the divisor for conversion functions.
 _exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4,
              'pb': 5, 'eb': 6, 'zb': 7, 'yb': 8}
+
+# Refercences:
+#
+# 1. NIST Special Publication 330, 2008 Edition, Barry N. Taylor and Ambler
+#    Thompson, Editors
+#    The International System of Units (SI)
+#    Available from: http://physics.nist.gov/cuu/pdf/sp811.pdf
+#
+# 2. International standard IEC 60027-2, third edition,
+#    Letter symbols to be used in electrical technology --
+#    Part 2: Telecommunications and electronics.
+#
+# See the links below for quick online summaries:
+#
+# SI units:  http://physics.nist.gov/cuu/Units/prefixes.html
+# IEC units: http://physics.nist.gov/cuu/Units/binary.html
+__exponents = {
+    "B":    1,       # byte
+    "kB":   1000**1, # kilobyte
+    "MB":   1000**2, # megabyte
+    "GB":   1000**3, # gigabyte
+    "TB":   1000**4, # terabyte
+    "PB":   1000**5, # petabyte
+    "EB":   1000**6, # exabyte
+    "ZB":   1000**7, # zettabyte
+    "YB":   1000**8, # yottabyte
+
+    "KiB":  1024**1, # kibibyte
+    "MiB":  1024**2, # mebibyte
+    "GiB":  1024**3, # gibibyte
+    "TiB":  1024**4, # tebibyte
+    "PiB":  1024**5, # pebibyte
+    "EiB":  1024**6, # exbibyte
+    "ZiB":  1024**7, # zebibyte
+    "YiB":  1024**8  # yobibyte
+}
+
+def formatBytes(bytes_, unit):
+    """Convert bytes_ using an SI or IEC prefix. Note that unit is a
+       case sensitive string that must exactly match one of the IEC or SI
+       prefixes followed by 'B' (e.g. 'GB')."""
+
+    if unit not in __exponents.keys():
+        raise SyntaxError("{:} is not a valid SI or IEC byte unit".format(unit))
+    else:
+        return (bytes_ / __exponents[unit])
 
 # Valid disk labels per architecture type.  The list of label
 # names map to keys in the parted.diskType hash table.
