@@ -20,6 +20,8 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
+from __future__ import division
+
 import _ped
 import parted
 import unittest
@@ -28,6 +30,15 @@ from baseclass import *
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
+class FormatBytesTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assertRaises(SyntaxError, parted.formatBytes, 57, "GIB")
+        self.assertEqual(1e-24, parted.formatBytes(1, "YB"))
+        self.assertEqual(1/2**80, parted.formatBytes(1, "YiB"))
+        self.assertEqual(1, parted.formatBytes(1, 'B'))
+        self.assertEqual(1, parted.formatBytes(1e24, 'YB'))
+        self.assertEqual(1, parted.formatBytes(2**80, 'YiB'))
+
 class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
         # Check that a DiskException is raised for an invalid path
@@ -103,6 +114,7 @@ class VersionTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(FormatBytesTestCase())
     suite.addTest(GetDeviceTestCase())
     suite.addTest(GetAllDevicesTestCase())
     suite.addTest(ProbeForSpecificFileSystemTestCase())
