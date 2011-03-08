@@ -258,6 +258,16 @@ def formatBytes(bytes_, unit):
     else:
         return (bytes_ / __exponents[unit])
 
+def sizeToSectors(bytes_, unit, sector_size):
+    """Convert bytes_ of unit to a number of sectors. Note that unit is a
+       case sensitive string that must exactly match one of the IEC or SI
+       prefixes followed by 'B' (e.g. 'GB')."""
+
+    if unit not in __exponents.keys():
+        raise SyntaxError("{:} is not a valid SI or IEC byte unit".format(unit))
+    else:
+        return bytes_ * __exponents[unit] // sector_size
+
 # Valid disk labels per architecture type.  The list of label
 # names map to keys in the parted.diskType hash table.
 archLabels = {'i386': ['msdos', 'gpt'],
