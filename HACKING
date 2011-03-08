@@ -7,8 +7,8 @@ all discussed here.
 
 CODING STYLE FOR C
 
-Please follow the coding style you see in the C source files here.  The
-project is developed on Linux, which means use gcc.  That affords us a lot of
+Please follow the coding style you see in the C source files here.  The project
+is developed on Linux, which gcc is the compiler.  That affords us a lot of
 flexibility with regards to standards, but try to adhere to ISO C99 whenever
 possible and avoid using gcc extensions.  There is a possibility that this
 project may need to be ported to a non-gcc compiler.
@@ -20,6 +20,10 @@ Here are the major coding style highlights for this project:
    settings at the bottom so if you are using vim, the indentation will
    automatically be set up properly with the Tab key.  However, if you are
    unlucky and do not have vim, just make sure you use 4 spaces for indent.
+   Editor hints will be accepted for other editors, so long as the additions
+   to the source files are minimal (i.e., we're not looking for editor
+   configuration files).
+
    Examples:
 
    GOOD:
@@ -134,8 +138,10 @@ Here are the major coding style highlights for this project:
 
 CODING STYLE FOR PYTHON
 
-Please follow the coding style you see in the Python source files here.  Here
-are the major coding style highlights for this project:
+First, read PEP-8:  http://www.python.org/dev/peps/pep-0008/
+
+Second, please follow the coding style you see in the Python source files here.
+Here are the major coding style highlights for this project:
 
 1) 4-space indentation.  Do not use tabs in Python code.
 
@@ -201,4 +207,5 @@ site:
 
 Attach your patch and explanation and it'll be reviewed.
 
-Alternatively, you can email the project maintainer directly.
+Alternatively, you can email the project maintainer(s) directly.  The ChangeLog
+and AUTHORS file contain email addresses of those who work on pyparted.
