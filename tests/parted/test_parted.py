@@ -39,6 +39,12 @@ class FormatBytesTestCase(unittest.TestCase):
         self.assertEqual(1, parted.formatBytes(1e24, 'YB'))
         self.assertEqual(1, parted.formatBytes(2**80, 'YiB'))
 
+class BytesToSectorsTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assertRaises(SyntaxError, parted.sizeToSectors, 9, "yb", 1)
+        self.assertEqual(int(parted.sizeToSectors(7777.0, "B", 512)),
+                             parted.sizeToSectors(7777.0, "B", 512))
+
 class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
         # Check that a DiskException is raised for an invalid path
@@ -115,6 +121,7 @@ class VersionTestCase(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(FormatBytesTestCase())
+    suite.addTest(BytesToSectorsTestCase())
     suite.addTest(GetDeviceTestCase())
     suite.addTest(GetAllDevicesTestCase())
     suite.addTest(ProbeForSpecificFileSystemTestCase())
