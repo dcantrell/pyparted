@@ -69,6 +69,7 @@ class PartitionGetSetTestCase(RequiresPartition):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self._part, "blah")
 
+@unittest.skip("Unimplemented test case.")
 class PartitionDestroyTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -89,11 +90,13 @@ class PartitionIsActiveTestCase(RequiresPartition):
             self._part = _ped.Partition(self._disk, ty, 0, 100)
             self.assertFalse(self._part.is_active())
 
+@unittest.skip("Unimplemented test case.")
 class PartitionSetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class PartitionGetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -166,6 +169,7 @@ class PartitionGetNameTestCase(RequiresPartition):
         self._part.set_name("blah")
         self.assertEqual(self._part.get_name(), "blah")
 
+@unittest.skip("Unimplemented test case.")
 class PartitionIsBusyTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -175,6 +179,7 @@ class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
         self.assertNotEquals(self._part.get_path(), "")
 
+@unittest.skip("Unimplemented test case.")
 class PartitionStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO

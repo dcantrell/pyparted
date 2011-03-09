@@ -97,6 +97,7 @@ class DeviceCloseTestCase(RequiresDevice):
         self.assertEquals(self._device.open_count, 0)
         self.assertRaises(_ped.IOException, self._device.close)
 
+@unittest.skip("Unimplemented test case.")
 class DeviceDestroyTestCase(RequiresDevice):
     def runTest(self):
         # XXX: still broken, need to fix destroy function in pydevice.c
@@ -147,11 +148,13 @@ class DeviceEndExternalAccessTestCase(RequiresDevice):
         self.assertEquals(self._device.open_count, 1)
         self._device.close()
 
+@unittest.skip("Unimplemented test case.")
 class DeviceReadTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class DeviceWriteTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -341,11 +344,13 @@ class UnitFormatTestCase(RequiresDevice):
     def tearDown(self):
         _ped.unit_set_default(self._initialDefault)
 
+@unittest.skip("Unimplemented test case.")
 class UnitParseTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class UnitParseCustomTestCase(unittest.TestCase):
     # TODO
     def runTest(self):

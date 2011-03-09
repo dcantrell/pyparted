@@ -116,31 +116,37 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.assertRaises(AttributeError, setattr, self.c, "startRange", 47)
         self.assertRaises(AttributeError, setattr, self.c, "endRange", 47)
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintSolveMaxTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintSolveNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintIsSolutionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintGetPedConstraintTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ConstraintStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
