@@ -23,51 +23,61 @@ import unittest
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
+@unittest.skip("Unimplemented test case.")
 class FileSystemNewTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemGetSetTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemClobberTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemCreateTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemCloseTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemCheckTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemCopyTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemResizeTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemGetResizeConstraintTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class FileSystemStrTestCase(unittest.TestCase):
     # TODO
     def runTest(self):

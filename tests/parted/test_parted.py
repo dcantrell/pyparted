@@ -52,11 +52,13 @@ class GetAllDevicesTestCase(unittest.TestCase):
         # And make sure each element of the list is a parted.Device
         map(lambda s: self.assert_(isinstance(s, parted.Device)), self.devices)
 
+@unittest.skip("Unimplemented test case.")
 class ProbeForSpecificFileSystemTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ProbeFileSystemTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -80,11 +82,13 @@ class FreshDiskTestCase(RequiresDevice):
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(parted.diskType[disk.type] == value)
 
+@unittest.skip("Unimplemented test case.")
 class IsAlignToCylindersTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+@unittest.skip("Unimplemented test case.")
 class ToggleAlignToCylindersTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
