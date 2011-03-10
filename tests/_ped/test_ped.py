@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 # Test cases for the methods in the _ped module itself - just the pyunit
 # and pynatmath files.

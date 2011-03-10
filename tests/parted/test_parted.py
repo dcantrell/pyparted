@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 # Test cases for the methods in the parted module itself
 #
