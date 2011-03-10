@@ -23,7 +23,7 @@ m4_define(python_required_version, 2.7)
 
 AC_PREREQ(2.59)
 AC_INIT([pyparted], [3.5], [dcantrell@redhat.com])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([color-tests])
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/typeobjects/Makefile src/Makefile src/parted/Makefile tests/Makefile tests/_ped/Makefile tests/parted/Makefile])
