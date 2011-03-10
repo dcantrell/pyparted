@@ -19,7 +19,7 @@ dnl
 dnl Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 
 m4_define(libparted_required_version, 2.2)
-m4_define(python_required_version, 2.5)
+m4_define(python_required_version, 2.7)
 
 AC_PREREQ(2.59)
 AC_INIT([pyparted], [3.5], [dcantrell@redhat.com])
