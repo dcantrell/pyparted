@@ -22,6 +22,8 @@
 #
 
 import math
+import warnings
+
 import _ped
 import parted
 from disk import diskType
@@ -287,6 +289,7 @@ class Device(object):
            abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
            (gigabytes), TB (terabytes).  An invalid unit string will raise a
            SyntaxError exception.  The default unit is MB."""
+        warnings.warn("use the getLength method", DeprecationWarning)
         lunit = unit.lower()
 
         if lunit not in parted._exponent.keys():
@@ -297,6 +300,17 @@ class Device(object):
         size *= self.sectorSize
 
         return size
+
+    @localeC
+    def getLength(self, unit='sectors'):
+        """Return the length of the device in sectors. Optionally, a SI or
+           IEC prefix followed by a 'B' may be given in order to convert the
+           length into bytes. The allowed values include B, kB, MB, GB, TB, KiB,
+           MiB, GiB, and TiB."""
+        sectors = self.__device.length
+        if unit == "sectors":
+            return sectors
+        return parted.formatBytes(sectors * self.sectorSize, unit)
 
     @localeC
     def getConstraint(self):

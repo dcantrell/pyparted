@@ -130,6 +130,10 @@ class DeviceGetSizeTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class DeviceGetLengthTestCase(RequiresDevice):
+    def runTest(self):
+        self.assertEqual(self._device.getLength(), self._device.length)
+
 @unittest.skip("Unimplemented test case.")
 class DeviceGetSizeAsSectorsTestCase(unittest.TestCase):
     def runTest(self):
@@ -174,6 +178,7 @@ def suite():
     suite.addTest(DeviceStartCylinderToSectorTestCase())
     suite.addTest(DeviceEndCylinderToSectorTestCase())
     suite.addTest(DeviceGetSizeTestCase())
+    suite.addTest(DeviceGetLengthTestCase())
     suite.addTest(DeviceGetSizeAsSectorsTestCase())
     suite.addTest(DeviceGetConstraintTestCase())
     suite.addTest(DeviceGetPedDeviceTestCase())
