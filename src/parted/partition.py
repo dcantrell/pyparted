@@ -23,9 +23,11 @@
 #
 
 import math
+import string
+import warnings
+
 import _ped
 import parted
-import string
 
 from decorators import localeC
 
@@ -189,7 +191,16 @@ class Partition(object):
            abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
            (gigabytes), TB (terabytes).  An invalid unit string will raise a
            SyntaxError exception.  The default unit is MB."""
+        warnings.warn("use the getLength method", DeprecationWarning)
         return self.geometry.getSize(unit)
+
+    @localeC
+    def getLength(self, unit='sectors'):
+        """Return the length of the partition in sectors. Optionally, a SI or
+           IEC prefix followed by a 'B' may be given in order to convert the
+           length into bytes. The allowed values include B, kB, MB, GB, TB, KiB,
+           MiB, GiB, and TiB."""
+        return self.geometry.getLength(unit)
 
     def getFlagsAsString(self):
         """Return a comma-separated string representing the flags

@@ -23,6 +23,8 @@
 import parted
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
@@ -67,6 +69,14 @@ class GeometryGetSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
+class GeometryGetLengthTestCase(RequiresDevice):
+    def runTest(self):
+        length = 137
+        geom = parted.Geometry(self._device, start=100, length=length)
+
+        self.assertEqual(geom.getLength(), geom.length)
+        self.assertEqual(geom.getLength(), length)
 
 @unittest.skip("Unimplemented test case.")
 class GeometryIntersectTestCase(unittest.TestCase):
@@ -126,6 +136,7 @@ def suite():
     suite.addTest(GeometryContainsSectorTestCase())
     suite.addTest(GeometryEqualTestCase())
     suite.addTest(GeometryGetSizeTestCase())
+    suite.addTest(GeometryGetLengthTestCase())
     suite.addTest(GeometryIntersectTestCase())
     suite.addTest(GeometryMapTestCase())
     suite.addTest(GeometryOverlapsWithTestCase())

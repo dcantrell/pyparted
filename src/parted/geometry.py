@@ -23,6 +23,8 @@
 #
 
 import math
+import warnings
+
 import _ped
 import parted
 
@@ -119,6 +121,7 @@ class Geometry(object):
            abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
            (gigabytes), TB (terabytes).  An invalid unit string will raise a
            SyntaxError exception.  The default unit is MB."""
+        warnings.warn("use the getLength method", DeprecationWarning)
         lunit = unit.lower()
         size = self.length * self.device.sectorSize
 
@@ -126,6 +129,17 @@ class Geometry(object):
             raise SyntaxError, "invalid unit %s given" % (unit,)
 
         return (size / math.pow(1024.0, parted._exponent[lunit]))
+
+    @localeC
+    def getLength(self, unit='sectors'):
+        """Return the length of the geometry in sectors. Optionally, a SI or
+           IEC prefix followed by a 'B' may be given in order to convert the
+           length into bytes. The allowed values include B, kB, MB, GB, TB, KiB,
+           MiB, GiB, and TiB."""
+        sectors = self.length
+        if unit == "sectors":
+            return sectors
+        return parted.formatBytes(sectors * self.device.sectorSize, unit)
 
     @localeC
     def intersect(self, b):

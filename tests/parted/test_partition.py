@@ -23,6 +23,8 @@
 import parted
 import unittest
 
+from baseclass import *
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
@@ -80,6 +82,19 @@ class PartitionGetSizeTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+class PartitionGetLengthTestCase(RequiresDisk):
+    def runTest(self):
+        length = 100
+        geom = parted.Geometry(self._device, start=100, length=length)
+        part = parted.Partition(self._disk, parted.PARTITION_NORMAL, geometry=geom)
+        constraint = parted.Constraint(exactGeom=geom)
+        self._disk.addPartition(part, constraint)
+        self._disk.commit()
+        part = self._disk.partitions[0]
+
+        self.assertEqual(part.getLength(), part.geometry.length)
+        self.assertEqual(part.getLength(), length)
+
 @unittest.skip("Unimplemented test case.")
 class PartitionGetFlagsAsStringTestCase(unittest.TestCase):
     def runTest(self):
@@ -122,6 +137,7 @@ def suite():
     suite.addTest(PartitionIsFlagAvailableTestCase())
     suite.addTest(PartitionNextPartitionTestCase())
     suite.addTest(PartitionGetSizeTestCase())
+    suite.addTest(PartitionGetLengthTestCase())
     suite.addTest(PartitionGetFlagsAsStringTestCase())
     suite.addTest(PartitionGetMaxAvailableSizeTestCase())
     suite.addTest(PartitionGetDeviceNodeNameTestCase())
