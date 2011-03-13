@@ -268,4 +268,4 @@ def suite():
 
 s = suite()
 if __name__ == "__main__":
-    unittest.TextTestRunner(verbosity=2).run(s)
+    unittest.main(defaultTest='s', verbosity=2)
