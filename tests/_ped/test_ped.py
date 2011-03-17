@@ -201,7 +201,7 @@ class DeviceGetNextTestCase(unittest.TestCase, BuildList):
         lst = self.getDeviceList(_ped.device_get_next)
 
         # Now the test cases.
-        self.assertTrue(len(lst) > 0)
+        self.assertGreater(len(lst), 0)
         self.assertRaises(TypeError, _ped.device_get_next, None)
 
         for ele in lst:
@@ -219,8 +219,8 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         _ped.device_probe_all()
         lst = self.getDeviceList(_ped.device_get_next)
 
-        self.assertTrue(len(lst) > 0)
-        self.assertTrue(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)) > 0)
+        self.assertGreater(len(lst), 0)
+        self.assertGreater(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)), 0)
 
 class DeviceFreeAllTestCase(RequiresDevice):
     def runTest(self):
@@ -240,7 +240,7 @@ class DiskTypeGetTestCase(unittest.TestCase):
 class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         lst = self.getDeviceList(_ped.disk_type_get_next)
-        self.assertTrue(len(lst) > 0)
+        self.assertGreater(len(lst), 0)
         self.assertRaises(TypeError, _ped.device_get_next, None)
 
         for ele in lst:
@@ -292,7 +292,7 @@ class FileSystemTypeGetTestCase(unittest.TestCase):
 class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         lst = self.getDeviceList(_ped.file_system_type_get_next)
-        self.assertTrue(len(lst) > 0)
+        self.assertGreater(len(lst), 0)
         self.assertRaises(TypeError, _ped.file_system_type_get_next, None)
 
         for ele in lst:
@@ -327,7 +327,7 @@ class UnitSetDefaultTestCase(unittest.TestCase):
 
 class UnitGetDefaultTestCase(unittest.TestCase):
     def runTest(self):
-        self.assertTrue(_ped.unit_get_default() >= 0)
+        self.assertGreaterEqual(_ped.unit_get_default(), 0)
 
 class UnitGetSizeTestCase(RequiresDevice):
     def runTest(self):
