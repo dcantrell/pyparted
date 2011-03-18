@@ -36,3 +36,13 @@ LIBPARTED_LIBS="$(pkg-config --libs libparted)"
 
 LIBPARTED_VERSION=$1
 ])
+
+dnl Check for PED_PARTITION_LEGACY_BOOT in parted header files
+AC_DEFUN([AM_CHECK_PED_PARTITION_LEGACY_BOOT],[
+    AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[#include <parted/parted.h]],
+                         [[int flag = PED_PARTITION_LEGACY_BOOT;]])],
+        [AC_DEFINE([HAVE_PED_PARTITION_LEGACY_BOOT], [1],
+                   [Define if libparted has 'PED_PARTITION_LEGACY_BOOT' constant.])],
+        [])
+])

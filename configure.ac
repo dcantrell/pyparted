@@ -18,7 +18,7 @@ dnl Red Hat, Inc.
 dnl
 dnl Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 
-m4_define(libparted_required_version, 2.2)
+m4_define(libparted_required_version, 2.3)
 m4_define(python_required_version, 2.7)
 
 AC_PREREQ(2.59)
@@ -46,5 +46,6 @@ AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)
 
 dnl Check for GNU parted
 AM_CHECK_LIBPARTED(libparted_required_version)
+AM_CHECK_PED_PARTITION_LEGACY_BOOT
 
 AC_OUTPUT
