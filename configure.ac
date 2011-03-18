@@ -26,7 +26,15 @@ AC_INIT([pyparted], [3.5], [pyparted-devel@redhat.com])
 AM_INIT_AUTOMAKE([color-tests])
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile include/Makefile include/docstrings/Makefile include/typeobjects/Makefile src/Makefile src/parted/Makefile tests/Makefile tests/_ped/Makefile tests/parted/Makefile])
+AC_CONFIG_FILES([Makefile
+                 include/Makefile
+                 include/docstrings/Makefile
+                 include/typeobjects/Makefile
+                 src/Makefile
+                 src/parted/Makefile
+                 tests/Makefile
+                 tests/_ped/Makefile
+                 tests/parted/Makefile])
 
 AC_CONFIG_MACRO_DIR([m4])
 
