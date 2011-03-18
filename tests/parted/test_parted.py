@@ -45,6 +45,21 @@ class BytesToSectorsTestCase(unittest.TestCase):
         self.assertEqual(int(parted.sizeToSectors(7777.0, "B", 512)),
                              parted.sizeToSectors(7777.0, "B", 512))
 
+class GetLabelsTestCase(unittest.TestCase):
+    def runTest(self):
+        self.assertGreater(len(parted.getLabels()), 0)
+        self.assertSetEqual(parted.getLabels('ppcc'), set())
+        self.assertSetEqual(parted.getLabels('sparc6'), set())
+        self.assertSetEqual(parted.getLabels('i586'), {'gpt', 'msdos'})
+        self.assertSetEqual(parted.getLabels('s390'), {'dasd', 'msdos'})
+        self.assertSetEqual(parted.getLabels('s390x'), {'dasd', 'msdos'})
+        self.assertSetEqual(parted.getLabels('sparc'), {'sun'})
+        self.assertSetEqual(parted.getLabels('sparc64'), {'sun'})
+        self.assertSetEqual(parted.getLabels('ppc'), {'amiga', 'gpt', 'mac', 'msdos'})
+        self.assertSetEqual(parted.getLabels('ppc64'), {'amiga', 'gpt', 'mac', 'msdos'})
+        self.assertSetEqual(parted.getLabels('alpha'), {'bsd', 'msdos'})
+        self.assertSetEqual(parted.getLabels('ia64'), {'gpt', 'msdos'})
+
 class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
         # Check that a DiskException is raised for an invalid path
@@ -122,6 +137,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(FormatBytesTestCase())
     suite.addTest(BytesToSectorsTestCase())
+    suite.addTest(GetLabelsTestCase())
     suite.addTest(GetDeviceTestCase())
     suite.addTest(GetAllDevicesTestCase())
     suite.addTest(ProbeForSpecificFileSystemTestCase())
