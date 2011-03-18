@@ -24,6 +24,9 @@
 
 from __future__ import division
 
+import sys
+import warnings
+
 __all__ = ['alignment', 'constraint', 'device', 'disk',
            'filesystem', 'geometry', 'partition']
 
@@ -278,6 +281,33 @@ archLabels = {'i386': ['msdos', 'gpt'],
               'ppc': ['msdos', 'mac', 'amiga', 'gpt'],
               'x86_64': ['msdos', 'gpt']}
 
+# Adapted from:
+# http://stackoverflow.com/questions/922550/how-to-mark-a-global-as-deprecated-in-python
+#
+# Remember that DeprecationWarnings are ignored by default as they are not really
+# useful to users.  Developers can turn on DeprecationWarning notices by passing
+# the -Wd option to python or by setting PYTHONWARNINGS=d in the environment.
+def Deprecated(mod, deprecated=[], replacement=None):
+    """ Return a wrapped object that warns about deprecated accesses. """
+
+    class Wrapper(object):
+        warnmsg = "%s is deprecated and will be removed in a future release."
+        if replacement:
+            warnmsg += " " + replacement
+
+        def __getattr__(self, attr):
+            if attr in deprecated:
+                warnings.warn(self.warnmsg % attr, DeprecationWarning)
+
+            return getattr(mod, attr)
+
+        def __setattr__(self, attr, value):
+            if attr in deprecated:
+                warnings.warn(self.warnmsg % attr, DeprecationWarning)
+            return setattr(mod, attr, value)
+
+    return Wrapper()
+
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
@@ -371,3 +401,9 @@ def version():
     ver['libparted'] = libparted_version()
     ver['pyparted'] = pyparted_version()
     return ver
+
+# Mark deprecated items
+sys.modules[__name__] = Deprecated(sys.modules[__name__],
+                                   ['partitionTypesDict'],
+                                   "DOS disk label types are not provided by "
+                                   "libparted, so the codes are not useful.")
