@@ -109,6 +109,10 @@ from _ped import PARTITION_MSFT_RESERVED
 from _ped import PARTITION_APPLE_TV_RECOVERY
 from _ped import PARTITION_BIOS_GRUB
 from _ped import PARTITION_DIAG
+try:
+    from _ped import PARTITION_LEGACY_BOOT
+except ImportError:
+    pass
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 
