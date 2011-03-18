@@ -24,6 +24,8 @@
 
 from __future__ import division
 
+import platform
+import re
 import sys
 import warnings
 
@@ -304,6 +306,30 @@ def Deprecated(mod, deprecated={}):
 
     return Wrapper()
 
+# Valid disk labels and their applicable architectures.  The label names map
+# to keys in the parted.diskType hash table.
+__archLabels = (('amiga', 'ppc(64)?$'),
+                ('bsd', 'alpha$'),
+                ('dasd', 's390x?$'),
+                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64)?$'),
+                ('mac', 'ppc(64)?$'),
+                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64)?$'),
+                ('sun', 'sparc(64)?$'))
+
+def getLabels(arch=None):
+    """Return a set containing the disk labels compatible with the
+       architecture of the computer calling this function. If an architecture
+       is passed, return the labels compatible with that architecture."""
+    labels = set()
+    if arch is None:
+        arch = platform.machine()
+
+    for label, regex in __archLabels:
+        if re.match(regex, arch):
+            labels.add(label)
+
+    return labels
+
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
@@ -402,6 +428,7 @@ def version():
 _deprecated = {"partitionTypesDict": "DOS disk label types are not provided "
                                      "by libparted, so the codes are not "
                                      "useful.",
-               "_exponent":          "Use __exponents instead."
+               "_exponent":          "Use __exponents instead.",
+               "archLabels":         "Use getLabels() instead.",
               }
 sys.modules[__name__] = Deprecated(sys.modules[__name__], _deprecated)
