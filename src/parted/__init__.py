@@ -195,10 +195,6 @@ partitionTypesDict = {
     0xff: "BBT"
 }
 
-# XXX: Using _exponent and powers of 1024 is deprecated. This method fragments
-# the logic for converting from bytes, and the units are wrong. Instead,
-# convert from bytes to other byte units using the formatBytes function.
-
 # Exponents for 1024 used when converting sizes to byte-sized
 # units for display.  The keys are:
 #   b     bytes       1024^0 = 1
@@ -287,23 +283,23 @@ archLabels = {'i386': ['msdos', 'gpt'],
 # Remember that DeprecationWarnings are ignored by default as they are not really
 # useful to users.  Developers can turn on DeprecationWarning notices by passing
 # the -Wd option to python or by setting PYTHONWARNINGS=d in the environment.
-def Deprecated(mod, deprecated=[], replacement=None):
+def Deprecated(mod, deprecated={}):
     """ Return a wrapped object that warns about deprecated accesses. """
 
     class Wrapper(object):
         warnmsg = "%s is deprecated and will be removed in a future release."
-        if replacement:
-            warnmsg += " " + replacement
 
         def __getattr__(self, attr):
-            if attr in deprecated:
-                warnings.warn(self.warnmsg % attr, DeprecationWarning)
+            if attr in deprecated.keys():
+                msg = self.warnmsg + " " + deprecated[attr]
+                warnings.warn(msg % attr, DeprecationWarning)
 
             return getattr(mod, attr)
 
         def __setattr__(self, attr, value):
-            if attr in deprecated:
-                warnings.warn(self.warnmsg % attr, DeprecationWarning)
+            if attr in deprecated.keys():
+                msg = self.warnmsg + " " + deprecated[attr]
+                warnings.warn(msg % attr, DeprecationWarning)
             return setattr(mod, attr, value)
 
     return Wrapper()
@@ -403,7 +399,9 @@ def version():
     return ver
 
 # Mark deprecated items
-sys.modules[__name__] = Deprecated(sys.modules[__name__],
-                                   ['partitionTypesDict'],
-                                   "DOS disk label types are not provided by "
-                                   "libparted, so the codes are not useful.")
+_deprecated = {"partitionTypesDict": "DOS disk label types are not provided "
+                                     "by libparted, so the codes are not "
+                                     "useful.",
+               "_exponent":          "Use __exponents instead."
+              }
+sys.modules[__name__] = Deprecated(sys.modules[__name__], _deprecated)
