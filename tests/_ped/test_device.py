@@ -226,13 +226,19 @@ class DeviceGetMinimumAlignmentTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
-        self.assertRaises(_ped.CreateException, self._device.get_minimum_alignment)
+        alignment = self._device.get_minimum_alignment()
+        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        self.assertEquals(alignment.grain_size, 1)
+        self.assertEquals(alignment.offset, 0)
 
 class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
-        self.assertRaises(_ped.CreateException, self._device.get_optimum_alignment)
+        alignment = self._device.get_optimum_alignment()
+        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        self.assertEquals(alignment.grain_size, 2048)
+        self.assertEquals(alignment.offset, 0)
 
 class UnitFormatCustomByteTestCase(RequiresDevice):
     def setUp(self):
