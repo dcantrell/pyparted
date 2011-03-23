@@ -103,13 +103,19 @@ class FreshDiskTestCase(RequiresDevice):
         self.assertRaises(KeyError, parted.freshDisk, self._device, 'crackers')
 
         # Create a new disk for each disk type key, verify each one
+        # XXX: Skip over dvh for now (SGI disk label), which doesn't seem to have
+        # working libparted support.  If anyone with an SGI cares, patches welcome.
         for key in parted.diskType.keys():
+            if key == 'dvh':
+                continue
             disk = parted.freshDisk(self._device, key)
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(disk.type == key)
 
         # Create a new disk each disk type value, verify each one
         for value in parted.diskType.values():
+            if value.name == 'dvh':
+                continue
             disk = parted.freshDisk(self._device, value)
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(parted.diskType[disk.type] == value)
@@ -129,8 +135,8 @@ class ToggleAlignToCylindersTestCase(unittest.TestCase):
 class VersionTestCase(unittest.TestCase):
     def runTest(self):
         ver = parted.version()
-        self.assertTrue(ver['libparted'] == _ped.libparted_version())
-        self.assertTrue(ver['pyparted'] == _ped.pyparted_version())
+        self.assertEquals(ver['libparted'], _ped.libparted_version())
+        self.assertEquals(ver['pyparted'], _ped.pyparted_version())
 
 # And then a suite to hold all the test cases for this module.
 def suite():
