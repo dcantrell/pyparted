@@ -22,7 +22,7 @@ m4_define(libparted_required_version, 2.3)
 m4_define(python_required_version, 2.7)
 
 AC_PREREQ(2.59)
-AC_INIT([pyparted], [3.5], [pyparted-devel@redhat.com])
+AC_INIT([pyparted], [3.6], [pyparted-devel@redhat.com])
 AM_INIT_AUTOMAKE([color-tests])
 AC_CONFIG_SRCDIR([src/_pedmodule.c])
 AC_CONFIG_HEADER([config.h])
