@@ -157,17 +157,6 @@ PyDoc_STRVAR(device_get_optimum_alignment_doc,
 "the partition, the end sector should be aligned too, to get the end\n"
 "sector alignment decrease the returned alignment's offset by 1.\n");
 
-PyDoc_STRVAR(file_system_get_create_constraint_doc,
-"get_create_constraint(self, Device) -> Constraint\n\n"
-"Return a constraint that all filesystems of type self.type that are created\n"
-"on Device must satisfy.  This includes restrictions on the minimum or\n"
-"maximum size of a given filesystem type, or where it must be created.");
-
-PyDoc_STRVAR(file_system_get_copy_constraint_doc,
-"get_copy_constraint(self, Device) -> Constraint\n\n"
-"Return a constraint on copying self to somewhere on Device using\n"
-"self.copy()");
-
 PyDoc_STRVAR(unit_get_size_doc,
 "unit_get_size(self, Unit) -> long\n\n"
 "Returns the byte size of self in the specified Unit.  The Unit\n"

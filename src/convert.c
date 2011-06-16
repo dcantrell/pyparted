@@ -4,7 +4,7 @@
  * need to be converted.  When a typedef in libparted is a primitive type,
  * we can just use it directly.
  *
- * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
+ * Copyright (C) 2007-2011  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -381,36 +381,16 @@ _ped_DiskType *PedDiskType2_ped_DiskType(const PedDiskType *type) {
 
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
-    PedFileSystem *ret = NULL;
-    PedGeometry *geom = NULL;
     _ped_FileSystem *fs = (_ped_FileSystem *) s;
 
+    if (fs == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem");
+        return NULL;
+    }
+
     if (fs->ped_filesystem == NULL) {
-        if (fs == NULL) {
-            PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem");
-            return NULL;
-        }
-
-        geom = _ped_Geometry2PedGeometry(fs->geom);
-        if (geom == NULL) {
-            return NULL;
-        }
-
-        ret = ped_file_system_open(geom);
-        if (ret == NULL) {
-            if (partedExnRaised) {
-                partedExnRaised = 0;
-
-                if (PyErr_ExceptionMatches(PartedException) ||
-                    PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                    return NULL;
-
-                PyErr_SetString(FileSystemException, partedExnMessage);
-                return NULL;
-            }
-        }
-
-        return ret;
+        PyErr_SetString(PyExc_TypeError, "Empty _ped.FileSystem.ped_filesystem");
+        return NULL;
     } else {
         return fs->ped_filesystem;
     }

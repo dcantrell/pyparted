@@ -2,7 +2,7 @@
  * pyfilesys.h
  * pyparted type definitions for pyfilesys.c
  *
- * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
+ * Copyright (C) 2007-2011  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -37,14 +37,6 @@ PyObject *py_ped_file_system_type_get(PyObject *, PyObject *);
 PyObject *py_ped_file_system_type_get_next(PyObject *, PyObject *);
 PyObject *py_ped_file_system_probe_specific(PyObject *, PyObject *);
 PyObject *py_ped_file_system_probe(PyObject *, PyObject *);
-PyObject *py_ped_file_system_clobber(PyObject *, PyObject *);
-PyObject *py_ped_file_system_open(PyObject *, PyObject *);
-PyObject *py_ped_file_system_create(PyObject *, PyObject *);
-PyObject *py_ped_file_system_close(PyObject *, PyObject *);
-PyObject *py_ped_file_system_check(PyObject *, PyObject *);
-PyObject *py_ped_file_system_copy(PyObject *, PyObject *);
-PyObject *py_ped_file_system_resize(PyObject *, PyObject *);
-PyObject *py_ped_file_system_get_resize_constraint(PyObject *, PyObject *);
 
 /* _ped.FileSystemType type is the Python equivalent of PedFileSystemType
  * in libparted */
