@@ -21,8 +21,14 @@ dnl Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 dnl Check for GNU parted
 dnl $1   Minimum version of libparted we require (e.g., 1.8.6)
 AC_DEFUN([AM_CHECK_LIBPARTED],[
-    PKG_CHECK_MODULES(libparted, libparted >= $1)
+    PKG_CHECK_MODULES(LIBPARTED, libparted >= $1)
     AC_SUBST(LIBPARTED_LIBS)
+
+    saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $(pkg-config --cflags-only-I libparted)"
+
+    saved_LIBS="$LIBS"
+    LIBS="$LIBS $(pkg-config --libs-only-L libparted)"
 
     AC_CHECK_LIB([parted], [ped_get_version], [:],
                  [AC_MSG_FAILURE([*** Unable to find requested library libparted])])
@@ -30,17 +36,10 @@ AC_DEFUN([AM_CHECK_LIBPARTED],[
     AC_CHECK_HEADERS([parted/parted.h], [],
                      [AC_MSG_FAILURE([*** Header file $ac_header not found.])])
 
+    CFLAGS="$saved_CFLAGS"
+    LIBS="$saved_LIBS"
+
     dnl Use pkg-config to gather compile flags
     LIBPARTED_LIBS="$(pkg-config --libs libparted)"
     LIBPARTED_VERSION=$1
-])
-
-dnl Check for PED_PARTITION_LEGACY_BOOT in parted header files
-AC_DEFUN([AM_CHECK_PED_PARTITION_LEGACY_BOOT],[
-    AC_COMPILE_IFELSE(
-        [AC_LANG_PROGRAM([[#include <parted/parted.h]],
-                         [[int flag = PED_PARTITION_LEGACY_BOOT;]])],
-        [AC_DEFINE([HAVE_PED_PARTITION_LEGACY_BOOT], [1],
-                   [Define if libparted has 'PED_PARTITION_LEGACY_BOOT' constant.])],
-        [])
 ])
