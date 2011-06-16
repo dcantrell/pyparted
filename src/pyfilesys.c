@@ -126,13 +126,6 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     _ped_FileSystemType *fstype = (_ped_FileSystemType *) self->type;
 
-    if (self->ped_filesystem) {
-        /* XXX: do we want to set an exception string here? */
-        if (!ped_file_system_close(self->ped_filesystem)) {
-            PyErr_Format(FileSystemException, "Failed to close filesystem type %s", fstype->name);
-        }
-    }
-
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->type);

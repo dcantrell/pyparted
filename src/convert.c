@@ -381,8 +381,6 @@ _ped_DiskType *PedDiskType2_ped_DiskType(const PedDiskType *type) {
 
 /* _ped_FileSystem -> PedFileSystem functions */
 PedFileSystem *_ped_FileSystem2PedFileSystem(PyObject *s) {
-    PedFileSystem *ret = NULL;
-    PedGeometry *geom = NULL;
     _ped_FileSystem *fs = (_ped_FileSystem *) s;
 
     if (fs == NULL) {
