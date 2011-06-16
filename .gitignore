@@ -1,4 +1,7 @@
-ChangeLog
 *.pyc
 *.swp
+ChangeLog
+MANIFEST
+build
+dist
 pyparted.spec
