@@ -41,8 +41,6 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
-#include "config.h"
-
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
@@ -288,7 +286,7 @@ PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
     int t = 0;
     int major = -1, minor = -1, update = -1;
     char suffix[11];
-    char *v = VERSION;
+    char *v = PYPARTED_VERSION;
 
     /* Read pyparted version string.  Support the following formats:
      *     X
