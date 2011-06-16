@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -16,6 +16,7 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 import _ped
 import unittest
@@ -36,48 +37,6 @@ class FileSystemGetSetTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class FileSystemClobberTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCreateTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCloseTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCheckTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCopyTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemResizeTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemGetResizeConstraintTestCase(unittest.TestCase):
-    # TODO
-    def runTest(self):
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
 class FileSystemStrTestCase(unittest.TestCase):
     # TODO
     def runTest(self):
@@ -88,13 +47,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(FileSystemNewTestCase())
     suite.addTest(FileSystemGetSetTestCase())
-    suite.addTest(FileSystemClobberTestCase())
-    suite.addTest(FileSystemCreateTestCase())
-    suite.addTest(FileSystemCloseTestCase())
-    suite.addTest(FileSystemCheckTestCase())
-    suite.addTest(FileSystemCopyTestCase())
-    suite.addTest(FileSystemResizeTestCase())
-    suite.addTest(FileSystemGetResizeConstraintTestCase())
     suite.addTest(FileSystemStrTestCase())
     return suite
 

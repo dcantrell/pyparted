@@ -104,8 +104,6 @@ PyObject *py_ped_device_get_minimal_aligned_constraint(PyObject *, PyObject *);
 PyObject *py_ped_device_get_optimal_aligned_constraint(PyObject *, PyObject *);
 PyObject *py_ped_device_get_minimum_alignment(PyObject *, PyObject *);
 PyObject *py_ped_device_get_optimum_alignment(PyObject *, PyObject *);
-PyObject *py_ped_file_system_get_create_constraint(PyObject *, PyObject *);
-PyObject *py_ped_file_system_get_copy_constraint(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_size(PyObject *, PyObject *);
 PyObject *py_ped_unit_format_custom_byte(PyObject *, PyObject *);
 PyObject *py_ped_unit_format_byte(PyObject *, PyObject *);

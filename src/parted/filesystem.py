@@ -2,7 +2,7 @@
 # filesystem.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -90,43 +90,6 @@ class FileSystem(object):
     def checked(self):
         """True if this filesystem has been checked, False otherwise."""
         return bool(self._checked)
-
-    @localeC
-    def clobber(self):
-        return self.__fileSystem.clobber()
-
-    @localeC
-    def open(self):
-        return parted.FileSystem(PedFileSystem=self.__fileSystem.open())
-
-    # XXX: this can take in a Timer
-    @localeC
-    def create(self):
-        return parted.FileSystem(PedFileSystem=self.__fileSystem.create())
-
-    @localeC
-    def close(self):
-        return self.__fileSystem.close()
-
-    # XXX: this can take in a Timer
-    @localeC
-    def check(self):
-        return self.__fileSystem.check()
-        self._checked = self.__fileSystem.checked
-
-    # XXX: this can take in a Timer
-    @localeC
-    def copy(self, geometry):
-        return parted.FileSystem(PedFileSystem=self.__fileSystem.copy(geometry.getPedGeometry()))
-
-    # XXX: this can take in a Timer
-    @localeC
-    def resize(self, geometry):
-        return self.__fileSystem.resize(geometry.getPedGeometry())
-
-    @localeC
-    def getResizeConstraint(self):
-        return parted.Constraint(PedConstraint=self.__fileSystem.get_resize_constraint())
 
     def getPedFileSystem(self):
         """Return the _ped.FileSystem object contained in this FileSystem.
