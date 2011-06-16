@@ -2,7 +2,7 @@
  * pyfilesys.h
  * pyparted type objects for pyfilesys.c
  *
- * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
+ * Copyright (C) 2007-2011  Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -98,34 +98,6 @@ static PyMemberDef _ped_FileSystem_members[] = {
     {NULL}
 };
 
-static PyMethodDef _ped_FileSystem_methods[] = {
-    {"clobber", (PyCFunction) py_ped_file_system_clobber, METH_VARARGS,
-                file_system_clobber_doc},
-    {"open", (PyCFunction) py_ped_file_system_open, METH_VARARGS,
-             file_system_open_doc},
-    {"create", (PyCFunction) py_ped_file_system_create, METH_VARARGS,
-               file_system_create_doc},
-    {"close", (PyCFunction) py_ped_file_system_close, METH_VARARGS,
-              file_system_close_doc},
-    {"check", (PyCFunction) py_ped_file_system_check, METH_VARARGS,
-              file_system_check_doc},
-    {"copy", (PyCFunction) py_ped_file_system_copy, METH_VARARGS,
-             file_system_copy_doc},
-    {"resize", (PyCFunction) py_ped_file_system_resize, METH_VARARGS,
-               file_system_resize_doc},
-    {"get_resize_constraint", (PyCFunction)
-                              py_ped_file_system_get_resize_constraint,
-                              METH_VARARGS, file_system_get_resize_constraint_doc},
-    {NULL}
-};
-
-static PyGetSetDef _ped_FileSystem_getset[] = {
-    {"checked", (getter) _ped_FileSystem_get, NULL,
-                "Has the filesystem been checked prior to calling copy or resize?",
-                "checked"},
-    {NULL}  /* Sentinel */
-};
-
 PyTypeObject _ped_FileSystem_Type_obj = {
     PyObject_HEAD_INIT(&PyType_Type)
     .tp_name = "_ped.FileSystem",
@@ -155,9 +127,9 @@ PyTypeObject _ped_FileSystem_Type_obj = {
  /* .tp_weaklistoffset = XXX */
  /* .tp_iter = XXX */
  /* .tp_iternext = XXX */
-    .tp_methods = _ped_FileSystem_methods,
+ /* .tp_methods = XXX */
     .tp_members = _ped_FileSystem_members,
-    .tp_getset = _ped_FileSystem_getset,
+ /* .tp_getset = XXX */
     .tp_base = NULL,
     .tp_dict = NULL,
  /* .tp_descr_get = XXX */
