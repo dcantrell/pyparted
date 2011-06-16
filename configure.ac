@@ -54,6 +54,5 @@ AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers or library)
 
 dnl Check for GNU parted
 AM_CHECK_LIBPARTED(libparted_required_version)
-AM_CHECK_PED_PARTITION_LEGACY_BOOT
 
 AC_OUTPUT
