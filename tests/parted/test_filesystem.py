@@ -1,7 +1,7 @@
 #
 # Test cases for the methods in the parted.filesystem module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -39,54 +39,6 @@ class FileSystemGetSetTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class FileSystemClobberTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemOpenTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCreateTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCloseTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCheckTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemCopyTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemResizeTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class FileSystemGetResizeConstraintTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
 class FileSystemGetPedFileSystemTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
@@ -103,14 +55,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(FileSystemNewTestCase())
     suite.addTest(FileSystemGetSetTestCase())
-    suite.addTest(FileSystemClobberTestCase())
-    suite.addTest(FileSystemOpenTestCase())
-    suite.addTest(FileSystemCreateTestCase())
-    suite.addTest(FileSystemCloseTestCase())
-    suite.addTest(FileSystemCheckTestCase())
-    suite.addTest(FileSystemCopyTestCase())
-    suite.addTest(FileSystemResizeTestCase())
-    suite.addTest(FileSystemGetResizeConstraintTestCase())
     suite.addTest(FileSystemGetPedFileSystemTestCase())
     suite.addTest(FileSystemStrTestCase())
     return suite
