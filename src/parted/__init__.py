@@ -428,4 +428,4 @@ _deprecated = {"partitionTypesDict": "DOS disk label types are not provided "
                "_exponent":          "Use __exponents instead.",
                "archLabels":         "Use getLabels() instead.",
               }
-sys.modules[__name__] = Deprecated(sys.modules[__name__], _deprecated
+sys.modules[__name__] = Deprecated(sys.modules[__name__], _deprecated)
