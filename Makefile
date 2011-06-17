@@ -29,7 +29,6 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = $(PACKAGE)-$(VERSION)
 
-TESTSUITE     = tests/baseclass.py
 PYCHECKEROPTS = --no-override --no-argsused --no-miximport --maxargs 0 --no-local -\# 0 --only -Q
 
 default: all
@@ -38,8 +37,8 @@ all:
 	@$(PYTHON) setup.py build
 
 test: all
-	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):tests \
-	$(PYTHON) $(TESTSUITE) -v
+	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname) \
+	$(PYTHON) -m unittest discover -v
 
 check: all
 	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname) \

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2008, 2009  Red Hat, Inc.
+# Copyright (C) 2008-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -19,22 +19,29 @@
 #                    David Cantrell <dcantrell@redhat.com>
 
 import _ped
+import parted
 import os
 import tempfile
 import unittest
 
-# Base class for any test case that requires a _ped.Device object first.
-class RequiresDevice(unittest.TestCase):
+# Base class for any test case that requires a temp device node
+class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
-        (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
+        (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
         os.write(fd, "0")
 
-        self._device = _ped.device_get(self.path)
-
     def tearDown(self):
         os.unlink(self.path)
+
+# Base class for any test case that requires a _ped.Device or parted.Device
+# object first.
+class RequiresDevice(RequiresDeviceNode):
+    def setUp(self):
+        RequiresDeviceNode.setUp(self)
+        self._device = _ped.device_get(self.path)
+        self.device = parted.getDevice(self.path)
 
 # Base class for any test case that requires a filesystem on a device.
 class RequiresFileSystem(unittest.TestCase):
@@ -122,11 +129,12 @@ class RequiresLabeledDevice(RequiresDevice):
         RequiresDevice.setUp(self)
         os.system("parted -s %s mklabel msdos" % (self.path,))
 
-# Base class for any test case that requires a _ped.Disk.
+# Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
+        self.disk = parted.Disk(PedDisk=self._disk)
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):

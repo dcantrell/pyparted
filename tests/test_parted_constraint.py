@@ -1,7 +1,7 @@
 #
 # Test cases for the methods in the parted.constraint module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -23,7 +23,7 @@
 import _ped
 import parted
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -32,8 +32,8 @@ class ConstraintNewTestCase(RequiresDevice):
     def runTest(self):
         align1 = parted.Alignment(offset=10, grainSize=5)
         align2 = parted.Alignment(offset=10, grainSize=5)
-        geom1 = parted.Geometry(device=self._device, start=0, length=50)
-        geom2 = parted.Geometry(device=self._device, start=0, length=100)
+        geom1 = parted.Geometry(device=self.device, start=0, length=50)
+        geom2 = parted.Geometry(device=self.device, start=0, length=100)
 
         # Check that not passing enough args to parted.Constraint.__init__
         # is caught.
@@ -54,7 +54,7 @@ class ConstraintNewTestCase(RequiresDevice):
         c = parted.Constraint(exactGeom=geom1)
         self.assert_(isinstance(c, parted.Constraint))
 
-        c = parted.Constraint(device=self._device)
+        c = parted.Constraint(device=self.device)
         self.assert_(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(startAlign=align1, endAlign=align2,
@@ -77,8 +77,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         RequiresDevice.setUp(self)
         align1 = parted.Alignment(offset=10, grainSize=5)
         align2 = parted.Alignment(offset=10, grainSize=5)
-        geom1 = parted.Geometry(device=self._device, start=0, length=50)
-        geom2 = parted.Geometry(device=self._device, start=25, length=50)
+        geom1 = parted.Geometry(device=self.device, start=0, length=50)
+        geom2 = parted.Geometry(device=self.device, start=25, length=50)
 
         self.c = parted.Constraint(startAlign=align1, endAlign=align2,
                                    startRange=geom1, endRange=geom2,

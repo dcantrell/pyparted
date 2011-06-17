@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2008  Red Hat, Inc.
+# Copyright (C) 2008-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,9 +17,10 @@
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
+
 import _ped
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -383,30 +384,3 @@ class GeometryStrTestCase(RequiresDevice):
         self.assertEquals(lines[0], '_ped.Geometry instance --')
         self.assertEquals(lines[1], '  start: 10  end: 109  length: 100')
         self.assertTrue(lines[2].startswith('  device: <_ped.Device object at '))
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(GeometryNewTestCase())
-    suite.addTest(GeometryGetSetTestCase())
-    suite.addTest(GeometryDuplicateTestCase())
-    suite.addTest(GeometryIntersectTestCase())
-    suite.addTest(GeometrySetTestCase())
-    suite.addTest(GeometrySetStartTestCase())
-    suite.addTest(GeometrySetEndTestCase())
-    suite.addTest(GeometryTestOverlapTestCase())
-    suite.addTest(GeometryTestInsideTestCase())
-    suite.addTest(GeometryTestEqualTestCase())
-    suite.addTest(GeometryTestSectorInsideTestCase())
-    suite.addTest(GeometryReadTestCase())
-    suite.addTest(GeometrySyncTestCase())
-    suite.addTest(GeometrySyncFastTestCase())
-    suite.addTest(GeometryWriteTestCase())
-    suite.addTest(GeometryCheckTestCase())
-    suite.addTest(GeometryMapTestCase())
-    suite.addTest(GeometryStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

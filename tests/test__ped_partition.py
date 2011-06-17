@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,10 +17,11 @@
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
+
 import _ped
 import unittest
 
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -184,25 +185,3 @@ class PartitionStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(PartitionNewTestCase())
-    suite.addTest(PartitionGetSetTestCase())
-    suite.addTest(PartitionDestroyTestCase())
-    suite.addTest(PartitionIsActiveTestCase())
-    suite.addTest(PartitionSetFlagTestCase())
-    suite.addTest(PartitionGetFlagTestCase())
-    suite.addTest(PartitionIsFlagAvailableTestCase())
-    suite.addTest(PartitionSetSystemTestCase())
-    suite.addTest(PartitionSetNameTestCase())
-    suite.addTest(PartitionGetNameTestCase())
-    suite.addTest(PartitionIsBusyTestCase())
-    suite.addTest(PartitionGetPathTestCase())
-    suite.addTest(PartitionStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

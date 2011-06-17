@@ -2,7 +2,7 @@
 # Test cases for the methods in the _ped module itself - just the pyunit
 # and pynatmath files.
 #
-# Copyright (C) 2008, 2009  Red Hat, Inc.
+# Copyright (C) 2008-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -27,7 +27,7 @@ import unittest
 import os
 import tempfile
 
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -384,39 +384,3 @@ class UnitGetByNameTestCase(unittest.TestCase):
         self.assertEquals(_ped.unit_get_by_name('TB'), _ped.UNIT_TERABYTE)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.unit_get_by_name, "blargle")
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(ConstraintNewFromMinMaxTestCase())
-    suite.addTest(ConstraintNewFromMinTestCase())
-    suite.addTest(ConstraintNewFromMaxTestCase())
-    suite.addTest(ConstraintAnyTestCase())
-    suite.addTest(ConstraintExactTestCase())
-    suite.addTest(DeviceGetTestCase())
-    suite.addTest(DeviceGetNextTestCase())
-    suite.addTest(DeviceProbeAllTestCase())
-    suite.addTest(DeviceFreeAllTestCase())
-    suite.addTest(DiskFlagGetNameTestCase())
-    suite.addTest(DiskFlagGetByNameTestCase())
-    suite.addTest(DiskFlagNextTestCase())
-    suite.addTest(DiskTypeGetTestCase())
-    suite.addTest(DiskTypeGetNextTestCase())
-    suite.addTest(FileSystemProbeTestCase())
-    suite.addTest(FileSystemProbeSpecificTestCase())
-    suite.addTest(FileSystemTypeGetTestCase())
-    suite.addTest(FileSystemTypeGetNextTestCase())
-    suite.addTest(PartitionFlagGetNameTestCase())
-    suite.addTest(PartitionFlagGetByNameTestCase())
-    suite.addTest(PartitionFlagNextTestCase())
-    suite.addTest(PartitionTypeGetNameTestCase())
-    suite.addTest(UnitSetDefaultTestCase())
-    suite.addTest(UnitGetDefaultTestCase())
-    suite.addTest(UnitGetSizeTestCase())
-    suite.addTest(UnitGetNameTestCase())
-    suite.addTest(UnitGetByNameTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
