@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2008, 2009  Red Hat, Inc.
+# Copyright (C) 2008-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -21,7 +21,7 @@
 
 import _ped
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -227,21 +227,3 @@ class AlignmentStrTestCase(unittest.TestCase):
     def runTest(self):
         expected = "_ped.Alignment instance --\n  offset: 10  grain_size: 0"
         self.assertEquals(str(self.alignment), expected)
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(AlignmentNewTestCase())
-    suite.addTest(AlignmentGetSetTestCase())
-    suite.addTest(AlignmentDuplicateTestCase())
-    suite.addTest(AlignmentIntersectTestCase())
-    suite.addTest(AlignmentAlignUpTestCase())
-    suite.addTest(AlignmentAlignDownTestCase())
-    suite.addTest(AlignmentAlignNearestTestCase())
-    suite.addTest(AlignmentIsAlignedTestCase())
-    suite.addTest(AlignmentStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

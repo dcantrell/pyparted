@@ -1,7 +1,7 @@
 #
 # Test cases for the methods in the parted module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -25,7 +25,7 @@ from __future__ import division
 import _ped
 import parted
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -99,8 +99,8 @@ class ProbeFileSystemTestCase(unittest.TestCase):
 class FreshDiskTestCase(RequiresDevice):
     def runTest(self):
         # Make sure we get SyntaxError when using an invalid disk type
-        self.assertRaises(KeyError, parted.freshDisk, self._device, 'cheese')
-        self.assertRaises(KeyError, parted.freshDisk, self._device, 'crackers')
+        self.assertRaises(KeyError, parted.freshDisk, self.device, 'cheese')
+        self.assertRaises(KeyError, parted.freshDisk, self.device, 'crackers')
 
         # Create a new disk for each disk type key, verify each one
         # XXX: Skip over dvh for now (SGI disk label), which doesn't seem to have
@@ -108,7 +108,7 @@ class FreshDiskTestCase(RequiresDevice):
         for key in parted.diskType.keys():
             if key == 'dvh':
                 continue
-            disk = parted.freshDisk(self._device, key)
+            disk = parted.freshDisk(self.device, key)
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(disk.type == key)
 
@@ -116,7 +116,7 @@ class FreshDiskTestCase(RequiresDevice):
         for value in parted.diskType.values():
             if value.name == 'dvh':
                 continue
-            disk = parted.freshDisk(self._device, value)
+            disk = parted.freshDisk(self.device, value)
             self.assert_(isinstance(disk, parted.Disk))
             self.assertTrue(parted.diskType[disk.type] == value)
 

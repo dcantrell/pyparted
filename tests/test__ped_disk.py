@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -22,7 +22,7 @@
 import _ped
 import unittest
 
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -225,47 +225,3 @@ class DiskStrTestCase(RequiresDisk):
         expected = "_ped.Disk instance --\n  dev: %s  type: %s" % \
                    (repr(self._disk.dev), repr(self._disk.type),)
         self.assertEquals(expected, str(self._disk))
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(DiskNewUnlabeledTestCase())
-    suite.addTest(DiskNewLabeledTestCase())
-    suite.addTest(DiskGetSetTestCase())
-    suite.addTest(DiskClobberTestCase())
-    suite.addTest(DiskClobberExcludeTestCase())
-    suite.addTest(DiskDuplicateTestCase())
-    suite.addTest(DiskDestroyTestCase())
-    suite.addTest(DiskCommitTestCase())
-    suite.addTest(DiskCommitToDevTestCase())
-    suite.addTest(DiskCommitToOsTestCase())
-    suite.addTest(DiskCheckTestCase())
-    suite.addTest(DiskPrintTestCase())
-    suite.addTest(DiskGetPrimaryPartitionCountTestCase())
-    suite.addTest(DiskGetLastPartitionNumTestCase())
-    suite.addTest(DiskGetMaxPrimaryPartitionCountTestCase())
-    suite.addTest(DiskGetMaxSupportedPartitionCountTestCase())
-    suite.addTest(DiskGetPartitionAlignmentTestCase())
-    suite.addTest(DiskMaxPartitionLengthTestCase())
-    suite.addTest(DiskMaxPartitionStartSectorTestCase())
-    suite.addTest(DiskSetFlagTestCase())
-    suite.addTest(DiskGetFlagTestCase())
-    suite.addTest(DiskIsFlagAvailableTestCase())
-    suite.addTest(DiskAddPartitionTestCase())
-    suite.addTest(DiskRemovePartitionTestCase())
-    suite.addTest(DiskDeletePartitionTestCase())
-    suite.addTest(DiskDeleteAllTestCase())
-    suite.addTest(DiskSetPartitionGeomTestCase())
-    suite.addTest(DiskMaxmimzePartitionTestCase())
-    suite.addTest(DiskGetMaxPartitionGeoemtryTestCase())
-    suite.addTest(DiskMinimizeExtendedPartitionTestCase())
-    suite.addTest(DiskNextPartitionTestCase())
-    suite.addTest(DiskGetPartitionTestCase())
-    suite.addTest(DiskGetPartitionBySectorTestCase())
-    suite.addTest(DiskExtendedPartitionTestCase())
-    suite.addTest(DiskStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

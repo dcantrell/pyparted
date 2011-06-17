@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -21,7 +21,7 @@
 
 import _ped
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -78,16 +78,3 @@ class DiskTypeStrTestCase(RequiresDiskTypes):
         self.assertEquals(str(self.disktype['pc98']), '_ped.DiskType instance --\n  name: pc98  features: 2')
         self.assertEquals(str(self.disktype['loop']), '_ped.DiskType instance --\n  name: loop  features: 0')
         self.assertEquals(str(self.disktype['dvh']), '_ped.DiskType instance --\n  name: dvh  features: 3')
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(DiskTypeNewTestCase())
-    suite.addTest(DiskTypeGetSetTestCase())
-    suite.addTest(DiskTypeCheckFeatureTestCase())
-    suite.addTest(DiskTypeStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

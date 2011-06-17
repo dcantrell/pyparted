@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -22,7 +22,7 @@
 import _ped
 import unittest
 
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -219,20 +219,3 @@ class ConstraintStrTestCase(RequiresDevice):
         self.assertTrue(result[2].startswith('  start_range: <_ped.Geometry object at '))
         self.assertNotEquals(result[2].find('  end_range: <_ped.Geometry object at '), -1)
         self.assertEquals(result[3], '  min_size: 10  max_size: 100')
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(ConstraintNewTestCase())
-    suite.addTest(ConstraintGetSetTestCase())
-    suite.addTest(ConstraintDuplicateTestCase())
-    suite.addTest(ConstraintIntersectTestCase())
-    suite.addTest(ConstraintSolveMaxTestCase())
-    suite.addTest(ConstraintSolveNearestTestCase())
-    suite.addTest(ConstraintIsSolutionTestCase())
-    suite.addTest(ConstraintStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

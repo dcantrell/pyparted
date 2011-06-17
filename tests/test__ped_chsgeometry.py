@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009-2011  Red Hat, Inc.
+# Copyright (C) 2008-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -18,38 +18,38 @@
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #                    David Cantrell <dcantrell@redhat.com>
 #
+
 import _ped
 import unittest
+
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-@unittest.skip("Unimplemented test case.")
-class FileSystemNewTestCase(unittest.TestCase):
-    # TODO
+class CHSGeometryNewTestCase(unittest.TestCase):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # You're not allowed to create a new CHSGeometry object by hand.
+        self.assertRaises(TypeError, _ped.CHSGeometry)
 
-@unittest.skip("Unimplemented test case.")
-class FileSystemGetSetTestCase(unittest.TestCase):
-    # TODO
+class CHSGeometryGetSetTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
+        # A device has a CHSGeometry, so we can use that to attempt accessing
+        # parameters.
+        chs = self._device.hw_geom
+        self.assertTrue(isinstance(chs, _ped.CHSGeometry))
 
-@unittest.skip("Unimplemented test case.")
-class FileSystemStrTestCase(unittest.TestCase):
-    # TODO
+        # All attributes are read-only.
+        self.assertRaises(AttributeError, setattr, chs, "cylinders", 47)
+        self.assertRaises(AttributeError, setattr, chs, "heads", 47)
+        self.assertRaises(AttributeError, setattr, chs, "sectors", 47)
+
+        self.assertTrue(isinstance(chs.cylinders, int))
+        self.assertTrue(isinstance(chs.heads, int))
+        self.assertTrue(isinstance(chs.sectors, int))
+
+class CHSGeometryStrTestCase(RequiresDevice):
     def runTest(self):
-        self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(FileSystemNewTestCase())
-    suite.addTest(FileSystemGetSetTestCase())
-    suite.addTest(FileSystemStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
+        expected = "_ped.CHSGeometry instance --\n  cylinders: %d  heads: %d  sectors: %d" % (self._device.hw_geom.cylinders, self._device.hw_geom.heads, self._device.hw_geom.sectors,)
+        result = str(self._device.hw_geom)
+        self.assertEquals(result, expected)
