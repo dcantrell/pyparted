@@ -21,9 +21,7 @@ import commands
 import glob
 import os
 import platform
-import shutil
 import sys
-import tempfile
 from distutils.ccompiler import new_compiler
 from distutils.errors import CompileError
 from distutils.errors import LinkError
