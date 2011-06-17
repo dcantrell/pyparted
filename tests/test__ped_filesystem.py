@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -16,6 +16,7 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 import _ped
 import unittest
@@ -23,35 +24,20 @@ import unittest
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class FileSystemTypeNewTestCase(unittest.TestCase):
+@unittest.skip("Unimplemented test case.")
+class FileSystemNewTestCase(unittest.TestCase):
+    # TODO
     def runTest(self):
-        # You can't create a FileSystemType by hand.
-        self.assertRaises(TypeError, _ped.FileSystemType)
+        self.fail("Unimplemented test case.")
 
-class FileSystemTypeGetSetTestCase(unittest.TestCase):
+@unittest.skip("Unimplemented test case.")
+class FileSystemGetSetTestCase(unittest.TestCase):
+    # TODO
     def runTest(self):
-        fstype = _ped.file_system_type_get("ext3")
+        self.fail("Unimplemented test case.")
 
-        self.assertTrue(isinstance(fstype, _ped.FileSystemType))
-        self.assertEqual(fstype.name, "ext3")
-        self.assertEqual(getattr(fstype, "name"), "ext3")
-        self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
-        self.assertRaises(AttributeError, getattr, fstype, "junk")
-
-class FileSystemTypeStrTestCase(unittest.TestCase):
+@unittest.skip("Unimplemented test case.")
+class FileSystemStrTestCase(unittest.TestCase):
+    # TODO
     def runTest(self):
-        fstype = _ped.file_system_type_get("ext3")
-
-        self.assertEqual(str(fstype), "_ped.FileSystemType instance --\n  name: ext3")
-
-# And then a suite to hold all the test cases for this module.
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(FileSystemTypeNewTestCase())
-    suite.addTest(FileSystemTypeGetSetTestCase())
-    suite.addTest(FileSystemTypeStrTestCase())
-    return suite
-
-s = suite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
+        self.fail("Unimplemented test case.")

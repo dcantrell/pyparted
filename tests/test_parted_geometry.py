@@ -1,7 +1,7 @@
 #
-# Test cases for the methods in the parted.device module itself
+# Test cases for the methods in the parted.geometry module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -20,140 +20,108 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-import _ped
 import parted
 import unittest
-from baseclass import *
+
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 @unittest.skip("Unimplemented test case.")
-class DeviceNewTestCase(unittest.TestCase):
+class GeometryNewTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceGetSetTestCase(unittest.TestCase):
+class GeometryGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceOpenTestCase(unittest.TestCase):
+class GeometryCheckTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceCloseTestCase(unittest.TestCase):
+class GeometryContainsTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceDestroyTestCase(unittest.TestCase):
+class GeometryContainsSectorTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceRemoveFromCacheTestCase(unittest.TestCase):
+class GeometryEqualTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceBeginExternalAccessTestCase(unittest.TestCase):
+class GeometryGetSizeTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
+class GeometryGetLengthTestCase(RequiresDevice):
+    def runTest(self):
+        length = 137
+        geom = parted.Geometry(self.device, start=100, length=length)
+
+        self.assertEqual(geom.getLength(), geom.length)
+        self.assertEqual(geom.getLength(), length)
+
+@unittest.skip("Unimplemented test case.")
+class GeometryIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceEndExternalAccessTestCase(unittest.TestCase):
+class GeometryMapTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceReadTestCase(unittest.TestCase):
+class GeometryOverlapsWithTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceWriteTestCase(unittest.TestCase):
+class GeometryReadTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceSyncTestCase(unittest.TestCase):
+class GeometrySyncTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceCheckTestCase(unittest.TestCase):
+class GeometryWriteTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceStartSectorToCylinderTestCase(unittest.TestCase):
+class GeometryGetPedGeometryTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class DeviceEndSectorToCylinderTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceStartCylinderToSectorTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceEndCylinderToSectorTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceGetSizeTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class DeviceGetLengthTestCase(RequiresDevice):
-    def runTest(self):
-        self.assertEqual(self._device.getLength(), self._device.length)
-
-@unittest.skip("Unimplemented test case.")
-class DeviceGetSizeAsSectorsTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceGetConstraintTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceGetPedDeviceTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class DeviceStrTestCase(unittest.TestCase):
+class GeometryStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
@@ -161,28 +129,22 @@ class DeviceStrTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(DeviceNewTestCase())
-    suite.addTest(DeviceGetSetTestCase())
-    suite.addTest(DeviceOpenTestCase())
-    suite.addTest(DeviceCloseTestCase())
-    suite.addTest(DeviceDestroyTestCase())
-    suite.addTest(DeviceRemoveFromCacheTestCase())
-    suite.addTest(DeviceBeginExternalAccessTestCase())
-    suite.addTest(DeviceEndExternalAccessTestCase())
-    suite.addTest(DeviceReadTestCase())
-    suite.addTest(DeviceWriteTestCase())
-    suite.addTest(DeviceSyncTestCase())
-    suite.addTest(DeviceCheckTestCase())
-    suite.addTest(DeviceStartSectorToCylinderTestCase())
-    suite.addTest(DeviceEndSectorToCylinderTestCase())
-    suite.addTest(DeviceStartCylinderToSectorTestCase())
-    suite.addTest(DeviceEndCylinderToSectorTestCase())
-    suite.addTest(DeviceGetSizeTestCase())
-    suite.addTest(DeviceGetLengthTestCase())
-    suite.addTest(DeviceGetSizeAsSectorsTestCase())
-    suite.addTest(DeviceGetConstraintTestCase())
-    suite.addTest(DeviceGetPedDeviceTestCase())
-    suite.addTest(DeviceStrTestCase())
+    suite.addTest(GeometryNewTestCase())
+    suite.addTest(GeometryGetSetTestCase())
+    suite.addTest(GeometryCheckTestCase())
+    suite.addTest(GeometryContainsTestCase())
+    suite.addTest(GeometryContainsSectorTestCase())
+    suite.addTest(GeometryEqualTestCase())
+    suite.addTest(GeometryGetSizeTestCase())
+    suite.addTest(GeometryGetLengthTestCase())
+    suite.addTest(GeometryIntersectTestCase())
+    suite.addTest(GeometryMapTestCase())
+    suite.addTest(GeometryOverlapsWithTestCase())
+    suite.addTest(GeometryReadTestCase())
+    suite.addTest(GeometrySyncTestCase())
+    suite.addTest(GeometryWriteTestCase())
+    suite.addTest(GeometryGetPedGeometryTestCase())
+    suite.addTest(GeometryStrTestCase())
     return suite
 
 s = suite()

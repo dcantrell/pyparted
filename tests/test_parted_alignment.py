@@ -1,7 +1,7 @@
 #
 # Test cases for the methods in the parted.alignment module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -23,7 +23,7 @@
 import _ped
 import parted
 import unittest
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -103,7 +103,7 @@ class AlignmentAlignNearestTestCase(unittest.TestCase):
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        self.g = parted.Geometry(device=self._device, start=0, length=100)
+        self.g = parted.Geometry(device=self.device, start=0, length=100)
         self.a = parted.Alignment(offset=10, grainSize=0)
 
     def runTest(self):

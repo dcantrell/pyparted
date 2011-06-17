@@ -1,7 +1,7 @@
 #
-# Test cases for the methods in the parted.geometry module itself
+# Test cases for the methods in the parted.partition module itself
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2011  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -23,105 +23,104 @@
 import parted
 import unittest
 
-from baseclass import *
+from tests.baseclass import *
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 @unittest.skip("Unimplemented test case.")
-class GeometryNewTestCase(unittest.TestCase):
+class PartitionNewTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryGetSetTestCase(unittest.TestCase):
+class PartitionGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryCheckTestCase(unittest.TestCase):
+class PartitionGetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryContainsTestCase(unittest.TestCase):
+class PartitionSetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryContainsSectorTestCase(unittest.TestCase):
+class PartitionUnsetFlagTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryEqualTestCase(unittest.TestCase):
+class PartitionGetMaxGeometryTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryGetSizeTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-class GeometryGetLengthTestCase(RequiresDevice):
-    def runTest(self):
-        length = 137
-        geom = parted.Geometry(self._device, start=100, length=length)
-
-        self.assertEqual(geom.getLength(), geom.length)
-        self.assertEqual(geom.getLength(), length)
-
-@unittest.skip("Unimplemented test case.")
-class GeometryIntersectTestCase(unittest.TestCase):
+class PartitionIsFlagAvailableTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryMapTestCase(unittest.TestCase):
+class PartitionNextPartitionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryOverlapsWithTestCase(unittest.TestCase):
+class PartitionGetSizeTestCase(unittest.TestCase):
+    def runTest(self):
+        # TODO
+        self.fail("Unimplemented test case.")
+
+class PartitionGetLengthTestCase(RequiresDisk):
+    def runTest(self):
+        length = 100
+        geom = parted.Geometry(self.device, start=100, length=length)
+        part = parted.Partition(self.disk, parted.PARTITION_NORMAL, geometry=geom)
+        constraint = parted.Constraint(exactGeom=geom)
+        self.disk.addPartition(part, constraint)
+        self.disk.commit()
+        part = self.disk.partitions[0]
+
+        self.assertEqual(part.getLength(), part.geometry.length)
+        self.assertEqual(part.getLength(), length)
+
+@unittest.skip("Unimplemented test case.")
+class PartitionGetFlagsAsStringTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryReadTestCase(unittest.TestCase):
+class PartitionGetMaxAvailableSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometrySyncTestCase(unittest.TestCase):
+class PartitionGetDeviceNodeNameTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryWriteTestCase(unittest.TestCase):
+class PartitionGetPedPartitionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
 @unittest.skip("Unimplemented test case.")
-class GeometryGetPedGeometryTestCase(unittest.TestCase):
-    def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
-
-@unittest.skip("Unimplemented test case.")
-class GeometryStrTestCase(unittest.TestCase):
+class PartitionStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
@@ -129,22 +128,21 @@ class GeometryStrTestCase(unittest.TestCase):
 # And then a suite to hold all the test cases for this module.
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(GeometryNewTestCase())
-    suite.addTest(GeometryGetSetTestCase())
-    suite.addTest(GeometryCheckTestCase())
-    suite.addTest(GeometryContainsTestCase())
-    suite.addTest(GeometryContainsSectorTestCase())
-    suite.addTest(GeometryEqualTestCase())
-    suite.addTest(GeometryGetSizeTestCase())
-    suite.addTest(GeometryGetLengthTestCase())
-    suite.addTest(GeometryIntersectTestCase())
-    suite.addTest(GeometryMapTestCase())
-    suite.addTest(GeometryOverlapsWithTestCase())
-    suite.addTest(GeometryReadTestCase())
-    suite.addTest(GeometrySyncTestCase())
-    suite.addTest(GeometryWriteTestCase())
-    suite.addTest(GeometryGetPedGeometryTestCase())
-    suite.addTest(GeometryStrTestCase())
+    suite.addTest(PartitionNewTestCase())
+    suite.addTest(PartitionGetSetTestCase())
+    suite.addTest(PartitionGetFlagTestCase())
+    suite.addTest(PartitionSetFlagTestCase())
+    suite.addTest(PartitionUnsetFlagTestCase())
+    suite.addTest(PartitionGetMaxGeometryTestCase())
+    suite.addTest(PartitionIsFlagAvailableTestCase())
+    suite.addTest(PartitionNextPartitionTestCase())
+    suite.addTest(PartitionGetSizeTestCase())
+    suite.addTest(PartitionGetLengthTestCase())
+    suite.addTest(PartitionGetFlagsAsStringTestCase())
+    suite.addTest(PartitionGetMaxAvailableSizeTestCase())
+    suite.addTest(PartitionGetDeviceNodeNameTestCase())
+    suite.addTest(PartitionGetPedPartitionTestCase())
+    suite.addTest(PartitionStrTestCase())
     return suite
 
 s = suite()
