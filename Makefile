@@ -60,7 +60,6 @@ tag: dist
 	@echo "Tagged as $(TAG) (GPG signed)"
 
 release: tag
-	rm -rf dist
 	( cd dist ; gzip -dc $(PACKAGE)-$(VERSION).tar.gz | tar -xvf - )
 	( cd dist/$(PACKAGE)-$(VERSION) && $(PYTHON) setup.py build ) || exit 1
 	@echo
