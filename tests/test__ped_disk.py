@@ -143,7 +143,7 @@ class DiskIsFlagAvailableTestCase(RequiresDisk):
         # We don't know which flags should be available and which shouldn't,
         # but we can at least check that there aren't any tracebacks from
         # trying all of the valid ones.
-        for flag in [_ped.DISK_CYLINDER_ALIGNMENT]:
+        for flag in [_ped.DISK_CYLINDER_ALIGNMENT, _ped.DISK_GPT_PMBR_BOOT]:
             self.assertTrue(isinstance(self._disk.is_flag_available(flag), bool))
 
         # However, an invalid flag should definitely not be available.
