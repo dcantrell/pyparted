@@ -179,7 +179,7 @@ class ConstraintSolveMaxTestCase(RequiresDevice):
     def runTest(self):
         result = self.c1.solve_max()
         self.assertEquals(result.dev, self._device)
-        self.assertEquals(result.length, self._device.length - 1)
+        self.assertTrue(result.length >= (self._device.length - 1))
 
 class ConstraintSolveNearestTestCase(RequiresDevice):
     def setUp(self):
