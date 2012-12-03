@@ -105,7 +105,7 @@ class DiskGetMaxPrimaryPartitionCountTestCase(RequiresDisk):
 
 class DiskGetMaxSupportedPartitionCountTestCase(RequiresDisk):
     def runTest(self):
-        self.assertEquals(self._disk.get_max_supported_partition_count(), 16)
+        self.assertEquals(self._disk.get_max_supported_partition_count(), 64)
 
 class DiskGetPartitionAlignmentTestCase(RequiresDisk):
     def runTest(self):
