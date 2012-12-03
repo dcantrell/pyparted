@@ -31,7 +31,7 @@ from distutils.core import Extension
 pyparted_version = '3.8'
 python_version = platform.python_version_tuple()
 
-need_libparted_version = '3.0'
+need_libparted_version = '3.1'
 need_python_version = [2, 7]
 
 if python_version[0] < need_python_version[0] or \
