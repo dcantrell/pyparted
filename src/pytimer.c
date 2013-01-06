@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pytimer.c
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -64,13 +69,13 @@ int _ped_Timer_compare(_ped_Timer *self, PyObject *obj) {
 
 PyObject *_ped_Timer_richcompare(_ped_Timer *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_Timer_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_Timer_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_Timer_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_Timer_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -131,7 +136,7 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
             return -2;
     }
 
-     /* self->state_name now points to the internal buffer of a PyString object,
+     /* self->state_name now points to the internal buffer of a PyUnicode object,
       * which may be freed when its refcount drops to zero, so strdup it.
       */
      if (self->state_name) {
@@ -163,9 +168,9 @@ PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
         return Py_BuildValue("d", self->predicted_end);
     } else if (!strcmp(member, "state_name")) {
         if (self->state_name != NULL)
-            return PyString_FromString(self->state_name);
+            return PyUnicode_FromString(self->state_name);
         else
-            return PyString_FromString("");
+            return PyUnicode_FromString("");
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);
         return NULL;
@@ -200,11 +205,11 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
             return -1;
         }
     } else if (!strcmp(member, "state_name")) {
-        self->state_name = PyString_AsString(value);
+        self->state_name = PyUnicode_AsUTF8String(value);
         if (PyErr_Occurred()) {
             return -1;
         }
-        /* self->state_name now points to the internal buffer of a PyString obj
+        /* self->state_name now points to the internal buffer of a PyUnicode obj
          * which may be freed when its refcount drops to zero, so strdup it.
          */
         if (self->state_name) {

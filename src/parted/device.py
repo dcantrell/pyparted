@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # device.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -26,9 +31,9 @@ import warnings
 
 import _ped
 import parted
-from disk import diskType
+from .disk import diskType
 
-from decorators import localeC
+from .decorators import localeC
 
 class Device(object):
     """Device()
@@ -53,7 +58,7 @@ class Device(object):
         elif path is not None:
             self.__device = _ped.device_get(path)
         else:
-            raise parted.DeviceException, "no path or PedDevice specified"
+            raise parted.DeviceException("no path or PedDevice specified")
 
     def __eq__(self, other):
         return not self.__ne__(other)
@@ -293,7 +298,7 @@ class Device(object):
         lunit = unit.lower()
 
         if lunit not in parted._exponent.keys():
-            raise SyntaxError, "invalid unit %s given" % (unit,)
+            raise SyntaxError("invalid unit %s given" % (unit))
 
         size = float(self.__device.length)
         size /= math.pow(1024.0, parted._exponent[lunit])
