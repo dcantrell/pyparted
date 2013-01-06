@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # geometry.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -28,7 +33,7 @@ import warnings
 import _ped
 import parted
 
-from decorators import localeC
+from .decorators import localeC
 
 class Geometry(object):
     """Geometry()
@@ -60,7 +65,7 @@ class Geometry(object):
             self._device = device
             self.__geometry = _ped.Geometry(self.device.getPedDevice(), start, length, end=end)
         else:
-            raise parted.GeometryException, "must specify PedGeometry or (device, start, length) or (device, start, end) or (device, start, length, end)"
+            raise parted.GeometryException("must specify PedGeometry or (device, start, length) or (device, start, end) or (device, start, length, end)")
 
     def __eq__(self, other):
         return not self.__ne__(other)
@@ -126,7 +131,7 @@ class Geometry(object):
         size = self.length * self.device.sectorSize
 
         if lunit not in parted._exponent.keys():
-            raise SyntaxError, "invalid unit %s given" % (unit,)
+            raise SyntaxError("invalid unit %s given" % (unit))
 
         return (size / math.pow(1024.0, parted._exponent[lunit]))
 

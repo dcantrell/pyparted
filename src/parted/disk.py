@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # disk.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -24,8 +29,8 @@
 import _ped
 import parted
 
-from cachedlist import CachedList
-from decorators import localeC
+from .cachedlist import CachedList
+from .decorators import localeC
 
 class Disk(object):
     """Disk()
@@ -46,7 +51,7 @@ class Disk(object):
             else:
                 self._device = device
         elif device is None:
-            raise parted.DiskException, "no device specified"
+            raise parted.DiskException("no device specified")
         else:
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
@@ -245,7 +250,7 @@ class Disk(object):
             result = self.__disk.add_partition(partition.getPedPartition(),
                                                constraint.getPedConstraint())
         elif not partition:
-            raise parted.DiskException, "no partition or constraint specified"
+            raise parted.DiskException("no partition or constraint specified")
         else:
             result = self.__disk.add_partition(partition.getPedPartition())
 
@@ -264,7 +269,7 @@ class Disk(object):
            actually destroyed unless you use the deletePartition()
            method."""
         if not partition:
-            raise parted.DiskException, "no partition specified"
+            raise parted.DiskException("no partition specified")
 
         if self.__disk.remove_partition(partition.getPedPartition()):
             self.partitions.invalidate()
@@ -299,10 +304,10 @@ class Disk(object):
            does not modify the partition contents, just the partition
            table."""
         if not partition or not constraint:
-            raise parted.DiskException, "no partition or constraint specified"
+            raise parted.DiskException("no partition or constraint specified")
 
         if not start or not end:
-            raise parted.DiskException, "no start or end geometry specified"
+            raise parted.DiskException("no start or end geometry specified")
 
         return self.__disk.set_partition_geom(partition.getPedPartition(),
                                               constraint.getPedConstraint(),
@@ -313,7 +318,7 @@ class Disk(object):
         """Grow the Partition's Geometry to the maximum possible subject
            to Constraint."""
         if not partition:
-            raise parted.DiskException, "no partition specified"
+            raise parted.DiskException("no partition specified")
 
         if constraint:
             return self.__disk.maximize_partition(partition.getPedPartition(),
@@ -326,7 +331,7 @@ class Disk(object):
         """Get the maximum Geometry the Partition can be grown to,
            subject to the given Constraint."""
         if not partition:
-            raise parted.DiskException, "no partition specified"
+            raise parted.DiskException("no partition specified")
 
         if constraint:
             return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))

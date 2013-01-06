@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pynatmath.c
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -60,13 +65,13 @@ int _ped_Alignment_compare(_ped_Alignment *self, PyObject *obj) {
 
 PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_Alignment_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_Alignment_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_Alignment_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_Alignment_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;

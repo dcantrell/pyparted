@@ -1,3 +1,7 @@
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
 # setup.py script for pyparted
 # Copyright (C) 2011  Red Hat, Inc.
 #
@@ -16,8 +20,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 # Author(s): David Cantrell <dcantrell@redhat.com>
-
-import commands
+import subprocess
 import glob
 import os
 import platform
@@ -29,26 +32,25 @@ from distutils.core import setup
 from distutils.core import Extension
 
 pyparted_version = '3.9'
-python_version = platform.python_version_tuple()
+python_version = float('.'.join(platform.python_version().split('.')[:-1]))
 
 need_libparted_version = '3.1'
-need_python_version = [2, 7]
+need_python_version = 3.1
 
-if python_version[0] < need_python_version[0] or \
-   python_version[1] < need_python_version[1]:
+if python_version < need_python_version:
     raise RuntimeError("pyparted requires Python version %d.%d or higher"
                        % (need_python_version[0], need_python_version[1],))
-
 # Recipe from:
 # http://code.activestate.com/recipes/502261-python-distutils-pkg-config/
 def pkgconfig(*packages, **kwargs):
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
-    for token in commands.getoutput("pkg-config --libs --cflags %s" % ' '.join(packages)).split():
+    for token in subprocess.check_output(["pkg-config", "--libs", "--cflags"] + list(packages)).decode('utf-8').split():
+        
         kwargs.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kwargs
 
 def check_mod_version(module, version):
-    modversion = commands.getoutput("pkg-config --modversion %s" % module)
+    modversion = subprocess.check_output(["pkg-config", "--modversion", module])
     if not float(modversion) >= float(version):
         sys.stderr.write("*** Minimum required %s version: %s, found: %s\n" % (module, version, modversion,))
         sys.exit(1)
@@ -70,7 +72,7 @@ setup(name='pyparted',
       license='GPLv2+',
       packages=['parted'],
       package_dir={'parted': 'src/parted'},
-      ext_modules=[Extension('_pedmodule',
+      ext_modules=[Extension('_ped',
                              glob.glob(os.path.join('src', '*.c')),
                              define_macros=features,
                              **pkgconfig('libparted',

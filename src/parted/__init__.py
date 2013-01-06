@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+
 # __init__.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -21,8 +26,6 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #                    Chris Lumens <clumens@redhat.com>
 #
-
-from __future__ import division
 
 import platform
 import re
@@ -48,17 +51,17 @@ from _ped import TimerException
 from _ped import UnknownDeviceException
 from _ped import UnknownTypeException
 
-from alignment import Alignment
-from constraint import Constraint
-from device import Device
-from disk import Disk
-from disk import diskType
-from disk import diskFlag
-from filesystem import FileSystem
-from filesystem import fileSystemType
-from geometry import Geometry
-from partition import Partition
-from partition import partitionFlag
+from .alignment import Alignment
+from .constraint import Constraint
+from .device import Device
+from .disk import Disk
+from .disk import diskType
+from .disk import diskFlag
+from .filesystem import FileSystem
+from .filesystem import fileSystemType
+from .geometry import Geometry
+from .partition import Partition
+from .partition import partitionFlag
 
 # the enumerated types in _ped need to be available from here too
 from _ped import UNIT_SECTOR
@@ -122,7 +125,7 @@ from _ped import DISK_GPT_PMBR_BOOT
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
-from decorators import localeC
+from .decorators import localeC
 
 partitionTypesDict = {
     0x00: "Empty",
@@ -406,7 +409,7 @@ def freshDisk(device, ty):
     if type(ty) == str:
         ty = diskType[ty]
     elif not isinstance(ty, DiskType):
-        raise SyntaxError, "type must be a key or value in parted.diskType"
+        raise SyntaxError("type must be a key or value in parted.diskType")
 
     peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)

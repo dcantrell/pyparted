@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # partition.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -29,7 +34,7 @@ import warnings
 import _ped
 import parted
 
-from decorators import localeC
+from .decorators import localeC
 
 # XXX: add docstrings
 
@@ -38,11 +43,11 @@ class Partition(object):
     def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
         if PedPartition is None:
             if disk is None:
-                raise parted.PartitionException, "no disk specified"
+                raise parted.PartitionException("no disk specified")
             elif type is None:
-                raise parted.PartitionException, "no type specified"
+                raise parted.PartitionException("no type specified")
             elif geometry is None:
-                raise parted.PartitionException, "no geometry specified"
+                raise parted.PartitionException("no geometry specified")
 
             self._fileSystem = fs
             self._geometry = geometry
@@ -96,7 +101,7 @@ class Partition(object):
         return s
 
     def __writeOnly(self, property):
-        raise parted.WriteOnlyProperty, property
+        raise parted.WriteOnlyProperty(property)
 
     @property
     @localeC
@@ -224,7 +229,7 @@ class Partition(object):
         lunit = unit.lower()
 
         if lunit not in parted._exponent.keys():
-            raise SyntaxError, "invalid unit %s given" % (unit,)
+            raise SyntaxError("invalid unit %s given" % (unit))
 
         maxLength = self.geometry.length
         sectorSize = self.geometry.device.sectorSize

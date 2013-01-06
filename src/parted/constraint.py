@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # constraint.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -25,7 +30,7 @@
 import parted
 import _ped
 
-from decorators import localeC
+from .decorators import localeC
 
 class Constraint(object):
     """Constraint()
@@ -80,7 +85,7 @@ class Constraint(object):
             self.__constraint = _ped.Constraint(starta, enda, startr, endr,
                                                 mins, maxs)
         else:
-            raise parted.ConstraintException, "missing initialization parameters"
+            raise parted.ConstraintException("missing initialization parameters")
 
     def __eq__(self, other):
         return not self.__ne__(other)

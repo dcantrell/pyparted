@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # filesystem.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -24,7 +29,7 @@
 import _ped
 import parted
 
-from decorators import localeC
+from .decorators import localeC
 
 # XXX: add docstrings!
 
@@ -38,9 +43,9 @@ class FileSystem(object):
 
         if PedFileSystem is None:
             if type is None:
-                raise parted.FileSystemException, "no type specified"
+                raise parted.FileSystemException("no type specified")
             elif geometry is None:
-                raise parted.FileSystemException, "no geometry specified"
+                raise parted.FileSystemException("no geometry specified")
 
             self._type = type
             self._geometry = geometry

@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pydevice.c
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -62,13 +67,13 @@ int _ped_CHSGeometry_compare(_ped_CHSGeometry *self, PyObject *obj) {
 PyObject *_ped_CHSGeometry_richcompare(_ped_CHSGeometry *a, PyObject *b,
                                        int op) {
     if (op == Py_EQ) {
-        if (!(_ped_CHSGeometry_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_CHSGeometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_CHSGeometry_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_CHSGeometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -176,13 +181,13 @@ int _ped_Device_compare(_ped_Device *self, PyObject *obj) {
 
 PyObject *_ped_Device_richcompare(_ped_Device *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_Device_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_Device_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_Device_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_Device_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -201,12 +206,12 @@ PyObject *_ped_Device_str(_ped_Device *self) {
     char *ret = NULL;
     char *hw_geom = NULL, *bios_geom = NULL;
 
-    hw_geom = PyString_AsString(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
+    hw_geom =PyUnicode_AsUTF8String(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
     if (hw_geom == NULL) {
         return NULL;
     }
 
-    bios_geom = PyString_AsString(_ped_CHSGeometry_Type_obj.tp_repr(self->bios_geom));
+    bios_geom = PyUnicode_AsUTF8String(_ped_CHSGeometry_Type_obj.tp_repr(self->bios_geom));
     if (bios_geom == NULL) {
         return NULL;
     }
@@ -268,14 +273,14 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
 
     if (!strcmp(member, "model")) {
         if (self->model != NULL)
-            return PyString_FromString(self->model);
+            return PyUnicode_FromString(self->model);
         else
-            return PyString_FromString("");
+            return PyUnicode_FromString("");
     } else if (!strcmp(member, "path")) {
         if (self->path != NULL)
-            return PyString_FromString(self->path);
+            return PyUnicode_FromString(self->path);
         else
-            return PyString_FromString("");
+            return PyUnicode_FromString("");
     } else if (!strcmp(member, "type")) {
         return PyLong_FromLongLong(self->type);
     } else if (!strcmp(member, "sector_size")) {
@@ -665,7 +670,7 @@ PyObject *py_ped_device_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = PyString_FromString(out_buf);
+    ret = PyUnicode_FromString(out_buf);
     free(out_buf);
 
     return ret;
@@ -686,7 +691,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    out_buf = PyCObject_AsVoidPtr(in_buf);
+    out_buf = PyCapsule_GetPointer(in_buf, 0);
     if (out_buf == NULL) {
         return NULL;
     }

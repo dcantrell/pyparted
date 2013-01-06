@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * exceptions.h
  *
  * Copyright (C) 2007  Red Hat, Inc.

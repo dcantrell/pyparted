@@ -1,4 +1,9 @@
 #
+# Code modified from original to work with Python 3
+# Alex Skinner
+# alex@lx.lc
+# 12/28/2012
+#
 # geometry.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -25,7 +30,7 @@
 import parted
 import _ped
 
-from decorators import localeC
+from .decorators import localeC
 
 class Alignment(object):
     """Alignment()
@@ -45,7 +50,7 @@ class Alignment(object):
             self.__alignment = _ped.Alignment(kwargs.get("offset"),
                                               kwargs.get("grainSize"))
         else:
-            raise parted.AlignmentException, "no offset+grainSize or PedAlignment specified"
+            raise parted.AlignmentException("no offset+grainSize or PedAlignment specified")
 
     offset = property(lambda s: s.__alignment.offset, lambda s, v: setattr(s.__alignment, "offset", v))
     grainSize = property(lambda s: s.__alignment.grain_size, lambda s, v: setattr(s.__alignment, "grain_size", v))
@@ -106,10 +111,10 @@ class Alignment(object):
         """Determine whether sector lies inside geom and satisfies the
            alignment constraint self."""
         if not geom:
-            raise TypeError, "missing parted.Geometry parameter"
+            raise TypeError("missing parted.Geometry parameter")
 
         if sector is None:
-            raise TypeError, "missing sector parameter"
+            raise TypeError("missing sector parameter")
 
         return self.__alignment.is_aligned(geom.getPedGeometry(), sector)
 
