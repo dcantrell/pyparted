@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * _pedmodule.h
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -27,7 +32,7 @@
 
 extern PyObject *py_libparted_get_version(PyObject *, PyObject *);
 extern PyObject *py_pyparted_version(PyObject *, PyObject *);
-extern PyMODINIT_FUNC init_ped(void);
+extern PyMODINIT_FUNC PyInit__ped(void);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
 

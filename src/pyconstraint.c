@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pyconstraint.c
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -78,13 +83,14 @@ int _ped_Constraint_compare(_ped_Constraint *self, PyObject *obj) {
 
 PyObject *_ped_Constraint_richcompare(_ped_Constraint *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_Constraint_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_Constraint_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_Constraint_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_Constraint_Type_obj.tp_richcompare((PyObject *) a, b,
+Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -104,22 +110,26 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self) {
     char *start_align = NULL, *end_align = NULL;
     char *start_range = NULL, *end_range = NULL;
 
-    start_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->start_align));
+    start_align =
+PyUnicode_AsUTF8String(_ped_Alignment_Type_obj.tp_repr(self->start_align));
     if (start_align == NULL) {
         return NULL;
     }
 
-    end_align = PyString_AsString(_ped_Alignment_Type_obj.tp_repr(self->end_align));
+    end_align =
+PyUnicode_AsUTF8String(_ped_Alignment_Type_obj.tp_repr(self->end_align));
     if (end_align == NULL) {
         return NULL;
     }
 
-    start_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->start_range));
+    start_range =
+PyUnicode_AsUTF8String(_ped_Geometry_Type_obj.tp_repr(self->start_range));
     if (start_range == NULL) {
         return NULL;
     }
 
-    end_range = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->end_range));
+    end_range =
+PyUnicode_AsUTF8String(_ped_Geometry_Type_obj.tp_repr(self->end_range));
     if (end_range == NULL) {
         return NULL;
     }

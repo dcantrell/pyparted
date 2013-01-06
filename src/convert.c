@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * convert.c
  * Convert _ped Python types to libparted typedefs.  Only typedef structs
  * need to be converted.  When a typedef in libparted is a primitive type,

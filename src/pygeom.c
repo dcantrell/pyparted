@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pygeom.c
  *
  * Copyright (C) 2007, 2008, 2009  Red Hat, Inc.
@@ -69,13 +74,13 @@ int _ped_Geometry_compare(_ped_Geometry *self, PyObject *obj) {
 
 PyObject *_ped_Geometry_richcompare(_ped_Geometry *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_Geometry_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_Geometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_Geometry_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_Geometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -94,7 +99,7 @@ PyObject *_ped_Geometry_str(_ped_Geometry *self) {
     char *ret = NULL;
     char *dev = NULL;
 
-    dev = PyString_AsString(_ped_Device_Type_obj.tp_repr(self->dev));
+    dev = PyUnicode_AsUTF8String(_ped_Device_Type_obj.tp_repr(self->dev));
     if (dev == NULL) {
         return NULL;
     }
@@ -582,7 +587,7 @@ PyObject *py_ped_geometry_read(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    ret = PyString_FromString(out_buf);
+    ret = PyUnicode_FromString(out_buf);
     free(out_buf);
 
     return ret;

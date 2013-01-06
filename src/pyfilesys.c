@@ -1,4 +1,9 @@
 /*
+ * Code modified from original to work with Python 3
+ * Alex Skinner
+ * alex@lx.lc
+ * 12/28/2012
+ *
  * pyfilesys.c
  *
  * Copyright (C) 2007-2011  Red Hat, Inc.
@@ -62,13 +67,13 @@ int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj) {
 PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b,
                                           int op) {
     if (op == Py_EQ) {
-        if (!(_ped_FileSystemType_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_FileSystemType_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_FileSystemType_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_FileSystemType_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -113,9 +118,9 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
 
     if (!strcmp(member, "name")) {
         if (self->name != NULL)
-            return PyString_FromString(self->name);
+            return PyUnicode_FromString(self->name);
         else
-            return PyString_FromString("");
+            return PyUnicode_FromString("");
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.FileSystemType object has no attribute %s", member);
         return NULL;
@@ -163,13 +168,13 @@ int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj) {
 
 PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op) {
     if (op == Py_EQ) {
-        if (!(_ped_FileSystem_Type_obj.tp_compare((PyObject *) a, b))) {
+        if ((_ped_FileSystem_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
         }
     } else if (op == Py_NE) {
-        if (_ped_FileSystem_Type_obj.tp_compare((PyObject *) a, b)) {
+        if (!(_ped_FileSystem_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
         } else {
             Py_RETURN_FALSE;
@@ -188,12 +193,12 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
     char *ret = NULL;
     char *type = NULL, *geom = NULL;
 
-    type = PyString_AsString(_ped_FileSystem_Type_obj.tp_repr(self->type));
+    type = PyUnicode_AsUTF8String(_ped_FileSystem_Type_obj.tp_repr(self->type));
     if (type == NULL) {
         return NULL;
     }
 
-    geom = PyString_AsString(_ped_Geometry_Type_obj.tp_repr(self->geom));
+    geom = PyUnicode_AsUTF8String(_ped_Geometry_Type_obj.tp_repr(self->geom));
     if (geom == NULL) {
         return NULL;
     }
@@ -275,7 +280,7 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
     }
 
     if (!strcmp(member, "checked")) {
-        return PyInt_FromLong(self->checked);
+        return PyLong_FromLong(self->checked);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.FileSystem object has no attribute %s", member);
         return NULL;
