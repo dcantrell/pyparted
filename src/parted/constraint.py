@@ -55,27 +55,27 @@ class Constraint(object):
            If none of the previously mentioned parameters are supplied, all of
            startAlign, EndAlign, startRange, endRange, minSize, and maxSize
            must be given."""
-        if kwargs.has_key("PedConstraint"):
+        if "PedConstraint" in kwargs:
             self.__constraint = kwargs.get("PedConstraint")
-        elif kwargs.has_key("minGeom") and kwargs.has_key("maxGeom"):
+        elif "minGeom" in kwargs and "maxGeom" in kwargs:
             ming = kwargs.get("minGeom").getPedGeometry()
             maxg = kwargs.get("maxGeom").getPedGeometry()
             self.__constraint = _ped.constraint_new_from_min_max(ming, maxg)
-        elif kwargs.has_key("minGeom"):
+        elif "minGeom" in kwargs:
             ming = kwargs.get("minGeom").getPedGeometry()
             self.__constraint = _ped.constraint_new_from_min(ming)
-        elif kwargs.has_key("maxGeom"):
+        elif "maxGeom" in kwargs:
             maxg = kwargs.get("maxGeom").getPedGeometry()
             self.__constraint = _ped.constraint_new_from_max(maxg)
-        elif kwargs.has_key("exactGeom"):
+        elif "exactGeom" in kwargs:
             exact = kwargs.get("exactGeom").getPedGeometry()
             self.__constraint = _ped.constraint_exact(exact)
-        elif kwargs.has_key("device"):
+        elif "device" in kwargs:
             dev = kwargs.get("device").getPedDevice()
             self.__constraint = _ped.constraint_any(dev)
-        elif kwargs.has_key("startAlign") and kwargs.has_key("endAlign") and \
-             kwargs.has_key("startRange") and kwargs.has_key("endRange") and \
-             kwargs.has_key("minSize") and kwargs.has_key("maxSize"):
+        elif "startAlign" in kwargs and "endAlign" in kwargs and \
+             "startRange" in kwargs and "endRange" in kwargs and \
+             "minSize" in kwargs and "maxSize" in kwargs:
             starta = kwargs.get("startAlign").getPedAlignment()
             enda = kwargs.get("endAlign").getPedAlignment()
             startr = kwargs.get("startRange").getPedGeometry()
