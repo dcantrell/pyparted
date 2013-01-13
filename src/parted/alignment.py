@@ -44,9 +44,9 @@ class Alignment(object):
     def __init__(self, *args, **kwargs):
         """Create a new Alignment object from the sectors offset and
            grainSize."""
-        if kwargs.has_key("PedAlignment"):
+        if "PedAlignment" in kwargs:
             self.__alignment = kwargs.get("PedAlignment")
-        elif kwargs.has_key("offset") and kwargs.has_key("grainSize"):
+        elif "offset" in kwargs and "grainSize" in kwargs:
             self.__alignment = _ped.Alignment(kwargs.get("offset"),
                                               kwargs.get("grainSize"))
         else:
