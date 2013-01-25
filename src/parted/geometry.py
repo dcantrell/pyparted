@@ -35,7 +35,7 @@ import parted
 
 from .decorators import localeC
 
-class Geometry(object):
+class Geometry():
     """Geometry()
 
        Geometry represents a region on a device in the system - a disk or

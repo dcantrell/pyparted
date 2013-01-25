@@ -276,9 +276,9 @@ PyObject *_ped_Constraint_get(_ped_Constraint *self, void *closure) {
     }
 
     if (!strcmp(member, "min_size")) {
-        return PyLong_FromLongLong(self->min_size);
+        return PyLong_FromLong(self->min_size);
     } else if (!strcmp(member, "max_size")) {
-        return PyLong_FromLongLong(self->max_size);
+        return PyLong_FromLong(self->max_size);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Constraint object has no attribute %s", member);
         return NULL;
@@ -294,12 +294,12 @@ int _ped_Constraint_set(_ped_Constraint *self, PyObject *value, void *closure) {
     }
 
     if (!strcmp(member, "min_size")) {
-        self->min_size = PyLong_AsLongLong(value);
+        self->min_size = PyLong_AsLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
     } else if (!strcmp(member, "max_size")) {
-        self->max_size = PyLong_AsLongLong(value);
+        self->max_size = PyLong_AsLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }

@@ -137,9 +137,9 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
     }
 
     if (!strcmp(member, "offset")) {
-        return PyLong_FromLongLong(self->offset);
+        return PyLong_FromLong(self->offset);
     } else if (!strcmp(member, "grain_size")) {
-        return PyLong_FromLongLong(self->grain_size);
+        return PyLong_FromLong(self->grain_size);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Alignment object has no attribute %s", member);
         return NULL;
@@ -154,12 +154,12 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
     }
 
     if (!strcmp(member, "offset")) {
-        self->offset = PyLong_AsLongLong(value);
+        self->offset = PyLong_AsLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
     } else if (!strcmp(member, "grain_size")) {
-        self->grain_size = PyLong_AsLongLong(value);
+        self->grain_size = PyLong_AsLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
@@ -263,7 +263,7 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
@@ -295,7 +295,7 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
@@ -327,7 +327,7 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
