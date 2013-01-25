@@ -53,7 +53,7 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
 }
 
 PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
-    return PyLong_FromLongLong(ped_unit_get_default());
+    return PyLong_FromLong(ped_unit_get_default());
 }
 
 PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
@@ -89,7 +89,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {

@@ -261,7 +261,7 @@ PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
     if (!strcmp(member, "num")) {
         return Py_BuildValue("i", self->ped_partition->num);
     } else if (!strcmp(member, "type")) {
-        return PyLong_FromLongLong(self->type);
+        return PyLong_FromLong(self->type);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Partition object has no attribute %s", member);
         return NULL;
@@ -537,7 +537,7 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
         else
             return PyUnicode_FromString("");
     } else if (!strcmp(member, "features")) {
-        return PyLong_FromLongLong(self->features);
+        return PyLong_FromLong(self->features);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.DiskType object has no attribute %s", member);
         return NULL;
@@ -946,7 +946,7 @@ PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args) {
     if (!disk)
         return NULL;
 
-    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_length(disk));
+    return PyLong_FromUnsignedLong(ped_disk_max_partition_length(disk));
 }
 
 PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
@@ -956,7 +956,7 @@ PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
     if (!disk)
         return NULL;
 
-    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_start_sector(disk));
+    return PyLong_FromUnsignedLong(ped_disk_max_partition_start_sector(disk));
 }
 
 PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
@@ -1068,7 +1068,7 @@ PyObject *py_ped_disk_flag_get_by_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ped_disk_flag_get_by_name(name));
+    return PyLong_FromLong(ped_disk_flag_get_by_name(name));
 }
 
 PyObject *py_ped_disk_flag_next(PyObject *s, PyObject *args) {
@@ -1433,7 +1433,7 @@ PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ped_partition_flag_get_by_name(name));
+    return PyLong_FromLong(ped_partition_flag_get_by_name(name));
 }
 
 PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {

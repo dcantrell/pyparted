@@ -32,7 +32,7 @@ import parted
 from .cachedlist import CachedList
 from .decorators import localeC
 
-class Disk(object):
+class Disk():
     """Disk()
 
        A Disk object describes a type of device in the system.  Disks
