@@ -33,7 +33,7 @@ from .decorators import localeC
 
 # XXX: add docstrings!
 
-class FileSystem(object):
+class FileSystem():
     @localeC
     def __init__(self, type=None, geometry=None, checked=False, PedFileSystem=None):
         if checked:

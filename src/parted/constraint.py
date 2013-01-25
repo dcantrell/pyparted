@@ -32,7 +32,7 @@ import _ped
 
 from .decorators import localeC
 
-class Constraint(object):
+class Constraint():
     """Constraint()
 
        A Constraint object describes a set of restrictions on other pyparted

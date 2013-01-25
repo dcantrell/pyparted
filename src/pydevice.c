@@ -282,13 +282,13 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure) {
         else
             return PyUnicode_FromString("");
     } else if (!strcmp(member, "type")) {
-        return PyLong_FromLongLong(self->type);
+        return PyLong_FromLong(self->type);
     } else if (!strcmp(member, "sector_size")) {
-        return PyLong_FromLongLong(self->sector_size);
+        return PyLong_FromLong(self->sector_size);
     } else if (!strcmp(member, "phys_sector_size")) {
-        return PyLong_FromLongLong(self->phys_sector_size);
+        return PyLong_FromLong(self->phys_sector_size);
     } else if (!strcmp(member, "length")) {
-        return PyLong_FromLongLong(self->length);
+        return PyLong_FromLong(self->length);
     } else if (!strcmp(member, "open_count")) {
         return Py_BuildValue("i", self->open_count);
     } else if (!strcmp(member, "read_only")) {
@@ -721,7 +721,7 @@ PyObject *py_ped_device_write(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_device_sync(PyObject *s, PyObject *args) {
@@ -837,7 +837,7 @@ PyObject *py_ped_device_check(PyObject *s, PyObject *args) {
     ret = ped_device_check(device, out_buf, start, count);
     free(out_buf);
 
-    return PyLong_FromLongLong(ret);
+    return PyLong_FromLong(ret);
 }
 
 PyObject *py_ped_device_get_constraint(PyObject *s, PyObject *args) {

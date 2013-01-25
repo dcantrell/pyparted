@@ -32,7 +32,7 @@ import _ped
 
 from .decorators import localeC
 
-class Alignment(object):
+class Alignment():
     """Alignment()
 
        An Alignment object describes constraints on how sectors and Geometry

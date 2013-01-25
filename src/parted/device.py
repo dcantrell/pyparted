@@ -35,7 +35,7 @@ from .disk import diskType
 
 from .decorators import localeC
 
-class Device(object):
+class Device():
     """Device()
 
        Device represents a phyiscal piece of hardware in the system, e.g. a
