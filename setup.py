@@ -32,14 +32,14 @@ from distutils.core import setup
 from distutils.core import Extension
 
 pyparted_version = '3.9'
-python_version = float('.'.join(platform.python_version().split('.')[:-1]))
+python_version = sys.version_info
 
 need_libparted_version = '2.3'
-need_python_version = 3.1
+need_python_version = (2, 7)
 
 if python_version < need_python_version:
     raise RuntimeError("pyparted requires Python version %d.%d or higher"
-                       % (need_python_version[0], need_python_version[1],))
+                       % need_python_version)
 # Recipe from:
 # http://code.activestate.com/recipes/502261-python-distutils-pkg-config/
 def pkgconfig(*packages, **kwargs):
