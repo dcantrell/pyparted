@@ -43,24 +43,24 @@ class ConstraintNewTestCase(RequiresDevice):
 
         # And then the correct ways of creating a _ped.Constraint.
         c = parted.Constraint(minGeom=geom1, maxGeom=geom2)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(minGeom=geom1)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(maxGeom=geom2)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(exactGeom=geom1)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(device=self.device)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         c = parted.Constraint(startAlign=align1, endAlign=align2,
                               startRange=geom1, endRange=geom2,
                               minSize=10, maxSize=100)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
 
         # Use a _ped.Constraint as the initializer
         pc = _ped.Constraint(align1.getPedAlignment(),
@@ -69,7 +69,7 @@ class ConstraintNewTestCase(RequiresDevice):
                              geom2.getPedGeometry(),
                              10, 100)
         c = parted.Constraint(PedConstraint=pc)
-        self.assert_(isinstance(c, parted.Constraint))
+        self.assertTrue(isinstance(c, parted.Constraint))
         self.assertTrue(c.getPedConstraint() == pc)
 
 class ConstraintGetSetTestCase(RequiresDevice):
@@ -86,30 +86,30 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that properties work
-        self.assert_(self.c.minSize == 10)
-        self.assert_(self.c.maxSize == 100)
-        self.assert_(isinstance(self.c.startAlign, parted.Alignment))
-        self.assert_(isinstance(self.c.endAlign, parted.Alignment))
-        self.assert_(isinstance(self.c.startRange, parted.Geometry))
-        self.assert_(isinstance(self.c.endRange, parted.Geometry))
+        self.assertTrue(self.c.minSize == 10)
+        self.assertTrue(self.c.maxSize == 100)
+        self.assertTrue(isinstance(self.c.startAlign, parted.Alignment))
+        self.assertTrue(isinstance(self.c.endAlign, parted.Alignment))
+        self.assertTrue(isinstance(self.c.startRange, parted.Geometry))
+        self.assertTrue(isinstance(self.c.endRange, parted.Geometry))
 
         # Test that setting directly and getting with getattr works.
         self.c.minSize = 15
         self.c.maxSize = 75
 
-        self.assert_(getattr(self.c, "minSize") == 15)
-        self.assert_(getattr(self.c, "maxSize") == 75)
-        self.assert_(isinstance(getattr(self.c, "startAlign"), parted.Alignment))
-        self.assert_(isinstance(getattr(self.c, "endAlign"), parted.Alignment))
-        self.assert_(isinstance(getattr(self.c, "startRange"), parted.Geometry))
-        self.assert_(isinstance(getattr(self.c, "endRange"), parted.Geometry))
+        self.assertTrue(getattr(self.c, "minSize") == 15)
+        self.assertTrue(getattr(self.c, "maxSize") == 75)
+        self.assertTrue(isinstance(getattr(self.c, "startAlign"), parted.Alignment))
+        self.assertTrue(isinstance(getattr(self.c, "endAlign"), parted.Alignment))
+        self.assertTrue(isinstance(getattr(self.c, "startRange"), parted.Geometry))
+        self.assertTrue(isinstance(getattr(self.c, "endRange"), parted.Geometry))
 
         # Test that setting with setattr and getting directly works.
         setattr(self.c, "minSize", 10)
         setattr(self.c, "maxSize", 90)
 
-        self.assert_(self.c.minSize == 10)
-        self.assert_(self.c.maxSize == 90)
+        self.assertTrue(self.c.minSize == 10)
+        self.assertTrue(self.c.maxSize == 90)
 
         # Test that values have the right type.
         self.assertRaises(TypeError, setattr, self.c, "minSize", "string")

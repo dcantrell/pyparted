@@ -59,8 +59,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assertEquals(self.c.min_size, 10)
-        self.assertEquals(self.c.max_size, 100)
+        self.assertEqual(self.c.min_size, 10)
+        self.assertEqual(self.c.max_size, 100)
         self.assertTrue(isinstance(self.c.start_align, _ped.Alignment))
         self.assertTrue(isinstance(self.c.end_align, _ped.Alignment))
         self.assertTrue(isinstance(self.c.start_range, _ped.Geometry))
@@ -70,8 +70,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.c.min_size = 15
         self.c.max_size = 75
 
-        self.assertEquals(getattr(self.c, "min_size"), 15)
-        self.assertEquals(getattr(self.c, "max_size"), 75)
+        self.assertEqual(getattr(self.c, "min_size"), 15)
+        self.assertEqual(getattr(self.c, "max_size"), 75)
         self.assertTrue(isinstance(getattr(self.c, "start_align"), _ped.Alignment))
         self.assertTrue(isinstance(getattr(self.c, "end_align"), _ped.Alignment))
         self.assertTrue(isinstance(getattr(self.c, "start_range"), _ped.Geometry))
@@ -81,8 +81,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         setattr(self.c, "min_size", 10)
         setattr(self.c, "max_size", 90)
 
-        self.assertEquals(self.c.min_size, 10)
-        self.assertEquals(self.c.max_size, 90)
+        self.assertEqual(self.c.min_size, 10)
+        self.assertEqual(self.c.max_size, 90)
 
         # Test that values have the right type.
         self.assertRaises(TypeError, setattr, self.c, "min_size", "string")
@@ -93,7 +93,7 @@ class ConstraintGetSetTestCase(RequiresDevice):
         # We really shouldn't be allowed to overwrite objects stored in a
         # _ped.Constraint, but for now there's no way to prevent it.
         self.c.end_range = 47
-        self.assertEquals(self.c.end_range, 47)
+        self.assertEqual(self.c.end_range, 47)
 
 class ConstraintDuplicateTestCase(RequiresDevice):
     def setUp(self):
@@ -108,34 +108,34 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 
     def runTest(self):
         self.dup = self.c.duplicate()
-        self.assertEquals(self.c.min_size, self.dup.min_size)
-        self.assertEquals(self.c.max_size, self.dup.max_size)
+        self.assertEqual(self.c.min_size, self.dup.min_size)
+        self.assertEqual(self.c.max_size, self.dup.max_size)
 
         # duplicate methods should do a deepcopy, so self.dup should have
         # different references, but the same contents.
-        self.assertNotEquals(repr(self.c), repr(self.dup))
+        self.assertNotEqual(repr(self.c), repr(self.dup))
 
-        self.assertNotEquals(repr(self.c.start_align), repr(self.dup.start_align))
-        self.assertEquals(self.c.start_align.offset, self.dup.start_align.offset)
-        self.assertEquals(self.c.start_align.grain_size, self.dup.start_align.grain_size)
+        self.assertNotEqual(repr(self.c.start_align), repr(self.dup.start_align))
+        self.assertEqual(self.c.start_align.offset, self.dup.start_align.offset)
+        self.assertEqual(self.c.start_align.grain_size, self.dup.start_align.grain_size)
 
-        self.assertNotEquals(repr(self.c.end_align), repr(self.dup.end_align))
-        self.assertEquals(self.c.end_align.offset, self.dup.end_align.offset)
-        self.assertEquals(self.c.end_align.grain_size, self.dup.end_align.grain_size)
+        self.assertNotEqual(repr(self.c.end_align), repr(self.dup.end_align))
+        self.assertEqual(self.c.end_align.offset, self.dup.end_align.offset)
+        self.assertEqual(self.c.end_align.grain_size, self.dup.end_align.grain_size)
 
-        self.assertNotEquals(repr(self.c.start_range), repr(self.dup.start_range))
-        self.assertNotEquals(repr(self.c.start_range.dev), repr(self.dup.start_range.dev))
-        self.assertEquals(self.c.start_range.dev.path, self.dup.start_range.dev.path)
-        self.assertEquals(self.c.start_range.start, self.dup.start_range.start)
-        self.assertEquals(self.c.start_range.length, self.dup.start_range.length)
-        self.assertEquals(self.c.start_range.end, self.dup.start_range.end)
+        self.assertNotEqual(repr(self.c.start_range), repr(self.dup.start_range))
+        self.assertNotEqual(repr(self.c.start_range.dev), repr(self.dup.start_range.dev))
+        self.assertEqual(self.c.start_range.dev.path, self.dup.start_range.dev.path)
+        self.assertEqual(self.c.start_range.start, self.dup.start_range.start)
+        self.assertEqual(self.c.start_range.length, self.dup.start_range.length)
+        self.assertEqual(self.c.start_range.end, self.dup.start_range.end)
 
-        self.assertNotEquals(repr(self.c.end_range), repr(self.dup.end_range))
-        self.assertNotEquals(repr(self.c.end_range.dev), repr(self.dup.end_range.dev))
-        self.assertEquals(self.c.end_range.dev.path, self.dup.end_range.dev.path)
-        self.assertEquals(self.c.end_range.start, self.dup.end_range.start)
-        self.assertEquals(self.c.end_range.length, self.dup.end_range.length)
-        self.assertEquals(self.c.end_range.end, self.dup.end_range.end)
+        self.assertNotEqual(repr(self.c.end_range), repr(self.dup.end_range))
+        self.assertNotEqual(repr(self.c.end_range.dev), repr(self.dup.end_range.dev))
+        self.assertEqual(self.c.end_range.dev.path, self.dup.end_range.dev.path)
+        self.assertEqual(self.c.end_range.start, self.dup.end_range.start)
+        self.assertEqual(self.c.end_range.length, self.dup.end_range.length)
+        self.assertEqual(self.c.end_range.end, self.dup.end_range.end)
 
 class ConstraintIntersectTestCase(RequiresDevice):
     def setUp(self):
@@ -169,7 +169,7 @@ class ConstraintIntersectTestCase(RequiresDevice):
                                        min_size=minSize, max_size=maxSize)
 
         result = self.c1.intersect(self.c2)
-        self.assertEquals(result, expected)
+        self.assertEqual(result, expected)
 
 class ConstraintSolveMaxTestCase(RequiresDevice):
     def setUp(self):
@@ -178,7 +178,7 @@ class ConstraintSolveMaxTestCase(RequiresDevice):
 
     def runTest(self):
         result = self.c1.solve_max()
-        self.assertEquals(result.dev, self._device)
+        self.assertEqual(result.dev, self._device)
         self.assertTrue(result.length >= (self._device.length - 1))
 
 class ConstraintSolveNearestTestCase(RequiresDevice):
@@ -189,7 +189,7 @@ class ConstraintSolveNearestTestCase(RequiresDevice):
 
     def runTest(self):
         result = self.c1.solve_nearest(self.g1)
-        self.assertEquals(result, self.g1)
+        self.assertEqual(result, self.g1)
 
 class ConstraintIsSolutionTestCase(RequiresDevice):
     def setUp(self):
@@ -213,9 +213,9 @@ class ConstraintStrTestCase(RequiresDevice):
     def runTest(self):
         result = str(self.c1).split('\n')
 
-        self.assertEquals(result[0], '_ped.Constraint instance --')
+        self.assertEqual(result[0], '_ped.Constraint instance --')
         self.assertTrue(result[1].startswith('  start_align: <_ped.Alignment object at '))
-        self.assertNotEquals(result[1].find('  end_align: <_ped.Alignment object at '), -1)
+        self.assertNotEqual(result[1].find('  end_align: <_ped.Alignment object at '), -1)
         self.assertTrue(result[2].startswith('  start_range: <_ped.Geometry object at '))
-        self.assertNotEquals(result[2].find('  end_range: <_ped.Geometry object at '), -1)
-        self.assertEquals(result[3], '  min_size: 10  max_size: 100')
+        self.assertNotEqual(result[2].find('  end_range: <_ped.Geometry object at '), -1)
+        self.assertEqual(result[3], '  min_size: 10  max_size: 100')
