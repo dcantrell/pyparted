@@ -68,7 +68,7 @@ class GetDeviceTestCase(RequiresDeviceNode):
         self.assertRaises(parted.IOException, parted.getDevice, "/dev/whatever")
 
         # Check that we get a parted.Device back
-        self.assert_(isinstance(parted.getDevice(self.path), parted.Device))
+        self.assertTrue(isinstance(parted.getDevice(self.path), parted.Device))
 
         # Make sure the device node paths match
         self.assertTrue(parted.getDevice(self.path).path == self.path)
@@ -82,7 +82,7 @@ class GetAllDevicesTestCase(unittest.TestCase):
         self.assertTrue(type(self.devices).__name__ == 'list')
 
         # And make sure each element of the list is a parted.Device
-        map(lambda s: self.assert_(isinstance(s, parted.Device)), self.devices)
+        map(lambda s: self.assertTrue(isinstance(s, parted.Device)), self.devices)
 
 @unittest.skip("Unimplemented test case.")
 class ProbeForSpecificFileSystemTestCase(unittest.TestCase):
@@ -109,7 +109,7 @@ class FreshDiskTestCase(RequiresDevice):
             if key == 'dvh':
                 continue
             disk = parted.freshDisk(self.device, key)
-            self.assert_(isinstance(disk, parted.Disk))
+            self.assertTrue(isinstance(disk, parted.Disk))
             self.assertTrue(disk.type == key)
 
         # Create a new disk each disk type value, verify each one
@@ -117,7 +117,7 @@ class FreshDiskTestCase(RequiresDevice):
             if value.name == 'dvh':
                 continue
             disk = parted.freshDisk(self.device, value)
-            self.assert_(isinstance(disk, parted.Disk))
+            self.assertTrue(isinstance(disk, parted.Disk))
             self.assertTrue(parted.diskType[disk.type] == value)
 
 @unittest.skip("Unimplemented test case.")
@@ -135,8 +135,8 @@ class ToggleAlignToCylindersTestCase(unittest.TestCase):
 class VersionTestCase(unittest.TestCase):
     def runTest(self):
         ver = parted.version()
-        self.assertEquals(ver['libparted'], _ped.libparted_version())
-        self.assertEquals(ver['pyparted'], _ped.pyparted_version())
+        self.assertEqual(ver['libparted'], _ped.libparted_version())
+        self.assertEqual(ver['pyparted'], _ped.pyparted_version())
 
 # And then a suite to hold all the test cases for this module.
 def suite():

@@ -47,14 +47,14 @@ class PartitionNewTestCase(RequiresDisk):
 class PartitionGetSetTestCase(RequiresPartition):
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assertEquals(self._part.disk, self._disk)
+        self.assertEqual(self._part.disk, self._disk)
         self.assertTrue(isinstance(self._part.geom, _ped.Geometry))
-        self.assertEquals(self._part.type, _ped.PARTITION_NORMAL)
-        self.assertEquals(self._part.fs_type.name, "ext2")
+        self.assertEqual(self._part.type, _ped.PARTITION_NORMAL)
+        self.assertEqual(self._part.fs_type.name, "ext2")
 
         # Test that setting the RW attributes directly works.
         self._part.type = _ped.PARTITION_EXTENDED
-        self.assertEquals(getattr(self._part, "type"), _ped.PARTITION_EXTENDED)
+        self.assertEqual(getattr(self._part, "type"), _ped.PARTITION_EXTENDED)
 
         # Test that setting the RO attributes directly doesn't work.
         self.assertRaises(AttributeError, setattr, self._part, "num", 1)
@@ -164,7 +164,7 @@ class PartitionGetNameTestCase(RequiresPartition):
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("mac"))
         self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
                                     _ped.file_system_type_get("fat32"))
-        self.assertEquals(self._part.get_name(), "untitled")
+        self.assertEqual(self._part.get_name(), "untitled")
 
         # Finally, Mac disk labels with a name will work.
         self._part.set_name("blah")
@@ -178,7 +178,7 @@ class PartitionIsBusyTestCase(unittest.TestCase):
 
 class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
-        self.assertNotEquals(self._part.get_path(), "")
+        self.assertNotEqual(self._part.get_path(), "")
 
 @unittest.skip("Unimplemented test case.")
 class PartitionStrTestCase(unittest.TestCase):

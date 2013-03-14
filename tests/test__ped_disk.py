@@ -35,7 +35,7 @@ class DiskNewLabeledTestCase(RequiresLabeledDevice):
     def runTest(self):
         result = _ped.Disk(self._device)
         self.assertTrue(isinstance(result, _ped.Disk))
-        self.assertEquals(result.type.name, 'msdos')
+        self.assertEqual(result.type.name, 'msdos')
 
 @unittest.skip("Unimplemented test case.")
 class DiskGetSetTestCase(unittest.TestCase):
@@ -92,46 +92,46 @@ class DiskPrintTestCase(unittest.TestCase):
 class DiskGetPrimaryPartitionCountTestCase(RequiresDisk):
     def runTest(self):
         # XXX: this could probably test more
-        self.assertEquals(self._disk.get_primary_partition_count(), 0)
+        self.assertEqual(self._disk.get_primary_partition_count(), 0)
 
 class DiskGetLastPartitionNumTestCase(RequiresDisk):
     def runTest(self):
         # XXX: this could probably test more
-        self.assertEquals(self._disk.get_last_partition_num(), -1)
+        self.assertEqual(self._disk.get_last_partition_num(), -1)
 
 class DiskGetMaxPrimaryPartitionCountTestCase(RequiresDisk):
     def runTest(self):
-        self.assertEquals(self._disk.get_max_primary_partition_count(), 4)
+        self.assertEqual(self._disk.get_max_primary_partition_count(), 4)
 
 class DiskGetMaxSupportedPartitionCountTestCase(RequiresDisk):
     def runTest(self):
-        self.assertEquals(self._disk.get_max_supported_partition_count(), 64)
+        self.assertEqual(self._disk.get_max_supported_partition_count(), 64)
 
 class DiskGetPartitionAlignmentTestCase(RequiresDisk):
     def runTest(self):
         alignment = self._disk.get_partition_alignment()
         self.assertTrue(isinstance(alignment, _ped.Alignment))
         # These 2 tests assume an MSDOS label as given by RequiresDisk
-        self.assertEquals(alignment.offset, 0)
-        self.assertEquals(alignment.grain_size, 1)
+        self.assertEqual(alignment.offset, 0)
+        self.assertEqual(alignment.grain_size, 1)
 
 class DiskMaxPartitionLengthTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
-        self.assertEquals(self._disk.max_partition_length(), 4294967295)
+        self.assertEqual(self._disk.max_partition_length(), 4294967295)
 
 class DiskMaxPartitionStartSectorTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
-        self.assertEquals(self._disk.max_partition_start_sector(), 4294967295)
+        self.assertEqual(self._disk.max_partition_start_sector(), 4294967295)
 
 class DiskSetFlagTestCase(RequiresDisk):
     def runTest(self):
         # These 2 tests assume an MSDOS label as given by RequiresDisk
         self._disk.set_flag(_ped.DISK_CYLINDER_ALIGNMENT, 1)
-        self.assertEquals(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), True)
+        self.assertEqual(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), True)
         self._disk.set_flag(_ped.DISK_CYLINDER_ALIGNMENT, 0)
-        self.assertEquals(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), False)
+        self.assertEqual(self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT), False)
 
 class DiskGetFlagTestCase(RequiresDisk):
     def runTest(self):
@@ -224,4 +224,4 @@ class DiskStrTestCase(RequiresDisk):
     def runTest(self):
         expected = "_ped.Disk instance --\n  dev: %s  type: %s" % \
                    (repr(self._disk.dev), repr(self._disk.type),)
-        self.assertEquals(expected, str(self._disk))
+        self.assertEqual(expected, str(self._disk))
