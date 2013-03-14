@@ -286,6 +286,8 @@ static struct PyMethodDef PyPedModuleMethods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+#if PY_MAJOR_VERSION >= 3
+#define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
 struct PyModuleDef module_def = {
      PyModuleDef_HEAD_INIT,
      "_ped",
@@ -294,6 +296,9 @@ struct PyModuleDef module_def = {
      PyPedModuleMethods,
         NULL, NULL, NULL, NULL
     };
+#else
+#define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
+#endif
 
 PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
     char *ret = (char *) ped_get_version();
@@ -406,11 +411,15 @@ static PedExceptionOption partedExnHandler(PedException *e) {
     return PED_EXCEPTION_IGNORE;
 }
 
-PyMODINIT_FUNC PyInit__ped(void) {
+MOD_INIT(_ped) {
     PyObject *m = NULL;
 
     /* init the main Python module and add methods */
+#if PY_MAJOR_VERSION >= 3
     m = PyModule_Create(&module_def);
+#else
+    m = Py_InitModule3("_ped", PyPedModuleMethods, _ped_doc);
+#endif
 
     /* PedUnit possible values */
     PyModule_AddIntConstant(m, "UNIT_SECTOR", PED_UNIT_SECTOR);
