@@ -38,10 +38,10 @@ class AlignmentNewTestCase(unittest.TestCase):
 
         # And then the correct ways of creating a parted.Alignment
         a = parted.Alignment(offset=0, grainSize=100)
-        self.assert_(isinstance(a, parted.Alignment))
+        self.assertTrue(isinstance(a, parted.Alignment))
 
         b = parted.Alignment(PedAlignment=self.pa)
-        self.assert_(isinstance(b, parted.Alignment))
+        self.assertTrue(isinstance(b, parted.Alignment))
 
         # Test for _ped.Alignment equality
         self.assertTrue(b.getPedAlignment() == self.pa)
@@ -52,23 +52,23 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 
     def runTest(self):
         # Test that passing the args to __init__ works.
-        self.assert_(isinstance(self.a, parted.Alignment))
-        self.assert_(self.a.offset == 27)
-        self.assert_(self.a.grainSize == 49)
+        self.assertTrue(isinstance(self.a, parted.Alignment))
+        self.assertTrue(self.a.offset == 27)
+        self.assertTrue(self.a.grainSize == 49)
 
         # Test that setting directly and getting with getattr works.
         self.a.offset = 10
         self.a.grainSize = 90
 
-        self.assert_(getattr(self.a, "offset") == 10)
-        self.assert_(getattr(self.a, "grainSize") == 90)
+        self.assertTrue(getattr(self.a, "offset") == 10)
+        self.assertTrue(getattr(self.a, "grainSize") == 90)
 
         # Check that setting with setattr and getting directly works.
         setattr(self.a, "offset", 20)
         setattr(self.a, "grainSize", 80)
 
-        self.assert_(self.a.offset == 20)
-        self.assert_(self.a.grainSize == 80)
+        self.assertTrue(self.a.offset == 20)
+        self.assertTrue(self.a.grainSize == 80)
 
         # Check that values have the right type.
         self.assertRaises(TypeError, setattr, self.a, "offset", "string")
@@ -112,17 +112,17 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
         self.assertRaises(TypeError, self.a.isAligned, self.g, None)
 
         # Sector must be inside the geometry.
-        self.assert_(self.a.isAligned(self.g, 400) == False)
+        self.assertTrue(self.a.isAligned(self.g, 400) == False)
 
         # If grain_size is 0, sector must be the same as offset.
-        self.assert_(self.a.isAligned(self.g, 10) == True)
-        self.assert_(self.a.isAligned(self.g, 0) == False)
-        self.assert_(self.a.isAligned(self.g, 47) == False)
+        self.assertTrue(self.a.isAligned(self.g, 10) == True)
+        self.assertTrue(self.a.isAligned(self.g, 0) == False)
+        self.assertTrue(self.a.isAligned(self.g, 47) == False)
 
         # If grain_size is anything else, there's real math involved.
         self.a.grainSize = 5
-        self.assert_(self.a.isAligned(self.g, 20) == True)
-        self.assert_(self.a.isAligned(self.g, 23) == False)
+        self.assertTrue(self.a.isAligned(self.g, 20) == True)
+        self.assertTrue(self.a.isAligned(self.g, 23) == False)
 
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
     def setUp(self):
@@ -131,7 +131,7 @@ class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
 
     def runTest(self):
         # Test to make sure we get a _ped.Alignment
-        self.assert_(isinstance(self.alignment.getPedAlignment(), _ped.Alignment))
+        self.assertIsInstance(self.alignment.getPedAlignment(), _ped.Alignment)
 
         # Test for _ped.Alignment equality
         self.assertTrue(self.alignment.getPedAlignment() == self.pa)

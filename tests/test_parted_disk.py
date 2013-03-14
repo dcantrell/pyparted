@@ -157,12 +157,12 @@ class DiskGetMaxSupportedPartitionCountTestCase(unittest.TestCase):
 class DiskMaxPartitionLengthTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
-        self.assertEquals(self.disk.maxPartitionLength, 4294967295)
+        self.assertEqual(self.disk.maxPartitionLength, 4294967295)
 
 class DiskMaxPartitionStartSectorTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
-        self.assertEquals(self.disk.maxPartitionStartSector, 4294967295)
+        self.assertEqual(self.disk.maxPartitionStartSector, 4294967295)
 
 class DiskGetFlagTestCase(RequiresDisk):
     def runTest(self):
@@ -174,20 +174,20 @@ class DiskSetFlagTestCase(RequiresDisk):
         # This test assumes an MSDOS label as given by RequiresDisk
         self.disk.setFlag(parted.DISK_CYLINDER_ALIGNMENT)
         flag = self.disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
-        self.assertEquals(flag, True)
+        self.assertEqual(flag, True)
 
 class DiskUnsetFlagTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
         self.disk.unsetFlag(parted.DISK_CYLINDER_ALIGNMENT)
         flag = self.disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
-        self.assertEquals(flag, False)
+        self.assertEqual(flag, False)
 
 class DiskIsFlagAvailableTestCase(RequiresDisk):
     def runTest(self):
         # This test assumes an MSDOS label as given by RequiresDisk
         available = self.disk.isFlagAvailable(parted.DISK_CYLINDER_ALIGNMENT)
-        self.assertEquals(available, True)
+        self.assertEqual(available, True)
 
 @unittest.skip("Unimplemented test case.")
 class DiskGetExtendedPartitionTestCase(unittest.TestCase):
