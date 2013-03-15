@@ -66,18 +66,11 @@ int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj) {
 
 PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b,
                                           int op) {
-    if (op == Py_EQ) {
-        if ((_ped_FileSystemType_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
-    } else if (op == Py_NE) {
-        if (!(_ped_FileSystemType_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
+    if (op == Py_EQ || op == Py_NE) {
+        int rv = _ped_FileSystemType_compare(a, b);
+        if (PyErr_Occurred())
+            return NULL;
+        return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
     } else if ((op == Py_LT) || (op == Py_LE) ||
                (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.FileSystemType");
@@ -167,18 +160,11 @@ int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj) {
 }
 
 PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op) {
-    if (op == Py_EQ) {
-        if ((_ped_FileSystem_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
-    } else if (op == Py_NE) {
-        if (!(_ped_FileSystem_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
+    if (op == Py_EQ || op == Py_NE) {
+        int rv = _ped_FileSystem_compare(a, b);
+        if (PyErr_Occurred())
+            return NULL;
+        return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
     } else if ((op == Py_LT) || (op == Py_LE) ||
                (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.FileSystem");
