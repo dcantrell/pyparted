@@ -88,10 +88,7 @@ PyTypeObject _ped_Constraint_Type_obj = {
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_setattro = PyObject_GenericSetAttr,
  /* .tp_as_buffer = XXX */
- /*   .tp_flags = Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES |
-                Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
-                Py_TPFLAGS_HAVE_RICHCOMPARE,*/
-    .tp_flags = Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE,
+    .tp_flags = TP_FLAGS,
     .tp_doc = _ped_Constraint_doc,
     .tp_traverse = (traverseproc) _ped_Constraint_traverse,
     .tp_clear = (inquiry) _ped_Constraint_clear,
