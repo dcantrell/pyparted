@@ -34,8 +34,8 @@ class GeometryNewTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.Geometry, 0, self._device, 100)
 
         # And then the correct ways of creating a _ped.Geometry.
-        self.assertTrue(isinstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry))
-        self.assertTrue(isinstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry))
+        self.assertIsInstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry)
+        self.assertIsInstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry)
 
 class GeometryGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -44,7 +44,7 @@ class GeometryGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
-        self.assertTrue(isinstance(self.g, _ped.Geometry))
+        self.assertIsInstance(self.g, _ped.Geometry)
         self.assertEqual(self.g.start, 0)
         self.assertEqual(self.g.length, 100)
         self.assertEqual(self.g.end, 99)

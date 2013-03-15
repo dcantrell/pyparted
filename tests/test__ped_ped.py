@@ -121,7 +121,7 @@ class ConstraintNewFromMinMaxTestCase(RequiresDevice):
         max = _ped.Geometry(self._device, 0, 30)
         constraint = _ped.constraint_new_from_min_max(min, max)
 
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 11, 20)))
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
@@ -135,7 +135,7 @@ class ConstraintNewFromMinTestCase(RequiresDevice):
         min = _ped.Geometry(self._device, 10, 20)
         constraint = _ped.constraint_new_from_min(min)
 
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
@@ -148,7 +148,7 @@ class ConstraintNewFromMaxTestCase(RequiresDevice):
         max = _ped.Geometry(self._device, 10, 20)
         constraint = _ped.constraint_new_from_max(max)
 
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
@@ -159,7 +159,7 @@ class ConstraintAnyTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.constraint_any, None)
 
         constraint = _ped.constraint_any(self._device)
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
 
         for testGeom in [_ped.Geometry(self._device, 0, 5),
                          _ped.Geometry(self._device, 10, 25),
@@ -173,7 +173,7 @@ class ConstraintExactTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.constraint_exact, None)
 
         constraint = _ped.constraint_exact(geom)
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
 
         for testGeom in [_ped.Geometry(self._device, 1, 100),
                          _ped.Geometry(self._device, 0, 99),
@@ -186,7 +186,7 @@ class ConstraintExactTestCase(RequiresDevice):
 class DeviceGetTestCase(RequiresDevice):
     def runTest(self):
         # Try getting the device we just made.
-        self.assertTrue(isinstance(_ped.device_get(self.path), _ped.Device))
+        self.assertIsInstance(_ped.device_get(self.path), _ped.Device)
 
         # Try getting a device that doesn't exist.
         self.assertRaises(_ped.IOException, _ped.device_get, "/blah/whatever")
@@ -206,7 +206,7 @@ class DeviceGetNextTestCase(unittest.TestCase, BuildList):
         self.assertRaises(TypeError, _ped.device_get_next, None)
 
         for ele in lst:
-            self.assertTrue(isinstance(ele, _ped.Device))
+            self.assertIsInstance(ele, _ped.Device)
 
         self.assertRaises(IndexError, _ped.device_get_next, lst[-1])
 
@@ -234,7 +234,7 @@ class DiskTypeGetTestCase(unittest.TestCase):
         for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
                   "pc98","sun"]:
             t = _ped.disk_type_get(d)
-            self.assertTrue(isinstance(t, _ped.DiskType))
+            self.assertIsInstance(t, _ped.DiskType)
             self.assertEqual(t.name, d)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.disk_type_get, "nosuch")
@@ -246,7 +246,7 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
         self.assertRaises(TypeError, _ped.device_get_next, None)
 
         for ele in lst:
-            self.assertTrue(isinstance(ele, _ped.DiskType))
+            self.assertIsInstance(ele, _ped.DiskType)
 
         self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
@@ -272,7 +272,7 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
                 # at runtime.  works fine in pdb.
                 #self.assertEqual(result, self._geometry)
 
-                self.assertTrue(isinstance(result, _ped.Geometry))
+                self.assertIsInstance(result, _ped.Geometry)
                 self.assertEqual(result.start, self._geometry.start)
                 self.assertEqual(result.end, self._geometry.end)
                 self.assertEqual(result.length, self._geometry.length)
@@ -286,7 +286,7 @@ class FileSystemTypeGetTestCase(unittest.TestCase):
         for f in ["affs0", "amufs", "apfs1", "asfs", "ext2", "ext3", "fat16",
                   "fat32", "hfs", "hfs+", "hfsx", "hp-ufs", "jfs", "linux-swap",
                   "ntfs", "reiserfs", "sun-ufs", "xfs"]:
-            self.assertTrue(isinstance(_ped.file_system_type_get(f), _ped.FileSystemType),
+            self.assertIsInstance(_ped.file_system_type_get(f), _ped.FileSystemType,
                          "Could not get fs type %s" % f)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.file_system_type_get, "nosuch")
@@ -298,7 +298,7 @@ class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
         self.assertRaises(TypeError, _ped.file_system_type_get_next, None)
 
         for ele in lst:
-            self.assertTrue(isinstance(ele, _ped.FileSystemType))
+            self.assertIsInstance(ele, _ped.FileSystemType)
 
         self.assertRaises(IndexError, _ped.file_system_type_get_next, lst[-1])
 
