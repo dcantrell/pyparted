@@ -383,4 +383,4 @@ class GeometryStrTestCase(RequiresDevice):
         lines = str(self.g).split('\n')
         self.assertEqual(lines[0], '_ped.Geometry instance --')
         self.assertEqual(lines[1], '  start: 10  end: 109  length: 100')
-        self.assertTrue(lines[2].startswith('  device: <_ped.Device object at '))
+        self.assertRegexpMatches(lines[2], '^  device: <_ped.Device object at .*')
