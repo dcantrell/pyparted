@@ -2,5 +2,6 @@ include AUTHORS BUGS COPYING HACKING NEWS RELEASE TODO
 include ChangeLog
 include MANIFEST.in
 include Makefile
+include tox.ini .travis.yml
 recursive-include include *.h
 recursive-include tests *.py
