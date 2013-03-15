@@ -122,8 +122,6 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
 
 /* _ped.FileSystem functions */
 void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
-    _ped_FileSystemType *fstype = (_ped_FileSystemType *) self->type;
-
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->type);
