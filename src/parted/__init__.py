@@ -127,6 +127,11 @@ from _ped import DISK_TYPE_PARTITION_NAME
 
 from .decorators import localeC
 
+if sys.version_info >= (3,):
+    string_types = str
+else:
+    string_types = basestring
+
 partitionTypesDict = {
     0x00: "Empty",
     0x01: "DOS 12-bit FAT",
@@ -406,10 +411,10 @@ def freshDisk(device, ty):
        is called on the Disk."""
     from _ped import disk_new_fresh, DiskType
 
-    if type(ty) == str:
+    if isinstance(ty, string_types):
         ty = diskType[ty]
     elif not isinstance(ty, DiskType):
-        raise SyntaxError("type must be a key or value in parted.diskType")
+        raise TypeError("type must be a key or value in parted.diskType", ty)
 
     peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)
