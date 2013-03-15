@@ -62,7 +62,7 @@ int _ped_Geometry_compare(_ped_Geometry *self, PyObject *obj) {
     }
 
     comp = (_ped_Geometry *) obj;
-    if ((_ped_Geometry_Type_obj.tp_richcompare(self->dev, comp->dev, Py_EQ)) &&
+    if (PyObject_RichCompareBool(self->dev, comp->dev, Py_EQ) &&
         (self->ped_geometry->start == comp->ped_geometry->start) &&
         (self->ped_geometry->length == comp->ped_geometry->length) &&
         (self->ped_geometry->end == comp->ped_geometry->end)) {
@@ -73,18 +73,11 @@ int _ped_Geometry_compare(_ped_Geometry *self, PyObject *obj) {
 }
 
 PyObject *_ped_Geometry_richcompare(_ped_Geometry *a, PyObject *b, int op) {
-    if (op == Py_EQ) {
-        if ((_ped_Geometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
-    } else if (op == Py_NE) {
-        if (!(_ped_Geometry_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
+    if (op == Py_EQ || op == Py_NE) {
+        int rv = _ped_Geometry_compare(a, b);
+        if (PyErr_Occurred())
+            return NULL;
+        return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
     } else if ((op == Py_LT) || (op == Py_LE) ||
                (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Geometry");
