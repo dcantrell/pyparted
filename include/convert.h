@@ -40,6 +40,11 @@
 #include "pynatmath.h"
 #include "pytimer.h"
 
+#if PY_MAJOR_VERSION < 3
+#define PyUnicode_AsUTF8 PyString_AsString
+#endif
+
+
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *);
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *);
 
