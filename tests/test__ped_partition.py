@@ -37,18 +37,18 @@ class PartitionNewTestCase(RequiresDisk):
 
         part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
                               _ped.file_system_type_get("ext2"))
-        self.assertTrue(isinstance(part, _ped.Partition))
+        self.assertIsInstance(part, _ped.Partition)
 
         # You don't need to pass a filesystem type at all, since this partition
         # might be FREESPACE or METADATA.
         part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100)
-        self.assertTrue(isinstance(part, _ped.Partition))
+        self.assertIsInstance(part, _ped.Partition)
 
 class PartitionGetSetTestCase(RequiresPartition):
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
         self.assertEqual(self._part.disk, self._disk)
-        self.assertTrue(isinstance(self._part.geom, _ped.Geometry))
+        self.assertIsInstance(self._part.geom, _ped.Geometry)
         self.assertEqual(self._part.type, _ped.PARTITION_NORMAL)
         self.assertEqual(self._part.fs_type.name, "ext2")
 
@@ -114,7 +114,7 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
                      _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED,
                      _ped.PARTITION_APPLE_TV_RECOVERY,
                      _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG]:
-            self.assertTrue(isinstance(self._part.is_flag_available(flag), bool))
+            self.assertIsInstance(self._part.is_flag_available(flag), bool)
 
         # However, an invalid flag should definitely not be available.
         self.assertFalse(self._part.is_flag_available(1000))

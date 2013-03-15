@@ -32,8 +32,8 @@ class AlignmentNewTestCase(unittest.TestCase):
         self.assertRaises(TypeError, _ped.Alignment)
 
         # And then the correct ways of creating a _ped.Alignment.
-        self.assertTrue(isinstance(_ped.Alignment(0, 100), _ped.Alignment))
-        self.assertTrue(isinstance(_ped.Alignment(offset=0, grain_size=100), _ped.Alignment))
+        self.assertIsInstance(_ped.Alignment(0, 100), _ped.Alignment)
+        self.assertIsInstance(_ped.Alignment(offset=0, grain_size=100), _ped.Alignment)
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
@@ -41,7 +41,7 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 
     def runTest(self):
         # Test that passing the args to __init__ works.
-        self.assertTrue(isinstance(self.a, _ped.Alignment))
+        self.assertIsInstance(self.a, _ped.Alignment)
         self.assertEqual(self.a.offset, 27)
         self.assertEqual(self.a.grain_size, 49)
 

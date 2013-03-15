@@ -34,7 +34,7 @@ class DiskNewUnlabeledTestCase(RequiresDevice):
 class DiskNewLabeledTestCase(RequiresLabeledDevice):
     def runTest(self):
         result = _ped.Disk(self._device)
-        self.assertTrue(isinstance(result, _ped.Disk))
+        self.assertIsInstance(result, _ped.Disk)
         self.assertEqual(result.type.name, 'msdos')
 
 @unittest.skip("Unimplemented test case.")
@@ -110,7 +110,7 @@ class DiskGetMaxSupportedPartitionCountTestCase(RequiresDisk):
 class DiskGetPartitionAlignmentTestCase(RequiresDisk):
     def runTest(self):
         alignment = self._disk.get_partition_alignment()
-        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        self.assertIsInstance(alignment, _ped.Alignment)
         # These 2 tests assume an MSDOS label as given by RequiresDisk
         self.assertEqual(alignment.offset, 0)
         self.assertEqual(alignment.grain_size, 1)
@@ -136,7 +136,7 @@ class DiskSetFlagTestCase(RequiresDisk):
 class DiskGetFlagTestCase(RequiresDisk):
     def runTest(self):
         flag = self._disk.get_flag(_ped.DISK_CYLINDER_ALIGNMENT)
-        self.assertTrue(isinstance(flag, bool))
+        self.assertIsInstance(flag, bool)
 
 class DiskIsFlagAvailableTestCase(RequiresDisk):
     def runTest(self):
@@ -144,7 +144,7 @@ class DiskIsFlagAvailableTestCase(RequiresDisk):
         # but we can at least check that there aren't any tracebacks from
         # trying all of the valid ones.
         for flag in [_ped.DISK_CYLINDER_ALIGNMENT, _ped.DISK_GPT_PMBR_BOOT]:
-            self.assertTrue(isinstance(self._disk.is_flag_available(flag), bool))
+            self.assertIsInstance(self._disk.is_flag_available(flag), bool)
 
         # However, an invalid flag should definitely not be available.
         self.assertFalse(self._disk.is_flag_available(1000))

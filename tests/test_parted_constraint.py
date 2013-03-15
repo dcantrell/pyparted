@@ -43,24 +43,24 @@ class ConstraintNewTestCase(RequiresDevice):
 
         # And then the correct ways of creating a _ped.Constraint.
         c = parted.Constraint(minGeom=geom1, maxGeom=geom2)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         c = parted.Constraint(minGeom=geom1)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         c = parted.Constraint(maxGeom=geom2)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         c = parted.Constraint(exactGeom=geom1)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         c = parted.Constraint(device=self.device)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         c = parted.Constraint(startAlign=align1, endAlign=align2,
                               startRange=geom1, endRange=geom2,
                               minSize=10, maxSize=100)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
 
         # Use a _ped.Constraint as the initializer
         pc = _ped.Constraint(align1.getPedAlignment(),
@@ -69,7 +69,7 @@ class ConstraintNewTestCase(RequiresDevice):
                              geom2.getPedGeometry(),
                              10, 100)
         c = parted.Constraint(PedConstraint=pc)
-        self.assertTrue(isinstance(c, parted.Constraint))
+        self.assertIsInstance(c, parted.Constraint)
         self.assertTrue(c.getPedConstraint() == pc)
 
 class ConstraintGetSetTestCase(RequiresDevice):
@@ -88,10 +88,10 @@ class ConstraintGetSetTestCase(RequiresDevice):
         # Test that properties work
         self.assertTrue(self.c.minSize == 10)
         self.assertTrue(self.c.maxSize == 100)
-        self.assertTrue(isinstance(self.c.startAlign, parted.Alignment))
-        self.assertTrue(isinstance(self.c.endAlign, parted.Alignment))
-        self.assertTrue(isinstance(self.c.startRange, parted.Geometry))
-        self.assertTrue(isinstance(self.c.endRange, parted.Geometry))
+        self.assertIsInstance(self.c.startAlign, parted.Alignment)
+        self.assertIsInstance(self.c.endAlign, parted.Alignment)
+        self.assertIsInstance(self.c.startRange, parted.Geometry)
+        self.assertIsInstance(self.c.endRange, parted.Geometry)
 
         # Test that setting directly and getting with getattr works.
         self.c.minSize = 15
@@ -99,10 +99,10 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
         self.assertTrue(getattr(self.c, "minSize") == 15)
         self.assertTrue(getattr(self.c, "maxSize") == 75)
-        self.assertTrue(isinstance(getattr(self.c, "startAlign"), parted.Alignment))
-        self.assertTrue(isinstance(getattr(self.c, "endAlign"), parted.Alignment))
-        self.assertTrue(isinstance(getattr(self.c, "startRange"), parted.Geometry))
-        self.assertTrue(isinstance(getattr(self.c, "endRange"), parted.Geometry))
+        self.assertIsInstance(getattr(self.c, "startAlign"), parted.Alignment)
+        self.assertIsInstance(getattr(self.c, "endAlign"), parted.Alignment)
+        self.assertIsInstance(getattr(self.c, "startRange"), parted.Geometry)
+        self.assertIsInstance(getattr(self.c, "endRange"), parted.Geometry)
 
         # Test that setting with setattr and getting directly works.
         setattr(self.c, "minSize", 10)

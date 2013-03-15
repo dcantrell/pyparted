@@ -41,13 +41,13 @@ class DiskTypeGetSetTestCase(RequiresDiskTypes):
             self.assertRaises(AttributeError, setattr, t, "name", "fakename")
             self.assertRaises(AttributeError, setattr, t, "features", 47)
 
-            self.assertTrue(isinstance(t.name, str))
+            self.assertIsInstance(t.name, str)
             self.assertEqual(t.name, name)
             if sys.version_info >= (3,):
                 bigint = int
             else:
                 bigint = long
-            self.assertTrue(isinstance(t.features, bigint))
+            self.assertIsInstance(t.features, bigint)
 
 class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
     def runTest(self):

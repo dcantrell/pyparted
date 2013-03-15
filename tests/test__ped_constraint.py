@@ -44,7 +44,7 @@ class ConstraintNewTestCase(RequiresDevice):
 
         # And then the correct way of creating a _ped.Constraint.
         c = _ped.Constraint(align1, align2, geom1, geom2, 10, 100)
-        self.assertTrue(isinstance(c, _ped.Constraint))
+        self.assertIsInstance(c, _ped.Constraint)
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -61,10 +61,10 @@ class ConstraintGetSetTestCase(RequiresDevice):
         # Test that passing the kwargs to __init__ works.
         self.assertEqual(self.c.min_size, 10)
         self.assertEqual(self.c.max_size, 100)
-        self.assertTrue(isinstance(self.c.start_align, _ped.Alignment))
-        self.assertTrue(isinstance(self.c.end_align, _ped.Alignment))
-        self.assertTrue(isinstance(self.c.start_range, _ped.Geometry))
-        self.assertTrue(isinstance(self.c.end_range, _ped.Geometry))
+        self.assertIsInstance(self.c.start_align, _ped.Alignment)
+        self.assertIsInstance(self.c.end_align, _ped.Alignment)
+        self.assertIsInstance(self.c.start_range, _ped.Geometry)
+        self.assertIsInstance(self.c.end_range, _ped.Geometry)
 
         # Test that setting directly and getting with getattr works.
         self.c.min_size = 15
@@ -72,10 +72,10 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
         self.assertEqual(getattr(self.c, "min_size"), 15)
         self.assertEqual(getattr(self.c, "max_size"), 75)
-        self.assertTrue(isinstance(getattr(self.c, "start_align"), _ped.Alignment))
-        self.assertTrue(isinstance(getattr(self.c, "end_align"), _ped.Alignment))
-        self.assertTrue(isinstance(getattr(self.c, "start_range"), _ped.Geometry))
-        self.assertTrue(isinstance(getattr(self.c, "end_range"), _ped.Geometry))
+        self.assertIsInstance(getattr(self.c, "start_align"), _ped.Alignment)
+        self.assertIsInstance(getattr(self.c, "end_align"), _ped.Alignment)
+        self.assertIsInstance(getattr(self.c, "start_range"), _ped.Geometry)
+        self.assertIsInstance(getattr(self.c, "end_range"), _ped.Geometry)
 
         # Test that setting with setattr and getting directly works.
         setattr(self.c, "min_size", 10)

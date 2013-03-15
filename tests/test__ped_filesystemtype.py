@@ -32,7 +32,7 @@ class FileSystemTypeGetSetTestCase(unittest.TestCase):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext3")
 
-        self.assertTrue(isinstance(fstype, _ped.FileSystemType))
+        self.assertIsInstance(fstype, _ped.FileSystemType)
         self.assertEqual(fstype.name, "ext3")
         self.assertEqual(getattr(fstype, "name"), "ext3")
         self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
