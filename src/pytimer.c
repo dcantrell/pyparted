@@ -205,7 +205,7 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
             return -1;
         }
     } else if (!strcmp(member, "state_name")) {
-        self->state_name = PyUnicode_AsUTF8String(value);
+        self->state_name = PyUnicode_AsUTF8(value);
         if (PyErr_Occurred()) {
             return -1;
         }
