@@ -20,6 +20,7 @@
 #
 
 import _ped
+import sys
 import unittest
 from tests.baseclass import *
 
@@ -42,7 +43,11 @@ class DiskTypeGetSetTestCase(RequiresDiskTypes):
 
             self.assertTrue(isinstance(t.name, str))
             self.assertEqual(t.name, name)
-            self.assertTrue(isinstance(t.features, long))
+            if sys.version_info >= (3,):
+                bigint = int
+            else:
+                bigint = long
+            self.assertTrue(isinstance(t.features, bigint))
 
 class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
     def runTest(self):
