@@ -294,7 +294,7 @@ archLabels = {'i386': ['msdos', 'gpt'],
 def Deprecated(mod, deprecated={}):
     """ Return a wrapped object that warns about deprecated accesses. """
 
-    class Wrapper():
+    class Wrapper(object):
         warnmsg = "%s is deprecated and will be removed in a future release."
 
         def __getattr__(self, attr):
