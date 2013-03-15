@@ -38,7 +38,7 @@ from .decorators import localeC
 
 # XXX: add docstrings
 
-class Partition():
+class Partition(object):
     @localeC
     def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
         if PedPartition is None:
