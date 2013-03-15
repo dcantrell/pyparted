@@ -99,7 +99,7 @@ PyObject *_ped_Geometry_str(_ped_Geometry *self) {
     char *ret = NULL;
     char *dev = NULL;
 
-    dev = PyUnicode_AsUTF8String(_ped_Device_Type_obj.tp_repr(self->dev));
+    dev = PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
     if (dev == NULL) {
         return NULL;
     }
