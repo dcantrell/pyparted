@@ -220,7 +220,8 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         lst = self.getDeviceList(_ped.device_get_next)
 
         self.assertGreater(len(lst), 0)
-        self.assertGreater(len(filter(lambda e: e.path.startswith("/tmp/temp-device-"), lst)), 0)
+        self.assertGreater(
+            len([e for e in lst if e.path.startswith("/tmp/temp-device-")]), 0)
 
 class DeviceFreeAllTestCase(RequiresDevice):
     def runTest(self):
