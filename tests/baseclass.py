@@ -30,7 +30,7 @@ class RequiresDeviceNode(unittest.TestCase):
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
-        os.write(fd, "0")
+        os.write(fd, b"0")
 
     def tearDown(self):
         os.unlink(self.path)
@@ -60,7 +60,7 @@ class RequiresFileSystem(unittest.TestCase):
         (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
-        os.write(fd, "0")
+        os.write(fd, b"0")
         f.close()
 
         os.system("/sbin/mke2fs -F -q %s" % (self.path,))
