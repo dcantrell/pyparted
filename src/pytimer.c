@@ -68,18 +68,11 @@ int _ped_Timer_compare(_ped_Timer *self, PyObject *obj) {
 }
 
 PyObject *_ped_Timer_richcompare(_ped_Timer *a, PyObject *b, int op) {
-    if (op == Py_EQ) {
-        if ((_ped_Timer_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
-    } else if (op == Py_NE) {
-        if (!(_ped_Timer_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
+    if (op == Py_EQ || op == Py_NE) {
+        int rv = _ped_Timer_compare(a, b);
+        if (PyErr_Occurred())
+            return NULL;
+        return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
     } else if ((op == Py_LT) || (op == Py_LE) ||
                (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Timer");
