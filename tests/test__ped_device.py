@@ -198,14 +198,14 @@ class DeviceGetConstraintTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
-        self.assertTrue(isinstance(self._device.get_constraint(), _ped.Constraint))
+        self.assertIsInstance(self._device.get_constraint(), _ped.Constraint)
 
 class DeviceGetMinimalAlignedConstraintTestCase(RequiresDevice):
     def runTest(self):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
         constraint = self._device.get_minimal_aligned_constraint()
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
         self.assertEqual(constraint.start_align.offset, 0)
         self.assertEqual(constraint.start_align.grain_size, 1)
         self.assertEqual(constraint.end_align.offset, 0)
@@ -216,7 +216,7 @@ class DeviceGetOptimalAlignedConstraintTestCase(RequiresDevice):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
         constraint = self._device.get_minimal_aligned_constraint()
-        self.assertTrue(isinstance(constraint, _ped.Constraint))
+        self.assertIsInstance(constraint, _ped.Constraint)
         self.assertEqual(constraint.start_align.offset, 0)
         self.assertEqual(constraint.start_align.grain_size, 1)
         self.assertEqual(constraint.end_align.offset, 0)
@@ -227,7 +227,7 @@ class DeviceGetMinimumAlignmentTestCase(RequiresDevice):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
         alignment = self._device.get_minimum_alignment()
-        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        self.assertIsInstance(alignment, _ped.Alignment)
         self.assertEqual(alignment.grain_size, 1)
         self.assertEqual(alignment.offset, 0)
 
@@ -236,7 +236,7 @@ class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
         # XXX: This test case would be a lot more useful testing on real
         # hardware with unusual sector sizes.
         alignment = self._device.get_optimum_alignment()
-        self.assertTrue(isinstance(alignment, _ped.Alignment))
+        self.assertIsInstance(alignment, _ped.Alignment)
         self.assertEqual(alignment.grain_size, 2048)
         self.assertEqual(alignment.offset, 0)
 

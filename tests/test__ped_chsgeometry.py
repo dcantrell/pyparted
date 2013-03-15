@@ -37,16 +37,16 @@ class CHSGeometryGetSetTestCase(RequiresDevice):
         # A device has a CHSGeometry, so we can use that to attempt accessing
         # parameters.
         chs = self._device.hw_geom
-        self.assertTrue(isinstance(chs, _ped.CHSGeometry))
+        self.assertIsInstance(chs, _ped.CHSGeometry)
 
         # All attributes are read-only.
         self.assertRaises(AttributeError, setattr, chs, "cylinders", 47)
         self.assertRaises(AttributeError, setattr, chs, "heads", 47)
         self.assertRaises(AttributeError, setattr, chs, "sectors", 47)
 
-        self.assertTrue(isinstance(chs.cylinders, int))
-        self.assertTrue(isinstance(chs.heads, int))
-        self.assertTrue(isinstance(chs.sectors, int))
+        self.assertIsInstance(chs.cylinders, int)
+        self.assertIsInstance(chs.heads, int)
+        self.assertIsInstance(chs.sectors, int)
 
 class CHSGeometryStrTestCase(RequiresDevice):
     def runTest(self):

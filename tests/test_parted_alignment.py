@@ -38,10 +38,10 @@ class AlignmentNewTestCase(unittest.TestCase):
 
         # And then the correct ways of creating a parted.Alignment
         a = parted.Alignment(offset=0, grainSize=100)
-        self.assertTrue(isinstance(a, parted.Alignment))
+        self.assertIsInstance(a, parted.Alignment)
 
         b = parted.Alignment(PedAlignment=self.pa)
-        self.assertTrue(isinstance(b, parted.Alignment))
+        self.assertIsInstance(b, parted.Alignment)
 
         # Test for _ped.Alignment equality
         self.assertTrue(b.getPedAlignment() == self.pa)
@@ -52,7 +52,7 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 
     def runTest(self):
         # Test that passing the args to __init__ works.
-        self.assertTrue(isinstance(self.a, parted.Alignment))
+        self.assertIsInstance(self.a, parted.Alignment)
         self.assertTrue(self.a.offset == 27)
         self.assertTrue(self.a.grainSize == 49)
 

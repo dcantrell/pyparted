@@ -167,7 +167,7 @@ class DiskMaxPartitionStartSectorTestCase(RequiresDisk):
 class DiskGetFlagTestCase(RequiresDisk):
     def runTest(self):
         flag = self.disk.getFlag(parted.DISK_CYLINDER_ALIGNMENT)
-        self.assertTrue(isinstance(flag, bool))
+        self.assertIsInstance(flag, bool)
 
 class DiskSetFlagTestCase(RequiresDisk):
     def runTest(self):
