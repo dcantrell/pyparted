@@ -57,15 +57,16 @@ class PartitionGetSetTestCase(RequiresPartition):
         self.assertEqual(getattr(self._part, "type"), _ped.PARTITION_EXTENDED)
 
         # Test that setting the RO attributes directly doesn't work.
-        self.assertRaises(AttributeError, setattr, self._part, "num", 1)
-        self.assertRaises(TypeError, setattr, self._part, "fs_type",
-                                     _ped.file_system_type_get("fat32"))
-        self.assertRaises(TypeError, setattr, self._part, "geom",
+        exn = (AttributeError, TypeError)
+        self.assertRaises(exn, setattr, self._part, "num", 1)
+        self.assertRaises(exn, setattr, self._part, "fs_type",
+            _ped.file_system_type_get("fat32"))
+        self.assertRaises(exn, setattr, self._part, "geom",
                                      _ped.Geometry(self._device, 10, 20))
-        self.assertRaises(TypeError, setattr, self._part, "disk", self._disk)
+        self.assertRaises(exn, setattr, self._part, "disk", self._disk)
 
         # Check that values have the right type.
-        self.assertRaises(TypeError, setattr, self._part, "type", "blah")
+        self.assertRaises(exn, setattr, self._part, "type", "blah")
 
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self._part, "blah")
