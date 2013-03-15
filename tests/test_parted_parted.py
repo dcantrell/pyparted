@@ -71,7 +71,7 @@ class GetDeviceTestCase(RequiresDeviceNode):
         self.assertIsInstance(parted.getDevice(self.path), parted.Device)
 
         # Make sure the device node paths match
-        self.assertTrue(parted.getDevice(self.path).path == self.path)
+        self.assertEqual(parted.getDevice(self.path).path, self.path)
 
 class GetAllDevicesTestCase(unittest.TestCase):
     def setUp(self):
@@ -79,7 +79,7 @@ class GetAllDevicesTestCase(unittest.TestCase):
 
     def runTest(self):
         # Check self.devices and see that it's a list
-        self.assertTrue(type(self.devices).__name__ == 'list')
+        self.assertEqual(type(self.devices).__name__, 'list')
 
         # And make sure each element of the list is a parted.Device
         map(lambda s: self.assertIsInstance(s, parted.Device), self.devices)
@@ -110,7 +110,7 @@ class FreshDiskTestCase(RequiresDevice):
                 continue
             disk = parted.freshDisk(self.device, key)
             self.assertIsInstance(disk, parted.Disk)
-            self.assertTrue(disk.type == key)
+            self.assertEqual(disk.type, key)
 
         # Create a new disk each disk type value, verify each one
         for value in parted.diskType.values():
@@ -118,7 +118,7 @@ class FreshDiskTestCase(RequiresDevice):
                 continue
             disk = parted.freshDisk(self.device, value)
             self.assertIsInstance(disk, parted.Disk)
-            self.assertTrue(parted.diskType[disk.type] == value)
+            self.assertEqual(parted.diskType[disk.type], value)
 
 @unittest.skip("Unimplemented test case.")
 class IsAlignToCylindersTestCase(unittest.TestCase):
