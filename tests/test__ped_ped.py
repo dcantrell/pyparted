@@ -343,7 +343,7 @@ class UnitGetSizeTestCase(RequiresDevice):
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_TEBIBYTE), 1099511627776)
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_CYLINDER), 65536)
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_CHS), 512)
-        self.assertEqual(self._device.unit_get_size(_ped.UNIT_PERCENT), self._device.length * self._device.sector_size / 100)
+        self.assertEqual(self._device.unit_get_size(_ped.UNIT_PERCENT), self._device.length * self._device.sector_size // 100)
         self.assertRaises(ValueError, self._device.unit_get_size, _ped.UNIT_COMPACT)
 
 class UnitGetNameTestCase(unittest.TestCase):
