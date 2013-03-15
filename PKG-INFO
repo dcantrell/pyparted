@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: pyparted
+Version: 3.10a1
+Summary: Python bindings for GNU parted
+Home-page: https://fedorahosted.org/pyparted/
+Author: pyparted Development Team
+Author-email: pyparted-devel@redhat.com
+License: GPLv2+
+Description: UNKNOWN
+Platform: UNKNOWN

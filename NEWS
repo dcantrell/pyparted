@@ -1,0 +1,16 @@
+pyparted-2.1.0
+--------------
+
+pyparted supports new libparted API functions, but those functions are not
+yet available in an official release on ftp.gnu.org.  On Fedora systems, the
+parted-1.9.0-23 package and later revisions contain the necessary API support.
+
+
+pyparted-2.0.0
+--------------
+
+Complete rewrite of pyparted.  There are now two Python modules exposing the
+pyparted API:
+
+    _ped       Low level module interfacing with libparted.
+    parted     Higher level module written in Python building on _ped.

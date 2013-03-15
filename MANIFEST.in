@@ -1,0 +1,6 @@
+include AUTHORS BUGS COPYING HACKING NEWS RELEASE TODO
+include ChangeLog
+include MANIFEST.in
+include Makefile
+recursive-include include *.h
+recursive-include tests *.py

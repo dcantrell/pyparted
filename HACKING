@@ -1,0 +1,211 @@
+Contributing to pyparted
+
+This guide helps explain how to get your contributions accepted in to the
+project.  Coding style, patch generation, and how to submit patches are
+all discussed here.
+
+
+CODING STYLE FOR C
+
+Please follow the coding style you see in the C source files here.  The project
+is developed on Linux, which gcc is the compiler.  That affords us a lot of
+flexibility with regards to standards, but try to adhere to ISO C99 whenever
+possible and avoid using gcc extensions.  There is a possibility that this
+project may need to be ported to a non-gcc compiler.
+
+Here are the major coding style highlights for this project:
+
+1) Indentation is four spaces.  Please do not use tab and do not use more
+   or less than 4 spaces.  A lot of the source files have vim control
+   settings at the bottom so if you are using vim, the indentation will
+   automatically be set up properly with the Tab key.  However, if you are
+   unlucky and do not have vim, just make sure you use 4 spaces for indent.
+   Editor hints will be accepted for other editors, so long as the additions
+   to the source files are minimal (i.e., we're not looking for editor
+   configuration files).
+
+   Examples:
+
+   GOOD:
+       int main(int argc, char **argv) {
+           int i;
+           i = EXIT_SUCCESS;
+
+           if (i == -1) {
+               return EXIT_FAILURE;
+           }
+
+           return i;
+       }
+
+2) Spaces after keywords.  Do not place an open paren next to 'if' or 'for'.
+   Examples:
+
+   GOOD:
+
+       if (i < j) {
+       for (i=0; i < 30; i++) {
+
+   BAD:
+
+       if(i < j) {
+       for(i=0; i < 30; i++) {
+
+3) Open brace stays on the same line for the function declaration or
+   statement it belongs to.  Examples:
+
+   GOOD:
+
+       if (i < j ) {
+
+   BAD:
+
+       if (i < j)
+       {
+
+4) No brace-less blocks.  If an 'if' test just requires one statement in
+   the block, do still wrap it in braces.  This is to maintain consistency
+   with all blocks in the code.  Examples:
+
+   GOOD:
+
+       if (i < j) {
+           printf("i is less than j!\n");
+       }
+
+   BAD:
+
+       if (i < j)
+           printf("i is less than j!\n");
+
+5) No K&R style function declarations.  Examples:
+
+   GOOD:
+
+       int main(int argc, char **argv) {
+
+   BAD:
+
+       int main(argc, argv)
+           int argc;
+           char **argv;
+       {
+
+6) Let expressions breathe.  There's no reason to remove all spaces from
+   a complex expression.  Examples:
+
+   GOOD:
+
+       i = (a + b) << c >> d | e * f;
+
+   BAD:
+
+       i = (a+b)<<c>>d|e*f;
+
+7) Function declarations have the return type on the same line as the
+   function.  For long argument lists, wrap them to line up with the
+   parens.  There is no space between the function name and the open
+   paren.  Examples:
+
+   GOOD:
+
+       int main(int argc, char **argv) {
+
+       void check_a_variable(int a, char b, int c, struct astruct,
+                             int *d, char *e, void *buf) {
+
+   BAD:
+
+       int
+       main (int argc, char **argv)
+       {
+
+8) Name variables and functions using lowercase names and underscores rather
+   than CamelCase.  Examples:
+
+   GOOD:
+
+       int c;
+       char *host_name = NULL;
+       void function_name(int argument);
+
+   BAD:
+
+       int counterForCountingThings;
+       char *hostName = NULL;
+       void functionName(int argument);
+
+
+CODING STYLE FOR PYTHON
+
+First, read PEP-8:  http://www.python.org/dev/peps/pep-0008/
+
+Second, please follow the coding style you see in the Python source files here.
+Here are the major coding style highlights for this project:
+
+1) 4-space indentation.  Do not use tabs in Python code.
+
+2) Use CamelCase for class names.
+
+3) For method names, the standard CamelCase naming with the first
+   character being lowercase is preferred.
+
+4) Use properties instead of get/set methods.
+
+5) Use _ to prefix class variables accessed via properties.
+
+6) Hide anything with __ prefixes if it does not need to be fully public.
+
+7) List one module per import statement.  Do not use a comma to list several
+   modules on one import line.
+
+
+GENERATING PATCHES
+
+When you make changes to the code, you should generate a patch to send
+upstream.  Before editing, it's a good idea to copy the original source
+file to a new name so you can edit the other copy.  Here is a basic
+workflow:
+
+    $ cd pyparted-VERSION/src
+    $ cp -p _pedmodule.c _pedmodule.c.orig
+    $ vim _pedmodule.c                     # make your changes
+
+Generating a patch is done using GNU diffutils or a diff(1) command
+capable of producing a unified diff:
+
+    $ diff -u _pedmodule.c.orig _pedmodule.c > mypatch
+
+Submit the 'mypatch' file and explain your changes and why we should merge
+your changes.
+
+If you are making a lot of changes to many files, it's probably easier to
+use the git version control system.  You can clone the upstream repository
+and commit your changes locally and then generate a set of diffs against
+the latest upstream code.
+
+    $ git clone git://git.fedorahosted.org/pyparted.git/
+    $ cd pyparted
+    $ # make your changes to files here
+    $ git add FILE           # repeat this add/commit process for
+    $ git commit             # each logical change to the code
+    $ git fetch
+    $ git rebase origin
+    $ git format-patch origin
+
+The output of git format-patch will be a set of files containing a patch
+for each add/commit you made locally.  The patches will be made against
+the latest upstream.  Submit your patch files upstream.
+
+
+SUBMITTING PATCHES
+
+The best way to submit patches is to make a new ticket on the project web
+site:
+
+    http://fedorahosted.org/pyparted/
+
+Attach your patch and explanation and it'll be reviewed.
+
+Alternatively, you can email the project maintainer(s) directly.  The ChangeLog
+and AUTHORS file contain email addresses of those who work on pyparted.

@@ -1,0 +1,38 @@
+List bugs in this file, numbered, with an example that can be run from the
+Python interactive shell.
+
+---------------------------------------------------------------------------
+
+1) parted.Disk.getLogicalPartitions() crashes
+       device = parted.getDevice("/dev/sda")
+       disk = parted.Disk(device)
+       disk.getLogicalPartitions()
+
+2) pydisk.c:
+
+   py_ped_disk_type_get() returns NULL without setting an exception when
+   called with None argument
+       # XXX: NEED REPRODUCER
+
+   py_ped_disk_type_check_feature() returns NULL without setting an
+   exception when called with 0 as argument
+       # XXX: NEED REPRODUCER
+
+   py_ped_geometry_read() and py_ped_device_read() do not work properly
+   when the read data contains 0 bytes
+       # XXX: NEED REPRODUCER
+
+3) import parted
+   # create a parted.Disk
+   for part in disk.partitions:
+       print part
+
+   "argument 2 must be _ped.Geometry, not _ped.Geometry"
+
+4) import parted
+   device = parted.Device(path="/dev/dm-0")
+   disk = parted.Disk(device=device)
+   disk.partitions[0].getDeviceNodeName()
+
+   expected: "unrecognized disk label"
+   get:      "/dev/dm-01"

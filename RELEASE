@@ -1,0 +1,22 @@
+Instructions for making a new release:
+
+1) git checkout master
+2) git clean -d -x -f         # I hope you've commited or stashed everything
+                              # you are working on
+2) git fetch
+3) git rebase origin
+4) make bumpver
+5) git commit -a -m "New version."
+6) git clean -d -x -f
+7) make release
+
+If packaging in RPM format, you might find the 'make rpmlog' target useful.
+It gives you an RPM spec file formatted changelog block that contains the
+git shortlog entries of all changes since the last tag.
+
+Resulting dist/pyparted-X.Y.tar.gz is the release.  'cp -p' this to the pkg
+tree and make a new build.  Also need to copy it to the project download site
+and make a new version entry in the Trac site.
+
+9) git push
+10) git push --tags

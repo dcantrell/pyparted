@@ -1,0 +1,80 @@
+- Methods in the parted module that just return data and take in no
+  parameters...make those read-only properties and get rid of the
+  method.  Since we have more or less established the API now, mark
+  the methods as Deprecated and leave them around for a release
+  before removing them.
+
+- add parted.Device.toSectors() method that takes in a size specification,
+  such as 10.5MB, as a string and converts that size to a sector count
+  based on the sector size of that Device
+
+- use disttools from Python to do as much work as possible
+
+- Walk through all of the src/py*.c files and make sure libparted exceptions
+  are captured and filtered back up through Python.  Will need to define some
+  sane Python exception classes for libparted's exceptions.
+
+- Handle exceptions from libparted and pass to Python as necessary.  The
+  PED_ASSERT things are where libparted aborts, so we may want to catch things
+  before it goes in to libparted so we can throw an exception rather than
+  letting the library abort().  The ped_exception_throw() instances are all
+  libparted's own exception-like system.
+
+- Handle exceptions throughout the _ped module code.  Unique exceptions as
+  much as possible.
+
+- Figure out what, if anything, we can do with timers.  They are optional in
+  libparted, but do we want to support them in pyparted?
+
+- Error handling in the get and set methods.
+
+- Free memory in error handling cases.
+
+- Exception handling:
+      - Audit error messages to make them more useful.
+
+- All test cases with '# TODO' in the runTest() method.  Be sure to uncomment
+  them once you have written the test.
+
+- Make sure PyTypeObjects that have a tp_init are allocating memory that the
+  garbage collector knows about.  I'm not sure if PyType_GenericAlloc or
+  PyType_GenericNew do this.
+
+- Coding policy that we need to make sure we're doing:
+  If object creation fails, we need to use PyObject_GC_Del() to destroy it
+  before throwing an exception at the user.  For all other instances where
+  we need to delete or destroy the object, use Py_XDECREF().  Once the ref
+  count is zero, the GC will take over and run dealloc() for that object,
+  which will eventually run PyObject_GC_Del().  Basically, we should only
+  be using PyObject_GC_Del() in the convert functions or in __init__
+  constructors where we are making a new object for the user.
+
+  NOTE: If we need to destroy an object due to creation failure and the
+  object we are creating has other PyObject members, call Py_XDECREF on
+  those members rather than destroing them.  We can't ensure that there
+  will be no other references to those members, so let the normal object
+  destructor handle PyObject members, but forcefully destroy the object
+  we are trying to create.
+
+- destroy() methods don't seem to be destroying the Python object.
+
+- Make sure this new code works in Python 3000
+
+- Look through all PyTypeObject objects and see where we can expand
+  their functionality.  Can we add str() support, for instance.
+
+- Move the constraint functions presently in _ped to be in the __init_()
+  method for _ped.Constraint, similar to what was done for _ped_Disk_init:
+      constraint_new_from_min_max
+      constraint_new_from_min
+      constraint_new_from_max
+      constraint_any
+      constraint_exact
+
+- parted module:
+      - Write docstrings for everything
+
+- autoconf
+      - More detailed API checks for libparted and Python
+
+... and much much more
