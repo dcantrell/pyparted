@@ -288,6 +288,9 @@ static struct PyMethodDef PyPedModuleMethods[] = {
 
 #if PY_MAJOR_VERSION >= 3
 #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
+#define MOD_ERROR_VAL NULL
+#define MOD_SUCCESS_VAL(val) val
+
 struct PyModuleDef module_def = {
      PyModuleDef_HEAD_INIT,
      "_ped",
@@ -298,6 +301,8 @@ struct PyModuleDef module_def = {
     };
 #else
 #define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
+#define MOD_ERROR_VAL
+#define MOD_SUCCESS_VAL(val)
 #endif
 
 PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
@@ -439,7 +444,7 @@ MOD_INIT(_ped) {
 
     /* add PedCHSGeometry type as _ped.CHSGeometry */
     if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_CHSGeometry_Type_obj);
     PyModule_AddObject(m, "CHSGeometry",
@@ -447,7 +452,7 @@ MOD_INIT(_ped) {
 
     /* add PedDevice type as _ped.Device */
     if (PyType_Ready(&_ped_Device_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Device_Type_obj);
     PyModule_AddObject(m, "Device", (PyObject *)&_ped_Device_Type_obj);
@@ -471,49 +476,49 @@ MOD_INIT(_ped) {
 
     /* add PedTimer type as _ped.Timer */
     if (PyType_Ready(&_ped_Timer_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Timer_Type_obj);
     PyModule_AddObject(m, "Timer", (PyObject *)&_ped_Timer_Type_obj);
 
     /* add PedGeometry type as _ped.Geometry */
     if (PyType_Ready(&_ped_Geometry_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Geometry_Type_obj);
     PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_Geometry_Type_obj);
 
     /* add PedAlignment type as _ped.Alignment */
     if (PyType_Ready(&_ped_Alignment_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Alignment_Type_obj);
     PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_Alignment_Type_obj);
 
     /* add PedConstraint type as _ped.Constraint */
     if (PyType_Ready(&_ped_Constraint_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Constraint_Type_obj);
     PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_Constraint_Type_obj);
 
     /* add PedPartition type as _ped.Partition */
     if (PyType_Ready(&_ped_Partition_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Partition_Type_obj);
     PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
     /* add PedDisk as _ped.Disk */
     if (PyType_Ready(&_ped_Disk_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_Disk_Type_obj);
     PyModule_AddObject(m, "Disk", (PyObject *)&_ped_Disk_Type_obj);
 
     /* add PedDiskType as _ped.DiskType */
     if (PyType_Ready(&_ped_DiskType_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_DiskType_Type_obj);
     PyModule_AddObject(m, "DiskType", (PyObject *)&_ped_DiskType_Type_obj);
@@ -550,7 +555,7 @@ MOD_INIT(_ped) {
 
     /* add PedFileSystemType as _ped.FileSystemType */
     if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_FileSystemType_Type_obj);
     PyModule_AddObject(m, "FileSystemType",
@@ -558,7 +563,7 @@ MOD_INIT(_ped) {
 
     /* add PedFileSystem as _ped.FileSystem */
     if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0)
-        return NULL;
+        return MOD_ERROR_VAL;
 
     Py_INCREF(&_ped_FileSystem_Type_obj);
     PyModule_AddObject(m, "FileSystem", (PyObject *)&_ped_FileSystem_Type_obj);
@@ -633,7 +638,7 @@ MOD_INIT(_ped) {
 
     /* Set up our libparted exception handler. */
     ped_exception_set_handler(partedExnHandler);
-    return m;
+    return MOD_SUCCESS_VAL(m);
 }
 
 /* vim:tw=78:ts=4:et:sw=4
