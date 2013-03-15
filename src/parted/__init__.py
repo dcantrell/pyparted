@@ -27,6 +27,8 @@
 #                    Chris Lumens <clumens@redhat.com>
 #
 
+from __future__ import division
+
 import platform
 import re
 import sys
