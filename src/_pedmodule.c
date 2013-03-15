@@ -46,6 +46,14 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
+#if PED_DISK_LAST_FLAG < 2
+#define PED_DISK_GPT_PMBR_BOOT 2
+#endif
+
+#if PED_PARTITION_LAST_FLAG < 15
+#define PED_PARTITION_LEGACY_BOOT 15
+#endif
+
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
