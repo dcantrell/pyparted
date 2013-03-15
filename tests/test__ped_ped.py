@@ -193,6 +193,7 @@ class DeviceGetTestCase(RequiresDevice):
         self.assertRaises(_ped.IOException, _ped.device_get, "")
         self.assertRaises(_ped.DeviceException, _ped.device_get, None)
 
+@unittest.skip('Requires root')
 class DeviceGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         # Make sure there are some devices in the system first and then
