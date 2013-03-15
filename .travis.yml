@@ -3,7 +3,7 @@ python:
   - 2.7
   - 3.3
 install:
-  - sudo apt-get install libparted-dev
+  - sudo apt-get install libparted-dev parted
 script:
   - PARTED_DEBUG=1 make test
 
