@@ -70,7 +70,7 @@ class ConstraintNewTestCase(RequiresDevice):
                              10, 100)
         c = parted.Constraint(PedConstraint=pc)
         self.assertIsInstance(c, parted.Constraint)
-        self.assertTrue(c.getPedConstraint() == pc)
+        self.assertEqual(c.getPedConstraint(), pc)
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -86,8 +86,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
     def runTest(self):
         # Test that properties work
-        self.assertTrue(self.c.minSize == 10)
-        self.assertTrue(self.c.maxSize == 100)
+        self.assertEqual(self.c.minSize, 10)
+        self.assertEqual(self.c.maxSize, 100)
         self.assertIsInstance(self.c.startAlign, parted.Alignment)
         self.assertIsInstance(self.c.endAlign, parted.Alignment)
         self.assertIsInstance(self.c.startRange, parted.Geometry)
@@ -97,8 +97,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.c.minSize = 15
         self.c.maxSize = 75
 
-        self.assertTrue(getattr(self.c, "minSize") == 15)
-        self.assertTrue(getattr(self.c, "maxSize") == 75)
+        self.assertEqual(getattr(self.c, "minSize"), 15)
+        self.assertEqual(getattr(self.c, "maxSize"), 75)
         self.assertIsInstance(getattr(self.c, "startAlign"), parted.Alignment)
         self.assertIsInstance(getattr(self.c, "endAlign"), parted.Alignment)
         self.assertIsInstance(getattr(self.c, "startRange"), parted.Geometry)
@@ -108,8 +108,8 @@ class ConstraintGetSetTestCase(RequiresDevice):
         setattr(self.c, "minSize", 10)
         setattr(self.c, "maxSize", 90)
 
-        self.assertTrue(self.c.minSize == 10)
-        self.assertTrue(self.c.maxSize == 90)
+        self.assertEqual(self.c.minSize, 10)
+        self.assertEqual(self.c.maxSize, 90)
 
         # Test that values have the right type.
         self.assertRaises(TypeError, setattr, self.c, "minSize", "string")
