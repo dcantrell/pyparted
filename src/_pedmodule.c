@@ -1,16 +1,11 @@
 /*
- * Code modified from original to work with Python 3
- * Alex Skinner
- * alex@lx.lc
- * 12/28/2012
- *
  * _pedmodule.c
  * libparted Python bindings.  This module is low-level in that it directly
  * maps to the libparted API.  It is intended to be used by a higher level
  * Python module that implements the libparted functionality via Python
  * classes and other high level language features.
  *
- * Copyright (C) 2007, 2008 Red Hat, Inc.
+ * Copyright (C) 2007-2013 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -26,8 +21,9 @@
  * License and may only be used or replicated with the express permission of
  * Red Hat, Inc.
  *
- * Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
- *                    Chris Lumens <clumens@redhat.com>
+ * Author(s): David Cantrell <dcantrell@redhat.com>
+ *            Chris Lumens <clumens@redhat.com>
+ *            Alex Skinner <alex@lx.lc>
  */
 
 #include <Python.h>
