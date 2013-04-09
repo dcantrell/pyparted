@@ -1,13 +1,8 @@
 #
-# Code modified from original to work with Python 3
-# Alex Skinner
-# alex@lx.lc
-# 12/28/2012
-#
 # device.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2013 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -23,7 +18,8 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
+# Author(s): David Cantrell <dcantrell@redhat.com>
+#            Alex Skinner <alex@lx.lc>
 #
 
 import math

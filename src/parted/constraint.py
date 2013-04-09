@@ -1,9 +1,4 @@
 #
-# Code modified from original to work with Python 3
-# Alex Skinner
-# alex@lx.lc
-# 12/28/2012
-#
 # constraint.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
@@ -23,8 +18,9 @@
 # License and may only be used or replicated with the express permission of
 # Red Hat, Inc.
 #
-# Red Hat Author(s): Chris Lumens <clumens@redhat.com>
-#                    David Cantrell <dcantrell@redhat.com>
+# Author(s): Chris Lumens <clumens@redhat.com>
+#            David Cantrell <dcantrell@redhat.com>
+#            Alex Skinner <alex@lx.lc>
 #
 
 import parted

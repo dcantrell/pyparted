@@ -1,9 +1,5 @@
-# Code modified from original to work with Python 3
-# Alex Skinner
-# alex@lx.lc
-# 12/28/2012
 # setup.py script for pyparted
-# Copyright (C) 2011  Red Hat, Inc.
+# Copyright (C) 2011-2013 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +16,8 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 # Author(s): David Cantrell <dcantrell@redhat.com>
+#            Alex Skinner <alex@lx.lc>
+
 import subprocess
 import glob
 import os
@@ -45,7 +43,7 @@ if python_version < need_python_version:
 def pkgconfig(*packages, **kwargs):
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
     for token in subprocess.check_output(["pkg-config", "--libs", "--cflags"] + list(packages)).decode('utf-8').split():
-        
+
         kwargs.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kwargs
 
