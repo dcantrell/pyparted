@@ -2017,5 +2017,37 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
+PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
+    _ped_Device *in_device = NULL;
+    PedDevice *device = NULL;
+    PedDisk *disk = NULL;
+    _ped_Disk *ret = NULL;
+
+    if (!PyArg_ParseTuple(args, "O!", &_ped_Device_Type_obj, &in_device)) {
+        return NULL;
+    }
+
+    if ((device = _ped_Device2PedDevice((PyObject *) in_device)) == NULL) {
+        return NULL;
+    }
+
+    if ((disk = ped_disk_new(device)) == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError))
+                PyErr_SetString(DiskException, partedExnMessage);
+        } else {
+            PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
+        }
+
+        return NULL;
+    }
+
+    ret = PedDisk2_ped_Disk(disk);
+    return (PyObject *) ret;
+}
+
 /* vim:tw=78:ts=4:et:sw=4
  */

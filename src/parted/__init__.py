@@ -412,6 +412,15 @@ def freshDisk(device, ty):
     return Disk(PedDisk=peddisk)
 
 @localeC
+def newDisk(device):
+    """Return a Disk object for this Device. Read the partition table off
+       a device (if one is found)."""
+    from _ped import disk_new
+
+    peddisk = disk_new(device.getPedDevice())
+    return Disk(PedDisk=peddisk)
+
+@localeC
 def version():
     """Return a dict containing the pyparted and libparted versions."""
     from _ped import libparted_version
