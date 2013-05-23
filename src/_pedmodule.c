@@ -162,6 +162,11 @@ PyDoc_STRVAR(disk_new_fresh_doc,
 "will have to use the commit_to_dev() method to write the new label to\n"
 "the disk.");
 
+PyDoc_STRVAR(disk_new_doc,
+"disk_new(Device) -> Disk\n\n"
+"Given the Device, create a new Disk object. And probe, read the details of\n"
+"the disk.");
+
 PyDoc_STRVAR(disk_flag_get_name_doc,
 "disk_flag_get_name(integer) -> string\n\n"
 "Return a name for a disk flag constant.  If an invalid flag is provided,\n"
@@ -252,6 +257,8 @@ static struct PyMethodDef PyPedModuleMethods[] = {
                             METH_VARARGS, partition_flag_next_doc},
     {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh,
                        METH_VARARGS, disk_new_fresh_doc},
+    {"disk_new", (PyCFunction) py_ped_disk_new,
+                       METH_VARARGS, disk_new_doc},
     {"disk_flag_get_name", (PyCFunction) py_ped_disk_flag_get_name,
                                 METH_VARARGS, disk_flag_get_name_doc},
     {"disk_flag_get_by_name", (PyCFunction) py_ped_disk_flag_get_by_name,
