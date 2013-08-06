@@ -49,17 +49,17 @@ from _ped import TimerException
 from _ped import UnknownDeviceException
 from _ped import UnknownTypeException
 
-from .alignment import Alignment
-from .constraint import Constraint
-from .device import Device
-from .disk import Disk
-from .disk import diskType
-from .disk import diskFlag
-from .filesystem import FileSystem
-from .filesystem import fileSystemType
-from .geometry import Geometry
-from .partition import Partition
-from .partition import partitionFlag
+from parted.alignment import Alignment
+from parted.constraint import Constraint
+from parted.device import Device
+from parted.disk import Disk
+from parted.disk import diskType
+from parted.disk import diskFlag
+from parted.filesystem import FileSystem
+from parted.filesystem import fileSystemType
+from parted.geometry import Geometry
+from parted.partition import Partition
+from parted.partition import partitionFlag
 
 # the enumerated types in _ped need to be available from here too
 from _ped import UNIT_SECTOR
@@ -123,7 +123,7 @@ from _ped import DISK_GPT_PMBR_BOOT
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
-from .decorators import localeC
+from decorators import localeC
 
 if sys.version_info >= (3,):
     string_types = str

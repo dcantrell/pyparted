@@ -25,12 +25,11 @@
 
 import math
 import string
-import warnings
 
 import _ped
 import parted
 
-from .decorators import localeC
+from decorators import localeC
 
 # XXX: add docstrings
 
