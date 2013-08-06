@@ -29,7 +29,8 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = $(PACKAGE)-$(VERSION)
 
-PYCHECKEROPTS = --no-override --no-argsused --no-miximport --maxargs 0 --no-local -\# 0 --only -Q
+PYCHECKEROPTS = --no-override --no-argsused --no-miximport --maxargs 0 --no-local -\# 0 --only -Q \
+		--missingattrs=_Alignment__alignment,_Constraint__constraint,_Device__device,_Disk__disk,_FileSystem__fileSystem,_Geometry__geometry,_Partition__partition
 
 default: all
 
