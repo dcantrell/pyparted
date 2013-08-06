@@ -25,8 +25,8 @@
 import _ped
 import parted
 
-from .cachedlist import CachedList
-from .decorators import localeC
+from cachedlist import CachedList
+from decorators import localeC
 
 class Disk(object):
     """Disk()

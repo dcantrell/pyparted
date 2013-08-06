@@ -69,10 +69,6 @@ class CachedList(Sequence):
         self.__rebuildList()
         return len(self._lst)
 
-    def __reversed__(self):
-        self.__rebuildList()
-        return self._lst.__reversed__()
-
     def __repr__(self):
         self.__rebuildList()
         return repr(self._lst)

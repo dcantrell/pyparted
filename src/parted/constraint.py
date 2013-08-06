@@ -24,9 +24,8 @@
 #
 
 import parted
-import _ped
 
-from .decorators import localeC
+from decorators import localeC
 
 class Constraint(object):
     """Constraint()
