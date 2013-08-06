@@ -306,7 +306,7 @@ def Deprecated(mod, deprecated={}):
             if attr in deprecated.keys():
                 msg = self.warnmsg + " " + deprecated[attr]
                 warnings.warn(msg % attr, DeprecationWarning)
-            return setattr(mod, attr, value)
+            setattr(mod, attr, value)
 
     return Wrapper()
 
