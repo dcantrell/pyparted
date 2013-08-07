@@ -20,7 +20,6 @@
 #
 
 PYTHON       ?= python
-PYCHECKER    ?= pychecker
 
 DESTDIR      ?= /
 
@@ -29,8 +28,7 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = $(PACKAGE)-$(VERSION)
 
-PYCHECKEROPTS = --no-override --no-argsused --no-miximport --maxargs 0 --no-local -\# 0 --only -Q \
-		--missingattrs=_Alignment__alignment,_Constraint__constraint,_Device__device,_Disk__disk,_FileSystem__fileSystem,_Geometry__geometry,_Partition__partition
+PYLINTOPTS    = src/parted/*py --rcfile=/dev/null -i y -r n --disable=C,R --disable=W0141,W0212,W0511,W0613,W0702,E1103
 
 default: all
 
@@ -43,7 +41,7 @@ test: all
 
 check: all
 	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname) \
-	$(PYCHECKER) $(PYCHECKEROPTS) src/parted/*.py
+	pylint $(PYLINTOPTS) src/parted/*.py
 
 ChangeLog:
 	git log > ChangeLog
