@@ -30,6 +30,7 @@ from decorators import localeC
 # XXX: add docstrings!
 
 class FileSystem(object):
+    # pylint: disable=W0622
     @localeC
     def __init__(self, type=None, geometry=None, checked=False, PedFileSystem=None):
         if checked:

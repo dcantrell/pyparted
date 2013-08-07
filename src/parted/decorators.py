@@ -34,7 +34,7 @@ def localeC(fn):
             pass
 
     @functools.wraps(fn)
-    def new(self, *args, **kwds):
+    def new(*args, **kwds):
         oldlocale = locale.getlocale(locale.LC_MESSAGES)
         _setlocale('C')
         try:
