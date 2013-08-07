@@ -127,7 +127,7 @@ class RequiresDeviceAlignment(RequiresDevice):
 class RequiresLabeledDevice(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        os.system("parted -s %s mklabel msdos" % (self.path,))
+        os.system("/sbin/parted -s %s mklabel msdos" % (self.path,))
 
 # Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
@@ -139,14 +139,14 @@ class RequiresDisk(RequiresDevice):
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
     def mkfs(self):
-        os.system("mkfs.ext2 -F -q %s" % self.path)
+        os.system("/sbin/mkfs.ext2 -F -q %s" % self.path)
 
     def doMount(self):
         self.mountpoint = tempfile.mkdtemp()
-        os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
+        os.system("/sbin/mount -o loop %s %s" % (self.path, self.mountpoint))
 
     def tearDown(self):
-        os.system("umount %s" % self.mountpoint)
+        os.system("/sbin/umount %s" % self.mountpoint)
         os.rmdir(self.mountpoint)
         RequiresDevice.tearDown(self)
 
