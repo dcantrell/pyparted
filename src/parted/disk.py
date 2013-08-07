@@ -52,6 +52,7 @@ class Disk(object):
             self.__disk = _ped.Disk(device.getPedDevice())
             self._device = device
 
+        # pylint: disable=W0108
         self._partitions = CachedList(lambda : self.__getPartitions())
 
     def _hasSameParts(self, other):

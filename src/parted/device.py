@@ -26,7 +26,7 @@ import math
 import warnings
 
 import parted
-from disk import diskType
+import _ped
 
 from decorators import localeC
 
@@ -233,11 +233,11 @@ class Device(object):
         return self.__device.read(start, count)
 
     @localeC
-    def write(self, buffer, start, count):
+    def write(self, buf, start, count):
         """From the sector identified by start, write count sectors from
            buffer to the Device."""
 
-        return self.__device.write(buffer, start, count)
+        return self.__device.write(buf, start, count)
 
     @localeC
     def sync(self, fast=False):
@@ -259,28 +259,28 @@ class Device(object):
     def startSectorToCylinder(self, sector):
         """Return the closest cylinder (round down) to sector on
            this Device."""
-        (cylinders, heads, sectors) = self.biosGeometry
+        (_, heads, sectors) = self.biosGeometry
         return long(math.floor((float(sector) / (heads * sectors)) + 1))
 
     @localeC
     def endSectorToCylinder(self, sector):
         """Return the closest cylinder (round up) to sector on
            this Device."""
-        (cylinders, heads, sectors) = self.biosGeometry
+        (_, heads, sectors) = self.biosGeometry
         return long(math.ceil(float((sector + 1)) / (heads * sectors)))
 
     @localeC
     def startCylinderToSector(self, cylinder):
         """Return the sector corresponding to cylinder as a
            starting cylinder on this Device."""
-        (cylinders, heads, sectors) = self.biosGeometry
+        (_, heads, sectors) = self.biosGeometry
         return long((cylinder - 1) * (heads * sectors))
 
     @localeC
     def endCylinderToSector(self, cylinder):
         """Return the sector corresponding to cylinder as an
            ending cylinder on this Device."""
-        (cylinders, heads, sectors) = self.biosGeometry
+        (_, heads, sectors) = self.biosGeometry
         return long(((cylinder) * (heads * sectors)) - 1)
 
     def getSize(self, unit="MB"):
