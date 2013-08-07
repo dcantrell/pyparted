@@ -24,16 +24,17 @@
 #
 
 import math
-import string
+import warnings
 
 import _ped
 import parted
 
-from decorators import localeC
+from parted.decorators import localeC
 
 # XXX: add docstrings
 
 class Partition(object):
+    # pylint: disable=W0622
     @localeC
     def __init__(self, disk=None, type=None, fs=None, geometry=None, PedPartition=None):
         if PedPartition is None:
@@ -64,6 +65,7 @@ class Partition(object):
             if self.__partition.fs_type is None:
                 self._fileSystem = None
             else:
+                # pylint: disable=E1103
                 self._fileSystem = parted.FileSystem(type=self.__partition.fs_type.name, geometry=self._geometry)
 
     def __eq__(self, other):
@@ -95,8 +97,8 @@ class Partition(object):
               "busy": self.busy, "ped": self.__partition})
         return s
 
-    def __writeOnly(self, property):
-        raise parted.WriteOnlyProperty(property)
+    def __writeOnly(self, prop):
+        raise parted.WriteOnlyProperty(prop)
 
     @property
     @localeC
@@ -127,7 +129,7 @@ class Partition(object):
         """The name of this partition."""
         try:
             return self.__partition.get_name()
-        except parted.PartitionException as msg:
+        except parted.PartitionException:
             return None
 
     @property
@@ -211,7 +213,7 @@ class Partition(object):
             if self.getFlag(flag):
                 flags.append(partitionFlag[flag])
 
-        return string.join(flags, ', ')
+        return ', '.join(flags)
 
     def getMaxAvailableSize(self, unit="MB"):
         """Return the maximum size this Partition can grow to by looking

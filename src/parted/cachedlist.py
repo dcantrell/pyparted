@@ -42,8 +42,6 @@ class CachedList(Sequence):
            no parameters and returns a list.  It will be called lazily - the
            list is not constructed until the first access, which could be
            quite a while after this method is called."""
-        Sequence.__init__(self)
-
         self._invalid = True
         self._lst = []
         self._lstFn = lstFn

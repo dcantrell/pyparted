@@ -30,8 +30,8 @@ import re
 import sys
 import warnings
 
-__all__ = ['alignment', 'constraint', 'device', 'disk',
-           'filesystem', 'geometry', 'partition']
+__all__ = ['Alignment', 'Constraint', 'Device', 'Disk',
+           'FileSystem', 'Geometry', 'Partition']
 
 from _ped import AlignmentException
 from _ped import CreateException
@@ -123,7 +123,7 @@ from _ped import DISK_GPT_PMBR_BOOT
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
-from decorators import localeC
+from parted.decorators import localeC
 
 if sys.version_info >= (3,):
     string_types = str
@@ -289,8 +289,11 @@ archLabels = {'i386': ['msdos', 'gpt'],
 # Remember that DeprecationWarnings are ignored by default as they are not really
 # useful to users.  Developers can turn on DeprecationWarning notices by passing
 # the -Wd option to python or by setting PYTHONWARNINGS=d in the environment.
-def Deprecated(mod, deprecated={}):
+def Deprecated(mod, deprecated=None):
     """ Return a wrapped object that warns about deprecated accesses. """
+
+    if not deprecated:
+        deprecated = {}
 
     class Wrapper(object):
         warnmsg = "%s is deprecated and will be removed in a future release."
@@ -337,14 +340,16 @@ def getLabels(arch=None):
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
-    def __init__(self, property=''):
-        self.message = "%s is a read-only property" % (property,)
+    # pylint: disable=W0231
+    def __init__(self, prop=''):
+        self.message = "%s is a read-only property" % (prop,)
 
 class WriteOnlyProperty(Exception):
     """Exception raised when a read operation occurs on a write-only property."""
 
-    def __init__(self, property=''):
-        self.message = "%s is a write-only property" % (property,)
+    # pylint: disable=W0231
+    def __init__(self, prop=''):
+        self.message = "%s is a write-only property" % (prop,)
 
 @localeC
 def getDevice(path):

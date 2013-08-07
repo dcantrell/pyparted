@@ -23,9 +23,13 @@
 #            Alex Skinner <alex@lx.lc>
 #
 
-import parted
+import math
+import warnings
 
-from decorators import localeC
+import parted
+import _ped
+
+from parted.decorators import localeC
 
 class Geometry(object):
     """Geometry()
