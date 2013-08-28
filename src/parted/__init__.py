@@ -115,6 +115,7 @@ from _ped import PARTITION_APPLE_TV_RECOVERY
 from _ped import PARTITION_BIOS_GRUB
 from _ped import PARTITION_DIAG
 from _ped import PARTITION_LEGACY_BOOT
+from _ped import PARTITION_MSFT_DATA
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
