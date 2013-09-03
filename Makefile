@@ -87,9 +87,12 @@ rpmlog:
 	done
 
 bumpver:
-	@NEWSUBVER=$$((`echo $(VERSION) | cut -d . -f 2` + 1)) ; \
-	NEWVERSION=`echo $(VERSION).$$NEWSUBVER | cut -d . -f 1,3` ; \
-	sed -i "s/pyparted_version = '$(VERSION)'/pyparted_version = '$$NEWVERSION'/" setup.py
+	@OLDSUBVER=$$(echo $(VERSION) | rev | cut -d '.' -f 1 | rev) ; \
+	NEWSUBVER=$$(($${OLDSUBVER} + 1)) ; \
+	BASEVER="$$(echo $(VERSION) | sed -e "s|\.$${OLDSUBVER}$$||g")" ; \
+	NEWVERSION="$${BASEVER}.$${NEWSUBVER}" ; \
+	sed -i "s/pyparted_version = '$(VERSION)'/pyparted_version = '$${NEWVERSION}'/" setup.py ; \
+	echo "New version is $${NEWVERSION}"
 
 install: all
 	@$(PYTHON) setup.py install --root $(DESTDIR) -c -O1
