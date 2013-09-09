@@ -313,9 +313,9 @@ def Deprecated(mod, deprecated={}):
 __archLabels = (('amiga', 'ppc(64)?$'),
                 ('bsd', 'alpha$'),
                 ('dasd', 's390x?$'),
-                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64)?$'),
+                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64)?$|armv7l$'),
                 ('mac', 'ppc(64)?$'),
-                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64)?$'),
+                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64)?$|armv7l$'),
                 ('sun', 'sparc(64)?$'))
 
 def getLabels(arch=None):
