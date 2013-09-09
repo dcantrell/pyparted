@@ -203,14 +203,18 @@ class DeviceGetNextTestCase(unittest.TestCase, BuildList):
         _ped.device_probe_all()
         lst = self.getDeviceList(_ped.device_get_next)
 
-        # Now the test cases.
-        self.assertGreater(len(lst), 0)
-        self.assertRaises(TypeError, _ped.device_get_next, None)
+        # Now the test cases.  This only works if we get any devices back,
+        # which may not be possible depending on what is executing the test
+        # cases.  Automated build systems may not provide this functionality,
+        # so just skip the tests that do not matter when there are no
+        # devices returned.
+        if len(lst) > 0:
+            self.assertRaises(TypeError, _ped.device_get_next, None)
 
-        for ele in lst:
-            self.assertTrue(isinstance(ele, _ped.Device))
+            for ele in lst:
+                self.assertTrue(isinstance(ele, _ped.Device))
 
-        self.assertRaises(IndexError, _ped.device_get_next, lst[-1])
+            self.assertRaises(IndexError, _ped.device_get_next, lst[-1])
 
 class DeviceProbeAllTestCase(RequiresDevice, BuildList):
     def runTest(self):
