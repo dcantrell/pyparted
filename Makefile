@@ -28,7 +28,7 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = $(PACKAGE)-$(VERSION)
 
-PYLINTOPTS    = src/parted/*py --rcfile=/dev/null -i y -r n --disable=C,R --disable=W0141,W0212,W0511,W0613,W0702,E1103
+PYLINTOPTS    = src/parted/*py --msg-template='{msg_id}:{line:3d},{column}: {obj}: {msg}' --rcfile=/dev/null -r n --disable=C,R --disable=W0141,W0212,W0511,W0613,W0702,E1103
 
 default: all
 
