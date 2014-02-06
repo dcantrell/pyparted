@@ -59,6 +59,7 @@ class GetLabelsTestCase(unittest.TestCase):
         self.assertSetEqual(parted.getLabels('ppc64'), {'amiga', 'gpt', 'mac', 'msdos'})
         self.assertSetEqual(parted.getLabels('alpha'), {'bsd', 'msdos'})
         self.assertSetEqual(parted.getLabels('ia64'), {'gpt', 'msdos'})
+        self.assertSetEqual(parted.getLabels('aarch64'), {'gpt', 'msdos'})
 
 class GetDeviceTestCase(RequiresDeviceNode):
     def runTest(self):
