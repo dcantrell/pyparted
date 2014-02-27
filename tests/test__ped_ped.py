@@ -2,7 +2,7 @@
 # Test cases for the methods in the _ped module itself - just the pyunit
 # and pynatmath files.
 #
-# Copyright (C) 2008-2011  Red Hat, Inc.
+# Copyright (C) 2008-2014  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -42,7 +42,7 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
                   _ped.PARTITION_APPLE_TV_RECOVERY,
                   _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG,
                   _ped.PARTITION_MSFT_DATA, _ped.PARTITION_IRST,
-                  _ped.PARTITION_ESP, _ped.PARTITION_HFS_ESP]:
+                  _ped.PARTITION_ESP]:
             self.assertNotEqual(_ped.partition_flag_get_name(f), "", "Could not get name for flag %s" % f)
 
         self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
@@ -52,7 +52,7 @@ class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in ["boot", "root", "swap", "hidden", "raid", "lvm", "lba",
                   "hp-service", "palo", "prep", "msftres", "bios_grub",
-                  "msftdata", "irst", "esp", "hfs_esp"]:
+                  "msftdata", "irst", "esp"]:
             self.assertNotEqual(_ped.partition_flag_get_by_name(f), "", "Could not get flag %s" % f)
 
         self.assertEqual(_ped.partition_flag_get_by_name("nosuchflag"), 0)
