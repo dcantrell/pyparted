@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009-2011  Red Hat, Inc.
+# Copyright (C) 2009-2014  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -116,7 +116,7 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
                      _ped.PARTITION_APPLE_TV_RECOVERY,
                      _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG,
                      _ped.PARTITION_MSFT_DATA, _ped.PARTITION_IRST,
-                     _ped.PARTITION_ESP, _ped.PARTITION_HFS_ESP]:
+                     _ped.PARTITION_ESP]:
             self.assertIsInstance(self._part.is_flag_available(flag), bool)
 
         # However, an invalid flag should definitely not be available.
