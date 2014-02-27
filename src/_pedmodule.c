@@ -520,7 +520,6 @@ PyMODINIT_FUNC init_ped(void) {
     PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
     PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
     PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
-    PyModule_AddIntConstant(m, "PARTITION_HFS_ESP", PED_PARTITION_HFS_ESP);
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
