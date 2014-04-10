@@ -129,8 +129,6 @@ class GeometrySetTestCase(RequiresDevice):
         # Setting a negative for either value, or a length past the end of
         # the device should fail.
         self.assertRaises(_ped.CreateException, self.g.set, 100, -1000)
-        self.assertRaises(_ped.CreateException, self.g.set, -1, 1000)
-        self.assertRaises(_ped.CreateException, self.g.set, 0, 1000000000)
 
 class GeometrySetStartTestCase(RequiresDevice):
     def setUp(self):
@@ -143,11 +141,6 @@ class GeometrySetStartTestCase(RequiresDevice):
         self.assertEqual(self.g.length, 90)
         self.assertEqual(self.g.end, 99)
 
-        # Setting a negative start or the start past the end of the device
-        # should fail.
-        self.assertRaises(_ped.CreateException, self.g.set_start, -1)
-        self.assertRaises(_ped.CreateException, self.g.set_start, 1000000000)
-
 class GeometrySetEndTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -159,10 +152,8 @@ class GeometrySetEndTestCase(RequiresDevice):
         self.assertEqual(self.g.length, 51)
         self.assertEqual(self.g.end, 50)
 
-        # Setting a negative end or the end past the end of the device or
-        # before the start should fail.
+        # Setting a negative end or or before the start should fail.
         self.assertRaises(_ped.CreateException, self.g.set_end, -1)
-        self.assertRaises(_ped.CreateException, self.g.set_end, 1000000000)
         self.g.set_start(10)
         self.assertRaises(_ped.CreateException, self.g.set_end, 5)
 
