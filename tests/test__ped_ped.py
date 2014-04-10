@@ -288,7 +288,7 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
 
 class FileSystemTypeGetTestCase(unittest.TestCase):
     def runTest(self):
-        for f in ["affs0", "amufs", "apfs1", "asfs", "ext2", "ext3", "fat16",
+        for f in ["affs0", "amufs", "apfs1", "asfs", "btrfs", "ext2", "ext3", "ext4", "fat16",
                   "fat32", "hfs", "hfs+", "hfsx", "hp-ufs", "jfs", "linux-swap",
                   "ntfs", "reiserfs", "sun-ufs", "xfs"]:
             self.assertTrue(isinstance(_ped.file_system_type_get(f), _ped.FileSystemType),
