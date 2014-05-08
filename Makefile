@@ -36,11 +36,11 @@ all:
 	@$(PYTHON) setup.py build
 
 test: all
-	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname) \
+	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	$(PYTHON) -m unittest discover -v
 
 check: all
-	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname) \
+	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	pylint $(PYLINTOPTS) src/parted/*.py
 
 ChangeLog:
