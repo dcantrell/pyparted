@@ -279,8 +279,8 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
 
                 self.assertTrue(isinstance(result, _ped.Geometry))
                 self.assertEquals(result.start, self._geometry.start)
-                self.assertEquals(result.end, self._geometry.end)
-                self.assertEquals(result.length, self._geometry.length)
+                self.assertLessEqual(result.end, self._geometry.end)
+                self.assertLessEqual(result.length, self._geometry.length)
                 self.assertEquals(result.dev, self._device)
             else:
                 result = _ped.file_system_probe_specific(type, self._geometry)
