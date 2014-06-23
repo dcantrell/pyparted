@@ -452,7 +452,7 @@ class Disk(object):
         """Return a Partition object associated with the partition device
            path, such as /dev/sda1.  Returns None if no partition is found."""
         for partition in self.partitions:
-            if "/dev/%s" % partition.getDeviceNodeName() == path:
+            if partition.path == path:
                 return partition
 
         return None
