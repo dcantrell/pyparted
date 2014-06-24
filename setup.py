@@ -28,7 +28,7 @@ from distutils.errors import LinkError
 from distutils.core import setup
 from distutils.core import Extension
 
-pyparted_version = '3.9.3'
+pyparted_version = '3.9.4'
 python_version = platform.python_version_tuple()
 
 need_libparted_version = '3.1'
