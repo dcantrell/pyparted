@@ -70,7 +70,7 @@ class ConstraintNewTestCase(RequiresDevice):
                              10, 100)
         c = parted.Constraint(PedConstraint=pc)
         self.assert_(isinstance(c, parted.Constraint))
-        self.assertTrue(c.getPedConstraint() == pc)
+        self.assertIs(c.getPedConstraint(), pc)
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):

@@ -109,7 +109,7 @@ class FreshDiskTestCase(RequiresDevice):
         # XXX: Skip over dvh for now (SGI disk label), which doesn't seem to have
         # working libparted support.  If anyone with an SGI cares, patches welcome.
         for key in parted.diskType.keys():
-            if key == 'dvh':
+            if key in ['dvh', 'aix']:
                 continue
             disk = parted.freshDisk(self.device, key)
             self.assert_(isinstance(disk, parted.Disk))
@@ -117,7 +117,7 @@ class FreshDiskTestCase(RequiresDevice):
 
         # Create a new disk each disk type value, verify each one
         for value in parted.diskType.values():
-            if value.name == 'dvh':
+            if value.name in ['dvh', 'aix']:
                 continue
             disk = parted.freshDisk(self.device, value)
             self.assert_(isinstance(disk, parted.Disk))
