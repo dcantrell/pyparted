@@ -29,6 +29,7 @@ import platform
 import re
 import sys
 import warnings
+import _ped
 
 __all__ = ['Alignment', 'Constraint', 'Device', 'Disk',
            'FileSystem', 'Geometry', 'Partition']
@@ -116,9 +117,12 @@ from _ped import PARTITION_APPLE_TV_RECOVERY
 from _ped import PARTITION_BIOS_GRUB
 from _ped import PARTITION_DIAG
 from _ped import PARTITION_LEGACY_BOOT
-from _ped import PARTITION_MSFT_DATA
-from _ped import PARTITION_IRST
-from _ped import PARTITION_ESP
+if hasattr(_ped, 'PARTITION_MSFT_DATA'):
+    from _ped import PARTITION_MSFT_DATA
+if hasattr(_ped, 'PARTITION_IRST'):
+    from _ped import PARTITION_IRST
+if hasattr(_ped, 'PARTITION_ESP'):
+    from _ped import PARTITION_ESP
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
