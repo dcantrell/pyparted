@@ -85,7 +85,7 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    return PyLong_FromLong(ret);
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
