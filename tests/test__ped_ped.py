@@ -34,16 +34,19 @@ from tests.baseclass import *
 # multiple classes and their own test suite.
 class PartitionFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
-                  _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
-                  _ped.PARTITION_LBA, _ped.PARTITION_HPSERVICE,
-                  _ped.PARTITION_PALO, _ped.PARTITION_PREP,
-                  _ped.PARTITION_MSFT_RESERVED,
-                  _ped.PARTITION_APPLE_TV_RECOVERY,
-                  _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG,
-                  _ped.PARTITION_MSFT_DATA, _ped.PARTITION_IRST,
-                  _ped.PARTITION_ESP]:
-            self.assertNotEqual(_ped.partition_flag_get_name(f), "", "Could not get name for flag %s" % f)
+        for f in ['PARTITION_BOOT', 'PARTITION_ROOT', 'PARTITION_SWAP',
+                  'PARTITION_HIDDEN', 'PARTITION_RAID', 'PARTITION_LVM',
+                  'PARTITION_LBA', 'PARTITION_HPSERVICE',
+                  'PARTITION_PALO', 'PARTITION_PREP',
+                  'PARTITION_MSFT_RESERVED',
+                  'PARTITION_APPLE_TV_RECOVERY',
+                  'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
+                  'PARTITION_MSFT_DATA', 'PARTITION_IRST',
+                  'PARTITION_ESP']:
+            if not hasattr(_ped, f):
+                continue
+            attr = getattr(_ped, f)
+            self.assertNotEqual(_ped.partition_flag_get_name(attr), "", "Could not get name for flag _ped.%s" % f)
 
         self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
         self.assertRaises(ValueError, _ped.partition_flag_get_name, 1000)
@@ -289,8 +292,13 @@ class FileSystemTypeGetTestCase(unittest.TestCase):
         for f in ["affs0", "amufs", "apfs1", "asfs", "btrfs", "ext2", "ext3", "ext4", "fat16",
                   "fat32", "hfs", "hfs+", "hfsx", "hp-ufs", "jfs", "linux-swap",
                   "ntfs", "reiserfs", "sun-ufs", "xfs"]:
-            self.assertIsInstance(_ped.file_system_type_get(f), _ped.FileSystemType,
-                         "Could not get fs type %s" % f)
+            # may be missing some filesystem types depending on the parted
+            # build on the test system
+            try:
+                t = _ped.file_system_type_get(f)
+                self.assertIsInstance(_ped.file_system_type_get(f), _ped.FileSystemType, "Could not get fs type %s" % f)
+            except _ped.UnknownTypeException:
+                pass
 
         self.assertRaises(_ped.UnknownTypeException, _ped.file_system_type_get, "nosuch")
 
