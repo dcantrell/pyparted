@@ -118,10 +118,13 @@ from _ped import PARTITION_BIOS_GRUB
 from _ped import PARTITION_DIAG
 from _ped import PARTITION_LEGACY_BOOT
 if hasattr(_ped, 'PARTITION_MSFT_DATA'):
+    # pylint: disable=E0611
     from _ped import PARTITION_MSFT_DATA
 if hasattr(_ped, 'PARTITION_IRST'):
+    # pylint: disable=E0611
     from _ped import PARTITION_IRST
 if hasattr(_ped, 'PARTITION_ESP'):
+    # pylint: disable=E0611
     from _ped import PARTITION_ESP
 
 from _ped import DISK_CYLINDER_ALIGNMENT
