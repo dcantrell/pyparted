@@ -109,15 +109,19 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
         # We don't know which flags should be available and which shouldn't,
         # but we can at least check that there aren't any tracebacks from
         # trying all of the valid ones.
-        for flag in [_ped.PARTITION_BOOT, _ped.PARTITION_ROOT, _ped.PARTITION_SWAP,
-                     _ped.PARTITION_HIDDEN, _ped.PARTITION_RAID, _ped.PARTITION_LVM,
-                     _ped.PARTITION_HPSERVICE, _ped.PARTITION_PALO,
-                     _ped.PARTITION_PREP, _ped.PARTITION_MSFT_RESERVED,
-                     _ped.PARTITION_APPLE_TV_RECOVERY,
-                     _ped.PARTITION_BIOS_GRUB, _ped.PARTITION_DIAG,
-                     _ped.PARTITION_MSFT_DATA, _ped.PARTITION_IRST,
-                     _ped.PARTITION_ESP]:
-            self.assertIsInstance(self._part.is_flag_available(flag), bool)
+        for f in ['PARTITION_BOOT', 'PARTITION_ROOT', 'PARTITION_SWAP',
+                  'PARTITION_HIDDEN', 'PARTITION_RAID', 'PARTITION_LVM',
+                  'PARTITION_LBA', 'PARTITION_HPSERVICE',
+                  'PARTITION_PALO', 'PARTITION_PREP',
+                  'PARTITION_MSFT_RESERVED',
+                  'PARTITION_APPLE_TV_RECOVERY',
+                  'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
+                  'PARTITION_MSFT_DATA', 'PARTITION_IRST',
+                  'PARTITION_ESP']:
+            if not hasattr(_ped, f):
+                continue
+            attr = getattr(_ped, f)
+            self.assertIsInstance(self._part.is_flag_available(attr), bool)
 
         # However, an invalid flag should definitely not be available.
         self.assertFalse(self._part.is_flag_available(1000))
