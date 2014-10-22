@@ -28,7 +28,7 @@ import warnings
 import parted
 import _ped
 
-from decorators import localeC
+from parted.decorators import localeC
 
 class Device(object):
     """Device()
