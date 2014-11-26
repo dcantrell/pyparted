@@ -82,6 +82,12 @@ PyDoc_STRVAR(partition_get_path_doc,
 "level.  For instance, on Linux this could return '/dev/sda' for a partition.\n"
 "If an error occurs, _ped.PartitionException is raised.");
 
+PyDoc_STRVAR(partition_reset_num_doc,
+"reset_num(self) -> boolean\n\n"
+"Reset the partition's number to value allowing it to be set correctly when\n"
+"the partition is added to _ped.PartedDisk. The returned value means\n"
+"success/failure");
+
 PyDoc_STRVAR(disk_duplicate_doc,
 "duplicate(self) -> Disk\n\n"
 "Return a new Disk that is a copy of self.  This method raises\n"

@@ -61,6 +61,8 @@ static PyMethodDef _ped_Partition_methods[] = {
                 partition_is_busy_doc},
     {"get_path", (PyCFunction) py_ped_partition_get_path, METH_VARARGS,
                  partition_get_path_doc},
+    {"reset_num", (PyCFunction) py_ped_partition_reset_num, METH_VARARGS,
+                  partition_reset_num_doc},
     {NULL}
 };
 

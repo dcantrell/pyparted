@@ -248,6 +248,10 @@ class Partition(object):
            For internal module use only."""
         return self.__partition
 
+    def resetNumber(self):
+        """Reset the partition's number to default"""
+        return self.__partition.reset_num()
+
 # collect all partition flags and store them in a hash
 partitionFlag = {}
 __flag = _ped.partition_flag_next(0)
