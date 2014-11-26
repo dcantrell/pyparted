@@ -1364,6 +1364,20 @@ PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args) {
     return PyUnicode_FromString(ret);
 }
 
+PyObject *py_ped_partition_reset_num(_ped_Partition *s, PyObject *args) {
+    PedPartition *part = NULL;
+
+    part = _ped_Partition2PedPartition(s);
+    if (part == NULL) {
+        Py_RETURN_FALSE;
+    }
+
+    part->num = -1;
+
+    Py_RETURN_TRUE;
+}
+
+
 PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
     long type;
     char *ret = NULL;

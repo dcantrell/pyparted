@@ -135,6 +135,7 @@ PyObject *py_ped_partition_set_name(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_get_name(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_is_busy(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_get_path(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_reset_num(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_type_get_name(PyObject *, PyObject *);
 PyObject *py_ped_partition_flag_get_name(PyObject *, PyObject *);
 PyObject *py_ped_partition_flag_get_by_name(PyObject *, PyObject *);
