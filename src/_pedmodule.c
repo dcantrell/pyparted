@@ -5,7 +5,7 @@
  * Python module that implements the libparted functionality via Python
  * classes and other high level language features.
  *
- * Copyright (C) 2007-2013 Red Hat, Inc.
+ * Copyright (C) 2007-2015 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -52,6 +52,8 @@
 
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
+
+PyObject *exn_handler = NULL;
 
 /* Docs strings are broken out of the module structure here to be at least a
  * little bit readable.
@@ -199,6 +201,25 @@ PyDoc_STRVAR(unit_get_by_name_doc,
 "Returns a Unit given its textual representation.  Returns one of the\n"
 "UNIT_* constants.");
 
+PyDoc_STRVAR(register_exn_handler_doc,
+"register_exn_handler(function)\n\n"
+"When parted raises an exception, the function registered here will be called\n"
+"to help determine what action to take.  This does not bypass the exception\n"
+"handler pyparted uses.  Instead, it can be used to pop up a dialog to ask the\n"
+"user which course of action to take, or to provide a different default answer,\n"
+"or other actions.\n\n"
+"The given function must accept as arguments:  (1) an integer corresponding to\n"
+"one of the EXCEPTION_TYPE_* constants; (2) an integer corresponding to one of the\n"
+"EXCEPTION_OPT_* constants; and (3) a string that is the problem encountered by\n"
+"parted.  This string will already be translated.  The given function must return\n"
+"one of the EXCEPTION_RESOLVE_* constants instructing parted how to proceed.");
+
+PyDoc_STRVAR(clear_exn_handler_doc,
+"clear_exn_handler()\n\n"
+"Clear any previously added exception handling function.  This means the\n"
+"default behavior for all parted exceptions will be used, so only safe\n"
+"answers to any questions parted asks will be automatically provided.");
+
 PyDoc_STRVAR(_ped_doc,
 "This module implements an interface to libparted.\n\n"
 "pyparted provides two API layers:  a lower level that exposes the complete\n"
@@ -213,12 +234,36 @@ PyDoc_STRVAR(_ped_doc,
 "For complete documentation, refer to the docs strings for each _ped\n"
 "method, exception class, and subclass.");
 
+PyObject *py_ped_register_exn_handler(PyObject *s, PyObject *args) {
+    PyObject *fn = NULL;
+
+    if (!PyArg_ParseTuple(args, "O", &fn)) {
+        return NULL;
+    }
+
+    Py_DECREF(exn_handler);
+    exn_handler = fn;
+
+    Py_RETURN_TRUE;
+}
+
+PyObject *py_ped_clear_exn_handler(PyObject *s, PyObject *args) {
+    exn_handler = Py_None;
+    Py_INCREF(exn_handler);
+    Py_RETURN_TRUE;
+}
+
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
     {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS,
                           libparted_version_doc},
     {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS,
                          pyparted_version_doc},
+
+    {"register_exn_handler", (PyCFunction) py_ped_register_exn_handler, METH_VARARGS,
+                             register_exn_handler_doc},
+    {"clear_exn_handler", (PyCFunction) py_ped_clear_exn_handler, METH_VARARGS,
+                          clear_exn_handler_doc},
 
     /* pyconstraint.c */
     {"constraint_new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
@@ -365,6 +410,10 @@ PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
  * main motivation for this function is that methods in our parted module need
  * to be able to raise specific, helpful exceptions instead of something
  * generic.
+ *
+ * It is also possible for callers to specify a function to help in deciding
+ * what to do with parted exceptions.  See the docs for the
+ * py_ped_register_exn_handler function.
  */
 static PedExceptionOption partedExnHandler(PedException *e) {
     switch (e->type) {
@@ -378,13 +427,29 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
                 if (partedExnMessage == NULL)
                     PyErr_NoMemory();
+                else if (exn_handler && PyCallable_Check(exn_handler)) {
+                    PyObject *args, *retval;
 
-                /*
-                 * return 'no' for yes/no question exceptions in libparted,
-                 * prevent any potential disk destruction and pass up an
-                 * exception to our caller
-                 */
-                return PED_EXCEPTION_NO;
+                    args = PyTuple_New(3);
+                    PyTuple_SetItem(args, 0, PyInt_FromLong(e->type));
+                    PyTuple_SetItem(args, 1, PyInt_FromLong(e->options));
+                    PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
+
+                    retval = PyObject_CallObject(exn_handler, NULL);
+                    Py_DECREF(args);
+                    if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0))
+                        return PyLong_AsLong(retval);
+                    else
+                        /* Call failed, use the default value. */
+                        return PED_EXCEPTION_NO;
+                }
+                else {
+                    /* If no exception handling function was registered to
+                     * tell us what to do, return "no" for any yes/no
+                     * questions to prevent any potential disk destruction.
+                     */
+                    return PED_EXCEPTION_NO;
+                }
             } else {
                 partedExnRaised = 0;
                 return PED_EXCEPTION_IGNORE;
@@ -400,8 +465,29 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
             if (partedExnMessage == NULL)
                 PyErr_NoMemory();
+            else if (exn_handler && PyCallable_Check(exn_handler)) {
+                PyObject *args, *retval;
 
-            return PED_EXCEPTION_CANCEL;
+                args = PyTuple_New(3);
+                PyTuple_SetItem(args, 0, PyInt_FromLong(e->type));
+                PyTuple_SetItem(args, 1, PyInt_FromLong(e->options));
+                PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
+
+                retval = PyObject_CallObject(exn_handler, NULL);
+                Py_DECREF(args);
+                if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0))
+                    return PyLong_AsLong(retval);
+                else
+                    /* Call failed, use the default value. */
+                    return PED_EXCEPTION_CANCEL;
+            }
+            else {
+                /* If no exception handling function was registered to tell us
+                 * what to do, return "cancel" for any questions to prevent
+                 * any potential disk destruction.
+                 */
+                return PED_EXCEPTION_CANCEL;
+            }
 
         /* Raise exceptions for internal parted bugs immediately. */
         case PED_EXCEPTION_BUG:
@@ -647,6 +733,35 @@ MOD_INIT(_ped) {
                                               NULL);
     Py_INCREF(UnknownTypeException);
     PyModule_AddObject(m, "UnknownTypeException", UnknownTypeException);
+
+    /* Exception type constants. */
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_INFORMATION", PED_EXCEPTION_INFORMATION);
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_WARNING", PED_EXCEPTION_WARNING);
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_ERROR", PED_EXCEPTION_ERROR);
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_FATAL", PED_EXCEPTION_FATAL);
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_BUG", PED_EXCEPTION_BUG);
+    PyModule_AddIntConstant(m, "EXCEPTION_TYPE_NO_FEATURE", PED_EXCEPTION_NO_FEATURE);
+
+    /* Exception resolution constants. */
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_UNHANDLED", PED_EXCEPTION_UNHANDLED);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_FIX", PED_EXCEPTION_FIX);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_YES", PED_EXCEPTION_YES);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_NO", PED_EXCEPTION_NO);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_OK", PED_EXCEPTION_OK);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_RETRY", PED_EXCEPTION_RETRY);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_IGNORE", PED_EXCEPTION_IGNORE);
+    PyModule_AddIntConstant(m, "EXCEPTION_RESOLVE_CANCEL", PED_EXCEPTION_CANCEL);
+
+    /* Exception option constants. */
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_OK_CANCEL", PED_EXCEPTION_OK_CANCEL);
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_YES_NO", PED_EXCEPTION_YES_NO);
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_YES_NO_CANCEL", PED_EXCEPTION_YES_NO_CANCEL);
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_IGNORE_CANCEL", PED_EXCEPTION_IGNORE_CANCEL);
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_RETRY_CANCEL", PED_EXCEPTION_RETRY_CANCEL);
+    PyModule_AddIntConstant(m, "EXCEPTION_OPT_RETRY_IGNORE_CANCEL", PED_EXCEPTION_RETRY_IGNORE_CANCEL);
+
+    exn_handler = Py_None;
+    Py_INCREF(exn_handler);
 
     /* Set up our libparted exception handler. */
     ped_exception_set_handler(partedExnHandler);
