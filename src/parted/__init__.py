@@ -2,7 +2,7 @@
 # __init__.py
 # Python bindings for libparted (built on top of the _ped Python module).
 #
-# Copyright (C) 2007-2013 Red Hat, Inc.
+# Copyright (C) 2007-2015 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -49,6 +49,9 @@ from _ped import PartitionException
 from _ped import TimerException
 from _ped import UnknownDeviceException
 from _ped import UnknownTypeException
+
+from _ped import register_exn_handler
+from _ped import clear_exn_handler
 
 from parted.alignment import Alignment
 from parted.constraint import Constraint
@@ -132,6 +135,29 @@ from _ped import DISK_GPT_PMBR_BOOT
 
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
+
+from _ped import EXCEPTION_TYPE_INFORMATION
+from _ped import EXCEPTION_TYPE_WARNING
+from _ped import EXCEPTION_TYPE_ERROR
+from _ped import EXCEPTION_TYPE_FATAL
+from _ped import EXCEPTION_TYPE_BUG
+from _ped import EXCEPTION_TYPE_NO_FEATURE
+
+from _ped import EXCEPTION_RESOLVE_UNHANDLED
+from _ped import EXCEPTION_RESOLVE_FIX
+from _ped import EXCEPTION_RESOLVE_YES
+from _ped import EXCEPTION_RESOLVE_NO
+from _ped import EXCEPTION_RESOLVE_OK
+from _ped import EXCEPTION_RESOLVE_RETRY
+from _ped import EXCEPTION_RESOLVE_IGNORE
+from _ped import EXCEPTION_RESOLVE_CANCEL
+
+from _ped import EXCEPTION_OPT_OK_CANCEL
+from _ped import EXCEPTION_OPT_YES_NO
+from _ped import EXCEPTION_OPT_YES_NO_CANCEL
+from _ped import EXCEPTION_OPT_IGNORE_CANCEL
+from _ped import EXCEPTION_OPT_RETRY_CANCEL
+from _ped import EXCEPTION_OPT_RETRY_IGNORE_CANCEL
 
 from parted.decorators import localeC
 
