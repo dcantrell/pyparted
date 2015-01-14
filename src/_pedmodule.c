@@ -431,8 +431,8 @@ static PedExceptionOption partedExnHandler(PedException *e) {
                     PyObject *args, *retval;
 
                     args = PyTuple_New(3);
-                    PyTuple_SetItem(args, 0, PyInt_FromLong(e->type));
-                    PyTuple_SetItem(args, 1, PyInt_FromLong(e->options));
+                    PyTuple_SetItem(args, 0, PyLong_FromLong(e->type));
+                    PyTuple_SetItem(args, 1, PyLong_FromLong(e->options));
                     PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
 
                     retval = PyObject_CallObject(exn_handler, NULL);
@@ -469,8 +469,8 @@ static PedExceptionOption partedExnHandler(PedException *e) {
                 PyObject *args, *retval;
 
                 args = PyTuple_New(3);
-                PyTuple_SetItem(args, 0, PyInt_FromLong(e->type));
-                PyTuple_SetItem(args, 1, PyInt_FromLong(e->options));
+                PyTuple_SetItem(args, 0, PyLong_FromLong(e->type));
+                PyTuple_SetItem(args, 1, PyLong_FromLong(e->options));
                 PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
 
                 retval = PyObject_CallObject(exn_handler, NULL);
