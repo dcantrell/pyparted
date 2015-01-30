@@ -46,6 +46,13 @@ to other installers or even write other applications (maybe a Python based
 alternative to parted(8) or fdisk(8)).
 
 
+EXAMPLES
+
+Example code is provided in the examples directory.  These may help provide a
+gentle introduction to the usage concepts of pyparted.  More examples are always
+welcome, as are improved explanatory commentary for those that exist.
+
+
 QUESTIONS
 
 If you are reporting a pyparted failure in Fedora, it's most useful if
