@@ -41,7 +41,7 @@ test: all
 
 check: all
 	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
-	pylint $(PYLINTOPTS) src/parted/*.py
+	pylint --extension-pkg-whitelist=_ped $(PYLINTOPTS) src/parted/*.py
 
 ChangeLog:
 	git log > ChangeLog
