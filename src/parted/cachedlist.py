@@ -75,6 +75,9 @@ class CachedList(Sequence):
         self.__rebuildList()
         return str(self._lst)
 
+    def __hash__(self):
+        return hash(str(self))
+
     def count(self, value):
         self.__rebuildList()
         return self._lst.count(value)
