@@ -396,7 +396,7 @@ class Disk(object):
             return None
 
     def __filterPartitions(self, fn):
-        return filter(fn, self.partitions)
+        return [part for part in self.partitions if fn(part)]
 
     def getLogicalPartitions(self):
         """Return a list of logical Partitions on this Disk."""
