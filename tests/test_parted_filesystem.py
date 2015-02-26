@@ -20,7 +20,6 @@
 # Red Hat Author(s): David Cantrell <dcantrell@redhat.com>
 #
 
-import parted
 import unittest
 
 # One class per method, multiple tests per class.  For these simple methods,

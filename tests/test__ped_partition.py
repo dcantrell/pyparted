@@ -21,7 +21,7 @@
 import _ped
 import unittest
 
-from tests.baseclass import *
+from tests.baseclass import RequiresDisk, RequiresPartition
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
