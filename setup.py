@@ -17,6 +17,8 @@
 #
 # Author(s): David Cantrell <dcantrell@redhat.com>
 #            Alex Skinner <alex@lx.lc>
+#
+# pylint: skip-file
 
 import subprocess
 import glob
