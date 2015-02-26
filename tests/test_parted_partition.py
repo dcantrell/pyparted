@@ -126,7 +126,7 @@ class PartitionStrTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
-def suite():
+def makeSuite():
     suite = unittest.TestSuite()
     suite.addTest(PartitionNewTestCase())
     suite.addTest(PartitionGetSetTestCase())
@@ -145,6 +145,6 @@ def suite():
     suite.addTest(PartitionStrTestCase())
     return suite
 
-s = suite()
+s = makeSuite()
 if __name__ == "__main__":
     unittest.main(defaultTest='s', verbosity=2)

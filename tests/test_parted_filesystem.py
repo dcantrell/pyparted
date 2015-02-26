@@ -50,7 +50,7 @@ class FileSystemStrTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
-def suite():
+def makeSuite():
     suite = unittest.TestSuite()
     suite.addTest(FileSystemNewTestCase())
     suite.addTest(FileSystemGetSetTestCase())
@@ -58,6 +58,6 @@ def suite():
     suite.addTest(FileSystemStrTestCase())
     return suite
 
-s = suite()
+s = makeSuite()
 if __name__ == "__main__":
     unittest.main(defaultTest='s', verbosity=2)

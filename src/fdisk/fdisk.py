@@ -64,8 +64,8 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
                          partition.fileSystem))
 
     colLength = 0
-    for slice in partlist:
-        (partition, path, bootable, start, end, length, type, fs) = slice
+    for parts in partlist:
+        (partition, path, bootable, start, end, length, ty, fs) = parts
         if len(path) > colLength:
             colLength = len(path)
 
@@ -76,8 +76,8 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
 
     sys.stdout.write("%-11s %-4s %-11s %-11s %-12s %-4s %s\n" % ("Device", "Boot", "Start", "End", "Blocks", "Id", "System",))
 
-    for slice in partlist:
-        (partition, path, bootable, start, end, length, type, fs) = slice
+    for parts in partlist:
+        (partition, path, bootable, start, end, length, ty, fs) = parts
 
         if bootable:
             bootflag = '*'
@@ -123,11 +123,11 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
 def main(argv):
     cmd = os.path.basename(sys.argv[0])
     opts, args = [], []
-    help, list, showsectors, showblocks = False, False, False, False
+    showhelp, showlist, showsectors, showblocks = False, False, False, False
     sectorsize, cylinders, heads, sectors = None, None, None, None
 
     if len(sys.argv) == 1:
-        help = True
+        showhelp = True
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "lb:C:H:S:usV?",
@@ -135,11 +135,11 @@ def main(argv):
                                     "heads=", "sectors=", "showsectors",
                                     "showblocks", "version", "help"])
     except getopt.GetoptError:
-        help = True
+        showhelp = True
 
     for o, a in opts:
         if o in ('-l', '--list'):
-            list = True
+            showlist = True
         elif o in ('-b', '--sectorsize'):
             sectorsize = a
         elif o in ('-C', '--cylinders'):
@@ -160,14 +160,14 @@ def main(argv):
             sys.exit(0)
         else:
             sys.stderr.write("Invalid option: %s\n\n" % (o,))
-            help = True
+            showhelp = True
 
-    if help:
+    if showhelp:
         usage(cmd)
         sys.exit(1)
 
     for arg in args:
-        if list:
+        if showlist:
             listPartitionTable(arg, sectorsize, showsectors, showblocks)
 
 if __name__ == "__main__":

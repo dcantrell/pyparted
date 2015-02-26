@@ -121,9 +121,9 @@ class ConstraintNewFromMinMaxTestCase(RequiresDevice):
                           _ped.Geometry(self._device, 15, 25))
 
         # Now test a correct call.
-        min = _ped.Geometry(self._device, 10, 20)
-        max = _ped.Geometry(self._device, 0, 30)
-        constraint = _ped.constraint_new_from_min_max(min, max)
+        minimum = _ped.Geometry(self._device, 10, 20)
+        maximum = _ped.Geometry(self._device, 0, 30)
+        constraint = _ped.constraint_new_from_min_max(minimum, maximum)
 
         self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
@@ -136,8 +136,8 @@ class ConstraintNewFromMinTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_new_from_min, None)
 
-        min = _ped.Geometry(self._device, 10, 20)
-        constraint = _ped.constraint_new_from_min(min)
+        minimum = _ped.Geometry(self._device, 10, 20)
+        constraint = _ped.constraint_new_from_min(minimum)
 
         self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
@@ -149,8 +149,8 @@ class ConstraintNewFromMaxTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_new_from_max, None)
 
-        max = _ped.Geometry(self._device, 10, 20)
-        constraint = _ped.constraint_new_from_max(max)
+        maximum = _ped.Geometry(self._device, 10, 20)
+        constraint = _ped.constraint_new_from_max(maximum)
 
         self.assertIsInstance(constraint, _ped.Constraint)
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 10, 20)))
@@ -256,17 +256,17 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
 
 class FileSystemProbeTestCase(RequiresFileSystem):
     def runTest(self):
-        type = _ped.file_system_probe(self._geometry)
+        ty = _ped.file_system_probe(self._geometry)
 
         for name in self._fileSystemType.keys():
             if name == 'ext2':
-                self.assertEqual(type.name, name)
+                self.assertEqual(ty.name, name)
             else:
-                self.assertNotEqual(type.name, name)
+                self.assertNotEqual(ty.name, name)
 
 class FileSystemProbeSpecificTestCase(RequiresFileSystem):
     def runTest(self):
-        for (name, type,) in self._fileSystemType.items():
+        for (name, ty,) in self._fileSystemType.items():
             if name == 'ext2':
                 result = _ped.file_system_probe_specific(type, self._geometry)
 
@@ -282,7 +282,7 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
                 self.assertLessEqual(result.length, self._geometry.length)
                 self.assertEqual(result.dev, self._device)
             else:
-                result = _ped.file_system_probe_specific(type, self._geometry)
+                result = _ped.file_system_probe_specific(ty, self._geometry)
                 self.assertEqual(result, None)
 
 class FileSystemTypeGetTestCase(unittest.TestCase):
