@@ -47,13 +47,13 @@ class RequiresDevice(RequiresDeviceNode):
 class RequiresFileSystem(unittest.TestCase):
     def setUp(self):
         self._fileSystemType = {}
-        type = _ped.file_system_type_get_next()
-        self._fileSystemType[type.name] = type
+        ty = _ped.file_system_type_get_next()
+        self._fileSystemType[ty.name] = ty
 
         while True:
             try:
-                type = _ped.file_system_type_get_next(type)
-                self._fileSystemType[type.name] = type
+                ty = _ped.file_system_type_get_next(ty)
+                self._fileSystemType[ty.name] = ty
             except:
                 break
 
@@ -162,13 +162,13 @@ class RequiresPartition(RequiresDisk):
 class RequiresDiskTypes(unittest.TestCase):
     def setUp(self):
         self.disktype = {}
-        type = _ped.disk_type_get_next()
-        self.disktype[type.name] = type
+        ty = _ped.disk_type_get_next()
+        self.disktype[ty.name] = ty
 
         while True:
             try:
-                type = _ped.disk_type_get_next(type)
-                self.disktype[type.name] = type
+                ty = _ped.disk_type_get_next(ty)
+                self.disktype[ty.name] = ty
             except:
                 break
 

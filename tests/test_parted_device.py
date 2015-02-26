@@ -157,7 +157,7 @@ class DeviceStrTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
-def suite():
+def makeSuite():
     suite = unittest.TestSuite()
     suite.addTest(DeviceNewTestCase())
     suite.addTest(DeviceGetSetTestCase())
@@ -183,6 +183,6 @@ def suite():
     suite.addTest(DeviceStrTestCase())
     return suite
 
-s = suite()
+s = makeSuite()
 if __name__ == "__main__":
     unittest.main(defaultTest='s', verbosity=2)

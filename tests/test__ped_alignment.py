@@ -119,9 +119,9 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         new_offset = verifyA.offset + x * delta_on_gcd * verifyA.grain_size
         new_grain_size = verifyA.grain_size * verifyB.grain_size / gcd
 
-        complex = self.complexA.intersect(self.complexB)
-        self.assertEqual(new_offset, complex.offset)
-        self.assertEqual(new_grain_size, complex.grain_size)
+        intersection = self.complexA.intersect(self.complexB)
+        self.assertEqual(new_offset, intersection.offset)
+        self.assertEqual(new_grain_size, intersection.grain_size)
 
 class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
     def setUp(self):
