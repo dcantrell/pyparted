@@ -28,8 +28,6 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = $(PACKAGE)-$(VERSION)
 
-PYLINTOPTS    = src/parted/*py --msg-template='{msg_id}:{line:3d},{column}: {obj}: {msg}' --rcfile=/dev/null -r n --disable=C,R --disable=W0141,W0212,W0511,W0613,W0702,E1103
-
 default: all
 
 all:
@@ -41,7 +39,7 @@ test: all
 
 check: all
 	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
-	pylint --extension-pkg-whitelist=_ped $(PYLINTOPTS) src/parted/*.py
+	tests/pylint/runpylint.py
 
 ChangeLog:
 	git log > ChangeLog
