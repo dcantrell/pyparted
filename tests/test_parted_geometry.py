@@ -23,7 +23,7 @@
 import parted
 import unittest
 
-from tests.baseclass import *
+from tests.baseclass import RequiresDevice
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require

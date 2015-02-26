@@ -18,7 +18,6 @@
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #                    David Cantrell <dcantrell@redhat.com>
 #
-import _ped
 import unittest
 
 # One class per method, multiple tests per class.  For these simple methods,
