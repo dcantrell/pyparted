@@ -99,4 +99,3 @@ install: all
 
 clean:
 	@$(PYTHON) setup.py clean
-	@[ -d .git ] && git clean -d -x -f
