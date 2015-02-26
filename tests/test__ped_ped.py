@@ -24,10 +24,8 @@
 
 import _ped
 import unittest
-import os
-import tempfile
 
-from tests.baseclass import *
+from tests.baseclass import BuildList, RequiresDevice, RequiresFileSystem
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
