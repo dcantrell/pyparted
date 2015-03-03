@@ -57,7 +57,7 @@ class ExampleDevice(object):
         @rtype:     str
         """
         names = glob('{}[0-9]*'.format(self.path))
-        self.logger.debug('has partitions {}'.format(names))
+        self.logger.debug('has partitions %s', names)
         return names
 
     def partition(self):
@@ -72,17 +72,17 @@ class ExampleDevice(object):
         """
         self.logger.info('creating primary partition')
         device = parted.getDevice(self.path)
-        self.logger.debug('created {}'.format(device))
+        self.logger.debug('created %s', device)
         disk = parted.freshDisk(device, 'msdos')
-        self.logger.debug('created {}'.format(disk))
+        self.logger.debug('created %s', disk)
         geometry = parted.Geometry(device=device, start=1,
                                    length=device.getLength() - 1)
-        self.logger.debug('created {}'.format(geometry))
+        self.logger.debug('created %s', geometry)
         filesystem = parted.FileSystem(type='ext3', geometry=geometry)
-        self.logger.debug('created {}'.format(filesystem))
+        self.logger.debug('created %s', filesystem)
         partition = parted.Partition(disk=disk, type=parted.PARTITION_NORMAL,
                                      fs=filesystem, geometry=geometry)
-        self.logger.debug('created {}'.format(partition))
+        self.logger.debug('created %s', partition)
         disk.addPartition(partition=partition,
                           constraint=device.optimalAlignedConstraint)
         partition.setFlag(parted.PARTITION_BOOT)
@@ -96,7 +96,7 @@ class ExampleDevice(object):
         @param dev_path:    Device path of the partition to be wiped.
         @type dev_path:     str
         """
-        self.logger.debug('wiping {!r}'.format(dev_path))
+        self.logger.debug('wiping %s', dev_path)
         with open(dev_path, 'wb') as p:
             p.write(bytearray(1024))
 
