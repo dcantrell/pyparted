@@ -138,6 +138,10 @@ class RequiresDisk(RequiresDevice):
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.mountpoint = None
+
     def mkfs(self):
         os.system("/sbin/mkfs.ext2 -F -q %s" % self.path)
 

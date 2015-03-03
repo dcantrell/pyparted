@@ -68,9 +68,9 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 class AlignmentDuplicateTestCase(unittest.TestCase):
     def setUp(self):
         self.a = _ped.Alignment(27, 49)
+        self.dup = self.a.duplicate()
 
     def runTest(self):
-        self.dup = self.a.duplicate()
         self.assertEqual(self.a.offset, self.dup.offset)
         self.assertEqual(self.a.grain_size, self.dup.grain_size)
 
