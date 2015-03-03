@@ -45,8 +45,8 @@ class DiskTypeGetSetTestCase(RequiresDiskTypes):
                 bigint = int
                 uni = str
             else:
-                bigint = long
-                uni = unicode
+                bigint = long       # pylint: disable=undefined-variable
+                uni = unicode       # pylint: disable=undefined-variable
             self.assertIsInstance(t.name, uni)
             self.assertEqual(t.name, name)
             self.assertIsInstance(t.features, bigint)

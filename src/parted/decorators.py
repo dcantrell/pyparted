@@ -30,6 +30,7 @@ def localeC(fn):
     def _setlocale(l):
         try:
             locale.setlocale(locale.LC_MESSAGES, l)
+        # pylint: disable=bare-except
         except:
             pass
 
