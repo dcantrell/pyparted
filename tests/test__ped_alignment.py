@@ -113,8 +113,8 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         # complex test second, see libparted/cs/natmath.c for an explanation
         # of the math behind computing the intersection of two alignments
         (verifyA, verifyB) = self.orderAlignments(self.complexA, self.complexB)
-        (gcd, x, y) = self.extendedEuclid(verifyA.grain_size,
-                                          verifyB.grain_size)
+        (gcd, x, _y) = self.extendedEuclid(verifyA.grain_size,
+                                           verifyB.grain_size)
         delta_on_gcd = (verifyB.offset - verifyA.offset) / gcd
         new_offset = verifyA.offset + x * delta_on_gcd * verifyA.grain_size
         new_grain_size = verifyA.grain_size * verifyB.grain_size / gcd

@@ -294,7 +294,7 @@ class FileSystemTypeGetTestCase(unittest.TestCase):
             # build on the test system
             try:
                 t = _ped.file_system_type_get(f)
-                self.assertIsInstance(_ped.file_system_type_get(f), _ped.FileSystemType, "Could not get fs type %s" % f)
+                self.assertIsInstance(t, _ped.FileSystemType, "Could not get fs type %s" % t)
             except _ped.UnknownTypeException:
                 pass
 
