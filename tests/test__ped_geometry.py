@@ -76,9 +76,9 @@ class GeometryDuplicateTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self.g = _ped.Geometry(self._device, start=0, length=100)
+        self.dup = self.g.duplicate()
 
     def runTest(self):
-        self.dup = self.g.duplicate()
         self.assertEqual(self.g.start, self.dup.start)
         self.assertEqual(self.g.length, self.dup.length)
         self.assertEqual(self.g.end, self.dup.end)
@@ -88,9 +88,10 @@ class GeometryIntersectTestCase(RequiresDevice):
         RequiresDevice.setUp(self)
         self.g1 = _ped.Geometry(self._device, start=0, length=100)
         self.g2 = _ped.Geometry(self._device, start=0, length=100)
+        self.i = None
 
     def runTest(self):
-       # g1 and g2 are the same, so their intersection is the same
+        # g1 and g2 are the same, so their intersection is the same
         self.i = self.g1.intersect(self.g2)
         self.assertEqual(self.i.start, self.g1.start)
         self.assertEqual(self.i.end, self.g1.end)
