@@ -22,6 +22,10 @@
 #            Alex Skinner <alex@lx.lc>
 #
 
+import sys
+if sys.version_info >= (3, ):
+    long = int
+
 import math
 import warnings
 

@@ -391,6 +391,7 @@ class Disk(object):
         """Return the extended Partition, if any, on this Disk."""
         try:
             return parted.Partition(disk=self, PedPartition=self.__disk.extended_partition())
+        # pylint: disable=bare-except
         except:
             return None
 
@@ -473,7 +474,7 @@ while True:
     try:
         __type = _ped.disk_type_get_next(__type)
         diskType[__type.name] = __type
-    except:
+    except (IndexError, TypeError, _ped.UnknownTypeException):
         break
 
 # collect all disk flags and store them in a hash
