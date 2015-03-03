@@ -164,7 +164,7 @@ from parted.decorators import localeC
 if sys.version_info >= (3,):
     string_types = str
 else:
-    string_types = basestring
+    string_types = basestring # pylint: disable=undefined-variable
 
 partitionTypesDict = {
     0x00: "Empty",
