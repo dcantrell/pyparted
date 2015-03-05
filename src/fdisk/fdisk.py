@@ -41,6 +41,13 @@ def usage(cmd):
     sys.stdout.write("   -V, --version               Show fdisk version\n")
     sys.stdout.write("   -?, --help                  Display fdisk usage screen\n")
 
+def displayVersion(cmd):
+    ver = parted.version()
+
+    sys.stdout.write("%s:\n" % (cmd,))
+    sys.stdout.write("pyparted version: %s.%s.%s\n" % (ver["pyparted"][0], ver["pyparted"][1], ver["pyparted"][2]))
+    sys.stdout.write("libparted version: %s\n" % ver["libparted"])
+
 def listPartitionTable(path, sectorsize, showsectors, showblocks):
     device = parted.getDevice(path)
     (cylinders, heads, sectors) = device.biosGeometry
@@ -65,7 +72,7 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
 
     colLength = 0
     for parts in partlist:
-        (partition, path, bootable, start, end, length, ty, fs) = parts
+        path = parts[1]
         if len(path) > colLength:
             colLength = len(path)
 
@@ -84,7 +91,7 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
         else:
             bootflag = ''
 
-        sys.stdout.write("%-11s %-4s %-11d %-11d %-12d %-4s" % (path, bootflag, start, end, length, type,))
+        sys.stdout.write("%-11s %-4s %-11d %-11d %-12d %-4s" % (path, bootflag, start, end, length, ty,))
 
         if fs is None:
             # no filesystem, check flags
@@ -118,13 +125,14 @@ def listPartitionTable(path, sectorsize, showsectors, showblocks):
 #/dev/sda3   *        4203        4229      204800   83  Linux
 #/dev/sda4            4229       30402   210234515+  8e  Linux LVM
 
-
-
 def main(argv):
     cmd = os.path.basename(sys.argv[0])
     opts, args = [], []
     showhelp, showlist, showsectors, showblocks = False, False, False, False
-    sectorsize, cylinders, heads, sectors = None, None, None, None
+
+    # These three are unused for now so I'm marking them with an underscore
+    # to make pylint happy.
+    sectorsize, _cylinders, _heads, _sectors = None, None, None, None
 
     if len(sys.argv) == 1:
         showhelp = True
@@ -143,11 +151,11 @@ def main(argv):
         elif o in ('-b', '--sectorsize'):
             sectorsize = a
         elif o in ('-C', '--cylinders'):
-            cylinders = a
+            _cylinders = a
         elif o in ('-H', '--heads'):
-            heads = a
+            _heads = a
         elif o in ('-S', '--sectors'):
-            sectors = a
+            _sectors = a
         elif o in ('-u', '--showsectors'):
             showsectors = True
         elif o in ('-s', '--showblocks'):
