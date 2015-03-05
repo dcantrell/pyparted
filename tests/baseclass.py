@@ -54,7 +54,7 @@ class RequiresFileSystem(unittest.TestCase):
             try:
                 ty = _ped.file_system_type_get_next(ty)
                 self._fileSystemType[ty.name] = ty
-            except:
+            except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
         (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
@@ -173,7 +173,7 @@ class RequiresDiskTypes(unittest.TestCase):
             try:
                 ty = _ped.disk_type_get_next(ty)
                 self.disktype[ty.name] = ty
-            except:
+            except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
 # Base class for any test case that requires a list being built via successive
