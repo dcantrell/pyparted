@@ -268,7 +268,7 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
     def runTest(self):
         for (name, ty,) in self._fileSystemType.items():
             if name == 'ext2':
-                result = _ped.file_system_probe_specific(type, self._geometry)
+                result = _ped.file_system_probe_specific(ty, self._geometry)
 
                 # XXX: this should work
                 # we're getting
