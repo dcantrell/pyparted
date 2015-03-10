@@ -37,8 +37,9 @@ test: all
 	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	$(PYTHON) -m unittest discover -v
 
-check: all
-	env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
+check: clean
+	env PYTHON=python3 $(MAKE) ; \
+	env PYTHON=python3 PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	tests/pylint/runpylint.py
 
 ChangeLog:
@@ -96,4 +97,4 @@ install: all
 	@$(PYTHON) setup.py install --root $(DESTDIR) -c -O1
 
 clean:
-	@$(PYTHON) setup.py clean
+	-rm -r build
