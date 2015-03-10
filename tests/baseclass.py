@@ -47,14 +47,14 @@ class RequiresDevice(RequiresDeviceNode):
 class RequiresFileSystem(unittest.TestCase):
     def setUp(self):
         self._fileSystemType = {}
-        type = _ped.file_system_type_get_next()
-        self._fileSystemType[type.name] = type
+        ty = _ped.file_system_type_get_next()
+        self._fileSystemType[ty.name] = ty
 
         while True:
             try:
-                type = _ped.file_system_type_get_next(type)
-                self._fileSystemType[type.name] = type
-            except:
+                ty = _ped.file_system_type_get_next(ty)
+                self._fileSystemType[ty.name] = ty
+            except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
         (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
@@ -138,6 +138,10 @@ class RequiresDisk(RequiresDevice):
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.mountpoint = None
+
     def mkfs(self):
         os.system("/sbin/mkfs.ext2 -F -q %s" % self.path)
 
@@ -162,14 +166,14 @@ class RequiresPartition(RequiresDisk):
 class RequiresDiskTypes(unittest.TestCase):
     def setUp(self):
         self.disktype = {}
-        type = _ped.disk_type_get_next()
-        self.disktype[type.name] = type
+        ty = _ped.disk_type_get_next()
+        self.disktype[ty.name] = ty
 
         while True:
             try:
-                type = _ped.disk_type_get_next(type)
-                self.disktype[type.name] = type
-            except:
+                ty = _ped.disk_type_get_next(ty)
+                self.disktype[ty.name] = ty
+            except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
 # Base class for any test case that requires a list being built via successive
