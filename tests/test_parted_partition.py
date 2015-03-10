@@ -23,7 +23,7 @@
 import parted
 import unittest
 
-from tests.baseclass import *
+from tests.baseclass import RequiresDisk
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -126,7 +126,7 @@ class PartitionStrTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
-def suite():
+def makeSuite():
     suite = unittest.TestSuite()
     suite.addTest(PartitionNewTestCase())
     suite.addTest(PartitionGetSetTestCase())
@@ -145,6 +145,6 @@ def suite():
     suite.addTest(PartitionStrTestCase())
     return suite
 
-s = suite()
+s = makeSuite()
 if __name__ == "__main__":
     unittest.main(defaultTest='s', verbosity=2)

@@ -20,9 +20,8 @@
 #
 
 import _ped
-import unittest
 
-from tests.baseclass import *
+from tests.baseclass import RequiresDevice
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -105,9 +104,9 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 
         self.c = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
                                  max_size=100)
+        self.dup = self.c.duplicate()
 
     def runTest(self):
-        self.dup = self.c.duplicate()
         self.assertEqual(self.c.min_size, self.dup.min_size)
         self.assertEqual(self.c.max_size, self.dup.max_size)
 

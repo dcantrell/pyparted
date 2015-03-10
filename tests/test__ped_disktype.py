@@ -22,7 +22,7 @@
 import _ped
 import sys
 import unittest
-from tests.baseclass import *
+from tests.baseclass import RequiresDiskTypes
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -45,8 +45,8 @@ class DiskTypeGetSetTestCase(RequiresDiskTypes):
                 bigint = int
                 uni = str
             else:
-                bigint = long
-                uni = unicode
+                bigint = long       # pylint: disable=undefined-variable
+                uni = unicode       # pylint: disable=undefined-variable
             self.assertIsInstance(t.name, uni)
             self.assertEqual(t.name, name)
             self.assertIsInstance(t.features, bigint)
