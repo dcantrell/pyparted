@@ -23,7 +23,7 @@
 import parted
 import unittest
 
-from tests.baseclass import *
+from tests.baseclass import RequiresDevice
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -127,7 +127,7 @@ class GeometryStrTestCase(unittest.TestCase):
         self.fail("Unimplemented test case.")
 
 # And then a suite to hold all the test cases for this module.
-def suite():
+def makeSuite():
     suite = unittest.TestSuite()
     suite.addTest(GeometryNewTestCase())
     suite.addTest(GeometryGetSetTestCase())
@@ -147,6 +147,6 @@ def suite():
     suite.addTest(GeometryStrTestCase())
     return suite
 
-s = suite()
+s = makeSuite()
 if __name__ == "__main__":
     unittest.main(defaultTest='s', verbosity=2)

@@ -21,7 +21,7 @@
 
 import _ped
 import unittest
-from tests.baseclass import *
+from tests.baseclass import RequiresDevice, RequiresDeviceAlignment
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -68,9 +68,9 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 class AlignmentDuplicateTestCase(unittest.TestCase):
     def setUp(self):
         self.a = _ped.Alignment(27, 49)
+        self.dup = self.a.duplicate()
 
     def runTest(self):
-        self.dup = self.a.duplicate()
         self.assertEqual(self.a.offset, self.dup.offset)
         self.assertEqual(self.a.grain_size, self.dup.grain_size)
 
@@ -113,15 +113,15 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         # complex test second, see libparted/cs/natmath.c for an explanation
         # of the math behind computing the intersection of two alignments
         (verifyA, verifyB) = self.orderAlignments(self.complexA, self.complexB)
-        (gcd, x, y) = self.extendedEuclid(verifyA.grain_size,
-                                          verifyB.grain_size)
+        (gcd, x, _y) = self.extendedEuclid(verifyA.grain_size,
+                                           verifyB.grain_size)
         delta_on_gcd = (verifyB.offset - verifyA.offset) / gcd
         new_offset = verifyA.offset + x * delta_on_gcd * verifyA.grain_size
         new_grain_size = verifyA.grain_size * verifyB.grain_size / gcd
 
-        complex = self.complexA.intersect(self.complexB)
-        self.assertEqual(new_offset, complex.offset)
-        self.assertEqual(new_grain_size, complex.grain_size)
+        intersection = self.complexA.intersect(self.complexB)
+        self.assertEqual(new_offset, intersection.offset)
+        self.assertEqual(new_grain_size, intersection.grain_size)
 
 class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
     def setUp(self):

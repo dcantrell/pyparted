@@ -107,5 +107,5 @@ while True:
     try:
         __type = _ped.file_system_type_get_next(__type)
         fileSystemType[__type.name] = __type
-    except:
+    except (IndexError, TypeError, _ped.UnknownTypeException):
         break
