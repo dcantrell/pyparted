@@ -74,11 +74,11 @@ class Disk(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if hash(self) == hash(other):
-            return False
-
         if type(self) != type(other):
             return True
+
+        if getattr(other, "__hash__", None):
+            return hash(self) != hash(other)
 
         return self.device != other.device or not self._hasSameParts(other)
 
@@ -94,6 +94,17 @@ class Disk(object):
               "partitions": self.partitions, "device": self.device,
               "ped": self.__disk})
         return s
+
+    @property
+    def _hash_str(self):
+        s = ("  type: %(type)s\n"
+             "  device: %(device)r\n"
+             "  PedDisk: %(ped)r" %
+             {"type": self.type, "device": self.device, "ped": self.__disk})
+        return s
+
+    def __hash__(self):
+        return hash(self._hash_str)
 
     def __getPartitions(self):
         """Construct a list of partitions on the disk.  This is called only as
@@ -396,7 +407,7 @@ class Disk(object):
             return None
 
     def __filterPartitions(self, fn):
-        return filter(fn, self.partitions)
+        return [part for part in self.partitions if fn(part)]
 
     def getLogicalPartitions(self):
         """Return a list of logical Partitions on this Disk."""
