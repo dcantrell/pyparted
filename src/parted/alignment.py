@@ -55,11 +55,11 @@ class Alignment(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if hash(self) == hash(other):
-            return False
-
         if type(self) != type(other):
             return True
+
+        if getattr(other, "__hash__", None):
+            return hash(self) != hash(other)
 
         return self.offset != other.offset or self.grainSize != other.grainSize
 
@@ -70,6 +70,9 @@ class Alignment(object):
              {"offset": self.offset, "grainSize": self.grainSize,
               "ped": self.__alignment})
         return s
+
+    def __hash__(self):
+        return hash(str(self))
 
     @localeC
     def intersect(self, b):

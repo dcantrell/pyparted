@@ -72,11 +72,11 @@ class Partition(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if hash(self) == hash(other):
-            return False
-
         if type(self) != type(other):
             return True
+
+        if getattr(other, "__hash__", None):
+            return hash(self) != hash(other)
 
         return self.path != other.path or self.type != other.type or self.geometry != other.geometry or self.fileSystem != other.fileSystem
 
@@ -96,6 +96,25 @@ class Partition(object):
               "type": self.type, "name": name, "active": self.active,
               "busy": self.busy, "ped": self.__partition})
         return s
+
+    @property
+    def _hash_str(self):
+        try:
+            name = self.name
+        except parted.PartitionException:
+            name = None
+
+        s = ("  disk: %(disk)r\n"
+             "  number: %(number)s  path: %(path)s  type: %(type)s\n"
+             "  name: %(name)s\n"
+             "  geometry: %(geometry)r  PedPartition: %(ped)r" %
+             {"disk": self.disk, "number": self.number, "path": self.path,
+              "type": self.type, "name": name, "geometry": self.geometry,
+              "ped": self.__partition})
+        return s
+
+    def __hash__(self):
+        return hash(self._hash_str)
 
     def __writeOnly(self, prop):
         raise parted.WriteOnlyProperty(prop)

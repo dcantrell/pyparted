@@ -63,11 +63,11 @@ class Device(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if hash(self) == hash(other):
-            return False
-
         if type(self) != type(other):
             return True
+
+        if getattr(other, "__hash__", None):
+            return hash(self) != hash(other)
 
         return self.model != other.model or self.path != other.path or self.type != other.type or self.length != other.length
 
@@ -185,6 +185,22 @@ class Device(object):
               "hardwareGeom": self.hardwareGeometry, "biosGeom": self.biosGeometry,
               "ped": self.__device})
         return s
+
+    @property
+    def _hashstr(self):
+        s = ("  model: %(model)s  path: %(path)s  type: %(type)s\n"
+             "  sectorSize: %(sectorSize)s  physicalSectorSize:  %(physSectorSize)s\n"
+             "  length: %(length)s\n"
+             "  hardwareGeometry: %(hardwareGeom)s  biosGeometry: %(biosGeom)s\n"
+             "  PedDevice: %(ped)r" %
+             {"model": self.model, "path": self.path, "type": self.type,
+              "sectorSize": self.sectorSize, "physSectorSize": self.physicalSectorSize,
+              "length": self.length, "hardwareGeom": self.hardwareGeometry,
+              "biosGeom": self.biosGeometry, "ped": self.__device})
+        return s
+
+    def __hash__(self):
+        return hash(self._hashstr)
 
     @localeC
     def clobber(self):

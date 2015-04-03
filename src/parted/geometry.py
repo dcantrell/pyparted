@@ -67,11 +67,11 @@ class Geometry(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if hash(self) == hash(other):
-            return False
-
         if type(self) != type(other):
             return True
+
+        if getattr(other, "__hash__", None):
+            return hash(self) != hash(other)
 
         return self.device != other.device or self.start != other.start or self.length != other.length
 
@@ -82,6 +82,17 @@ class Geometry(object):
              {"start": self.start, "end": self.end, "length": self.length,
               "device": self.device, "ped": self.__geometry})
         return s
+
+    @property
+    def _hash_str(self):
+        s = ("  start: %(start)s  end: %(end)s  length: %(length)s\n"
+             "  device: %(device)r  PedGeometry: %(ped)r" %
+             {"start": self.start, "end": self.end, "length": self.length,
+              "device": self.device, "ped": self.__geometry})
+        return s
+
+    def __hash__(self):
+        return hash(self._hash_str)
 
     @property
     def device(self):
