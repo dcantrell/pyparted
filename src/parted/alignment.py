@@ -55,7 +55,7 @@ class Alignment(object):
         return not self.__ne__(other)
 
     def __ne__(self, other):
-        if type(self) != type(other):
+        if not isinstance(self, other.__class__):
             return True
 
         if getattr(other, "__hash__", None):
