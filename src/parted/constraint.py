@@ -90,7 +90,7 @@ class Constraint(object):
         if hash(self) == hash(other):
             return False
 
-        if type(self) != type(other):
+        if not isinstance(self, other.__class__):
             return True
 
         c1 = self.getPedConstraint()
