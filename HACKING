@@ -184,7 +184,7 @@ use the git version control system.  You can clone the upstream repository
 and commit your changes locally and then generate a set of diffs against
 the latest upstream code.
 
-    $ git clone git://git.fedorahosted.org/pyparted.git/
+    $ git clone https://github.com/rhinstaller/pyparted.git
     $ cd pyparted
     $ # make your changes to files here
     $ git add FILE           # repeat this add/commit process for
@@ -200,12 +200,13 @@ the latest upstream.  Submit your patch files upstream.
 
 SUBMITTING PATCHES
 
-The best way to submit patches is to make a new ticket on the project web
-site:
+The best way to submit patches is to fork the repo on github and send a pull
+request with your changes:
 
-    http://fedorahosted.org/pyparted/
+    https://github.com/rhinstaller/pyparted
 
-Attach your patch and explanation and it'll be reviewed.
+Attach your patch and explanation and it'll be reviewed.  There may be some
+back and forth as your patch is reviewed and considered for inclusion.
 
-Alternatively, you can email the project maintainer(s) directly.  The ChangeLog
+Alternatively, you can email the project maintainer(s) directly.  The git log
 and AUTHORS file contain email addresses of those who work on pyparted.
