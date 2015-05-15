@@ -85,7 +85,8 @@ class GetAllDevicesTestCase(unittest.TestCase):
         self.assertEqual(type(self.devices).__name__, 'list')
 
         # And make sure each element of the list is a parted.Device
-        map(lambda s: self.assertIsInstance(s, parted.Device), self.devices)
+        for dev in self.devices:
+            self.assertIsInstance(dev, parted.Device)
 
 @unittest.skip("Unimplemented test case.")
 class ProbeForSpecificFileSystemTestCase(unittest.TestCase):
