@@ -18,8 +18,9 @@
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #
 
+import os
 import _ped
-import unittest
+import tempfile
 
 from tests.baseclass import RequiresDisk, RequiresPartition
 
@@ -71,11 +72,9 @@ class PartitionGetSetTestCase(RequiresPartition):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self._part, "blah")
 
-@unittest.skip("Unimplemented test case.")
-class PartitionDestroyTestCase(unittest.TestCase):
+class PartitionDestroyTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        self.assertEqual(self._part.destroy(), None)
 
 class PartitionIsActiveTestCase(RequiresPartition):
     def runTest(self):
@@ -92,17 +91,23 @@ class PartitionIsActiveTestCase(RequiresPartition):
             self._part = _ped.Partition(self._disk, ty, 0, 100)
             self.assertFalse(self._part.is_active())
 
-@unittest.skip("Unimplemented test case.")
-class PartitionSetFlagTestCase(unittest.TestCase):
+class PartitionSetFlagTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        self.assertTrue(self._part.set_flag(_ped.PARTITION_BOOT, 1))
+        # try setting unavailable flag
+        with self.assertRaises(_ped.PartedException):
+            self._part.set_flag(1000, 1)
 
-@unittest.skip("Unimplemented test case.")
-class PartitionGetFlagTestCase(unittest.TestCase):
+class PartitionGetFlagTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        self.assertTrue(self._part.set_flag(_ped.PARTITION_BOOT, 1))
+        self.assertTrue(self._part.get_flag(_ped.PARTITION_BOOT))
+
+        # try getting unavailable flag - doesn't raise an exception
+#        with self.assertRaises(_ped.PartedException):
+#            self._part.get_flag(1000)
+
+
 
 class PartitionIsFlagAvailableTestCase(RequiresPartition):
     def runTest(self):
@@ -177,18 +182,39 @@ class PartitionGetNameTestCase(RequiresPartition):
         self._part.set_name("blah")
         self.assertEqual(self._part.get_name(), "blah")
 
-@unittest.skip("Unimplemented test case.")
-class PartitionIsBusyTestCase(unittest.TestCase):
+class PartitionIsBusyTestCase(RequiresPartition):
+    def setUp(self):
+        RequiresPartition.setUp(self)
+        self.mountpoint = None
+
+    def doMount(self):
+        self.mountpoint = tempfile.mkdtemp()
+        os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
+
+    def mkfs(self):
+        os.system("mkfs.ext2 -F -q %s" % self.path)
+
+    def tearDown(self):
+        if self.mountpoint:
+            os.system("umount %s" % self.mountpoint)
+            os.rmdir(self.mountpoint)
+        RequiresPartition.tearDown(self)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        # partitions aren't busy until they're mounted.
+        self.assertFalse(self._part.is_busy())
+
+# TODO:  need to figure out how to make a loopback device look mounted to
+# libparted
+#        self.mkfs()
+#        self.doMount()
+#        self.assertTrue(self._part.is_busy())
+
 
 class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
         self.assertNotEqual(self._part.get_path(), "")
 
-@unittest.skip("Unimplemented test case.")
-class PartitionStrTestCase(unittest.TestCase):
+class PartitionStrTestCase(RequiresPartition):
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        self.assertTrue(str(self._part).startswith("_ped.Partition instance"))
