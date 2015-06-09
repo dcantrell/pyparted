@@ -106,16 +106,15 @@ PyDoc_STRVAR(device_free_all_doc,
 "Close and free all devices.");
 
 PyDoc_STRVAR(file_system_probe_doc,
-"file_system_probe(Geometry) -> FileSystem\n\n"
-"Attempt to detect a FileSystem in the region described by Geometry.\n"
+"file_system_probe(Geometry) -> FileSystemType\n\n"
+"Attempt to detect a file system in the region described by Geometry.\n"
 "This function tries to be clever at dealing with ambiguous\n"
 "situations, such as when one file system was not completely erased\n"
 "before a new file system was created on top of it.");
 
 PyDoc_STRVAR(file_system_probe_specific_doc,
-"file_system_probe_specific(FileSystemType, Geometry) -> FileSystem\n\n"
-"Look at Geometry for FileSystemType, return FileSystem for that type\n"
-"if found in the specified region.");
+"file_system_probe_specific(FileSystemType, Geometry) -> Geometry\n\n"
+"Attempt to find a file system and return the region it occupies.");
 
 PyDoc_STRVAR(file_system_type_get_doc,
 "file_system_type_get(self, string) -> _ped.FileSystemType\n\n"
