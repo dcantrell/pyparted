@@ -22,6 +22,7 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 
+import os
 import _ped
 import unittest
 
@@ -197,7 +198,7 @@ class DeviceGetTestCase(RequiresDevice):
         self.assertRaises(_ped.IOException, _ped.device_get, "")
         self.assertRaises(_ped.DeviceException, _ped.device_get, None)
 
-@unittest.skip('Requires root')
+@unittest.skipUnless(os.geteuid() == 0, 'Requires root')
 class DeviceGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         # Make sure there are some devices in the system first and then
