@@ -63,7 +63,7 @@ class RequiresFileSystem(unittest.TestCase):
         os.write(fd, b"0")
         f.close()
 
-        os.system("/sbin/mke2fs -F -q %s" % (self.path,))
+        os.system("mke2fs -F -q %s" % (self.path,))
 
         self._device = _ped.device_get(self.path)
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
@@ -127,7 +127,7 @@ class RequiresDeviceAlignment(RequiresDevice):
 class RequiresLabeledDevice(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        os.system("/sbin/parted -s %s mklabel msdos" % (self.path,))
+        os.system("parted -s %s mklabel msdos" % (self.path,))
 
 # Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
@@ -143,14 +143,14 @@ class RequiresMount(RequiresDevice):
         self.mountpoint = None
 
     def mkfs(self):
-        os.system("/sbin/mkfs.ext2 -F -q %s" % self.path)
+        os.system("mkfs.ext2 -F -q %s" % self.path)
 
     def doMount(self):
         self.mountpoint = tempfile.mkdtemp()
-        os.system("/sbin/mount -o loop %s %s" % (self.path, self.mountpoint))
+        os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
 
     def tearDown(self):
-        os.system("/sbin/umount %s" % self.mountpoint)
+        os.system("umount %s" % self.mountpoint)
         os.rmdir(self.mountpoint)
         RequiresDevice.tearDown(self)
 
