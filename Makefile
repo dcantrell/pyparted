@@ -28,6 +28,11 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = v$(VERSION)
 
+COVERAGE=coverage
+ifeq ($(PYTHON),python3)
+COVERAGE=coverage3
+endif
+
 default: all
 
 all:
@@ -36,6 +41,12 @@ all:
 test: all
 	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	$(PYTHON) -m unittest discover -v
+
+coverage: all
+	@echo "*** Running unittests with $(COVERAGE) for $(PYTHON) ***"
+	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
+	$(COVERAGE) run --branch -m unittest discover -v
+	$(COVERAGE) report --include="build/lib.*/parted/*" --show-missing
 
 check: clean
 	env PYTHON=python3 $(MAKE) ; \
