@@ -70,9 +70,6 @@ class Geometry(object):
         if not isinstance(self, other.__class__):
             return True
 
-        if getattr(other, "__hash__", None):
-            return hash(self) != hash(other)
-
         return self.device != other.device or self.start != other.start or self.length != other.length
 
     def __str__(self):
@@ -82,17 +79,6 @@ class Geometry(object):
              {"start": self.start, "end": self.end, "length": self.length,
               "device": self.device, "ped": self.__geometry})
         return s
-
-    @property
-    def _hash_str(self):
-        s = ("  start: %(start)s  end: %(end)s  length: %(length)s\n"
-             "  device: %(device)r  PedGeometry: %(ped)r" %
-             {"start": self.start, "end": self.end, "length": self.length,
-              "device": self.device, "ped": self.__geometry})
-        return s
-
-    def __hash__(self):
-        return hash(self._hash_str)
 
     @property
     def device(self):
