@@ -58,9 +58,6 @@ class Alignment(object):
         if not isinstance(self, other.__class__):
             return True
 
-        if getattr(other, "__hash__", None):
-            return hash(self) != hash(other)
-
         return self.offset != other.offset or self.grainSize != other.grainSize
 
     def __str__(self):
@@ -70,9 +67,6 @@ class Alignment(object):
              {"offset": self.offset, "grainSize": self.grainSize,
               "ped": self.__alignment})
         return s
-
-    def __hash__(self):
-        return hash(str(self))
 
     @localeC
     def intersect(self, b):
