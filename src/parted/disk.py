@@ -77,9 +77,6 @@ class Disk(object):
         if not isinstance(self, other.__class__):
             return True
 
-        if getattr(other, "__hash__", None):
-            return hash(self) != hash(other)
-
         return self.device != other.device or not self._hasSameParts(other)
 
     def __str__(self):
@@ -94,17 +91,6 @@ class Disk(object):
               "partitions": self.partitions, "device": self.device,
               "ped": self.__disk})
         return s
-
-    @property
-    def _hash_str(self):
-        s = ("  type: %(type)s\n"
-             "  device: %(device)r\n"
-             "  PedDisk: %(ped)r" %
-             {"type": self.type, "device": self.device, "ped": self.__disk})
-        return s
-
-    def __hash__(self):
-        return hash(self._hash_str)
 
     def __getPartitions(self):
         """Construct a list of partitions on the disk.  This is called only as
