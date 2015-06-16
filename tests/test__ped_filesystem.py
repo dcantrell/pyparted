@@ -19,13 +19,12 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 import _ped
-import unittest
-import baseclass
+from tests.baseclass import RequiresFileSystem
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
-class FileSystemNewTestCase(baseclass.RequiresFileSystem):
+class FileSystemNewTestCase(RequiresFileSystem):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext2")
 
@@ -36,7 +35,7 @@ class FileSystemNewTestCase(baseclass.RequiresFileSystem):
         fs = _ped.FileSystem(type=fstype, geom=self._geometry)
         self.assertIsInstance(fs, _ped.FileSystem)
 
-class FileSystemGetSetTestCase(baseclass.RequiresFileSystem):
+class FileSystemGetSetTestCase(RequiresFileSystem):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext2")
         fs = _ped.FileSystem(type=fstype, geom=self._geometry)
@@ -49,7 +48,7 @@ class FileSystemGetSetTestCase(baseclass.RequiresFileSystem):
         self.assertRaises(AttributeError, getattr, fs, "junk")
 
 
-class FileSystemStrTestCase(baseclass.RequiresFileSystem):
+class FileSystemStrTestCase(RequiresFileSystem):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext2")
         fs = _ped.FileSystem(type=fstype, geom=self._geometry)
