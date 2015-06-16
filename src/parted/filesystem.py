@@ -65,9 +65,6 @@ class FileSystem(object):
         if not isinstance(self, other.__class__):
             return True
 
-        if getattr(other, "__hash__", None):
-            return hash(self) != hash(other)
-
         return self.type != other.type or self.geometry != other.geometry
 
     def __str__(self):
@@ -77,17 +74,6 @@ class FileSystem(object):
              {"type": self.type, "geometry": self.geometry,
               "checked": self.checked, "ped": self.__fileSystem})
         return s
-
-    @property
-    def _hash_str(self):
-        s = ("  type: %(type)s  geometry: %(geometry)r\n"
-             "  PedFileSystem: %(ped)r" %
-             {"type": self.type, "geometry": self.geometry,
-              "ped": self.__fileSystem})
-        return s
-
-    def __hash__(self):
-        return hash(self._hash_str)
 
     @property
     def type(self):
