@@ -102,3 +102,5 @@ install: all
 
 clean:
 	-rm -r build
+
+ci: check test
