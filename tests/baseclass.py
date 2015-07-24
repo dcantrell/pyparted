@@ -27,13 +27,16 @@ import unittest
 # Base class for any test case that requires a temp device node
 class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
+        self.addCleanup(self.removeTempDevice)
+
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
         f = os.fdopen(fd)
         f.seek(140000)
         os.write(fd, b"0")
 
-    def tearDown(self):
-        os.unlink(self.path)
+    def removeTempDevice(self):
+        if self.path and os.path.exists(self.path):
+            os.unlink(self.path)
 
 # Base class for any test case that requires a _ped.Device or parted.Device
 # object first.
@@ -46,6 +49,8 @@ class RequiresDevice(RequiresDeviceNode):
 # Base class for any test case that requires a filesystem on a device.
 class RequiresFileSystem(unittest.TestCase):
     def setUp(self):
+        self.addCleanup(self.removeTempDevice)
+
         self._fileSystemType = {}
         ty = _ped.file_system_type_get_next()
         self._fileSystemType[ty.name] = ty
@@ -68,8 +73,9 @@ class RequiresFileSystem(unittest.TestCase):
         self._device = _ped.device_get(self.path)
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
 
-    def tearDown(self):
-        os.unlink(self.path)
+    def removeTempDevice(self):
+        if self.path and os.path.exists(self.path):
+            os.unlink(self.path)
 
 # Base class for certain alignment tests that require a _ped.Device
 class RequiresDeviceAlignment(RequiresDevice):
@@ -139,6 +145,7 @@ class RequiresDisk(RequiresDevice):
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
     def setUp(self):
+        self.addCleanup(self.removeMountpoint)
         RequiresDevice.setUp(self)
         self.mountpoint = None
 
@@ -149,10 +156,10 @@ class RequiresMount(RequiresDevice):
         self.mountpoint = tempfile.mkdtemp()
         os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
 
-    def tearDown(self):
-        os.system("umount %s" % self.mountpoint)
-        os.rmdir(self.mountpoint)
-        RequiresDevice.tearDown(self)
+    def removeMountpoint(self):
+        if self.mountpoint and os.path.exists(self.mountpoint):
+            os.system("umount %s" % self.mountpoint)
+            os.rmdir(self.mountpoint)
 
 # Base class for any test case that requires a _ped.Partition.
 class RequiresPartition(RequiresDisk):
