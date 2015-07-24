@@ -184,6 +184,7 @@ class PartitionGetNameTestCase(RequiresPartition):
 
 class PartitionIsBusyTestCase(RequiresPartition):
     def setUp(self):
+        self.addCleanup(self.removeMountpoint)
         RequiresPartition.setUp(self)
         self.mountpoint = None
 
@@ -194,11 +195,10 @@ class PartitionIsBusyTestCase(RequiresPartition):
     def mkfs(self):
         os.system("mkfs.ext2 -F -q %s" % self.path)
 
-    def tearDown(self):
+    def removeMountpoint(self):
         if self.mountpoint:
             os.system("umount %s" % self.mountpoint)
             os.rmdir(self.mountpoint)
-        RequiresPartition.tearDown(self)
 
     def runTest(self):
         # partitions aren't busy until they're mounted.
