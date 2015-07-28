@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import os
+import sys
 
 from pocketlint import PocketLintConfig, PocketLinter
 
@@ -19,4 +19,4 @@ if __name__ == "__main__":
     conf = PypartedLintConfig()
     linter = PocketLinter(conf)
     rc = linter.run()
-    os._exit(rc)
+    sys.exit(rc)
