@@ -51,7 +51,7 @@ def pkgconfig(*packages, **kwargs):
 
 def check_mod_version(module, version):
     modversion = subprocess.check_output(["pkg-config", "--modversion", module])
-    if not float(modversion) >= float(version):
+    if not float(modversion[0:3]) >= float(version[0:3]):
         sys.stderr.write("*** Minimum required %s version: %s, found: %s\n" % (module, version, modversion,))
         sys.exit(1)
     return
