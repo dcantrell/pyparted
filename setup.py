@@ -31,7 +31,7 @@ from distutils.errors import LinkError
 from distutils.core import setup
 from distutils.core import Extension
 
-pyparted_version = '3.10.6'
+pyparted_version = '3.10.7'
 python_version = sys.version_info
 
 need_libparted_version = '2.3'
