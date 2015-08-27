@@ -18,6 +18,7 @@
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
 #                    David Cantrell <dcantrell@redhat.com>
 #
+import sys
 import _ped
 from tests.baseclass import RequiresFileSystem
 
@@ -44,7 +45,10 @@ class FileSystemGetSetTestCase(RequiresFileSystem):
         self.assertEqual(fs.type, fstype)
         self.assertEqual(getattr(fs, "type"), fstype)
         # read-only attribute
-        self.assertRaises(TypeError, setattr, fs, "type", fstype)
+        if sys.version_info[0] == 3:
+            self.assertRaises(AttributeError, setattr, fs, "type", fstype)
+        else:
+            self.assertRaises(TypeError, setattr, fs, "type", fstype)
         self.assertRaises(AttributeError, getattr, fs, "junk")
 
 
