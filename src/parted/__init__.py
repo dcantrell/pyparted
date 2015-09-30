@@ -129,6 +129,9 @@ if hasattr(_ped, 'PARTITION_IRST'):
 if hasattr(_ped, 'PARTITION_ESP'):
     # pylint: disable=E0611
     from _ped import PARTITION_ESP
+if hasattr(_ped, 'PARTITION_NONFS'):
+    # pylint: disable=E0611
+    from _ped import PARTITION_NONFS
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT

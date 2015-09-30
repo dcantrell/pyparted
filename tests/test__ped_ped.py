@@ -41,7 +41,7 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
                   'PARTITION_APPLE_TV_RECOVERY',
                   'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
                   'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP']:
+                  'PARTITION_ESP', 'PARTITION_NONFS']:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
@@ -54,7 +54,7 @@ class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in ["boot", "root", "swap", "hidden", "raid", "lvm", "lba",
                   "hp-service", "palo", "prep", "msftres", "bios_grub",
-                  "msftdata", "irst", "esp"]:
+                  "msftdata", "irst", "esp", "nonfs"]:
             self.assertNotEqual(_ped.partition_flag_get_by_name(f), "", "Could not get flag %s" % f)
 
         self.assertEqual(_ped.partition_flag_get_by_name("nosuchflag"), 0)
