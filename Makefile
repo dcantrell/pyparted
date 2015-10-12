@@ -47,6 +47,7 @@ coverage: all
 	@env PYTHONPATH=$$(find $$(pwd) -name "*.so" | head -n 1 | xargs dirname):src/parted:src \
 	$(COVERAGE) run --branch -m unittest discover -v
 	$(COVERAGE) report --include="build/lib.*/parted/*" --show-missing
+	$(COVERAGE) report --include="build/lib.*/parted/*" > coverage-report.log
 
 check: clean
 	env PYTHON=python3 $(MAKE) ; \
@@ -103,4 +104,4 @@ install: all
 clean:
 	-rm -r build
 
-ci: check test
+ci: check coverage
