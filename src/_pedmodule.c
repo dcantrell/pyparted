@@ -634,17 +634,9 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "PARTITION_BIOS_GRUB", PED_PARTITION_BIOS_GRUB);
     PyModule_AddIntConstant(m, "PARTITION_DIAG", PED_PARTITION_DIAG);
     PyModule_AddIntConstant(m, "PARTITION_LEGACY_BOOT", PED_PARTITION_LEGACY_BOOT);
-    /* Conditionally include new flags.
-     * NOTE: Order must match disk.h
-     */
-    if (PED_PARTITION_LAST_FLAG > PED_PARTITION_LEGACY_BOOT)
-        PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
-    if (PED_PARTITION_LAST_FLAG > PED_PARTITION_LEGACY_BOOT+1)
-        PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
-    if (PED_PARTITION_LAST_FLAG > PED_PARTITION_LEGACY_BOOT+2)
-        PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
-    if (PED_PARTITION_LAST_FLAG > PED_PARTITION_LEGACY_BOOT+3)
-        PyModule_AddIntConstant(m, "PARTITION_NONFS", PED_PARTITION_NONFS);
+    PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
+    PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
+    PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
