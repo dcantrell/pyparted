@@ -183,11 +183,11 @@ PyObject *_ped_Geometry_get(_ped_Geometry *self, void *closure) {
     }
 
     if (!strcmp(member, "start")) {
-        return PyLong_FromLong(self->ped_geometry->start);
+        return PyLong_FromLongLong(self->ped_geometry->start);
     } else if (!strcmp(member, "length")) {
-        return PyLong_FromLong(self->ped_geometry->length);
+        return PyLong_FromLongLong(self->ped_geometry->length);
     } else if (!strcmp(member, "end")) {
-        return PyLong_FromLong(self->ped_geometry->end);
+        return PyLong_FromLongLong(self->ped_geometry->end);
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Geometry object has no attribute %s", member);
         return NULL;
@@ -205,20 +205,20 @@ int _ped_Geometry_set(_ped_Geometry *self, PyObject *value, void *closure) {
     }
 
     if (!strcmp(member, "start")) {
-        val = PyLong_AsLong(value);
+        val = PyLong_AsLongLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
         ret = ped_geometry_set_start(self->ped_geometry, val);
     } else if (!strcmp(member, "length")) {
-        val = PyLong_AsLong(value);
+        val = PyLong_AsLongLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
         ret = ped_geometry_set(self->ped_geometry, self->ped_geometry->start,
                                val);
     } else if (!strcmp(member, "end")) {
-        val = PyLong_AsLong(value);
+        val = PyLong_AsLongLong(value);
         if (PyErr_Occurred()) {
             return -1;
         }
@@ -717,7 +717,7 @@ PyObject *py_ped_geometry_check(PyObject *s, PyObject *args) {
     ped_timer_destroy(out_timer);
     free(out_buf);
 
-    return PyLong_FromLong(ret);
+    return PyLong_FromLongLong(ret);
 }
 
 PyObject *py_ped_geometry_map(PyObject *s, PyObject *args) {
