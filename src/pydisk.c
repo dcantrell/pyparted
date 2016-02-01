@@ -928,7 +928,7 @@ PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args) {
     if (!disk)
         return NULL;
 
-    return PyLong_FromUnsignedLong(ped_disk_max_partition_length(disk));
+    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_length(disk));
 }
 
 PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
@@ -938,7 +938,7 @@ PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
     if (!disk)
         return NULL;
 
-    return PyLong_FromUnsignedLong(ped_disk_max_partition_start_sector(disk));
+    return PyLong_FromUnsignedLongLong(ped_disk_max_partition_start_sector(disk));
 }
 
 PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
