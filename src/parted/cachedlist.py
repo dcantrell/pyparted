@@ -79,9 +79,9 @@ class CachedList(Sequence):
         self.__rebuildList()
         return self._lst.count(value)
 
-    def index(self, value):
+    def index(self, value, *args, **kwargs):
         self.__rebuildList()
-        return self._lst.index(value)
+        return self._lst.index(value, *args, **kwargs)
 
     def invalidate(self):
         """Indicate that the list is no longer valid, due to some external
