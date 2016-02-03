@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2008-2011  Red Hat, Inc.
+# Copyright (C) 2008-2016  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -19,6 +19,7 @@
 #
 
 import _ped
+import six
 from tests.baseclass import RequiresDevice
 
 # One class per method, multiple tests per class.  For these simple methods,
@@ -374,4 +375,9 @@ class GeometryStrTestCase(RequiresDevice):
         lines = str(self.g).split('\n')
         self.assertEqual(lines[0], '_ped.Geometry instance --')
         self.assertEqual(lines[1], '  start: 10  end: 109  length: 100')
-        self.assertRegexpMatches(lines[2], '^  device: <_ped.Device object at .*')
+
+        if six.PY2:
+            # pylint: disable=deprecated-method
+            self.assertRegexpMatches(lines[2], '^  device: <_ped.Device object at .*')
+        else:
+            self.assertRegex(lines[2], '^  device: <_ped.Device object at .*')
