@@ -125,28 +125,3 @@ class GeometryStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(GeometryNewTestCase())
-    suite.addTest(GeometryGetSetTestCase())
-    suite.addTest(GeometryCheckTestCase())
-    suite.addTest(GeometryContainsTestCase())
-    suite.addTest(GeometryContainsSectorTestCase())
-    suite.addTest(GeometryEqualTestCase())
-    suite.addTest(GeometryGetSizeTestCase())
-    suite.addTest(GeometryGetLengthTestCase())
-    suite.addTest(GeometryIntersectTestCase())
-    suite.addTest(GeometryMapTestCase())
-    suite.addTest(GeometryOverlapsWithTestCase())
-    suite.addTest(GeometryReadTestCase())
-    suite.addTest(GeometrySyncTestCase())
-    suite.addTest(GeometryWriteTestCase())
-    suite.addTest(GeometryGetPedGeometryTestCase())
-    suite.addTest(GeometryStrTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

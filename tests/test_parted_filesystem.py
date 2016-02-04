@@ -48,16 +48,3 @@ class FileSystemStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(FileSystemNewTestCase())
-    suite.addTest(FileSystemGetSetTestCase())
-    suite.addTest(FileSystemGetPedFileSystemTestCase())
-    suite.addTest(FileSystemStrTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
