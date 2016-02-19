@@ -155,20 +155,3 @@ class ConstraintStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(ConstraintNewTestCase())
-    suite.addTest(ConstraintGetSetTestCase())
-    suite.addTest(ConstraintIntersectTestCase())
-    suite.addTest(ConstraintSolveMaxTestCase())
-    suite.addTest(ConstraintSolveNearestTestCase())
-    suite.addTest(ConstraintIsSolutionTestCase())
-    suite.addTest(ConstraintGetPedConstraintTestCase())
-    suite.addTest(ConstraintStrTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

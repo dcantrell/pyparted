@@ -141,23 +141,3 @@ class VersionTestCase(unittest.TestCase):
         ver = parted.version()
         self.assertEqual(ver['libparted'], _ped.libparted_version())
         self.assertEqual(ver['pyparted'], _ped.pyparted_version())
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(FormatBytesTestCase())
-    suite.addTest(BytesToSectorsTestCase())
-    suite.addTest(GetLabelsTestCase())
-    suite.addTest(GetDeviceTestCase())
-    suite.addTest(GetAllDevicesTestCase())
-    suite.addTest(ProbeForSpecificFileSystemTestCase())
-    suite.addTest(ProbeFileSystemTestCase())
-    suite.addTest(FreshDiskTestCase())
-    suite.addTest(IsAlignToCylindersTestCase())
-    suite.addTest(ToggleAlignToCylindersTestCase())
-    suite.addTest(VersionTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
