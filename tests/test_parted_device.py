@@ -155,34 +155,3 @@ class DeviceStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(DeviceNewTestCase())
-    suite.addTest(DeviceGetSetTestCase())
-    suite.addTest(DeviceOpenTestCase())
-    suite.addTest(DeviceCloseTestCase())
-    suite.addTest(DeviceDestroyTestCase())
-    suite.addTest(DeviceRemoveFromCacheTestCase())
-    suite.addTest(DeviceBeginExternalAccessTestCase())
-    suite.addTest(DeviceEndExternalAccessTestCase())
-    suite.addTest(DeviceReadTestCase())
-    suite.addTest(DeviceWriteTestCase())
-    suite.addTest(DeviceSyncTestCase())
-    suite.addTest(DeviceCheckTestCase())
-    suite.addTest(DeviceStartSectorToCylinderTestCase())
-    suite.addTest(DeviceEndSectorToCylinderTestCase())
-    suite.addTest(DeviceStartCylinderToSectorTestCase())
-    suite.addTest(DeviceEndCylinderToSectorTestCase())
-    suite.addTest(DeviceGetSizeTestCase())
-    suite.addTest(DeviceGetLengthTestCase())
-    suite.addTest(DeviceGetSizeAsSectorsTestCase())
-    suite.addTest(DeviceGetConstraintTestCase())
-    suite.addTest(DeviceGetPedDeviceTestCase())
-    suite.addTest(DeviceStrTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)

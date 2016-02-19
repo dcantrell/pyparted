@@ -141,21 +141,3 @@ class AlignmentStrTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
-
-# And then a suite to hold all the test cases for this module.
-def makeSuite():
-    suite = unittest.TestSuite()
-    suite.addTest(AlignmentNewTestCase())
-    suite.addTest(AlignmentGetSetTestCase())
-    suite.addTest(AlignmentIntersectTestCase())
-    suite.addTest(AlignmentAlignUpTestCase())
-    suite.addTest(AlignmentAlignDownTestCase())
-    suite.addTest(AlignmentAlignNearestTestCase())
-    suite.addTest(AlignmentIsAlignedTestCase())
-    suite.addTest(AlignmentGetPedAlignmentTestCase())
-    suite.addTest(AlignmentStrTestCase())
-    return suite
-
-s = makeSuite()
-if __name__ == "__main__":
-    unittest.main(defaultTest='s', verbosity=2)
