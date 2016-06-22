@@ -91,7 +91,7 @@ class PartitionGetSetTestCase(PartitionNewTestCase):
 
         # Check that looking for invalid attributes fails properly.
         with self.assertRaises((AttributeError)):
-            self.part.blah
+            print(self.part.blah)
 
 class PartitionSetFlagTestCase(PartitionNewTestCase):
     """
