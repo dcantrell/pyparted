@@ -51,7 +51,7 @@ def pkgconfig(*packages, **kwargs):
     return kwargs
 
 def check_mod_version(module, version):
-    modversion = subprocess.check_output(["pkg-config", "--modversion", module])
+    modversion = subprocess.check_output(["pkg-config", "--modversion", module]).decode('utf-8').split()[0]
     if not LooseVersion(modversion) >= LooseVersion(version):
         sys.stderr.write("*** Minimum required %s version: %s, found: %s\n" % (module, version, modversion,))
         sys.exit(1)
