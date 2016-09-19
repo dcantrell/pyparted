@@ -1217,9 +1217,11 @@ PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args) {
         return NULL;
     }
 
-    out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
-    if (out_fstype == NULL) {
-        return NULL;
+    if (in_fstype != NULL) {
+        out_fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+        if (out_fstype == NULL) {
+            return NULL;
+        }
     }
 
     /* ped_partition_set_system will assert on this. */
