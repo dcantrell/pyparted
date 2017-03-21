@@ -44,6 +44,7 @@ class BytesToSectorsTestCase(unittest.TestCase):
         self.assertRaises(SyntaxError, parted.sizeToSectors, 9, "yb", 1)
         self.assertEqual(int(parted.sizeToSectors(7777.0, "B", 512)),
                              parted.sizeToSectors(7777.0, "B", 512))
+        self.assertEqual(parted.sizeToSectors(1000, "B", 512), 2)
 
 class GetLabelsTestCase(unittest.TestCase):
     def runTest(self):
