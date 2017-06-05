@@ -74,7 +74,7 @@ setup(name='pyparted',
       packages=['parted'],
       package_dir={'parted': 'src/parted'},
       ext_modules=[Extension('_ped',
-                             glob.glob(os.path.join('src', '*.c')),
+                             sorted(glob.glob(os.path.join('src', '*.c'))),
                              define_macros=features,
                              **pkgconfig('libparted',
                                          include_dirs=['include']))
