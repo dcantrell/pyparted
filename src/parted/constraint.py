@@ -44,7 +44,7 @@ class Constraint(object):
            __init__.  If minGeom and maxGeom are supplied, the constraint will
            be created to satisfy both.  If only one of minGeom or maxGeom are
            supplied, the constraint is only guaranteed to solve the given
-           paramter.  If exactGeom is given, the constraint will only be
+           parameter.  If exactGeom is given, the constraint will only be
            satisfied by the given geometry.  If device is given, any region
            on that device will satisfy the constraint.
 

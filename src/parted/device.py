@@ -37,11 +37,11 @@ from parted.decorators import localeC
 class Device(object):
     """Device()
 
-       Device represents a phyiscal piece of hardware in the system, e.g. a
+       Device represents a physical piece of hardware in the system, e.g. a
        disk.  A Device should be considered a low-level and operating system
        specific interface to the hardware.
 
-       A number of read-only properties about the Device are available.
+       A number of read-only properties of the Device are available.
 
        For information on the individual methods, see help(Device.METHODNAME)"""
 
