@@ -150,17 +150,6 @@ class DiskGetPartitionBySectorTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
-class DiskGetMaxLogicalPartitionsTestCase(RequiresDisk):
-    """
-        getMaxLogicalPartitions return int values based on which type of disk
-        is used. It search for occurrence of keys in device path(e.g. /dev/sda)
-        and compare it with predefined values("sd": 11). As unittest
-        environment is using file with generic name(e.g.
-        /tmp/temp-device-C64w78), test focus only on type of returned value
-    """
-    def runTest(self):
-        self.assertIsInstance(self.disk.getMaxLogicalPartitions(), int)
-
 class DiskGetMaxSupportedPartitionCountTestCase(RequiresDisk):
     """
         maxSupportedPartitionCount should return value 64, based on default
