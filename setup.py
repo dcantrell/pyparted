@@ -32,7 +32,7 @@ from distutils.core import setup
 from distutils.core import Extension
 from distutils.version import LooseVersion
 
-pyparted_version = '3.10.7'
+pyparted_version = '3.11.0'
 python_version = sys.version_info
 
 need_libparted_version = '2.3'
