@@ -83,10 +83,6 @@ class PartitionGetSetTestCase(PartitionNewTestCase):
         with self.assertRaises(exn):
             self.part.type = "blah"
         with self.assertRaises(exn):
-            self.part.geometry = parted.Geometry(self.device, start=10, length=20)
-        with self.assertRaises(exn):
-            self.part.fileSystem = parted.FileSystem(type='ext4', geometry=self.geom)
-        with self.assertRaises(exn):
             self.part.disk = self.disk
 
         # Check that looking for invalid attributes fails properly.
