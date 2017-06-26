@@ -8,7 +8,9 @@ Instructions for making a new release:
 4) make bumpver
 5) git commit -a -m "New version."
 6) git clean -d -x -f
-7) make release
+7) make dist
+8) gpg --detach-sign -a dist/$(make verrel).tar.gz
+8) twine upload dist/$(make verrel).tar.gz $(make verrel).tar.gz.asc
 
 If packaging in RPM format, you might find the 'make rpmlog' target useful.
 It gives you an RPM spec file formatted changelog block that contains the
