@@ -1,5 +1,5 @@
 # setup.py script for pyparted
-# Copyright (C) 2011-2013 Red Hat, Inc.
+# Copyright (C) 2011-2017 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -66,9 +66,9 @@ features = [('PYPARTED_VERSION', "\"%s\"" % pyparted_version)]
 
 setup(name='pyparted',
       version=pyparted_version,
-      author='pyparted Development Team',
-      author_email='pyparted-devel@redhat.com',
-      url='https://fedorahosted.org/pyparted/',
+      author='David Cantrell',
+      author_email='dcantrell@redhat.com',
+      url='https://github.com/dcantrell/pyparted/',
       description='Python bindings for GNU parted',
       license='GPLv2+',
       packages=['parted'],
