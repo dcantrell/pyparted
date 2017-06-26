@@ -105,3 +105,6 @@ clean:
 	-rm -r build
 
 ci: check coverage
+
+verrel:
+	@echo $(PACKAGE)-$(VERSION)
