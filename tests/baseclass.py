@@ -142,6 +142,13 @@ class RequiresDisk(RequiresDevice):
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
         self.disk = parted.Disk(PedDisk=self._disk)
 
+# Base class for any test case that requires a GPT-labeled _ped.Disk or parted.Disk.
+class RequiresGPTDisk(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("gpt"))
+        self.disk = parted.Disk(PedDisk=self._disk)
+
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
     def setUp(self):

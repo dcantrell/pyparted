@@ -24,6 +24,7 @@ import parted
 import unittest
 
 from tests.baseclass import RequiresDisk
+from tests.baseclass import RequiresGPTDisk
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -38,6 +39,29 @@ class PartitionNewTestCase(RequiresDisk):
     """
     def setUp(self):
         super(PartitionNewTestCase, self).setUp()
+        self.geom = parted.Geometry(self.device, start=100, length=100)
+        self.fs = parted.FileSystem(type='ext2', geometry=self.geom)
+        self.part = parted.Partition(self.disk, parted.PARTITION_NORMAL,
+                                geometry=self.geom, fs=self.fs)
+
+    def runTest(self):
+        # Check that not passing args to parted.Partition.__init__ is caught.
+        with self.assertRaises((parted.PartitionException,)):
+            parted.Partition()
+
+        self.assertIsInstance(self.part, parted.Partition)
+        # You don't need to pass a filesystem type at all, since this partition
+        # might be FREESPACE or METADATA.
+        part_nofs = parted.Partition(self.disk, parted.PARTITION_NORMAL,
+                                geometry=self.geom)
+        self.assertIsInstance(part_nofs, parted.Partition)
+
+class PartitionGPTNewTestCase(RequiresGPTDisk):
+    """
+        Like PartitionNewTestCase but with a GPT-labeled disk image.
+    """
+    def setUp(self):
+        super(PartitionGPTNewTestCase, self).setUp()
         self.geom = parted.Geometry(self.device, start=100, length=100)
         self.fs = parted.FileSystem(type='ext2', geometry=self.geom)
         self.part = parted.Partition(self.disk, parted.PARTITION_NORMAL,
@@ -79,15 +103,29 @@ class PartitionGetSetTestCase(PartitionNewTestCase):
         with self.assertRaises(exn):
             self.part.active = True
         with self.assertRaises(exn):
-            self.part.name = "blah"
-        with self.assertRaises(exn):
             self.part.type = "blah"
         with self.assertRaises(exn):
             self.part.disk = self.disk
 
+        # DOS disklabels don't support names
+        with self.assertRaises(parted.PartitionException):
+            print(self.part.name)
+        with self.assertRaises(parted.PartitionException):
+            self.part.name = "root"
+
         # Check that looking for invalid attributes fails properly.
         with self.assertRaises((AttributeError)):
             print(self.part.blah)
+
+class PartitionGetSetGPTTestCase(PartitionGPTNewTestCase):
+    """
+        Like PartitionGetSetTestCase, but with a GPT-labeled test
+        image to work with rather than a DOS-labeled test image.
+    """
+    def runTest(self):
+        # GPT labeled disks can support partition names
+        print(self.part.name)
+        self.part.name = "root"
 
 class PartitionSetFlagTestCase(PartitionNewTestCase):
     """
