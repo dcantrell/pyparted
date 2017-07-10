@@ -121,23 +121,24 @@ class Partition(object):
         return self.__partition.get_path()
 
     @property
-    @localeC
-    def name(self):
-        """The name of this partition."""
-        try:
-            return self.__partition.get_name()
-        except parted.PartitionException:
-            return None
-
-    @property
     def number(self):
         """The partition number."""
         return self.__partition.num
+
+    @localeC
+    def set_name(self, name):
+        """Set the partition name to the given string, on supported labels."""
+        self.getPedPartition().set_name(name)
+
+    def get_name(self):
+        """The partition name, on supported labels."""
+        return self.getPedPartition().get_name()
 
     fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
+    name = property(get_name, set_name)
 
     @localeC
     def getFlag(self, flag):
