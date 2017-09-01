@@ -1,7 +1,7 @@
 Instructions for making a new release:
 
 1) git checkout master
-2) git clean -d -x -f         # I hope you've commited or stashed everything
+2) git clean -d -x -f         # I hope you've committed or stashed everything
                               # you are working on
 2) git fetch
 3) git rebase origin
