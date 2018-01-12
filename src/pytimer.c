@@ -113,16 +113,10 @@ int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
     PyErr_SetString(PyExc_NotImplementedError, NULL);
     return -1;
 
-    if (kwds == NULL) {
-        if (!PyArg_ParseTuple(args, "|fdddz", &self->frac, &self->start,
-                              &self->now, &self->predicted_end,
-                              &self->state_name))
-            return -1;
-    } else {
-        if (!PyArg_ParseTupleAndKeywords(args, kwds, "|fdddz", kwlist,
-                                         &self->frac, &self->start, &self->now,
-                                         &self->predicted_end, &self->state_name))
-            return -2;
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|fdddz", kwlist,
+                                     &self->frac, &self->start, &self->now,
+                                     &self->predicted_end, &self->state_name)) {
+        return -1;
     }
 
      /* self->state_name now points to the internal buffer of a PyUnicode object,

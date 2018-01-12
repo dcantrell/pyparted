@@ -210,7 +210,11 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
                 PyErr_SetString(PartitionException, partedExnMessage);
             }
         } else {
-            PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
+            if (disk == NULL) {
+                PyErr_Format(PartitionException, "Could not create new partition");
+            } else {
+                PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
+            }
         }
 
         self->disk = self->fs_type = NULL;
@@ -1263,23 +1267,19 @@ PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args) {
         return NULL;
     }
 
-    if (part) {
-        ret = ped_partition_set_name(part, in_name);
-        if (ret == 0) {
-            if (partedExnRaised) {
-                partedExnRaised = 0;
+    ret = ped_partition_set_name(part, in_name);
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException) &&
-                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                    PyErr_SetString(PartitionException, partedExnMessage);
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
             }
-            else
-                PyErr_Format(PartitionException, "Could not set name on partition %s%d", part->disk->dev->path, part->num);
-
-            return NULL;
+        } else {
+            PyErr_Format(PartitionException, "Could not set name on partition %s%d", part->disk->dev->path, part->num);
         }
-    }
-    else {
+
         return NULL;
     }
 
@@ -1305,23 +1305,19 @@ PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
         return NULL;
     }
 
-    if (part) {
-        ret = (char *) ped_partition_get_name(part);
-        if (ret == NULL) {
-            if (partedExnRaised) {
-                partedExnRaised = 0;
+    ret = (char *) ped_partition_get_name(part);
+    if (ret == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
 
-                if (!PyErr_ExceptionMatches(PartedException) &&
-                    !PyErr_ExceptionMatches(PyExc_NotImplementedError))
-                    PyErr_SetString(PartitionException, partedExnMessage);
+            if (!PyErr_ExceptionMatches(PartedException) &&
+                !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
             }
-            else
-                PyErr_Format(PartitionException, "Could not read name on partition %s%d", part->disk->dev->path, part->num);
-
-            return NULL;
+        } else {
+            PyErr_Format(PartitionException, "Could not read name on partition %s%d", part->disk->dev->path, part->num);
         }
-    }
-    else {
+
         return NULL;
     }
 
@@ -2010,7 +2006,11 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
                 !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(DiskException, partedExnMessage);
         } else {
-            PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
+            if (disk->dev == NULL) {
+                PyErr_Format(DiskException, "Could not create new disk label");
+            } else {
+                PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
+            }
         }
 
         return NULL;
@@ -2042,7 +2042,11 @@ PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
                 !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(DiskException, partedExnMessage);
         } else {
-            PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
+            if (disk->dev == NULL) {
+                PyErr_Format(DiskException, "Could not create new disk label");
+            } else {
+                PyErr_Format(DiskException, "Could not create new disk label on %s", disk->dev->path);
+            }
         }
 
         return NULL;
