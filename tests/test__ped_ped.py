@@ -48,7 +48,7 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
             self.assertNotEqual(_ped.partition_flag_get_name(attr), "", "Could not get name for flag _ped.%s" % f)
 
         self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
-        self.assertRaises(_ped.PartedException, _ped.partition_flag_get_name, 1000)
+        self.assertRaises(ValueError, _ped.partition_flag_get_name, 1000)
 
 class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
@@ -82,7 +82,7 @@ class DiskFlagGetNameTestCase(unittest.TestCase):
             self.assertNotEqual(_ped.disk_flag_get_name(f), "", "Could not get name for flag %s" % f)
 
         self.assertRaises(ValueError, _ped.disk_flag_get_name, -1)
-        self.assertRaises(_ped.PartedException, _ped.disk_flag_get_name, 1000)
+        self.assertRaises(ValueError, _ped.disk_flag_get_name, 1000)
 
 class DiskFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
