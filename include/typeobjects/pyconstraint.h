@@ -59,7 +59,7 @@ static PyMethodDef _ped_Constraint_methods[] = {
 static PyGetSetDef _ped_Constraint_getset[] = {
     {"min_size", (getter) _ped_Constraint_get,
                  (setter) _ped_Constraint_set,
-                 "The mimimum size in _ped.Sectors of the partition.", "min_size"},
+                 "The minimum size in _ped.Sectors of the partition.", "min_size"},
     {"max_size", (getter) _ped_Constraint_get,
                  (setter) _ped_Constraint_set,
                  "The maximum size in _ped.Sectors of the partition.", "max_size"},
