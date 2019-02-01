@@ -69,7 +69,6 @@ tag: dist
 release: tag
 	( cd dist ; gzip -dc $(PACKAGE)-$(VERSION).tar.gz | tar -xvf - )
 	( cd dist/$(PACKAGE)-$(VERSION) && $(PYTHON) setup.py build ) || exit 1
-	rm -rf dist MANIFEST
 	@echo
 	@echo "$(PACKAGE)-$(VERSION) can be pushed to the git repo:"
 	@echo "    git push && git push --tags"
