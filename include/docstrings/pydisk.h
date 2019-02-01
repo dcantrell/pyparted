@@ -136,7 +136,7 @@ PyDoc_STRVAR(disk_get_last_partition_num_doc,
 
 PyDoc_STRVAR(disk_get_max_primary_partition_count_doc,
 "get_max_primary_partition_count(self) -> integer\n\n"
-"Get the maximum number of primary partitions spported by the disk label.");
+"Get the maximum number of primary partitions supported by the disk label.");
 
 PyDoc_STRVAR(disk_get_max_supported_partition_count_doc,
 "get_max_supported_partition_count(self) -> integer\n\n"
