@@ -1,16 +1,19 @@
 Instructions for making a new release:
 
-1) git checkout master
-2) git clean -d -x -f         # I hope you've committed or stashed everything
-                              # you are working on
-2) git fetch
-3) git rebase origin
-4) make bumpver
-5) git commit -a -m "New version."
-6) git clean -d -x -f
-7) make dist
-8) gpg --detach-sign -a dist/$(make verrel).tar.gz
-8) twine upload dist/$(make verrel).tar.gz $(make verrel).tar.gz.asc
+ 1) git checkout master
+ 2) git clean -d -x -f         # I hope you've committed or stashed everything
+                               # you are working on
+ 3) git fetch
+ 4) git rebase origin
+ 5) make bumpver
+ 6) git commit -a -m "New version."
+ 7) git clean -d -x -f
+ 8) make release
+ 9) gpg --detach-sign -a dist/$(make verrel).tar.gz
+10) twine upload dist/$(make verrel).tar.gz $(make verrel).tar.gz.asc
+
+The tar.gz and tar.gz.asc files should be uploaded as release artifacts to
+github as a new release.
 
 If packaging in RPM format, you might find the 'make rpmlog' target useful.
 It gives you an RPM spec file formatted changelog block that contains the
