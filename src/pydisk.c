@@ -1024,7 +1024,7 @@ PyObject *py_ped_disk_flag_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if ((flag < PED_DISK_FIRST_FLAG) || (flag > PED_DISK_LAST_FLAG)) {
+    if (flag < PED_DISK_FIRST_FLAG) {
         PyErr_SetString(PyExc_ValueError, "Invalid flag provided.");
         return NULL;
     }
@@ -1402,7 +1402,7 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
         return NULL;
     }
 
-    if ((flag < PED_PARTITION_FIRST_FLAG) || (flag > PED_PARTITION_LAST_FLAG)) {
+    if (flag < PED_PARTITION_FIRST_FLAG) {
         PyErr_SetString(PyExc_ValueError, "Invalid flag provided.");
         return NULL;
     }
