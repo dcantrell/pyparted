@@ -35,11 +35,11 @@ PyDoc_STRVAR(alignment_duplicate_doc,
 PyDoc_STRVAR(alignment_intersect_doc,
 "intersect(self, Alignment) -> _ped.Alignment\n\n"
 "Create a new Alignment that describes the intersection of self and\n"
-"Alignment.  A sector will satisfy the new Alignment iff it satisfies both\n"
-"of the original alignments, where 'satisfy' is determined by is_aligned().\n"
-"The proof of this is relatively complicated and is described thoroughly\n"
-"in the libparted source.  This method raises ArithmeticError if no\n"
-"intersection can be found.");
+"Alignment.  A sector will satisfy the new Alignment if and only if it\n"
+"satisfies both of the original alignments, where 'satisfy' is determined\n"
+"by is_aligned().  The proof of this is relatively complicated and is\n"
+"described thoroughly in the libparted source.  This method raises\n"
+"ArithmeticError if no intersection can be found.");
 
 PyDoc_STRVAR(alignment_align_up_doc,
 "align_up(self, Geometry, Sector) -> Sector\n\n"
