@@ -60,7 +60,7 @@ you file a bug at http://bugzilla.redhat.com/ against the appropriate
 Fedora release you are using.
 
 Alternatively, you can file bugs directly on the project page:
-http://fedorahosted.org/pyparted/
+https://github.com/dcantrell/pyparted/issues
 
 If you just have questions about pyparted, you can email us directly
 using the contact information in the AUTHORS file.  We will do our best
