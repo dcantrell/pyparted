@@ -108,11 +108,16 @@ class GeometrySyncTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
-@unittest.skip("Unimplemented test case.")
-class GeometryWriteTestCase(unittest.TestCase):
+class GeometryWriteTestCase(RequiresDevice):
+    def setUp(self):
+        RequiresDevice.setUp(self)
+        self.geom = parted.Geometry(self.device, start=100, length=500)
+
     def runTest(self):
-        # TODO
-        self.fail("Unimplemented test case.")
+        self._device.open()
+        self.assertTrue(self.geom.write("".join(["\x00"] * self.device.sectorSize), 0, 1))
+        self.assertTrue(self.geom.write("".join(["\x01"] * self.device.sectorSize), 0, 1))
+        self._device.close()
 
 @unittest.skip("Unimplemented test case.")
 class GeometryGetPedGeometryTestCase(unittest.TestCase):
