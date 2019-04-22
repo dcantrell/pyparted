@@ -9,7 +9,9 @@ matrix:
       dist: xenial
       sudo: true
 
-install:
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libparted-devel
   - pip install --upgrade pip setuptools pytest
   - pip install coverage
 
