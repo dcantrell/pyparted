@@ -27,6 +27,7 @@ if sys.version_info >= (3, ):
     long = int
 
 import math
+from decimal import Decimal
 import warnings
 
 import parted
@@ -261,14 +262,14 @@ class Device(object):
         """Return the closest cylinder (round down) to sector on
            this Device."""
         (_, heads, sectors) = self.biosGeometry
-        return long(math.floor((float(sector) / (heads * sectors)) + 1))
+        return long(math.floor((Decimal(sector) / (heads * sectors)) + 1))
 
     @localeC
     def endSectorToCylinder(self, sector):
         """Return the closest cylinder (round up) to sector on
            this Device."""
         (_, heads, sectors) = self.biosGeometry
-        return long(math.ceil(float((sector + 1)) / (heads * sectors)))
+        return long(math.ceil(Decimal((sector + 1)) / (heads * sectors)))
 
     @localeC
     def startCylinderToSector(self, cylinder):
@@ -296,7 +297,7 @@ class Device(object):
         if lunit not in parted._exponent.keys():
             raise SyntaxError("invalid unit %s given" % (unit))
 
-        size = float(self.__device.length)
+        size = Decimal(self.__device.length)
         size /= math.pow(1024.0, parted._exponent[lunit])
         size *= self.sectorSize
 
