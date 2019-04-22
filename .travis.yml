@@ -11,7 +11,7 @@ matrix:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y libparted-devel
+  - sudo apt-get install -y libparted-dev
   - pip install --upgrade pip setuptools pytest
   - pip install coverage
 
