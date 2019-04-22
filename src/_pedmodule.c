@@ -635,7 +635,9 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "PARTITION_DIAG", PED_PARTITION_DIAG);
     PyModule_AddIntConstant(m, "PARTITION_LEGACY_BOOT", PED_PARTITION_LEGACY_BOOT);
     PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
+#ifdef PED_PARTITION_IRST
     PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
+#endif
     PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
