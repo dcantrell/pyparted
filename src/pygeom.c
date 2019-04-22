@@ -629,10 +629,11 @@ PyObject *py_ped_geometry_sync_fast(PyObject *s, PyObject *args) {
 PyObject *py_ped_geometry_write(PyObject *s, PyObject *args) {
     int ret = -1;
     char *in_buf = NULL;
+    Py_ssize_t in_buflen;
     PedGeometry *geom = NULL;
     PedSector offset, count;
 
-    if (!PyArg_ParseTuple(args, "sLL", &in_buf, &offset, &count)) {
+    if (!PyArg_ParseTuple(args, "s#LL", &in_buf, &in_buflen, &offset, &count)) {
         return NULL;
     }
 
