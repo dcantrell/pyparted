@@ -76,8 +76,6 @@ class RequiresFileSystem(unittest.TestCase):
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
 
     def removeTempDevice(self):
-        os.close(self.fd)
-
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
 
