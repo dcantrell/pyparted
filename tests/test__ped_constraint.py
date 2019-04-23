@@ -19,7 +19,6 @@
 #                    David Cantrell <dcantrell@redhat.com>
 #
 
-import copy
 import _ped
 
 from tests.baseclass import RequiresDevice
@@ -105,7 +104,7 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 
         self.c = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
                                  max_size=100)
-        self.dup = copy.deepcopy(self.c)
+        self.dup = self.c.duplicate()
 
     def runTest(self):
         self.assertEqual(self.c.min_size, self.dup.min_size)
