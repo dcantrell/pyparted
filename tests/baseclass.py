@@ -33,6 +33,7 @@ class RequiresDeviceNode(unittest.TestCase):
         self.f = os.fdopen(self.fd)
         self.f.seek(140000)
         os.write(self.fd, b"0")
+        self.f.close()
 
     def removeTempDevice(self):
         os.close(self.fd)
@@ -64,11 +65,11 @@ class RequiresFileSystem(unittest.TestCase):
             except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
-        (fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
-        f = os.fdopen(fd)
-        f.seek(140000)
-        os.write(fd, b"0")
-        f.close()
+        (self.fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
+        self.f = os.fdopen(self.fd)
+        self.f.seek(140000)
+        os.write(self.fd, b"0")
+        self.f.close()
 
         os.system("mke2fs -F -q %s" % (self.path,))
 
@@ -76,6 +77,8 @@ class RequiresFileSystem(unittest.TestCase):
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
 
     def removeTempDevice(self):
+        os.close(self.fd)
+
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
 
