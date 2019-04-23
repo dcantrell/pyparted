@@ -30,11 +30,13 @@ class RequiresDeviceNode(unittest.TestCase):
         self.addCleanup(self.removeTempDevice)
 
         (fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
-        f = os.fdopen(fd)
-        f.seek(140000)
+        self.f = os.fdopen(fd)
+        self.f.seek(140000)
         os.write(fd, b"0")
 
     def removeTempDevice(self):
+        os.close(self.f)
+
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
 
