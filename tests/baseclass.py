@@ -33,7 +33,6 @@ class RequiresDeviceNode(unittest.TestCase):
         self.f = os.fdopen(self.fd)
         self.f.seek(140000)
         os.write(self.fd, b"0")
-        self.f.close()
 
     def removeTempDevice(self):
         os.close(self.fd)
