@@ -100,17 +100,17 @@ PyObject *_ped_Partition_str(_ped_Partition *self) {
     char *ret = NULL;
     char *disk = NULL, *fs_type = NULL, *geom = NULL;
 
-    disk = PyUnicode_AsUTF8(_ped_Disk_Type_obj.tp_repr(self->disk));
+    disk = (char *) PyUnicode_AsUTF8(_ped_Disk_Type_obj.tp_repr(self->disk));
     if (disk == NULL) {
         return NULL;
     }
 
-    fs_type = PyUnicode_AsUTF8(_ped_FileSystemType_Type_obj.tp_repr(self->fs_type));
+    fs_type = (char *) PyUnicode_AsUTF8(_ped_FileSystemType_Type_obj.tp_repr(self->fs_type));
     if (fs_type == NULL) {
         return NULL;
     }
 
-    geom = PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
+    geom = (char *) PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
     if (geom == NULL) {
         return NULL;
     }
@@ -348,12 +348,12 @@ PyObject *_ped_Disk_str(_ped_Disk *self) {
     char *ret = NULL;
     char *dev = NULL, *type = NULL;
 
-    dev = PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
+    dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
     if (dev == NULL) {
         return NULL;
     }
 
-    type = PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->type));
+    type = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->type));
     if (type == NULL) {
         return NULL;
     }
