@@ -173,12 +173,12 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
     char *ret = NULL;
     char *type = NULL, *geom = NULL;
 
-    type = PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
+    type = (char *) PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
     if (type == NULL) {
         return NULL;
     }
 
-    geom = PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
+    geom = (char *) PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
     if (geom == NULL) {
         return NULL;
     }
