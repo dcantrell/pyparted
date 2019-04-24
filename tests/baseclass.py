@@ -29,7 +29,8 @@ class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
         self.addCleanup(self.removeTempDevice)
 
-        (self.fd, self.path) = tempfile.mkstemp(prefix="temp-device-")
+        self.temp_prefix = "temp-device-"
+        (self.fd, self.path) = tempfile.mkstemp(prefix=self.temp_prefix)
         self.f = os.fdopen(self.fd)
         self.f.seek(140000)
         os.write(self.fd, b"0")
@@ -64,7 +65,8 @@ class RequiresFileSystem(unittest.TestCase):
             except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
 
-        (self.fd, self.path,) = tempfile.mkstemp(prefix="temp-device-")
+        self.temp_prefix = "temp-device-"
+        (self.fd, self.path,) = tempfile.mkstemp(prefix=self.temp_prefix)
         self.f = os.fdopen(self.fd)
         self.f.seek(140000)
         os.write(self.fd, b"0")
