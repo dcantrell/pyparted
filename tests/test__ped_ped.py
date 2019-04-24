@@ -224,7 +224,7 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         # results.
         _ped.device_probe_all()
         lst = self.getDeviceList(_ped.device_get_next)
-        prefix = self.path[:self.path.index(self.temp_prefix) - 1] + self.temp_prefix
+        prefix = self.path[:self.path.index(self.temp_prefix) - 1] + "/" + self.temp_prefix
 
         self.assertGreater(len(lst), 0)
         self.assertGreater(
