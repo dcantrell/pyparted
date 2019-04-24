@@ -1,10 +1,11 @@
 *.pyc
 *.swp
+.coverage
+.tox
 ChangeLog
 MANIFEST
 build
+coverage-report.log
 dist
 pyparted.spec
-.tox
-.coverage
-coverage-report.log
+tests/pylint/.pylint.d
