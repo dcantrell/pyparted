@@ -73,6 +73,16 @@ release: tag
 	@echo "$(PACKAGE)-$(VERSION) can be pushed to the git repo:"
 	@echo "    git push && git push --tags"
 	@echo
+	@echo "*** Remember to run 'make pypi' afterwards ***"
+	@echo
+
+pypi:
+	@echo "************************************************************************"
+	@echo "* Username and password are for your pypi.org login.                   *"
+	@echo "* NOTE: You must be a listed maintainer for pyparted for this to work. *"
+	@echo "************************************************************************"
+	@echo
+	twine upload --repository-url https://upload.pypi.org/legacy/ $(PACKAGE)-$(VERSION).tar.gz
 
 rpmlog:
 	@prevtag="$$(git tag -l | grep -v "^start$$" | tail -n 2 | head -n 1)" ; \
