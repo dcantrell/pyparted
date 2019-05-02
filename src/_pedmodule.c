@@ -50,6 +50,22 @@
 #define PED_PARTITION_LEGACY_BOOT 15
 #endif
 
+#if PED_PARTITION_LAST_FLAG < 16
+#define PED_PARTITION_MSFT_DATA 16
+#endif
+
+#if PED_PARTITION_LAST_FLAG < 17
+#define PED_PARTITION_IRST 17
+#endif
+
+#if PED_PARTITION_LAST_FLAG < 18
+#define PED_PARTITION_ERP 18
+#endif
+
+#if PED_PARTITION_LAST_FLAG < 19
+#define PED_PARTITION_TYPE 19
+#endif
+
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
