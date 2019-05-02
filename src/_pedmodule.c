@@ -54,18 +54,6 @@
 #define PED_PARTITION_MSFT_DATA 16
 #endif
 
-#if PED_PARTITION_LAST_FLAG < 17
-#define PED_PARTITION_IRST 17
-#endif
-
-#if PED_PARTITION_LAST_FLAG < 18
-#define PED_PARTITION_ESP 18
-#endif
-
-#if PED_PARTITION_LAST_FLAG < 19
-#define PED_PARTITION_TYPE 19
-#endif
-
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
@@ -650,9 +638,15 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "PARTITION_BIOS_GRUB", PED_PARTITION_BIOS_GRUB);
     PyModule_AddIntConstant(m, "PARTITION_DIAG", PED_PARTITION_DIAG);
     PyModule_AddIntConstant(m, "PARTITION_LEGACY_BOOT", PED_PARTITION_LEGACY_BOOT);
+#ifdef PED_PARTITION_MSFT_DATA
     PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
+#endif
+#ifdef PED_PARTITION_IRST
     PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
+#endif
+#ifdef PED_PARTITION_ESP
     PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
+#endif
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
