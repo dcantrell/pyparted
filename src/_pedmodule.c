@@ -419,43 +419,46 @@ PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
  * py_ped_register_exn_handler function.
  */
 static PedExceptionOption partedExnHandler(PedException *e) {
+    PedExceptionOption ret;
+
     switch (e->type) {
-        /* Raise yes/no exceptions so the caller can deal with them,
+        /* Raise yes/no/fix exceptions so the caller can deal with them,
          * otherwise ignore */
         case PED_EXCEPTION_INFORMATION:
         case PED_EXCEPTION_WARNING:
             if (e->options == PED_EXCEPTION_YES_NO) {
-                partedExnRaised = 1;
-                partedExnMessage = strdup(e->message);
-
-                if (partedExnMessage == NULL)
-                    PyErr_NoMemory();
-                else if (exn_handler && PyCallable_Check(exn_handler)) {
-                    PyObject *args, *retval;
-
-                    args = PyTuple_New(3);
-                    PyTuple_SetItem(args, 0, PyLong_FromLong(e->type));
-                    PyTuple_SetItem(args, 1, PyLong_FromLong(e->options));
-                    PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
-
-                    retval = PyObject_CallObject(exn_handler, args);
-                    Py_DECREF(args);
-                    if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0))
-                        return PyLong_AsLong(retval);
-                    else
-                        /* Call failed, use the default value. */
-                        return PED_EXCEPTION_NO;
-                }
-                else {
-                    /* If no exception handling function was registered to
-                     * tell us what to do, return "no" for any yes/no
-                     * questions to prevent any potential disk destruction.
-                     */
-                    return PED_EXCEPTION_NO;
-                }
+                ret = PED_EXCEPTION_NO;
+            } else if (e->options == PED_EXCEPTION_FIX) {
+                ret = PED_EXCEPTION_IGNORE;
             } else {
                 partedExnRaised = 0;
-                return PED_EXCEPTION_IGNORE;
+                return PED_EXCEPTION_UNHANDLED;
+            }
+
+            partedExnRaised = 1;
+            partedExnMessage = strdup(e->message);
+
+            if (partedExnMessage == NULL) {
+                PyErr_NoMemory();
+            } else if (exn_handler && PyCallable_Check(exn_handler)) {
+                PyObject *args, *retval;
+
+                args = PyTuple_New(3);
+                PyTuple_SetItem(args, 0, PyLong_FromLong(e->type));
+                PyTuple_SetItem(args, 1, PyLong_FromLong(e->options));
+                PyTuple_SetItem(args, 2, PyUnicode_FromString(e->message));
+
+                retval = PyObject_CallObject(exn_handler, args);
+                Py_DECREF(args);
+                if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0)) {
+                    return PyLong_AsLong(retval);
+                }
+            } else {
+                /* If no exception handling function was registered to
+                 * tell us what to do, return "no" for any yes/no
+                 * questions to prevent any potential disk destruction.
+                 */
+                return ret;
             }
 
         /* Set global flags so parted module methods can raise specific
