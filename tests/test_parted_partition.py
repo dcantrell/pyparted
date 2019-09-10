@@ -108,8 +108,7 @@ class PartitionGetSetTestCase(PartitionNewTestCase):
             self.part.disk = self.disk
 
         # DOS disklabels don't support names
-        with self.assertRaises(parted.PartitionException):
-            print(self.part.name)
+        self.assertEqual(self.part.name, None)
         with self.assertRaises(parted.PartitionException):
             self.part.name = "root"
 
