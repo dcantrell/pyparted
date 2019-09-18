@@ -428,7 +428,7 @@ static PedExceptionOption partedExnHandler(PedException *e) {
         case PED_EXCEPTION_WARNING:
             if (e->options == PED_EXCEPTION_YES_NO) {
                 ret = PED_EXCEPTION_NO;
-            } else if (e->options == PED_EXCEPTION_FIX) {
+            } else if (e->options & PED_EXCEPTION_IGNORE) {
                 ret = PED_EXCEPTION_IGNORE;
             } else {
                 partedExnRaised = 0;
