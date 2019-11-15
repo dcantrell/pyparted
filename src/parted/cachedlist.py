@@ -1,7 +1,7 @@
 #
 # Python bindings for libparted (built on top of the _ped Python module).
 #
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2009-2019 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -18,9 +18,10 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Chris Lumens <clumens@redhat.com>
+#                    David Cantrell <dcantrell@redhat.com>
 #
 
-from collections import Sequence
+from collections.abc import Sequence
 
 class CachedList(Sequence):
     """CachedList()
