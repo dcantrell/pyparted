@@ -325,6 +325,7 @@ archLabels = {'i386': ['msdos', 'gpt'],
               'ppc64le': ['msdos', 'gpt'],
               'x86_64': ['msdos', 'gpt'],
               'aarch64': ['msdos', 'gpt'],
+              'mips64': ['msdos','gpt']}
               'armv7l': ['msdos', 'gpt'],
               'riscv32': ['msdos', 'gpt'],
               'riscv64': ['msdos', 'gpt']}
@@ -366,7 +367,7 @@ __archLabels = (('amiga', 'ppc(64)?$'),
                 ('dasd', 's390x?$'),
                 ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$'),
                 ('mac', 'ppc(64)?$'),
-                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$'),
+                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|mips64$|armv7l$|riscv(32|64)$'),
                 ('sun', 'sparc(64)?$'))
 
 def getLabels(arch=None):
