@@ -325,7 +325,7 @@ archLabels = {'i386': ['msdos', 'gpt'],
               'ppc64le': ['msdos', 'gpt'],
               'x86_64': ['msdos', 'gpt'],
               'aarch64': ['msdos', 'gpt'],
-              'mips64': ['msdos','gpt']}
+              'mips64': ['msdos','gpt'],
               'armv7l': ['msdos', 'gpt'],
               'riscv32': ['msdos', 'gpt'],
               'riscv64': ['msdos', 'gpt']}
