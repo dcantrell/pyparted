@@ -298,10 +298,10 @@ class Device(object):
             raise SyntaxError("invalid unit %s given" % (unit))
 
         size = Decimal(self.__device.length)
-        size /= math.pow(1024.0, parted._exponent[lunit])
-        size *= self.sectorSize
+        size /= Decimal(math.pow(1024.0, parted._exponent[lunit]))
+        size *= Decimal(self.sectorSize)
 
-        return size
+        return float(size)
 
     @localeC
     def getLength(self, unit='sectors'):
