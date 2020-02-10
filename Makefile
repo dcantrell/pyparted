@@ -82,7 +82,7 @@ pypi:
 	@echo "* NOTE: You must be a listed maintainer for pyparted for this to work. *"
 	@echo "************************************************************************"
 	@echo
-	twine upload --repository-url https://upload.pypi.org/legacy/ $(PACKAGE)-$(VERSION).tar.gz
+	twine upload --repository-url https://upload.pypi.org/legacy/ dist/$(PACKAGE)-$(VERSION).tar.gz
 
 rpmlog:
 	@prevtag="$$(git tag -l | grep -v "^start$$" | tail -n 2 | head -n 1)" ; \
