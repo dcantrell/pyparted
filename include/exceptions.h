@@ -1,7 +1,7 @@
 /*
  * exceptions.h
  *
- * Copyright (C) 2007-2013 Red Hat, Inc.
+ * Copyright (C) 2007-2020 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -27,21 +27,21 @@
 #include <Python.h>
 
 /* custom exceptions for _ped */
-PyObject *AlignmentException;
-PyObject *CreateException;
-PyObject *ConstraintException;
-PyObject *DeviceException;
-PyObject *DiskException;
-PyObject *DiskLabelException;
-PyObject *FileSystemException;
-PyObject *GeometryException;
-PyObject *IOException;
-PyObject *NotNeededException;
-PyObject *PartedException;
-PyObject *PartitionException;
-PyObject *TimerException;
-PyObject *UnknownDeviceException;
-PyObject *UnknownTypeException;
+extern PyObject *AlignmentException;
+extern PyObject *CreateException;
+extern PyObject *ConstraintException;
+extern PyObject *DeviceException;
+extern PyObject *DiskException;
+extern PyObject *DiskLabelException;
+extern PyObject *FileSystemException;
+extern PyObject *GeometryException;
+extern PyObject *IOException;
+extern PyObject *NotNeededException;
+extern PyObject *PartedException;
+extern PyObject *PartitionException;
+extern PyObject *TimerException;
+extern PyObject *UnknownDeviceException;
+extern PyObject *UnknownTypeException;
 
 extern unsigned int partedExnRaised;
 extern char *partedExnMessage;

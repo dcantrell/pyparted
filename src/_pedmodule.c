@@ -5,7 +5,7 @@
  * Python module that implements the libparted functionality via Python
  * classes and other high level language features.
  *
- * Copyright (C) 2007-2015 Red Hat, Inc.
+ * Copyright (C) 2007-2020 Red Hat, Inc.
  *
  * This copyrighted material is made available to anyone wishing to use,
  * modify, copy, or redistribute it subject to the terms and conditions of
@@ -58,6 +58,24 @@ char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
 PyObject *exn_handler = NULL;
+
+/* custom exceptions for _ped */
+/* These are declared in exceptions.h for use elsewhere. */
+PyObject *AlignmentException;
+PyObject *CreateException;
+PyObject *ConstraintException;
+PyObject *DeviceException;
+PyObject *DiskException;
+PyObject *DiskLabelException;
+PyObject *FileSystemException;
+PyObject *GeometryException;
+PyObject *IOException;
+PyObject *NotNeededException;
+PyObject *PartedException;
+PyObject *PartitionException;
+PyObject *TimerException;
+PyObject *UnknownDeviceException;
+PyObject *UnknownTypeException;
 
 /* Docs strings are broken out of the module structure here to be at least a
  * little bit readable.
