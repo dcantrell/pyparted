@@ -197,7 +197,8 @@ class PartitionIsFlagAvailableTestCase(PartitionNewTestCase):
                   'PARTITION_APPLE_TV_RECOVERY',
                   'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
                   'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP', 'PARTITION_NONFS']:
+                  'PARTITION_ESP', 'PARTITION_NONFS',
+                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT']:
             if not hasattr(parted, f):
                 continue
             attr = getattr(parted, f)

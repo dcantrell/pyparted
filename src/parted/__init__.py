@@ -133,6 +133,12 @@ if hasattr(_ped, 'PARTITION_ESP'):
 if hasattr(_ped, 'PARTITION_NONFS'):
     # pylint: disable=E0611
     from _ped import PARTITION_NONFS
+if hasattr(_ped, 'PARTITION_CHROMEOS_KERNEL'):
+    # pylint: disable=E0611
+    from _ped import PARTITION_CHROMEOS_KERNEL
+if hasattr(_ped, 'PARTITION_BLS_BOOT'):
+    # pylint: disable=E0611
+    from _ped import PARTITION_BLS_BOOT
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
