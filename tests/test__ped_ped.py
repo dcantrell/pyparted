@@ -41,7 +41,8 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
                   'PARTITION_APPLE_TV_RECOVERY',
                   'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
                   'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP', 'PARTITION_NONFS']:
+                  'PARTITION_ESP', 'PARTITION_NONFS',
+                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_CHROMEOS_KERNEL']:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
