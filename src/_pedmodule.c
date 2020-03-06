@@ -42,18 +42,6 @@
 #include "pytimer.h"
 #include "pyunit.h"
 
-#if PED_DISK_LAST_FLAG < 2
-#define PED_DISK_GPT_PMBR_BOOT 2
-#endif
-
-#if PED_PARTITION_LAST_FLAG < 15
-#define PED_PARTITION_LEGACY_BOOT 15
-#endif
-
-#if PED_PARTITION_LAST_FLAG < 16
-#define PED_PARTITION_MSFT_DATA 16
-#endif
-
 char *partedExnMessage = NULL;
 unsigned int partedExnRaised = 0;
 
@@ -659,15 +647,23 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "PARTITION_BIOS_GRUB", PED_PARTITION_BIOS_GRUB);
     PyModule_AddIntConstant(m, "PARTITION_DIAG", PED_PARTITION_DIAG);
     PyModule_AddIntConstant(m, "PARTITION_LEGACY_BOOT", PED_PARTITION_LEGACY_BOOT);
-#ifdef PED_PARTITION_MSFT_DATA
-    PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
-#endif
-#ifdef PED_PARTITION_IRST
-    PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
-#endif
-#ifdef PED_PARTITION_ESP
-    PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
-#endif
+
+    /* NOTE: You cannot evaluate the enum PED_PARTITION_* values using the
+     * preprocessor. DO NOT use #if or #ifdef with them.
+     *
+     * Conditionally add constants, based on PED_PARTITION_LAST_FLAG, and what
+     * we know about parted/disk.h
+     */
+    if (PED_PARTITION_LAST_FLAG > 15)
+        PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
+    if (PED_PARTITION_LAST_FLAG > 16)
+        PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
+    if (PED_PARTITION_LAST_FLAG > 17)
+        PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
+    if (PED_PARTITION_LAST_FLAG > 18)
+        PyModule_AddIntConstant(m, "PARTITION_CHROMEOS_KERNEL", PED_PARTITION_CHROMEOS_KERNEL);
+    if (PED_PARTITION_LAST_FLAG > 19)
+        PyModule_AddIntConstant(m, "PARTITION_BLS_BOOT", PED_PARTITION_BLS_BOOT);
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
