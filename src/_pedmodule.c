@@ -654,16 +654,21 @@ MOD_INIT(_ped) {
      * Conditionally add constants, based on PED_PARTITION_LAST_FLAG, and what
      * we know about parted/disk.h
      */
-    if (PED_PARTITION_LAST_FLAG > 15)
-        PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
-    if (PED_PARTITION_LAST_FLAG > 16)
-        PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
-    if (PED_PARTITION_LAST_FLAG > 17)
-        PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
-    if (PED_PARTITION_LAST_FLAG > 18)
-        PyModule_AddIntConstant(m, "PARTITION_CHROMEOS_KERNEL", PED_PARTITION_CHROMEOS_KERNEL);
-    if (PED_PARTITION_LAST_FLAG > 19)
-        PyModule_AddIntConstant(m, "PARTITION_BLS_BOOT", PED_PARTITION_BLS_BOOT);
+#if defined(PED_PARTITION_MSFT_DATA)
+    PyModule_AddIntConstant(m, "PARTITION_MSFT_DATA", PED_PARTITION_MSFT_DATA);
+#endif
+#if defined(PED_PARTITION_IRST)
+    PyModule_AddIntConstant(m, "PARTITION_IRST", PED_PARTITION_IRST);
+#endif
+#if defined(PED_PARTITION_ESP)
+    PyModule_AddIntConstant(m, "PARTITION_ESP", PED_PARTITION_ESP);
+#endif
+#if defined(PED_PARTITION_CHROMEOS_KERNEL)
+    PyModule_AddIntConstant(m, "PARTITION_CHROMEOS_KERNEL", PED_PARTITION_CHROMEOS_KERNEL);
+#endif
+#if defined(PED_PARTITION_BLS_BOOT)
+    PyModule_AddIntConstant(m, "PARTITION_BLS_BOOT", PED_PARTITION_BLS_BOOT);
+#endif
 
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
