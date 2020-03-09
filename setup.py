@@ -35,8 +35,8 @@ from distutils.version import LooseVersion
 pyparted_version = '3.11.4'
 python_version = sys.version_info
 
-need_libparted_version = '2.3'
-need_python_version = (2, 7)
+need_libparted_version = '3.3'
+need_python_version = (3, 7)
 
 if python_version < need_python_version:
     raise RuntimeError("pyparted requires Python version %d.%d or higher"
