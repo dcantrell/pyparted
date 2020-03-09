@@ -35,7 +35,7 @@ from distutils.version import LooseVersion
 pyparted_version = '3.11.5'
 python_version = sys.version_info
 
-need_libparted_version = '3.3'
+need_libparted_version = '3.2'
 need_python_version = (3, 5)
 
 if python_version < need_python_version:
