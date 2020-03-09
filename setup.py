@@ -36,7 +36,7 @@ pyparted_version = '3.11.5'
 python_version = sys.version_info
 
 need_libparted_version = '3.3'
-need_python_version = (3, 7)
+need_python_version = (3, 5)
 
 if python_version < need_python_version:
     raise RuntimeError("pyparted requires Python version %d.%d or higher"
