@@ -80,10 +80,12 @@ pypi:
 	@echo "************************************************************************"
 	@echo "* Username and password are for your pypi.org login.                   *"
 	@echo "* NOTE: You must be a listed maintainer for pyparted for this to work. *"
-	@echo "* See \$HOME/.pypirc                                                   *"
+	@echo "* See ~/.pypirc                                                   *"
 	@echo "************************************************************************"
 	@echo
-	twine upload dist/$(PACKAGE)-$(VERSION).tar.gz dist/$(PACKAGE)-$(VERSION).tar.gz.asc
+	twine upload \
+		dist/$(PACKAGE)-$(VERSION).tar.gz \
+		dist/$(PACKAGE)-$(VERSION).tar.gz.asc
 
 rpmlog:
 	@prevtag="$$(git tag -l | grep -v "^start$$" | tail -n 2 | head -n 1)" ; \

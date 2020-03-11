@@ -10,7 +10,7 @@ Instructions for making a new release:
  7) git clean -d -x -f
  8) make release
  9) gpg --detach-sign -a dist/$(make verrel).tar.gz
-10) twine upload dist/$(make verrel).tar.gz $(make verrel).tar.gz.asc
+10) make pypi
 
 The tar.gz and tar.gz.asc files should be uploaded as release artifacts to
 github as a new release.
