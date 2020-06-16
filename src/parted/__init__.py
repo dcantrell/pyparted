@@ -98,6 +98,7 @@ from _ped import DEVICE_DM
 from _ped import DEVICE_XVD
 from _ped import DEVICE_SDMMC
 from _ped import DEVICE_VIRTBLK
+from _ped import DEVICE_NVME
 
 from _ped import PARTITION_NORMAL
 from _ped import PARTITION_LOGICAL
