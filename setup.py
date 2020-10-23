@@ -62,7 +62,8 @@ check_mod_version('libparted', need_libparted_version)
 # This list is in the format necessary for the define_macros parameter
 # for an Extension() module definition.  See:
 # http://docs.python.org/distutils/setupscript.html#preprocessor-options
-features = [('PYPARTED_VERSION', "\"%s\"" % pyparted_version)]
+features = [('PYPARTED_VERSION', "\"%s\"" % pyparted_version),
+            ('PY_SSIZE_T_CLEAN', None)]
 
 setup(name='pyparted',
       version=pyparted_version,
