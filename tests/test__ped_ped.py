@@ -200,6 +200,7 @@ class DeviceGetTestCase(RequiresDevice):
         self.assertRaises(_ped.DeviceException, _ped.device_get, None)
 
 @unittest.skipUnless(os.geteuid() == 0, 'Requires root')
+@unittest.skipUnless("container" not in os.environ, 'Running in a container')
 class DeviceGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         # Make sure there are some devices in the system first and then
