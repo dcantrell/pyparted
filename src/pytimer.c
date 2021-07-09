@@ -104,33 +104,9 @@ int _ped_Timer_clear(_ped_Timer *self) {
 }
 
 int _ped_Timer_init(_ped_Timer *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"frac", "start", "now", "predicted_end",
-                             "state_name", NULL};
-
-    self->state_name = NULL;
-
     /* XXX: timers aren't really done yet in pyparted */
     PyErr_SetString(PyExc_NotImplementedError, NULL);
     return -1;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|fdddz", kwlist,
-                                     &self->frac, &self->start, &self->now,
-                                     &self->predicted_end, &self->state_name)) {
-        return -1;
-    }
-
-     /* self->state_name now points to the internal buffer of a PyUnicode object,
-      * which may be freed when its refcount drops to zero, so strdup it.
-      */
-     if (self->state_name) {
-         self->state_name = strdup(self->state_name);
-         if (!self->state_name) {
-             PyErr_NoMemory();
-             return -3;
-         }
-     }
-
-    return 0;
 }
 
 PyObject *_ped_Timer_get(_ped_Timer *self, void *closure) {
