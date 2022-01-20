@@ -32,7 +32,7 @@ class RequiresDeviceNode(unittest.TestCase):
         self.temp_prefix = "temp-device-"
         (self.fd, self.path) = tempfile.mkstemp(prefix=self.temp_prefix)
         self.f = os.fdopen(self.fd)
-        self.f.seek(140000)
+        self.f.seek(1400000)
         os.write(self.fd, b"0")
 
     def removeTempDevice(self):
@@ -68,7 +68,7 @@ class RequiresFileSystem(unittest.TestCase):
         self.temp_prefix = "temp-device-"
         (self.fd, self.path,) = tempfile.mkstemp(prefix=self.temp_prefix)
         self.f = os.fdopen(self.fd)
-        self.f.seek(140000)
+        self.f.seek(1400000)
         os.write(self.fd, b"0")
         self.f.close()
 
