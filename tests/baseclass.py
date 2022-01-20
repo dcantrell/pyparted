@@ -72,7 +72,7 @@ class RequiresFileSystem(unittest.TestCase):
         os.write(self.fd, b"0")
         self.f.close()
 
-        os.system("mke2fs -F -q %s" % (self.path,))
+        assert(os.system("mke2fs -F -q %s" % (self.path,)) == 0)
 
         self._device = _ped.device_get(self.path)
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
@@ -137,7 +137,7 @@ class RequiresDeviceAlignment(RequiresDevice):
 class RequiresLabeledDevice(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        os.system("parted -s %s mklabel msdos" % (self.path,))
+        assert(os.system("parted -s %s mklabel msdos" % (self.path,)) == 0)
 
 # Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
@@ -161,15 +161,15 @@ class RequiresMount(RequiresDevice):
         self.mountpoint = None
 
     def mkfs(self):
-        os.system("mkfs.ext2 -F -q %s" % self.path)
+        assert(os.system("mkfs.ext2 -F -q %s" % self.path) == 0)
 
     def doMount(self):
         self.mountpoint = tempfile.mkdtemp()
-        os.system("mount -o loop %s %s" % (self.path, self.mountpoint))
+        assert(os.system("mount -o loop %s %s" % (self.path, self.mountpoint)) == 0)
 
     def removeMountpoint(self):
         if self.mountpoint and os.path.exists(self.mountpoint):
-            os.system("umount %s" % self.mountpoint)
+            assert(os.system("umount %s" % self.mountpoint) == 0)
             os.rmdir(self.mountpoint)
 
 # Base class for any test case that requires a _ped.Partition.
