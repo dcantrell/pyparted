@@ -98,7 +98,7 @@ PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op) {
 
 PyObject *_ped_Partition_str(_ped_Partition *self) {
     char *ret = NULL;
-    char *disk = NULL, *fs_type = NULL, *geom = NULL;
+    const char *disk = NULL, *fs_type = NULL, *geom = NULL;
 
     disk = (char *) PyUnicode_AsUTF8(_ped_Disk_Type_obj.tp_repr(self->disk));
     if (disk == NULL) {
@@ -345,7 +345,7 @@ PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op) {
 
 PyObject *_ped_Disk_str(_ped_Disk *self) {
     char *ret = NULL;
-    char *dev = NULL, *type = NULL;
+    const char *dev = NULL, *type = NULL;
 
     dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
     if (dev == NULL) {
