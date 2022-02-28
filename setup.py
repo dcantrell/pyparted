@@ -27,10 +27,10 @@ import platform
 import sys
 from setuptools import setup, Extension
 
-pyparted_version = '3.11.7'
+pyparted_version = '3.12.0'
 python_version = sys.version_info
 
-need_libparted_version = '3.2'
+need_libparted_version = '3.4'
 need_python_version = (3, 5)
 
 if python_version < need_python_version:
