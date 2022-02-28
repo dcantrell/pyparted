@@ -675,6 +675,10 @@ MOD_INIT(_ped) {
         PyModule_AddIntConstant(m, "PARTITION_BLS_BOOT", PED_PARTITION_BLS_BOOT);
     }
 
+    if (PED_PARTITION_LAST_FLAG > 20) {
+        PyModule_AddIntConstant(m, "PARTITION_LINUX_HOME", PED_PARTITION_LINUX_HOME);
+    }
+
     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
     PyModule_AddIntConstant(m, "DISK_GPT_PMBR_BOOT", PED_DISK_GPT_PMBR_BOOT);
 

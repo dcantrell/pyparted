@@ -206,6 +206,10 @@ if hasattr(_ped, 'PARTITION_BLS_BOOT'):
     # pylint: disable=E0611
     from _ped import PARTITION_BLS_BOOT
     partitions[PARTITION_BLS_BOOT] = "bls_boot"
+if hasattr(_ped, 'PARTITION_LINUX_HOME'):
+    # pylint: disable=E0611
+    from _ped import PARTITION_LINUX_HOME
+    partitions[PARTITION_LINUX_HOME] = "linux-home"
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
