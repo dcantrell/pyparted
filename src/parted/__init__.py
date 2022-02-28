@@ -82,6 +82,22 @@ from _ped import UNIT_MEBIBYTE
 from _ped import UNIT_GIBIBYTE
 from _ped import UNIT_TEBIBYTE
 
+units = {}
+units[UNIT_SECTOR] = "sector"
+units[UNIT_BYTE] = "byte"
+units[UNIT_KILOBYTE] = "kilobyte"
+units[UNIT_MEGABYTE] = "megabyte"
+units[UNIT_GIGABYTE] = "gigabyte"
+units[UNIT_TERABYTE] = "terabyte"
+units[UNIT_COMPACT] = "compact"
+units[UNIT_CYLINDER] = "cylinder"
+units[UNIT_CHS] = "chs"
+units[UNIT_PERCENT] = "percent"
+units[UNIT_KIBIBYTE] = "kibibyte"
+units[UNIT_MEBIBYTE] = "mebibyte"
+units[UNIT_GIBIBYTE] = "gibibyte"
+units[UNIT_TEBIBYTE] = "tebibyte"
+
 from _ped import DEVICE_UNKNOWN
 from _ped import DEVICE_SCSI
 from _ped import DEVICE_IDE
@@ -100,12 +116,39 @@ from _ped import DEVICE_SDMMC
 from _ped import DEVICE_VIRTBLK
 from _ped import DEVICE_NVME
 
+devices = {}
+devices[DEVICE_UNKNOWN] = "unknown"
+devices[DEVICE_SCSI] = "scsi"
+devices[DEVICE_IDE] = "ide"
+devices[DEVICE_DAC960] = "dac960"
+devices[DEVICE_CPQARRAY] = "cpqarray"
+devices[DEVICE_FILE] = "file"
+devices[DEVICE_ATARAID] = "ataraid"
+devices[DEVICE_I2O] = "i2o"
+devices[DEVICE_UBD] = "ubd"
+devices[DEVICE_DASD] = "dasd"
+devices[DEVICE_VIODASD] = "viodasd"
+devices[DEVICE_SX8] = "sx8"
+devices[DEVICE_DM] = "dm"
+devices[DEVICE_XVD] = "xvd"
+devices[DEVICE_SDMMC] = "sdmmc"
+devices[DEVICE_VIRTBLK] = "virtblk"
+devices[DEVICE_NVME] = "nvme"
+
 from _ped import PARTITION_NORMAL
 from _ped import PARTITION_LOGICAL
 from _ped import PARTITION_EXTENDED
 from _ped import PARTITION_FREESPACE
 from _ped import PARTITION_METADATA
 from _ped import PARTITION_PROTECTED
+
+partitions = {}
+partitions[PARTITION_NORMAL] = "normal"
+partitions[PARTITION_LOGICAL] = "logical"
+partitions[PARTITION_EXTENDED] = "extended"
+partitions[PARTITION_FREESPACE] = "freespace"
+partitions[PARTITION_METADATA] = "metadata"
+partitions[PARTITION_PROTECTED] = "protected"
 
 from _ped import PARTITION_BOOT
 from _ped import PARTITION_ROOT
@@ -122,24 +165,47 @@ from _ped import PARTITION_APPLE_TV_RECOVERY
 from _ped import PARTITION_BIOS_GRUB
 from _ped import PARTITION_DIAG
 from _ped import PARTITION_LEGACY_BOOT
+
+partitions[PARTITION_BOOT] = "boot"
+partitions[PARTITION_ROOT] = "root"
+partitions[PARTITION_SWAP] = "swap"
+partitions[PARTITION_HIDDEN] = "hidden"
+partitions[PARTITION_RAID] = "raid"
+partitions[PARTITION_LVM] = "lvm"
+partitions[PARTITION_LBA] = "lba"
+partitions[PARTITION_HPSERVICE] = "hpservice"
+partitions[PARTITION_PALO] = "palo"
+partitions[PARTITION_PREP] = "prep"
+partitions[PARTITION_MSFT_RESERVED] = "msft_reserved"
+partitions[PARTITION_APPLE_TV_RECOVERY] = "apple_tv_recovery"
+partitions[PARTITION_BIOS_GRUB] = "bios_grub"
+partitions[PARTITION_DIAG] = "diag"
+partitions[PARTITION_LEGACY_BOOT] = "legacy_boot"
+
 if hasattr(_ped, 'PARTITION_MSFT_DATA'):
     # pylint: disable=E0611
     from _ped import PARTITION_MSFT_DATA
+    partitions[PARTITION_MSFT_DATA] = "msft_data"
 if hasattr(_ped, 'PARTITION_IRST'):
     # pylint: disable=E0611
     from _ped import PARTITION_IRST
+    partitions[PARTITION_IRST] = "irst"
 if hasattr(_ped, 'PARTITION_ESP'):
     # pylint: disable=E0611
     from _ped import PARTITION_ESP
+    partitions[PARTITION_ESP] = "esp"
 if hasattr(_ped, 'PARTITION_NONFS'):
     # pylint: disable=E0611
     from _ped import PARTITION_NONFS
+    partitions[PARTITION_NONFS] = "nonfs"
 if hasattr(_ped, 'PARTITION_CHROMEOS_KERNEL'):
     # pylint: disable=E0611
     from _ped import PARTITION_CHROMEOS_KERNEL
+    partitions[PARTITION_CHROMEOS_KERNEL] = "chromeos_kernel"
 if hasattr(_ped, 'PARTITION_BLS_BOOT'):
     # pylint: disable=E0611
     from _ped import PARTITION_BLS_BOOT
+    partitions[PARTITION_BLS_BOOT] = "bls_boot"
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
