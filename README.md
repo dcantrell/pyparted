@@ -18,11 +18,10 @@ written.  This mapping is provided in the _ped Python module.  You can
 use that module if you want to, but it's really just meant for the
 larger parted module.
 
-| Module  | Description                                                 |
-| :------ | :---------------------------------------------------------- |
-| _ped    | libparted Python bindings, direct 1:1: function mapping     |
-| parted  | Native Python code building on _ped, complete with classes, |
-|         | exceptions, and advanced functionality.                     |
+| Module | Description |
+| :--- | :--- |
+| _ped | libparted Python bindings, direct 1:1: function mapping |
+| parted | Native Python code building on _ped, complete with classes, exceptions, and advanced functionality. |
 
 The _ped module is written and maintained by hand.  I chose to do this
 rather than rely on a tool like SWIG or Pyrex for several reasons.
