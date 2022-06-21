@@ -28,9 +28,9 @@ VERSION       = $(shell $(PYTHON) setup.py --version)
 
 TAG           = v$(VERSION)
 
-COVERAGE=coverage
+COVERAGE      = coverage
 ifeq ($(PYTHON),python3)
-COVERAGE=coverage3
+COVERAGE      = coverage3
 endif
 
 default: all
