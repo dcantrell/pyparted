@@ -217,6 +217,14 @@ from _ped import DISK_GPT_PMBR_BOOT
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
+if hasattr(_ped, 'DISK_TYPE_PARTITION_TYPE_ID'):
+    # pylint: disable=E0611
+    from _ped import DISK_TYPE_PARTITION_TYPE_ID
+
+if hasattr(_ped, 'DISK_TYPE_PARTITION_TYPE_UUID'):
+    # pylint: disable=E0611
+    from _ped import DISK_TYPE_PARTITION_TYPE_UUID
+
 from _ped import EXCEPTION_TYPE_INFORMATION
 from _ped import EXCEPTION_TYPE_WARNING
 from _ped import EXCEPTION_TYPE_ERROR
