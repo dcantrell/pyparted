@@ -12,33 +12,87 @@ import unittest
 
 from tests.baseclass import BuildList, RequiresDevice, RequiresFileSystem
 
+# Mapping of flags to names
+disk_flags = ["DISK_CYLINDER_ALIGNMENT", "DISK_GPT_PMBR_BOOT"]
+disk_names = ["cylinder_alignment", "pmbr_boot"]
+
+partition_flags = [
+    "PARTITION_BOOT",
+    "PARTITION_ROOT",
+    "PARTITION_SWAP",
+    "PARTITION_HIDDEN",
+    "PARTITION_RAID",
+    "PARTITION_LVM",
+    "PARTITION_LBA",
+    "PARTITION_HPSERVICE",
+    "PARTITION_PALO",
+    "PARTITION_PREP",
+    "PARTITION_MSFT_RESERVED",
+    "PARTITION_BIOS_GRUB",
+    "PARTITION_APPLE_TV_RECOVERY",
+    "PARTITION_DIAG",
+    "PARTITION_LEGACY_BOOT",
+    "PARTITION_MSFT_DATA",
+    "PARTITION_IRST",
+    "PARTITION_ESP",
+    "PARTITION_CHROMEOS_KERNEL",
+    "PARTITION_BLS_BOOT",
+    "PARTITION_LINUX_HOME",
+    "PARTITION_NO_AUTOMOUNT",
+]
+partition_names = [
+    "boot",
+    "root",
+    "swap",
+    "hidden",
+    "raid",
+    "lvm",
+    "lba",
+    "hp-service",
+    "palo",
+    "prep",
+    "msftres",
+    "bios_grub",
+    "atvrecv",
+    "diag",
+    "legacy_boot",
+    "msftdata",
+    "irst",
+    "esp",
+    "chromeos_kernel",
+    "bls_boot",
+    "linux-home",
+    "no_automount",
+]
+
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
+
+
+# This checks all the partition flags that libparted reports to make sure they
+# have been compiled into pyparted as attributes
+class PartitionFlagKnownNamesTestCase(unittest.TestCase):
+    def runTest(self):
+        all_flags = dict(zip(partition_names, partition_flags))
+        f = 0
+        while True:
+            f = _ped.partition_flag_next(f)
+            if f == 0:
+                break
+            n = _ped.partition_flag_get_name(f)
+            with self.subTest(n=n):
+                if n not in all_flags:
+                    self.skipTest(f"Unknown flag: {n}")
+                attr = all_flags[n]
+
+                # Confirm that the build included this flag attr
+                self.assertTrue(hasattr(_ped, attr), attr)
+
+
 class PartitionFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in [
-            "PARTITION_BOOT",
-            "PARTITION_ROOT",
-            "PARTITION_SWAP",
-            "PARTITION_HIDDEN",
-            "PARTITION_RAID",
-            "PARTITION_LVM",
-            "PARTITION_LBA",
-            "PARTITION_HPSERVICE",
-            "PARTITION_PALO",
-            "PARTITION_PREP",
-            "PARTITION_MSFT_RESERVED",
-            "PARTITION_APPLE_TV_RECOVERY",
-            "PARTITION_BIOS_GRUB",
-            "PARTITION_DIAG",
-            "PARTITION_MSFT_DATA",
-            "PARTITION_IRST",
-            "PARTITION_ESP",
-            "PARTITION_NONFS",
-            "PARTITION_CHROMEOS_KERNEL",
-            "PARTITION_CHROMEOS_KERNEL",
-        ]:
+        for f in partition_flags:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
@@ -54,24 +108,7 @@ class PartitionFlagGetNameTestCase(unittest.TestCase):
 
 class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in [
-            "boot",
-            "root",
-            "swap",
-            "hidden",
-            "raid",
-            "lvm",
-            "lba",
-            "hp-service",
-            "palo",
-            "prep",
-            "msftres",
-            "bios_grub",
-            "msftdata",
-            "irst",
-            "esp",
-            "nonfs",
-        ]:
+        for f in partition_names:
             self.assertNotEqual(
                 _ped.partition_flag_get_by_name(f), "", "Could not get flag %s" % f
             )
@@ -97,11 +134,34 @@ class PartitionFlagNextTestCase(unittest.TestCase):
             self.assertEqual(type(flag).__name__, "int")
 
 
+# This checks all the disk flags that libparted reports to make sure they
+# have been compiled into pyparted as attributes
+class DiskFlagKnownNamesTestCase(unittest.TestCase):
+    def runTest(self):
+        all_flags = dict(zip(disk_names, disk_flags))
+        f = 0
+        while True:
+            f = _ped.disk_flag_next(f)
+            if f == 0:
+                break
+            n = _ped.disk_flag_get_name(f)
+            with self.subTest(n=n):
+                if n not in all_flags:
+                    self.skipTest(f"Unknown flag: {n}")
+                attr = all_flags[n]
+
+                # Confirm that the build included this flag attr
+                self.assertTrue(hasattr(_ped, attr), attr)
+
+
 class DiskFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in [_ped.DISK_CYLINDER_ALIGNMENT]:
+        for f in disk_flags:
+            if not hasattr(_ped, f):
+                continue
+            attr = getattr(_ped, f)
             self.assertNotEqual(
-                _ped.disk_flag_get_name(f), "", "Could not get name for flag %s" % f
+                _ped.disk_flag_get_name(attr), "", "Could not get name for flag %s" % f
             )
 
         self.assertRaises(ValueError, _ped.disk_flag_get_name, -1)
@@ -110,7 +170,7 @@ class DiskFlagGetNameTestCase(unittest.TestCase):
 
 class DiskFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in ["cylinder_alignment"]:
+        for f in disk_names:
             self.assertNotEqual(
                 _ped.disk_flag_get_by_name(f), 0, "Could not get flag %s" % f
             )
