@@ -21,8 +21,10 @@
 import os
 import _ped
 import tempfile
+import unittest
+import uuid
 
-from tests.baseclass import RequiresDisk, RequiresPartition
+from tests.baseclass import RequiresDisk, RequiresPartition, RequiresGPTPartition
 
 # One class per method, multiple tests per class.  For these simple methods,
 # that seems like good organization.  More complicated methods may require
@@ -182,6 +184,72 @@ class PartitionGetNameTestCase(RequiresPartition):
         # Finally, Mac disk labels with a name will work.
         self._part.set_name("blah")
         self.assertEqual(self._part.get_name(), "blah")
+
+@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"),
+                     "requires parted >= 3.5")
+class PartitionMSDOSTypeIDTestCase(RequiresPartition):
+    def runTest(self):
+        # The DOS disklabel should support ID
+        self.assertTrue(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_ID))
+
+        # Check the default ID
+        self.assertEqual(self._part.get_type_id(), 0x83)
+
+        # Update and check a new ID
+        self._part.set_type_id(0xa7)
+        self.assertEqual(self._part.get_type_id(), 0xa7)
+
+        # Persist the changes
+        self._disk.add_partition(self._part, self._device.get_optimal_aligned_constraint())
+        self._disk.commit_to_dev()
+
+        # Check update was persistent
+        self.reopen()
+        self.assertEqual(self._part.get_type_id(), 0xa7)
+
+
+@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"),
+                     "requires parted >= 3.5")
+class PartitionGPTTypeIDTestCase(RequiresGPTPartition):
+    def runTest(self):
+        # The GPT disklabel should not support ID
+        self.assertFalse(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_ID))
+        self.assertEqual(self._part.get_type_id(), 0)
+
+
+@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"),
+                     "requires parted >= 3.5")
+class PartitionMSDOSTypeUUIDTestCase(RequiresPartition):
+    def runTest(self):
+        # The DOS disklabel should NOT support UUID
+        self.assertFalse(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
+        self.assertRaises(_ped.PartitionException, self._part.get_type_uuid)
+
+
+@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"),
+                     "requires parted >= 3.5")
+class PartitionGPTTypeUUIDTestCase(RequiresGPTPartition):
+    def runTest(self):
+        # The GPT disklabel should not support UUID
+        self.assertTrue(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
+
+        # Check the default UUID
+        default = uuid.UUID("0fc63daf-8483-4772-8e79-3d69d8477de4")
+        self.assertEqual(self._part.get_type_uuid(), default.bytes)
+
+        # Update and check a new UUID
+        ia64root = uuid.UUID("993d8d3d-f80e-4225-855a-9daf8ed7ea97")
+        self._part.set_type_uuid(ia64root.bytes)
+        self.assertEqual(self._part.get_type_uuid(), ia64root.bytes)
+
+        # Persist the changes
+        self._disk.add_partition(self._part)
+        self._disk.commit_to_dev()
+
+        # Check update was persistent
+        self.reopen()
+        self.assertEqual(self._part.get_type_uuid(), ia64root.bytes)
+
 
 class PartitionIsBusyTestCase(RequiresPartition):
     def setUp(self):
