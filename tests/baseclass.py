@@ -180,6 +180,13 @@ class RequiresPartition(RequiresDisk):
                                     start=1, end=100, fs_type=_ped.file_system_type_get("ext2"))
 
 
+# Base class for any test case that requires a _ped.Partition on GPT disk.
+class RequiresGPTPartition(RequiresGPTDisk):
+    def setUp(self):
+        RequiresGPTDisk.setUp(self)
+        self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
+                                    start=0, end=100, fs_type=_ped.file_system_type_get("ext2"))
+
 # Base class for any test case that requires a hash table of all
 # _ped.DiskType objects available
 class RequiresDiskTypes(unittest.TestCase):
