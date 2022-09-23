@@ -177,7 +177,8 @@ class RequiresPartition(RequiresDisk):
     def setUp(self):
         RequiresDisk.setUp(self)
         self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
-                                    start=0, end=100, fs_type=_ped.file_system_type_get("ext2"))
+                                    start=1, end=100, fs_type=_ped.file_system_type_get("ext2"))
+
 
 # Base class for any test case that requires a hash table of all
 # _ped.DiskType objects available
