@@ -29,6 +29,8 @@
 #include <Python.h>
 #include <structmember.h>
 
+#include <parted/parted.h>
+
 /* _ped.Partition type object */
 static PyMemberDef _ped_Partition_members[] = {
     {"disk", T_OBJECT, offsetof(_ped_Partition, disk), READONLY,
@@ -57,6 +59,18 @@ static PyMethodDef _ped_Partition_methods[] = {
                  partition_set_name_doc},
     {"get_name", (PyCFunction) py_ped_partition_get_name, METH_VARARGS,
                  partition_get_name_doc},
+#if PED_DISK_TYPE_LAST_FEATURE > 2
+    {"set_type_id", (PyCFunction) py_ped_partition_set_type_id, METH_VARARGS,
+                 partition_set_type_id_doc},
+    {"get_type_id", (PyCFunction) py_ped_partition_get_type_id, METH_VARARGS,
+                 partition_get_type_id_doc},
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 2 */
+#if PED_DISK_TYPE_LAST_FEATURE > 4
+    {"set_type_uuid", (PyCFunction) py_ped_partition_set_type_uuid, METH_VARARGS,
+                 partition_set_type_uuid_doc},
+    {"get_type_uuid", (PyCFunction) py_ped_partition_get_type_uuid, METH_VARARGS,
+                 partition_get_type_uuid_doc},
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 4 */
     {"is_busy", (PyCFunction) py_ped_partition_is_busy, METH_VARARGS,
                 partition_is_busy_doc},
     {"get_path", (PyCFunction) py_ped_partition_get_path, METH_VARARGS,

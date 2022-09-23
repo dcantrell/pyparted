@@ -1325,6 +1325,166 @@ PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
     return PyUnicode_FromString(ret);
 }
 
+#if PED_DISK_TYPE_LAST_FEATURE > 2
+PyObject *py_ped_partition_set_type_id(_ped_Partition *s, PyObject *args) {
+    PedPartition *part = NULL;
+    int id;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "i", &id)) {
+        return (PyObject *) NULL;
+    }
+
+    part = _ped_Partition2PedPartition(s);
+
+    if (part == NULL) {
+        return (PyObject *) NULL;
+    }
+
+    /* ped_partition_set_type_id will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return (PyObject *) NULL;
+    }
+
+    ret = ped_partition_set_type_id(part, (uint8_t)id);
+
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) && !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
+            }
+        } else {
+            PyErr_Format(PartitionException, "Could not set id on partition %s%d", part->disk->dev->path, part->num);
+        }
+
+        return (PyObject *) NULL;
+    }
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
+}
+
+PyObject *py_ped_partition_get_type_id(_ped_Partition *s, PyObject *args) {
+    PedPartition *part = NULL;
+    uint8_t ret;
+
+    part = _ped_Partition2PedPartition(s);
+
+    if (part == NULL) {
+        return (PyObject *) NULL;
+    }
+
+    /* ped_partition_get_type_id will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not get id on inactive partition %s%d", part->disk->dev->path, part->num);
+        return (PyObject *) NULL;
+    }
+
+    ret = ped_partition_get_type_id(part);
+
+    return PyLong_FromLong((long)ret);
+}
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 2 */
+
+#if PED_DISK_TYPE_LAST_FEATURE > 4
+PyObject *py_ped_partition_set_type_uuid(_ped_Partition *s, PyObject *args) {
+    PedPartition *part = NULL;
+    PyObject *in_uuid_obj = NULL;
+    char *in_uuid;
+    Py_ssize_t in_uuid_len;
+    int ret = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &in_uuid_obj)) {
+        return (PyObject *) NULL;
+    }
+
+    part = _ped_Partition2PedPartition(s);
+
+    if (part == NULL) {
+        return (PyObject *) NULL;
+    }
+
+    /* ped_partition_set_type_uuid will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not set system flag on inactive partition %s%d", part->disk->dev->path, part->num);
+        return (PyObject *) NULL;
+    }
+
+    PyBytes_AsStringAndSize(in_uuid_obj, &in_uuid, &in_uuid_len);
+
+    if (in_uuid_len != 16) {
+        PyErr_Format(PartitionException, "UUID should be 16 byte array not %d", in_uuid_len);
+        return (PyObject *) NULL;
+    }
+
+    ret = ped_partition_set_type_uuid(part, (uint8_t *)in_uuid);
+
+    if (ret == 0) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) && !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
+            }
+        } else {
+            PyErr_Format(PartitionException, "Could not set uuid on partition %s%d", part->disk->dev->path, part->num);
+        }
+
+        return (PyObject *) NULL;
+    }
+
+    if (ret) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
+}
+
+PyObject *py_ped_partition_get_type_uuid(_ped_Partition *s, PyObject *args) {
+    PedPartition *part = NULL;
+    char *ret = NULL;
+    PyObject *pyret;
+
+    part = _ped_Partition2PedPartition(s);
+
+    if (part == NULL) {
+        return (PyObject *) NULL;
+    }
+
+    /* ped_partition_get_type_uuid will assert on this. */
+    if (!ped_partition_is_active(part)) {
+        PyErr_Format(PartitionException, "Could not get uuid on inactive partition %s%d", part->disk->dev->path, part->num);
+        return (PyObject *) NULL;
+    }
+
+    ret = (char *) ped_partition_get_type_uuid(part);
+
+    if (ret == NULL) {
+        if (partedExnRaised) {
+            partedExnRaised = 0;
+
+            if (!PyErr_ExceptionMatches(PartedException) && !PyErr_ExceptionMatches(PyExc_NotImplementedError)) {
+                PyErr_SetString(PartitionException, partedExnMessage);
+            }
+        } else {
+            PyErr_Format(PartitionException, "Could not read uuid on partition %s%d", part->disk->dev->path, part->num);
+        }
+
+        return (PyObject *) NULL;
+    }
+
+    pyret = PyBytes_FromStringAndSize(ret, 16);
+    free(ret);
+    return pyret;
+}
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 4 */
+
 PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args) {
     PedPartition *part = NULL;
     int ret = 0;

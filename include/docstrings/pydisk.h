@@ -27,6 +27,8 @@
 
 #include <Python.h>
 
+#include <parted/parted.h>
+
 PyDoc_STRVAR(partition_destroy_doc,
 "destroy(self) -> None\n\n"
 "Destroys the Partition object.");
@@ -69,6 +71,36 @@ PyDoc_STRVAR(partition_get_name_doc,
 "On disk labels that support it, this method returns the partition's name.  On\n"
 "all other disk labels, _ped.PartitionException will be raised.  Before calling\n"
 "this method, DiskType.check_feature() can be called to check for support.");
+
+#if PED_DISK_TYPE_LAST_FEATURE > 2
+PyDoc_STRVAR(partition_set_type_id_doc,
+"set_type_id(self, string) -> boolean\n\n"
+"On disk labels that support it, this method sets the partition's type id.\n"
+"Before attempting this operation, DiskType.check_feature() can be used to\n"
+"determine if it is even supported.  On error, _ped.PartitionException will\n"
+"be raised.");
+
+PyDoc_STRVAR(partition_get_type_id_doc,
+"get_type_id(self) -> string\n\n"
+"On disk labels that support it, this method returns the partition's type id.  On\n"
+"all other disk labels, _ped.PartitionException will be raised.  Before calling\n"
+"this method, DiskType.check_feature() can be called to check for support.");
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 2 */
+
+#if PED_DISK_TYPE_LAST_FEATURE > 4
+PyDoc_STRVAR(partition_set_type_uuid_doc,
+"set_type_uuid(self, string) -> boolean\n\n"
+"On disk labels that support it, this method sets the partition's type uuid.\n"
+"Before attempting this operation, DiskType.check_feature() can be used to\n"
+"determine if it is even supported.  On error, _ped.PartitionException will\n"
+"be raised.");
+
+PyDoc_STRVAR(partition_get_type_uuid_doc,
+"get_type_uuid(self) -> string\n\n"
+"On disk labels that support it, this method returns the partition's type uuid.  On\n"
+"all other disk labels, _ped.PartitionException will be raised.  Before calling\n"
+"this method, DiskType.check_feature() can be called to check for support.");
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 4 */
 
 PyDoc_STRVAR(partition_is_busy_doc,
 "is_busy(self) -> boolean\n\n"
