@@ -137,11 +137,51 @@ class Partition(object):
         except parted.PartitionException:
             return None
 
+    def set_type_id(self, id):
+        """Set the partition type id, as an integer, on supported labels.
+           Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
+        if not hasattr(self.getPedPartition(), "set_type_id"):
+            raise NotImplementedError("Requires build against parted > 3.5")
+
+        self.getPedPartition().set_type_id(id)
+
+    def get_type_id(self):
+        """The partition type uuid, as an integer, on supported labels.
+           Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
+        if not hasattr(self.getPedPartition(), "get_type_id"):
+            raise NotImplementedError("Requires build against parted > 3.5")
+
+        try:
+            return self.__partition.get_type_id()
+        except parted.PartitionException:
+            return None
+
+    def set_type_uuid(self, uuid):
+        """Set the partition type uuid, as 16 bytes, on supported labels.
+           Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
+        if not hasattr(self.getPedPartition(), "set_type_uuid"):
+            raise NotImplementedError("Requires build against parted > 3.5")
+
+        self.getPedPartition().set_type_uuid(uuid)
+
+    def get_type_uuid(self):
+        """The partition type uuid, as 16 bytes, on supported labels.
+           Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
+        if not hasattr(self.getPedPartition(), "get_type_uuid"):
+            raise NotImplementedError("Requires build against parted > 3.5")
+
+        try:
+            return self.__partition.get_type_uuid()
+        except parted.PartitionException:
+            return None
+
     fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
     system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
     type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
     name = property(get_name, set_name)
+    type_uuid = property(get_type_uuid, set_type_uuid)
+    type_id = property(get_type_id, set_type_id)
 
     @localeC
     def getFlag(self, flag):
