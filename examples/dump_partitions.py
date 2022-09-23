@@ -23,10 +23,14 @@ print the partitions in a device/file according to pyparted
 """
 
 import parted
+import sys
 import uuid
 
 # adjust as needed, eg /dev/sdc..
 device="sdcard.img"
+
+if len(sys.argv) == 2:
+    device = sys.argv[1]
 
 # A device is a "thing" with own properties (type, manufacturer etc) - its a
 # high level abstraction that lets you just identify you have the right device
