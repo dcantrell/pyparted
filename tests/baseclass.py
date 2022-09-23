@@ -146,11 +146,19 @@ class RequiresDisk(RequiresDevice):
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
         self.disk = parted.Disk(PedDisk=self._disk)
 
+    def reopen(self):
+        self._disk = _ped.disk_new(self._device)
+        self.disk = parted.Disk(PedDisk=self._disk)
+
 # Base class for any test case that requires a GPT-labeled _ped.Disk or parted.Disk.
 class RequiresGPTDisk(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("gpt"))
+        self.disk = parted.Disk(PedDisk=self._disk)
+
+    def reopen(self):
+        self._disk = _ped.disk_new(self._device)
         self.disk = parted.Disk(PedDisk=self._disk)
 
 # Base class for any test case that requires a filesystem made and mounted.
@@ -179,6 +187,9 @@ class RequiresPartition(RequiresDisk):
         self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
                                     start=1, end=100, fs_type=_ped.file_system_type_get("ext2"))
 
+    def reopen(self):
+        RequiresDisk.reopen(self)
+        self._part = self._disk.next_partition(self._disk.next_partition())
 
 # Base class for any test case that requires a _ped.Partition on GPT disk.
 class RequiresGPTPartition(RequiresGPTDisk):
@@ -186,6 +197,10 @@ class RequiresGPTPartition(RequiresGPTDisk):
         RequiresGPTDisk.setUp(self)
         self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
                                     start=0, end=100, fs_type=_ped.file_system_type_get("ext2"))
+
+    def reopen(self):
+        RequiresDisk.reopen(self)
+        self._part = self._disk.next_partition()
 
 # Base class for any test case that requires a hash table of all
 # _ped.DiskType objects available
