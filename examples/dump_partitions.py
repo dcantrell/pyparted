@@ -23,6 +23,7 @@ print the partitions in a device/file according to pyparted
 """
 
 import parted
+import uuid
 
 # adjust as needed, eg /dev/sdc..
 device="sdcard.img"
@@ -70,6 +71,13 @@ for partition in disk.partitions:
     print(f"  busy: {partition.busy}")
     print(f"  path: {partition.path}")
     print(f"  type: {partition.type}")
+    if (hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID") and
+        disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_ID)):
+        print(f"  type id: {partition.type_id}")
+    if (hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID") and
+        disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_UUID)):
+        uuid_str = str(uuid.UUID(bytes=partition.type_uuid))
+        print(f"  type uuid: {uuid_str}")
     print(f"  size(MB): {partition.getSize()}")
 
     # supported only by GPT partition tables
