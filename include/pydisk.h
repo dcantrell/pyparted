@@ -133,6 +133,14 @@ PyObject *py_ped_partition_is_flag_available(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_set_system(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_set_name(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_get_name(_ped_Partition *, PyObject *);
+#if PED_DISK_TYPE_LAST_FEATURE > 2
+PyObject *py_ped_partition_set_type_id(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_get_type_id(_ped_Partition *, PyObject *);
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 2 */
+#if PED_DISK_TYPE_LAST_FEATURE > 4
+PyObject *py_ped_partition_set_type_uuid(_ped_Partition *, PyObject *);
+PyObject *py_ped_partition_get_type_uuid(_ped_Partition *, PyObject *);
+#endif /* PED_DISK_TYPE_LAST_FEATURE > 4 */
 PyObject *py_ped_partition_is_busy(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_get_path(_ped_Partition *, PyObject *);
 PyObject *py_ped_partition_reset_num(_ped_Partition *, PyObject *);
