@@ -225,6 +225,14 @@ if hasattr(_ped, 'DISK_TYPE_PARTITION_TYPE_UUID'):
     # pylint: disable=E0611
     from _ped import DISK_TYPE_PARTITION_TYPE_UUID
 
+if hasattr(_ped, 'DISK_TYPE_DISK_UUID'):
+    # pylint: disable=E0611
+    from _ped import DISK_TYPE_DISK_UUID
+
+if hasattr(_ped, 'DISK_TYPE_PARTITION_UUID'):
+    # pylint: disable=E0611
+    from _ped import DISK_TYPE_PARTITION_UUID
+
 from _ped import EXCEPTION_TYPE_INFORMATION
 from _ped import EXCEPTION_TYPE_WARNING
 from _ped import EXCEPTION_TYPE_ERROR
