@@ -693,6 +693,14 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "DISK_TYPE_PARTITION_TYPE_UUID", PED_DISK_TYPE_PARTITION_TYPE_UUID);
 #endif
 
+#if PED_DISK_TYPE_LAST_FEATURE > 8
+    PyModule_AddIntConstant(m, "DISK_TYPE_DISK_UUID", PED_DISK_TYPE_DISK_UUID);
+#endif
+
+#if PED_DISK_TYPE_LAST_FEATURE > 16
+    PyModule_AddIntConstant(m, "DISK_TYPE_PARTITION_UUID", PED_DISK_TYPE_PARTITION_UUID);
+#endif
+
     /* add PedFileSystemType as _ped.FileSystemType */
     if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
         return MOD_ERROR_VAL;

@@ -69,6 +69,12 @@ class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
             if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"):
                 self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
 
+            if hasattr(_ped, "DISK_TYPE_DISK_UUID"):
+                self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_DISK_UUID))
+
+            if hasattr(_ped, "DISK_TYPE_PARTITION_UUID"):
+                self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_UUID))
+
         # The following types support DISK_TYPE_PARTITION_NAME
         for name in ['amiga', 'gpt', 'mac', 'pc98']:
             self.assertFalse(self.disktype[name].check_feature(_ped.DISK_TYPE_EXTENDED))
@@ -78,6 +84,12 @@ class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
         for name in ['gpt']:
             if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"):
                 self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
+
+            if hasattr(_ped, "DISK_TYPE_DISK_UUID"):
+                self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_DISK_UUID))
+
+            if hasattr(_ped, "DISK_TYPE_PARTITION_UUID"):
+                self.assertTrue(self.disktype[name].check_feature(_ped.DISK_TYPE_PARTITION_UUID))
 
         # The following types support all features
         for name in ['dvh']:
