@@ -232,11 +232,6 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         self.assertGreater(
             len([e for e in lst if e.path.startswith(prefix)]), 0)
 
-class DeviceFreeAllTestCase(RequiresDevice):
-    def runTest(self):
-        _ped.device_probe_all()
-        self.assertEqual(_ped.device_free_all(), None)
-
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
         for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
