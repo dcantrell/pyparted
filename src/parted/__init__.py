@@ -413,7 +413,9 @@ archLabels = {'i386': ['msdos', 'gpt'],
               'mips64': ['msdos','gpt'],
               'armv7l': ['msdos', 'gpt'],
               'riscv32': ['msdos', 'gpt'],
-              'riscv64': ['msdos', 'gpt']}
+              'riscv64': ['msdos', 'gpt'],
+              'loongarch32': ['msdos', 'gpt'],
+              'loongarch64': ['msdos', 'gpt']}
 
 # Adapted from:
 # http://stackoverflow.com/questions/922550/how-to-mark-a-global-as-deprecated-in-python
@@ -450,9 +452,9 @@ def Deprecated(mod, deprecated=None):
 __archLabels = (('amiga', 'ppc(64)?$'),
                 ('bsd', 'alpha$'),
                 ('dasd', 's390x?$'),
-                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$'),
+                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$|loongarch(32|64)$'),
                 ('mac', 'ppc(64)?$'),
-                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|mips64$|armv7l$|riscv(32|64)$'),
+                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|mips64$|armv7l$|riscv(32|64)$|loongarch(32|64)$'),
                 ('sun', 'sparc(64)?$'))
 
 def getLabels(arch=None):
