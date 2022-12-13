@@ -210,6 +210,10 @@ if hasattr(_ped, 'PARTITION_LINUX_HOME'):
     # pylint: disable=E0611
     from _ped import PARTITION_LINUX_HOME
     partitions[PARTITION_LINUX_HOME] = "linux-home"
+if hasattr(_ped, 'PARTITION_NO_AUTOMOUNT'):
+    # pylint: disable=E0611
+    from _ped import PARTITION_NO_AUTOMOUNT
+    partitions[PARTITION_NO_AUTOMOUNT] = "no_automount"
 
 from _ped import DISK_CYLINDER_ALIGNMENT
 from _ped import DISK_GPT_PMBR_BOOT
