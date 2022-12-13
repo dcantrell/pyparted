@@ -209,7 +209,7 @@ class PartitionIsFlagAvailableTestCase(PartitionNewTestCase):
                   'PARTITION_MSFT_DATA', 'PARTITION_IRST',
                   'PARTITION_ESP', 'PARTITION_NONFS',
                   'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT',
-                  'PARTITION_NO_AUTOMOUNT']:
+                  'PARTITION_LINUX_HOME', 'PARTITION_NO_AUTOMOUNT']:
             if not hasattr(parted, f):
                 continue
             attr = getattr(parted, f)
