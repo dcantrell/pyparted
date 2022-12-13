@@ -125,7 +125,8 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
                   'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
                   'PARTITION_MSFT_DATA', 'PARTITION_IRST',
                   'PARTITION_ESP', 'PARTITION_NONFS',
-                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT']:
+                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT',
+                  'PARTITION_NO_AUTOMOUNT']:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
