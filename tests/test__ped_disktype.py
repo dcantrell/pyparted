@@ -86,22 +86,18 @@ class DiskTypeCheckFeatureTestCase(RequiresDiskTypes):
 
 class DiskTypeStrTestCase(RequiresDiskTypes):
     def runTest(self):
-        if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"):
-            self.assertEqual(str(self.disktype['msdos']), '_ped.DiskType instance --\n  name: msdos  features: 5')
-        else:
-            self.assertEqual(str(self.disktype['msdos']), '_ped.DiskType instance --\n  name: msdos  features: 1')
+        types = {
+            "msdos": '_ped.DiskType instance --\n  name: msdos  features:',
+            'aix':   '_ped.DiskType instance --\n  name: aix  features: ',
+            'sun':   '_ped.DiskType instance --\n  name: sun  features: ',
+            'amiga': '_ped.DiskType instance --\n  name: amiga  features: ',
+            'gpt':   '_ped.DiskType instance --\n  name: gpt  features: ',
+            'mac':   '_ped.DiskType instance --\n  name: mac  features: ',
+            'bsd':   '_ped.DiskType instance --\n  name: bsd  features: ',
+            'pc98':  '_ped.DiskType instance --\n  name: pc98  features: ',
+            'loop':  '_ped.DiskType instance --\n  name: loop  features: ',
+            'dvh':   '_ped.DiskType instance --\n  name: dvh  features: ',
+        }
 
-        self.assertEqual(str(self.disktype['aix']), '_ped.DiskType instance --\n  name: aix  features: 0')
-        self.assertEqual(str(self.disktype['sun']), '_ped.DiskType instance --\n  name: sun  features: 0')
-        self.assertEqual(str(self.disktype['amiga']), '_ped.DiskType instance --\n  name: amiga  features: 2')
-
-        if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"):
-            self.assertEqual(str(self.disktype['gpt']), '_ped.DiskType instance --\n  name: gpt  features: 10')
-        else:
-            self.assertEqual(str(self.disktype['gpt']), '_ped.DiskType instance --\n  name: gpt  features: 2')
-
-        self.assertEqual(str(self.disktype['mac']), '_ped.DiskType instance --\n  name: mac  features: 2')
-        self.assertEqual(str(self.disktype['bsd']), '_ped.DiskType instance --\n  name: bsd  features: 0')
-        self.assertEqual(str(self.disktype['pc98']), '_ped.DiskType instance --\n  name: pc98  features: 2')
-        self.assertEqual(str(self.disktype['loop']), '_ped.DiskType instance --\n  name: loop  features: 0')
-        self.assertEqual(str(self.disktype['dvh']), '_ped.DiskType instance --\n  name: dvh  features: 3')
+        for t, expected in types.items():
+            self.assertIn(expected, str(self.disktype[t]))
