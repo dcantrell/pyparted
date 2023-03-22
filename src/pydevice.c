@@ -186,14 +186,14 @@ PyObject *_ped_Device_richcompare(_ped_Device *a, PyObject *b, int op) {
 
 PyObject *_ped_Device_str(_ped_Device *self) {
     char *ret = NULL;
-    char *hw_geom = NULL, *bios_geom = NULL;
+    const char *hw_geom = NULL, *bios_geom = NULL;
 
-    hw_geom = (char *) PyUnicode_AsUTF8(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
+    hw_geom = PyUnicode_AsUTF8(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
     if (hw_geom == NULL) {
         return NULL;
     }
 
-    bios_geom = (char *) PyUnicode_AsUTF8(_ped_CHSGeometry_Type_obj.tp_repr(self->bios_geom));
+    bios_geom = PyUnicode_AsUTF8(_ped_CHSGeometry_Type_obj.tp_repr(self->bios_geom));
     if (bios_geom == NULL) {
         return NULL;
     }

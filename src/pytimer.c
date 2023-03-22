@@ -164,19 +164,21 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure) {
             return -1;
         }
     } else if (!strcmp(member, "state_name")) {
-        self->state_name = (char *) PyUnicode_AsUTF8(value);
+        const char *state_name = PyUnicode_AsUTF8(value);
         if (PyErr_Occurred()) {
             return -1;
         }
         /* self->state_name now points to the internal buffer of a PyUnicode obj
          * which may be freed when its refcount drops to zero, so strdup it.
          */
-        if (self->state_name) {
-            self->state_name = strdup(self->state_name);
+        if (state_name) {
+            self->state_name = strdup(state_name);
             if (!self->state_name) {
                 PyErr_NoMemory();
                 return -2;
             }
+        } else {
+            self->state_name = NULL;
         }
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.Timer object has no attribute %s", member);

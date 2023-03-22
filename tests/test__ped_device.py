@@ -243,7 +243,7 @@ class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
 class UnitFormatCustomByteTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
+        pr = "%.2f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
         self.pairs = [(_ped.UNIT_SECTOR, '0s',),
                       (_ped.UNIT_BYTE, '47B',),
                       (_ped.UNIT_KILOBYTE, '0.05kB',),
@@ -253,7 +253,7 @@ class UnitFormatCustomByteTestCase(RequiresDevice):
                       (_ped.UNIT_COMPACT, '47.0B',),
                       (_ped.UNIT_CYLINDER, '0cyl',),
                       (_ped.UNIT_CHS, '0,0,0',),
-                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_PERCENT, pr + "%",),
                       (_ped.UNIT_KIBIBYTE, '0.05kiB',),
                       (_ped.UNIT_MEBIBYTE, '0.00MiB',),
                       (_ped.UNIT_GIBIBYTE, '0.00GiB',),
@@ -267,7 +267,7 @@ class UnitFormatCustomByteTestCase(RequiresDevice):
 class UnitFormatByteTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
-        pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
+        pr = "%.2f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
         self._initialDefault = _ped.unit_get_default()
         self.pairs = [(_ped.UNIT_SECTOR, '0s',),
                       (_ped.UNIT_BYTE, '47B',),
@@ -278,7 +278,7 @@ class UnitFormatByteTestCase(RequiresDevice):
                       (_ped.UNIT_COMPACT, '47.0B',),
                       (_ped.UNIT_CYLINDER, '0cyl',),
                       (_ped.UNIT_CHS, '0,0,0',),
-                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_PERCENT, pr + "%",),
                       (_ped.UNIT_KIBIBYTE, '0.05kiB',),
                       (_ped.UNIT_MEBIBYTE, '0.00MiB',),
                       (_ped.UNIT_GIBIBYTE, '0.00GiB',),
@@ -298,7 +298,7 @@ class UnitFormatCustomTestCase(RequiresDevice):
         RequiresDevice.setUp(self)
         sector_size = self._device.sector_size
         size = self._device.unit_get_size(_ped.UNIT_PERCENT)
-        pr = "%f" % ((47.0 * sector_size) / size,)
+        pr = "%.2f" % ((47.0 * sector_size) / size,)
         self.pairs = [(_ped.UNIT_SECTOR, '47s',),
                       (_ped.UNIT_BYTE, '24064B',),
                       (_ped.UNIT_KILOBYTE, '24.1kB',),
@@ -308,7 +308,7 @@ class UnitFormatCustomTestCase(RequiresDevice):
                       (_ped.UNIT_COMPACT, '24.1kB',),
                       (_ped.UNIT_CYLINDER, '0cyl',),
                       (_ped.UNIT_CHS, '0,1,15',),
-                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_PERCENT, pr + "%",),
                       (_ped.UNIT_KIBIBYTE, '23.5kiB',),
                       (_ped.UNIT_MEBIBYTE, '0.02MiB',),
                       (_ped.UNIT_GIBIBYTE, '0.00GiB',),
@@ -324,7 +324,7 @@ class UnitFormatTestCase(RequiresDevice):
         RequiresDevice.setUp(self)
         sector_size = self._device.sector_size
         size = self._device.unit_get_size(_ped.UNIT_PERCENT)
-        pr = "%f" % ((47.0 * sector_size) / size,)
+        pr = "%.2f" % ((47.0 * sector_size) / size,)
         self._initialDefault = _ped.unit_get_default()
         self.pairs = [(_ped.UNIT_SECTOR, '47s',),
                       (_ped.UNIT_BYTE, '24064B',),
@@ -335,7 +335,7 @@ class UnitFormatTestCase(RequiresDevice):
                       (_ped.UNIT_COMPACT, '24.1kB',),
                       (_ped.UNIT_CYLINDER, '0cyl',),
                       (_ped.UNIT_CHS, '0,1,15',),
-                      (_ped.UNIT_PERCENT, pr[:4] + "%",),
+                      (_ped.UNIT_PERCENT, pr + "%",),
                       (_ped.UNIT_KIBIBYTE, '23.5kiB',),
                       (_ped.UNIT_MEBIBYTE, '0.02MiB',),
                       (_ped.UNIT_GIBIBYTE, '0.00GiB',),

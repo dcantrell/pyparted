@@ -171,14 +171,14 @@ PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op) {
 
 PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
     char *ret = NULL;
-    char *type = NULL, *geom = NULL;
+    const char *type = NULL, *geom = NULL;
 
-    type = (char *) PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
+    type = PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
     if (type == NULL) {
         return NULL;
     }
 
-    geom = (char *) PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
+    geom = PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
     if (geom == NULL) {
         return NULL;
     }

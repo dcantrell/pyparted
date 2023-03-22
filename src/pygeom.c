@@ -86,9 +86,9 @@ PyObject *_ped_Geometry_richcompare(_ped_Geometry *a, PyObject *b, int op) {
 
 PyObject *_ped_Geometry_str(_ped_Geometry *self) {
     char *ret = NULL;
-    char *dev = NULL;
+    const char *dev = NULL;
 
-    dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
+    dev = PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
     if (dev == NULL) {
         return NULL;
     }
