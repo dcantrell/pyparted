@@ -20,17 +20,26 @@ class PartitionNewTestCase(RequiresDisk):
         self.assertRaises(TypeError, _ped.Partition)
 
         # Or passing the arguments in the wrong order.
-        self.assertRaises(TypeError, _ped.Partition, _ped.file_system_type_get("ext2"),
-                                                     _ped.PARTITION_NORMAL, self._disk, 0, 100)
+        self.assertRaises(
+            TypeError,
+            _ped.Partition,
+            _ped.file_system_type_get("ext2"),
+            _ped.PARTITION_NORMAL,
+            self._disk,
+            0,
+            100,
+        )
 
-        part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
-                              _ped.file_system_type_get("ext2"))
+        part = _ped.Partition(
+            self._disk, _ped.PARTITION_NORMAL, 0, 100, _ped.file_system_type_get("ext2")
+        )
         self.assertIsInstance(part, _ped.Partition)
 
         # You don't need to pass a filesystem type at all, since this partition
         # might be FREESPACE or METADATA.
         part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100)
         self.assertIsInstance(part, _ped.Partition)
+
 
 class PartitionGetSetTestCase(RequiresPartition):
     def runTest(self):
@@ -47,10 +56,12 @@ class PartitionGetSetTestCase(RequiresPartition):
         # Test that setting the RO attributes directly doesn't work.
         exn = (AttributeError, TypeError)
         self.assertRaises(exn, setattr, self._part, "num", 1)
-        self.assertRaises(exn, setattr, self._part, "fs_type",
-            _ped.file_system_type_get("fat32"))
-        self.assertRaises(exn, setattr, self._part, "geom",
-                                     _ped.Geometry(self._device, 10, 20))
+        self.assertRaises(
+            exn, setattr, self._part, "fs_type", _ped.file_system_type_get("fat32")
+        )
+        self.assertRaises(
+            exn, setattr, self._part, "geom", _ped.Geometry(self._device, 10, 20)
+        )
         self.assertRaises(exn, setattr, self._part, "disk", self._disk)
 
         # Check that values have the right type.
@@ -59,15 +70,21 @@ class PartitionGetSetTestCase(RequiresPartition):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self._part, "blah")
 
+
 class PartitionDestroyTestCase(RequiresPartition):
     def runTest(self):
         self.assertEqual(self._part.destroy(), None)
 
+
 class PartitionIsActiveTestCase(RequiresPartition):
     def runTest(self):
         # A partition is active as long as it's not METADATA or FREE.
-        for ty in [_ped.PARTITION_NORMAL, _ped.PARTITION_LOGICAL,
-                   _ped.PARTITION_EXTENDED, _ped.PARTITION_PROTECTED]:
+        for ty in [
+            _ped.PARTITION_NORMAL,
+            _ped.PARTITION_LOGICAL,
+            _ped.PARTITION_EXTENDED,
+            _ped.PARTITION_PROTECTED,
+        ]:
             self._part.type = ty
             self.assertTrue(self._part.is_active())
 
@@ -78,6 +95,7 @@ class PartitionIsActiveTestCase(RequiresPartition):
             self._part = _ped.Partition(self._disk, ty, 0, 100)
             self.assertFalse(self._part.is_active())
 
+
 class PartitionSetFlagTestCase(RequiresPartition):
     def runTest(self):
         self.assertTrue(self._part.set_flag(_ped.PARTITION_BOOT, 1))
@@ -85,15 +103,17 @@ class PartitionSetFlagTestCase(RequiresPartition):
         with self.assertRaises(_ped.PartedException):
             self._part.set_flag(1000, 1)
 
+
 class PartitionGetFlagTestCase(RequiresPartition):
     def runTest(self):
         self.assertTrue(self._part.set_flag(_ped.PARTITION_BOOT, 1))
         self.assertTrue(self._part.get_flag(_ped.PARTITION_BOOT))
 
         # try getting unavailable flag - doesn't raise an exception
+
+
 #        with self.assertRaises(_ped.PartedException):
 #            self._part.get_flag(1000)
-
 
 
 class PartitionIsFlagAvailableTestCase(RequiresPartition):
@@ -101,17 +121,30 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
         # We don't know which flags should be available and which shouldn't,
         # but we can at least check that there aren't any tracebacks from
         # trying all of the valid ones.
-        for f in ['PARTITION_BOOT', 'PARTITION_ROOT', 'PARTITION_SWAP',
-                  'PARTITION_HIDDEN', 'PARTITION_RAID', 'PARTITION_LVM',
-                  'PARTITION_LBA', 'PARTITION_HPSERVICE',
-                  'PARTITION_PALO', 'PARTITION_PREP',
-                  'PARTITION_MSFT_RESERVED',
-                  'PARTITION_APPLE_TV_RECOVERY',
-                  'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
-                  'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP', 'PARTITION_NONFS',
-                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT',
-                  'PARTITION_LINUX_HOME', 'PARTITION_NO_AUTOMOUNT']:
+        for f in [
+            "PARTITION_BOOT",
+            "PARTITION_ROOT",
+            "PARTITION_SWAP",
+            "PARTITION_HIDDEN",
+            "PARTITION_RAID",
+            "PARTITION_LVM",
+            "PARTITION_LBA",
+            "PARTITION_HPSERVICE",
+            "PARTITION_PALO",
+            "PARTITION_PREP",
+            "PARTITION_MSFT_RESERVED",
+            "PARTITION_APPLE_TV_RECOVERY",
+            "PARTITION_BIOS_GRUB",
+            "PARTITION_DIAG",
+            "PARTITION_MSFT_DATA",
+            "PARTITION_IRST",
+            "PARTITION_ESP",
+            "PARTITION_NONFS",
+            "PARTITION_CHROMEOS_KERNEL",
+            "PARTITION_BLS_BOOT",
+            "PARTITION_LINUX_HOME",
+            "PARTITION_NO_AUTOMOUNT",
+        ]:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
@@ -122,8 +155,10 @@ class PartitionIsFlagAvailableTestCase(RequiresPartition):
 
         # Partitions that are inactive should not have any available flags.
         self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
-        self.assertRaises(_ped.PartitionException, self._part.is_flag_available,
-                          _ped.PARTITION_BOOT)
+        self.assertRaises(
+            _ped.PartitionException, self._part.is_flag_available, _ped.PARTITION_BOOT
+        )
+
 
 class PartitionSetSystemTestCase(RequiresPartition):
     def runTest(self):
@@ -133,8 +168,12 @@ class PartitionSetSystemTestCase(RequiresPartition):
 
         # Partitions that are inactive cannot have the system type set.
         self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
-        self.assertRaises(_ped.PartitionException, self._part.set_system,
-                          _ped.file_system_type_get("ext2"))
+        self.assertRaises(
+            _ped.PartitionException,
+            self._part.set_system,
+            _ped.file_system_type_get("ext2"),
+        )
+
 
 class PartitionSetNameTestCase(RequiresPartition):
     def runTest(self):
@@ -143,14 +182,20 @@ class PartitionSetNameTestCase(RequiresPartition):
 
         # These should work.
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("mac"))
-        self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
-                                    _ped.file_system_type_get("fat32"))
+        self._part = _ped.Partition(
+            self._disk,
+            _ped.PARTITION_NORMAL,
+            0,
+            100,
+            _ped.file_system_type_get("fat32"),
+        )
         self.assertTrue(self._part.set_name("blah"))
         self.assertEqual(self._part.get_name(), "blah")
 
         # Partitions that are inactive won't work.
         self._part = _ped.Partition(self._disk, _ped.PARTITION_FREESPACE, 0, 100)
         self.assertRaises(_ped.PartitionException, self._part.get_name)
+
 
 class PartitionGetNameTestCase(RequiresPartition):
     def runTest(self):
@@ -163,16 +208,23 @@ class PartitionGetNameTestCase(RequiresPartition):
 
         # Mac disk labels do support naming, but there still has to be a name.
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("mac"))
-        self._part = _ped.Partition(self._disk, _ped.PARTITION_NORMAL, 0, 100,
-                                    _ped.file_system_type_get("fat32"))
+        self._part = _ped.Partition(
+            self._disk,
+            _ped.PARTITION_NORMAL,
+            0,
+            100,
+            _ped.file_system_type_get("fat32"),
+        )
         self.assertEqual(self._part.get_name(), "untitled")
 
         # Finally, Mac disk labels with a name will work.
         self._part.set_name("blah")
         self.assertEqual(self._part.get_name(), "blah")
 
-@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"),
-                     "requires parted >= 3.5")
+
+@unittest.skipUnless(
+    hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"), "requires parted >= 3.5"
+)
 class PartitionMSDOSTypeIDTestCase(RequiresPartition):
     def runTest(self):
         # The DOS disklabel should support ID
@@ -182,42 +234,53 @@ class PartitionMSDOSTypeIDTestCase(RequiresPartition):
         self.assertEqual(self._part.get_type_id(), 0x83)
 
         # Update and check a new ID
-        self._part.set_type_id(0xa7)
-        self.assertEqual(self._part.get_type_id(), 0xa7)
+        self._part.set_type_id(0xA7)
+        self.assertEqual(self._part.get_type_id(), 0xA7)
 
         # Persist the changes
-        self._disk.add_partition(self._part, self._device.get_optimal_aligned_constraint())
+        self._disk.add_partition(
+            self._part, self._device.get_optimal_aligned_constraint()
+        )
         self._disk.commit_to_dev()
 
         # Check update was persistent
         self.reopen()
-        self.assertEqual(self._part.get_type_id(), 0xa7)
+        self.assertEqual(self._part.get_type_id(), 0xA7)
 
 
-@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"), "requires parted >= 3.5"
+)
 class PartitionGPTTypeIDTestCase(RequiresGPTPartition):
     def runTest(self):
         # The GPT disklabel should not support ID
-        self.assertFalse(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_ID))
+        self.assertFalse(
+            self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_ID)
+        )
         self.assertEqual(self._part.get_type_id(), 0)
 
 
-@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"), "requires parted >= 3.5"
+)
 class PartitionMSDOSTypeUUIDTestCase(RequiresPartition):
     def runTest(self):
         # The DOS disklabel should NOT support UUID
-        self.assertFalse(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
+        self.assertFalse(
+            self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID)
+        )
         self.assertRaises(_ped.PartitionException, self._part.get_type_uuid)
 
 
-@unittest.skipUnless(hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"), "requires parted >= 3.5"
+)
 class PartitionGPTTypeUUIDTestCase(RequiresGPTPartition):
     def runTest(self):
         # The GPT disklabel should not support UUID
-        self.assertTrue(self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID))
+        self.assertTrue(
+            self._disk.type.check_feature(_ped.DISK_TYPE_PARTITION_TYPE_UUID)
+        )
 
         # Check the default UUID
         default = uuid.UUID("0fc63daf-8483-4772-8e79-3d69d8477de4")
@@ -259,6 +322,7 @@ class PartitionIsBusyTestCase(RequiresPartition):
         # partitions aren't busy until they're mounted.
         self.assertFalse(self._part.is_busy())
 
+
 # TODO:  need to figure out how to make a loopback device look mounted to
 # libparted
 #        self.mkfs()
@@ -269,6 +333,7 @@ class PartitionIsBusyTestCase(RequiresPartition):
 class PartitionGetPathTestCase(RequiresPartition):
     def runTest(self):
         self.assertNotEqual(self._part.get_path(), "")
+
 
 class PartitionStrTestCase(RequiresPartition):
     def runTest(self):

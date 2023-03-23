@@ -29,6 +29,7 @@ import pprint
 import subprocess
 import os
 
+
 def pad_block(image_file):
     """
     Pad a block to the nearest 1MiB (2048 sectors)
@@ -45,7 +46,7 @@ def pad_block(image_file):
         padding_needed = 2048 - (sector_count % 2048)
 
         print(f"Padding {padding_needed} sectors to fill 1MiB block")
-        with open(image_file, 'ab') as file:
+        with open(image_file, "ab") as file:
             file.write(bytearray(padding_needed * 512))
 
         new_sectors = int(os.path.getsize(image_file) / 512)
@@ -53,16 +54,16 @@ def pad_block(image_file):
 
 
 # Example using a raw image file created with `dd` (already contains partitions)
-sdcard="sdcard.img"
+sdcard = "sdcard.img"
 
 # 100MiB file created with `dd`, formatted ext4
 new_partition_file = "new_partition.img"
 
 # Grab the sizes of the SD card and the new partition before we start work
 new_partition_size = os.path.getsize(new_partition_file)
-new_partition_size_sectors = int(new_partition_size/512)
+new_partition_size_sectors = int(new_partition_size / 512)
 sdcard_original_size = os.path.getsize(sdcard)
-original_sectors = int(sdcard_original_size/512)
+original_sectors = int(sdcard_original_size / 512)
 
 
 # GPT stores a backup at the end of the drive that uses 33 blocks of 512 byte
@@ -86,12 +87,12 @@ gpt_backup = "gpt.dat"
 gpt_offset = -1
 gpt_size = 33 * 512
 print("Taking backup of GPT")
-with open(sdcard, 'rb') as file:
+with open(sdcard, "rb") as file:
 
     # seek to the start of the GPT data 33 LBA from the end of the disk, then
     # read it into a `gpt_data`
-    file.seek(- gpt_size, os.SEEK_END)  # Note minus sign, doesn't work in `wb` mode(?)
-    gpt_offset = file.tell();
+    file.seek(-gpt_size, os.SEEK_END)  # Note minus sign, doesn't work in `wb` mode(?)
+    gpt_offset = file.tell()
     print(f"GPT offset: {gpt_offset}")
     gpt_data = file.read()
 
@@ -101,7 +102,7 @@ with open(sdcard, 'rb') as file:
         raise ValueError(f"GPT backup bad: {gpt_data_len} != {gpt_size}")
 
     # write out our GPT backup
-    with open(gpt_backup, 'wb') as g:
+    with open(gpt_backup, "wb") as g:
         g.write(gpt_data)
 
     # sanity check we wrote the right amount of data
@@ -110,10 +111,10 @@ with open(sdcard, 'rb') as file:
         raise ValueError(f"GPT backup bad: {gpt_backup_len} != {gpt_size}")
 
 # Truncate the last 33 LBA (GPT backup)
-with open(sdcard, 'rb+') as file:
+with open(sdcard, "rb+") as file:
     file.truncate(gpt_offset)
 
-new_sectors = int(os.path.getsize(sdcard)/512)
+new_sectors = int(os.path.getsize(sdcard) / 512)
 
 if (original_sectors - new_sectors) != 33:
     raise ValueError(f"bad truncation {original_sectors} - {new_sectors} != 33")
@@ -122,15 +123,19 @@ if (original_sectors - new_sectors) != 33:
 # and record the resulting image size. This gives us the starting point for our
 # new partition aligned to a 1MiB boundary
 pad_block(sdcard)
-partition_insertion_point =  os.path.getsize(sdcard)
+partition_insertion_point = os.path.getsize(sdcard)
 partition_insertion_point_sector = int(partition_insertion_point / 512)
-subprocess.run(f"cat {new_partition_file} >> {sdcard}", shell=True, capture_output=True, check=True)
+subprocess.run(
+    f"cat {new_partition_file} >> {sdcard}", shell=True, capture_output=True, check=True
+)
 
 # pad out the block after writing our new partition
 pad_block(sdcard)
 
 # Restore the backup GPT
-subprocess.run(f"cat {gpt_backup} >> {sdcard}", shell=True, capture_output=True, check=True)
+subprocess.run(
+    f"cat {gpt_backup} >> {sdcard}", shell=True, capture_output=True, check=True
+)
 
 # Fix the backup GPT by "moving" it to end of disk (its already there but
 # contains checksums that needs recomputing as well as pointers to its position
@@ -144,24 +149,20 @@ device = parted.getDevice(sdcard)
 disk = parted.newDisk(device)
 
 geometry = parted.Geometry(
-    device,
-    start=partition_insertion_point_sector,
-    length=new_partition_size_sectors
+    device, start=partition_insertion_point_sector, length=new_partition_size_sectors
 )
 
 print(f"New partition geometry:\n{geometry}")
 
-filesystem = parted.FileSystem(type='ext2', geometry=geometry)
+filesystem = parted.FileSystem(type="ext2", geometry=geometry)
 new_partition = parted.Partition(
-    disk=disk,
-    type=parted.PARTITION_NORMAL,
-    fs = filesystem,
-    geometry=geometry
+    disk=disk, type=parted.PARTITION_NORMAL, fs=filesystem, geometry=geometry
 )
 # name isn't in the constructor but we can set it separately
 new_partition.name = "myimportedpartition"
-disk.addPartition(partition=new_partition,
-                  constraint=parted.Constraint(exactGeom=geometry))
+disk.addPartition(
+    partition=new_partition, constraint=parted.Constraint(exactGeom=geometry)
+)
 
 disk.commit()
 print("created partition OK")

@@ -17,19 +17,22 @@ from tests.baseclass import RequiresGPTDisk
 # that seems like good organization.  More complicated methods may require
 # multiple classes and their own test suite.
 
+
 class PartitionNewTestCase(RequiresDisk):
     """
-        PartitionNew tests if parted.Partition:
-        1) raises user defined exception if called without arguments
-        2) if parted.Partition is instantiable with argument fs
-        3) if parted.Partition is instantiable without argument fs
+    PartitionNew tests if parted.Partition:
+    1) raises user defined exception if called without arguments
+    2) if parted.Partition is instantiable with argument fs
+    3) if parted.Partition is instantiable without argument fs
     """
+
     def setUp(self):
         super(PartitionNewTestCase, self).setUp()
         self.geom = parted.Geometry(self.device, start=100, length=100)
-        self.fs = parted.FileSystem(type='ext2', geometry=self.geom)
-        self.part = parted.Partition(self.disk, parted.PARTITION_NORMAL,
-                                geometry=self.geom, fs=self.fs)
+        self.fs = parted.FileSystem(type="ext2", geometry=self.geom)
+        self.part = parted.Partition(
+            self.disk, parted.PARTITION_NORMAL, geometry=self.geom, fs=self.fs
+        )
 
     def reopen(self):
         RequiresDisk.reopen(self)
@@ -43,20 +46,24 @@ class PartitionNewTestCase(RequiresDisk):
         self.assertIsInstance(self.part, parted.Partition)
         # You don't need to pass a filesystem type at all, since this partition
         # might be FREESPACE or METADATA.
-        part_nofs = parted.Partition(self.disk, parted.PARTITION_NORMAL,
-                                geometry=self.geom)
+        part_nofs = parted.Partition(
+            self.disk, parted.PARTITION_NORMAL, geometry=self.geom
+        )
         self.assertIsInstance(part_nofs, parted.Partition)
+
 
 class PartitionGPTNewTestCase(RequiresGPTDisk):
     """
-        Like PartitionNewTestCase but with a GPT-labeled disk image.
+    Like PartitionNewTestCase but with a GPT-labeled disk image.
     """
+
     def setUp(self):
         super(PartitionGPTNewTestCase, self).setUp()
         self.geom = parted.Geometry(self.device, start=100, length=100)
-        self.fs = parted.FileSystem(type='ext2', geometry=self.geom)
-        self.part = parted.Partition(self.disk, parted.PARTITION_NORMAL,
-                                geometry=self.geom, fs=self.fs)
+        self.fs = parted.FileSystem(type="ext2", geometry=self.geom)
+        self.part = parted.Partition(
+            self.disk, parted.PARTITION_NORMAL, geometry=self.geom, fs=self.fs
+        )
 
     def reopen(self):
         RequiresDisk.reopen(self)
@@ -70,16 +77,19 @@ class PartitionGPTNewTestCase(RequiresGPTDisk):
         self.assertIsInstance(self.part, parted.Partition)
         # You don't need to pass a filesystem type at all, since this partition
         # might be FREESPACE or METADATA.
-        part_nofs = parted.Partition(self.disk, parted.PARTITION_NORMAL,
-                                geometry=self.geom)
+        part_nofs = parted.Partition(
+            self.disk, parted.PARTITION_NORMAL, geometry=self.geom
+        )
         self.assertIsInstance(part_nofs, parted.Partition)
+
 
 class PartitionGetSetTestCase(PartitionNewTestCase):
     """
-        PartitionGetSet tests "part" instance
-        of class parted.Partition(created in baseclass)
-        for basic get and set operations on its attributes.
+    PartitionGetSet tests "part" instance
+    of class parted.Partition(created in baseclass)
+    for basic get and set operations on its attributes.
     """
+
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
         self.assertEqual(self.part.disk, self.disk)
@@ -111,28 +121,32 @@ class PartitionGetSetTestCase(PartitionNewTestCase):
         with self.assertRaises((AttributeError)):
             print(self.part.blah)
 
+
 class PartitionGetSetGPTTestCase(PartitionGPTNewTestCase):
     """
-        Like PartitionGetSetTestCase, but with a GPT-labeled test
-        image to work with rather than a DOS-labeled test image.
+    Like PartitionGetSetTestCase, but with a GPT-labeled test
+    image to work with rather than a DOS-labeled test image.
     """
+
     def runTest(self):
         # GPT labeled disks can support partition names
         print(self.part.name)
         self.part.name = "root"
 
+
 class PartitionSetFlagTestCase(PartitionNewTestCase):
     """
-        Method setFlag should return True, if flag was set to "on" state.
-        Next few flag testcases will inherit from setUp.
-        This testcase checks if method setFlag returns:
-        1)correct bool when state of BOOT and RAID flags is set to "on"
-        on partition.
-        2)raises user defined exception on unavailable flag
-        See parted/include/parted/disk.in.h for flag numbers.
-        Partition flags are dependent on disklabel. In this case msdos label is
-        used, see parted library libparted/labels/dos.c for flags availability.
+    Method setFlag should return True, if flag was set to "on" state.
+    Next few flag testcases will inherit from setUp.
+    This testcase checks if method setFlag returns:
+    1)correct bool when state of BOOT and RAID flags is set to "on"
+    on partition.
+    2)raises user defined exception on unavailable flag
+    See parted/include/parted/disk.in.h for flag numbers.
+    Partition flags are dependent on disklabel. In this case msdos label is
+    used, see parted library libparted/labels/dos.c for flags availability.
     """
+
     def setUp(self):
         super(PartitionSetFlagTestCase, self).setUp()
         self.neg_msg = "Method returns unexpected bool value"
@@ -145,27 +159,31 @@ class PartitionSetFlagTestCase(PartitionNewTestCase):
         with self.assertRaises((parted.PartitionException,)):
             self.part.setFlag(2)
 
+
 class PartitionGetFlagTestCase(PartitionSetFlagTestCase):
     """
-        Method getFlag should return correct bool value depending on flag
-        setting(flag is off=>False; on=>True).
-        This testcase checks if method getFlag returns:
-        1)correct bools when checks state of BOOT(on), RAID(on) and LVM(off)
-        flags.
+    Method getFlag should return correct bool value depending on flag
+    setting(flag is off=>False; on=>True).
+    This testcase checks if method getFlag returns:
+    1)correct bools when checks state of BOOT(on), RAID(on) and LVM(off)
+    flags.
     """
+
     def runTest(self):
         self.assertTrue(self.part.getFlag(1), self.neg_msg)
         self.assertTrue(self.part.getFlag(5), self.neg_msg)
         self.assertFalse(self.part.getFlag(6), self.neg_msg)
 
+
 class PartitionUnsetFlagTestCase(PartitionSetFlagTestCase):
     """
-        Method unsetFlag should set flag to "off" state and return True on
-        success. PartitionException should be raised on error.
-        This testcase checks if method unsetFlag returns:
-        1)correct bool value when flag is unset and if flag is in state 'off'
-        2)raises user defined exception on unavailable flag
+    Method unsetFlag should set flag to "off" state and return True on
+    success. PartitionException should be raised on error.
+    This testcase checks if method unsetFlag returns:
+    1)correct bool value when flag is unset and if flag is in state 'off'
+    2)raises user defined exception on unavailable flag
     """
+
     def runTest(self):
         self.assertTrue(self.part.unsetFlag(1), self.neg_msg)
         self.assertFalse(self.part.getFlag(1), self.neg_msg)
@@ -173,28 +191,43 @@ class PartitionUnsetFlagTestCase(PartitionSetFlagTestCase):
         with self.assertRaises((parted.PartitionException,)):
             self.part.unsetFlag(2)
 
+
 class PartitionIsFlagAvailableTestCase(PartitionNewTestCase):
-    '''
-        Method isFlagAvailable should return bool value whenever flag is
-        available according to chosen disk label setting and disk proportions
-        itself.
-        This testcase checks if method isFlagAvailable returns:
-        1)bool value without traceback
-        2)false on nonexistent flag
-        3)raises user defined exception when called on inactive partition
-    '''
+    """
+    Method isFlagAvailable should return bool value whenever flag is
+    available according to chosen disk label setting and disk proportions
+    itself.
+    This testcase checks if method isFlagAvailable returns:
+    1)bool value without traceback
+    2)false on nonexistent flag
+    3)raises user defined exception when called on inactive partition
+    """
+
     def runTest(self):
-        for f in ['PARTITION_BOOT', 'PARTITION_ROOT', 'PARTITION_SWAP',
-                  'PARTITION_HIDDEN', 'PARTITION_RAID', 'PARTITION_LVM',
-                  'PARTITION_LBA', 'PARTITION_HPSERVICE',
-                  'PARTITION_PALO', 'PARTITION_PREP',
-                  'PARTITION_MSFT_RESERVED',
-                  'PARTITION_APPLE_TV_RECOVERY',
-                  'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
-                  'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP', 'PARTITION_NONFS',
-                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_BLS_BOOT',
-                  'PARTITION_LINUX_HOME', 'PARTITION_NO_AUTOMOUNT']:
+        for f in [
+            "PARTITION_BOOT",
+            "PARTITION_ROOT",
+            "PARTITION_SWAP",
+            "PARTITION_HIDDEN",
+            "PARTITION_RAID",
+            "PARTITION_LVM",
+            "PARTITION_LBA",
+            "PARTITION_HPSERVICE",
+            "PARTITION_PALO",
+            "PARTITION_PREP",
+            "PARTITION_MSFT_RESERVED",
+            "PARTITION_APPLE_TV_RECOVERY",
+            "PARTITION_BIOS_GRUB",
+            "PARTITION_DIAG",
+            "PARTITION_MSFT_DATA",
+            "PARTITION_IRST",
+            "PARTITION_ESP",
+            "PARTITION_NONFS",
+            "PARTITION_CHROMEOS_KERNEL",
+            "PARTITION_BLS_BOOT",
+            "PARTITION_LINUX_HOME",
+            "PARTITION_NO_AUTOMOUNT",
+        ]:
             if not hasattr(parted, f):
                 continue
             attr = getattr(parted, f)
@@ -203,20 +236,25 @@ class PartitionIsFlagAvailableTestCase(PartitionNewTestCase):
         self.assertFalse(self.part.isFlagAvailable(1000))
 
         with self.assertRaises((parted.PartitionException,)):
-            self.part = parted.Partition(self.disk, parted.PARTITION_FREESPACE,
-            geometry=self.geom)
+            self.part = parted.Partition(
+                self.disk, parted.PARTITION_FREESPACE, geometry=self.geom
+            )
             self.part.isFlagAvailable(parted.PARTITION_BOOT)
 
-class PartitionGetFlagsAsStringTestCase(PartitionSetFlagTestCase):
-    '''
-        Method getFlagsAsString should return all flags which are in state "on"
-        as comma separated list.
-    '''
-    def runTest(self):
-        self.assertEqual(self.part.getFlagsAsString(), 'boot, raid')
 
-@unittest.skipUnless(hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID"),
-                     "requires parted >= 3.5")
+class PartitionGetFlagsAsStringTestCase(PartitionSetFlagTestCase):
+    """
+    Method getFlagsAsString should return all flags which are in state "on"
+    as comma separated list.
+    """
+
+    def runTest(self):
+        self.assertEqual(self.part.getFlagsAsString(), "boot, raid")
+
+
+@unittest.skipUnless(
+    hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID"), "requires parted >= 3.5"
+)
 class PartitionMSDOSTypeIDTestCase(PartitionNewTestCase):
     def runTest(self):
         # The DOS disklabel should support ID
@@ -226,8 +264,8 @@ class PartitionMSDOSTypeIDTestCase(PartitionNewTestCase):
         self.assertEqual(self.part.type_id, 0x83)
 
         # Update and check a new ID
-        self.part.type_id = 0xa7
-        self.assertEqual(self.part.type_id, 0xa7)
+        self.part.type_id = 0xA7
+        self.assertEqual(self.part.type_id, 0xA7)
 
         # Persist the changes
         self.disk.addPartition(self.part)
@@ -235,11 +273,12 @@ class PartitionMSDOSTypeIDTestCase(PartitionNewTestCase):
 
         # Check update was persistent
         self.reopen()
-        self.assertEqual(self.part.type_id, 0xa7)
+        self.assertEqual(self.part.type_id, 0xA7)
 
 
-@unittest.skipUnless(hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID"), "requires parted >= 3.5"
+)
 class PartitionGPTTypeIDTestCase(PartitionGPTNewTestCase):
     def runTest(self):
         # The GPT disklabel should not support ID
@@ -247,17 +286,21 @@ class PartitionGPTTypeIDTestCase(PartitionGPTNewTestCase):
         self.assertEqual(self.part.type_id, 0)
 
 
-@unittest.skipUnless(hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID"), "requires parted >= 3.5"
+)
 class PartitionMSDOSTypeUUIDTestCase(PartitionNewTestCase):
     def runTest(self):
         # The DOS disklabel should NOT support UUID
-        self.assertFalse(self.disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_UUID))
+        self.assertFalse(
+            self.disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_UUID)
+        )
         self.assertIsNone(self.part.type_uuid)
 
 
-@unittest.skipUnless(hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID"),
-                     "requires parted >= 3.5")
+@unittest.skipUnless(
+    hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID"), "requires parted >= 3.5"
+)
 class PartitionGPTTypeUUIDTestCase(PartitionGPTNewTestCase):
     def runTest(self):
         # The GPT disklabel should not support UUID
@@ -287,17 +330,20 @@ class PartitionGetMaxGeometryTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class PartitionNextPartitionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class PartitionGetSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 class PartitionGetLengthTestCase(RequiresDisk):
     def runTest(self):
@@ -312,11 +358,13 @@ class PartitionGetLengthTestCase(RequiresDisk):
         self.assertEqual(part.getLength(), part.geometry.length)
         self.assertEqual(part.getLength(), length)
 
+
 @unittest.skip("Unimplemented test case.")
 class PartitionGetMaxAvailableSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class PartitionGetDeviceNodeNameTestCase(unittest.TestCase):
@@ -324,11 +372,13 @@ class PartitionGetDeviceNodeNameTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class PartitionGetPedPartitionTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class PartitionStrTestCase(unittest.TestCase):

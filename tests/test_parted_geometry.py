@@ -19,11 +19,13 @@ class GeometryNewTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryCheckTestCase(unittest.TestCase):
@@ -31,11 +33,13 @@ class GeometryCheckTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryContainsTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryContainsSectorTestCase(unittest.TestCase):
@@ -43,17 +47,20 @@ class GeometryContainsSectorTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryEqualTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryGetSizeTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 class GeometryGetLengthTestCase(RequiresDevice):
     def runTest(self):
@@ -63,11 +70,13 @@ class GeometryGetLengthTestCase(RequiresDevice):
         self.assertEqual(geom.getLength(), geom.length)
         self.assertEqual(geom.getLength(), length)
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryMapTestCase(unittest.TestCase):
@@ -75,11 +84,13 @@ class GeometryMapTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometryOverlapsWithTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryReadTestCase(unittest.TestCase):
@@ -87,11 +98,13 @@ class GeometryReadTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class GeometrySyncTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 class GeometryWriteTestCase(RequiresDevice):
     def setUp(self):
@@ -100,15 +113,21 @@ class GeometryWriteTestCase(RequiresDevice):
 
     def runTest(self):
         self._device.open()
-        self.assertTrue(self.geom.write("".join(["\x00"] * self.device.sectorSize), 0, 1))
-        self.assertTrue(self.geom.write("".join(["\x01"] * self.device.sectorSize), 0, 1))
+        self.assertTrue(
+            self.geom.write("".join(["\x00"] * self.device.sectorSize), 0, 1)
+        )
+        self.assertTrue(
+            self.geom.write("".join(["\x01"] * self.device.sectorSize), 0, 1)
+        )
         self._device.close()
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryGetPedGeometryTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class GeometryStrTestCase(unittest.TestCase):

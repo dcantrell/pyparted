@@ -22,6 +22,7 @@ class GeometryNewTestCase(RequiresDevice):
         self.assertIsInstance(_ped.Geometry(self._device, 0, 100), _ped.Geometry)
         self.assertIsInstance(_ped.Geometry(self._device, 0, 100, 101), _ped.Geometry)
 
+
 class GeometryGetSetTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -58,6 +59,7 @@ class GeometryGetSetTestCase(RequiresDevice):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self.g, "blah")
 
+
 class GeometryDuplicateTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -68,6 +70,7 @@ class GeometryDuplicateTestCase(RequiresDevice):
         self.assertEqual(self.g.start, self.dup.start)
         self.assertEqual(self.g.length, self.dup.length)
         self.assertEqual(self.g.end, self.dup.end)
+
 
 class GeometryIntersectTestCase(RequiresDevice):
     def setUp(self):
@@ -103,6 +106,7 @@ class GeometryIntersectTestCase(RequiresDevice):
         self.g2.set(50, 100)
         self.assertRaises(ArithmeticError, self.g1.intersect, self.g2)
 
+
 class GeometrySetTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -116,6 +120,7 @@ class GeometrySetTestCase(RequiresDevice):
         # the device should fail.
         self.assertRaises(_ped.CreateException, self.g.set, 100, -1000)
 
+
 class GeometrySetStartTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -126,6 +131,7 @@ class GeometrySetStartTestCase(RequiresDevice):
         self.assertEqual(self.g.start, 10)
         self.assertEqual(self.g.length, 90)
         self.assertEqual(self.g.end, 99)
+
 
 class GeometrySetEndTestCase(RequiresDevice):
     def setUp(self):
@@ -142,6 +148,7 @@ class GeometrySetEndTestCase(RequiresDevice):
         self.assertRaises(_ped.CreateException, self.g.set_end, -1)
         self.g.set_start(10)
         self.assertRaises(_ped.CreateException, self.g.set_end, 5)
+
 
 class GeometryTestOverlapTestCase(RequiresDevice):
     def setUp(self):
@@ -164,6 +171,7 @@ class GeometryTestOverlapTestCase(RequiresDevice):
         # g2 exists entirely before g1, so they do not overlap.
         self.g2.set(10, 10)
         self.assertFalse(self.g1.test_overlap(self.g2))
+
 
 class GeometryTestInsideTestCase(RequiresDevice):
     def setUp(self):
@@ -191,6 +199,7 @@ class GeometryTestInsideTestCase(RequiresDevice):
         self.assertFalse(self.g1.test_inside(self.g2))
         self.assertFalse(self.g2.test_inside(self.g1))
 
+
 class GeometryTestEqualTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -210,6 +219,7 @@ class GeometryTestEqualTestCase(RequiresDevice):
         self.g2.set_end(50)
         self.assertFalse(self.g1.test_equal(self.g2))
 
+
 class GeometryTestSectorInsideTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -225,6 +235,7 @@ class GeometryTestSectorInsideTestCase(RequiresDevice):
         self.assertFalse(self.g.test_sector_inside(0))
         self.assertFalse(self.g.test_sector_inside(1000))
         self.assertFalse(self.g.test_sector_inside(-1))
+
 
 class GeometryReadTestCase(RequiresDevice):
     def setUp(self):
@@ -262,6 +273,7 @@ class GeometryReadTestCase(RequiresDevice):
 
         self._device.close()
 
+
 class GeometrySyncTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -276,6 +288,7 @@ class GeometrySyncTestCase(RequiresDevice):
 
         self._device.close()
 
+
 class GeometrySyncFastTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -289,6 +302,7 @@ class GeometrySyncFastTestCase(RequiresDevice):
         self.assertEqual(self.g.sync_fast(), 1)
 
         self._device.close()
+
 
 class GeometryWriteTestCase(RequiresDevice):
     def setUp(self):
@@ -318,6 +332,7 @@ class GeometryWriteTestCase(RequiresDevice):
 
         self._device.close()
 
+
 class GeometryCheckTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -333,6 +348,7 @@ class GeometryCheckTestCase(RequiresDevice):
         self.assertEqual(self.g.check(0, 0, 50), 0)
 
         self._device.close()
+
 
 class GeometryMapTestCase(RequiresDevice):
     def setUp(self):
@@ -351,13 +367,14 @@ class GeometryMapTestCase(RequiresDevice):
 
         self._device.close()
 
+
 class GeometryStrTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):
-        lines = str(self.g).split('\n')
-        self.assertEqual(lines[0], '_ped.Geometry instance --')
-        self.assertEqual(lines[1], '  start: 10  end: 109  length: 100')
-        six.assertRegex(self, lines[2], '^  device: <_ped.Device object at .*')
+        lines = str(self.g).split("\n")
+        self.assertEqual(lines[0], "_ped.Geometry instance --")
+        self.assertEqual(lines[1], "  start: 10  end: 109  length: 100")
+        six.assertRegex(self, lines[2], "^  device: <_ped.Device object at .*")

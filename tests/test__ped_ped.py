@@ -17,81 +17,124 @@ from tests.baseclass import BuildList, RequiresDevice, RequiresFileSystem
 # multiple classes and their own test suite.
 class PartitionFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in ['PARTITION_BOOT', 'PARTITION_ROOT', 'PARTITION_SWAP',
-                  'PARTITION_HIDDEN', 'PARTITION_RAID', 'PARTITION_LVM',
-                  'PARTITION_LBA', 'PARTITION_HPSERVICE',
-                  'PARTITION_PALO', 'PARTITION_PREP',
-                  'PARTITION_MSFT_RESERVED',
-                  'PARTITION_APPLE_TV_RECOVERY',
-                  'PARTITION_BIOS_GRUB', 'PARTITION_DIAG',
-                  'PARTITION_MSFT_DATA', 'PARTITION_IRST',
-                  'PARTITION_ESP', 'PARTITION_NONFS',
-                  'PARTITION_CHROMEOS_KERNEL', 'PARTITION_CHROMEOS_KERNEL']:
+        for f in [
+            "PARTITION_BOOT",
+            "PARTITION_ROOT",
+            "PARTITION_SWAP",
+            "PARTITION_HIDDEN",
+            "PARTITION_RAID",
+            "PARTITION_LVM",
+            "PARTITION_LBA",
+            "PARTITION_HPSERVICE",
+            "PARTITION_PALO",
+            "PARTITION_PREP",
+            "PARTITION_MSFT_RESERVED",
+            "PARTITION_APPLE_TV_RECOVERY",
+            "PARTITION_BIOS_GRUB",
+            "PARTITION_DIAG",
+            "PARTITION_MSFT_DATA",
+            "PARTITION_IRST",
+            "PARTITION_ESP",
+            "PARTITION_NONFS",
+            "PARTITION_CHROMEOS_KERNEL",
+            "PARTITION_CHROMEOS_KERNEL",
+        ]:
             if not hasattr(_ped, f):
                 continue
             attr = getattr(_ped, f)
-            self.assertNotEqual(_ped.partition_flag_get_name(attr), "", "Could not get name for flag _ped.%s" % f)
+            self.assertNotEqual(
+                _ped.partition_flag_get_name(attr),
+                "",
+                "Could not get name for flag _ped.%s" % f,
+            )
 
         self.assertRaises(ValueError, _ped.partition_flag_get_name, -1)
         self.assertRaises(_ped.PartedException, _ped.partition_flag_get_name, 1000)
 
+
 class PartitionFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
-        for f in ["boot", "root", "swap", "hidden", "raid", "lvm", "lba",
-                  "hp-service", "palo", "prep", "msftres", "bios_grub",
-                  "msftdata", "irst", "esp", "nonfs"]:
-            self.assertNotEqual(_ped.partition_flag_get_by_name(f), "", "Could not get flag %s" % f)
+        for f in [
+            "boot",
+            "root",
+            "swap",
+            "hidden",
+            "raid",
+            "lvm",
+            "lba",
+            "hp-service",
+            "palo",
+            "prep",
+            "msftres",
+            "bios_grub",
+            "msftdata",
+            "irst",
+            "esp",
+            "nonfs",
+        ]:
+            self.assertNotEqual(
+                _ped.partition_flag_get_by_name(f), "", "Could not get flag %s" % f
+            )
 
         self.assertEqual(_ped.partition_flag_get_by_name("nosuchflag"), 0)
+
 
 class PartitionFlagNextTestCase(unittest.TestCase):
     def runTest(self):
         # We should get TypeError when the parameter is invalid
         self.assertRaises(TypeError, _ped.partition_flag_next)
-        self.assertRaises(TypeError, _ped.partition_flag_next, 'blah')
+        self.assertRaises(TypeError, _ped.partition_flag_next, "blah")
 
         # First flag is 0, keep getting flags until we loop back around
         # to zero.  Make sure each flag we get is an integer.
         flag = _ped.partition_flag_next(0)
-        self.assertEqual(type(flag).__name__, 'int')
+        self.assertEqual(type(flag).__name__, "int")
 
         while True:
             flag = _ped.partition_flag_next(flag)
             if not flag:
                 break
-            self.assertEqual(type(flag).__name__, 'int')
+            self.assertEqual(type(flag).__name__, "int")
+
 
 class DiskFlagGetNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in [_ped.DISK_CYLINDER_ALIGNMENT]:
-            self.assertNotEqual(_ped.disk_flag_get_name(f), "", "Could not get name for flag %s" % f)
+            self.assertNotEqual(
+                _ped.disk_flag_get_name(f), "", "Could not get name for flag %s" % f
+            )
 
         self.assertRaises(ValueError, _ped.disk_flag_get_name, -1)
         self.assertRaises(_ped.PartedException, _ped.disk_flag_get_name, 1000)
 
+
 class DiskFlagGetByNameTestCase(unittest.TestCase):
     def runTest(self):
         for f in ["cylinder_alignment"]:
-            self.assertNotEqual(_ped.disk_flag_get_by_name(f), 0, "Could not get flag %s" % f)
+            self.assertNotEqual(
+                _ped.disk_flag_get_by_name(f), 0, "Could not get flag %s" % f
+            )
 
         self.assertEqual(_ped.disk_flag_get_by_name("nosuchflag"), 0)
+
 
 class DiskFlagNextTestCase(unittest.TestCase):
     def runTest(self):
         # We should get TypeError when the parameter is invalid
         self.assertRaises(TypeError, _ped.disk_flag_next)
-        self.assertRaises(TypeError, _ped.disk_flag_next, 'blah')
+        self.assertRaises(TypeError, _ped.disk_flag_next, "blah")
 
         # First flag is 0, keep getting flags until we loop back around
         # to zero.  Make sure each flag we get is an integer.
         flag = _ped.disk_flag_next(0)
-        self.assertEqual(type(flag).__name__, 'int')
+        self.assertEqual(type(flag).__name__, "int")
 
         while True:
             flag = _ped.disk_flag_next(flag)
             if not flag:
                 break
-            self.assertEqual(type(flag).__name__, 'int')
+            self.assertEqual(type(flag).__name__, "int")
+
 
 class ConstraintNewFromMinMaxTestCase(RequiresDevice):
     def runTest(self):
@@ -99,12 +142,18 @@ class ConstraintNewFromMinMaxTestCase(RequiresDevice):
 
         # min is required to be within max, so test various combinations of
         # that not being the case.
-        self.assertRaises(_ped.CreateException, _ped.constraint_new_from_min_max,
-                          _ped.Geometry(self._device, 0, 10),
-                          _ped.Geometry(self._device, 15, 25))
-        self.assertRaises(_ped.CreateException, _ped.constraint_new_from_min_max,
-                          _ped.Geometry(self._device, 10, 20),
-                          _ped.Geometry(self._device, 15, 25))
+        self.assertRaises(
+            _ped.CreateException,
+            _ped.constraint_new_from_min_max,
+            _ped.Geometry(self._device, 0, 10),
+            _ped.Geometry(self._device, 15, 25),
+        )
+        self.assertRaises(
+            _ped.CreateException,
+            _ped.constraint_new_from_min_max,
+            _ped.Geometry(self._device, 10, 20),
+            _ped.Geometry(self._device, 15, 25),
+        )
 
         # Now test a correct call.
         minimum = _ped.Geometry(self._device, 10, 20)
@@ -117,6 +166,7 @@ class ConstraintNewFromMinMaxTestCase(RequiresDevice):
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 5, 25)))
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 0, 30)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 0, 35)))
+
 
 class ConstraintNewFromMinTestCase(RequiresDevice):
     def runTest(self):
@@ -131,6 +181,7 @@ class ConstraintNewFromMinTestCase(RequiresDevice):
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 15, 25)))
 
+
 class ConstraintNewFromMaxTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_new_from_max, None)
@@ -144,6 +195,7 @@ class ConstraintNewFromMaxTestCase(RequiresDevice):
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 11, 19)))
         self.assertFalse(constraint.is_solution(_ped.Geometry(self._device, 15, 25)))
 
+
 class ConstraintAnyTestCase(RequiresDevice):
     def runTest(self):
         self.assertRaises(TypeError, _ped.constraint_any, None)
@@ -151,10 +203,13 @@ class ConstraintAnyTestCase(RequiresDevice):
         constraint = _ped.constraint_any(self._device)
         self.assertIsInstance(constraint, _ped.Constraint)
 
-        for testGeom in [_ped.Geometry(self._device, 0, 5),
-                         _ped.Geometry(self._device, 10, 25),
-                         _ped.Geometry(self._device, 0, 100)]:
+        for testGeom in [
+            _ped.Geometry(self._device, 0, 5),
+            _ped.Geometry(self._device, 10, 25),
+            _ped.Geometry(self._device, 0, 100),
+        ]:
             self.assertTrue(constraint.is_solution(testGeom))
+
 
 class ConstraintExactTestCase(RequiresDevice):
     def runTest(self):
@@ -165,13 +220,16 @@ class ConstraintExactTestCase(RequiresDevice):
         constraint = _ped.constraint_exact(geom)
         self.assertIsInstance(constraint, _ped.Constraint)
 
-        for testGeom in [_ped.Geometry(self._device, 1, 100),
-                         _ped.Geometry(self._device, 0, 99),
-                         _ped.Geometry(self._device, 10, 20),
-                         _ped.Geometry(self._device, 50, 101)]:
+        for testGeom in [
+            _ped.Geometry(self._device, 1, 100),
+            _ped.Geometry(self._device, 0, 99),
+            _ped.Geometry(self._device, 10, 20),
+            _ped.Geometry(self._device, 50, 101),
+        ]:
             self.assertFalse(constraint.is_solution(testGeom))
 
         self.assertTrue(constraint.is_solution(_ped.Geometry(self._device, 0, 100)))
+
 
 class DeviceGetTestCase(RequiresDevice):
     def runTest(self):
@@ -183,8 +241,9 @@ class DeviceGetTestCase(RequiresDevice):
         self.assertRaises(_ped.IOException, _ped.device_get, "")
         self.assertRaises(_ped.DeviceException, _ped.device_get, None)
 
-@unittest.skipUnless(os.geteuid() == 0, 'Requires root')
-@unittest.skipUnless("container" not in os.environ, 'Running in a container')
+
+@unittest.skipUnless(os.geteuid() == 0, "Requires root")
+@unittest.skipUnless("container" not in os.environ, "Running in a container")
 class DeviceGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
         # Make sure there are some devices in the system first and then
@@ -201,6 +260,7 @@ class DeviceGetNextTestCase(unittest.TestCase, BuildList):
 
         self.assertRaises(IndexError, _ped.device_get_next, lst[-1])
 
+
 class DeviceProbeAllTestCase(RequiresDevice, BuildList):
     def runTest(self):
         # Since we inherit from RequiresDevice, we can test that the temp
@@ -210,21 +270,34 @@ class DeviceProbeAllTestCase(RequiresDevice, BuildList):
         # results.
         _ped.device_probe_all()
         lst = self.getDeviceList(_ped.device_get_next)
-        prefix = self.path[:self.path.index(self.temp_prefix) - 1] + "/" + self.temp_prefix
+        prefix = (
+            self.path[: self.path.index(self.temp_prefix) - 1] + "/" + self.temp_prefix
+        )
 
         self.assertGreater(len(lst), 0)
-        self.assertGreater(
-            len([e for e in lst if e.path.startswith(prefix)]), 0)
+        self.assertGreater(len([e for e in lst if e.path.startswith(prefix)]), 0)
+
 
 class DiskTypeGetTestCase(unittest.TestCase):
     def runTest(self):
-        for d in ["aix", "amiga", "bsd", "dvh", "gpt", "loop", "mac", "msdos",
-                  "pc98","sun"]:
+        for d in [
+            "aix",
+            "amiga",
+            "bsd",
+            "dvh",
+            "gpt",
+            "loop",
+            "mac",
+            "msdos",
+            "pc98",
+            "sun",
+        ]:
             t = _ped.disk_type_get(d)
             self.assertIsInstance(t, _ped.DiskType)
             self.assertEqual(t.name, d)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.disk_type_get, "nosuch")
+
 
 class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
@@ -237,27 +310,32 @@ class DiskTypeGetNextTestCase(unittest.TestCase, BuildList):
 
         self.assertRaises(IndexError, _ped.disk_type_get_next, lst[-1])
 
+
 class FileSystemProbeTestCase(RequiresFileSystem):
     def runTest(self):
         ty = _ped.file_system_probe(self._geometry)
 
         for name in self._fileSystemType.keys():
-            if name == 'ext2':
+            if name == "ext2":
                 self.assertEqual(ty.name, name)
             else:
                 self.assertNotEqual(ty.name, name)
 
+
 class FileSystemProbeSpecificTestCase(RequiresFileSystem):
     def runTest(self):
-        for (name, ty,) in self._fileSystemType.items():
-            if name == 'ext2':
+        for (
+            name,
+            ty,
+        ) in self._fileSystemType.items():
+            if name == "ext2":
                 result = _ped.file_system_probe_specific(ty, self._geometry)
 
                 # XXX: this should work
                 # we're getting
                 #     ValueError: object comparing to must be a _ped.Geometry
                 # at runtime.  works fine in pdb.
-                #self.assertEqual(result, self._geometry)
+                # self.assertEqual(result, self._geometry)
 
                 self.assertIsInstance(result, _ped.Geometry)
                 self.assertEqual(result.start, self._geometry.start)
@@ -268,20 +346,45 @@ class FileSystemProbeSpecificTestCase(RequiresFileSystem):
                 result = _ped.file_system_probe_specific(ty, self._geometry)
                 self.assertEqual(result, None)
 
+
 class FileSystemTypeGetTestCase(unittest.TestCase):
     def runTest(self):
-        for f in ["affs0", "amufs", "apfs1", "asfs", "btrfs", "ext2", "ext3", "ext4", "fat16",
-                  "fat32", "hfs", "hfs+", "hfsx", "hp-ufs", "jfs", "linux-swap",
-                  "ntfs", "reiserfs", "sun-ufs", "xfs"]:
+        for f in [
+            "affs0",
+            "amufs",
+            "apfs1",
+            "asfs",
+            "btrfs",
+            "ext2",
+            "ext3",
+            "ext4",
+            "fat16",
+            "fat32",
+            "hfs",
+            "hfs+",
+            "hfsx",
+            "hp-ufs",
+            "jfs",
+            "linux-swap",
+            "ntfs",
+            "reiserfs",
+            "sun-ufs",
+            "xfs",
+        ]:
             # may be missing some filesystem types depending on the parted
             # build on the test system
             try:
                 t = _ped.file_system_type_get(f)
-                self.assertIsInstance(t, _ped.FileSystemType, "Could not get fs type %s" % t)
+                self.assertIsInstance(
+                    t, _ped.FileSystemType, "Could not get fs type %s" % t
+                )
             except _ped.UnknownTypeException:
                 pass
 
-        self.assertRaises(_ped.UnknownTypeException, _ped.file_system_type_get, "nosuch")
+        self.assertRaises(
+            _ped.UnknownTypeException, _ped.file_system_type_get, "nosuch"
+        )
+
 
 class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
     def runTest(self):
@@ -294,11 +397,21 @@ class FileSystemTypeGetNextTestCase(unittest.TestCase, BuildList):
 
         self.assertRaises(IndexError, _ped.file_system_type_get_next, lst[-1])
 
+
 class PartitionTypeGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        for t in [_ped.PARTITION_METADATA, _ped.PARTITION_FREESPACE,
-                  _ped.PARTITION_EXTENDED, _ped.PARTITION_LOGICAL]:
-            self.assertNotEqual(_ped.partition_type_get_name(t), "", "Could not get name for flag %s" % t)
+        for t in [
+            _ped.PARTITION_METADATA,
+            _ped.PARTITION_FREESPACE,
+            _ped.PARTITION_EXTENDED,
+            _ped.PARTITION_LOGICAL,
+        ]:
+            self.assertNotEqual(
+                _ped.partition_type_get_name(t),
+                "",
+                "Could not get name for flag %s" % t,
+            )
+
 
 class UnitSetDefaultTestCase(unittest.TestCase):
     def setUp(self):
@@ -308,20 +421,35 @@ class UnitSetDefaultTestCase(unittest.TestCase):
         _ped.unit_set_default(self._initialDefault)
 
     def runTest(self):
-        for v in [_ped.UNIT_BYTE, _ped.UNIT_CHS, _ped.UNIT_COMPACT,
-                  _ped.UNIT_CYLINDER, _ped.UNIT_GIBIBYTE, _ped.UNIT_GIGABYTE,
-                  _ped.UNIT_KIBIBYTE, _ped.UNIT_KILOBYTE, _ped.UNIT_MEBIBYTE,
-                  _ped.UNIT_MEGABYTE, _ped.UNIT_PERCENT, _ped.UNIT_SECTOR,
-                  _ped.UNIT_TEBIBYTE, _ped.UNIT_TERABYTE]:
+        for v in [
+            _ped.UNIT_BYTE,
+            _ped.UNIT_CHS,
+            _ped.UNIT_COMPACT,
+            _ped.UNIT_CYLINDER,
+            _ped.UNIT_GIBIBYTE,
+            _ped.UNIT_GIGABYTE,
+            _ped.UNIT_KIBIBYTE,
+            _ped.UNIT_KILOBYTE,
+            _ped.UNIT_MEBIBYTE,
+            _ped.UNIT_MEGABYTE,
+            _ped.UNIT_PERCENT,
+            _ped.UNIT_SECTOR,
+            _ped.UNIT_TEBIBYTE,
+            _ped.UNIT_TERABYTE,
+        ]:
             _ped.unit_set_default(v)
-            self.assertEqual(_ped.unit_get_default(), v, "Could not set unit default to %s" % v)
+            self.assertEqual(
+                _ped.unit_get_default(), v, "Could not set unit default to %s" % v
+            )
 
         self.assertRaises(ValueError, _ped.unit_set_default, -1)
         self.assertRaises(ValueError, _ped.unit_set_default, 1000)
 
+
 class UnitGetDefaultTestCase(unittest.TestCase):
     def runTest(self):
         self.assertGreaterEqual(_ped.unit_get_default(), 0)
+
 
 class UnitGetSizeTestCase(RequiresDevice):
     def runTest(self):
@@ -337,44 +465,49 @@ class UnitGetSizeTestCase(RequiresDevice):
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_TEBIBYTE), 1099511627776)
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_CYLINDER), 65536)
         self.assertEqual(self._device.unit_get_size(_ped.UNIT_CHS), 512)
-        self.assertEqual(self._device.unit_get_size(_ped.UNIT_PERCENT), self._device.length * self._device.sector_size // 100)
+        self.assertEqual(
+            self._device.unit_get_size(_ped.UNIT_PERCENT),
+            self._device.length * self._device.sector_size // 100,
+        )
         self.assertRaises(ValueError, self._device.unit_get_size, _ped.UNIT_COMPACT)
+
 
 class UnitGetNameTestCase(unittest.TestCase):
     def runTest(self):
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_BYTE), 'B')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_CHS), 'chs')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_COMPACT), 'compact')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_CYLINDER), 'cyl')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_GIBIBYTE), 'GiB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_GIGABYTE), 'GB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_KIBIBYTE), 'kiB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_KILOBYTE), 'kB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_MEBIBYTE), 'MiB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_MEGABYTE), 'MB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_PERCENT), '%')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_SECTOR), 's')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_TEBIBYTE), 'TiB')
-        self.assertEqual(_ped.unit_get_name(_ped.UNIT_TERABYTE), 'TB')
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_BYTE), "B")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_CHS), "chs")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_COMPACT), "compact")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_CYLINDER), "cyl")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_GIBIBYTE), "GiB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_GIGABYTE), "GB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_KIBIBYTE), "kiB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_KILOBYTE), "kB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_MEBIBYTE), "MiB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_MEGABYTE), "MB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_PERCENT), "%")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_SECTOR), "s")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_TEBIBYTE), "TiB")
+        self.assertEqual(_ped.unit_get_name(_ped.UNIT_TERABYTE), "TB")
 
         self.assertRaises(ValueError, _ped.unit_get_name, -1)
         self.assertRaises(ValueError, _ped.unit_get_name, 1000)
 
+
 class UnitGetByNameTestCase(unittest.TestCase):
     def runTest(self):
-        self.assertEqual(_ped.unit_get_by_name('B'), _ped.UNIT_BYTE)
-        self.assertEqual(_ped.unit_get_by_name('chs'), _ped.UNIT_CHS)
-        self.assertEqual(_ped.unit_get_by_name('compact'), _ped.UNIT_COMPACT)
-        self.assertEqual(_ped.unit_get_by_name('cyl'), _ped.UNIT_CYLINDER)
-        self.assertEqual(_ped.unit_get_by_name('GiB'), _ped.UNIT_GIBIBYTE)
-        self.assertEqual(_ped.unit_get_by_name('GB'), _ped.UNIT_GIGABYTE)
-        self.assertEqual(_ped.unit_get_by_name('kiB'), _ped.UNIT_KIBIBYTE)
-        self.assertEqual(_ped.unit_get_by_name('kB'), _ped.UNIT_KILOBYTE)
-        self.assertEqual(_ped.unit_get_by_name('MiB'), _ped.UNIT_MEBIBYTE)
-        self.assertEqual(_ped.unit_get_by_name('MB'), _ped.UNIT_MEGABYTE)
-        self.assertEqual(_ped.unit_get_by_name('%'), _ped.UNIT_PERCENT)
-        self.assertEqual(_ped.unit_get_by_name('s'), _ped.UNIT_SECTOR)
-        self.assertEqual(_ped.unit_get_by_name('TiB'), _ped.UNIT_TEBIBYTE)
-        self.assertEqual(_ped.unit_get_by_name('TB'), _ped.UNIT_TERABYTE)
+        self.assertEqual(_ped.unit_get_by_name("B"), _ped.UNIT_BYTE)
+        self.assertEqual(_ped.unit_get_by_name("chs"), _ped.UNIT_CHS)
+        self.assertEqual(_ped.unit_get_by_name("compact"), _ped.UNIT_COMPACT)
+        self.assertEqual(_ped.unit_get_by_name("cyl"), _ped.UNIT_CYLINDER)
+        self.assertEqual(_ped.unit_get_by_name("GiB"), _ped.UNIT_GIBIBYTE)
+        self.assertEqual(_ped.unit_get_by_name("GB"), _ped.UNIT_GIGABYTE)
+        self.assertEqual(_ped.unit_get_by_name("kiB"), _ped.UNIT_KIBIBYTE)
+        self.assertEqual(_ped.unit_get_by_name("kB"), _ped.UNIT_KILOBYTE)
+        self.assertEqual(_ped.unit_get_by_name("MiB"), _ped.UNIT_MEBIBYTE)
+        self.assertEqual(_ped.unit_get_by_name("MB"), _ped.UNIT_MEGABYTE)
+        self.assertEqual(_ped.unit_get_by_name("%"), _ped.UNIT_PERCENT)
+        self.assertEqual(_ped.unit_get_by_name("s"), _ped.UNIT_SECTOR)
+        self.assertEqual(_ped.unit_get_by_name("TiB"), _ped.UNIT_TEBIBYTE)
+        self.assertEqual(_ped.unit_get_by_name("TB"), _ped.UNIT_TERABYTE)
 
         self.assertRaises(_ped.UnknownTypeException, _ped.unit_get_by_name, "blargle")

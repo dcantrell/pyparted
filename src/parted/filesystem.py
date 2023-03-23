@@ -13,6 +13,7 @@ from parted.decorators import localeC
 
 # XXX: add docstrings!
 
+
 class FileSystem(object):
     # pylint: disable=W0622
     @localeC
@@ -31,7 +32,9 @@ class FileSystem(object):
             self._type = type
             self._geometry = geometry
             self._checked = checked
-            self.__fileSystem = _ped.FileSystem(type=fileSystemType[type], geom=geometry.getPedGeometry(), checked=c)
+            self.__fileSystem = _ped.FileSystem(
+                type=fileSystemType[type], geom=geometry.getPedGeometry(), checked=c
+            )
         else:
             self.__fileSystem = PedFileSystem
             self._type = self.__fileSystem.type.name
@@ -52,11 +55,17 @@ class FileSystem(object):
         return self.type != other.type or self.geometry != other.geometry
 
     def __str__(self):
-        s = ("parted.FileSystem instance --\n"
-             "  type: %(type)s  geometry: %(geometry)r  checked: %(checked)s\n"
-             "  PedFileSystem: %(ped)r" %
-             {"type": self.type, "geometry": self.geometry,
-              "checked": self.checked, "ped": self.__fileSystem})
+        s = (
+            "parted.FileSystem instance --\n"
+            "  type: %(type)s  geometry: %(geometry)r  checked: %(checked)s\n"
+            "  PedFileSystem: %(ped)r"
+            % {
+                "type": self.type,
+                "geometry": self.geometry,
+                "checked": self.checked,
+                "ped": self.__fileSystem,
+            }
+        )
         return s
 
     @property
@@ -76,8 +85,9 @@ class FileSystem(object):
 
     def getPedFileSystem(self):
         """Return the _ped.FileSystem object contained in this FileSystem.
-           For internal module use only."""
+        For internal module use only."""
         return self.__fileSystem
+
 
 # collect all filesystem types and store them in a hash
 fileSystemType = {}

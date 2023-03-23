@@ -21,6 +21,7 @@ class FileSystemNewTestCase(RequiresFileSystem):
         fs = _ped.FileSystem(type=fstype, geom=self._geometry)
         self.assertIsInstance(fs, _ped.FileSystem)
 
+
 class FileSystemGetSetTestCase(RequiresFileSystem):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext2")

@@ -19,6 +19,7 @@ class AlignmentNewTestCase(unittest.TestCase):
         self.assertIsInstance(_ped.Alignment(0, 100), _ped.Alignment)
         self.assertIsInstance(_ped.Alignment(offset=0, grain_size=100), _ped.Alignment)
 
+
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
         self.a = _ped.Alignment(27, 49)
@@ -49,6 +50,7 @@ class AlignmentGetSetTestCase(unittest.TestCase):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self.a, "blah")
 
+
 class AlignmentDuplicateTestCase(unittest.TestCase):
     def setUp(self):
         self.a = _ped.Alignment(27, 49)
@@ -57,6 +59,7 @@ class AlignmentDuplicateTestCase(unittest.TestCase):
     def runTest(self):
         self.assertEqual(self.a.offset, self.dup.offset)
         self.assertEqual(self.a.grain_size, self.dup.grain_size)
+
 
 class AlignmentIntersectTestCase(unittest.TestCase):
     def setUp(self):
@@ -97,8 +100,7 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         # complex test second, see libparted/cs/natmath.c for an explanation
         # of the math behind computing the intersection of two alignments
         (verifyA, verifyB) = self.orderAlignments(self.complexA, self.complexB)
-        (gcd, x, _y) = self.extendedEuclid(verifyA.grain_size,
-                                           verifyB.grain_size)
+        (gcd, x, _y) = self.extendedEuclid(verifyA.grain_size, verifyB.grain_size)
         delta_on_gcd = (verifyB.offset - verifyA.offset) / gcd
         new_offset = verifyA.offset + x * delta_on_gcd * verifyA.grain_size
         new_grain_size = verifyA.grain_size * verifyB.grain_size / gcd
@@ -106,6 +108,7 @@ class AlignmentIntersectTestCase(unittest.TestCase):
         intersection = self.complexA.intersect(self.complexB)
         self.assertEqual(new_offset, intersection.offset)
         self.assertEqual(new_grain_size, intersection.grain_size)
+
 
 class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
     def setUp(self):
@@ -117,17 +120,21 @@ class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
 
     def runTest(self):
         # trivial test case first, grain_size is zero
-        expected = self.closestInsideGeometry(self.trivialA, self.geometry,
-                                              self.trivialA.offset)
+        expected = self.closestInsideGeometry(
+            self.trivialA, self.geometry, self.trivialA.offset
+        )
         result = self.trivialA.align_up(self.geometry, self.sector)
         self.assertEqual(result, expected)
 
         # complex test case second, grain_size is not zero
-        tmp = self.roundUpTo(self.sector - self.complexA.offset,
-                             self.complexA.grain_size) + self.complexA.offset
+        tmp = (
+            self.roundUpTo(self.sector - self.complexA.offset, self.complexA.grain_size)
+            + self.complexA.offset
+        )
         expected = self.closestInsideGeometry(self.complexA, self.geometry, tmp)
         result = self.complexA.align_up(self.geometry, self.sector)
         self.assertEqual(result, expected)
+
 
 class AlignmentAlignDownTestCase(RequiresDeviceAlignment):
     def setUp(self):
@@ -139,17 +146,23 @@ class AlignmentAlignDownTestCase(RequiresDeviceAlignment):
 
     def runTest(self):
         # trivial test case first, grain_size is zero
-        expected = self.closestInsideGeometry(self.trivialA, self.geometry,
-                                              self.trivialA.offset)
+        expected = self.closestInsideGeometry(
+            self.trivialA, self.geometry, self.trivialA.offset
+        )
         result = self.trivialA.align_down(self.geometry, self.sector)
         self.assertEqual(result, expected)
 
         # complex test case second, grain_size is not zero
-        tmp = self.roundDownTo(self.sector - self.complexA.offset,
-                               self.complexA.grain_size) + self.complexA.offset
+        tmp = (
+            self.roundDownTo(
+                self.sector - self.complexA.offset, self.complexA.grain_size
+            )
+            + self.complexA.offset
+        )
         expected = self.closestInsideGeometry(self.complexA, self.geometry, tmp)
         result = self.complexA.align_down(self.geometry, self.sector)
         self.assertEqual(result, expected)
+
 
 class AlignmentAlignNearestTestCase(RequiresDeviceAlignment):
     def setUp(self):
@@ -161,24 +174,32 @@ class AlignmentAlignNearestTestCase(RequiresDeviceAlignment):
 
     def runTest(self):
         # trivial test case first, grain_size is zero
-        tmp = self.closestInsideGeometry(self.trivialA, self.geometry,
-                                         self.trivialA.offset)
+        tmp = self.closestInsideGeometry(
+            self.trivialA, self.geometry, self.trivialA.offset
+        )
         expected = self.closest(self.sector, tmp, tmp)
         result = self.trivialA.align_nearest(self.geometry, self.sector)
         self.assertEqual(result, expected)
 
         # complex test case second, grain_size is not zero
-        tmpA = self.roundUpTo(self.sector - self.complexA.offset,
-                              self.complexA.grain_size) + self.complexA.offset
+        tmpA = (
+            self.roundUpTo(self.sector - self.complexA.offset, self.complexA.grain_size)
+            + self.complexA.offset
+        )
         tmpA = self.closestInsideGeometry(self.complexA, self.geometry, tmpA)
 
-        tmpB = self.roundDownTo(self.sector - self.complexA.offset,
-                                self.complexA.grain_size) + self.complexA.offset
+        tmpB = (
+            self.roundDownTo(
+                self.sector - self.complexA.offset, self.complexA.grain_size
+            )
+            + self.complexA.offset
+        )
         tmpB = self.closestInsideGeometry(self.complexA, self.geometry, tmpB)
 
         expected = self.closest(self.sector, tmpA, tmpB)
         result = self.complexA.align_nearest(self.geometry, self.sector)
         self.assertEqual(result, expected)
+
 
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):
@@ -203,6 +224,7 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
         self.a.grain_size = 5
         self.assertTrue(self.a.is_aligned(self.g, 20))
         self.assertFalse(self.a.is_aligned(self.g, 23))
+
 
 class AlignmentStrTestCase(unittest.TestCase):
     def setUp(self):

@@ -8,6 +8,7 @@
 import locale
 import functools
 
+
 def localeC(fn):
     # setlocale is not thread-safe, and anaconda (at least) may call this from
     # another thread.  This is just a luxury to have untranslated tracebacks,
@@ -22,10 +23,11 @@ def localeC(fn):
     @functools.wraps(fn)
     def new(*args, **kwds):
         oldlocale = locale.getlocale(locale.LC_MESSAGES)
-        _setlocale('C')
+        _setlocale("C")
         try:
             ret = fn(*args, **kwds)
         finally:
             _setlocale(oldlocale)
         return ret
+
     return new

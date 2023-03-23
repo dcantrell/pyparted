@@ -16,6 +16,7 @@ from parted.decorators import localeC
 
 # XXX: add docstrings
 
+
 class Partition(object):
     # pylint: disable=W0622
     @localeC
@@ -33,9 +34,17 @@ class Partition(object):
             self._disk = disk
 
             if fs is None:
-                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end)
+                self.__partition = _ped.Partition(
+                    disk.getPedDisk(), type, geometry.start, geometry.end
+                )
             else:
-                self.__partition = _ped.Partition(disk.getPedDisk(), type, geometry.start, geometry.end, parted.fileSystemType[fs.type])
+                self.__partition = _ped.Partition(
+                    disk.getPedDisk(),
+                    type,
+                    geometry.start,
+                    geometry.end,
+                    parted.fileSystemType[fs.type],
+                )
         else:
             self.__partition = PedPartition
             self._geometry = parted.Geometry(PedGeometry=self.__partition.geom)
@@ -49,7 +58,9 @@ class Partition(object):
                 self._fileSystem = None
             else:
                 # pylint: disable=E1103
-                self._fileSystem = parted.FileSystem(type=self.__partition.fs_type.name, geometry=self._geometry)
+                self._fileSystem = parted.FileSystem(
+                    type=self.__partition.fs_type.name, geometry=self._geometry
+                )
 
     def __eq__(self, other):
         return not self.__ne__(other)
@@ -58,7 +69,12 @@ class Partition(object):
         if not isinstance(self, other.__class__):
             return True
 
-        return self.path != other.path or self.type != other.type or self.geometry != other.geometry or self.fileSystem != other.fileSystem
+        return (
+            self.path != other.path
+            or self.type != other.type
+            or self.geometry != other.geometry
+            or self.fileSystem != other.fileSystem
+        )
 
     def __str__(self):
         try:
@@ -66,15 +82,25 @@ class Partition(object):
         except parted.PartitionException:
             name = None
 
-        s = ("parted.Partition instance --\n"
-             "  disk: %(disk)r  fileSystem: %(fileSystem)r\n"
-             "  number: %(number)s  path: %(path)s  type: %(type)s\n"
-             "  name: %(name)s  active: %(active)s  busy: %(busy)s\n"
-             "  geometry: %(geometry)r  PedPartition: %(ped)r" %
-             {"disk": self.disk, "fileSystem": self.fileSystem, "geometry": self.geometry,
-              "number": self.number, "path": self.path,
-              "type": self.type, "name": name, "active": self.active,
-              "busy": self.busy, "ped": self.__partition})
+        s = (
+            "parted.Partition instance --\n"
+            "  disk: %(disk)r  fileSystem: %(fileSystem)r\n"
+            "  number: %(number)s  path: %(path)s  type: %(type)s\n"
+            "  name: %(name)s  active: %(active)s  busy: %(busy)s\n"
+            "  geometry: %(geometry)r  PedPartition: %(ped)r"
+            % {
+                "disk": self.disk,
+                "fileSystem": self.fileSystem,
+                "geometry": self.geometry,
+                "number": self.number,
+                "path": self.path,
+                "type": self.type,
+                "name": name,
+                "active": self.active,
+                "busy": self.busy,
+                "ped": self.__partition,
+            }
+        )
         return s
 
     def __writeOnly(self, prop):
@@ -122,7 +148,7 @@ class Partition(object):
 
     def set_type_id(self, id):
         """Set the partition type id, as an integer, on supported labels.
-           Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
+        Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
         if not hasattr(self.getPedPartition(), "set_type_id"):
             raise NotImplementedError("Requires build against parted > 3.5")
 
@@ -130,7 +156,7 @@ class Partition(object):
 
     def get_type_id(self):
         """The partition type uuid, as an integer, on supported labels.
-           Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
+        Requires the DISK_TYPE_PARTITION_TYPE_ID flag to be available."""
         if not hasattr(self.getPedPartition(), "get_type_id"):
             raise NotImplementedError("Requires build against parted > 3.5")
 
@@ -141,7 +167,7 @@ class Partition(object):
 
     def set_type_uuid(self, uuid):
         """Set the partition type uuid, as 16 bytes, on supported labels.
-           Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
+        Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
         if not hasattr(self.getPedPartition(), "set_type_uuid"):
             raise NotImplementedError("Requires build against parted > 3.5")
 
@@ -149,7 +175,7 @@ class Partition(object):
 
     def get_type_uuid(self):
         """The partition type uuid, as 16 bytes, on supported labels.
-           Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
+        Requires the DISK_TYPE_PARTITION_TYPE_UUID flag to be available."""
         if not hasattr(self.getPedPartition(), "get_type_uuid"):
             raise NotImplementedError("Requires build against parted > 3.5")
 
@@ -158,10 +184,16 @@ class Partition(object):
         except parted.PartitionException:
             return None
 
-    fileSystem = property(lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v))
+    fileSystem = property(
+        lambda s: s._fileSystem, lambda s, v: setattr(s, "_fileSystem", v)
+    )
     geometry = property(lambda s: s._geometry, lambda s, v: setattr(s, "_geometry", v))
-    system = property(lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v))
-    type = property(lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v))
+    system = property(
+        lambda s: s.__writeOnly("system"), lambda s, v: s.__partition.set_system(v)
+    )
+    type = property(
+        lambda s: s.__partition.type, lambda s, v: setattr(s.__partition, "type", v)
+    )
     name = property(get_name, set_name)
     type_uuid = property(get_type_uuid, set_type_uuid)
     type_id = property(get_type_id, set_type_id)
@@ -169,35 +201,39 @@ class Partition(object):
     @localeC
     def getFlag(self, flag):
         """Get the value of a particular flag on the partition.  Valid flags
-           are the _ped.PARTITION_* constants.  See _ped.flag_get_name() and
-           _ped.flag_get_by_name() for more help working with partition flags.
+        are the _ped.PARTITION_* constants.  See _ped.flag_get_name() and
+        _ped.flag_get_by_name() for more help working with partition flags.
         """
         return self.__partition.get_flag(flag)
 
     @localeC
     def setFlag(self, flag):
         """Set the flag on a partition to the provided value.  On error, a
-           PartitionException will be raised.  See getFlag() for more help on
-           working with partition flags."""
+        PartitionException will be raised.  See getFlag() for more help on
+        working with partition flags."""
         return self.__partition.set_flag(flag, 1)
 
     @localeC
     def unsetFlag(self, flag):
         """Unset the flag on this Partition.  On error, a PartitionException
-           will be raised.  See getFlag() for more help on working with
-           partition flags."""
+        will be raised.  See getFlag() for more help on working with
+        partition flags."""
         return self.__partition.set_flag(flag, 0)
 
     @localeC
     def getMaxGeometry(self, constraint):
         """Given a constraint, return the maximum Geometry that self can be
-           grown to.  Raises Partitionexception on error."""
-        return parted.Geometry(PedGeometry=self.disk.getPedDisk().get_max_partition_geometry(self.__partition, constraint.getPedConstraint()))
+        grown to.  Raises Partitionexception on error."""
+        return parted.Geometry(
+            PedGeometry=self.disk.getPedDisk().get_max_partition_geometry(
+                self.__partition, constraint.getPedConstraint()
+            )
+        )
 
     @localeC
     def isFlagAvailable(self, flag):
         """Return True if flag is available on this Partition, False
-           otherwise."""
+        otherwise."""
         return self.__partition.is_flag_available(flag)
 
     @localeC
@@ -213,40 +249,40 @@ class Partition(object):
     @localeC
     def getSize(self, unit="MB"):
         """Return the size of the partition in the unit specified.  The unit
-           is given as a string corresponding to one of the following
-           abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
-           (gigabytes), TB (terabytes).  An invalid unit string will raise a
-           SyntaxError exception.  The default unit is MB."""
+        is given as a string corresponding to one of the following
+        abbreviations:  b (bytes), KB (kilobytes), MB (megabytes), GB
+        (gigabytes), TB (terabytes).  An invalid unit string will raise a
+        SyntaxError exception.  The default unit is MB."""
         warnings.warn("use the getLength method", DeprecationWarning)
         return self.geometry.getSize(unit)
 
     @localeC
-    def getLength(self, unit='sectors'):
+    def getLength(self, unit="sectors"):
         """Return the length of the partition in sectors. Optionally, a SI or
-           IEC prefix followed by a 'B' may be given in order to convert the
-           length into bytes. The allowed values include B, kB, MB, GB, TB, KiB,
-           MiB, GiB, and TiB."""
+        IEC prefix followed by a 'B' may be given in order to convert the
+        length into bytes. The allowed values include B, kB, MB, GB, TB, KiB,
+        MiB, GiB, and TiB."""
         return self.geometry.getLength(unit)
 
     def getFlagsAsString(self):
         """Return a comma-separated string representing the flags
-           on this partition."""
+        on this partition."""
         flags = []
 
         for flag in partitionFlag.keys():
             if self.getFlag(flag):
                 flags.append(partitionFlag[flag])
 
-        return ', '.join(flags)
+        return ", ".join(flags)
 
     def getMaxAvailableSize(self, unit="MB"):
         """Return the maximum size this Partition can grow to by looking
-           at contiguous freespace partitions.  The size is returned in
-           the unit specified (default is megabytes).  The unit is a
-           string corresponding to one of the following abbreviations:
-           b (bytes), KB (kilobytes), MB (megabytes), GB (gigabytes),
-           TB (terabytes).  An invalid unit string will raise a
-           SyntaxError exception."""
+        at contiguous freespace partitions.  The size is returned in
+        the unit specified (default is megabytes).  The unit is a
+        string corresponding to one of the following abbreviations:
+        b (bytes), KB (kilobytes), MB (megabytes), GB (gigabytes),
+        TB (terabytes).  An invalid unit string will raise a
+        SyntaxError exception."""
         lunit = unit.lower()
 
         if lunit not in parted._exponent.keys():
@@ -269,12 +305,13 @@ class Partition(object):
 
     def getPedPartition(self):
         """Return the _ped.Partition object contained in this Partition.
-           For internal module use only."""
+        For internal module use only."""
         return self.__partition
 
     def resetNumber(self):
         """Reset the partition's number to default"""
         return self.__partition.reset_num()
+
 
 # collect all partition flags and store them in a hash
 partitionFlag = {}

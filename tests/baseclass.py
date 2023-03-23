@@ -26,6 +26,7 @@ class RequiresDeviceNode(unittest.TestCase):
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
 
+
 # Base class for any test case that requires a _ped.Device or parted.Device
 # object first.
 class RequiresDevice(RequiresDeviceNode):
@@ -33,6 +34,7 @@ class RequiresDevice(RequiresDeviceNode):
         RequiresDeviceNode.setUp(self)
         self._device = _ped.device_get(self.path)
         self.device = parted.getDevice(self.path)
+
 
 # Base class for any test case that requires a filesystem on a device.
 class RequiresFileSystem(unittest.TestCase):
@@ -51,7 +53,10 @@ class RequiresFileSystem(unittest.TestCase):
                 break
 
         self.temp_prefix = "temp-device-"
-        (self.fd, self.path,) = tempfile.mkstemp(prefix=self.temp_prefix)
+        (
+            self.fd,
+            self.path,
+        ) = tempfile.mkstemp(prefix=self.temp_prefix)
         self.f = os.fdopen(self.fd)
         self.f.seek(140000)
         os.write(self.fd, b"0")
@@ -65,6 +70,7 @@ class RequiresFileSystem(unittest.TestCase):
     def removeTempDevice(self):
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
+
 
 # Base class for certain alignment tests that require a _ped.Device
 class RequiresDeviceAlignment(RequiresDevice):
@@ -87,19 +93,18 @@ class RequiresDeviceAlignment(RequiresDevice):
 
     def closestInsideGeometry(self, alignment, geometry, sector):
         if alignment.grain_size == 0:
-            if alignment.is_aligned(geometry, sector) and \
-               ((geometry is None) or geometry.test_sector_inside(sector)):
+            if alignment.is_aligned(geometry, sector) and (
+                (geometry is None) or geometry.test_sector_inside(sector)
+            ):
                 return sector
             else:
                 return -1
 
         if sector < geometry.start:
-            sector += self.roundUpTo(geometry.start - sector,
-                                     alignment.grain_size)
+            sector += self.roundUpTo(geometry.start - sector, alignment.grain_size)
 
         if sector > geometry.end:
-            sector -= self.roundUpTo(sector - geometry.end,
-                                     alignment.grain_size)
+            sector -= self.roundUpTo(sector - geometry.end, alignment.grain_size)
 
         if not geometry.test_sector_inside(sector):
             return -1
@@ -118,11 +123,13 @@ class RequiresDeviceAlignment(RequiresDevice):
         else:
             return b
 
+
 # Base class for any test case that requires a labeled device
 class RequiresLabeledDevice(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
         os.system("parted -s %s mklabel msdos" % (self.path,))
+
 
 # Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
@@ -135,6 +142,7 @@ class RequiresDisk(RequiresDevice):
         self._disk = _ped.disk_new(self._device)
         self.disk = parted.Disk(PedDisk=self._disk)
 
+
 # Base class for any test case that requires a GPT-labeled _ped.Disk or parted.Disk.
 class RequiresGPTDisk(RequiresDevice):
     def setUp(self):
@@ -145,6 +153,7 @@ class RequiresGPTDisk(RequiresDevice):
     def reopen(self):
         self._disk = _ped.disk_new(self._device)
         self.disk = parted.Disk(PedDisk=self._disk)
+
 
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
@@ -165,27 +174,40 @@ class RequiresMount(RequiresDevice):
             os.system("umount %s" % self.mountpoint)
             os.rmdir(self.mountpoint)
 
+
 # Base class for any test case that requires a _ped.Partition.
 class RequiresPartition(RequiresDisk):
     def setUp(self):
         RequiresDisk.setUp(self)
-        self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
-                                    start=1, end=100, fs_type=_ped.file_system_type_get("ext2"))
+        self._part = _ped.Partition(
+            disk=self._disk,
+            type=_ped.PARTITION_NORMAL,
+            start=1,
+            end=100,
+            fs_type=_ped.file_system_type_get("ext2"),
+        )
 
     def reopen(self):
         RequiresDisk.reopen(self)
         self._part = self._disk.next_partition(self._disk.next_partition())
 
+
 # Base class for any test case that requires a _ped.Partition on GPT disk.
 class RequiresGPTPartition(RequiresGPTDisk):
     def setUp(self):
         RequiresGPTDisk.setUp(self)
-        self._part = _ped.Partition(disk=self._disk, type=_ped.PARTITION_NORMAL,
-                                    start=0, end=100, fs_type=_ped.file_system_type_get("ext2"))
+        self._part = _ped.Partition(
+            disk=self._disk,
+            type=_ped.PARTITION_NORMAL,
+            start=0,
+            end=100,
+            fs_type=_ped.file_system_type_get("ext2"),
+        )
 
     def reopen(self):
         RequiresDisk.reopen(self)
         self._part = self._disk.next_partition()
+
 
 # Base class for any test case that requires a hash table of all
 # _ped.DiskType objects available
@@ -201,6 +223,7 @@ class RequiresDiskTypes(unittest.TestCase):
                 self.disktype[ty.name] = ty
             except (IndexError, TypeError, _ped.UnknownTypeException):
                 break
+
 
 # Base class for any test case that requires a list being built via successive
 # calls of some function.  The function must raise IndexError when there's no

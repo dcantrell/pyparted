@@ -12,17 +12,19 @@ import parted
 from parted.cachedlist import CachedList
 from parted.decorators import localeC
 
+
 class Disk(object):
     """Disk()
 
-       A Disk object describes a type of device in the system.  Disks
-       can hold partitions.  A Disk is a basic operating system-specific
-       object."""
+    A Disk object describes a type of device in the system.  Disks
+    can hold partitions.  A Disk is a basic operating system-specific
+    object."""
+
     @localeC
     def __init__(self, device=None, PedDisk=None):
         """Create a new Disk object from the device and type specified.  The
-           device is a Device object and type is a string matching a key in
-           the diskType hash."""
+        device is a Device object and type is a string matching a key in
+        the diskType hash."""
         if PedDisk:
             self.__disk = PedDisk
 
@@ -37,7 +39,7 @@ class Disk(object):
             self._device = device
 
         # pylint: disable=W0108
-        self._partitions = CachedList(lambda : self.__getPartitions())
+        self._partitions = CachedList(lambda: self.__getPartitions())
 
     def _hasSameParts(self, other):
         import six
@@ -64,29 +66,38 @@ class Disk(object):
         return self.device != other.device or not self._hasSameParts(other)
 
     def __str__(self):
-        s = ("parted.Disk instance --\n"
-             "  type: %(type)s  primaryPartitionCount: %(primaryCount)s\n"
-             "  lastPartitionNumber: %(last)s  maxPrimaryPartitionCount: %(max)s\n"
-             "  partitions: %(partitions)s\n"
-             "  device: %(device)r\n"
-             "  PedDisk: %(ped)r" %
-             {"type": self.type, "primaryCount": self.primaryPartitionCount,
-              "last": self.lastPartitionNumber, "max": self.maxPrimaryPartitionCount,
-              "partitions": self.partitions, "device": self.device,
-              "ped": self.__disk})
+        s = (
+            "parted.Disk instance --\n"
+            "  type: %(type)s  primaryPartitionCount: %(primaryCount)s\n"
+            "  lastPartitionNumber: %(last)s  maxPrimaryPartitionCount: %(max)s\n"
+            "  partitions: %(partitions)s\n"
+            "  device: %(device)r\n"
+            "  PedDisk: %(ped)r"
+            % {
+                "type": self.type,
+                "primaryCount": self.primaryPartitionCount,
+                "last": self.lastPartitionNumber,
+                "max": self.maxPrimaryPartitionCount,
+                "partitions": self.partitions,
+                "device": self.device,
+                "ped": self.__disk,
+            }
+        )
         return s
 
     def __getPartitions(self):
         """Construct a list of partitions on the disk.  This is called only as
-           needed from the self.partitions property, which just happens to be
-           a CachedList."""
+        needed from the self.partitions property, which just happens to be
+        a CachedList."""
         partitions = []
         partition = self.getFirstPartition()
 
         while partition:
-            if partition.type & parted.PARTITION_FREESPACE or \
-               partition.type & parted.PARTITION_METADATA or \
-               partition.type & parted.PARTITION_PROTECTED:
+            if (
+                partition.type & parted.PARTITION_FREESPACE
+                or partition.type & parted.PARTITION_METADATA
+                or partition.type & parted.PARTITION_PROTECTED
+            ):
                 partition = partition.nextPartition()
                 continue
 
@@ -141,27 +152,27 @@ class Disk(object):
     @localeC
     def getFlag(self, flag):
         """Get the value of a particular flag on the disk.  Valid flags
-           are the _ped.DISK_* constants.  See _ped.disk_flag_get_name() and
-           _ped.disk_flag_get_by_name() for more help working with disk flags.
+        are the _ped.DISK_* constants.  See _ped.disk_flag_get_name() and
+        _ped.disk_flag_get_by_name() for more help working with disk flags.
         """
         return self.__disk.get_flag(flag)
 
     @localeC
     def setFlag(self, flag):
         """Set the flag on this disk.  On error, an Exception will be raised.
-           See getFlag() for more help on working with disk flags."""
+        See getFlag() for more help on working with disk flags."""
         return self.__disk.set_flag(flag, 1)
 
     @localeC
     def unsetFlag(self, flag):
         """Unset the flag on this disk.  On error, an Exception will be raised.
-           See getFlag() for more help on working with disk flags."""
+        See getFlag() for more help on working with disk flags."""
         return self.__disk.set_flag(flag, 0)
 
     @localeC
     def isFlagAvailable(self, flag):
         """Return True if flag is available on this Disk, False
-           otherwise."""
+        otherwise."""
         return self.__disk.is_flag_available(flag)
 
     @property
@@ -174,7 +185,10 @@ class Disk(object):
         """The underlying Device holding this disk and partitions."""
         return self._device
 
-    type = property(lambda s: s.__disk.type.name, lambda s, v: setattr(s.__disk, "type", parted.diskType[v]))
+    type = property(
+        lambda s: s.__disk.type.name,
+        lambda s, v: setattr(s.__disk, "type", parted.diskType[v]),
+    )
 
     @localeC
     def duplicate(self):
@@ -189,8 +203,8 @@ class Disk(object):
     @localeC
     def commit(self):
         """Writes in-memory changes to a partition table to disk and
-           informs the operating system of the changes.  Equivalent to
-           calling self.commitToDevice() then self.commitToOS()."""
+        informs the operating system of the changes.  Equivalent to
+        calling self.commitToDevice() then self.commitToOS()."""
         self.partitions.invalidate()
 
         return self.__disk.commit()
@@ -198,7 +212,7 @@ class Disk(object):
     @localeC
     def commitToDevice(self):
         """Write the changes made to the in-memory description of a
-           partition table to the device."""
+        partition table to the device."""
         self.partitions.invalidate()
 
         return self.__disk.commit_to_dev()
@@ -206,7 +220,7 @@ class Disk(object):
     @localeC
     def commitToOS(self):
         """Tell the operating system kernel about the partition table
-           layout of this Disk."""
+        layout of this Disk."""
         self.partitions.invalidate()
 
         return self.__disk.commit_to_os()
@@ -225,15 +239,18 @@ class Disk(object):
     def addPartition(self, partition=None, constraint=None):
         """Add a new Partition to this Disk with the given Constraint."""
         if constraint:
-            result = self.__disk.add_partition(partition.getPedPartition(),
-                                               constraint.getPedConstraint())
+            result = self.__disk.add_partition(
+                partition.getPedPartition(), constraint.getPedConstraint()
+            )
         elif not partition:
             raise parted.DiskException("no partition or constraint specified")
         else:
             result = self.__disk.add_partition(partition.getPedPartition())
 
         if result:
-            partition.geometry = parted.Geometry(PedGeometry=partition.getPedPartition().geom)
+            partition.geometry = parted.Geometry(
+                PedGeometry=partition.getPedPartition().geom
+            )
             self.partitions.invalidate()
             return True
         else:
@@ -242,10 +259,10 @@ class Disk(object):
     @localeC
     def removePartition(self, partition=None):
         """Removes specified Partition from this Disk.  NOTE:  If the
-           Partition is an extended partition, it must not contain any
-           logical partitions.  Also note that the partition is not
-           actually destroyed unless you use the deletePartition()
-           method."""
+        Partition is an extended partition, it must not contain any
+        logical partitions.  Also note that the partition is not
+        actually destroyed unless you use the deletePartition()
+        method."""
         if not partition:
             raise parted.DiskException("no partition specified")
 
@@ -258,8 +275,8 @@ class Disk(object):
     @localeC
     def deletePartition(self, partition):
         """Removes specified Partition from this Disk under the same
-           conditions as removePartition(), but also destroy the
-           removed Partition."""
+        conditions as removePartition(), but also destroy the
+        removed Partition."""
         if self.__disk.delete_partition(partition.getPedPartition()):
             self.partitions.invalidate()
             return True
@@ -276,51 +293,62 @@ class Disk(object):
             return False
 
     @localeC
-    def setPartitionGeometry(self, partition=None, constraint=None, start=None, end=None):
+    def setPartitionGeometry(
+        self, partition=None, constraint=None, start=None, end=None
+    ):
         """Sets the Geometry of the specified Partition using the given
-           Constraint and start and end sectors.  Note that this method
-           does not modify the partition contents, just the partition
-           table."""
+        Constraint and start and end sectors.  Note that this method
+        does not modify the partition contents, just the partition
+        table."""
         if not partition or not constraint:
             raise parted.DiskException("no partition or constraint specified")
 
         if not start or not end:
             raise parted.DiskException("no start or end geometry specified")
 
-        return self.__disk.set_partition_geom(partition.getPedPartition(),
-                                              constraint.getPedConstraint(),
-                                              start, end)
+        return self.__disk.set_partition_geom(
+            partition.getPedPartition(), constraint.getPedConstraint(), start, end
+        )
 
     @localeC
     def maximizePartition(self, partition=None, constraint=None):
         """Grow the Partition's Geometry to the maximum possible subject
-           to Constraint."""
+        to Constraint."""
         if not partition:
             raise parted.DiskException("no partition specified")
 
         if constraint:
-            return self.__disk.maximize_partition(partition.getPedPartition(),
-                                                  constraint.getPedConstraint())
+            return self.__disk.maximize_partition(
+                partition.getPedPartition(), constraint.getPedConstraint()
+            )
         else:
             return self.__disk.maximize_partition(partition.getPedPartition())
 
     @localeC
     def calculateMaxPartitionGeometry(self, partition=None, constraint=None):
         """Get the maximum Geometry the Partition can be grown to,
-           subject to the given Constraint."""
+        subject to the given Constraint."""
         if not partition:
             raise parted.DiskException("no partition specified")
 
         if constraint:
-            return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition(), constraint.getPedConstraint()))
+            return parted.Geometry(
+                PedGeometry=self.__disk.get_max_partition_geometry(
+                    partition.getPedPartition(), constraint.getPedConstraint()
+                )
+            )
         else:
-            return parted.Geometry(PedGeometry=self.__disk.get_max_partition_geometry(partition.getPedPartition()))
+            return parted.Geometry(
+                PedGeometry=self.__disk.get_max_partition_geometry(
+                    partition.getPedPartition()
+                )
+            )
 
     @localeC
     def minimizeExtendedPartition(self):
         """Reduce the size of the extended partition to a minimum while
-           still wrapping its logical partitions.  If there are no logical
-           partitions, remove the extended partition."""
+        still wrapping its logical partitions.  If there are no logical
+        partitions, remove the extended partition."""
         ret = self.__disk.minimize_extended_partition()
 
         if ret:
@@ -331,15 +359,19 @@ class Disk(object):
     @localeC
     def getPartitionBySector(self, sector):
         """Returns the Partition that contains the sector.  If the sector
-           lies within a logical partition, then the logical partition is
-           returned (not the extended partition)."""
-        return parted.Partition(disk=self, PedPartition=self.__disk.get_partition_by_sector(sector))
+        lies within a logical partition, then the logical partition is
+        returned (not the extended partition)."""
+        return parted.Partition(
+            disk=self, PedPartition=self.__disk.get_partition_by_sector(sector)
+        )
 
     @localeC
     def getExtendedPartition(self):
         """Return the extended Partition, if any, on this Disk."""
         try:
-            return parted.Partition(disk=self, PedPartition=self.__disk.extended_partition())
+            return parted.Partition(
+                disk=self, PedPartition=self.__disk.extended_partition()
+            )
         # pylint: disable=bare-except
         except:
             return None
@@ -349,7 +381,9 @@ class Disk(object):
 
     def getLogicalPartitions(self):
         """Return a list of logical Partitions on this Disk."""
-        return self.__filterPartitions(lambda p: p.active and p.type & parted.PARTITION_LOGICAL)
+        return self.__filterPartitions(
+            lambda p: p.active and p.type & parted.PARTITION_LOGICAL
+        )
 
     def getPrimaryPartitions(self):
         """Return a list of primary (or normal) Partitions on this Disk."""
@@ -357,16 +391,20 @@ class Disk(object):
 
     def getRaidPartitions(self):
         """Return a list of RAID (or normal) Partitions on this Disk."""
-        return self.__filterPartitions(lambda p: p.active and p.getFlag(parted.PARTITION_RAID))
+        return self.__filterPartitions(
+            lambda p: p.active and p.getFlag(parted.PARTITION_RAID)
+        )
 
     def getLVMPartitions(self):
         """Return a list of physical volume-type Partitions on this Disk."""
-        return self.__filterPartitions(lambda p: p.active and p.getFlag(parted.PARTITION_LVM))
+        return self.__filterPartitions(
+            lambda p: p.active and p.getFlag(parted.PARTITION_LVM)
+        )
 
     @localeC
     def getFreeSpaceRegions(self):
         """Return a list of Geometry objects representing the available
-           free space regions on this Disk."""
+        free space regions on this Disk."""
         freespace = []
         part = self.__disk.next_partition()
 
@@ -381,7 +419,7 @@ class Disk(object):
     @localeC
     def getFreeSpacePartitions(self):
         """Return a list of Partition objects representing the available
-           free space regions on this Disk."""
+        free space regions on this Disk."""
         freespace = []
         part = self.__disk.next_partition()
 
@@ -396,13 +434,13 @@ class Disk(object):
     @localeC
     def getFirstPartition(self):
         """Return the first Partition object on the disk or None if
-           there is not one."""
+        there is not one."""
         return parted.Partition(disk=self, PedPartition=self.__disk.next_partition())
 
     @localeC
     def getPartitionByPath(self, path):
         """Return a Partition object associated with the partition device
-           path, such as /dev/sda1.  Returns None if no partition is found."""
+        path, such as /dev/sda1.  Returns None if no partition is found."""
         for partition in self.partitions:
             if partition.path == path:
                 return partition
@@ -411,8 +449,9 @@ class Disk(object):
 
     def getPedDisk(self):
         """Return the _ped.Disk object contained in this Disk.  For internal
-           module use only."""
+        module use only."""
         return self.__disk
+
 
 # collect all disk types and store them in a hash
 diskType = {}

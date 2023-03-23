@@ -24,23 +24,25 @@ removable media, such as CompactFlash card reader.
 """
 import parted
 
-device_name = '/dev/sdd'
+device_name = "/dev/sdd"
 
 
 def to_mebibytes(value):
-    return value / (2 ** 20)
+    return value / (2**20)
+
 
 def to_megabytes(value):
-    return value / (10 ** 6)
+    return value / (10**6)
+
 
 while True:
-     print('press Enter after inserting a new card and letting things settle')
-     input()
-     dev = parted.getDevice(device_name)
-     capacity = dev.length * dev.sectorSize
-     print(
-        '{} has a capacity of {:n} bytes '
-        '({:n} MB or {:n} MiB)'.format(
+    print("press Enter after inserting a new card and letting things settle")
+    input()
+    dev = parted.getDevice(device_name)
+    capacity = dev.length * dev.sectorSize
+    print(
+        "{} has a capacity of {:n} bytes "
+        "({:n} MB or {:n} MiB)".format(
             device_name,
             capacity,
             to_megabytes(capacity),

@@ -23,8 +23,12 @@ class ConstraintNewTestCase(RequiresDevice):
         # Check that not passing enough args to parted.Constraint.__init__
         # is caught.
         self.assertRaises(parted.ConstraintException, parted.Constraint)
-        self.assertRaises(parted.ConstraintException, parted.Constraint,
-                          startAlign=align1, endAlign=align2)
+        self.assertRaises(
+            parted.ConstraintException,
+            parted.Constraint,
+            startAlign=align1,
+            endAlign=align2,
+        )
 
         # And then the correct ways of creating a _ped.Constraint.
         c = parted.Constraint(minGeom=geom1, maxGeom=geom2)
@@ -42,20 +46,29 @@ class ConstraintNewTestCase(RequiresDevice):
         c = parted.Constraint(device=self.device)
         self.assertIsInstance(c, parted.Constraint)
 
-        c = parted.Constraint(startAlign=align1, endAlign=align2,
-                              startRange=geom1, endRange=geom2,
-                              minSize=10, maxSize=100)
+        c = parted.Constraint(
+            startAlign=align1,
+            endAlign=align2,
+            startRange=geom1,
+            endRange=geom2,
+            minSize=10,
+            maxSize=100,
+        )
         self.assertIsInstance(c, parted.Constraint)
 
         # Use a _ped.Constraint as the initializer
-        pc = _ped.Constraint(align1.getPedAlignment(),
-                             align2.getPedAlignment(),
-                             geom1.getPedGeometry(),
-                             geom2.getPedGeometry(),
-                             10, 100)
+        pc = _ped.Constraint(
+            align1.getPedAlignment(),
+            align2.getPedAlignment(),
+            geom1.getPedGeometry(),
+            geom2.getPedGeometry(),
+            10,
+            100,
+        )
         c = parted.Constraint(PedConstraint=pc)
         self.assertIsInstance(c, parted.Constraint)
         self.assertEqual(c.getPedConstraint(), pc)
+
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -65,9 +78,14 @@ class ConstraintGetSetTestCase(RequiresDevice):
         geom1 = parted.Geometry(device=self.device, start=0, length=50)
         geom2 = parted.Geometry(device=self.device, start=25, length=50)
 
-        self.c = parted.Constraint(startAlign=align1, endAlign=align2,
-                                   startRange=geom1, endRange=geom2,
-                                   minSize=10, maxSize=100)
+        self.c = parted.Constraint(
+            startAlign=align1,
+            endAlign=align2,
+            startRange=geom1,
+            endRange=geom2,
+            minSize=10,
+            maxSize=100,
+        )
 
     def runTest(self):
         # Test that properties work
@@ -105,11 +123,13 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.assertRaises(AttributeError, setattr, self.c, "startRange", 47)
         self.assertRaises(AttributeError, setattr, self.c, "endRange", 47)
 
+
 @unittest.skip("Unimplemented test case.")
 class ConstraintIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class ConstraintSolveMaxTestCase(unittest.TestCase):
@@ -117,11 +137,13 @@ class ConstraintSolveMaxTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class ConstraintSolveNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class ConstraintIsSolutionTestCase(unittest.TestCase):
@@ -129,11 +151,13 @@ class ConstraintIsSolutionTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class ConstraintGetPedConstraintTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class ConstraintStrTestCase(unittest.TestCase):

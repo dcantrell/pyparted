@@ -31,6 +31,7 @@ class AlignmentNewTestCase(unittest.TestCase):
         # Test for _ped.Alignment equality
         self.assertEqual(b.getPedAlignment(), self.pa)
 
+
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
         self.a = parted.Alignment(offset=27, grainSize=49)
@@ -61,11 +62,13 @@ class AlignmentGetSetTestCase(unittest.TestCase):
         # Check that looking for invalid attributes fails properly.
         self.assertRaises(AttributeError, getattr, self.a, "blah")
 
+
 @unittest.skip("Unimplemented test case.")
 class AlignmentIntersectTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class AlignmentAlignUpTestCase(unittest.TestCase):
@@ -73,17 +76,20 @@ class AlignmentAlignUpTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class AlignmentAlignDownTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class AlignmentAlignNearestTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):
@@ -109,6 +115,7 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
         self.assertTrue(self.a.isAligned(self.g, 20))
         self.assertFalse(self.a.isAligned(self.g, 23))
 
+
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
     def setUp(self):
         self.pa = _ped.Alignment(0, 100)
@@ -120,6 +127,7 @@ class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
 
         # Test for _ped.Alignment equality
         self.assertEqual(self.alignment.getPedAlignment(), self.pa)
+
 
 @unittest.skip("Unimplemented test case.")
 class AlignmentStrTestCase(unittest.TestCase):

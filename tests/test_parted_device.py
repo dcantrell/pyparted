@@ -17,11 +17,13 @@ class DeviceNewTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceGetSetTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceOpenTestCase(unittest.TestCase):
@@ -29,11 +31,13 @@ class DeviceOpenTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceCloseTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceDestroyTestCase(unittest.TestCase):
@@ -41,11 +45,13 @@ class DeviceDestroyTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceRemoveFromCacheTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceBeginExternalAccessTestCase(unittest.TestCase):
@@ -53,11 +59,13 @@ class DeviceBeginExternalAccessTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceEndExternalAccessTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceReadTestCase(unittest.TestCase):
@@ -65,11 +73,13 @@ class DeviceReadTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceWriteTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceSyncTestCase(unittest.TestCase):
@@ -77,11 +87,13 @@ class DeviceSyncTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceCheckTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceStartSectorToCylinderTestCase(unittest.TestCase):
@@ -89,11 +101,13 @@ class DeviceStartSectorToCylinderTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceEndSectorToCylinderTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceStartCylinderToSectorTestCase(unittest.TestCase):
@@ -101,11 +115,13 @@ class DeviceStartCylinderToSectorTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceEndCylinderToSectorTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceGetSizeTestCase(unittest.TestCase):
@@ -113,9 +129,11 @@ class DeviceGetSizeTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 class DeviceGetLengthTestCase(RequiresDevice):
     def runTest(self):
         self.assertEqual(self.device.getLength(), self.device.length)
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceGetSizeAsSectorsTestCase(unittest.TestCase):
@@ -123,17 +141,20 @@ class DeviceGetSizeAsSectorsTestCase(unittest.TestCase):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceGetConstraintTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
 
+
 @unittest.skip("Unimplemented test case.")
 class DeviceGetPedDeviceTestCase(unittest.TestCase):
     def runTest(self):
         # TODO
         self.fail("Unimplemented test case.")
+
 
 @unittest.skip("Unimplemented test case.")
 class DeviceStrTestCase(unittest.TestCase):

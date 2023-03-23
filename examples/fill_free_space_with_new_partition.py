@@ -45,7 +45,7 @@ Lets grow our SD card image:
 import parted
 
 # adjust as needed, eg /dev/sdc..
-device="sdcard.img"
+device = "sdcard.img"
 device = parted.getDevice(device)
 disk = parted.newDisk(device)
 free_space_regions = disk.getFreeSpaceRegions()
@@ -54,19 +54,15 @@ free_space_regions = disk.getFreeSpaceRegions()
 geometry = free_space_regions[-1]
 
 # filesystem will be shown as blank by parted until it has been _formatted_
-filesystem = parted.FileSystem(type='ext4', geometry=geometry)
+filesystem = parted.FileSystem(type="ext4", geometry=geometry)
 new_partition = parted.Partition(
-    disk=disk,
-    type=parted.PARTITION_NORMAL,
-    fs = filesystem,
-    geometry=geometry
+    disk=disk, type=parted.PARTITION_NORMAL, fs=filesystem, geometry=geometry
 )
 
 # name isn't in the constructor but we can set it separately
 new_partition.name = "bob"
 
-disk.addPartition(partition=new_partition,
-                  constraint=device.optimalAlignedConstraint)
+disk.addPartition(partition=new_partition, constraint=device.optimalAlignedConstraint)
 
 disk.commit()
 print("created partition OK")

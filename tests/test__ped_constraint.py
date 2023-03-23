@@ -22,12 +22,14 @@ class ConstraintNewTestCase(RequiresDevice):
         self.assertRaises(TypeError, _ped.Constraint, align1, align2)
 
         # Or the parameters in the wrong order.
-        self.assertRaises(TypeError, _ped.Constraint, align1, align2, 10, 100,
-                          geom1, geom2)
+        self.assertRaises(
+            TypeError, _ped.Constraint, align1, align2, 10, 100, geom1, geom2
+        )
 
         # And then the correct way of creating a _ped.Constraint.
         c = _ped.Constraint(align1, align2, geom1, geom2, 10, 100)
         self.assertIsInstance(c, _ped.Constraint)
+
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
@@ -37,8 +39,9 @@ class ConstraintGetSetTestCase(RequiresDevice):
         geom1 = _ped.Geometry(self._device, 0, 50)
         geom2 = _ped.Geometry(self._device, 25, 50)
 
-        self.c = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
-                                 max_size=100)
+        self.c = _ped.Constraint(
+            align1, align2, geom1, geom2, min_size=10, max_size=100
+        )
 
     def runTest(self):
         # Test that passing the kwargs to __init__ works.
@@ -78,6 +81,7 @@ class ConstraintGetSetTestCase(RequiresDevice):
         self.c.end_range = 47
         self.assertEqual(self.c.end_range, 47)
 
+
 class ConstraintDuplicateTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -86,8 +90,9 @@ class ConstraintDuplicateTestCase(RequiresDevice):
         geom1 = _ped.Geometry(self._device, 0, 50)
         geom2 = _ped.Geometry(self._device, 25, 50)
 
-        self.c = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
-                                 max_size=100)
+        self.c = _ped.Constraint(
+            align1, align2, geom1, geom2, min_size=10, max_size=100
+        )
         self.dup = self.c.duplicate()
 
     def runTest(self):
@@ -107,7 +112,9 @@ class ConstraintDuplicateTestCase(RequiresDevice):
         self.assertEqual(self.c.end_align.grain_size, self.dup.end_align.grain_size)
 
         self.assertNotEqual(repr(self.c.start_range), repr(self.dup.start_range))
-        self.assertNotEqual(repr(self.c.start_range.dev), repr(self.dup.start_range.dev))
+        self.assertNotEqual(
+            repr(self.c.start_range.dev), repr(self.dup.start_range.dev)
+        )
         self.assertEqual(self.c.start_range.dev.path, self.dup.start_range.dev.path)
         self.assertEqual(self.c.start_range.start, self.dup.start_range.start)
         self.assertEqual(self.c.start_range.length, self.dup.start_range.length)
@@ -120,6 +127,7 @@ class ConstraintDuplicateTestCase(RequiresDevice):
         self.assertEqual(self.c.end_range.length, self.dup.end_range.length)
         self.assertEqual(self.c.end_range.end, self.dup.end_range.end)
 
+
 class ConstraintIntersectTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -128,13 +136,15 @@ class ConstraintIntersectTestCase(RequiresDevice):
         geom1 = _ped.Geometry(self._device, 0, 50)
         geom2 = _ped.Geometry(self._device, 25, 50)
 
-        self.c1 = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
-                                  max_size=100)
+        self.c1 = _ped.Constraint(
+            align1, align2, geom1, geom2, min_size=10, max_size=100
+        )
 
         geom3 = _ped.Geometry(self._device, 10, 50)
         geom4 = _ped.Geometry(self._device, 30, 40)
-        self.c2 = _ped.Constraint(align1, align2, geom3, geom4, min_size=10,
-                                  max_size=100)
+        self.c2 = _ped.Constraint(
+            align1, align2, geom3, geom4, min_size=10, max_size=100
+        )
 
     def runTest(self):
         startAlign = self.c1.start_align.intersect(self.c2.start_align)
@@ -147,12 +157,18 @@ class ConstraintIntersectTestCase(RequiresDevice):
         if not startAlign or not endAlign or not startRange or not endRange:
             expected = None
         else:
-            expected = _ped.Constraint(startAlign, endAlign,
-                                       startRange, endRange,
-                                       min_size=minSize, max_size=maxSize)
+            expected = _ped.Constraint(
+                startAlign,
+                endAlign,
+                startRange,
+                endRange,
+                min_size=minSize,
+                max_size=maxSize,
+            )
 
         result = self.c1.intersect(self.c2)
         self.assertEqual(result, expected)
+
 
 class ConstraintSolveMaxTestCase(RequiresDevice):
     def setUp(self):
@@ -164,6 +180,7 @@ class ConstraintSolveMaxTestCase(RequiresDevice):
         self.assertEqual(result.dev, self._device)
         self.assertGreaterEqual(result.length, self._device.length - 1)
 
+
 class ConstraintSolveNearestTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -174,6 +191,7 @@ class ConstraintSolveNearestTestCase(RequiresDevice):
         result = self.c1.solve_nearest(self.g1)
         self.assertEqual(result, self.g1)
 
+
 class ConstraintIsSolutionTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -183,6 +201,7 @@ class ConstraintIsSolutionTestCase(RequiresDevice):
     def runTest(self):
         self.assertTrue(self.c1.is_solution(self.g1))
 
+
 class ConstraintStrTestCase(RequiresDevice):
     def setUp(self):
         RequiresDevice.setUp(self)
@@ -191,14 +210,24 @@ class ConstraintStrTestCase(RequiresDevice):
         geom1 = _ped.Geometry(self._device, 0, 50)
         geom2 = _ped.Geometry(self._device, 25, 50)
 
-        self.c1 = _ped.Constraint(align1, align2, geom1, geom2, min_size=10,
-                                  max_size=100)
-    def runTest(self):
-        result = str(self.c1).split('\n')
+        self.c1 = _ped.Constraint(
+            align1, align2, geom1, geom2, min_size=10, max_size=100
+        )
 
-        self.assertEqual(result[0], '_ped.Constraint instance --')
-        self.assertTrue(result[1].startswith('  start_align: <_ped.Alignment object at '))
-        self.assertNotEqual(result[1].find('  end_align: <_ped.Alignment object at '), -1)
-        self.assertTrue(result[2].startswith('  start_range: <_ped.Geometry object at '))
-        self.assertNotEqual(result[2].find('  end_range: <_ped.Geometry object at '), -1)
-        self.assertEqual(result[3], '  min_size: 10  max_size: 100')
+    def runTest(self):
+        result = str(self.c1).split("\n")
+
+        self.assertEqual(result[0], "_ped.Constraint instance --")
+        self.assertTrue(
+            result[1].startswith("  start_align: <_ped.Alignment object at ")
+        )
+        self.assertNotEqual(
+            result[1].find("  end_align: <_ped.Alignment object at "), -1
+        )
+        self.assertTrue(
+            result[2].startswith("  start_range: <_ped.Geometry object at ")
+        )
+        self.assertNotEqual(
+            result[2].find("  end_range: <_ped.Geometry object at "), -1
+        )
+        self.assertEqual(result[3], "  min_size: 10  max_size: 100")

@@ -16,6 +16,7 @@ class CHSGeometryNewTestCase(unittest.TestCase):
         # You're not allowed to create a new CHSGeometry object by hand.
         self.assertRaises(TypeError, _ped.CHSGeometry)
 
+
 class CHSGeometryGetSetTestCase(RequiresDevice):
     def runTest(self):
         # A device has a CHSGeometry, so we can use that to attempt accessing
@@ -32,8 +33,16 @@ class CHSGeometryGetSetTestCase(RequiresDevice):
         self.assertIsInstance(chs.heads, int)
         self.assertIsInstance(chs.sectors, int)
 
+
 class CHSGeometryStrTestCase(RequiresDevice):
     def runTest(self):
-        expected = "_ped.CHSGeometry instance --\n  cylinders: %d  heads: %d  sectors: %d" % (self._device.hw_geom.cylinders, self._device.hw_geom.heads, self._device.hw_geom.sectors,)
+        expected = (
+            "_ped.CHSGeometry instance --\n  cylinders: %d  heads: %d  sectors: %d"
+            % (
+                self._device.hw_geom.cylinders,
+                self._device.hw_geom.heads,
+                self._device.hw_geom.sectors,
+            )
+        )
         result = str(self._device.hw_geom)
         self.assertEqual(result, expected)

@@ -22,7 +22,7 @@ import sys
 import uuid
 
 # adjust as needed, eg /dev/sdc..
-device="sdcard.img"
+device = "sdcard.img"
 
 if len(sys.argv) not in (3, 4):
     print(f"{sys.argv[0]}: DEVICE PART-NUM [NEW-UUID]")
@@ -38,17 +38,21 @@ device = parted.getDevice(devpath)
 disk = parted.newDisk(device)
 
 if partnum == 0 or partnum > len(disk.partitions):
-    print(f"{sys.argv[0]}: partition {partnum} must be in range 1:{len(disk.partitions)}")
+    print(
+        f"{sys.argv[0]}: partition {partnum} must be in range 1:{len(disk.partitions)}"
+    )
     sys.exit(1)
 
-part = disk.partitions[partnum-1]
+part = disk.partitions[partnum - 1]
 
 if not hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID"):
     print(f"{sys.argv[0]}: build against parted version >= 3.5 is required")
     sys.exit(1)
 
 if not disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_UUID):
-    print(f"{sys.argv[0]}: disk label {disk.type} does not support partition type UUIDs")
+    print(
+        f"{sys.argv[0]}: disk label {disk.type} does not support partition type UUIDs"
+    )
     sys.exit(1)
 
 if newuuid is not None:

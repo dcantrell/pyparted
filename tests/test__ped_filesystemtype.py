@@ -14,6 +14,7 @@ class FileSystemTypeNewTestCase(unittest.TestCase):
         # You can't create a FileSystemType by hand.
         self.assertRaises(TypeError, _ped.FileSystemType)
 
+
 class FileSystemTypeGetSetTestCase(unittest.TestCase):
     def runTest(self):
         fstype = _ped.file_system_type_get("ext3")
@@ -23,6 +24,7 @@ class FileSystemTypeGetSetTestCase(unittest.TestCase):
         self.assertEqual(getattr(fstype, "name"), "ext3")
         self.assertRaises(AttributeError, setattr, fstype, "name", "vfat")
         self.assertRaises(AttributeError, getattr, fstype, "junk")
+
 
 class FileSystemTypeStrTestCase(unittest.TestCase):
     def runTest(self):

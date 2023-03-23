@@ -27,7 +27,7 @@ import sys
 import uuid
 
 # adjust as needed, eg /dev/sdc..
-device="sdcard.img"
+device = "sdcard.img"
 
 if len(sys.argv) == 2:
     device = sys.argv[1]
@@ -57,7 +57,7 @@ print("===== disk ====")
 print(f"  type: {disk.type}")
 print(f"  lastPartitionNumber: {disk.lastPartitionNumber}")
 print(f"  primaryPartitionCount: {disk.primaryPartitionCount}")
-print( "  free space regions:")
+print("  free space regions:")
 free_space_regions = disk.getFreeSpaceRegions()
 for i, free_space_region in enumerate(free_space_regions):
     print(f"    {i}:")
@@ -75,11 +75,13 @@ for partition in disk.partitions:
     print(f"  busy: {partition.busy}")
     print(f"  path: {partition.path}")
     print(f"  type: {partition.type}")
-    if (hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID") and
-        disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_ID)):
+    if hasattr(parted, "DISK_TYPE_PARTITION_TYPE_ID") and disk.supportsFeature(
+        parted.DISK_TYPE_PARTITION_TYPE_ID
+    ):
         print(f"  type id: {partition.type_id}")
-    if (hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID") and
-        disk.supportsFeature(parted.DISK_TYPE_PARTITION_TYPE_UUID)):
+    if hasattr(parted, "DISK_TYPE_PARTITION_TYPE_UUID") and disk.supportsFeature(
+        parted.DISK_TYPE_PARTITION_TYPE_UUID
+    ):
         uuid_str = str(uuid.UUID(bytes=partition.type_uuid))
         print(f"  type uuid: {uuid_str}")
     print(f"  size(MB): {partition.getSize()}")

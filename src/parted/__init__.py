@@ -15,8 +15,15 @@ import sys
 import warnings
 import _ped
 
-__all__ = ['Alignment', 'Constraint', 'Device', 'Disk',
-           'FileSystem', 'Geometry', 'Partition']
+__all__ = [
+    "Alignment",
+    "Constraint",
+    "Device",
+    "Disk",
+    "FileSystem",
+    "Geometry",
+    "Partition",
+]
 
 from _ped import AlignmentException
 from _ped import CreateException
@@ -165,37 +172,45 @@ partitions[PARTITION_BIOS_GRUB] = "bios_grub"
 partitions[PARTITION_DIAG] = "diag"
 partitions[PARTITION_LEGACY_BOOT] = "legacy_boot"
 
-if hasattr(_ped, 'PARTITION_MSFT_DATA'):
+if hasattr(_ped, "PARTITION_MSFT_DATA"):
     # pylint: disable=E0611
     from _ped import PARTITION_MSFT_DATA
+
     partitions[PARTITION_MSFT_DATA] = "msft_data"
-if hasattr(_ped, 'PARTITION_IRST'):
+if hasattr(_ped, "PARTITION_IRST"):
     # pylint: disable=E0611
     from _ped import PARTITION_IRST
+
     partitions[PARTITION_IRST] = "irst"
-if hasattr(_ped, 'PARTITION_ESP'):
+if hasattr(_ped, "PARTITION_ESP"):
     # pylint: disable=E0611
     from _ped import PARTITION_ESP
+
     partitions[PARTITION_ESP] = "esp"
-if hasattr(_ped, 'PARTITION_NONFS'):
+if hasattr(_ped, "PARTITION_NONFS"):
     # pylint: disable=E0611
     from _ped import PARTITION_NONFS
+
     partitions[PARTITION_NONFS] = "nonfs"
-if hasattr(_ped, 'PARTITION_CHROMEOS_KERNEL'):
+if hasattr(_ped, "PARTITION_CHROMEOS_KERNEL"):
     # pylint: disable=E0611
     from _ped import PARTITION_CHROMEOS_KERNEL
+
     partitions[PARTITION_CHROMEOS_KERNEL] = "chromeos_kernel"
-if hasattr(_ped, 'PARTITION_BLS_BOOT'):
+if hasattr(_ped, "PARTITION_BLS_BOOT"):
     # pylint: disable=E0611
     from _ped import PARTITION_BLS_BOOT
+
     partitions[PARTITION_BLS_BOOT] = "bls_boot"
-if hasattr(_ped, 'PARTITION_LINUX_HOME'):
+if hasattr(_ped, "PARTITION_LINUX_HOME"):
     # pylint: disable=E0611
     from _ped import PARTITION_LINUX_HOME
+
     partitions[PARTITION_LINUX_HOME] = "linux-home"
-if hasattr(_ped, 'PARTITION_NO_AUTOMOUNT'):
+if hasattr(_ped, "PARTITION_NO_AUTOMOUNT"):
     # pylint: disable=E0611
     from _ped import PARTITION_NO_AUTOMOUNT
+
     partitions[PARTITION_NO_AUTOMOUNT] = "no_automount"
 
 from _ped import DISK_CYLINDER_ALIGNMENT
@@ -204,19 +219,19 @@ from _ped import DISK_GPT_PMBR_BOOT
 from _ped import DISK_TYPE_EXTENDED
 from _ped import DISK_TYPE_PARTITION_NAME
 
-if hasattr(_ped, 'DISK_TYPE_PARTITION_TYPE_ID'):
+if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_ID"):
     # pylint: disable=E0611
     from _ped import DISK_TYPE_PARTITION_TYPE_ID
 
-if hasattr(_ped, 'DISK_TYPE_PARTITION_TYPE_UUID'):
+if hasattr(_ped, "DISK_TYPE_PARTITION_TYPE_UUID"):
     # pylint: disable=E0611
     from _ped import DISK_TYPE_PARTITION_TYPE_UUID
 
-if hasattr(_ped, 'DISK_TYPE_DISK_UUID'):
+if hasattr(_ped, "DISK_TYPE_DISK_UUID"):
     # pylint: disable=E0611
     from _ped import DISK_TYPE_DISK_UUID
 
-if hasattr(_ped, 'DISK_TYPE_PARTITION_UUID'):
+if hasattr(_ped, "DISK_TYPE_PARTITION_UUID"):
     # pylint: disable=E0611
     from _ped import DISK_TYPE_PARTITION_UUID
 
@@ -248,7 +263,7 @@ from parted.decorators import localeC
 if sys.version_info >= (3,):
     string_types = str
 else:
-    string_types = basestring # pylint: disable=undefined-variable
+    string_types = basestring  # pylint: disable=undefined-variable
 
 partitionTypesDict = {
     0x00: "Empty",
@@ -261,11 +276,11 @@ partitionTypesDict = {
     0x07: "NTFS/HPFS",
     0x08: "AIX",
     0x09: "AIX bootable",
-    0x0a: "OS/2 Boot Manager",
-    0x0b: "Win95 FAT32",
-    0x0c: "Win95 FAT32",
-    0x0e: "Win95 FAT16",
-    0x0f: "Win95 Ext'd",
+    0x0A: "OS/2 Boot Manager",
+    0x0B: "Win95 FAT32",
+    0x0C: "Win95 FAT32",
+    0x0E: "Win95 FAT16",
+    0x0F: "Win95 Ext'd",
     0x10: "OPUS",
     0x11: "Hidden FAT12",
     0x12: "Compaq Setup",
@@ -273,17 +288,17 @@ partitionTypesDict = {
     0x16: "Hidden FAT16",
     0x17: "Hidden HPFS/NTFS",
     0x18: "AST SmartSleep",
-    0x1b: "Hidden Win95 FAT32",
-    0x1c: "Hidden Win95 FAT32 (LBA)",
-    0x1e: "Hidden Win95 FAT16 (LBA)",
+    0x1B: "Hidden Win95 FAT32",
+    0x1C: "Hidden Win95 FAT32 (LBA)",
+    0x1E: "Hidden Win95 FAT16 (LBA)",
     0x24: "NEC_DOS",
     0x39: "Plan 9",
     0x40: "Venix 80286",
     0x41: "PPC_PReP Boot",
     0x42: "SFS",
-    0x4d: "QNX4.x",
-    0x4e: "QNX4.x 2nd part",
-    0x4f: "QNX4.x 2nd part",
+    0x4D: "QNX4.x",
+    0x4E: "QNX4.x 2nd part",
+    0x4F: "QNX4.x 2nd part",
     0x51: "Novell?",
     0x52: "Microport",
     0x63: "GNU HURD",
@@ -298,27 +313,27 @@ partitionTypesDict = {
     0x85: "Linux Extended",
     0x86: "NTFS volume set",
     0x87: "NTFS volume set",
-    0x8e: "Linux LVM",
+    0x8E: "Linux LVM",
     0x93: "Amoeba",
     0x94: "Amoeba BBT",
-    0x9f: "BSD/OS",
-    0xa0: "IBM Thinkpad hibernation",
-    0xa5: "BSD/386",
-    0xa6: "OpenBSD",
-    0xb7: "BSDI fs",
-    0xb8: "BSDI swap",
-    0xbf: "Solaris",
-    0xc7: "Syrinx",
-    0xdb: "CP/M",
-    0xde: "Dell Utility",
-    0xe1: "DOS access",
-    0xe3: "DOS R/O",
-    0xeb: "BEOS",
-    0xee: "EFI GPT",
-    0xef: "EFI (FAT-12/16/32)",
-    0xf2: "DOS secondary",
-    0xfd: "Linux RAID",
-    0xff: "BBT"
+    0x9F: "BSD/OS",
+    0xA0: "IBM Thinkpad hibernation",
+    0xA5: "BSD/386",
+    0xA6: "OpenBSD",
+    0xB7: "BSDI fs",
+    0xB8: "BSDI swap",
+    0xBF: "Solaris",
+    0xC7: "Syrinx",
+    0xDB: "CP/M",
+    0xDE: "Dell Utility",
+    0xE1: "DOS access",
+    0xE3: "DOS R/O",
+    0xEB: "BEOS",
+    0xEE: "EFI GPT",
+    0xEF: "EFI (FAT-12/16/32)",
+    0xF2: "DOS secondary",
+    0xFD: "Linux RAID",
+    0xFF: "BBT",
 }
 
 # Exponents for 1024 used when converting sizes to byte-sized
@@ -334,8 +349,17 @@ partitionTypesDict = {
 #   yb    yottabytes  1024^8 = 1208925819614629174706176
 # The resulting value for 1024 raised to the power is used as
 # the divisor for conversion functions.
-_exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4,
-             'pb': 5, 'eb': 6, 'zb': 7, 'yb': 8}
+_exponent = {
+    "b": 0,
+    "kb": 1,
+    "mb": 2,
+    "gb": 3,
+    "tb": 4,
+    "pb": 5,
+    "eb": 6,
+    "zb": 7,
+    "yb": 8,
+}
 
 # Refercences:
 #
@@ -353,64 +377,68 @@ _exponent = {'b': 0, 'kb': 1, 'mb': 2, 'gb': 3, 'tb': 4,
 # SI units:  http://physics.nist.gov/cuu/Units/prefixes.html
 # IEC units: http://physics.nist.gov/cuu/Units/binary.html
 __exponents = {
-    "B":    1,       # byte
-    "kB":   1000**1, # kilobyte
-    "MB":   1000**2, # megabyte
-    "GB":   1000**3, # gigabyte
-    "TB":   1000**4, # terabyte
-    "PB":   1000**5, # petabyte
-    "EB":   1000**6, # exabyte
-    "ZB":   1000**7, # zettabyte
-    "YB":   1000**8, # yottabyte
-
-    "KiB":  1024**1, # kibibyte
-    "MiB":  1024**2, # mebibyte
-    "GiB":  1024**3, # gibibyte
-    "TiB":  1024**4, # tebibyte
-    "PiB":  1024**5, # pebibyte
-    "EiB":  1024**6, # exbibyte
-    "ZiB":  1024**7, # zebibyte
-    "YiB":  1024**8  # yobibyte
+    "B": 1,  # byte
+    "kB": 1000**1,  # kilobyte
+    "MB": 1000**2,  # megabyte
+    "GB": 1000**3,  # gigabyte
+    "TB": 1000**4,  # terabyte
+    "PB": 1000**5,  # petabyte
+    "EB": 1000**6,  # exabyte
+    "ZB": 1000**7,  # zettabyte
+    "YB": 1000**8,  # yottabyte
+    "KiB": 1024**1,  # kibibyte
+    "MiB": 1024**2,  # mebibyte
+    "GiB": 1024**3,  # gibibyte
+    "TiB": 1024**4,  # tebibyte
+    "PiB": 1024**5,  # pebibyte
+    "EiB": 1024**6,  # exbibyte
+    "ZiB": 1024**7,  # zebibyte
+    "YiB": 1024**8,  # yobibyte
 }
+
 
 def formatBytes(bytes_, unit):
     """Convert bytes_ using an SI or IEC prefix. Note that unit is a
-       case sensitive string that must exactly match one of the IEC or SI
-       prefixes followed by 'B' (e.g. 'GB')."""
+    case sensitive string that must exactly match one of the IEC or SI
+    prefixes followed by 'B' (e.g. 'GB')."""
 
     if unit not in __exponents.keys():
         raise SyntaxError("{:} is not a valid SI or IEC byte unit".format(unit))
     else:
-        return (bytes_ / __exponents[unit])
+        return bytes_ / __exponents[unit]
+
 
 def sizeToSectors(bytes_, unit, sector_size):
     """Convert bytes_ of unit to a number of sectors. Note that unit is a
-       case sensitive string that must exactly match one of the IEC or SI
-       prefixes followed by 'B' (e.g. 'GB')."""
+    case sensitive string that must exactly match one of the IEC or SI
+    prefixes followed by 'B' (e.g. 'GB')."""
 
     if unit not in __exponents.keys():
         raise SyntaxError("{:} is not a valid SI or IEC byte unit".format(unit))
     else:
         return math.ceil(bytes_ * __exponents[unit] / sector_size)
 
+
 # Valid disk labels per architecture type.  The list of label
 # names map to keys in the parted.diskType hash table.
-archLabels = {'i386': ['msdos', 'gpt'],
-              's390': ['dasd', 'msdos'],
-              'alpha': ['bsd', 'msdos'],
-              'sparc': ['sun'],
-              'ia64': ['msdos', 'gpt'],
-              'ppc': ['msdos', 'mac', 'amiga', 'gpt'],
-              'ppc64': ['msdos', 'mac', 'amiga', 'gpt'],
-              'ppc64le': ['msdos', 'gpt'],
-              'x86_64': ['msdos', 'gpt'],
-              'aarch64': ['msdos', 'gpt'],
-              'mips64': ['msdos','gpt'],
-              'armv7l': ['msdos', 'gpt'],
-              'riscv32': ['msdos', 'gpt'],
-              'riscv64': ['msdos', 'gpt'],
-              'loongarch32': ['msdos', 'gpt'],
-              'loongarch64': ['msdos', 'gpt']}
+archLabels = {
+    "i386": ["msdos", "gpt"],
+    "s390": ["dasd", "msdos"],
+    "alpha": ["bsd", "msdos"],
+    "sparc": ["sun"],
+    "ia64": ["msdos", "gpt"],
+    "ppc": ["msdos", "mac", "amiga", "gpt"],
+    "ppc64": ["msdos", "mac", "amiga", "gpt"],
+    "ppc64le": ["msdos", "gpt"],
+    "x86_64": ["msdos", "gpt"],
+    "aarch64": ["msdos", "gpt"],
+    "mips64": ["msdos", "gpt"],
+    "armv7l": ["msdos", "gpt"],
+    "riscv32": ["msdos", "gpt"],
+    "riscv64": ["msdos", "gpt"],
+    "loongarch32": ["msdos", "gpt"],
+    "loongarch64": ["msdos", "gpt"],
+}
 
 # Adapted from:
 # http://stackoverflow.com/questions/922550/how-to-mark-a-global-as-deprecated-in-python
@@ -419,7 +447,7 @@ archLabels = {'i386': ['msdos', 'gpt'],
 # useful to users.  Developers can turn on DeprecationWarning notices by passing
 # the -Wd option to python or by setting PYTHONWARNINGS=d in the environment.
 def Deprecated(mod, deprecated=None):
-    """ Return a wrapped object that warns about deprecated accesses. """
+    """Return a wrapped object that warns about deprecated accesses."""
 
     if not deprecated:
         deprecated = {}
@@ -442,20 +470,30 @@ def Deprecated(mod, deprecated=None):
 
     return Wrapper()
 
+
 # Valid disk labels and their applicable architectures.  The label names map
 # to keys in the parted.diskType hash table.
-__archLabels = (('amiga', 'ppc(64)?$'),
-                ('bsd', 'alpha$'),
-                ('dasd', 's390x?$'),
-                ('gpt', 'i[3-6]86$|x86_64$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$|loongarch(32|64)$'),
-                ('mac', 'ppc(64)?$'),
-                ('msdos', 'i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|mips64$|armv7l$|riscv(32|64)$|loongarch(32|64)$'),
-                ('sun', 'sparc(64)?$'))
+__archLabels = (
+    ("amiga", "ppc(64)?$"),
+    ("bsd", "alpha$"),
+    ("dasd", "s390x?$"),
+    (
+        "gpt",
+        "i[3-6]86$|x86_64$|ia64$|ppc(64|64le)?$|aarch64$|armv7l$|riscv(32|64)$|loongarch(32|64)$",
+    ),
+    ("mac", "ppc(64)?$"),
+    (
+        "msdos",
+        "i[3-6]86$|x86_64$|s390x?$|alpha$|ia64$|ppc(64|64le)?$|aarch64$|mips64$|armv7l$|riscv(32|64)$|loongarch(32|64)$",
+    ),
+    ("sun", "sparc(64)?$"),
+)
+
 
 def getLabels(arch=None):
     """Return a set containing the disk labels compatible with the
-       architecture of the computer calling this function. If an architecture
-       is passed, return the labels compatible with that architecture."""
+    architecture of the computer calling this function. If an architecture
+    is passed, return the labels compatible with that architecture."""
     labels = set()
     if arch is None:
         arch = platform.machine()
@@ -466,26 +504,30 @@ def getLabels(arch=None):
 
     return labels
 
+
 class ReadOnlyProperty(Exception):
     """Exception raised when a write operation occurs on a read-only property."""
 
     # pylint: disable=W0231
-    def __init__(self, prop=''):
+    def __init__(self, prop=""):
         self.message = "%s is a read-only property" % (prop,)
+
 
 class WriteOnlyProperty(Exception):
     """Exception raised when a read operation occurs on a write-only property."""
 
     # pylint: disable=W0231
-    def __init__(self, prop=''):
+    def __init__(self, prop=""):
         self.message = "%s is a write-only property" % (prop,)
+
 
 @localeC
 def getDevice(path):
     """Given the operating system level path to a device node, return
-       a Device object for that disk.  Raises DeviceException if an invalid
-       path is given."""
+    a Device object for that disk.  Raises DeviceException if an invalid
+    path is given."""
     return Device(path=path)
+
 
 @localeC
 def getAllDevices():
@@ -509,38 +551,45 @@ def getAllDevices():
         except IndexError:
             return lst
 
+
 @localeC
 def freeAllDevices():
     """Free all Device objects.  There is no reason to call this function."""
     from _ped import device_free_all
+
     return device_free_all()
+
 
 @localeC
 def probeForSpecificFileSystem(fstype, geometry):
     """Call the _ped.file_system_probe_specific() function given the
-       filesystem type and geometry.  fstype must be a string
-       representing a valid _ped.FileSystemType, geometry is a
-       parted.Geometry."""
+    filesystem type and geometry.  fstype must be a string
+    representing a valid _ped.FileSystemType, geometry is a
+    parted.Geometry."""
     from _ped import file_system_probe_specific
+
     geom = file_system_probe_specific(fileSystemType[fstype], geometry.getPedGeometry())
     return geometry.Geometry(PedGeometry=geom)
+
 
 @localeC
 def probeFileSystem(geometry):
     """Return the name of the filesystem detected on the given
-       Geometry.  Returns None is no filesystem found."""
+    Geometry.  Returns None is no filesystem found."""
     from _ped import file_system_probe
+
     fstype = file_system_probe(geometry.getPedGeometry())
     return fstype.name
+
 
 @localeC
 def freshDisk(device, ty):
     """Return a Disk object for this Device and using this DiskType.
-       The type should be a member of the parted.diskType hash,
-       either a key or a value.
+    The type should be a member of the parted.diskType hash,
+    either a key or a value.
 
-       The new label is not written to disk until commitToDevice()
-       is called on the Disk."""
+    The new label is not written to disk until commitToDevice()
+    is called on the Disk."""
     from _ped import disk_new_fresh, DiskType
 
     if isinstance(ty, string_types):
@@ -551,14 +600,16 @@ def freshDisk(device, ty):
     peddisk = disk_new_fresh(device.getPedDevice(), ty)
     return Disk(PedDisk=peddisk)
 
+
 @localeC
 def newDisk(device):
     """Return a Disk object for this Device. Read the partition table off
-       a device (if one is found)."""
+    a device (if one is found)."""
     from _ped import disk_new
 
     peddisk = disk_new(device.getPedDevice())
     return Disk(PedDisk=peddisk)
+
 
 @localeC
 def version():
@@ -567,15 +618,17 @@ def version():
     from _ped import pyparted_version
 
     ver = {}
-    ver['libparted'] = libparted_version()
-    ver['pyparted'] = pyparted_version()
+    ver["libparted"] = libparted_version()
+    ver["pyparted"] = pyparted_version()
     return ver
 
+
 # Mark deprecated items
-_deprecated = {"partitionTypesDict": "DOS disk label types are not provided "
-                                     "by libparted, so the codes are not "
-                                     "useful.",
-               "_exponent":          "Use __exponents instead.",
-               "archLabels":         "Use getLabels() instead.",
-              }
+_deprecated = {
+    "partitionTypesDict": "DOS disk label types are not provided "
+    "by libparted, so the codes are not "
+    "useful.",
+    "_exponent": "Use __exponents instead.",
+    "archLabels": "Use getLabels() instead.",
+}
 sys.modules[__name__] = Deprecated(sys.modules[__name__], _deprecated)
