@@ -34,5 +34,4 @@ jobs:
               python3-pytest \
               python3-types-six \
               udev
-          pip install six
           env PYTHON=python3 make test coverage COVERAGE=coverage

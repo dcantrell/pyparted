@@ -42,12 +42,10 @@ class Disk(object):
         self._partitions = CachedList(lambda: self.__getPartitions())
 
     def _hasSameParts(self, other):
-        import six
-
         if len(self.partitions) != len(other.partitions):
             return False
 
-        partIter = six.moves.zip(self.partitions, other.partitions)
+        partIter = zip(self.partitions, other.partitions)
         while True:
             try:
                 (left, right) = next(partIter)

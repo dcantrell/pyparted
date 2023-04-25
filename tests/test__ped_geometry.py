@@ -4,7 +4,6 @@
 #
 
 import _ped
-import six
 from tests.baseclass import RequiresDevice
 
 # One class per method, multiple tests per class.  For these simple methods,
@@ -377,4 +376,4 @@ class GeometryStrTestCase(RequiresDevice):
         lines = str(self.g).split("\n")
         self.assertEqual(lines[0], "_ped.Geometry instance --")
         self.assertEqual(lines[1], "  start: 10  end: 109  length: 100")
-        six.assertRegex(self, lines[2], "^  device: <_ped.Device object at .*")
+        self.assertRegex(lines[2], "^  device: <_ped.Device object at .*")
