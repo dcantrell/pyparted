@@ -15,6 +15,7 @@ from tests.baseclass import RequiresDevice
 # multiple classes and their own test suite.
 class AlignmentNewTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.pa = _ped.Alignment(0, 100)
 
     def runTest(self):
@@ -34,6 +35,7 @@ class AlignmentNewTestCase(unittest.TestCase):
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.a = parted.Alignment(offset=27, grainSize=49)
 
     def runTest(self):
@@ -93,7 +95,7 @@ class AlignmentAlignNearestTestCase(unittest.TestCase):
 
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = parted.Geometry(device=self.device, start=0, length=100)
         self.a = parted.Alignment(offset=10, grainSize=0)
 
@@ -118,6 +120,7 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
 
 class AlignmentGetPedAlignmentTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.pa = _ped.Alignment(0, 100)
         self.alignment = parted.Alignment(PedAlignment=self.pa)
 

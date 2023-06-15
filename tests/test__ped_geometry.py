@@ -24,7 +24,7 @@ class GeometryNewTestCase(RequiresDevice):
 
 class GeometryGetSetTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -61,7 +61,7 @@ class GeometryGetSetTestCase(RequiresDevice):
 
 class GeometryDuplicateTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
         self.dup = self.g.duplicate()
 
@@ -73,7 +73,7 @@ class GeometryDuplicateTestCase(RequiresDevice):
 
 class GeometryIntersectTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g1 = _ped.Geometry(self._device, start=0, length=100)
         self.g2 = _ped.Geometry(self._device, start=0, length=100)
         self.i = None
@@ -108,7 +108,7 @@ class GeometryIntersectTestCase(RequiresDevice):
 
 class GeometrySetTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -122,7 +122,7 @@ class GeometrySetTestCase(RequiresDevice):
 
 class GeometrySetStartTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -134,7 +134,7 @@ class GeometrySetStartTestCase(RequiresDevice):
 
 class GeometrySetEndTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -151,7 +151,7 @@ class GeometrySetEndTestCase(RequiresDevice):
 
 class GeometryTestOverlapTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g1 = _ped.Geometry(self._device, start=0, length=100)
         self.g2 = _ped.Geometry(self._device, start=50, length=100)
 
@@ -174,7 +174,7 @@ class GeometryTestOverlapTestCase(RequiresDevice):
 
 class GeometryTestInsideTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g1 = _ped.Geometry(self._device, start=0, length=100)
         self.g2 = _ped.Geometry(self._device, start=0, length=100)
 
@@ -201,7 +201,7 @@ class GeometryTestInsideTestCase(RequiresDevice):
 
 class GeometryTestEqualTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g1 = _ped.Geometry(self._device, start=0, length=100)
         self.g2 = _ped.Geometry(self._device, start=0, length=100)
 
@@ -221,7 +221,7 @@ class GeometryTestEqualTestCase(RequiresDevice):
 
 class GeometryTestSectorInsideTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):
@@ -238,7 +238,7 @@ class GeometryTestSectorInsideTestCase(RequiresDevice):
 
 class GeometryReadTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):
@@ -275,7 +275,7 @@ class GeometryReadTestCase(RequiresDevice):
 
 class GeometrySyncTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -290,7 +290,7 @@ class GeometrySyncTestCase(RequiresDevice):
 
 class GeometrySyncFastTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
 
     def runTest(self):
@@ -305,7 +305,7 @@ class GeometrySyncFastTestCase(RequiresDevice):
 
 class GeometryWriteTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):
@@ -334,7 +334,7 @@ class GeometryWriteTestCase(RequiresDevice):
 
 class GeometryCheckTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):
@@ -351,7 +351,7 @@ class GeometryCheckTestCase(RequiresDevice):
 
 class GeometryMapTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g1 = _ped.Geometry(self._device, start=10, length=100)
         self.g2 = _ped.Geometry(self._device, start=10, length=90)
 
@@ -369,7 +369,7 @@ class GeometryMapTestCase(RequiresDevice):
 
 class GeometryStrTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=10, length=100)
 
     def runTest(self):

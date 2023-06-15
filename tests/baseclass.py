@@ -12,6 +12,7 @@ import unittest
 # Base class for any test case that requires a temp device node
 class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.addCleanup(self.removeTempDevice)
 
         self.temp_prefix = "temp-device-"
@@ -31,7 +32,7 @@ class RequiresDeviceNode(unittest.TestCase):
 # object first.
 class RequiresDevice(RequiresDeviceNode):
     def setUp(self):
-        RequiresDeviceNode.setUp(self)
+        super().setUp()
         self._device = _ped.device_get(self.path)
         self.device = parted.getDevice(self.path)
 
@@ -39,6 +40,7 @@ class RequiresDevice(RequiresDeviceNode):
 # Base class for any test case that requires a filesystem on a device.
 class RequiresFileSystem(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.addCleanup(self.removeTempDevice)
 
         self._fileSystemType = {}
@@ -74,9 +76,6 @@ class RequiresFileSystem(unittest.TestCase):
 
 # Base class for certain alignment tests that require a _ped.Device
 class RequiresDeviceAlignment(RequiresDevice):
-    def setUp(self):
-        RequiresDevice.setUp(self)
-
     def roundDownTo(self, sector, grain_size):
         if sector < 0:
             shift = sector % grain_size + grain_size
@@ -127,14 +126,14 @@ class RequiresDeviceAlignment(RequiresDevice):
 # Base class for any test case that requires a labeled device
 class RequiresLabeledDevice(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         os.system("parted -s %s mklabel msdos" % (self.path,))
 
 
 # Base class for any test case that requires a _ped.Disk or parted.Disk.
 class RequiresDisk(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("msdos"))
         self.disk = parted.Disk(PedDisk=self._disk)
 
@@ -146,7 +145,7 @@ class RequiresDisk(RequiresDevice):
 # Base class for any test case that requires a GPT-labeled _ped.Disk or parted.Disk.
 class RequiresGPTDisk(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self._disk = _ped.disk_new_fresh(self._device, _ped.disk_type_get("gpt"))
         self.disk = parted.Disk(PedDisk=self._disk)
 
@@ -158,8 +157,8 @@ class RequiresGPTDisk(RequiresDevice):
 # Base class for any test case that requires a filesystem made and mounted.
 class RequiresMount(RequiresDevice):
     def setUp(self):
+        super().setUp()
         self.addCleanup(self.removeMountpoint)
-        RequiresDevice.setUp(self)
         self.mountpoint = None
 
     def mkfs(self):
@@ -178,7 +177,7 @@ class RequiresMount(RequiresDevice):
 # Base class for any test case that requires a _ped.Partition.
 class RequiresPartition(RequiresDisk):
     def setUp(self):
-        RequiresDisk.setUp(self)
+        super().setUp()
         self._part = _ped.Partition(
             disk=self._disk,
             type=_ped.PARTITION_NORMAL,
@@ -188,14 +187,14 @@ class RequiresPartition(RequiresDisk):
         )
 
     def reopen(self):
-        RequiresDisk.reopen(self)
+        super().reopen()
         self._part = self._disk.next_partition(self._disk.next_partition())
 
 
 # Base class for any test case that requires a _ped.Partition on GPT disk.
 class RequiresGPTPartition(RequiresGPTDisk):
     def setUp(self):
-        RequiresGPTDisk.setUp(self)
+        super().setUp()
         self._part = _ped.Partition(
             disk=self._disk,
             type=_ped.PARTITION_NORMAL,
@@ -205,7 +204,7 @@ class RequiresGPTPartition(RequiresGPTDisk):
         )
 
     def reopen(self):
-        RequiresDisk.reopen(self)
+        super().reopen()
         self._part = self._disk.next_partition()
 
 
@@ -213,6 +212,7 @@ class RequiresGPTPartition(RequiresGPTDisk):
 # _ped.DiskType objects available
 class RequiresDiskTypes(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.disktype = {}
         ty = _ped.disk_type_get_next()
         self.disktype[ty.name] = ty

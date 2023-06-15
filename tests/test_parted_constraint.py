@@ -72,7 +72,7 @@ class ConstraintNewTestCase(RequiresDevice):
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         align1 = parted.Alignment(offset=10, grainSize=5)
         align2 = parted.Alignment(offset=10, grainSize=5)
         geom1 = parted.Geometry(device=self.device, start=0, length=50)

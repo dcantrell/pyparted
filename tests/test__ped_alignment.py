@@ -22,6 +22,7 @@ class AlignmentNewTestCase(unittest.TestCase):
 
 class AlignmentGetSetTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.a = _ped.Alignment(27, 49)
 
     def runTest(self):
@@ -53,6 +54,7 @@ class AlignmentGetSetTestCase(unittest.TestCase):
 
 class AlignmentDuplicateTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.a = _ped.Alignment(27, 49)
         self.dup = self.a.duplicate()
 
@@ -63,6 +65,7 @@ class AlignmentDuplicateTestCase(unittest.TestCase):
 
 class AlignmentIntersectTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.trivialA = _ped.Alignment(47, 0)
         self.trivialB = _ped.Alignment(47, 0)
 
@@ -112,7 +115,7 @@ class AlignmentIntersectTestCase(unittest.TestCase):
 
 class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
     def setUp(self):
-        RequiresDeviceAlignment.setUp(self)
+        super().setUp()
         self.trivialA = _ped.Alignment(10, 0)
         self.complexA = _ped.Alignment(512, 34)
         self.geometry = _ped.Geometry(self._device, start=0, length=100)
@@ -138,7 +141,7 @@ class AlignmentAlignUpTestCase(RequiresDeviceAlignment):
 
 class AlignmentAlignDownTestCase(RequiresDeviceAlignment):
     def setUp(self):
-        RequiresDeviceAlignment.setUp(self)
+        super().setUp()
         self.trivialA = _ped.Alignment(10, 0)
         self.complexA = _ped.Alignment(512, 34)
         self.geometry = _ped.Geometry(self._device, start=0, length=100)
@@ -166,7 +169,7 @@ class AlignmentAlignDownTestCase(RequiresDeviceAlignment):
 
 class AlignmentAlignNearestTestCase(RequiresDeviceAlignment):
     def setUp(self):
-        RequiresDeviceAlignment.setUp(self)
+        super().setUp()
         self.trivialA = _ped.Alignment(10, 0)
         self.complexA = _ped.Alignment(512, 34)
         self.geometry = _ped.Geometry(self._device, start=0, length=100)
@@ -203,7 +206,7 @@ class AlignmentAlignNearestTestCase(RequiresDeviceAlignment):
 
 class AlignmentIsAlignedTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.g = _ped.Geometry(self._device, start=0, length=100)
         self.a = _ped.Alignment(10, 0)
 
@@ -228,6 +231,7 @@ class AlignmentIsAlignedTestCase(RequiresDevice):
 
 class AlignmentStrTestCase(unittest.TestCase):
     def setUp(self):
+        super().setUp()
         self.alignment = _ped.Alignment(10, 0)
 
     def runTest(self):

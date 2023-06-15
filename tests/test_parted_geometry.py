@@ -108,7 +108,7 @@ class GeometrySyncTestCase(unittest.TestCase):
 
 class GeometryWriteTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.geom = parted.Geometry(self.device, start=10, length=100)
 
     def runTest(self):

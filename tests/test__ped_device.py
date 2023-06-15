@@ -258,7 +258,7 @@ class DeviceGetOptimumAlignmentTestCase(RequiresDevice):
 
 class UnitFormatCustomByteTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
         self.pairs = [
             (
@@ -329,7 +329,7 @@ class UnitFormatCustomByteTestCase(RequiresDevice):
 
 class UnitFormatByteTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         pr = "%f" % (47.0 / self._device.unit_get_size(_ped.UNIT_PERCENT),)
         self._initialDefault = _ped.unit_get_default()
         self.pairs = [
@@ -403,7 +403,7 @@ class UnitFormatByteTestCase(RequiresDevice):
 
 class UnitFormatCustomTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         sector_size = self._device.sector_size
         size = self._device.unit_get_size(_ped.UNIT_PERCENT)
         pr = "%f" % ((47.0 * sector_size) / size,)
@@ -474,7 +474,7 @@ class UnitFormatCustomTestCase(RequiresDevice):
 
 class UnitFormatTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         sector_size = self._device.sector_size
         size = self._device.unit_get_size(_ped.UNIT_PERCENT)
         pr = "%f" % ((47.0 * sector_size) / size,)

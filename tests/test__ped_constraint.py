@@ -33,7 +33,7 @@ class ConstraintNewTestCase(RequiresDevice):
 
 class ConstraintGetSetTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         align1 = _ped.Alignment(10, 5)
         align2 = _ped.Alignment(10, 5)
         geom1 = _ped.Geometry(self._device, 0, 50)
@@ -84,7 +84,7 @@ class ConstraintGetSetTestCase(RequiresDevice):
 
 class ConstraintDuplicateTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         align1 = _ped.Alignment(10, 0)
         align2 = _ped.Alignment(10, 0)
         geom1 = _ped.Geometry(self._device, 0, 50)
@@ -130,7 +130,7 @@ class ConstraintDuplicateTestCase(RequiresDevice):
 
 class ConstraintIntersectTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         align1 = _ped.Alignment(10, 0)
         align2 = _ped.Alignment(10, 0)
         geom1 = _ped.Geometry(self._device, 0, 50)
@@ -172,7 +172,7 @@ class ConstraintIntersectTestCase(RequiresDevice):
 
 class ConstraintSolveMaxTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.c1 = self._device.get_constraint()
 
     def runTest(self):
@@ -183,7 +183,7 @@ class ConstraintSolveMaxTestCase(RequiresDevice):
 
 class ConstraintSolveNearestTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.c1 = self._device.get_constraint()
         self.g1 = _ped.Geometry(self._device, 1, 8)
 
@@ -194,7 +194,7 @@ class ConstraintSolveNearestTestCase(RequiresDevice):
 
 class ConstraintIsSolutionTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         self.c1 = self._device.get_constraint()
         self.g1 = _ped.Geometry(self._device, 1, 8)
 
@@ -204,7 +204,7 @@ class ConstraintIsSolutionTestCase(RequiresDevice):
 
 class ConstraintStrTestCase(RequiresDevice):
     def setUp(self):
-        RequiresDevice.setUp(self)
+        super().setUp()
         align1 = _ped.Alignment(10, 0)
         align2 = _ped.Alignment(10, 0)
         geom1 = _ped.Geometry(self._device, 0, 50)

@@ -5,7 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 
-import _ped
 import parted
 import unittest
 import uuid

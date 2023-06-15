@@ -302,8 +302,8 @@ class PartitionGPTTypeUUIDTestCase(RequiresGPTPartition):
 
 class PartitionIsBusyTestCase(RequiresPartition):
     def setUp(self):
+        super().setUp()
         self.addCleanup(self.removeMountpoint)
-        RequiresPartition.setUp(self)
         self.mountpoint = None
 
     def doMount(self):
