@@ -98,6 +98,3 @@ PyObject *py_ped_unit_parse(PyObject *, PyObject *);
 PyObject *py_ped_unit_parse_custom(PyObject *, PyObject *);
 
 #endif /* PYDEVICE_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

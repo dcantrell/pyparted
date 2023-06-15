@@ -88,6 +88,3 @@ PyTypeObject _ped_Timer_Type_obj = {
 };
 
 #endif /* TYPEOBJECTS_PYTIMER_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

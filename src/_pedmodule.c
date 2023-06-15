@@ -226,11 +226,12 @@ PyDoc_STRVAR(_ped_doc,
 "For complete documentation, refer to the docs strings for each _ped\n"
 "method, exception class, and subclass.");
 
-PyObject *py_ped_register_exn_handler(PyObject *s, PyObject *args) {
+PyObject *py_ped_register_exn_handler(PyObject *s, PyObject *args)
+{
     PyObject *fn = NULL;
 
     if (!PyArg_ParseTuple(args, "O", &fn)) {
-        return NULL;
+        Py_RETURN_NONE;
     }
 
     Py_DECREF(exn_handler);
@@ -239,7 +240,8 @@ PyObject *py_ped_register_exn_handler(PyObject *s, PyObject *args) {
     Py_RETURN_TRUE;
 }
 
-PyObject *py_ped_clear_exn_handler(PyObject *s, PyObject *args) {
+PyObject *py_ped_clear_exn_handler(PyObject *s, PyObject *args)
+{
     exn_handler = Py_None;
     Py_INCREF(exn_handler);
     Py_RETURN_TRUE;
@@ -247,86 +249,52 @@ PyObject *py_ped_clear_exn_handler(PyObject *s, PyObject *args) {
 
 /* all of the methods for the _ped module */
 static struct PyMethodDef PyPedModuleMethods[] = {
-    {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS,
-                          libparted_version_doc},
-    {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS,
-                         pyparted_version_doc},
-
-    {"register_exn_handler", (PyCFunction) py_ped_register_exn_handler, METH_VARARGS,
-                             register_exn_handler_doc},
-    {"clear_exn_handler", (PyCFunction) py_ped_clear_exn_handler, METH_VARARGS,
-                          clear_exn_handler_doc},
+    {"libparted_version", (PyCFunction) py_libparted_get_version, METH_VARARGS, libparted_version_doc},
+    {"pyparted_version", (PyCFunction) py_pyparted_version, METH_VARARGS, pyparted_version_doc},
+    {"register_exn_handler", (PyCFunction) py_ped_register_exn_handler, METH_VARARGS, register_exn_handler_doc},
+    {"clear_exn_handler", (PyCFunction) py_ped_clear_exn_handler, METH_VARARGS, clear_exn_handler_doc},
 
     /* pyconstraint.c */
-    {"constraint_new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max,
-                                    METH_VARARGS, constraint_new_from_min_max_doc},
-    {"constraint_new_from_min", (PyCFunction) py_ped_constraint_new_from_min,
-                                METH_VARARGS, constraint_new_from_min_doc},
-    {"constraint_new_from_max", (PyCFunction) py_ped_constraint_new_from_max,
-                                METH_VARARGS, constraint_new_from_max},
-    {"constraint_any", (PyCFunction) py_ped_constraint_any, METH_VARARGS,
-                       constraint_any_doc},
-    {"constraint_exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS,
-                         constraint_exact_doc},
+    {"constraint_new_from_min_max", (PyCFunction) py_ped_constraint_new_from_min_max, METH_VARARGS, constraint_new_from_min_max_doc},
+    {"constraint_new_from_min", (PyCFunction) py_ped_constraint_new_from_min, METH_VARARGS, constraint_new_from_min_doc},
+    {"constraint_new_from_max", (PyCFunction) py_ped_constraint_new_from_max, METH_VARARGS, constraint_new_from_max},
+    {"constraint_any", (PyCFunction) py_ped_constraint_any, METH_VARARGS, constraint_any_doc},
+    {"constraint_exact", (PyCFunction) py_ped_constraint_exact, METH_VARARGS, constraint_exact_doc},
 
     /* pydevice.c */
-    {"device_get", (PyCFunction) py_ped_device_get, METH_VARARGS,
-                   device_get_doc},
-    {"device_get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS,
-                        device_get_next_doc},
-    {"device_probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS,
-                         device_probe_all_doc},
-    {"device_free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS,
-                        device_free_all_doc},
+    {"device_get", (PyCFunction) py_ped_device_get, METH_VARARGS, device_get_doc},
+    {"device_get_next", (PyCFunction) py_ped_device_get_next, METH_VARARGS, device_get_next_doc},
+    {"device_probe_all", (PyCFunction) py_ped_device_probe_all, METH_VARARGS, device_probe_all_doc},
+    {"device_free_all", (PyCFunction) py_ped_device_free_all, METH_VARARGS, device_free_all_doc},
 
     /* pydisk.c */
-    {"disk_type_get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS,
-                           disk_type_get_next_doc},
-    {"disk_type_get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS,
-                      disk_type_get_doc},
-    {"partition_type_get_name", (PyCFunction) py_ped_partition_type_get_name,
-                                METH_VARARGS, partition_type_get_name_doc},
-    {"partition_flag_get_name", (PyCFunction) py_ped_partition_flag_get_name,
-                                METH_VARARGS, partition_flag_get_name_doc},
-    {"partition_flag_get_by_name", (PyCFunction) py_ped_partition_flag_get_by_name,
-                            METH_VARARGS, partition_flag_get_by_name_doc},
-    {"partition_flag_next", (PyCFunction) py_ped_partition_flag_next,
-                            METH_VARARGS, partition_flag_next_doc},
-    {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh,
-                       METH_VARARGS, disk_new_fresh_doc},
-    {"disk_new", (PyCFunction) py_ped_disk_new,
-                       METH_VARARGS, disk_new_doc},
-    {"disk_flag_get_name", (PyCFunction) py_ped_disk_flag_get_name,
-                                METH_VARARGS, disk_flag_get_name_doc},
-    {"disk_flag_get_by_name", (PyCFunction) py_ped_disk_flag_get_by_name,
-                            METH_VARARGS, disk_flag_get_by_name_doc},
-    {"disk_flag_next", (PyCFunction) py_ped_disk_flag_next,
-                            METH_VARARGS, disk_flag_next_doc},
+    {"disk_type_get_next", (PyCFunction) py_ped_disk_type_get_next, METH_VARARGS, disk_type_get_next_doc},
+    {"disk_type_get", (PyCFunction) py_ped_disk_type_get, METH_VARARGS, disk_type_get_doc},
+    {"partition_type_get_name", (PyCFunction) py_ped_partition_type_get_name, METH_VARARGS, partition_type_get_name_doc},
+    {"partition_flag_get_name", (PyCFunction) py_ped_partition_flag_get_name, METH_VARARGS, partition_flag_get_name_doc},
+    {"partition_flag_get_by_name", (PyCFunction) py_ped_partition_flag_get_by_name, METH_VARARGS, partition_flag_get_by_name_doc},
+    {"partition_flag_next", (PyCFunction) py_ped_partition_flag_next, METH_VARARGS, partition_flag_next_doc},
+    {"disk_new_fresh", (PyCFunction) py_ped_disk_new_fresh, METH_VARARGS, disk_new_fresh_doc},
+    {"disk_new", (PyCFunction) py_ped_disk_new, METH_VARARGS, disk_new_doc},
+    {"disk_flag_get_name", (PyCFunction) py_ped_disk_flag_get_name, METH_VARARGS, disk_flag_get_name_doc},
+    {"disk_flag_get_by_name", (PyCFunction) py_ped_disk_flag_get_by_name, METH_VARARGS, disk_flag_get_by_name_doc},
+    {"disk_flag_next", (PyCFunction) py_ped_disk_flag_next, METH_VARARGS, disk_flag_next_doc},
 
     /* pyfilesys.c */
-    {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS,
-                          file_system_probe_doc},
-    {"file_system_probe_specific", (PyCFunction) py_ped_file_system_probe_specific,
-                                   METH_VARARGS, file_system_probe_specific_doc},
-    {"file_system_type_get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS,
-                             file_system_type_get_doc},
-    {"file_system_type_get_next", (PyCFunction) py_ped_file_system_type_get_next,
-                                  METH_VARARGS, file_system_type_get_next_doc},
+    {"file_system_probe", (PyCFunction) py_ped_file_system_probe, METH_VARARGS, file_system_probe_doc},
+    {"file_system_probe_specific", (PyCFunction) py_ped_file_system_probe_specific, METH_VARARGS, file_system_probe_specific_doc},
+    {"file_system_type_get", (PyCFunction) py_ped_file_system_type_get, METH_VARARGS, file_system_type_get_doc},
+    {"file_system_type_get_next", (PyCFunction) py_ped_file_system_type_get_next, METH_VARARGS, file_system_type_get_next_doc},
 
     /* pyunit.c */
-    {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS,
-                         unit_set_default_doc},
-    {"unit_get_default", (PyCFunction) py_ped_unit_get_default, METH_VARARGS,
-                         unit_get_default_doc},
-    {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS,
-                      unit_get_name_doc},
-    {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS,
-                         unit_get_by_name_doc},
+    {"unit_set_default", (PyCFunction) py_ped_unit_set_default, METH_VARARGS, unit_set_default_doc},
+    {"unit_get_default", (PyCFunction) py_ped_unit_get_default, METH_VARARGS, unit_get_default_doc},
+    {"unit_get_name", (PyCFunction) py_ped_unit_get_name, METH_VARARGS, unit_get_name_doc},
+    {"unit_get_by_name", (PyCFunction) py_ped_unit_get_by_name, METH_VARARGS, unit_get_by_name_doc},
 
     { NULL, NULL, 0, NULL }
 };
 
-#if PY_MAJOR_VERSION >= 3
 #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
 #define MOD_ERROR_VAL NULL
 #define MOD_SUCCESS_VAL(val) val
@@ -338,23 +306,21 @@ struct PyModuleDef module_def = {
      -1,
      PyPedModuleMethods,
         NULL, NULL, NULL, NULL
-    };
-#else
-#define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
-#define MOD_ERROR_VAL
-#define MOD_SUCCESS_VAL(val)
-#endif
+};
 
-PyObject *py_libparted_get_version(PyObject *s, PyObject *args) {
+PyObject *py_libparted_get_version(PyObject *s, PyObject *args)
+{
     char *ret = (char *) ped_get_version();
 
-    if (ret != NULL)
+    if (ret != NULL) {
         return PyUnicode_FromString(ret);
-    else
+    } else {
         return PyUnicode_FromString("");
+    }
 }
 
-PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
+PyObject *py_pyparted_version(PyObject *s, PyObject *args)
+{
     int t = 0;
     int major = -1, minor = -1, update = -1;
     char suffix[11];
@@ -368,8 +334,7 @@ PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
      */
     if (index(v, '-')) {
         memset(&suffix, '\0', sizeof(suffix));
-        t = sscanf(v, "%d.%d.%d-%10s", &major, &minor, &update,
-                   (char *) &suffix);
+        t = sscanf(v, "%d.%d.%d-%10s", &major, &minor, &update, (char *) &suffix);
     } else {
         t = sscanf(v, "%d.%d.%d", &major, &minor, &update);
     }
@@ -407,7 +372,8 @@ PyObject *py_pyparted_version(PyObject *s, PyObject *args) {
  * what to do with parted exceptions.  See the docs for the
  * py_ped_register_exn_handler function.
  */
-static PedExceptionOption partedExnHandler(PedException *e) {
+static PedExceptionOption partedExnHandler(PedException *e)
+{
     PedExceptionOption ret;
 
     switch (e->type) {
@@ -439,6 +405,7 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
                 retval = PyObject_CallObject(exn_handler, args);
                 Py_DECREF(args);
+
                 if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0)) {
                     return PyLong_AsLong(retval);
                 }
@@ -458,9 +425,9 @@ static PedExceptionOption partedExnHandler(PedException *e) {
             partedExnRaised = 1;
             partedExnMessage = strdup(e->message);
 
-            if (partedExnMessage == NULL)
+            if (partedExnMessage == NULL) {
                 PyErr_NoMemory();
-            else if (exn_handler && PyCallable_Check(exn_handler)) {
+            } else if (exn_handler && PyCallable_Check(exn_handler)) {
                 PyObject *args, *retval;
 
                 args = PyTuple_New(3);
@@ -470,13 +437,14 @@ static PedExceptionOption partedExnHandler(PedException *e) {
 
                 retval = PyObject_CallObject(exn_handler, args);
                 Py_DECREF(args);
-                if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0))
+
+                if (retval != NULL && (PyLong_AsLong(retval) == PED_EXCEPTION_UNHANDLED || (PyLong_AsLong(retval) & e->options) > 0)) {
                     return PyLong_AsLong(retval);
-                else
+                } else {
                     /* Call failed, use the default value. */
                     return PED_EXCEPTION_CANCEL;
-            }
-            else {
+                }
+            } else {
                 /* If no exception handling function was registered to tell us
                  * what to do, return "cancel" for any questions to prevent
                  * any potential disk destruction.
@@ -500,15 +468,12 @@ static PedExceptionOption partedExnHandler(PedException *e) {
     return PED_EXCEPTION_IGNORE;
 }
 
-MOD_INIT(_ped) {
+MOD_INIT(_ped)
+{
     PyObject *m = NULL;
 
     /* init the main Python module and add methods */
-#if PY_MAJOR_VERSION >= 3
     m = PyModule_Create(&module_def);
-#else
-    m = Py_InitModule3("_ped", PyPedModuleMethods, _ped_doc);
-#endif
 
     /* PedUnit possible values */
     PyModule_AddIntConstant(m, "UNIT_SECTOR", PED_UNIT_SECTOR);
@@ -527,16 +492,17 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "UNIT_TEBIBYTE", PED_UNIT_TEBIBYTE);
 
     /* add PedCHSGeometry type as _ped.CHSGeometry */
-    if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0)
+    if (PyType_Ready(&_ped_CHSGeometry_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_CHSGeometry_Type_obj);
-    PyModule_AddObject(m, "CHSGeometry",
-                       (PyObject *)&_ped_CHSGeometry_Type_obj);
+    PyModule_AddObject(m, "CHSGeometry", (PyObject *)&_ped_CHSGeometry_Type_obj);
 
     /* add PedDevice type as _ped.Device */
-    if (PyType_Ready(&_ped_Device_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Device_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Device_Type_obj);
     PyModule_AddObject(m, "Device", (PyObject *)&_ped_Device_Type_obj);
@@ -560,50 +526,57 @@ MOD_INIT(_ped) {
     PyModule_AddIntConstant(m, "DEVICE_NVME", PED_DEVICE_NVME);
 
     /* add PedTimer type as _ped.Timer */
-    if (PyType_Ready(&_ped_Timer_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Timer_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Timer_Type_obj);
     PyModule_AddObject(m, "Timer", (PyObject *)&_ped_Timer_Type_obj);
 
     /* add PedGeometry type as _ped.Geometry */
-    if (PyType_Ready(&_ped_Geometry_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Geometry_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Geometry_Type_obj);
     PyModule_AddObject(m, "Geometry", (PyObject *)&_ped_Geometry_Type_obj);
 
     /* add PedAlignment type as _ped.Alignment */
-    if (PyType_Ready(&_ped_Alignment_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Alignment_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Alignment_Type_obj);
     PyModule_AddObject(m, "Alignment", (PyObject *)&_ped_Alignment_Type_obj);
 
     /* add PedConstraint type as _ped.Constraint */
-    if (PyType_Ready(&_ped_Constraint_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Constraint_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Constraint_Type_obj);
     PyModule_AddObject(m, "Constraint", (PyObject *)&_ped_Constraint_Type_obj);
 
     /* add PedPartition type as _ped.Partition */
-    if (PyType_Ready(&_ped_Partition_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Partition_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Partition_Type_obj);
     PyModule_AddObject(m, "Partition", (PyObject *)&_ped_Partition_Type_obj);
 
     /* add PedDisk as _ped.Disk */
-    if (PyType_Ready(&_ped_Disk_Type_obj) < 0)
+    if (PyType_Ready(&_ped_Disk_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_Disk_Type_obj);
     PyModule_AddObject(m, "Disk", (PyObject *)&_ped_Disk_Type_obj);
 
     /* add PedDiskType as _ped.DiskType */
-    if (PyType_Ready(&_ped_DiskType_Type_obj) < 0)
+    if (PyType_Ready(&_ped_DiskType_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_DiskType_Type_obj);
     PyModule_AddObject(m, "DiskType", (PyObject *)&_ped_DiskType_Type_obj);
@@ -689,28 +662,27 @@ MOD_INIT(_ped) {
 #endif
 
     /* add PedFileSystemType as _ped.FileSystemType */
-    if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0)
+    if (PyType_Ready(&_ped_FileSystemType_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_FileSystemType_Type_obj);
-    PyModule_AddObject(m, "FileSystemType",
-                       (PyObject *)&_ped_FileSystemType_Type_obj);
+    PyModule_AddObject(m, "FileSystemType", (PyObject *)&_ped_FileSystemType_Type_obj);
 
     /* add PedFileSystem as _ped.FileSystem */
-    if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0)
+    if (PyType_Ready(&_ped_FileSystem_Type_obj) < 0) {
         return MOD_ERROR_VAL;
+    }
 
     Py_INCREF(&_ped_FileSystem_Type_obj);
     PyModule_AddObject(m, "FileSystem", (PyObject *)&_ped_FileSystem_Type_obj);
 
     /* add our custom exceptions */
-    AlignmentException = PyErr_NewException("_ped.AlignmentException", NULL,
-                                             NULL);
+    AlignmentException = PyErr_NewException("_ped.AlignmentException", NULL, NULL);
     Py_INCREF(AlignmentException);
     PyModule_AddObject(m, "AlignmentException", AlignmentException);
 
-    ConstraintException = PyErr_NewException("_ped.ConstraintException", NULL,
-                                             NULL);
+    ConstraintException = PyErr_NewException("_ped.ConstraintException", NULL, NULL);
     Py_INCREF(ConstraintException);
     PyModule_AddObject(m, "ConstraintException", ConstraintException);
 
@@ -730,8 +702,7 @@ MOD_INIT(_ped) {
     Py_INCREF(DiskLabelException);
     PyModule_AddObject(m, "DiskLabelException", DiskLabelException);
 
-    FileSystemException = PyErr_NewException("_ped.FileSystemException", NULL,
-                                             NULL);
+    FileSystemException = PyErr_NewException("_ped.FileSystemException", NULL, NULL);
     Py_INCREF(FileSystemException);
     PyModule_AddObject(m, "FileSystemException", FileSystemException);
 
@@ -743,8 +714,7 @@ MOD_INIT(_ped) {
     Py_INCREF(IOException);
     PyModule_AddObject(m, "IOException", IOException);
 
-    NotNeededException = PyErr_NewException("_ped.NotNeededException",
-                                            NULL, NULL);
+    NotNeededException = PyErr_NewException("_ped.NotNeededException", NULL, NULL);
     Py_INCREF(NotNeededException);
     PyModule_AddObject(m, "NotNeededException", NotNeededException);
 
@@ -752,8 +722,7 @@ MOD_INIT(_ped) {
     Py_INCREF(PartedException);
     PyModule_AddObject(m, "PartedException", PartedException);
 
-    PartitionException = PyErr_NewException("_ped.PartitionException", NULL,
-                                             NULL);
+    PartitionException = PyErr_NewException("_ped.PartitionException", NULL, NULL);
     Py_INCREF(PartitionException);
     PyModule_AddObject(m, "PartitionException", PartitionException);
 
@@ -761,13 +730,11 @@ MOD_INIT(_ped) {
     Py_INCREF(TimerException);
     PyModule_AddObject(m, "TimerException", TimerException);
 
-    UnknownDeviceException = PyErr_NewException("_ped.UnknownDeviceException",
-                                                NULL, NULL);
+    UnknownDeviceException = PyErr_NewException("_ped.UnknownDeviceException", NULL, NULL);
     Py_INCREF(UnknownDeviceException);
     PyModule_AddObject(m, "UnknownDeviceException", UnknownDeviceException);
 
-    UnknownTypeException = PyErr_NewException("_ped.UnknownTypeException", NULL,
-                                              NULL);
+    UnknownTypeException = PyErr_NewException("_ped.UnknownTypeException", NULL, NULL);
     Py_INCREF(UnknownTypeException);
     PyModule_AddObject(m, "UnknownTypeException", UnknownTypeException);
 
@@ -804,6 +771,3 @@ MOD_INIT(_ped) {
     ped_exception_set_handler(partedExnHandler);
     return MOD_SUCCESS_VAL(m);
 }
-
-/* vim:tw=78:ts=4:et:sw=4
- */

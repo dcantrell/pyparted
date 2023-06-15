@@ -15,12 +15,14 @@
 #include "typeobjects/pynatmath.h"
 
 /* _ped.Alignment functions */
-void _ped_Alignment_dealloc(_ped_Alignment *self) {
+void _ped_Alignment_dealloc(_ped_Alignment *self)
+{
     PyObject_GC_UnTrack(self);
     PyObject_GC_Del(self);
 }
 
-int _ped_Alignment_compare(_ped_Alignment *self, PyObject *obj) {
+int _ped_Alignment_compare(_ped_Alignment *self, PyObject *obj)
+{
     _ped_Alignment *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Alignment_Type_obj);
 
@@ -34,22 +36,27 @@ int _ped_Alignment_compare(_ped_Alignment *self, PyObject *obj) {
     }
 
     comp = (_ped_Alignment *) obj;
-    if ((self->offset == comp->offset) &&
-        (self->grain_size == comp->grain_size)) {
+
+    if ((self->offset == comp->offset) && (self->grain_size == comp->grain_size)) {
         return 0;
     } else {
         return 1;
     }
 }
 
-PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op) {
+PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op)
+{
+    int rv;
+
     if (op == Py_EQ || op == Py_NE) {
-        int rv = _ped_Alignment_compare(a, b);
-        if (PyErr_Occurred())
+        rv = _ped_Alignment_compare(a, b);
+
+        if (PyErr_Occurred()) {
             return NULL;
+        }
+
         return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Alignment");
         return NULL;
     } else {
@@ -58,7 +65,8 @@ PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op) {
     }
 }
 
-PyObject *_ped_Alignment_str(_ped_Alignment *self) {
+PyObject *_ped_Alignment_str(_ped_Alignment *self)
+{
     char *ret = NULL;
 
     if (asprintf(&ret, "_ped.Alignment instance --\n"
@@ -70,23 +78,26 @@ PyObject *_ped_Alignment_str(_ped_Alignment *self) {
     return Py_BuildValue("s", ret);
 }
 
-int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg) {
+int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg)
+{
     return 0;
 }
 
-int _ped_Alignment_clear(_ped_Alignment *self) {
+int _ped_Alignment_clear(_ped_Alignment *self)
+{
     return 0;
 }
 
-int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"offset", "grain_size", NULL};
+int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = { "offset", "grain_size", NULL };
     PedAlignment *alignment = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "LL", kwlist,
-                                     &self->offset, &self->grain_size)) {
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "LL", kwlist, &self->offset, &self->grain_size)) {
         return -1;
     } else {
         alignment = ped_alignment_new(self->offset, self->grain_size);
+
         if (!alignment) {
             PyErr_SetString(CreateException, "Could not create new alignment");
             return -1;
@@ -94,13 +105,13 @@ int _ped_Alignment_init(_ped_Alignment *self, PyObject *args, PyObject *kwds) {
 
         self->offset = alignment->offset;
         self->grain_size = alignment->grain_size;
-
         ped_alignment_destroy(alignment);
         return 0;
     }
 }
 
-PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
+PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -118,7 +129,8 @@ PyObject *_ped_Alignment_get(_ped_Alignment *self, void *closure) {
     }
 }
 
-int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
+int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -127,11 +139,13 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
 
     if (!strcmp(member, "offset")) {
         self->offset = PyLong_AsLongLong(value);
+
         if (PyErr_Occurred()) {
             return -1;
         }
     } else if (!strcmp(member, "grain_size")) {
         self->grain_size = PyLong_AsLongLong(value);
+
         if (PyErr_Occurred()) {
             return -1;
         }
@@ -143,33 +157,33 @@ int _ped_Alignment_set(_ped_Alignment *self, PyObject *value, void *closure) {
 }
 
 /* 1:1 function mappings for natmath.h in libparted */
-PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_duplicate(PyObject *s, PyObject *args)
+{
     PedAlignment *alignment = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
 
     alignment = _ped_Alignment2PedAlignment(s);
+
     if (alignment == NULL) {
         return NULL;
     }
 
     align = ped_alignment_duplicate(alignment);
-
     ped_alignment_destroy(alignment);
 
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
-    }
-    else {
+    } else {
         PyErr_SetString(CreateException, "Could not duplicate alignment");
         return NULL;
     }
 
     ped_alignment_destroy(align);
-
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args)
+{
     PyObject *in_b = NULL;
     PedAlignment *out_a = NULL, *out_b = NULL, *align = NULL;
     _ped_Alignment *ret = NULL;
@@ -179,34 +193,34 @@ PyObject *py_ped_alignment_intersect(PyObject *s, PyObject *args) {
     }
 
     out_a = _ped_Alignment2PedAlignment(s);
+
     if (out_a == NULL) {
         return NULL;
     }
 
     out_b = _ped_Alignment2PedAlignment(in_b);
+
     if (out_b == NULL) {
         return NULL;
     }
 
     align = ped_alignment_intersect(out_a, out_b);
-
     ped_alignment_destroy(out_a);
     ped_alignment_destroy(out_b);
 
     if (align) {
         ret = PedAlignment2_ped_Alignment(align);
-    }
-    else {
+    } else {
         PyErr_SetString(PyExc_ArithmeticError, "Could not find alignment intersection");
         return NULL;
     }
 
     ped_alignment_destroy(align);
-
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args)
+{
     PyObject *in_geom = NULL;
     PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
@@ -217,17 +231,18 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     }
 
     align = _ped_Alignment2PedAlignment(s);
+
     if (align == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
 
     ret = ped_alignment_align_up(align, out_geom, sector);
-
     ped_alignment_destroy(align);
 
     if (ret == -1) {
@@ -238,7 +253,8 @@ PyObject *py_ped_alignment_align_up(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ret);
 }
 
-PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args)
+{
     PyObject *in_geom = NULL;
     PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
@@ -249,17 +265,18 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     }
 
     align = _ped_Alignment2PedAlignment(s);
+
     if (align == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
 
     ret = ped_alignment_align_down(align, out_geom, sector);
-
     ped_alignment_destroy(align);
 
     if (ret == -1) {
@@ -270,7 +287,8 @@ PyObject *py_ped_alignment_align_down(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ret);
 }
 
-PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args)
+{
     PyObject *in_geom = NULL;
     PedAlignment *align = NULL;
     PedGeometry *out_geom = NULL;
@@ -281,17 +299,18 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     }
 
     align = _ped_Alignment2PedAlignment(s);
+
     if (align == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
 
     ret = ped_alignment_align_nearest(align, out_geom, sector);
-
     ped_alignment_destroy(align);
 
     if (ret == -1) {
@@ -302,7 +321,8 @@ PyObject *py_ped_alignment_align_nearest(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ret);
 }
 
-PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
+PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args)
+{
     int ret = -1;
     PyObject *in_geom = NULL;
     PedAlignment *align = NULL;
@@ -314,11 +334,13 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
     }
 
     align = _ped_Alignment2PedAlignment(s);
+
     if (align == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
@@ -332,6 +354,3 @@ PyObject *py_ped_alignment_is_aligned(PyObject *s, PyObject *args) {
         Py_RETURN_FALSE;
     }
 }
-
-/* vim:tw=78:ts=4:et:sw=4
- */

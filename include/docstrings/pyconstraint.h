@@ -49,6 +49,3 @@ PyDoc_STRVAR(_ped_Constraint_doc,
 "calculations.");
 
 #endif /* DOCSTRINGS_PYCONSTRAINT_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

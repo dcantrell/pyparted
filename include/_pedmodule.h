@@ -15,6 +15,3 @@ extern PyObject *py_pyparted_version(PyObject *, PyObject *);
 extern PyMODINIT_FUNC PyInit__ped(void);
 
 #endif /* _PARTEDMODULE_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

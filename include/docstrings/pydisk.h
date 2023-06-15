@@ -310,6 +310,3 @@ PyDoc_STRVAR(_ped_DiskType_doc,
 "objects is stored inside a _ped.Disk object.");
 
 #endif /* PYDISK_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

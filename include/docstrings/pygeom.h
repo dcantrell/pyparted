@@ -111,6 +111,3 @@ PyDoc_STRVAR(_ped_Geometry_doc,
 "\t- end < dev.length");
 
 #endif /* DOCSTRINGS_PYGEOM_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

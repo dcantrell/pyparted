@@ -19,14 +19,7 @@
 #include "pynatmath.h"
 #include "pytimer.h"
 
-#if PY_MAJOR_VERSION < 3
-#define PyUnicode_AsUTF8 PyString_AsString
-#define TP_FLAGS (Py_TPFLAGS_HAVE_CLASS | Py_TPFLAGS_CHECKTYPES | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_RICHCOMPARE)
-#else
-// XXX Restore tp_richcompare?
 #define TP_FLAGS (Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE)
-#endif
-
 
 PedAlignment *_ped_Alignment2PedAlignment(PyObject *);
 _ped_Alignment *PedAlignment2_ped_Alignment(PedAlignment *);
@@ -62,6 +55,3 @@ PedTimer *_ped_Timer2PedTimer(PyObject *);
 _ped_Timer *PedTimer2_ped_Timer(PedTimer *);
 
 #endif /* CONVERT_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

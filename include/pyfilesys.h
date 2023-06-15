@@ -67,6 +67,3 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *, void *);
 extern PyTypeObject _ped_FileSystem_Type_obj;
 
 #endif /* PYFILESYS_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

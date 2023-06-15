@@ -59,6 +59,3 @@ PyDoc_STRVAR(_ped_Alignment_doc,
 "fails and ArithmeticError if calculating alignments and intersections fails.");
 
 #endif /* DOCSTRINGS_PYNATMATH_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

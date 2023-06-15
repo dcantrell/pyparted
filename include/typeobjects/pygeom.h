@@ -111,6 +111,3 @@ PyTypeObject _ped_Geometry_Type_obj = {
 };
 
 #endif /* TYPEOBJECTS_PYGEOM_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

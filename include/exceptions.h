@@ -2,7 +2,8 @@
  * exceptions.h
  *
  * Copyright The pyparted Project Authors
- * SPDX-License-Identifier: GPL-2.0-or-later                                    */
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef _EXCEPTIONS_H_INCLUDED
 #define _EXCEPTIONS_H_INCLUDED
@@ -30,6 +31,3 @@ extern unsigned int partedExnRaised;
 extern char *partedExnMessage;
 
 #endif /* _EXCEPTIONS_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

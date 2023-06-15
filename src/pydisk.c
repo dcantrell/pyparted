@@ -16,7 +16,8 @@
 #include "typeobjects/pydisk.h"
 
 /* _ped.Partition functions */
-void _ped_Partition_dealloc(_ped_Partition *self) {
+void _ped_Partition_dealloc(_ped_Partition *self)
+{
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->disk);
@@ -31,7 +32,8 @@ void _ped_Partition_dealloc(_ped_Partition *self) {
     PyObject_GC_Del(self);
 }
 
-int _ped_Partition_compare(_ped_Partition *self, PyObject *obj) {
+int _ped_Partition_compare(_ped_Partition *self, PyObject *obj)
+{
     _ped_Partition *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Partition_Type_obj);
 
@@ -45,18 +47,20 @@ int _ped_Partition_compare(_ped_Partition *self, PyObject *obj) {
     }
 
     comp = (_ped_Partition *) obj;
-    if ((_ped_Disk_Type_obj.tp_richcompare(self->disk, comp->disk, Py_EQ)) &&
-        (_ped_Geometry_Type_obj.tp_richcompare(self->geom, comp->geom, Py_EQ)) &&
-        (self->ped_partition->num == comp->ped_partition->num) &&
-        (self->type == comp->type) &&
-        (_ped_FileSystemType_Type_obj.tp_richcompare(self->fs_type, comp->fs_type, Py_EQ))) {
+
+    if ((_ped_Disk_Type_obj.tp_richcompare(self->disk, comp->disk, Py_EQ))
+        && (_ped_Geometry_Type_obj.tp_richcompare(self->geom, comp->geom, Py_EQ))
+        && (self->ped_partition->num == comp->ped_partition->num)
+        && (self->type == comp->type)
+        && (_ped_FileSystemType_Type_obj.tp_richcompare(self->fs_type, comp->fs_type, Py_EQ))) {
         return 0;
     } else {
         return 1;
     }
 }
 
-PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op) {
+PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op)
+{
     if (op == Py_EQ) {
         if ((_ped_Partition_Type_obj.tp_richcompare((PyObject *) a, b, Py_EQ))) {
             Py_RETURN_TRUE;
@@ -69,8 +73,7 @@ PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op) {
         } else {
             Py_RETURN_FALSE;
         }
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Partition");
         return NULL;
     } else {
@@ -79,21 +82,25 @@ PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op) {
     }
 }
 
-PyObject *_ped_Partition_str(_ped_Partition *self) {
+PyObject *_ped_Partition_str(_ped_Partition *self)
+{
     char *ret = NULL;
     char *disk = NULL, *fs_type = NULL, *geom = NULL;
 
     disk = (char *) PyUnicode_AsUTF8(_ped_Disk_Type_obj.tp_repr(self->disk));
+
     if (disk == NULL) {
         return NULL;
     }
 
     fs_type = (char *) PyUnicode_AsUTF8(_ped_FileSystemType_Type_obj.tp_repr(self->fs_type));
+
     if (fs_type == NULL) {
         return NULL;
     }
 
     geom = (char *) PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
+
     if (geom == NULL) {
         return NULL;
     }
@@ -110,23 +117,30 @@ PyObject *_ped_Partition_str(_ped_Partition *self) {
     return Py_BuildValue("s", ret);
 }
 
-int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
+int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg)
+{
     int err;
 
     if (self->disk) {
-        if ((err = visit(self->disk, arg))) {
+        err = visit(self->disk, arg);
+
+        if (err) {
             return err;
         }
     }
 
     if (self->geom) {
-        if ((err = visit(self->geom, arg))) {
+        err = visit(self->geom, arg);
+
+        if (err) {
             return err;
         }
     }
 
     if (self->fs_type) {
-        if ((err = visit(self->fs_type, arg))) {
+        err = visit(self->fs_type, arg);
+
+        if (err) {
             return err;
         }
     }
@@ -134,7 +148,8 @@ int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg) {
     return 0;
 }
 
-int _ped_Partition_clear(_ped_Partition *self) {
+int _ped_Partition_clear(_ped_Partition *self)
+{
     Py_CLEAR(self->disk);
     self->disk = NULL;
 
@@ -147,7 +162,8 @@ int _ped_Partition_clear(_ped_Partition *self) {
     return 0;
 }
 
-int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
+int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"disk", "type", "start", "end", "fs_type", NULL};
     PedSector start, end;
     PedDisk *disk = NULL;
@@ -180,10 +196,12 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
      */
     disk = _ped_Disk2PedDisk(self->disk);
 
-    if (self->fs_type != Py_None)
+    if (self->fs_type != Py_None) {
         fstype = _ped_FileSystemType2PedFileSystemType(self->fs_type);
+    }
 
     part = ped_partition_new(disk, self->type, fstype, start, end);
+
     if (part == NULL) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -217,6 +235,7 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
      */
     Py_CLEAR(self->geom);
     self->geom = (PyObject *) PedGeometry2_ped_Geometry(&(part->geom));
+
     if (self->geom == NULL) {
         Py_CLEAR(self->disk);
         Py_CLEAR(self->fs_type);
@@ -232,7 +251,8 @@ int _ped_Partition_init(_ped_Partition *self, PyObject *args, PyObject *kwds) {
     return 0;
 }
 
-PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
+PyObject *_ped_Partition_get(_ped_Partition *self, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -250,7 +270,8 @@ PyObject *_ped_Partition_get(_ped_Partition *self, void *closure) {
     }
 }
 
-int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
+int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -260,6 +281,7 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 
     if (!strcmp(member, "type")) {
         self->type = PyLong_AsLong(value);
+
         if (PyErr_Occurred()) {
             return -1;
         }
@@ -272,7 +294,8 @@ int _ped_Partition_set(_ped_Partition *self, PyObject *value, void *closure) {
 }
 
 /* _ped.Disk functions */
-void _ped_Disk_dealloc(_ped_Disk *self) {
+void _ped_Disk_dealloc(_ped_Disk *self)
+{
     if (self->ped_disk) {
         ped_disk_destroy(self->ped_disk);
     }
@@ -288,7 +311,8 @@ void _ped_Disk_dealloc(_ped_Disk *self) {
     PyObject_GC_Del(self);
 }
 
-int _ped_Disk_compare(_ped_Disk *self, PyObject *obj) {
+int _ped_Disk_compare(_ped_Disk *self, PyObject *obj)
+{
     _ped_Disk *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_Disk_Type_obj);
 
@@ -302,22 +326,28 @@ int _ped_Disk_compare(_ped_Disk *self, PyObject *obj) {
     }
 
     comp = (_ped_Disk *) obj;
-    if ((_ped_Device_Type_obj.tp_richcompare(self->dev, comp->dev, Py_EQ)) &&
-        (_ped_DiskType_Type_obj.tp_richcompare(self->type, comp->type, Py_EQ))) {
+
+    if ((_ped_Device_Type_obj.tp_richcompare(self->dev, comp->dev, Py_EQ))
+        && (_ped_DiskType_Type_obj.tp_richcompare(self->type, comp->type, Py_EQ))) {
         return 0;
     } else {
         return 1;
     }
 }
 
-PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op) {
+PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op)
+{
+    int rv;
+
     if (op == Py_EQ || op == Py_NE) {
-        int rv = _ped_Disk_compare(a, b);
-        if (PyErr_Occurred())
+        rv = _ped_Disk_compare(a, b);
+
+        if (PyErr_Occurred()) {
             return NULL;
+        }
+
         return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.Disk");
         return NULL;
     } else {
@@ -326,39 +356,46 @@ PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op) {
     }
 }
 
-PyObject *_ped_Disk_str(_ped_Disk *self) {
+PyObject *_ped_Disk_str(_ped_Disk *self)
+{
     char *ret = NULL;
     char *dev = NULL, *type = NULL;
 
     dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
+
     if (dev == NULL) {
         return NULL;
     }
 
     type = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->type));
+
     if (type == NULL) {
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Disk instance --\n  dev: %s  type: %s",
-                 dev, type) == -1) {
+    if (asprintf(&ret, "_ped.Disk instance --\n  dev: %s  type: %s", dev, type) == -1) {
         return PyErr_NoMemory();
     }
 
     return Py_BuildValue("s", ret);
 }
 
-int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
+int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg)
+{
     int err;
 
     if (self->dev) {
-        if ((err = visit(self->dev, arg))) {
+        err = visit(self->dev, arg);
+
+        if (err) {
             return err;
         }
     }
 
     if (self->type) {
-        if ((err = visit(self->type, arg))) {
+        err = visit(self->type, arg);
+
+        if (err) {
             return err;
         }
     }
@@ -366,7 +403,8 @@ int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg) {
     return 0;
 }
 
-int _ped_Disk_clear(_ped_Disk *self) {
+int _ped_Disk_clear(_ped_Disk *self)
+{
     Py_CLEAR(self->dev);
     self->dev = NULL;
 
@@ -376,7 +414,8 @@ int _ped_Disk_clear(_ped_Disk *self) {
     return 0;
 }
 
-int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
+int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"dev", NULL};
     PedDevice *device = NULL;
     PedDisk *disk = NULL;
@@ -387,18 +426,19 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
             return -1;
         }
     } else {
-        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist,
-                                         &_ped_Device_Type_obj, &self->dev)) {
+        if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist, &_ped_Device_Type_obj, &self->dev)) {
             self->dev = NULL;
             return -2;
         }
     }
 
     device = _ped_Device2PedDevice(self->dev);
+
     if (device == NULL) {
         self->dev = NULL;
         return -3;
     }
+
     disk = ped_disk_new(device);
 
     if (disk == NULL) {
@@ -417,22 +457,21 @@ int _ped_Disk_init(_ped_Disk *self, PyObject *args, PyObject *kwds) {
     }
 
     Py_INCREF(self->dev);
-
     self->type = (PyObject *) PedDiskType2_ped_DiskType((PedDiskType *) disk->type);
-
     self->ped_disk = disk;
-
     return 0;
 }
 
 /* _ped.DiskType functions */
-void _ped_DiskType_dealloc(_ped_DiskType *self) {
+void _ped_DiskType_dealloc(_ped_DiskType *self)
+{
     PyObject_GC_UnTrack(self);
     free(self->name);
     PyObject_GC_Del(self);
 }
 
-int _ped_DiskType_compare(_ped_DiskType *self, PyObject *obj) {
+int _ped_DiskType_compare(_ped_DiskType *self, PyObject *obj)
+{
     _ped_DiskType *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_DiskType_Type_obj);
 
@@ -446,22 +485,27 @@ int _ped_DiskType_compare(_ped_DiskType *self, PyObject *obj) {
     }
 
     comp = (_ped_DiskType *) obj;
-    if ((!strcmp(self->name, comp->name)) &&
-        (self->features == comp->features)) {
+
+    if ((!strcmp(self->name, comp->name)) && (self->features == comp->features)) {
         return 0;
     } else {
         return 1;
     }
 }
 
-PyObject *_ped_DiskType_richcompare(_ped_DiskType *a, PyObject *b, int op) {
+PyObject *_ped_DiskType_richcompare(_ped_DiskType *a, PyObject *b, int op)
+{
+    int rv;
+
     if (op == Py_EQ || op == Py_NE) {
-        int rv = _ped_DiskType_compare(a, b);
-        if (PyErr_Occurred())
+        rv = _ped_DiskType_compare(a, b);
+
+        if (PyErr_Occurred()) {
             return NULL;
+        }
+
         return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.DiskType");
         return NULL;
     } else {
@@ -470,7 +514,8 @@ PyObject *_ped_DiskType_richcompare(_ped_DiskType *a, PyObject *b, int op) {
     }
 }
 
-PyObject *_ped_DiskType_str(_ped_DiskType *self) {
+PyObject *_ped_DiskType_str(_ped_DiskType *self)
+{
     char *ret = NULL;
 
     if (asprintf(&ret, "_ped.DiskType instance --\n"
@@ -482,15 +527,18 @@ PyObject *_ped_DiskType_str(_ped_DiskType *self) {
     return Py_BuildValue("s", ret);
 }
 
-int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg) {
+int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg)
+{
     return 0;
 }
 
-int _ped_DiskType_clear(_ped_DiskType *self) {
+int _ped_DiskType_clear(_ped_DiskType *self)
+{
     return 0;
 }
 
-PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
+PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -499,10 +547,11 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
     }
 
     if (!strcmp(member, "name")) {
-        if (self->name != NULL)
+        if (self->name != NULL) {
             return PyUnicode_FromString(self->name);
-        else
+        } else {
             return PyUnicode_FromString("");
+        }
     } else if (!strcmp(member, "features")) {
         return PyLong_FromLong(self->features);
     } else {
@@ -512,7 +561,8 @@ PyObject *_ped_DiskType_get(_ped_DiskType *self, void *closure) {
 }
 
 /* 1:1 function mappings for disk.h in libparted */
-PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args)
+{
     PyObject *in_type = NULL;
     PedDiskType *cur = NULL, *next = NULL;
     _ped_DiskType *ret = NULL;
@@ -523,6 +573,7 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
 
     if (in_type) {
         cur = _ped_DiskType2PedDiskType(in_type);
+
         if (!cur) {
             return NULL;
         }
@@ -539,7 +590,8 @@ PyObject *py_ped_disk_type_get_next(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args)
+{
     char *in_name = NULL;
     PedDiskType *out_type = NULL;
     _ped_DiskType *ret = NULL;
@@ -567,7 +619,8 @@ PyObject *py_ped_disk_type_get(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args)
+{
     PedDiskType *disktype = NULL;
     PedDiskTypeFeature feature = -1;
     int ret = 0;
@@ -589,7 +642,8 @@ PyObject *py_ped_disk_type_check_feature(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args)
+{
     PedDevice *device = NULL;
     int ret = 0;
 
@@ -619,7 +673,8 @@ PyObject *py_ped_disk_clobber(PyObject *s, PyObject *args) {
 }
 
 /* XXX: is this necessary? */
-PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL, *pass_disk = NULL;
     _ped_Disk *ret = NULL;
 
@@ -662,7 +717,8 @@ PyObject *py_ped_disk_duplicate(PyObject *s, PyObject *args) {
  * Similar to py_ped_device_destroy(), we might move the call to
  * ped_disk_destroy() to the tp_clear() for _ped.Disk.
  */
-PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
 
     disk = _ped_Disk2PedDisk(s);
@@ -678,7 +734,8 @@ PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args) {
     return Py_None;
 }
 
-PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_commit(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -709,7 +766,8 @@ PyObject *py_ped_disk_commit(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -740,7 +798,8 @@ PyObject *py_ped_disk_commit_to_dev(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -769,7 +828,8 @@ PyObject *py_ped_disk_commit_to_os(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_check(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -800,7 +860,8 @@ PyObject *py_ped_disk_check(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_print(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
 
     disk = _ped_Disk2PedDisk(s);
@@ -813,7 +874,8 @@ PyObject *py_ped_disk_print(PyObject *s, PyObject *args) {
     return Py_None;
 }
 
-PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -826,7 +888,8 @@ PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args) {
     return PyLong_FromLong(ret);
 }
 
-PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -839,7 +902,8 @@ PyObject *py_ped_disk_get_last_partition_num(PyObject *s, PyObject *args) {
     return PyLong_FromLong(ret);
 }
 
-PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -852,23 +916,23 @@ PyObject *py_ped_disk_get_max_primary_partition_count(PyObject *s, PyObject *arg
     return PyLong_FromLong(ret);
 }
 
-PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int max = 0;
 
     disk = _ped_Disk2PedDisk(s);
 
-    if (disk) {
-        if (ped_disk_get_max_supported_partition_count(disk, &max) == true) {
-            return Py_BuildValue("i", max);
-        }
+    if (disk && ped_disk_get_max_supported_partition_count(disk, &max) == true) {
+        return Py_BuildValue("i", max);
     }
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     PedAlignment *alignment = NULL;
     _ped_Alignment *ret = NULL;
@@ -888,11 +952,11 @@ PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args) {
 
     ret = PedAlignment2_ped_Alignment(alignment);
     ped_alignment_destroy(alignment);
-
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
 
     disk = _ped_Disk2PedDisk(s);
@@ -904,7 +968,8 @@ PyObject *py_ped_disk_max_partition_length(PyObject *s, PyObject *args) {
     return PyLong_FromUnsignedLongLong(ped_disk_max_partition_length(disk));
 }
 
-PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
 
     disk = _ped_Disk2PedDisk(s);
@@ -916,7 +981,8 @@ PyObject *py_ped_disk_max_partition_start_sector(PyObject *s, PyObject *args) {
     return PyLong_FromUnsignedLongLong(ped_disk_max_partition_start_sector(disk));
 }
 
-PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args)
+{
     int ret, flag, state;
     PedDisk *disk = NULL;
 
@@ -949,7 +1015,8 @@ PyObject *py_ped_disk_set_flag(PyObject *s, PyObject *args) {
     Py_RETURN_TRUE;
 }
 
-PyObject *py_ped_disk_get_flag(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_flag(PyObject *s, PyObject *args)
+{
     int flag;
     PedDisk *disk = NULL;
 
@@ -970,7 +1037,8 @@ PyObject *py_ped_disk_get_flag(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_is_flag_available(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_is_flag_available(PyObject *s, PyObject *args)
+{
     int flag;
     PedDisk *disk = NULL;
 
@@ -991,7 +1059,8 @@ PyObject *py_ped_disk_is_flag_available(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_flag_get_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_flag_get_name(PyObject *s, PyObject *args)
+{
     int flag;
     char *ret = NULL;
 
@@ -1023,7 +1092,8 @@ PyObject *py_ped_disk_flag_get_name(PyObject *s, PyObject *args) {
     return PyUnicode_FromString(ret);
 }
 
-PyObject *py_ped_disk_flag_get_by_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_flag_get_by_name(PyObject *s, PyObject *args)
+{
     char *name = NULL;
 
     if (!PyArg_ParseTuple(args, "s", &name)) {
@@ -1033,7 +1103,8 @@ PyObject *py_ped_disk_flag_get_by_name(PyObject *s, PyObject *args) {
     return PyLong_FromLong(ped_disk_flag_get_by_name(name));
 }
 
-PyObject *py_ped_disk_flag_next(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_flag_next(PyObject *s, PyObject *args)
+{
     int flag;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -1052,7 +1123,8 @@ PyObject *py_ped_disk_flag_next(PyObject *s, PyObject *args) {
  * Similar to py_ped_device_destroy(), we might move the call to
  * ped_disk_destroy() to the tp_clear() for _ped.Disk.
  */
-PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args)
+{
     PedPartition *partition = NULL;
 
     partition = _ped_Partition2PedPartition(s);
@@ -1068,7 +1140,8 @@ PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args) {
     return Py_None;
 }
 
-PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args)
+{
     PedPartition *partition = NULL;
     int ret = 0;
 
@@ -1085,7 +1158,8 @@ PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args)
+{
     int in_state = -1;
     PedPartition *part = NULL;
     int flag;
@@ -1126,7 +1200,8 @@ PyObject *py_ped_partition_set_flag(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     int flag;
     int ret = -1;
@@ -1156,7 +1231,8 @@ PyObject *py_ped_partition_get_flag(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     int flag;
     int ret = 0;
@@ -1185,7 +1261,8 @@ PyObject *py_ped_partition_is_flag_available(_ped_Partition *s, PyObject *args) 
     }
 }
 
-PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args)
+{
     PyObject *in_fstype = NULL;
     PedPartition *part = NULL;
     PedFileSystemType *out_fstype = NULL;
@@ -1229,7 +1306,8 @@ PyObject *py_ped_partition_set_system(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     char *in_name = NULL;
     int ret = 0;
@@ -1273,7 +1351,8 @@ PyObject *py_ped_partition_set_name(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     char *ret = NULL;
 
@@ -1309,7 +1388,8 @@ PyObject *py_ped_partition_get_name(_ped_Partition *s, PyObject *args) {
 }
 
 #if PED_DISK_TYPE_LAST_FEATURE > 2
-PyObject *py_ped_partition_set_type_id(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_set_type_id(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     int id;
     int ret = 0;
@@ -1353,7 +1433,8 @@ PyObject *py_ped_partition_set_type_id(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_type_id(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_get_type_id(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     uint8_t ret;
 
@@ -1370,13 +1451,13 @@ PyObject *py_ped_partition_get_type_id(_ped_Partition *s, PyObject *args) {
     }
 
     ret = ped_partition_get_type_id(part);
-
     return PyLong_FromLong((long)ret);
 }
 #endif /* PED_DISK_TYPE_LAST_FEATURE > 2 */
 
 #if PED_DISK_TYPE_LAST_FEATURE > 4
-PyObject *py_ped_partition_set_type_uuid(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_set_type_uuid(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     PyObject *in_uuid_obj = NULL;
     char *in_uuid;
@@ -1429,7 +1510,8 @@ PyObject *py_ped_partition_set_type_uuid(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_type_uuid(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_get_type_uuid(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     char *ret = NULL;
     PyObject *pyret;
@@ -1468,7 +1550,8 @@ PyObject *py_ped_partition_get_type_uuid(_ped_Partition *s, PyObject *args) {
 }
 #endif /* PED_DISK_TYPE_LAST_FEATURE > 4 */
 
-PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     int ret = 0;
 
@@ -1487,7 +1570,8 @@ PyObject *py_ped_partition_is_busy(_ped_Partition *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
     char *ret = NULL;
 
@@ -1507,7 +1591,8 @@ PyObject *py_ped_partition_get_path(_ped_Partition *s, PyObject *args) {
     return PyUnicode_FromString(ret);
 }
 
-PyObject *py_ped_partition_reset_num(_ped_Partition *s, PyObject *args) {
+PyObject *py_ped_partition_reset_num(_ped_Partition *s, PyObject *args)
+{
     PedPartition *part = NULL;
 
     part = _ped_Partition2PedPartition(s);
@@ -1520,8 +1605,8 @@ PyObject *py_ped_partition_reset_num(_ped_Partition *s, PyObject *args) {
     Py_RETURN_TRUE;
 }
 
-
-PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args)
+{
     long type;
     char *ret = NULL;
 
@@ -1540,7 +1625,8 @@ PyObject *py_ped_partition_type_get_name(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args)
+{
     int flag;
     char *ret = NULL;
 
@@ -1566,7 +1652,8 @@ PyObject *py_ped_partition_flag_get_name(PyObject *s, PyObject *args) {
     return PyUnicode_FromString(ret);
 }
 
-PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args)
+{
     char *name = NULL;
 
     if (!PyArg_ParseTuple(args, "s", &name)) {
@@ -1576,7 +1663,8 @@ PyObject *py_ped_partition_flag_get_by_name(PyObject *s, PyObject *args) {
     return PyLong_FromLong(ped_partition_flag_get_by_name(name));
 }
 
-PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
+PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args)
+{
     int flag;
 
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -1586,7 +1674,8 @@ PyObject *py_ped_partition_flag_next(PyObject *s, PyObject *args) {
     return Py_BuildValue("i", ped_partition_flag_next(flag));
 }
 
-PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
@@ -1606,8 +1695,7 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
 
     /* Its non-sense to add an owned partition */
     if (in_part->_owned == 1) {
-        PyErr_SetString(PartitionException, "Attempting to add a partition "
-                                            "that is already owned by a disk.");
+        PyErr_SetString(PartitionException, "Attempting to add a partition that is already owned by a disk.");
         return (PyObject *) NULL;
     }
 
@@ -1633,8 +1721,9 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
 
     ret = ped_disk_add_partition(disk, out_part, out_constraint);
 
-    if (out_constraint)
+    if (out_constraint) {
         ped_constraint_destroy(out_constraint);
+    }
 
     if (ret == 0) {
         if (partedExnRaised) {
@@ -1662,7 +1751,8 @@ PyObject *py_ped_disk_add_partition(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
@@ -1736,11 +1826,13 @@ PyObject *py_ped_disk_remove_partition(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_delete_partition(PyObject *s, PyObject *args)
+{
     return py_ped_disk_remove_partition(s, args);
 }
 
-PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -1771,7 +1863,8 @@ PyObject *py_ped_disk_delete_all(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
@@ -1843,7 +1936,8 @@ PyObject *py_ped_disk_set_partition_geom(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
@@ -1909,7 +2003,8 @@ PyObject *py_ped_disk_maximize_partition(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PyObject *in_constraint = NULL;
     PedDisk *disk = NULL;
@@ -1947,8 +2042,8 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
         }
     }
 
-    pass_geom = ped_disk_get_max_partition_geometry(disk, out_part,
-                                                    out_constraint);
+    pass_geom = ped_disk_get_max_partition_geometry(disk, out_part, out_constraint);
+
     if (out_constraint) {
         ped_constraint_destroy(out_constraint);
     }
@@ -1976,7 +2071,8 @@ PyObject *py_ped_disk_get_max_partition_geometry(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     int ret = 0;
 
@@ -2007,7 +2103,8 @@ PyObject *py_ped_disk_minimize_extended_partition(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args)
+{
     _ped_Partition *in_part = NULL;
     PedDisk *disk = NULL;
     PedPartition *out_part = NULL;
@@ -2053,7 +2150,8 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args)
+{
     int num;
     PedDisk *disk = NULL;
     PedPartition *pass_part = NULL;
@@ -2085,7 +2183,8 @@ PyObject *py_ped_disk_get_partition(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     PedSector sector;
     PedPartition *pass_part = NULL;
@@ -2118,7 +2217,8 @@ PyObject *py_ped_disk_get_partition_by_sector(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args)
+{
     PedDisk *disk = NULL;
     PedPartition *pass_part = NULL;
     _ped_Partition *ret = NULL;
@@ -2133,7 +2233,7 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
             return (PyObject *) NULL;
         }
 
-        ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);
+        ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *) s);
 
         if (ret == NULL) {
             return (PyObject *) NULL;
@@ -2145,7 +2245,8 @@ PyObject *py_ped_disk_extended_partition(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args)
+{
     _ped_Device *in_device = NULL;
     _ped_DiskType *in_type = NULL;
     PedDevice *device = NULL;
@@ -2157,15 +2258,21 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
         return (PyObject *) NULL;
     }
 
-    if ((device = _ped_Device2PedDevice((PyObject *) in_device)) == NULL) {
+    device = _ped_Device2PedDevice((PyObject *) in_device);
+
+    if (!device) {
         return (PyObject *) NULL;
     }
 
-    if ((type = _ped_DiskType2PedDiskType((PyObject *) in_type)) == NULL) {
+    type = _ped_DiskType2PedDiskType((PyObject *) in_type);
+
+    if (!type) {
         return (PyObject *) NULL;
     }
 
-    if ((disk = ped_disk_new_fresh(device, type)) == NULL) {
+    disk = ped_disk_new_fresh(device, type);
+
+    if (!disk) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -2187,7 +2294,8 @@ PyObject *py_ped_disk_new_fresh(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
+PyObject *py_ped_disk_new(PyObject *s, PyObject *args)
+{
     _ped_Device *in_device = NULL;
     PedDevice *device = NULL;
     PedDisk *disk = NULL;
@@ -2197,11 +2305,15 @@ PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
         return (PyObject *) NULL;
     }
 
-    if ((device = _ped_Device2PedDevice((PyObject *) in_device)) == NULL) {
+    device = _ped_Device2PedDevice((PyObject *) in_device);
+
+    if (!device) {
         return (PyObject *) NULL;
     }
 
-    if ((disk = ped_disk_new(device)) == NULL) {
+    disk = ped_disk_new(device);
+
+    if (!disk) {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
@@ -2222,6 +2334,3 @@ PyObject *py_ped_disk_new(PyObject *s, PyObject *args) {
     ret = PedDisk2_ped_Disk(disk);
     return (PyObject *) ret;
 }
-
-/* vim:tw=78:ts=4:et:sw=4
- */

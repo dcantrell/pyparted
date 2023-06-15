@@ -16,13 +16,15 @@
 #include "typeobjects/pyfilesys.h"
 
 /* _ped.FileSystemType functions */
-void _ped_FileSystemType_dealloc(_ped_FileSystemType *self) {
+void _ped_FileSystemType_dealloc(_ped_FileSystemType *self)
+{
     PyObject_GC_UnTrack(self);
     free(self->name);
     PyObject_GC_Del(self);
 }
 
-int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj) {
+int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj)
+{
     _ped_FileSystemType *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_FileSystemType_Type_obj);
 
@@ -36,6 +38,7 @@ int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj) {
     }
 
     comp = (_ped_FileSystemType *) obj;
+
     if (!strcmp(self->name, comp->name)) {
         return 0;
     } else {
@@ -43,15 +46,19 @@ int _ped_FileSystemType_compare(_ped_FileSystemType *self, PyObject *obj) {
     }
 }
 
-PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b,
-                                          int op) {
+PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b, int op)
+{
+    int rv;
+
     if (op == Py_EQ || op == Py_NE) {
-        int rv = _ped_FileSystemType_compare(a, b);
-        if (PyErr_Occurred())
+        rv = _ped_FileSystemType_compare(a, b);
+
+        if (PyErr_Occurred()) {
             return NULL;
+        }
+
         return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.FileSystemType");
         return NULL;
     } else {
@@ -60,7 +67,8 @@ PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b,
     }
 }
 
-PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self) {
+PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self)
+{
     char *ret = NULL;
 
     if (asprintf(&ret, "_ped.FileSystemType instance --\n"
@@ -72,15 +80,18 @@ PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self) {
     return Py_BuildValue("s", ret);
 }
 
-int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg) {
+int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg)
+{
     return 0;
 }
 
-int _ped_FileSystemType_clear(_ped_FileSystemType *self) {
+int _ped_FileSystemType_clear(_ped_FileSystemType *self)
+{
     return 0;
 }
 
-PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
+PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -89,10 +100,11 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
     }
 
     if (!strcmp(member, "name")) {
-        if (self->name != NULL)
+        if (self->name != NULL) {
             return PyUnicode_FromString(self->name);
-        else
+        } else {
             return PyUnicode_FromString("");
+        }
     } else {
         PyErr_Format(PyExc_AttributeError, "_ped.FileSystemType object has no attribute %s", member);
         return NULL;
@@ -100,7 +112,8 @@ PyObject *_ped_FileSystemType_get(_ped_FileSystemType *self, void *closure) {
 }
 
 /* _ped.FileSystem functions */
-void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
+void _ped_FileSystem_dealloc(_ped_FileSystem *self)
+{
     PyObject_GC_UnTrack(self);
 
     Py_CLEAR(self->type);
@@ -112,7 +125,8 @@ void _ped_FileSystem_dealloc(_ped_FileSystem *self) {
     PyObject_GC_Del(self);
 }
 
-int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj) {
+int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj)
+{
     _ped_FileSystem *comp = NULL;
     int check = PyObject_IsInstance(obj, (PyObject *) &_ped_FileSystem_Type_obj);
 
@@ -126,9 +140,10 @@ int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj) {
     }
 
     comp = (_ped_FileSystem *) obj;
-    if ((_ped_FileSystemType_Type_obj.tp_richcompare(self->type, comp->type, Py_EQ)) &&
-        (_ped_Geometry_Type_obj.tp_richcompare(self->geom, comp->geom, Py_EQ)) &&
-        (self->checked == comp->checked)) {
+
+    if ((_ped_FileSystemType_Type_obj.tp_richcompare(self->type, comp->type, Py_EQ))
+        && (_ped_Geometry_Type_obj.tp_richcompare(self->geom, comp->geom, Py_EQ))
+        && (self->checked == comp->checked)) {
         return 0;
     } else {
         return 1;
@@ -136,14 +151,19 @@ int _ped_FileSystem_compare(_ped_FileSystem *self, PyObject *obj) {
 
 }
 
-PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op) {
+PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op)
+{
+    int rv;
+
     if (op == Py_EQ || op == Py_NE) {
-        int rv = _ped_FileSystem_compare(a, b);
-        if (PyErr_Occurred())
+        rv = _ped_FileSystem_compare(a, b);
+
+        if (PyErr_Occurred()) {
             return NULL;
+        }
+
         return PyBool_FromLong(op == Py_EQ ? rv == 0 : rv != 0);
-    } else if ((op == Py_LT) || (op == Py_LE) ||
-               (op == Py_GT) || (op == Py_GE)) {
+    } else if ((op == Py_LT) || (op == Py_LE) || (op == Py_GT) || (op == Py_GE)) {
         PyErr_SetString(PyExc_TypeError, "comparison operator not supported for _ped.FileSystem");
         return NULL;
     } else {
@@ -152,16 +172,19 @@ PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op) {
     }
 }
 
-PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
+PyObject *_ped_FileSystem_str(_ped_FileSystem *self)
+{
     char *ret = NULL;
     char *type = NULL, *geom = NULL;
 
     type = (char *) PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
+
     if (type == NULL) {
         return NULL;
     }
 
     geom = (char *) PyUnicode_AsUTF8(_ped_Geometry_Type_obj.tp_repr(self->geom));
+
     if (geom == NULL) {
         return NULL;
     }
@@ -176,17 +199,22 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self) {
     return Py_BuildValue("s", ret);
 }
 
-int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) {
+int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg)
+{
     int err;
 
     if (self->type) {
-        if ((err = visit(self->type, arg))) {
+        err = visit(self->type, arg);
+
+        if (err) {
             return err;
         }
     }
 
     if (self->geom) {
-        if ((err = visit(self->geom, arg))) {
+        err = visit(self->geom, arg);
+
+        if (err) {
             return err;
         }
     }
@@ -194,7 +222,8 @@ int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg) 
     return 0;
 }
 
-int _ped_FileSystem_clear(_ped_FileSystem *self) {
+int _ped_FileSystem_clear(_ped_FileSystem *self)
+{
     Py_CLEAR(self->type);
     self->type = NULL;
 
@@ -204,8 +233,8 @@ int _ped_FileSystem_clear(_ped_FileSystem *self) {
     return 0;
 }
 
-int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
-                         PyObject *kwds) {
+int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"type", "geom", "checked", NULL};
 
     self->checked = 0;
@@ -234,7 +263,8 @@ int _ped_FileSystem_init(_ped_FileSystem *self, PyObject *args,
     return 0;
 }
 
-PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
+PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure)
+{
     char *member = (char *) closure;
 
     if (member == NULL) {
@@ -251,7 +281,8 @@ PyObject *_ped_FileSystem_get(_ped_FileSystem *self, void *closure) {
 }
 
 /* 1:1 function mappings for filesys.h in libparted */
-PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
+PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args)
+{
     PedFileSystemType *fstype = NULL;
     _ped_FileSystemType *ret = NULL;
     char *name = NULL;
@@ -261,17 +292,18 @@ PyObject *py_ped_file_system_type_get(PyObject *s, PyObject *args) {
     }
 
     fstype = ped_file_system_type_get(name);
+
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
         return (PyObject *) ret;
-    }
-    else {
+    } else {
         PyErr_SetString(UnknownTypeException, name);
         return NULL;
     }
 }
 
-PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
+PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args)
+{
     PyObject *in_fstype = NULL;
     PedFileSystemType *cur = NULL, *next = NULL;
     _ped_FileSystemType *ret = NULL;
@@ -282,12 +314,14 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
 
     if (in_fstype) {
         cur = _ped_FileSystemType2PedFileSystemType(in_fstype);
+
         if (!cur) {
             return NULL;
         }
     }
 
     next = ped_file_system_type_get_next(cur);
+
     if (next) {
         ret = PedFileSystemType2_ped_FileSystemType(next);
         return (PyObject *) ret;
@@ -297,28 +331,31 @@ PyObject *py_ped_file_system_type_get_next(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
+PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args)
+{
     PyObject *in_geom = NULL, *in_fstype = NULL;
     PedFileSystemType *fstype = NULL;
     PedGeometry *out_geom = NULL, *geom = NULL;
     _ped_Geometry *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj,
-                          &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "O!O!", &_ped_FileSystemType_Type_obj, &in_fstype, &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
     fstype = _ped_FileSystemType2PedFileSystemType(in_fstype);
+
     if (!fstype) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (!out_geom) {
         return NULL;
     }
 
     geom = ped_file_system_probe_specific(fstype, out_geom);
+
     if (geom) {
         ret = PedGeometry2_ped_Geometry(geom);
     } else {
@@ -337,7 +374,8 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
+PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args)
+{
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
     PedFileSystemType *fstype = NULL;
@@ -348,24 +386,25 @@ PyObject *py_ped_file_system_probe(PyObject *s, PyObject *args) {
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (!out_geom) {
         return NULL;
     }
 
     fstype = ped_file_system_probe(out_geom);
+
     if (fstype) {
         ret = PedFileSystemType2_ped_FileSystemType(fstype);
-    }
-    else {
+    } else {
         if (partedExnRaised) {
             partedExnRaised = 0;
 
             if (!PyErr_ExceptionMatches(PartedException) &&
                 !PyErr_ExceptionMatches(PyExc_NotImplementedError))
                 PyErr_SetString(IOException, partedExnMessage);
-        }
-        else
+        } else {
             PyErr_SetString(FileSystemException, "Failed to find any filesystem in given geometry");
+        }
 
         return NULL;
     }

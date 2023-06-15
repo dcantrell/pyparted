@@ -49,6 +49,3 @@ int _ped_Timer_set(_ped_Timer *, PyObject *, void *);
 extern PyTypeObject _ped_Timer_Type_obj;
 
 #endif /* PYTIMER_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

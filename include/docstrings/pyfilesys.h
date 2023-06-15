@@ -26,6 +26,3 @@ PyDoc_STRVAR(_ped_FileSystem_doc,
 "_ped.CreateException may also be raised.");
 
 #endif /* DOCSTRINGS_PYFILESYS_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

@@ -196,6 +196,3 @@ PyDoc_STRVAR(_ped_Device_doc,
 "block devices and not just partitions.");
 
 #endif /* DOCSTRINGS_PYDEVICE_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

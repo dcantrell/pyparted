@@ -87,6 +87,3 @@ PyTypeObject _ped_Alignment_Type_obj = {
 };
 
 #endif /* TYPEOBJECTS_PYNATMATH_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

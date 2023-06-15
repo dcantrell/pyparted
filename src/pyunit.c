@@ -13,7 +13,8 @@
 #include "pyunit.h"
 
 /* 1:1 function mappings for unit.h in libparted */
-PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args)
+{
     int unit;
 
     if (!PyArg_ParseTuple(args, "i", &unit)) {
@@ -26,22 +27,24 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args) {
     }
 
     ped_unit_set_default(unit);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args)
+{
     return PyLong_FromLong(ped_unit_get_default());
 }
 
-PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args)
+{
     long long ret = -1;
     PedDevice *dev = NULL;
     int unit;
 
-    if (!PyArg_ParseTuple(args, "i", &unit))
+    if (!PyArg_ParseTuple(args, "i", &unit)) {
         return NULL;
+    }
 
     if (unit < PED_UNIT_FIRST || unit > PED_UNIT_LAST) {
         PyErr_SetString(PyExc_ValueError, "Invalid unit provided.");
@@ -49,11 +52,13 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     }
 
     dev = _ped_Device2PedDevice(s);
+
     if (dev == NULL) {
         return NULL;
     }
 
     ret = ped_unit_get_size(dev, unit);
+
     if (ret == 0) {
         if (partedExnRaised) {
             partedExnRaised = 0;
@@ -71,7 +76,8 @@ PyObject *py_ped_unit_get_size(PyObject *s, PyObject *args) {
     return PyLong_FromLongLong(ret);
 }
 
-PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args)
+{
     const char *name;
     int unit;
 
@@ -89,6 +95,7 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
      * a value in the static unit_names[] array in libparted.
      */
     name = ped_unit_get_name(unit);
+
     if (name != NULL) {
         return PyUnicode_FromString(name);
     } else {
@@ -96,7 +103,8 @@ PyObject *py_ped_unit_get_name(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args)
+{
     int ret;
     char *name = NULL;
 
@@ -105,6 +113,7 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     }
 
     ret = ped_unit_get_by_name(name);
+
     if (ret < PED_UNIT_FIRST || ret > PED_UNIT_LAST) {
         PyErr_SetString(UnknownTypeException, name);
         return NULL;
@@ -113,7 +122,8 @@ PyObject *py_ped_unit_get_by_name(PyObject *s, PyObject *args) {
     return Py_BuildValue("i", ret);
 }
 
-PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args)
+{
     PyObject *ret = NULL;
     char *pedret = NULL;
     PedSector sector;
@@ -130,11 +140,13 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     pedret = ped_unit_format_custom_byte(out_dev, sector, unit);
+
     if (pedret != NULL) {
         ret = PyUnicode_FromString(pedret);
         free(pedret);
@@ -145,7 +157,8 @@ PyObject *py_ped_unit_format_custom_byte(PyObject *s, PyObject *args) {
     return ret;
 }
 
-PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args)
+{
     PyObject *ret = NULL;
     char *pedret = NULL;
     PedSector sector;
@@ -156,11 +169,13 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     pedret = ped_unit_format_byte(out_dev, sector);
+
     if (pedret != NULL) {
         ret = PyUnicode_FromString(pedret);
         free(pedret);
@@ -171,7 +186,8 @@ PyObject *py_ped_unit_format_byte(PyObject *s, PyObject *args) {
     return ret;
 }
 
-PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args)
+{
     PyObject *ret = NULL;
     char *pedret = NULL;
     PedDevice *out_dev = NULL;
@@ -183,11 +199,13 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     pedret = ped_unit_format_custom(out_dev, sector, unit);
+
     if (pedret != NULL) {
         ret = PyUnicode_FromString(pedret);
         free(pedret);
@@ -198,7 +216,8 @@ PyObject *py_ped_unit_format_custom(PyObject *s, PyObject *args) {
     return ret;
 }
 
-PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_format(PyObject *s, PyObject *args)
+{
     PyObject *ret = NULL;
     char *pedret = NULL;
     PedDevice *out_dev = NULL;
@@ -209,11 +228,13 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     pedret = ped_unit_format(out_dev, sector);
+
     if (pedret != NULL) {
         ret = PyUnicode_FromString(pedret);
         free(pedret);
@@ -224,7 +245,8 @@ PyObject *py_ped_unit_format(PyObject *s, PyObject *args) {
     return ret;
 }
 
-PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_parse(PyObject *s, PyObject *args)
+{
     int ret;
     char *str = NULL;
     PedDevice *out_dev = NULL;
@@ -232,17 +254,18 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "zLO!", &str, &sector,
-                          &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "zLO!", &str, &sector, &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
@@ -256,7 +279,8 @@ PyObject *py_ped_unit_parse(PyObject *s, PyObject *args) {
     }
 }
 
-PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
+PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args)
+{
     int ret;
     char *str = NULL;
     PedDevice *out_dev = NULL;
@@ -265,8 +289,7 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     PyObject *in_geom = NULL;
     PedGeometry *out_geom = NULL;
 
-    if (!PyArg_ParseTuple(args, "ziLO!", &str, &unit, &sector,
-                          &_ped_Geometry_Type_obj, &in_geom)) {
+    if (!PyArg_ParseTuple(args, "ziLO!", &str, &unit, &sector, &_ped_Geometry_Type_obj, &in_geom)) {
         return NULL;
     }
 
@@ -276,11 +299,13 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
     }
 
     out_dev = _ped_Device2PedDevice(s);
+
     if (out_dev == NULL) {
         return NULL;
     }
 
     out_geom = _ped_Geometry2PedGeometry(in_geom);
+
     if (out_geom == NULL) {
         return NULL;
     }
@@ -293,6 +318,3 @@ PyObject *py_ped_unit_parse_custom(PyObject *s, PyObject *args) {
         Py_RETURN_FALSE;
     }
 }
-
-/* vim:tw=78:ts=4:et:sw=4
- */

@@ -22,6 +22,3 @@ PyObject *py_ped_unit_get_name(PyObject *, PyObject *);
 PyObject *py_ped_unit_get_by_name(PyObject *, PyObject *);
 
 #endif /* PYUNIT_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

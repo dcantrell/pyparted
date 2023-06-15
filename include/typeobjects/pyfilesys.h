@@ -123,6 +123,3 @@ PyTypeObject _ped_FileSystem_Type_obj = {
 };
 
 #endif /* TYPEOBJECTS_PYFILESYS_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */

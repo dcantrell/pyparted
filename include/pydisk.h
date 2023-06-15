@@ -147,6 +147,3 @@ PyObject *py_ped_disk_new_fresh(PyObject *, PyObject *);
 PyObject *py_ped_disk_new(PyObject *, PyObject *);
 
 #endif /* PYDISK_H_INCLUDED */
-
-/* vim:tw=78:ts=4:et:sw=4
- */
