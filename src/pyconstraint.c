@@ -378,21 +378,12 @@ PyObject *py_ped_constraint_new_from_max(PyObject *s, PyObject *args) {
     return (PyObject *) ret;
 }
 
-/* XXX: Remove this function at some point in the future.  The deprecation
- * warning tells people what they should be doing.
- */
 PyObject *py_ped_constraint_duplicate(PyObject *s, PyObject *args) {
     PedConstraint *constraint = NULL, *dup_constraint = NULL;
     _ped_Constraint *ret = NULL;
 
     constraint = _ped_Constraint2PedConstraint(s);
     if (constraint == NULL) {
-        return NULL;
-    }
-
-    if (PyErr_WarnEx(PyExc_DeprecationWarning,
-                     "use copy.deepcopy() to duplicate a _ped.Constraint",
-                     1) == -1) {
         return NULL;
     }
 
