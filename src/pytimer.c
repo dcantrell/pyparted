@@ -193,8 +193,8 @@ int _ped_Timer_set(_ped_Timer *self, PyObject *value, void *closure)
 PyObject *py_ped_timer_destroy(PyObject *s, PyObject *args)
 {
     Py_CLEAR(s);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_timer_new_nested(PyObject *s, PyObject *args)
@@ -240,8 +240,8 @@ PyObject *py_ped_timer_destroy_nested(PyObject *s, PyObject *args)
     ped_timer_destroy_nested(timer);
     ped_timer_destroy(timer);
     Py_CLEAR(s);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_timer_touch(PyObject *s, PyObject *args)
@@ -256,8 +256,8 @@ PyObject *py_ped_timer_touch(PyObject *s, PyObject *args)
 
     ped_timer_touch(timer);
     ped_timer_destroy(timer);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_timer_reset(PyObject *s, PyObject *args)
@@ -272,8 +272,8 @@ PyObject *py_ped_timer_reset(PyObject *s, PyObject *args)
 
     ped_timer_reset(timer);
     ped_timer_destroy(timer);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_timer_update(PyObject *s, PyObject *args)
@@ -293,8 +293,8 @@ PyObject *py_ped_timer_update(PyObject *s, PyObject *args)
 
     ped_timer_update(timer, frac);
     ped_timer_destroy(timer);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args)
@@ -315,6 +315,6 @@ PyObject *py_ped_timer_set_state_name(PyObject *s, PyObject *args)
     ped_timer_set_state_name(timer, str);
     ped_timer_destroy(timer);
     free(str);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }

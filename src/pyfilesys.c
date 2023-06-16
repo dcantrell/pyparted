@@ -367,8 +367,7 @@ PyObject *py_ped_file_system_probe_specific(PyObject *s, PyObject *args)
             partedExnRaised = 0;
         }
 
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     }
 
     return (PyObject *) ret;

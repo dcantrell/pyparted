@@ -730,8 +730,7 @@ PyObject *py_ped_disk_destroy(PyObject *s, PyObject *args)
     ped_disk_destroy(disk);
     Py_CLEAR(s);
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_disk_commit(PyObject *s, PyObject *args)
@@ -870,8 +869,7 @@ PyObject *py_ped_disk_print(PyObject *s, PyObject *args)
         ped_disk_print(disk);
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_disk_get_primary_partition_count(PyObject *s, PyObject *args)
@@ -927,8 +925,7 @@ PyObject *py_ped_disk_get_max_supported_partition_count(PyObject *s, PyObject *a
         return Py_BuildValue("i", max);
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_disk_get_partition_alignment(PyObject *s, PyObject *args)
@@ -1136,8 +1133,7 @@ PyObject *py_ped_partition_destroy(_ped_Partition *s, PyObject *args)
     ped_partition_destroy(partition);
     Py_CLEAR(s);
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_partition_is_active(_ped_Partition *s, PyObject *args)
@@ -2137,8 +2133,7 @@ PyObject *py_ped_disk_next_partition(PyObject *s, PyObject *args)
     pass_part = ped_disk_next_partition(disk, out_part);
 
     if (pass_part == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     }
 
     ret = PedPartition2_ped_Partition(pass_part, (_ped_Disk *)s);

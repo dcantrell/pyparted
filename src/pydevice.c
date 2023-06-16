@@ -339,15 +339,13 @@ PyObject *py_ped_disk_probe(PyObject *s, PyObject *args)
 PyObject *py_ped_device_probe_all(PyObject *s, PyObject *args)
 {
     ped_device_probe_all();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_device_free_all(PyObject *s, PyObject *args)
 {
     ped_device_free_all();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_device_get(PyObject *s, PyObject *args)
@@ -543,8 +541,7 @@ PyObject *py_ped_device_destroy(PyObject *s, PyObject *args)
 
     Py_CLEAR(dev);
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args)
@@ -558,8 +555,7 @@ PyObject *py_ped_device_cache_remove(PyObject *s, PyObject *args)
     }
 
     ped_device_cache_remove(device);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_device_begin_external_access(PyObject *s, PyObject *args)

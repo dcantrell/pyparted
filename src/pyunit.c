@@ -27,8 +27,8 @@ PyObject *py_ped_unit_set_default(PyObject *s, PyObject *args)
     }
 
     ped_unit_set_default(unit);
-    Py_INCREF(Py_None);
-    return Py_None;
+
+    Py_RETURN_NONE;
 }
 
 PyObject *py_ped_unit_get_default(PyObject *s, PyObject *args)
