@@ -131,39 +131,10 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self)
 
 int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->start_align) {
-        err = visit(self->start_align, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->end_align) {
-        err = visit(self->end_align, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->start_range) {
-        err = visit(self->start_range, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->end_range) {
-        err = visit(self->end_range, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->start_align);
+    Py_VISIT(self->end_align);
+    Py_VISIT(self->start_range);
+    Py_VISIT(self->end_range);
 
     return 0;
 }

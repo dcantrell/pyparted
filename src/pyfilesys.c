@@ -207,23 +207,8 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self)
 
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->type) {
-        err = visit(self->type, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->geom) {
-        err = visit(self->geom, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->type);
+    Py_VISIT(self->geom);
 
     return 0;
 }

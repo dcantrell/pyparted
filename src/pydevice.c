@@ -228,23 +228,8 @@ PyObject *_ped_Device_str(_ped_Device *self)
 
 int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->hw_geom) {
-        err = visit(self->hw_geom, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->bios_geom) {
-        err = visit(self->bios_geom, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->hw_geom);
+    Py_VISIT(self->bios_geom);
 
     return 0;
 }

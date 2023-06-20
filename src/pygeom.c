@@ -103,15 +103,7 @@ PyObject *_ped_Geometry_str(_ped_Geometry *self)
 
 int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->dev) {
-        err = visit(self->dev, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->dev);
 
     return 0;
 }

@@ -122,31 +122,9 @@ PyObject *_ped_Partition_str(_ped_Partition *self)
 
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->disk) {
-        err = visit(self->disk, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->geom) {
-        err = visit(self->geom, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->fs_type) {
-        err = visit(self->fs_type, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->disk);
+    Py_VISIT(self->geom);
+    Py_VISIT(self->fs_type);
 
     return 0;
 }
@@ -388,23 +366,8 @@ PyObject *_ped_Disk_str(_ped_Disk *self)
 
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg)
 {
-    int err;
-
-    if (self->dev) {
-        err = visit(self->dev, arg);
-
-        if (err) {
-            return err;
-        }
-    }
-
-    if (self->type) {
-        err = visit(self->type, arg);
-
-        if (err) {
-            return err;
-        }
-    }
+    Py_VISIT(self->dev);
+    Py_VISIT(self->type);
 
     return 0;
 }
