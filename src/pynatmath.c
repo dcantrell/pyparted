@@ -67,15 +67,18 @@ PyObject *_ped_Alignment_richcompare(_ped_Alignment *a, PyObject *b, int op)
 
 PyObject *_ped_Alignment_str(_ped_Alignment *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
 
-    if (asprintf(&ret, "_ped.Alignment instance --\n"
+    if (asprintf(&buf, "_ped.Alignment instance --\n"
                        "  offset: %lld  grain_size: %lld",
                  self->offset, self->grain_size) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Alignment_traverse(_ped_Alignment *self, visitproc visit, void *arg)

@@ -84,7 +84,8 @@ PyObject *_ped_Partition_richcompare(_ped_Partition *a, PyObject *b, int op)
 
 PyObject *_ped_Partition_str(_ped_Partition *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *disk = NULL, *fs_type = NULL, *geom = NULL;
 
     disk = (char *) PyUnicode_AsUTF8(_ped_Disk_Type_obj.tp_repr(self->disk));
@@ -105,7 +106,7 @@ PyObject *_ped_Partition_str(_ped_Partition *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Partition instance --\n"
+    if (asprintf(&buf, "_ped.Partition instance --\n"
                        "  disk: %s  fs_type: %s\n"
                        "  num: %d  type: %d\n"
                        "  geom: %s",
@@ -114,7 +115,9 @@ PyObject *_ped_Partition_str(_ped_Partition *self)
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Partition_traverse(_ped_Partition *self, visitproc visit, void *arg)
@@ -358,7 +361,8 @@ PyObject *_ped_Disk_richcompare(_ped_Disk *a, PyObject *b, int op)
 
 PyObject *_ped_Disk_str(_ped_Disk *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *dev = NULL, *type = NULL;
 
     dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
@@ -373,11 +377,13 @@ PyObject *_ped_Disk_str(_ped_Disk *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Disk instance --\n  dev: %s  type: %s", dev, type) == -1) {
+    if (asprintf(&buf, "_ped.Disk instance --\n  dev: %s  type: %s", dev, type) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Disk_traverse(_ped_Disk *self, visitproc visit, void *arg)
@@ -516,15 +522,18 @@ PyObject *_ped_DiskType_richcompare(_ped_DiskType *a, PyObject *b, int op)
 
 PyObject *_ped_DiskType_str(_ped_DiskType *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
 
-    if (asprintf(&ret, "_ped.DiskType instance --\n"
+    if (asprintf(&buf, "_ped.DiskType instance --\n"
                        "  name: %s  features: %lld",
                  self->name, self->features) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_DiskType_traverse(_ped_DiskType *self, visitproc visit, void *arg)

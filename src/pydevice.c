@@ -67,15 +67,18 @@ PyObject *_ped_CHSGeometry_richcompare(_ped_CHSGeometry *a, PyObject *b, int op)
 
 PyObject *_ped_CHSGeometry_str(_ped_CHSGeometry *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
 
-    if (asprintf(&ret, "_ped.CHSGeometry instance --\n"
+    if (asprintf(&buf, "_ped.CHSGeometry instance --\n"
                        "  cylinders: %d  heads: %d  sectors: %d",
                  self->cylinders, self->heads, self->sectors) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_CHSGeometry_traverse(_ped_CHSGeometry *self, visitproc visit, void *arg)
@@ -186,7 +189,8 @@ PyObject *_ped_Device_richcompare(_ped_Device *a, PyObject *b, int op)
 
 PyObject *_ped_Device_str(_ped_Device *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *hw_geom = NULL, *bios_geom = NULL;
 
     hw_geom = (char *) PyUnicode_AsUTF8(_ped_CHSGeometry_Type_obj.tp_repr(self->hw_geom));
@@ -201,7 +205,7 @@ PyObject *_ped_Device_str(_ped_Device *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Device instance --\n"
+    if (asprintf(&buf, "_ped.Device instance --\n"
                        "  model: %s  path: %s  type: %lld\n"
                        "  sector_size: %lld  phys_sector_size: %lld\n"
                        "  length: %lld  open_count: %d  read_only: %d\n"
@@ -217,7 +221,9 @@ PyObject *_ped_Device_str(_ped_Device *self)
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Device_traverse(_ped_Device *self, visitproc visit, void *arg)

@@ -78,7 +78,8 @@ PyObject *_ped_Geometry_richcompare(_ped_Geometry *a, PyObject *b, int op)
 
 PyObject *_ped_Geometry_str(_ped_Geometry *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *dev = NULL;
 
     dev = (char *) PyUnicode_AsUTF8(_ped_Device_Type_obj.tp_repr(self->dev));
@@ -87,7 +88,7 @@ PyObject *_ped_Geometry_str(_ped_Geometry *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Geometry instance --\n"
+    if (asprintf(&buf, "_ped.Geometry instance --\n"
                        "  start: %lld  end: %lld  length: %lld\n"
                        "  device: %s",
                  self->ped_geometry->start, self->ped_geometry->end,
@@ -95,7 +96,9 @@ PyObject *_ped_Geometry_str(_ped_Geometry *self)
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Geometry_traverse(_ped_Geometry *self, visitproc visit, void *arg)

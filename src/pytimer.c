@@ -72,9 +72,10 @@ PyObject *_ped_Timer_richcompare(_ped_Timer *a, PyObject *b, int op)
 
 PyObject *_ped_Timer_str(_ped_Timer *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
 
-    if (asprintf(&ret, "_ped.Timer instance --\n"
+    if (asprintf(&buf, "_ped.Timer instance --\n"
                        "  start: %s  now:  %s\n"
                        "  predicted_end: %s  frac: %f\n"
                        "  state_name: %s",
@@ -84,7 +85,9 @@ PyObject *_ped_Timer_str(_ped_Timer *self)
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Timer_traverse(_ped_Timer *self, visitproc visit, void *arg)

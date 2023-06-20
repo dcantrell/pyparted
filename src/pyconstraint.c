@@ -85,7 +85,8 @@ PyObject *_ped_Constraint_richcompare(_ped_Constraint *a, PyObject *b, int op)
 
 PyObject *_ped_Constraint_str(_ped_Constraint *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *start_align = NULL, *end_align = NULL;
     char *start_range = NULL, *end_range = NULL;
 
@@ -113,7 +114,7 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.Constraint instance --\n"
+    if (asprintf(&buf, "_ped.Constraint instance --\n"
                        "  start_align: %s  end_align: %s\n"
                        "  start_range: %s  end_range: %s\n"
                        "  min_size: %lld  max_size: %lld",
@@ -123,7 +124,9 @@ PyObject *_ped_Constraint_str(_ped_Constraint *self)
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_Constraint_traverse(_ped_Constraint *self, visitproc visit, void *arg)

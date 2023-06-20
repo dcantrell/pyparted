@@ -69,15 +69,18 @@ PyObject *_ped_FileSystemType_richcompare(_ped_FileSystemType *a, PyObject *b, i
 
 PyObject *_ped_FileSystemType_str(_ped_FileSystemType *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
 
-    if (asprintf(&ret, "_ped.FileSystemType instance --\n"
+    if (asprintf(&buf, "_ped.FileSystemType instance --\n"
                        "  name: %s",
                  self->name) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_FileSystemType_traverse(_ped_FileSystemType *self, visitproc visit, void *arg)
@@ -174,7 +177,8 @@ PyObject *_ped_FileSystem_richcompare(_ped_FileSystem *a, PyObject *b, int op)
 
 PyObject *_ped_FileSystem_str(_ped_FileSystem *self)
 {
-    char *ret = NULL;
+    PyObject *ret = NULL;
+    char *buf = NULL;
     char *type = NULL, *geom = NULL;
 
     type = (char *) PyUnicode_AsUTF8(_ped_FileSystem_Type_obj.tp_repr(self->type));
@@ -189,14 +193,16 @@ PyObject *_ped_FileSystem_str(_ped_FileSystem *self)
         return NULL;
     }
 
-    if (asprintf(&ret, "_ped.FileSystem instance --\n"
+    if (asprintf(&buf, "_ped.FileSystem instance --\n"
                        "  type: %s  geom: %s\n"
                        "  checked: %d",
                  type, geom, self->checked) == -1) {
         return PyErr_NoMemory();
     }
 
-    return Py_BuildValue("s", ret);
+    ret = Py_BuildValue("s", buf);
+    free(buf);
+    return ret;
 }
 
 int _ped_FileSystem_traverse(_ped_FileSystem *self, visitproc visit, void *arg)
