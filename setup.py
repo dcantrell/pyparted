@@ -27,7 +27,7 @@ import platform
 import sys
 from setuptools import setup, Extension
 
-pyparted_version = '3.12.0'
+pyparted_version = '3.13.0'
 python_version = sys.version_info
 
 need_libparted_version = '3.4'
