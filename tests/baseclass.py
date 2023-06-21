@@ -13,7 +13,6 @@ import unittest
 class RequiresDeviceNode(unittest.TestCase):
     def setUp(self):
         super().setUp()
-        self.addCleanup(self.removeTempDevice)
 
         self.temp_prefix = "temp-device-"
         (self.fd, self.path) = tempfile.mkstemp(prefix=self.temp_prefix)
@@ -21,11 +20,15 @@ class RequiresDeviceNode(unittest.TestCase):
         self.f.seek(140000)
         os.write(self.fd, b"0")
 
-    def removeTempDevice(self):
+    def tearDown(self):
         os.close(self.fd)
 
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
+
+        self.fd = None
+        self.path = None
+        self.temp_prefix = None
 
 
 # Base class for any test case that requires a _ped.Device or parted.Device
@@ -33,15 +36,19 @@ class RequiresDeviceNode(unittest.TestCase):
 class RequiresDevice(RequiresDeviceNode):
     def setUp(self):
         super().setUp()
+        self.addCleanup(self.removeDevice)
         self._device = _ped.device_get(self.path)
         self.device = parted.getDevice(self.path)
+
+    def removeDevice(self):
+        self.device = None
+        self._device = None
 
 
 # Base class for any test case that requires a filesystem on a device.
 class RequiresFileSystem(unittest.TestCase):
     def setUp(self):
         super().setUp()
-        self.addCleanup(self.removeTempDevice)
 
         self._fileSystemType = {}
         ty = _ped.file_system_type_get_next()
@@ -69,9 +76,11 @@ class RequiresFileSystem(unittest.TestCase):
         self._device = _ped.device_get(self.path)
         self._geometry = _ped.Geometry(self._device, 0, self._device.length - 1)
 
-    def removeTempDevice(self):
+    def tearDown(self):
         if self.path and os.path.exists(self.path):
             os.unlink(self.path)
+
+        self.mountpoint = None
 
 
 # Base class for certain alignment tests that require a _ped.Device
