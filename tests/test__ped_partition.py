@@ -239,7 +239,7 @@ class PartitionMSDOSTypeIDTestCase(RequiresPartition):
 
         # Persist the changes
         self._disk.add_partition(
-            self._part, self._device.get_optimal_aligned_constraint()
+            self._part, self._device.get_minimal_aligned_constraint()
         )
         self._disk.commit_to_dev()
 
