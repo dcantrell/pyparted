@@ -523,7 +523,12 @@ MOD_INIT(_ped)
     PyModule_AddIntConstant(m, "DEVICE_XVD", PED_DEVICE_XVD);
     PyModule_AddIntConstant(m, "DEVICE_SDMMC", PED_DEVICE_SDMMC);
     PyModule_AddIntConstant(m, "DEVICE_VIRTBLK", PED_DEVICE_VIRTBLK);
+    PyModule_AddIntConstant(m, "DEVICE_AOE", PED_DEVICE_AOE);
+    PyModule_AddIntConstant(m, "DEVICE_MD", PED_DEVICE_MD);
+    PyModule_AddIntConstant(m, "DEVICE_LOOP", PED_DEVICE_LOOP);
     PyModule_AddIntConstant(m, "DEVICE_NVME", PED_DEVICE_NVME);
+    PyModule_AddIntConstant(m, "DEVICE_RAM", PED_DEVICE_RAM);
+    PyModule_AddIntConstant(m, "DEVICE_PMEM", PED_DEVICE_PMEM);
 
     /* add PedTimer type as _ped.Timer */
     if (PyType_Ready(&_ped_Timer_Type_obj) < 0) {
