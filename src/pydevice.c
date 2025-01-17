@@ -256,14 +256,16 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure)
 
     if (!strcmp(member, "model")) {
         if (self->model != NULL) {
-            // There's at least one case of a non-UTF-8 model in the wild where
-            // using PyUnicode_FromString would crash (model b"MMC H8G4a\x92"
-            // on Wyse 3040 thin clients).
-            //
-            // Using PyUnicode_FromFormat instead will convert the 0x92 byte to
-            // the replacement character.
-            //
-            // https://github.com/dcantrell/pyparted/issues/76
+            /*
+             * There's at least one case of a non-UTF-8 model in the wild where
+             * using PyUnicode_FromString would crash (model b"MMC H8G4a\x92"
+             * on Wyse 3040 thin clients).
+             *
+             * Using PyUnicode_FromFormat instead will convert the 0x92 byte to
+             * the replacement character.
+             *
+             * https://github.com/dcantrell/pyparted/issues/76
+             */
             return PyUnicode_FromFormat("%s", self->model);
         } else {
             return PyUnicode_FromString("");
