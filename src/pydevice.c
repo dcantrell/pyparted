@@ -264,7 +264,7 @@ PyObject *_ped_Device_get(_ped_Device *self, void *closure)
             // the replacement character.
             //
             // https://github.com/dcantrell/pyparted/issues/76
-            return PyUnicode_FromFormat("%s", self->model)
+            return PyUnicode_FromFormat("%s", self->model);
         } else {
             return PyUnicode_FromString("");
         }
